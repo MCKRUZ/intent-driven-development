@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Team — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, #11314e, #0f5c8c); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">The Team</div>
+  <div class="brand-sub">Delivery Standard · deep-dive on §3</div>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <a class="toc" href="#mapping">1 · The mapping, old to new</a>
+  <a class="toc" href="#jobs">2 · The jobs, concretely</a>
+  <a class="toc sub" href="#podlead">2.1 Pod Lead (was PM)</a>
+  <a class="toc sub" href="#setupowner">2.2 Setup Owner (was Architect)</a>
+  <a class="toc sub" href="#orchchecker">2.3 Orchestrator / Checker (was Dev)</a>
+  <a class="toc sub" href="#qe">2.4 Quality Engineer (was QA)</a>
+  <a class="toc sub" href="#noone">2.5 What no one owns anymore</a>
+  <a class="toc" href="#scaling">3 · Scaling: one pod to many</a>
+  <a class="toc sub" href="#principles">3.1 Principles</a>
+  <a class="toc sub" href="#trigger">3.2 What triggers a second pod</a>
+  <a class="toc sub" href="#inpodshared">3.3 In-pod versus shared</a>
+  <a class="toc sub" href="#onepod">3.4 One pod (5 people)</a>
+  <a class="toc sub" href="#twopods">3.5 Two pods (9-11 people)</a>
+  <a class="toc sub" href="#threepods">3.6 Three pods (14-16 people)</a>
+  <a class="toc sub" href="#fourplus">3.7 Four or more pods</a>
+  <a class="toc sub" href="#antipatterns">3.8 Anti-patterns</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>The Team</h1>
+  <p>Deep-dive on section 3 of the Delivery Standard. Three parts: how a typical team's roles map
+  to the new ones, the concrete job of each role, and how the model scales from one pod to many.</p>
+  <p>The starting point is the team most clients (and most of our own engagements) already have:
+  <strong>one PM, one architect, two developers, one QA.</strong> Nobody gets fired and nobody gets a fancy
+  new title for its own sake — every old role maps to a new one, but the <em>content</em> of each job
+  changes, in some cases by more than half. The biggest single shift across all five: writing code
+  stopped being the bottleneck, so the valuable work moved to two places — deciding clearly
+  (intent) and proving it's right (checking). Every role below is the old role rebuilt around
+  that fact.</p>
+  <div class="meta">Paired source: docs/team.md · part of MCKRUZ/delivery-standard v1.0</div>
+</header>
+
+<section>
+<h2>If you're starting here</h2>
+<table>
+<tr><td style="width:170px"><strong>The method</strong></td><td>Claude (the AI coding agent) drafts documents and writes most code. Humans own every decision and verify every result.</td></tr>
+<tr><td><strong>The loop</strong></td><td>A human writes a short, testable description of one piece of work (a <strong>spec</strong>) → an agent builds it → someone who didn't build it checks it → it ships.</td></tr>
+<tr><td><strong>This page</strong></td><td>Defines the team that runs the loop — a small delivery group called a <strong>pod</strong> — and the rules for growing from one pod to several.</td></tr>
+</table>
+</section>
+
+<section id="mapping">
+<h2>1. The mapping, old to new</h2>
+<table>
+<tr><th>Old role</th><th>New role</th><th>The shift in one line</th></tr>
+<tr><td>Project Manager</td><td><strong>Pod Lead</strong></td><td>From tracking activity (backlog, velocity, status decks) to owning intent: every spec sharp, every decision answered, every gate earned.</td></tr>
+<tr><td>Architect</td><td><strong>Setup Owner</strong></td><td>From design documents and review boards to owning the harness as a product: the agent environment, the pipeline, and the architecture decisions, all versioned and reviewed.</td></tr>
+<tr><td>Developer (x2)</td><td><strong>Orchestrator / Checker</strong> (swap per change)</td><td>From typing the code to directing agents that type it, and grading each other's agent output against the spec.</td></tr>
+<tr><td>QA Engineer</td><td><strong>Quality Engineer</strong></td><td>From executing tests after the work to building the checking machinery that runs on every change: graders, hooks, test infrastructure, eval suites.</td></tr>
+</table>
+<p>Two rules survive every mapping and every scale:</p>
+<ol>
+<li><strong>The author of a change is never its sole approver.</strong> Not for code, not for harness changes, not for specs, not for this document.</li>
+<li><strong>Checking capacity is the constraint.</strong> Nobody opens more agent streams than the team can review without the queue growing. Headcount doesn't set the limit; review wait does.</li>
+</ol>
+</section>
+
+<section id="jobs">
+<h2>2. The jobs, concretely</h2>
+<p>Each role below: what changed, what they do per spec / daily / weekly / per phase, and what
+they explicitly stopped doing. "Per spec" means every time a story moves through the build loop.</p>
+
+<h3 id="podlead">2.1 Pod Lead (was: Project Manager)</h3>
+<p>The PM's old day was status collection and ceremony administration. Agents made that work
+worthless: activity numbers are inflated and meetings about estimates answer questions nobody
+asks anymore. What replaced it is more valuable and harder: the Pod Lead owns <strong>intent
+quality</strong>. Vagueness at their desk compounds downhill into confident-wrong code, so the sharpest
+thinking in the pod happens here.</p>
+<h4>Per spec</h4>
+<ul>
+<li>Run every incoming story through the vague-line test at triage (could two people build different things from this line?). Bounce what fails — back to the PO, not down to an agent.</li>
+<li>Assign the risk tier (HIGH / MEDIUM / LOW per the taxonomy in section 5 of the standard) and record it in the spec. Hear challenges; challenges escalate up only.</li>
+<li>Keep the decision list moving: every silent decision Claude surfaces gets a human answer within 2 business days — from the client PO in PO mode, or from the Pod Lead with a decision-log entry the client ratifies at steering in proxy mode.</li>
+</ul>
+<h4>Daily</h4>
+<ul><li>Run the 10-minute flow check: a Checker assigned to every PR waiting for review, vague specs flagged, WIP cap enforced, security queue glanced at.</li></ul>
+<h4>Weekly</h4>
+<ul>
+<li>Run intent triage (60 min): stories become ready specs, oversized stories get split there (never at review), decision lists get answered.</li>
+<li>Write the 5-bullet async client summary.</li>
+</ul>
+<h4>Biweekly</h4>
+<ul><li>Run client steering: live demo from the dev environment, outcome scorecard, decision list, gate status when a phase boundary is near.</li></ul>
+<h4>Per phase</h4>
+<ul>
+<li>Run the Phase 0 outcome workshop (the three outcomes, the one metric, the PO decision, the tooling decision).</li>
+<li>Own the recommendation at every phase gate: gates report, the Pod Lead recommends, the human chain signs.</li>
+<li>Run Phase C: the transfer checklist, the client-solo close gate.</li>
+</ul>
+<div class="stopped"><strong>Stopped doing:</strong> story-point estimation, velocity tracking, sprint planning and
+sprint reviews as ceremonies, status decks built from activity metrics, being a passthrough
+between client and team (they're a filter and a sharpener, not a relay).</div>
+<div class="right"><strong>Doing it right looks like:</strong> the bounce-back-for-unclear rate falls week over week;
+agents rarely stall on an unanswered decision; the client sponsor can state the current
+success-metric reading without looking.</div>
+
+<h3 id="setupowner">2.2 Setup Owner (was: Architect)</h3>
+<p>The architect's old leverage was the design document and the review board — influence applied
+occasionally and late. The new leverage is the <strong>harness</strong>: CLAUDE.md, skills, agents, hooks,
+permissions, pipeline, and infrastructure that every agent session loads every time. A line in
+CLAUDE.md is a design decision enforced a hundred times a day. This is the keystone role and the
+known bus-factor risk, which is why the deputy rule exists.</p>
+<h4>Day one of every engagement</h4>
+<ul><li>Name a deputy (the senior Orchestrator). The deputy reviews every harness change; the Setup Owner is never sole approver of their own foundation work.</li></ul>
+<h4>Per harness change</h4>
+<ul><li>Harness changes are PRs like everything else: reviewed by the deputy, version-bumped, changelogged. "Harness" means CLAUDE.md, anything under <code>.claude/</code>, the CI workflows, and <code>infra/</code>.</li></ul>
+<h4>Daily</h4>
+<ul><li>Watch for friction signals: hook failures, permission prompts the team keeps hitting, pipeline flakes, agents repeatedly misreading a convention. Fix same-day or ticket it into the setup backlog — a harness papercut taxes every spec in flight.</li></ul>
+<h4>Weekly</h4>
+<ul><li>Run setup review (30-60 min): merge the week's harness changes, turn Retro+ findings into new checks or skills ("which check should have caught this?" answers land here as work), review token spend.</li></ul>
+<h4>Per phase</h4>
+<ul>
+<li>Phase 2: drive design with Claude researching and presenting 2-3 options with trade-offs; a human picks; the Setup Owner signs every ADR.</li>
+<li>Phase 3: install the kit into the client repo, adapt CLAUDE.md with the client's domain glossary, build the pipeline and Bicep, prove the walking skeleton end-to-end.</li>
+<li>Phase 8: own the release mechanics and the rollback plan.</li>
+<li>Phase C: hand the harness to the client's named Setup Owner; the audit ("nothing only we understand") is theirs to pass.</li>
+</ul>
+<div class="stopped"><strong>Stopped doing:</strong> writing design documents nobody loads into context, gatekeeping
+decisions through meetings (the harness gates instead), writing most of the code, being the only
+person who can fix the pipeline.</div>
+<div class="right"><strong>Doing it right looks like:</strong> a new pod member is productive in under a day because
+the harness explains the project better than any person could; the deputy has merged harness
+changes alone; agents stop making the same mistake twice because the lesson became a skill or a
+check.</div>
+
+<h3 id="orchchecker">2.3 Orchestrator / Checker (was: Developer)</h3>
+<p>The two developers keep the deepest technical work but lose the keyboard time. Each spec gets
+two of them in fixed, opposite roles: one <strong>Orchestrator</strong> who directs the agent, one
+<strong>Checker</strong> who judges the result. They swap per change — Priya orchestrates spec 0007 and
+Marcus checks it; Marcus orchestrates 0008 and Priya checks it. The swap is what makes "author
+never sole approver" real on a small team, and it keeps both sharp at both crafts.</p>
+<h4>Per spec, as Orchestrator</h4>
+<ul>
+<li>Translate the ready story into <code>specs/NNNN-name.md</code>: goal, why, scope in/out, testable acceptance checks, risk tier, delegation plan, checking plan.</li>
+<li>Surface anything the story left silent; send real decisions up to the Pod Lead rather than letting an agent guess.</li>
+<li>Start the agent in plan mode. Read the proposed plan like a senior reviewing a junior's approach — correct it there, where corrections cost minutes, not after the build, where they cost hours.</li>
+<li>Set the bounds: file patterns the agent may touch, the one canonical pattern to reuse, permissions per <code>.claude/settings.json</code>. Tier sets the leash: loose on LOW, tight on HIGH.</li>
+<li>Decide one-agent-vs-many: one agent for tightly coupled code; fan out only for independent read-only exploration or genuinely independent specs.</li>
+<li>Supervise the build, drive integration, keep the blocking Stop hook honest (no gaming tests green), open the PR with the spec file in the diff.</li>
+</ul>
+<h4>Per spec, as Checker</h4>
+<ul>
+<li>Read the CI grader's check-by-check verdict first — it's a brief, not a verdict to rubber-stamp.</li>
+<li>Grade against the <strong>spec</strong>, not against the author's tests. The author's tests share the author's blind spots; the rate-limiting bug that ships is the keyless request nobody's test sent.</li>
+<li>Probe one edge the tests didn't cover. Run the code, don't just read it.</li>
+<li>Approve, or bounce with specifics tied to acceptance checks. On HIGH risk: confirm the security workflow passed and add the named sign-off.</li>
+</ul>
+<h4>Daily</h4>
+<ul><li>Flow check; at most 2 concurrent agent streams; pick up waiting reviews before starting new streams (the queue outranks new work).</li></ul>
+<h4>Weekly</h4>
+<ul><li>Intent triage (they do the story-to-spec translation there), Retro+.</li></ul>
+<div class="stopped"><strong>Stopped doing:</strong> typing most of the implementation, style-nit code review (linters
+and CLAUDE.md conventions handle it), long-lived feature branches, "it works on my machine"
+demos — the dev environment is the demo.</div>
+<div class="right"><strong>Doing it right looks like:</strong> plans get corrected in plan mode more often than PRs
+get bounced; their accepted-as-is rate climbs; as Checker they catch things the grader missed at
+least occasionally (if they never do, they're rubber-stamping).</div>
+
+<h3 id="qe">2.4 Quality Engineer (was: QA)</h3>
+<p>The old QA job — execute test plans after development, file bugs, regression-cycle before
+release — dies completely in this model, and not because quality matters less. It's the
+opposite: checking became the scarce, valuable work, so the QA person stops <em>performing</em>
+checks and starts <em>building the machinery that checks everything, every change</em>. This is a
+promotion in everything but title.</p>
+<h4>Owns outright</h4>
+<ul>
+<li>The verification ladder as working machinery: the re-checking rules in CLAUDE.md, the blocking Stop hook, the CI test gates, the grader agent definition, the security workflow wiring.</li>
+<li>The grader's prompt and behavior. When the grader misses something or pedantically blocks on nothing, the Quality Engineer tunes it.</li>
+<li>Test infrastructure: fixtures, factories, <code>WebApplicationFactory</code> harnesses, Playwright setup, coverage configuration.</li>
+<li>For agentic deliverables (section 11 of the standard): the golden sets, the eval harness, and the eval-regression gate in CI.</li>
+</ul>
+<h4>Per spec</h4>
+<ul>
+<li>At triage, vet acceptance checks for testability — they're the second pair of eyes on the vague-line test, asking "how would a check prove this line?"</li>
+<li>Confirm the checking plan matches the risk tier before the spec goes to an Orchestrator.</li>
+</ul>
+<h4>Daily</h4>
+<ul><li>Take a regular turn in the Checker rotation. They're often the strongest Checker in the pod, and the rotation needs their capacity.</li></ul>
+<h4>Weekly</h4>
+<ul><li>Bring the escaped-bug analysis to Retro+: for every defect that reached production, name the rung of the ladder that should have caught it, and leave with a concrete change to that rung (a new grader instruction, a new hook condition, a new test category). An escaped bug that doesn't change a check is a wasted bug.</li></ul>
+<h4>Per Build</h4>
+<ul><li>Plan and run the hardening passes (one mid-Build, one before Phase 8): E2E journeys, load and performance, penetration-test coordination.</li></ul>
+<div class="stopped"><strong>Stopped doing:</strong> manual regression cycles, test-case spreadsheets, end-of-cycle
+test phases, being downstream of development (they're upstream now — their machinery runs before
+any human sees the PR).</div>
+<div class="right"><strong>Doing it right looks like:</strong> escaped bugs trend toward zero and each one
+strengthens a check; the grader catches spec violations the author's tests missed; hardening
+passes find performance issues, not functional bugs (functional bugs should already be dead).</div>
+
+<h3 id="noone">2.5 What no one owns anymore</h3>
+<p>Listed because vacated ground breeds turf wars: sprint ceremonies (replaced by flow check,
+intent triage, Retro+, setup review), the estimation poker ritual, the staging-only "QA
+environment" sign-off step, the change-advisory-board meeting (the ladder plus named HIGH-risk
+sign-off replaces it), and any dashboard with story points on it.</p>
+</section>
+
+<section id="scaling">
+<h2>3. Scaling: one pod to many</h2>
+
+<h3 id="principles">3.1 Principles</h3>
+<ol>
+<li><strong>The pod is the unit of replication.</strong> A pod never grows past 6 people; when there's more work than a pod can check, you add a pod, not a seventh person.</li>
+<li><strong>Roles that touch a spec stay in the pod.</strong> Intent, orchestration, checking, and quality machinery are per-pod, always. Roles that touch the <em>system</em> — the shared harness, the architecture, cross-pod flow, security policy — are the ones that graduate to spanning pods.</li>
+<li><strong>A shared role's span is set by review capacity, measured, not assumed.</strong> When a shared person becomes the queue (foundation PRs waiting, ADRs waiting, sign-offs waiting), the span is too wide — split the role before the pods start routing around it.</li>
+<li><strong>Every shared role has a deputy.</strong> Same bus-factor rule as in-pod, and the deputy comes from a pod, which keeps the shared role honest about ground truth.</li>
+</ol>
+
+<h3 id="trigger">3.2 What triggers a second pod</h3>
+<p>All four, not any one:</p>
+<ul class="checklist">
+<li>The outcome genuinely needs parallel workstreams (scope, not impatience)</li>
+<li>Pod 1's flow is healthy: median review wait stable or falling for 4+ weeks, accepted-as-is trending up</li>
+<li>The harness is extracted and versioned well enough that pod 2 installs it rather than rebuilds it</li>
+<li>A second Pod Lead and at least two certified Orchestrator/Checkers actually exist</li>
+</ul>
+<div class="callout">The measurable claim that proves the model is compounding: <strong>pod 2 ships its first spec
+faster than pod 1 did.</strong> If it doesn't, the foundation isn't real yet — fix that before pod 3.</div>
+
+<h3 id="inpodshared">3.3 In-pod versus shared</h3>
+<table>
+<tr><th>Role</th><th>Lives</th><th>Ratio</th><th>Notes</th></tr>
+<tr><td><strong>Pod Lead</strong></td><td>In pod</td><td>1 per pod</td><td>Never shared. Intent ownership doesn't split.</td></tr>
+<tr><td><strong>Orchestrator / Checker</strong></td><td>In pod</td><td>2-3 per pod</td><td>The swap rule needs at least 2.</td></tr>
+<tr><td><strong>Quality Engineer</strong></td><td>In pod</td><td>1 per pod</td><td>Machinery is per-product; standards are guild-shared (3.6).</td></tr>
+<tr><td><strong>Harness deputy</strong></td><td>In pod (a hat)</td><td>1 per pod</td><td>An Orchestrator who handles pod-local harness changes and reviews the shared maintainer's work.</td></tr>
+<tr><td><strong>Foundation Maintainer</strong></td><td>Shared</td><td>1 per 2-4 pods</td><td>The Setup Owner role, graduated. Half-time at 2 pods, full-time at 3+. Always with a named deputy.</td></tr>
+<tr><td><strong>Architect (design authority)</strong></td><td>Shared</td><td>1 per 2-3 pods</td><td>Signs ADRs, owns cross-pod technical coherence. At 1 pod this is the Setup Owner's other hat.</td></tr>
+<tr><td><strong>Manager of Agents (flow)</strong></td><td>Shared</td><td>Appears at 3 pods; 1 per 2-3 pods</td><td>Watches cross-pod flow metrics, rebalances, removes blocks. A flow manager, not a people manager.</td></tr>
+<tr><td><strong>Security lead</strong></td><td>Shared</td><td>1 per engagement</td><td>Owns the HIGH-risk sign-off policy and the security-reviewer agent. A hat on the Architect or a QE until ~3 pods.</td></tr>
+<tr><td><strong>Engagement Lead</strong></td><td>Shared</td><td>1 per client</td><td>The client sees one face for steering. At 1 pod this is the Pod Lead.</td></tr>
+<tr><td><strong>Sponsor / Client PO</strong></td><td>Client side</td><td>Per the SOW</td><td>PO mode: one PO can serve at most 2 pods before decision latency shows.</td></tr>
+</table>
+
+<h3 id="onepod">3.4 One pod (5 people) — the typical team, mapped</h3>
+<pre><code>POD 1
+  Pod Lead             (was PM)         + wears Engagement Lead hat
+  Setup Owner          (was Architect)  + wears design-authority and security-lead hats
+  Orchestrator/Checker (was Dev 1)      + wears harness-deputy hat
+  Orchestrator/Checker (was Dev 2)
+  Quality Engineer     (was QA)         + in Checker rotation</code></pre>
+<p>Everything in section 2 as written. 2-3 parallel agent streams, capped by review wait.</p>
+
+<h3 id="twopods">3.5 Two pods (9-11 people)</h3>
+<p>The Setup Owner graduates: pod-local harness work goes to each pod's harness deputy; the
+graduated role — now the <strong>Foundation Maintainer</strong> — owns what's shared.</p>
+<pre><code>SHARED (1.5-2 people of capacity, usually from pod 1 veterans)
+  Foundation Maintainer   (was pod 1's Setup Owner) ~half-time
+      owns the shared kit: CLAUDE.md baseline, skills, agents, hooks, workflows, profile
+      reviews promotions: a pod wants its local skill shared -&gt; promotion PR, maintainer gates it
+      promotion bar: used by both pods or honestly general; three similar lines in two pods
+      beat one premature shared abstraction
+  Architect (design authority) ~half-time, often the same person at this scale only if
+      the deputy rule still holds (their foundation PRs reviewed by a pod deputy)
+  Engagement Lead: one of the two Pod Leads, named, owns client steering
+
+POD 1                                POD 2
+  Pod Lead                             Pod Lead
+  Orchestrator/Checker x2              Orchestrator/Checker x2-3
+  Quality Engineer                     Quality Engineer
+  (one O/C wears harness-deputy hat)   (one O/C wears harness-deputy hat)</code></pre>
+<p>What changes operationally:</p>
+<ul>
+<li><strong>Harness becomes two-layer.</strong> The shared kit is versioned and released by the Foundation Maintainer; each pod pins a version and layers pod-local additions in its own repo. Pods pull upgrades on their schedule; the maintainer never force-pushes convention changes mid-spec.</li>
+<li><strong>Promotion flow starts.</strong> Pod-local skills/hooks that prove out get promoted to the shared kit by PR; the maintainer is the gate against junk-primitive flood.</li>
+<li><strong>Steering merges.</strong> One biweekly client steering covering both pods, run by the Engagement Lead; each Pod Lead brings their pod's demo and scorecard. Pods keep their own daily/weekly cadences separately.</li>
+<li><strong>Cross-pod dependency rule.</strong> A spec that needs a change in the other pod's area is checked by someone from <em>that</em> pod — the non-author rule applied at pod granularity.</li>
+</ul>
+
+<h3 id="threepods">3.6 Three pods (14-16 people)</h3>
+<p>Two roles stop being hats and become jobs:</p>
+<pre><code>SHARED (3-4 people)
+  Foundation Maintainer    full-time now, + named deputy (a pod harness deputy, rotating)
+  Architect                full-time across 3 pods; signs all ADRs; runs a monthly
+                           cross-pod design review (the only new meeting at this scale)
+  Manager of Agents        NEW. Owns cross-pod flow: watches review wait, accepted-as-is,
+                           rework, and WIP per pod; rebalances specs between pods; kills or
+                           splits streams when a pod's checking queue grows; runs the
+                           cross-pod flow check (15 min, 3x week, Pod Leads attend).
+                           Explicitly not a people manager: no reviews, no reporting lines.
+  Security lead            now a real fraction of someone (usually the Architect or the
+                           strongest QE): HIGH-risk sign-off policy, security agent tuning,
+                           security-review wait watched as its own metric
+
+POD 1            POD 2            POD 3
+  (same 4-5 person shape as 3.5, every pod identical)</code></pre>
+<p>What changes operationally:</p>
+<ul>
+<li><strong>The QE guild forms.</strong> The three Quality Engineers meet biweekly, own grader/eval standards jointly, and share check improvements through the foundation. Chaired by the security lead or the senior QE.</li>
+<li><strong>Metrics roll up.</strong> Each pod's dashboard feeds an engagement dashboard the Manager of Agents and Engagement Lead read. Per-pod numbers are flow signals, never league tables — comparing pods on output recreates the velocity pathology with extra steps.</li>
+<li><strong>Foundation gets a release cadence.</strong> Biweekly versioned releases with a changelog; pods pin and upgrade deliberately.</li>
+</ul>
+
+<h3 id="fourplus">3.7 Four or more pods</h3>
+<p>This is past single-engagement scale and into the IDD Scale/Production stages
+(<code>methodology/scaling/</code> in the IDD repo governs). The short version: replicate the 3.6 shared
+group per 2-3 pods, add the quarterly org-level loop (portfolio steering, foundation funding),
+and treat the foundation as a product with its own owner, deputy, roadmap, and users. Do not
+invent a new coordination layer inside one client engagement — if one client needs 4+ pods, the
+engagement should probably be two engagements with two outcomes.</p>
+
+<h3 id="antipatterns">3.8 The anti-patterns this structure exists to prevent</h3>
+<ul>
+<li><strong>The seventh chair.</strong> Growing a pod instead of splitting it. Past 6 people the flow check stops working and checking assignments blur.</li>
+<li><strong>The shared-role bottleneck.</strong> Foundation PRs or ADRs queuing for days. The fix is narrowing the span or naming the deputy for real — not pods quietly forking the foundation.</li>
+<li><strong>The junk-primitive flood.</strong> Promoting every pod-local convenience to the shared kit. The promotion bar exists; the maintainer's job is mostly saying "not yet."</li>
+<li><strong>Pod league tables.</strong> Cross-pod output comparisons. The only cross-pod questions are flow questions: where is checking queuing, and why?</li>
+<li><strong>The absentee hat.</strong> A shared role assigned to someone with no pod contact. Every shared role keeps one foot in real spec flow (deputy duty, checker rotation, or pairing) or their decisions drift from ground truth.</li>
+</ul>
+</section>
+
+<footer>The Team · Delivery Standard deep-dive · MCKRUZ/delivery-standard · Paired source: docs/team.md</footer>
+</main>
+</div>
+</body>
+</html>

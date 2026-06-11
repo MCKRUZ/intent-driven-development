@@ -1,0 +1,1177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase 3: Foundation — Delivery Standard</title>
+    <style>
+      :root {
+        --ink: #1a2332;
+        --ink-soft: #46556b;
+        --accent: #0f5c8c;
+        --accent-soft: #e8f1f7;
+        --rule: #d8dee8;
+        --bg: #f7f8fa;
+        --card: #ffffff;
+        --high: #b3372f;
+        --med: #b07a1e;
+        --low: #2e7d4f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      .layout {
+        display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      nav {
+        width: 290px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 32px 20px 32px 28px;
+        border-right: 1px solid var(--rule);
+        font-size: 13.5px;
+      }
+      nav .brand {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      nav .brand-sub {
+        color: var(--ink-soft);
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      nav .back {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      nav a.toc {
+        display: block;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-bottom: 1px;
+      }
+      nav a.toc:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      nav a.toc.sub {
+        padding-left: 24px;
+        font-size: 12.5px;
+      }
+      main {
+        flex: 1;
+        padding: 40px 56px 96px;
+        min-width: 0;
+      }
+      header.doc {
+        background: linear-gradient(135deg, #11314e, #0f5c8c);
+        color: #fff;
+        border-radius: 14px;
+        padding: 36px 40px;
+        margin-bottom: 36px;
+      }
+      header.doc h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        letter-spacing: -0.3px;
+      }
+      header.doc p {
+        margin: 0 0 8px;
+        color: #cfe2f1;
+        max-width: 72ch;
+      }
+      header.doc .meta {
+        font-size: 13px;
+        color: #9fc3dd;
+        margin-top: 14px;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 28px 34px;
+        margin-bottom: 26px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 0 0 14px;
+        color: var(--accent);
+        letter-spacing: -0.2px;
+      }
+      h3 {
+        font-size: 16.5px;
+        margin: 26px 0 8px;
+      }
+      h3:first-of-type {
+        margin-top: 10px;
+      }
+      h4 {
+        font-size: 14px;
+        margin: 18px 0 6px;
+        color: var(--ink-soft);
+      }
+      h4.day {
+        color: var(--accent);
+        font-size: 14.5px;
+      }
+      p {
+        margin: 0 0 12px;
+        max-width: 80ch;
+      }
+      ul,
+      ol {
+        margin: 0 0 14px;
+        padding-left: 24px;
+        max-width: 80ch;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 14px 0 18px;
+        font-size: 13.5px;
+      }
+      th {
+        background: var(--accent-soft);
+        color: var(--accent);
+        text-align: left;
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+      }
+      td {
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #fafbfd;
+      }
+      code {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #eef1f6;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 0.92em;
+      }
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .warn {
+        border-left: 4px solid var(--high);
+        background: #faf0ef;
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .checklist {
+        list-style: none;
+        padding-left: 4px;
+      }
+      .checklist li::before {
+        content: "☐";
+        margin-right: 10px;
+        color: var(--accent);
+      }
+      .week {
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 4px 22px 10px;
+        margin: 16px 0;
+        background: #fcfdfe;
+      }
+      .week > .wk-label {
+        display: block;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 12px 0 0;
+      }
+      footer {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        text-align: center;
+        padding: 12px 0 32px;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          padding: 24px;
+        }
+      }
+      @media print {
+        nav {
+          display: none;
+        }
+        section {
+          border: none;
+          padding: 0 0 18px;
+        }
+        header.doc {
+          color: #000;
+          background: none;
+          padding: 0;
+        }
+        header.doc p,
+        header.doc .meta {
+          color: #333;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav>
+        <div class="brand">Phase 3: Foundation</div>
+        <div class="brand-sub">Delivery Standard · phase deep-dive</div>
+        <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+        <a class="back" href="phase-2-design.html">← Phase 2: Design</a>
+        <a class="toc" href="#who">1 · Who is involved</a>
+        <a class="toc sub" href="#ourside">Our side</a>
+        <a class="toc sub" href="#clientside">Client side</a>
+        <a class="toc sub" href="#clauderole">Claude's role</a>
+        <a class="toc" href="#days">2 · Day one to the last day</a>
+        <a class="toc sub" href="#week1">Week one — the rails</a>
+        <a class="toc sub" href="#week2">Week two — the skeleton</a>
+        <a class="toc sub" href="#stretches">When it stretches</a>
+        <a class="toc" href="#artifacts">3 · The artifacts</a>
+        <a class="toc" href="#cadences">4 · The cadences</a>
+        <a class="toc" href="#exitgate">5 · The exit gate</a>
+        <a class="toc" href="#failures">6 · What goes wrong</a>
+        <a class="back" href="phase-3-example.html" style="margin-top: 16px"
+          >Worked example: Harbor Mutual →</a
+        >
+        <a class="back" href="build-loop.html">Next: The Build Loop →</a>
+      </nav>
+      <main>
+        <header class="doc">
+          <h1>Phase 3: Foundation</h1>
+          <p>
+            The hinge of the engagement: the phase where the documents stop and
+            the software starts. The harness gets installed, the rails get
+            built, the build loop runs for the first time, and the walking
+            skeleton becomes running code in the client's own dev environment.
+          </p>
+          <p>
+            Phase 3 answers four questions, and nothing else:
+            <strong>Is the harness real and adapted?</strong> (the kit
+            installed, CLAUDE.md in the client's own domain) ·
+            <strong>Are the rails real and enforced?</strong> (CI gates, the
+            grader, the security workflow, the deploy pipeline, branch
+            protection, the Bicep dev environment) ·
+            <strong>Does the loop actually run?</strong> (the first specs go
+            Intent → Delegate → Discern → merged → deployed, including one
+            HIGH-risk spec) · <strong>Is the architecture real?</strong> (the
+            walking skeleton running end-to-end in the client's dev environment,
+            through the real pipeline). Its product is not a feature — it is a
+            working factory with one part already moving through it.
+          </p>
+          <div class="meta">
+            Paired source: docs/phase-3-foundation.md · part of
+            MCKRUZ/delivery-standard v1.0
+          </div>
+        </header>
+
+        <section>
+          <h2>If you're starting here</h2>
+          <table>
+            <tr>
+              <td style="width: 170px"><strong>The method</strong></td>
+              <td>
+                Claude (the AI coding agent) drafts documents and writes most
+                code. Humans own every decision and verify every result.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The rhythm</strong></td>
+              <td>
+                Numbered phases open and close the engagement; in between runs a
+                continuous build loop. Each phase ends with automated checks
+                (the <strong>gate</strong>) plus a named human sign-off. Gates
+                are the billing milestones.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Where we are</strong></td>
+              <td>
+                Phase 0 fixed the problem. Phase 1 produced a signed
+                requirements baseline. Phase 2 chose the architecture and
+                defined the walking skeleton. Phase 3 makes the architecture
+                real and builds the factory the Build loop runs in.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Our pod (4-6 people)</strong></td>
+              <td>
+                Pod Lead · Setup Owner · Orchestrators · Quality Engineer. (<a
+                  href="team.html"
+                  >Team deep-dive</a
+                >)
+              </td>
+            </tr>
+          </table>
+          <p>
+            <strong>Words this page leans on</strong> (every other term is
+            explained where it first appears):
+          </p>
+          <table>
+            <tr>
+              <th>Term</th>
+              <th>What it means</th>
+            </tr>
+            <tr>
+              <td><strong>The harness</strong></td>
+              <td>
+                The project's CLAUDE.md, specs, skills, agents, hooks, and
+                settings — the context and rules every AI agent loads when it
+                starts work in the repo.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The kit</strong></td>
+              <td>
+                Our firm's reusable engagement starter: templates, the grader
+                and security-reviewer agents, hooks, pipeline YAML, Bicep
+                starters. It is built and improved <strong>between</strong>
+                engagements (every engagement ends with a retro that feeds
+                improvements back into it) and lives in our own standard repo.
+                Phase 3 installs it into the client's repo and adapts it. The
+                client never pays to build the kit — only to adapt it.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>A spec</strong></td>
+              <td>
+                One feature, described in one file in the repo
+                (<code>specs/NNNN-name.md</code>): the goal, what is in and out
+                of scope, testable acceptance checks, and a risk tier. It is
+                what the agent builds from — no spec, no build.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The build loop</strong></td>
+              <td>
+                The per-spec cycle — Intent (decide and write what you want),
+                Delegate (an agent builds it inside set bounds), Discern
+                (checks and a non-author prove it) — that replaces batch
+                implementation phases.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Plan mode</strong></td>
+              <td>
+                The agent mode where Claude can read the repo and propose an
+                approach but cannot change files. Plans get approved by a human
+                before any code is written.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>CI</strong></td>
+              <td>
+                Continuous integration — the automated checks (build, tests,
+                lint, test coverage) that run on every proposed change before
+                it can merge.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The grader</strong></td>
+              <td>
+                A fresh AI agent that did <strong>not</strong> write the code.
+                It reads the spec and the change, and posts a check-by-check
+                verdict on the pull request. It is required to run, but its
+                verdict advises — the human Checker decides.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The Stop hook</strong></td>
+              <td>
+                A script that fires when an agent tries to finish its turn. If
+                tests fail or the build is broken, it refuses to let the agent
+                stop. "Done" stops being the agent's opinion.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Branch protection</strong></td>
+              <td>
+                Repository settings that make the gates mandatory: no change
+                can merge without CI green, the grader having run, and an
+                approval from someone who didn't write it.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Rails</strong></td>
+              <td>
+                All of the above enforcement, taken together: CI gates, the
+                grader, branch protection, and the deploy pipeline. Called
+                rails because nobody has to remember them — every change runs
+                on them.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Walking skeleton</strong></td>
+              <td>
+                The thinnest end-to-end slice of the system, built first to
+                prove the architecture works in practice, not on paper.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Risk tier</strong></td>
+              <td>
+                HIGH / MEDIUM / LOW, assigned per spec. Sets how tightly an
+                agent is bounded and how much review a change gets.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>IaC / Bicep</strong></td>
+              <td>
+                Infrastructure as code: the cloud environment defined in
+                version-controlled files instead of clicked together by hand.
+                Bicep is Azure's language for doing this.
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="who">
+          <h2>1. Who is involved</h2>
+          <p>
+            Phase 3 is the Setup Owner's phase the way Phase 2 was the design
+            authority's and Phase 1 was the product owner's. The Setup Owner has
+            been building toward this since Phase 0 — the pipeline groundwork
+            and environment prep ran in parallel while requirements and design
+            closed. Foundation is where that work lands, gets wired together,
+            and gets exercised by real software.
+          </p>
+
+          <h3 id="ourside">Our side</h3>
+          <table>
+            <tr>
+              <th>Person</th>
+              <th>Load</th>
+              <th>Workstream</th>
+            </tr>
+            <tr>
+              <td><strong>Setup Owner</strong></td>
+              <td>90-100%</td>
+              <td>
+                The harness as a product: installs and adapts the kit, drafts
+                the Bicep, drafts the pipeline YAML, owns branch protection and
+                secrets. Never the sole approver of their own foundation work.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Setup Owner's deputy</strong></td>
+              <td>20-30%</td>
+              <td>
+                Named on day one (the senior Orchestrator in a 4-6 pod). Reviews
+                every harness change — the pipeline, the IaC, the CLAUDE.md
+                adaptation. The both-eyes rule applied to the foundation.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Orchestrators</strong></td>
+              <td>60-80%</td>
+              <td>
+                Run the walking-skeleton specs through the full build loop —
+                their first real Intent → Delegate → Discern cycles on this
+                engagement. Author the first specs from the Phase 2 slices.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Pod Lead</strong></td>
+              <td>40-50%</td>
+              <td>
+                Triages the skeleton into ordered specs, assigns risk tiers,
+                schedules the Build cadences, runs the exit demo, owns the
+                handoff into Build.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Quality Engineer</strong></td>
+              <td>40-50%</td>
+              <td>
+                Wires the mechanical gates (coverage, and the eval gate if a
+                spec is agentic), then verifies the running skeleton against the
+                Phase 2 definition: does it actually prove the architecture?
+              </td>
+            </tr>
+          </table>
+
+          <h3 id="clientside">Client side</h3>
+          <table>
+            <tr>
+              <th>Person</th>
+              <th>Needed for</th>
+              <th>How much</th>
+            </tr>
+            <tr>
+              <td><strong>DevOps / platform engineer</strong></td>
+              <td>
+                The access realities: branch-protection admin, Actions enabled,
+                runner policy, secrets in their Key Vault and GitHub. Reviews
+                the pipeline — they operate it after we leave.
+              </td>
+              <td>4-6 hours across the two weeks</td>
+            </tr>
+            <tr>
+              <td><strong>Security</strong></td>
+              <td>
+                Signs off on the pipeline, the secrets handling, and the
+                data-flow brief; the build-time security gates from Phase 2 get
+                wired and confirmed
+              </td>
+              <td>2-3 hours</td>
+            </tr>
+            <tr>
+              <td><strong>Lead engineer / Setup Owner counterpart</strong></td>
+              <td>
+                Pairs into the harness build and reviews the kit-adaptation PRs
+                — the client's first concrete look at how we work
+              </td>
+              <td>4-6 hours</td>
+            </tr>
+            <tr>
+              <td><strong>Product Owner</strong></td>
+              <td>
+                Confirms the skeleton slices are the right thinnest end-to-end
+                path; light touch
+              </td>
+              <td>~1 hour</td>
+            </tr>
+            <tr>
+              <td><strong>Sponsor</strong></td>
+              <td>
+                The exit demo — working software in their own dev environment
+              </td>
+              <td>45 min</td>
+            </tr>
+          </table>
+          <div class="warn">
+            If the client cannot give DevOps the time to provision access and
+            review the pipeline, that is a gating problem, not a scheduling one
+            — the rails cannot be proven without it, and it goes to the sponsor
+            at steering before the clock runs out.
+          </div>
+
+          <h3 id="clauderole">Claude's role in Phase 3</h3>
+          <p>
+            This is the phase where Claude writes the most code in the whole
+            opening — and where that code is under the tightest gating, because
+            the code <em>is</em> the factory. The risk taxonomy puts IaC and
+            pipeline changes at HIGH for exactly this reason.
+          </p>
+          <ul>
+            <li>
+              <strong>Scaffolds the repo from the kit.</strong> The harness
+              lands as a working starting point, not a blank repo: CLAUDE.md
+              template, spec template, settings, skills, the grader and
+              security-reviewer agents, the Stop hook, the workflow YAML, the
+              Bicep starters.
+            </li>
+            <li>
+              <strong>Adapts CLAUDE.md to the client.</strong> The domain
+              glossary in the client's own words, the stack standards, the risk
+              taxonomy, the gated paths, the Definition of Checked. A generic
+              CLAUDE.md means agents guess the domain, and guesses differ per
+              run.
+            </li>
+            <li>
+              <strong>Drafts the Bicep and the pipeline YAML.</strong> Both HIGH
+              risk: human review on every change, the Setup Owner's deputy and
+              the client's DevOps reading them before they merge.
+            </li>
+            <li>
+              <strong
+                >Runs the walking-skeleton specs through the full loop.</strong
+              >
+              Plan mode first, bounded per spec, the Stop hook blocking a
+              failing build, the CI gates and grader on the PR (the pull
+              request — the proposed change under review), a human Checker —
+              someone who didn't write the change — on the merge. The skeleton
+              is the loop's dress rehearsal — nothing gets skipped because it's
+              "only the skeleton."
+            </li>
+          </ul>
+          <p>
+            What Claude never does: merge IaC or pipeline without human review,
+            act as the sole approver of harness work, put a secret anywhere near
+            the repo, or hand-build the skeleton off the rails to save a day.
+            The whole point of the phase is that the first real software went
+            <em>through</em> the rails, not around them.
+          </p>
+        </section>
+
+        <section id="days">
+          <h2>2. Day one to the last day</h2>
+          <p>
+            The default calendar is
+            <strong>two weeks (10 business days)</strong> — the longest of the
+            opening phases, because it builds the factory and runs the first
+            software through it. Week one is the rails: access, the kit install,
+            the environment, the pipeline. Week two is the skeleton: the four
+            slices riding the loop, the architecture proven end-to-end, the
+            rails shaken down, the gate.
+          </p>
+
+          <div class="week" id="week1">
+            <span class="wk-label">Week one — the rails</span>
+            <h4 class="day">Day 1 — kickoff and access</h4>
+            <ul>
+              <li>
+                The Phase 0/1 access checklist gets closed: contributor access
+                for the pod, branch-protection admin for the Setup Owner (or a
+                named client admin applying our policy), GitHub Actions enabled,
+                runner policy agreed (whose machines the pipeline automation
+                runs on), secrets provisioning started in the client's Key
+                Vault and GitHub secrets.
+              </li>
+              <li>
+                The Anthropic access procured in Phase 0 gets a
+                <strong>live smoke test</strong> — Claude Code actually runs on
+                the client's seats and keys, against the client's repo, before
+                anyone depends on it.
+              </li>
+              <li>
+                The open questions the Phase 2 handoff carried get their owners
+                and due dates re-confirmed.
+              </li>
+            </ul>
+
+            <h4 class="day">Day 2 — the kit install, in the open</h4>
+            <ul>
+              <li>
+                Claude scaffolds the client repo from the kit. The kit itself
+                is not built here — it is our firm's standing asset, improved
+                after every engagement; this phase spends its time adapting it
+                to the client, never inventing it on the client's clock. The
+                adaptation happens as reviewed PRs the client's lead engineer
+                reads — the client team's first concrete look at how the pod
+                works, months before the close transfer.
+              </li>
+              <li>
+                CLAUDE.md gets adapted: the domain glossary in the client's
+                words, the stack standards, the risk taxonomy, the gated paths,
+                the Definition of Checked. Setup Owner craft, reviewed by the
+                deputy.
+              </li>
+            </ul>
+
+            <h4 class="day">Day 3 — the dev environment</h4>
+            <ul>
+              <li>
+                Claude drafts the Bicep for the dev environment; HIGH risk,
+                human-reviewed on every change; the environment provisions from
+                code, not from clicks.
+              </li>
+              <li>
+                Secrets land in the client's Key Vault and GitHub secrets —
+                never in code, never in CLAUDE.md, never in a spec. The
+                data-flow brief goes to client security: what goes to the API,
+                what doesn't, where the keys live, who can see usage.
+              </li>
+            </ul>
+
+            <h4 class="day">Day 4 — the pipeline</h4>
+            <ul>
+              <li>
+                The four workflows get built and reviewed by the client's
+                DevOps: CI (build, test, lint, coverage — hard gates), the
+                grader (required to run on every PR; its verdict advises, the
+                human decides), the security workflow (fires on the
+                <code>risk:high</code> label), and deploy-dev (merge to main
+                ships to the client dev environment).
+              </li>
+              <li>
+                Branch protection turns on: CI green, the grader has run, and a
+                non-author approval are required; <code>risk:high</code> adds
+                the security workflow plus a named human sign-off.
+              </li>
+              <li>
+                The build-time security gates from the Phase 2 threat review get
+                wired into the security workflow.
+              </li>
+            </ul>
+
+            <h4 class="day">Day 5 — the first slice through the loop</h4>
+            <ul>
+              <li>
+                The first skeleton spec runs the <strong>full</strong> build
+                loop for the first time on this engagement: Intent (the slice
+                triaged into a ready spec), Delegate (the agent in plan mode,
+                bounded, the Stop hook refusing to finish on a failing build),
+                Discern (the CI gates and grader on the PR, a human Checker on
+                the merge), then the automatic deploy to the client dev
+                environment.
+              </li>
+              <li>
+                The rails get exercised by real software. Anything broken in the
+                rails — a gate that doesn't fire, a grader that doesn't post, a
+                deploy that doesn't roll back — gets found and fixed here, while
+                it is cheap. End of week one: one slice live in dev through the
+                real pipeline.
+              </li>
+            </ul>
+          </div>
+
+          <div class="week" id="week2">
+            <span class="wk-label">Week two — the skeleton</span>
+            <h4 class="day">Day 6 — the first HIGH-risk slice</h4>
+            <ul>
+              <li>
+                The slice that touches the riskiest seam (the regulated
+                integration, the sensitive data path) runs the loop at HIGH
+                risk: tight agent permissions, the security workflow firing on
+                the <code>risk:high</code> label and running the
+                security-reviewer agent, a named human sign-off recorded in the
+                PR. The HIGH path of the loop gets proven before Build ever
+                relies on it.
+              </li>
+            </ul>
+
+            <h4 class="day">Day 7 — the remaining slices</h4>
+            <ul>
+              <li>
+                The rest of the skeleton's slices ride the loop. The slice that
+                emits the <strong>outcome metric</strong> gets special
+                attention: it makes the engagement's success metric measurable
+                from day one of Build, so the scorecard has real data before the
+                second feature merges.
+              </li>
+              <li>
+                Any build-time security gate that touches these slices (a
+                template-review gate, an upload scan) fires on its first
+                qualifying PR — proven, not just configured.
+              </li>
+            </ul>
+
+            <h4 class="day">Day 8 — the skeleton, end-to-end</h4>
+            <ul>
+              <li>
+                The slices connect into the running skeleton in the dev
+                environment. The QE verifies the running software against the
+                Phase 2 walking-skeleton definition: does it prove the
+                architecture, end to end, under the rails?
+              </li>
+              <li>
+                A first end-to-end smoke journey — an automated test that walks
+                the same path a user would — runs across the skeleton: the
+                thinnest proof that the whole thread holds together, not just
+                each slice in isolation.
+              </li>
+            </ul>
+
+            <h4 class="day">Day 9 — harden the rails, not the features</h4>
+            <ul>
+              <li>
+                The rails get a deliberate shakedown: the Stop hook is proven to
+                actually block a failing build, the grader is proven to actually
+                post on a real PR, deploy-dev is proven to roll back cleanly. A
+                rail that has never failed safely has not been proven.
+              </li>
+              <li>
+                The setup review merges any harness corrections found during the
+                week (Setup Owner + deputy).
+              </li>
+              <li>
+                The Build cadences get scheduled — flow check, intent triage,
+                retro+, setup review — and two numbers get agreed: the WIP cap
+                (the limit on how many changes may be in flight at once) and
+                the review-wait tripwire (the wait-time threshold that, once
+                crossed, stops new work starting until the review queue
+                clears).
+              </li>
+            </ul>
+
+            <h4 class="day">Day 10 — gate, demo, and the handoff into Build</h4>
+            <ul>
+              <li>
+                The automated gate check runs. The exit demo: the sponsor sees
+                the walking skeleton running in their own dev environment,
+                through the real pipeline, with the outcome metric ticking.
+              </li>
+              <li>
+                The Build handoff gets drafted: the ordered spec backlog ready
+                for triage, the risk-tier map (including the Phase 2 security
+                gates), the cadence calendar, the open questions under their
+                original IDs.
+              </li>
+              <li>
+                Steering: gate sign-off recorded, billing milestone. The
+                engagement crosses from the gated opening into the continuous
+                Build loop.
+              </li>
+            </ul>
+          </div>
+
+          <h3 id="stretches">When the two weeks stretch</h3>
+          <ul>
+            <li>
+              <strong
+                >Access or secrets provisioning stalls on the client
+                side</strong
+              >
+              — the rails cannot be proven without them; this is a gating
+              dependency, surfaced at steering on day one, not absorbed silently
+              into a slipping schedule.
+            </li>
+            <li>
+              <strong>The dev environment fights the IaC</strong> (a
+              subscription policy, a missing role assignment) — expected
+              friction; it is exactly what Phase 3 exists to discover before
+              Build, not during.
+            </li>
+            <li>
+              <strong>A skeleton slice exposes a design gap</strong> — good; the
+              skeleton found in days what the documents missed. Re-open the
+              relevant ADR explicitly rather than patching around it in code.
+            </li>
+            <li>
+              <strong>The client wants to widen the skeleton</strong> ("while
+              we're here, add…") — that is Build scope; it delays the rails
+              being proven and the gate being reached. Hold the skeleton to the
+              thinnest end-to-end path and let the backlog carry the rest.
+            </li>
+          </ul>
+        </section>
+
+        <section id="artifacts">
+          <h2>3. The artifacts</h2>
+          <div class="callout">
+            <strong>Worked example:</strong>
+            <a href="phase-3-example.html"
+              >Phase 3 Worked Example: Harbor Mutual</a
+            >
+            — the foundation week: the adapted CLAUDE.md, the four pipeline
+            workflows, the four skeleton specs (one HIGH-risk spec in full), the
+            Bicep dev environment, the wired security gates, and the skeleton
+            running in Harbor's dev environment with the FNOL→coverage clock
+            already ticking.
+          </div>
+          <table>
+            <tr>
+              <th>Artifact</th>
+              <th>Drafted by</th>
+              <th>Owned by</th>
+              <th>Done means</th>
+            </tr>
+            <tr>
+              <td>
+                Installed harness (CLAUDE.md, <code>.claude/</code>,
+                <code>specs/</code>, settings)
+              </td>
+              <td>Claude (scaffolds from kit), Setup Owner (adapts)</td>
+              <td>Setup Owner</td>
+              <td>
+                Adapted to the client's domain, stack, and risk taxonomy;
+                committed; reviewed by the deputy
+              </td>
+            </tr>
+            <tr>
+              <td>Bicep dev environment</td>
+              <td>Claude (drafts)</td>
+              <td>Setup Owner</td>
+              <td>
+                Provisioned from code; HIGH-risk human review on every change;
+                secrets in the client's vault
+              </td>
+            </tr>
+            <tr>
+              <td>Pipeline workflows (ci, grader, security, deploy-dev)</td>
+              <td>Claude (drafts)</td>
+              <td>Setup Owner</td>
+              <td>
+                CI hard-gates; grader required to run; security fires on
+                <code>risk:high</code>; deploy-dev on merge — all running, all
+                reviewed by client DevOps
+              </td>
+            </tr>
+            <tr>
+              <td>Branch protection</td>
+              <td>Setup Owner (or named client admin)</td>
+              <td>Setup Owner</td>
+              <td>
+                Enforces CI green + grader-ran + non-author approval;
+                <code>risk:high</code> adds the security workflow + a named
+                sign-off
+              </td>
+            </tr>
+            <tr>
+              <td>Walking-skeleton specs</td>
+              <td>Orchestrators (from the Phase 2 slices)</td>
+              <td>Pod Lead</td>
+              <td>
+                Each rides the full build loop; together they prove the
+                architecture in running software
+              </td>
+            </tr>
+            <tr>
+              <td>The walking skeleton (deployed)</td>
+              <td>The build loop</td>
+              <td>Setup Owner + QE</td>
+              <td>
+                End-to-end in the client's dev environment through the real
+                pipeline; verified against the Phase 2 definition
+              </td>
+            </tr>
+            <tr>
+              <td>Build-time security gates (wired)</td>
+              <td>Claude (drafts), security (confirms)</td>
+              <td>Setup Owner + client security</td>
+              <td>
+                The Phase 2 gates enforced in the security workflow; each fired
+                at least once on a real PR
+              </td>
+            </tr>
+            <tr>
+              <td>Data-flow brief</td>
+              <td>Claude (drafts), Setup Owner</td>
+              <td>Setup Owner</td>
+              <td>
+                Client security has, in writing: what goes to the API, what
+                doesn't, where keys live, who sees usage
+              </td>
+            </tr>
+            <tr>
+              <td>Cadence calendar + risk-tier map</td>
+              <td>Pod Lead</td>
+              <td>Pod Lead</td>
+              <td>
+                Flow check, intent triage, retro+, and setup review scheduled;
+                WIP cap and review-wait tripwire set; the Phase 2 security gates
+                on the map
+              </td>
+            </tr>
+            <tr>
+              <td>Build handoff</td>
+              <td>Claude (drafts)</td>
+              <td>Pod Lead</td>
+              <td>
+                Ordered spec backlog, risk-tier map, cadences, open questions
+                under their original IDs
+              </td>
+            </tr>
+          </table>
+          <div class="warn">
+            What is deliberately <strong>not</strong> produced: the full feature
+            backlog (Build triage owns it), the test and production environments
+            (the first hardening pass and Phase 8 add them), and any feature
+            breadth beyond the thinnest skeleton.
+          </div>
+        </section>
+
+        <section id="cadences">
+          <h2>4. The cadences</h2>
+          <table>
+            <tr>
+              <th>Rhythm</th>
+              <th>Who</th>
+              <th>What</th>
+            </tr>
+            <tr>
+              <td><strong>Daily 15-minute pod sync</strong></td>
+              <td>Whole pod</td>
+              <td>Rails progress, spec status, blockers</td>
+            </tr>
+            <tr>
+              <td><strong>The kit-adaptation PRs</strong></td>
+              <td>Setup Owner + client lead engineer</td>
+              <td>
+                The client's first look at how we work — reviewed in the open,
+                not handed over finished
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Setup review</strong></td>
+              <td>Setup Owner + deputy</td>
+              <td>
+                Harness changes merged and reviewed; the first real run of a
+                cadence that continues all through Build
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Intent triage (begins here)</strong></td>
+              <td>Pod Lead + Orchestrators</td>
+              <td>
+                The skeleton slices become ordered specs; the Build loop's
+                weekly cadence starts in this phase
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Biweekly steering</strong></td>
+              <td>Sponsor + Pod Lead</td>
+              <td>
+                Falls at the end of the phase: the exit demo — working software
+                in the client's own dev environment
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="exitgate">
+          <h2>5. The exit gate</h2>
+          <p>
+            Phase 3 closes — and the engagement enters the Build loop — when all
+            of these are true:
+          </p>
+          <ul class="checklist">
+            <li>
+              The harness is installed, adapted to the client, committed, and
+              reviewed by the Setup Owner's deputy (the Setup Owner is never the
+              sole approver of their own foundation)
+            </li>
+            <li>
+              The pipeline runs: CI hard gates, the grader required to run, the
+              security workflow on <code>risk:high</code>, deploy-dev on merge —
+              all reviewed by the client's DevOps
+            </li>
+            <li>
+              Branch protection enforces CI green + grader-ran + non-author
+              approval; <code>risk:high</code> adds the security workflow and a
+              named sign-off
+            </li>
+            <li>
+              The Bicep dev environment is provisioned from code; secrets live
+              in the client's vault, never in code
+            </li>
+            <li>
+              The build-time security gates from Phase 2 are wired, and each has
+              fired on a real PR
+            </li>
+            <li>
+              The walking skeleton is deployed to the client's dev environment
+              through the real pipeline — running software, not a document — and
+              verified against the Phase 2 definition
+            </li>
+            <li>
+              At least one HIGH-risk spec has run the full loop (the HIGH path
+              is proven before Build depends on it)
+            </li>
+            <li>
+              The rails are proven, not just present: the Stop hook actually
+              blocks, the grader actually posts, deploy-dev actually rolls back
+            </li>
+            <li>
+              The outcome metric is measurable in dev (the metric slice exists
+              and ticks)
+            </li>
+            <li>
+              The Build cadences are scheduled and the WIP cap and review-wait
+              tripwire are set
+            </li>
+            <li>
+              A named human on each side approved the advance — gates report,
+              humans decide
+            </li>
+          </ul>
+        </section>
+
+        <section id="failures">
+          <h2>6. What goes wrong in Phase 3</h2>
+          <ul>
+            <li>
+              <strong
+                >Skipping the loop "because it's just the skeleton."</strong
+              >
+              The skeleton is precisely where the loop must be proven. A
+              skeleton hand-built off the rails teaches the team nothing and
+              hides the rails' defects until Build, when they are expensive.
+              Every skeleton slice runs the full discipline.
+            </li>
+            <li>
+              <strong>A pipeline that exists but was never exercised.</strong>
+              CI that is green because nothing real ran through it. The rails
+              are proven by a spec breaking and being caught, not by the YAML
+              being present. A rail that has never failed safely has not been
+              proven.
+            </li>
+            <li>
+              <strong>The kit installed but not adapted.</strong> A generic
+              CLAUDE.md means agents guess the domain, and guesses differ per
+              run. The adaptation in the open is the point of the phase, not a
+              formality to rush past.
+            </li>
+            <li>
+              <strong
+                >IaC or pipeline merged without review to move faster.</strong
+              >
+              These are HIGH risk because they are hard to undo and run in
+              production later. The Setup Owner is never the sole approver of
+              their own foundation — the deputy and the client's DevOps read
+              every change.
+            </li>
+            <li>
+              <strong>A secret in the repo.</strong> The one unrecoverable
+              mistake of the phase: a key in a commit is a rotation event and an
+              audit-log review, not an edit. The client's vault from day one,
+              never in code, never in CLAUDE.md, never in a spec.
+            </li>
+            <li>
+              <strong>A feature-rich skeleton.</strong> The skeleton is the
+              thinnest end-to-end slice that proves the architecture. Every
+              slice added beyond that is Build scope wearing a Foundation badge
+              — it delays the rails being proven and the gate being reached.
+            </li>
+            <li>
+              <strong>Deferring the deputy.</strong> "I'll name a deputy later"
+              means the Setup Owner is approving their own foundation right now.
+              The deputy is named on day one, or the both-eyes rule the standard
+              depends on is already broken.
+            </li>
+            <li>
+              <strong>The demo on a laptop.</strong> The exit demo runs in the
+              client's own dev environment, through the real pipeline, or it has
+              not proven what Phase 3 exists to prove. A localhost demo proves
+              the code compiles, not that the factory works.
+            </li>
+          </ul>
+        </section>
+
+        <div class="callout">
+          <strong>Next:</strong>
+          <a href="build-loop.html">The Build Loop</a> — what the factory was
+          built for: how every change from here to feature-complete gets
+          specified, bounded, built, and proven.
+        </div>
+
+        <footer>
+          Phase 3: Foundation · Delivery Standard deep-dive ·
+          MCKRUZ/delivery-standard · Paired source: docs/phase-3-foundation.md
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

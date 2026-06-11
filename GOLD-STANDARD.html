@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Delivery Standard</title>
+    <style>
+      :root {
+        --ink: #1a2332;
+        --ink-soft: #46556b;
+        --accent: #0f5c8c;
+        --accent-soft: #e8f1f7;
+        --rule: #d8dee8;
+        --bg: #f7f8fa;
+        --card: #ffffff;
+        --mono-bg: #0f1722;
+        --mono-ink: #d6e2f0;
+        --high: #b3372f;
+        --med: #b07a1e;
+        --low: #2e7d4f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      .layout {
+        display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      nav {
+        width: 270px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 32px 20px 32px 28px;
+        border-right: 1px solid var(--rule);
+        font-size: 13.5px;
+      }
+      nav .brand {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      nav .brand-sub {
+        color: var(--ink-soft);
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+      nav a {
+        display: block;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 6px;
+        margin-bottom: 1px;
+      }
+      nav a:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      main {
+        flex: 1;
+        padding: 40px 56px 96px;
+        min-width: 0;
+      }
+      header.doc {
+        background: linear-gradient(135deg, #11314e, #0f5c8c);
+        color: #fff;
+        border-radius: 14px;
+        padding: 36px 40px;
+        margin-bottom: 36px;
+      }
+      header.doc h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        letter-spacing: -0.3px;
+      }
+      header.doc p {
+        margin: 0 0 8px;
+        color: #cfe2f1;
+        max-width: 70ch;
+      }
+      header.doc .meta {
+        font-size: 13px;
+        color: #9fc3dd;
+        margin-top: 14px;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 28px 34px;
+        margin-bottom: 26px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 0 0 14px;
+        color: var(--accent);
+        letter-spacing: -0.2px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 24px 0 8px;
+      }
+      p {
+        margin: 0 0 12px;
+        max-width: 80ch;
+      }
+      ul,
+      ol {
+        margin: 0 0 14px;
+        padding-left: 24px;
+        max-width: 80ch;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      strong {
+        color: var(--ink);
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 14px 0 18px;
+        font-size: 13.5px;
+      }
+      th {
+        background: var(--accent-soft);
+        color: var(--accent);
+        text-align: left;
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+      }
+      td {
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #fafbfd;
+      }
+      pre {
+        background: var(--mono-bg);
+        color: var(--mono-ink);
+        border-radius: 10px;
+        padding: 18px 22px;
+        overflow-x: auto;
+        font-family: Consolas, "Cascadia Code", monospace;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      code {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #eef1f6;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 0.92em;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+      }
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .tier {
+        font-weight: 700;
+      }
+      .tier.high {
+        color: var(--high);
+      }
+      .tier.med {
+        color: var(--med);
+      }
+      .tier.low {
+        color: var(--low);
+      }
+      .checklist {
+        list-style: none;
+        padding-left: 4px;
+      }
+      .checklist li::before {
+        content: "☐";
+        margin-right: 10px;
+        color: var(--accent);
+      }
+      footer {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        text-align: center;
+        padding: 12px 0 32px;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          padding: 24px;
+        }
+      }
+      @media print {
+        nav {
+          display: none;
+        }
+        section {
+          border: none;
+          padding: 0 0 18px;
+        }
+        header.doc {
+          color: #000;
+          background: none;
+          padding: 0;
+        }
+        header.doc p,
+        header.doc .meta {
+          color: #333;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav>
+        <div class="brand">The Delivery Standard</div>
+        <div class="brand-sub">MCKRUZ / delivery-standard · v1.0</div>
+        <a href="#s1">1 · The shape of an engagement</a>
+        <a href="#s2">2 · Human/AI collaboration model</a>
+        <a href="#s3">3 · The team</a>
+        <a href="#s4">4 · Source control &amp; topology</a>
+        <a href="#s5">5 · The build loop</a>
+        <a href="#s6">6 · The harness standard</a>
+        <a href="#s7">7 · DevOps</a>
+        <a href="#s8">8 · Claude access &amp; data boundary</a>
+        <a href="#s9">9 · Gates and metrics</a>
+        <a href="#s10">10 · The kit</a>
+        <a href="#s11">11 · AI-engineering module</a>
+        <a href="#s12">12 · Commercial chapter</a>
+        <a href="#s13">13 · Close &amp; Transfer</a>
+        <a href="#s14">14 · Defaults you can veto</a>
+      </nav>
+      <main>
+        <header class="doc">
+          <h1>The Delivery Standard</h1>
+          <p>
+            How we use Claude to build software for clients, start to finish.
+            This is the gold standard for every engagement: who does what, what
+            Claude does, what the templates are, how source control and DevOps
+            are structured, and what has to be true before anything merges,
+            ships, or gets handed over.
+          </p>
+          <p>
+            It synthesizes two bodies of work: the Intent-Driven Development
+            methodology (<code>MCKRUZ/intent-driven-development</code>) and the
+            SDLC orchestration plugin (<code>MCKRUZ/claude-code-sdlc</code>).
+            Where the two disagreed, this document is the resolution. Where this
+            document is silent, IDD is the tiebreaker.
+          </p>
+          <div class="meta">
+            <strong>Owner:</strong> Matt Kruczek &nbsp;·&nbsp;
+            <strong>Deputy:</strong> named per the rule in section 4 (no role
+            without a deputy) &nbsp;·&nbsp; <strong>Version:</strong> 1.0
+            (2026-06-10)<br />
+            Changes to this standard go through a PR reviewed by someone who
+            didn't write it, same as everything else.
+          </div>
+        </header>
+
+        <section id="s1">
+          <h2>1. The shape of an engagement</h2>
+          <p>
+            The engagement runs on a hybrid spine. The claude-code-sdlc plugin's
+            phase machine opens and closes the engagement; the IDD build loop is
+            the engine in the middle. The plugin's phases 4-6 (Implementation,
+            Quality, Testing as separate sequential phases) are
+            <strong>not used as written</strong>, because batch verification
+            after batch implementation is the failure mode the evidence base
+            (Faros: PR volume +98%, review time +91%, delivery flat) warns
+            about. Verification runs per change, inside the loop, not as a later
+            phase.
+          </p>
+          <pre><code>OPEN (SDLC phases, gated, human sign-off to advance)
+  Phase 0  Discovery        problem, outcomes, constraints, tooling approval, PO decision
+  Phase 1  Requirements     epics, stories, NFRs (drafted by Claude, owned by humans)
+  Phase 2  Design           architecture, ADRs, API contracts (Claude proposes 2-3, human picks)
+  Phase 3  Foundation       harness + walking skeleton deployed to client dev environment
+
+BUILD (the IDD loop, continuous, per spec — replaces SDLC phases 4-6)
+  for every story:  Intent -&gt; Delegate -&gt; Discern -&gt; merged &amp; deployed to dev
+  weekly cadence:   intent triage, flow check, retro+, setup review
+  biweekly:         steering with the client (demo + outcome scorecard)
+  hardening passes: scheduled, not a phase — see 5.6
+
+CLOSE (SDLC phases, gated, human sign-off to advance)
+  Phase 7  Documentation    README, API docs, RUNBOOK (Claude drafts, humans verify by using them)
+  Phase 8  Deployment       promote to prod + release ceremony (pipeline already exists from Phase 3)
+  Phase 9  Monitoring       alerts, incident response, retrospective
+  Phase C  Close &amp; Transfer consulting-only: client owns the harness, runs the loop solo, we leave</code></pre>
+          <div class="callout">
+            Phase advancement is <strong>always manual</strong>. The plugin's
+            auto-advance behavior for phases 4 and 6 is disabled. Gates tell you
+            whether you <em>may</em> advance; a named human decides whether you
+            <em>do</em>.
+          </div>
+          <div class="callout">
+            <strong>Deep-dives</strong>, each phase day by day (who is involved,
+            every artifact with its owner and done-condition, the cadences, the
+            exit gate), with the Harbor Mutual worked example running alongside:
+            <ul style="margin: 8px 0 2px">
+              <li>
+                <a href="docs/phase-0-discovery.html">Phase 0: Discovery</a> ·
+                <a href="docs/phase-0-example.html">worked example</a>
+              </li>
+              <li>
+                <a href="docs/phase-1-requirements.html"
+                  >Phase 1: Requirements</a
+                >
+                · <a href="docs/phase-1-example.html">worked example</a>
+              </li>
+              <li>
+                <a href="docs/phase-2-design.html">Phase 2: Design</a> ·
+                <a href="docs/phase-2-example.html">worked example</a>
+              </li>
+              <li>
+                <a href="docs/phase-3-foundation.html">Phase 3: Foundation</a> ·
+                <a href="docs/phase-3-example.html">worked example</a>
+              </li>
+              <li>
+                <a href="docs/build-loop.html">The Build Loop</a> — the loop
+                that runs between the opening and closing phases
+              </li>
+            </ul>
+          </div>
+          <p>
+            Rough calendar for a typical engagement (4-6 person pod,
+            medium-sized product): Open 4-6 weeks (the phases overlap — the
+            Setup Owner's enablement work runs ahead while requirements and
+            design close), Build 8-16 weeks, Close 2-3 weeks. These are planning
+            figures, not promises; the SOW maps billing milestones to phase
+            gates, not to dates (section 12).
+          </p>
+        </section>
+
+        <section id="s2">
+          <h2>2. The human/AI collaboration model, phase by phase</h2>
+          <p>
+            The single most important rule:
+            <strong
+              >Claude drafts and interrogates; humans decide and own.</strong
+            >
+            The claude-code-sdlc plugin automates a lot. We deliberately run it
+            with less automation than it offers. The table below is the contract
+            for every phase: what the human drives, what Claude does, and where
+            the mandatory stops are.
+          </p>
+          <table>
+            <tr>
+              <th>Phase</th>
+              <th>Human drives</th>
+              <th>Claude does</th>
+              <th>Mandatory human stops</th>
+            </tr>
+            <tr>
+              <td><strong>0 Discovery</strong></td>
+              <td>
+                Sponsor states the problem and the one success metric. Pod Lead
+                runs the outcome workshop.
+              </td>
+              <td>
+                Interrogates: surfaces unmade decisions, drafts
+                constitution/problem-statement/constraints from workshop notes,
+                runs document intake on client RFPs/specs.
+              </td>
+              <td>
+                Problem framing is human-authored. Claude never invents the
+                problem. Phase advance.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>1 Requirements</strong></td>
+              <td>
+                PO (client or proxy, per the Phase 0 decision) owns stories and
+                priorities. Pod Lead enforces Definition of Ready.
+              </td>
+              <td>
+                Drafts candidate epics/stories from the brief, generates the
+                decision list ("you haven't decided X, Y, Z"), drafts NFRs with
+                measurement basis.
+              </td>
+              <td>
+                Every silent decision on the decision list gets a human answer
+                before the story is Ready. Phase advance.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>2 Design</strong></td>
+              <td>Architect owns the design and signs every ADR.</td>
+              <td>
+                Researches options, presents 2-3 architectures with concrete
+                trade-offs, drafts ADRs after the human picks, drafts API
+                contracts.
+              </td>
+              <td>Architecture selection. Each ADR. Phase advance.</td>
+            </tr>
+            <tr>
+              <td><strong>3 Foundation</strong></td>
+              <td>
+                Setup Owner builds and owns the harness. DevOps access
+                negotiated with client.
+              </td>
+              <td>
+                Scaffolds the repo from the kit, writes Bicep, writes pipeline
+                YAML, implements the thin first feature through the full loop.
+              </td>
+              <td>
+                Pipeline and IaC are HIGH risk: human review on every change.
+                Exit gate demo: one feature running in client dev.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Build loop</strong></td>
+              <td>
+                Pod Lead triages and tiers specs. Orchestrators run agents.
+                Checkers judge.
+              </td>
+              <td>
+                Everything in section 5: plans, builds, self-checks, grades (as
+                a separate grader), drafts test suites.
+              </td>
+              <td>
+                Plan approval before build. Checker approval before merge. Named
+                sign-off on HIGH risk.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>7 Documentation</strong></td>
+              <td>
+                Humans verify docs by following them cold (can a new person
+                deploy from the RUNBOOK?).
+              </td>
+              <td>
+                Drafts README, API docs, RUNBOOK from the codebase and specs.
+              </td>
+              <td>Docs verified by use, not by reading. Phase advance.</td>
+            </tr>
+            <tr>
+              <td><strong>8 Deployment</strong></td>
+              <td>
+                Release manager (usually Setup Owner) owns the promote decision.
+              </td>
+              <td>
+                Drafts release notes from merged specs, runs smoke tests,
+                prepares rollback plan.
+              </td>
+              <td>Go/no-go to production. Always.</td>
+            </tr>
+            <tr>
+              <td><strong>9 Monitoring</strong></td>
+              <td>Pod Lead + client ops define what "healthy" means.</td>
+              <td>
+                Drafts alert definitions, monitoring config, incident runbooks.
+              </td>
+              <td>Alert thresholds confirmed against real baseline data.</td>
+            </tr>
+            <tr>
+              <td><strong>C Close &amp; Transfer</strong></td>
+              <td>
+                Pod Lead runs the transfer. Client team runs the loop solo,
+                observed.
+              </td>
+              <td>
+                Generates the final handoff report, audits the harness for
+                anything undocumented.
+              </td>
+              <td>
+                Close gate: client completed a real spec end-to-end without us
+                driving.
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="s3">
+          <h2>3. The team</h2>
+          <div class="callout">
+            <strong>Deep-dive:</strong> <a href="docs/team.html">The Team</a> —
+            the old-role-to-new-role mapping (PM, Architect, 2 devs, QA), the
+            concrete job of each role, and the scaling model from one pod to
+            many.
+          </div>
+          <p>
+            Designed for a 4-6 person pod running 2-3 parallel work streams. The
+            constraint on parallelism is
+            <strong>checking capacity, not headcount</strong> — never open more
+            agent streams than the team can review without the queue growing.
+          </p>
+          <h3>Roles</h3>
+          <table>
+            <tr>
+              <th>Role</th>
+              <th>Owns</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td><strong>Pod Lead</strong></td>
+              <td>
+                Intent. Stories become ready specs. Risk tiers. The decision
+                list. Client steering.
+              </td>
+              <td>
+                Runs intent triage. Interface to the client PO (or plays
+                proxy-PM in proxy mode, with the ratified decision log).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Setup Owner</strong></td>
+              <td>
+                The harness as a product: CLAUDE.md, skills, agents, hooks,
+                settings, pipeline, IaC, the kit install.
+              </td>
+              <td>
+                Names a deputy on day one. Deputy reviews all harness changes
+                (the Setup Owner is never sole approver of their own foundation
+                work).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Orchestrators (2-3)</strong></td>
+              <td>
+                Running the build loop. Translating ready stories to specs.
+                Approving agent plans. Driving integration.
+              </td>
+              <td>
+                They do not type most of the code. Their craft is bounds, plan
+                correction, and the one-agent-vs-many call.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Checkers</strong></td>
+              <td>
+                The verdict. Grading changes against the spec, reading the CI
+                grader's output, owning the merge.
+              </td>
+              <td>
+                Not a separate headcount: Orchestrators and Checkers swap per
+                change. The author of a change is never its checker.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Sponsor-side</strong></td>
+              <td>
+                The client sponsor owns the outcome and the metric. The client
+                PO (if committed) owns stories.
+              </td>
+              <td>Their obligations are written into the SOW (section 12).</td>
+            </tr>
+          </table>
+          <h3>Collapse rules (smaller engagements)</h3>
+          <ul>
+            <li>
+              <strong>3 people:</strong> one person is Pod Lead + Setup Owner
+              (deputy duty moves to the senior Orchestrator); two
+              Orchestrator/Checkers swap per change. One stream, two at most.
+            </li>
+            <li>
+              <strong>2 people:</strong> only with an experienced pair, one
+              stream, and the grader-in-CI carrying more weight. The rule that
+              survives all collapsing:
+              <strong>the author of a change never solely approves it.</strong>
+            </li>
+          </ul>
+          <h3>Certification</h3>
+          <p>
+            Nobody works a client spec until they have completed the IDD course
+            (2-day format, <code>intent-driven-development/course/</code>) and
+            passed the competency rubric: demonstrably wrote a spec that passes
+            the vague-line test, ran the full loop on a practice feature, and
+            operated the grader. Demonstrated, not attested. The practice ground
+            is internal projects, never client-billed work.
+          </p>
+        </section>
+
+        <section id="s4">
+          <h2>4. Source control and repository topology</h2>
+          <h3>Where everything lives</h3>
+          <ul>
+            <li>
+              <strong>Delivery repo</strong> — in the
+              <strong>client's GitHub/ADO org from day one</strong>. Contains
+              the product code AND the harness (<code>CLAUDE.md</code>,
+              <code>.claude/</code>, <code>specs/</code>), versioned together.
+              Handoff at close is trivial: revoke our access. Their security
+              team can audit everything from week one.
+            </li>
+            <li>
+              <strong><code>MCKRUZ/delivery-standard</code></strong> (this repo)
+              — private, ours. The gold standard docs plus the installable kit
+              (section 10). Installed into the client repo at Phase 3;
+              improvements harvested back after every engagement.
+              Client-specific harness content stays with the client; generalized
+              craft compounds with us. The SOW carves this out explicitly
+              (section 12).
+            </li>
+          </ul>
+          <p>
+            There is no separate per-client "system repo." The harness rides
+            inside the delivery repo so agents always load it, harness changes
+            are PRs reviewed like code, and nothing needs syncing.
+          </p>
+          <h3>
+            Phase 0/1 checklist additions (because we're guests in their org)
+          </h3>
+          <ul class="checklist">
+            <li>
+              Contributor access for the pod; admin on branch protection for the
+              Setup Owner (or a named client admin who applies our policy)
+            </li>
+            <li>
+              GitHub Actions enabled; permission to add workflows and secrets
+              (Anthropic API key, Azure credentials)
+            </li>
+            <li>Runner policy agreed (hosted vs self-hosted)</li>
+            <li>
+              Client's required org policies documented as constraints in the
+              Phase 0 artifacts
+            </li>
+          </ul>
+          <h3>Branching and PRs</h3>
+          <p>Trunk-based. <strong>One spec = one branch = one PR.</strong></p>
+          <ul>
+            <li>
+              Protected <code>main</code>. Branch per spec:
+              <code>spec/0007-rate-limiting</code>.
+            </li>
+            <li>
+              The spec file (<code>specs/0007-rate-limiting.md</code>) is part
+              of the PR diff, so the reviewer sees intent and implementation in
+              one view.
+            </li>
+            <li>
+              Squash merge, conventional commit title (<code
+                >feat: rate limiting per api key (spec 0007)</code
+              >), branch deleted on merge.
+            </li>
+            <li>
+              Branch protection requires: CI green (build, tests, lint,
+              coverage), the grader check has run, and at least one non-author
+              approval. HIGH-risk PRs carry a <code>risk:high</code> label that
+              requires the security workflow plus a named human sign-off
+              recorded in the PR.
+            </li>
+            <li>
+              PRs stay small because specs are gated small at Definition of
+              Ready. If a spec won't fit in a reviewable PR, it gets split at
+              triage, not at review.
+            </li>
+            <li>
+              GitFlow only where a client policy forces it, recorded as a
+              deviation in the engagement log.
+            </li>
+          </ul>
+        </section>
+
+        <section id="s5">
+          <h2>5. The build loop</h2>
+          <div class="callout">
+            <strong>Deep-dive:</strong>
+            <a href="docs/build-loop.html">The Build Loop</a> — the loop end to
+            end: the three beats, the checking ladder, the weekly cadences, the
+            client's view, and the metrics that steer it.
+          </div>
+          <p>
+            This replaces SDLC phases 4-6. Every story runs the same three
+            beats.
+          </p>
+          <h3>5.1 Intent</h3>
+          <p>
+            A story enters the loop only through
+            <strong>Definition of Ready</strong>, enforced at weekly intent
+            triage:
+          </p>
+          <ul>
+            <li>
+              Acceptance criteria pass the vague-line test (could two people
+              build different things from this line? then it's not ready)
+            </li>
+            <li>Scope in / scope out stated</li>
+            <li>Silent decisions answered (the decision list is empty)</li>
+            <li>
+              Risk tier assigned by the Pod Lead (taxonomy below), recorded in
+              the spec
+            </li>
+            <li>References the harness context the agent will have</li>
+          </ul>
+          <p>
+            The Orchestrator translates the ready story into
+            <code>specs/NNNN-name.md</code> using the kit's spec template: Goal,
+            Why, Scope in/out, Acceptance checks, Risk tier, Delegation plan
+            (what the agent may touch, what's gated), Checking plan (which
+            ladder rungs).
+          </p>
+          <p>
+            <strong>Risk taxonomy</strong> (lives in CLAUDE.md so agents see it
+            too; challenges escalate up, never down, without discussion):
+          </p>
+          <table>
+            <tr>
+              <th>Tier</th>
+              <th>What lands here</th>
+              <th>What it triggers</th>
+            </tr>
+            <tr>
+              <td><span class="tier high">HIGH</span></td>
+              <td>
+                Auth/identity, payments, PII/client data handling, schema
+                migrations, public API contract changes, IaC/pipeline changes,
+                prompt/model/tool-definition changes (section 11), anything hard
+                to undo
+              </td>
+              <td>
+                Tight agent permissions, full ladder, security-reviewer agent
+                pass, named human sign-off in the PR
+              </td>
+            </tr>
+            <tr>
+              <td><span class="tier med">MEDIUM</span></td>
+              <td>
+                New business logic, external integrations, changes to shared
+                internal services
+              </td>
+              <td>Standard permissions, grader + human Checker</td>
+            </tr>
+            <tr>
+              <td><span class="tier low">LOW</span></td>
+              <td>
+                UI within existing patterns, copy, internal tooling, additive
+                CRUD on established rails
+              </td>
+              <td>Lighter review; grader + mechanical gates still run</td>
+            </tr>
+          </table>
+          <h3>5.2 Delegate</h3>
+          <ul>
+            <li>
+              Start in plan mode. The agent proposes; the Orchestrator corrects
+              or approves <strong>before</strong> code.
+            </li>
+            <li>
+              Bounds set per spec: scope (file patterns it may touch), context
+              (the one canonical pattern to reuse), permissions (<code
+                >.claude/settings.json</code
+              >
+              auto-allows <code>dotnet test</code>, <code>dotnet build</code>,
+              <code>ng test</code>, lint, reads; asks on package installs,
+              network, and anything under gated paths like migrations or auth).
+            </li>
+            <li>
+              One agent for tightly coupled code. Fan out only for independent,
+              read-only exploration or for genuinely independent specs on
+              separate branches.
+            </li>
+            <li>
+              A blocking Stop hook (from the kit) refuses to let the agent
+              finish with failing tests or a broken build. This is the single
+              highest-value automation we keep.
+            </li>
+          </ul>
+          <h3>5.3 Discern</h3>
+          <ul>
+            <li>
+              <strong>Mechanical gates in CI</strong> (hard blocks): build,
+              tests, lint, 80% coverage on new code.
+            </li>
+            <li>
+              <strong>Grader in CI</strong> (required to run, advisory verdict):
+              a GitHub Actions workflow runs claude-code-action; a fresh agent
+              that did not write the code reads the spec file in the diff and
+              posts a check-by-check verdict as a PR comment. It cannot be
+              skipped — "grader has run" is a required status check — but its
+              verdict does not block. The human Checker reads it and makes the
+              call. Machines gate the mechanical; humans own the judgment.
+            </li>
+            <li>
+              <strong>Human Checker</strong> (hard block): non-author approval
+              on every PR. On HIGH risk, additionally the security-reviewer
+              agent's pass and a named human sign-off.
+            </li>
+            <li>
+              Merge deploys to the client dev environment automatically (the
+              rails from Phase 3).
+            </li>
+          </ul>
+          <h3>5.4 Weekly cadence</h3>
+          <table>
+            <tr>
+              <th>Meeting</th>
+              <th>Length</th>
+              <th>Replaces</th>
+              <th>Output</th>
+            </tr>
+            <tr>
+              <td>Flow check (daily)</td>
+              <td>10 min</td>
+              <td>standup</td>
+              <td>
+                A Checker assigned to every waiting change; vague specs flagged;
+                WIP cap enforced
+              </td>
+            </tr>
+            <tr>
+              <td>Intent triage</td>
+              <td>60 min</td>
+              <td>refinement</td>
+              <td>
+                Stories → ready specs; risk tiers; decision lists answered
+              </td>
+            </tr>
+            <tr>
+              <td>Retro+</td>
+              <td>60 min</td>
+              <td>retro</td>
+              <td>
+                Every escaped bug answered with "which check should have caught
+                it?"; harness improvement backlog
+              </td>
+            </tr>
+            <tr>
+              <td>Setup review</td>
+              <td>30-60 min</td>
+              <td>(new)</td>
+              <td>
+                Versioned harness changes merged; Setup Owner's deputy reviews
+              </td>
+            </tr>
+          </table>
+          <h3>5.5 Client cadence</h3>
+          <p>
+            Biweekly 45-minute steering: live demo of working software in the
+            dev environment, the outcome scorecard (their success metric, the
+            DORA stability pair, the accepted-as-is trend), the decision list
+            needing their answers, and gate status when a phase boundary is
+            near. Weekly 5-bullet async summary in between.
+            <strong>No activity metrics in client materials, ever</strong> — no
+            PR counts, no "AI productivity" claims. Demos and outcomes only. The
+            durable record is the SDLC HTML phase report generated at each gate.
+          </p>
+          <h3>5.6 Hardening passes</h3>
+          <p>
+            Quality is per-change, but integration-level concerns (performance
+            under load, E2E journeys, penetration testing) run as scheduled
+            hardening passes — typically one mid-Build and one before Phase 8 —
+            driven by the <code>/e2e</code> and security tooling. These are
+            scheduled work in the flow, not a phase that gates all other work.
+          </p>
+        </section>
+
+        <section id="s6">
+          <h2>6. The harness standard</h2>
+          <p>
+            What every client delivery repo contains after kit install (Phase
+            3). The harness is a product: versioned, owned by the Setup Owner,
+            changed only by reviewed PR.
+          </p>
+          <pre><code>client-repo/
+├── CLAUDE.md                  # from kit template: stack standards, domain glossary, risk
+│                              # taxonomy, Definition of Ready/Checked, spec conventions,
+│                              # gated paths, "done means the hook lets you stop"
+├── specs/                     # one file per feature: NNNN-name.md, the source of truth
+├── .claude/
+│   ├── settings.json          # permission rules: auto-allow safe, ask on gated
+│   ├── skills/                # team practices as skills (test-writer, api-pattern, ...)
+│   ├── agents/
+│   │   ├── grader.md          # grades code against spec; never grades its own work
+│   │   └── security-reviewer.md
+│   └── hooks/
+│       └── stop-gate.ps1      # blocking Stop hook: tests pass + build green or no finish
+├── .github/workflows/
+│   ├── ci.yml                 # build, test, lint, coverage — hard gates
+│   ├── grader.yml             # claude-code-action grader, posts PR comment, required check
+│   ├── security.yml           # security-reviewer on risk:high label
+│   └── deploy-dev.yml         # merge to main -&gt; client dev environment
+├── infra/                     # Bicep: dev environment first, test/prod added at hardening
+└── .sdlc/                     # plugin state, artifacts, phase reports (committed)</code></pre>
+          <p>
+            CLAUDE.md contents (the kit template, adapted per client in week
+            one): what the project is, the domain glossary in the client's
+            words, the .NET/Angular/Azure standards (from the
+            microsoft-enterprise profile and our global coding rules), the spec
+            convention, the risk taxonomy, what requires plan approval, what
+            paths are gated, and the Definition of Checked. An empty or stale
+            CLAUDE.md means agents guess, and guesses differ per run — keeping
+            it current is Setup Owner work, reviewed at setup review.
+          </p>
+        </section>
+
+        <section id="s7">
+          <h2>7. DevOps</h2>
+          <ul>
+            <li>
+              <strong>Stack default:</strong> .NET 8 / Angular / SQL Server /
+              Azure / GitHub Actions, per the microsoft-enterprise profile in
+              claude-code-sdlc. A profile-swap appendix in this repo covers what
+              changes for other stacks; everything else in this standard is
+              stack-independent.
+            </li>
+            <li>
+              <strong>IaC:</strong> Bicep, in-repo, HIGH risk tier. Dev
+              environment provisioned in Phase 3; test and prod added at the
+              first hardening pass; prod promoted in Phase 8.
+            </li>
+            <li>
+              <strong>Pipeline ownership:</strong> Setup Owner builds it (with
+              Claude drafting the YAML); the client's DevOps/security reviews it
+              — they have to operate it after we leave.
+            </li>
+            <li>
+              <strong>Secrets:</strong> client's Key Vault and client's GitHub
+              secrets. Never in code, never in CLAUDE.md, never in specs. The
+              Anthropic API key is client-procured (section 8).
+            </li>
+            <li>
+              <strong>Environments:</strong> merge → dev (automatic), dev → test
+              (on demand, smoke-tested), test → prod (Phase 8 ceremony and
+              thereafter on the client's release cadence, human go/no-go every
+              time).
+            </li>
+          </ul>
+        </section>
+
+        <section id="s8">
+          <h2>8. Claude access and the data boundary</h2>
+          <p>Resolved in Phase 0, before anyone opens a terminal:</p>
+          <ol>
+            <li>
+              <strong>Default:</strong> the client procures Anthropic access
+              (API or Claude for Work) under their own agreement, with
+              Anthropic's standard no-training-on-API-data terms. Keys live in
+              their Key Vault / GitHub secrets. The pod works on client-issued
+              seats. Their contract, their keys, their audit trail. The kit
+              includes a one-page data-flow brief for their security team: what
+              goes to the API (code context from the repo, specs), what doesn't
+              (we tag genuinely sensitive material out of agent context), where
+              keys live, who can see usage.
+            </li>
+            <li>
+              <strong>Fallback</strong> (procurement stalled): our firm's keys
+              with a signed client consent rider, migrated to client keys as
+              soon as procurement lands.
+            </li>
+            <li>
+              <strong>High-compliance path:</strong> Claude via the client's
+              Azure tenant (Microsoft Foundry). Verify current model
+              availability and Claude Code compatibility at Phase 0 before
+              promising it.
+            </li>
+          </ol>
+          <p>
+            Model policy default: plan mode and design work on the strongest
+            available model; implementation on the standard model; the CI grader
+            on the standard model. Token spend is a client-visible cost once
+            they hold the keys — the Setup Owner watches it and it appears in
+            the internal dashboard, never as a client-facing productivity claim.
+          </p>
+        </section>
+
+        <section id="s9">
+          <h2>9. Gates and metrics</h2>
+          <h3>Phase gates</h3>
+          <p>
+            The plugin's 6-gate validation (integrity, completeness, metrics,
+            compliance, consistency, quality) runs at every phase boundary via
+            <code>/sdlc-gate</code>. Gates report; a named human advances.
+            Override rules per the plugin: mechanical gates (1-3) are never
+            overridden; quality-gate overrides require written justification in
+            <code>.sdlc/state.yaml</code>.
+          </p>
+          <h3>Merge gates</h3>
+          <p>
+            Per section 5.3. Exceptions (a true emergency merge past a gate)
+            require the Pod Lead and one other human, a
+            <code>gate-exception</code> label, and a Retro+ agenda item. Two
+            exceptions in a month means the gate or the specs are wrong — fix
+            that, don't keep excepting.
+          </p>
+          <h3>Metrics</h3>
+          <p>Internal dashboard (baseline-and-trend, no vanity targets):</p>
+          <ul>
+            <li>
+              <strong>Accepted-as-is rate</strong> — agent work merged without
+              rework. The trust signal.
+            </li>
+            <li>
+              <strong>Review wait (median)</strong> — the real bottleneck
+              indicator. If it grows, stop opening streams.
+            </li>
+            <li>
+              <strong>Rework/revert rate</strong> and
+              <strong>bounce-back-for-unclear rate</strong> — intent quality
+              signals.
+            </li>
+            <li>
+              <strong>Escaped bugs</strong> — every one gets a "which check
+              should have caught it?" answer at Retro+.
+            </li>
+            <li>
+              <strong>DORA four</strong> — deploy frequency, lead time,
+              change-fail rate, time-to-recover.
+            </li>
+            <li>
+              <strong>Security-review wait</strong> — tracked separately; it
+              clears slower and would hide in an average.
+            </li>
+          </ul>
+          <div class="callout">
+            Never tracked, never reported: velocity, story points, PR count,
+            lines of code. Agents inflate all of them; Faros showed PR volume
+            can double while delivery stays flat.
+          </div>
+          <p>
+            Client-facing scorecard: their success metric, the DORA stability
+            pair, accepted-as-is trend, and the demo. That's it.
+          </p>
+        </section>
+
+        <section id="s10">
+          <h2>10. The kit (what's in this repo)</h2>
+          <p>
+            The engagement starter. Phase 3 of every engagement begins by
+            installing this into the client repo and adapting it in the open
+            (the adaptation PRs are the client team's first look at how we
+            work).
+          </p>
+          <pre><code>delivery-standard/
+├── GOLD-STANDARD.md           # this document
+├── docs/
+│   ├── profile-swap.md        # what changes off the .NET/Angular/Azure default
+│   ├── commercial.md          # section 12 expanded: SOW language, workshop agenda
+│   ├── data-flow-brief.md     # the client-security one-pager
+│   └── po-onboarding.md       # client PO guide: vague-line test, decision lists, their role
+├── kit/
+│   ├── CLAUDE.md.template
+│   ├── spec-template.md
+│   ├── settings.json
+│   ├── skills/                # generalized skills harvested from engagements
+│   ├── agents/                # grader.md, security-reviewer.md
+│   ├── hooks/                 # stop-gate.ps1 (+ bash variant)
+│   ├── workflows/             # ci.yml, grader.yml, security.yml, deploy-dev.yml
+│   ├── infra/                 # Bicep starters
+│   └── profile/               # microsoft-enterprise profile + SOC 2 gates
+└── retros/                    # one file per engagement: what we changed and why</code></pre>
+          <p>
+            <strong>The harvest loop:</strong> after every engagement, a
+            mandatory retro PR against this repo — skills generalized (client
+            specifics stripped), hooks improved, templates corrected, a retro
+            file added. The standard has an owner and a deputy; the deputy
+            reviews harvest PRs. This is the compounding asset: the second
+            engagement starts where the first one finished.
+          </p>
+        </section>
+
+        <section id="s11">
+          <h2>
+            11. The AI-engineering module (when the deliverable includes agents)
+          </h2>
+          <p>
+            Activates whenever a spec's deliverable is LLM-powered. Same rigor
+            as the core, because "tests pass" is not sufficient verification for
+            probabilistic behavior.
+          </p>
+          <ul>
+            <li>
+              <strong>Evals are acceptance criteria.</strong> An agentic spec
+              includes a golden set (input scenarios with graded expected
+              behavior) and a threshold ("correct on ≥ 95% of the golden set").
+              The golden set is versioned in the repo next to the spec. CI runs
+              the eval suite like it runs tests.
+            </li>
+            <li>
+              <strong
+                >Prompts, model selections, and tool definitions are HIGH
+                risk.</strong
+              >
+              Changing any of them is a spec with an eval-regression gate: the
+              full golden set runs, and degradation blocks the same way a
+              failing test does. No drive-by prompt edits.
+            </li>
+            <li>
+              <strong
+                >Observability is a requirement, not a nice-to-have.</strong
+              >
+              Agentic features ship with tracing (what the agent saw, decided,
+              called), token cost per task, and failure-mode logging. The
+              monitoring phase (9) includes agent-specific alerts: cost spikes,
+              refusal rates, eval drift in production samples.
+            </li>
+            <li>
+              <strong>The worked example</strong> in <code>docs/</code> walks
+              one agentic spec end-to-end: golden set construction, the eval
+              harness, the CI wiring, and what the grader checks differently
+              (behavior distribution against the golden set, not just code
+              against acceptance lines).
+            </li>
+            <li>
+              Security inherits the firm's AI rules: model output is untrusted
+              input; no raw user input embedded in system prompts; tool
+              permissions enforced server-side, not by prompt.
+            </li>
+          </ul>
+        </section>
+
+        <section id="s12">
+          <h2>12. The commercial chapter (thin, deliberately)</h2>
+          <p>
+            What the SOW must contain for this methodology to survive contact:
+          </p>
+          <ol>
+            <li>
+              <strong>Phase-gated structure.</strong> Billing milestones map to
+              phase gates (the gate report is the acceptance artifact), not to
+              calendar dates or feature lists.
+            </li>
+            <li>
+              <strong>The PO clause.</strong> Either the client commits a named
+              product owner at ≥ 4 hours/week (attends intent triage, answers
+              decision lists within 2 business days), or the proxy-mode rider
+              applies: we make product decisions on their behalf, logged in a
+              decision log they ratify at each steering. The Phase 0 workshop
+              forces this choice explicitly.
+            </li>
+            <li>
+              <strong>Tooling precondition.</strong> Client-procured Anthropic
+              access (or signed fallback rider) is a Phase 0 exit condition. The
+              clock on Phase 1 doesn't start without it.
+            </li>
+            <li>
+              <strong>IP terms.</strong> Everything in the delivery repo — code
+              and harness — is the client's. The carve-out: generalized methods,
+              templates, skills, and tooling patterns (this repo) remain ours
+              and may be reused, stripped of client-specific content. Stated
+              plainly, agreed up front.
+            </li>
+            <li>
+              <strong>Training as a line item.</strong> The client-team
+              capability workstream (their engineers pairing into the loop
+              during Build, the PO onboarding, the close gate where they run a
+              spec solo) is priced, not given away — it's a deliverable (the
+              capability outcome from the Phase 0 workshop), and unpaid work is
+              the first thing that gets skipped.
+            </li>
+            <li>
+              <strong>Pricing posture.</strong> Fixed fee per phase, gates as
+              the billing trigger. Outcome-based pricing is a future option once
+              we have engagement-level accepted-as-is and outcome data
+              trustworthy enough to price against — not before.
+            </li>
+          </ol>
+          <p>
+            The Phase 0 outcome workshop agenda (in
+            <code>docs/commercial.md</code>): the three outcomes (business,
+            software, capability), the one measurable success metric and where
+            it will be read from, the PO decision, the tooling decision,
+            constraints, and pod introductions.
+          </p>
+        </section>
+
+        <section id="s13">
+          <h2>13. Close &amp; Transfer (Phase C)</h2>
+          <p>The engagement ends when the client can run this without us:</p>
+          <ul class="checklist">
+            <li>
+              Harness audit: nothing undocumented, no skill or hook only we
+              understand
+            </li>
+            <li>
+              Client Setup Owner named and has merged harness changes themselves
+            </li>
+            <li>
+              Client engineers completed ≥ 3 specs as Orchestrator with our
+              Checkers, then
+            </li>
+            <li>
+              <strong
+                >The close gate: the client team ran one real spec end-to-end —
+                triage, spec, delegate, grade, merge, deploy — without us
+                driving</strong
+              >
+            </li>
+            <li>
+              Final phase reports delivered; outcomes dashboard handed over
+            </li>
+            <li>
+              Our access revoked; harvest retro PR opened against this repo
+            </li>
+          </ul>
+        </section>
+
+        <section id="s14">
+          <h2>14. Defaults you can veto</h2>
+          <p>
+            Decisions made by the standard's author without a dedicated
+            discussion, listed so they're visible:
+          </p>
+          <ul>
+            <li>
+              WIP cap: no Orchestrator runs more than 2 concurrent agent
+              streams; the pod halts new streams when median review wait exceeds
+              one working day.
+            </li>
+            <li>
+              The grader uses the same model family as implementation (a fresh
+              context, not a stronger model) — independence comes from not
+              having written the code, not from model size.
+            </li>
+            <li>
+              <code>.sdlc/</code> state and artifacts are committed to the
+              client repo (their visibility, their record).
+            </li>
+            <li>
+              Conventional commits enforced by convention and PR title check,
+              not by hook.
+            </li>
+            <li>
+              The plugin's <code>/sdlc-enhance</code> narrative companions are
+              used for client-facing artifacts at gates, generated by Claude,
+              edited by the Pod Lead before any client sees them.
+            </li>
+          </ul>
+        </section>
+
+        <footer>
+          The Delivery Standard · v1.0 · 2026-06-10 · MCKRUZ/delivery-standard ·
+          Paired source: GOLD-STANDARD.md
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build Loop Worked Example: Harbor Mutual — Delivery Standard</title>
+    <style>
+      :root {
+        --ink: #1a2332;
+        --ink-soft: #46556b;
+        --accent: #0f5c8c;
+        --accent-soft: #e8f1f7;
+        --rule: #d8dee8;
+        --bg: #f7f8fa;
+        --card: #ffffff;
+        --high: #b3372f;
+        --med: #b07a1e;
+        --low: #2e7d4f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      .layout {
+        display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      nav {
+        width: 290px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 32px 20px 32px 28px;
+        border-right: 1px solid var(--rule);
+        font-size: 13.5px;
+      }
+      nav .brand {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      nav .brand-sub {
+        color: var(--ink-soft);
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      nav .back {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      nav a.toc {
+        display: block;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-bottom: 1px;
+      }
+      nav a.toc:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      nav .toc-group {
+        font-size: 11.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--ink-soft);
+        margin: 14px 0 4px 10px;
+      }
+      main {
+        flex: 1;
+        padding: 40px 56px 96px;
+        min-width: 0;
+      }
+      header.doc {
+        background: linear-gradient(135deg, #11314e, #0f5c8c);
+        color: #fff;
+        border-radius: 14px;
+        padding: 36px 40px;
+        margin-bottom: 36px;
+      }
+      header.doc h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        letter-spacing: -0.3px;
+      }
+      header.doc p {
+        margin: 0 0 8px;
+        color: #cfe2f1;
+        max-width: 72ch;
+      }
+      header.doc a {
+        color: #fff;
+        text-decoration: underline;
+      }
+      header.doc .meta {
+        font-size: 13px;
+        color: #9fc3dd;
+        margin-top: 14px;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 28px 34px;
+        margin-bottom: 26px;
+      }
+      .artifact-tag {
+        display: inline-block;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-soft);
+        border-radius: 5px;
+        padding: 2px 10px;
+        margin-bottom: 8px;
+      }
+      .made {
+        font-size: 13px;
+        color: var(--ink-soft);
+        font-style: italic;
+        margin: 0 0 14px;
+      }
+      .toolbar {
+        margin: 4px 0 14px;
+      }
+      .toolbar > .lbl {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-bottom: 5px;
+      }
+      .trow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+        margin: 4px 0;
+      }
+      .tool {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #0f1722;
+        color: #9fd6b1;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+      .tool.hood {
+        background: #1b2735;
+        color: #9db8d6;
+      }
+      .tool.none {
+        background: #eef1f6;
+        color: var(--ink-soft);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        font-style: italic;
+        padding: 2px 12px;
+      }
+      .arr {
+        color: var(--ink-soft);
+        font-weight: 700;
+      }
+      .trow .note {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+      }
+      .legend-tbl {
+        border: 0;
+        margin: 12px 0 10px;
+        width: auto;
+      }
+      .legend-tbl td {
+        border: 0;
+        padding: 4px 18px 4px 0;
+        vertical-align: middle;
+        background: none !important;
+        white-space: nowrap;
+      }
+      .legend-tbl td:last-child {
+        white-space: normal;
+      }
+      .legend-foot {
+        font-size: 12.5px;
+        color: var(--ink-soft);
+        display: block;
+      }
+      .wk-label {
+        display: block;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 22px 0 2px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 0 0 10px;
+        color: var(--accent);
+        letter-spacing: -0.2px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 22px 0 8px;
+      }
+      p {
+        margin: 0 0 12px;
+        max-width: 80ch;
+      }
+      ul,
+      ol {
+        margin: 0 0 14px;
+        padding-left: 24px;
+        max-width: 80ch;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 14px 0 18px;
+        font-size: 13px;
+      }
+      th {
+        background: var(--accent-soft);
+        color: var(--accent);
+        text-align: left;
+        padding: 8px 11px;
+        border: 1px solid var(--rule);
+      }
+      td {
+        padding: 8px 11px;
+        border: 1px solid var(--rule);
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #fafbfd;
+      }
+      code {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #eef1f6;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 0.92em;
+      }
+      pre {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #eef1f6;
+        padding: 14px 18px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-size: 12.5px;
+        line-height: 1.5;
+        max-width: 86ch;
+        margin: 14px 0 18px;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+        font-size: inherit;
+      }
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .adr {
+        border: 1px solid var(--rule);
+        border-left: 5px solid var(--accent);
+        border-radius: 8px;
+        padding: 16px 24px;
+        background: #fcfdfe;
+        margin: 14px 0;
+        max-width: 86ch;
+      }
+      .risk-high {
+        color: var(--high);
+        font-weight: 700;
+      }
+      .open-q {
+        color: var(--high);
+        font-weight: 700;
+      }
+      footer {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        text-align: center;
+        padding: 12px 0 32px;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          padding: 24px;
+        }
+      }
+      @media print {
+        nav {
+          display: none;
+        }
+        section {
+          border: none;
+          padding: 0 0 18px;
+        }
+        header.doc {
+          color: #000;
+          background: none;
+          padding: 0;
+        }
+        header.doc p,
+        header.doc .meta {
+          color: #333;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav>
+        <div class="brand">Build Loop Worked Example</div>
+        <div class="brand-sub">Harbor Mutual · Delivery Standard</div>
+        <a class="back" href="build-loop.html">← The Build Loop</a>
+        <a class="back" href="phase-3-example.html">← Phase 3 example</a>
+        <div class="toc-group">The story</div>
+        <a class="toc" href="#week">1 · The week</a>
+        <a class="toc" href="#notice">2 · What to notice</a>
+        <div class="toc-group">The artifacts</div>
+        <a class="toc" href="#spec0016">3 · Spec 0016</a>
+        <a class="toc" href="#verdict">4 · The grader's verdict</a>
+        <a class="toc" href="#numbers">5 · The week by the numbers</a>
+        <div class="toc-group">Behind the scenes</div>
+        <a class="toc" href="#tooling">6 · The tooling</a>
+      </nav>
+      <main>
+        <header class="doc">
+          <h1>The Build Loop Worked Example: Harbor Mutual</h1>
+          <p>
+            The continuation of
+            <a href="phase-3-example.html">the Phase 3 example</a>, companion to
+            <a href="build-loop.html">the Build loop deep-dive</a>. The
+            Foundation gate closed Friday 2026-04-10 with the walking skeleton
+            live in Harbor's dev environment and the rails proven. Build began
+            the following Monday.
+          </p>
+          <p>
+            This page is <strong>week four of Build</strong> (Mon 2026-05-04 to
+            Fri 2026-05-08) — picked because it is deliberately ordinary. Ten
+            specs have merged in the first three weeks; nothing on this week's
+            board is special. What the week shows is the loop itself: one
+            MEDIUM spec riding through clean, one HIGH spec where the grader
+            catches a bug the author's green tests missed, one story bounced at
+            triage for vagueness, and the cadences and numbers that steer all
+            of it.
+          </p>
+          <div class="meta">
+            Paired source: docs/build-loop-example.md · part of
+            MCKRUZ/delivery-standard v1.0
+          </div>
+        </header>
+
+        <section>
+          <h2>The story so far (you can start here)</h2>
+          <table>
+            <tr>
+              <td style="width: 160px"><strong>The client</strong></td>
+              <td>
+                Harbor Mutual — a fictional regional insurer. They hired a
+                five-person consulting pod to rebuild how property-insurance
+                claims get reported and decided.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The problem</strong></td>
+              <td>
+                A claim takes a median of <strong>11.4 days</strong> from FNOL
+                (first notice of loss — the policyholder reporting the damage)
+                to a coverage decision.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The target</strong></td>
+              <td>Median <strong>5 days or less</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Where we are</strong></td>
+              <td>
+                Phases 0-3 fixed the problem, signed the requirements, chose
+                the architecture, and built the factory. The walking skeleton
+                runs in Harbor's dev environment. Build is the continuous loop
+                that now grows it into the product, spec by spec.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The rails</strong></td>
+              <td>
+                Every change rides the same enforcement, installed in Phase 3:
+                CI hard gates, the grader, branch protection, and automatic
+                deploy to dev on merge.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Our pod</strong></td>
+              <td>
+                Maya Chen (Pod Lead) · Rob Feld (Setup Owner) · Jonah Kim
+                (Orchestrator, Rob's deputy) · Sara Whitfield
+                (Orchestrator/Checker) · Nadia Brooks (Quality Engineer).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Harbor's cast</strong></td>
+              <td>
+                Luis Ortega (product owner, on the 2-business-day decision
+                clock) · Wes Carter (lead engineer) · Dan Kowalski (IT
+                security) · Dee Alvarez (intake supervisor) · Gail Tran and
+                Marcus Webb (senior adjusters) · Karen Voss (VP Claims Ops,
+                sponsor) · Priti Shah (data lead).
+              </td>
+            </tr>
+          </table>
+          <p><strong>The IDs you'll see on this page:</strong></p>
+          <table>
+            <tr>
+              <th>ID</th>
+              <th>What it is</th>
+            </tr>
+            <tr>
+              <td><strong>NNNN</strong></td>
+              <td>
+                A spec — one feature in one file,
+                <code>specs/NNNN-name.md</code>. The walking skeleton was
+                0001-0004; Build continues the sequence.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>D-NN</strong></td>
+              <td>A product decision, made by a named human and logged.</td>
+            </tr>
+            <tr>
+              <td><strong>C-NN</strong></td>
+              <td>A constraint from Phase 0.</td>
+            </tr>
+            <tr>
+              <td><strong>REQ-NN</strong></td>
+              <td>A requirement from the Phase 1 baseline.</td>
+            </tr>
+            <tr>
+              <td><strong>Q-NN</strong></td>
+              <td>An open question with a named owner and a due date.</td>
+            </tr>
+          </table>
+          <p>
+            <strong>Words this page leans on</strong> (every other term is
+            explained where it first appears):
+          </p>
+          <table>
+            <tr>
+              <th>Term</th>
+              <th>What it means</th>
+            </tr>
+            <tr>
+              <td><strong>Plan mode</strong></td>
+              <td>
+                The agent mode where Claude can read the repo and propose an
+                approach but cannot change files. A human approves the plan
+                before any code is written.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The Stop hook</strong></td>
+              <td>
+                A script that fires when an agent tries to finish; if tests
+                fail or the build is broken it refuses to let the agent stop.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>CI</strong></td>
+              <td>
+                Continuous integration — the automated checks (build, tests,
+                lint, coverage) that run on every PR (pull request — the
+                proposed change under review) before it can merge.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The grader</strong></td>
+              <td>
+                A fresh AI agent that did <strong>not</strong> write the code.
+                It reads the spec and the change, and posts a check-by-check
+                verdict on the PR. Required to run; its verdict advises — the
+                human Checker decides.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The Checker</strong></td>
+              <td>
+                The pod member who approves a change. Never its author.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Risk tier</strong></td>
+              <td>
+                HIGH / MEDIUM / LOW, assigned per spec at triage. Sets how
+                tightly the agent is bounded and how much review the change
+                gets.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The decision list</strong></td>
+              <td>
+                The running list of product decisions nobody has made yet, each
+                needing Luis's named answer within the agreed 2 business days.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>WIP cap</strong></td>
+              <td>
+                The limit on changes in flight at once — Harbor's pod set it at
+                6 at the end of Foundation.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Review-wait tripwire</strong></td>
+              <td>
+                The agreed threshold (median one working day) that, once
+                crossed, stops new work starting until the review queue clears.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Accepted-as-is</strong></td>
+              <td>
+                Agent work merged without rework — the dashboard's trust
+                signal.
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="week">
+          <h2>1. How the week played out</h2>
+          <div class="callout legend">
+            <strong>Reading the Tooling lines.</strong>
+            <table class="legend-tbl">
+              <tr>
+                <td><span class="tool">/sdlc-status</span></td>
+                <td><strong>You run it</strong></td>
+                <td>
+                  a slash command you type (e.g. <code>/sdlc-status</code>,
+                  <code>/e2e</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tool hood">security-reviewer agent</span></td>
+                <td><strong>It triggers</strong></td>
+                <td>
+                  an agent or script that command runs under the hood, always
+                  shown after a <span class="arr">→</span>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tool none">No plugin command</span></td>
+                <td><strong>Human / build loop</strong></td>
+                <td>
+                  a human meeting, a decision, or a spec riding the build loop;
+                  nothing the plugin drives directly
+                </td>
+              </tr>
+            </table>
+            <span class="legend-foot"
+              >Build is the least plugin-driven stretch of the engagement: the
+              loop runs on the rails, not on commands, so most lines carry the
+              grey pill.</span
+            >
+          </div>
+
+          <h3>Monday 5/4 — flow check, then intent triage.</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool">/sdlc-status</span><span class="arr">→</span
+              ><span class="tool hood"
+                >the queue and wait numbers read at the flow check</span
+              >
+            </div>
+            <div class="trow">
+              <span class="note"
+                >the triage itself is humans deciding, with Claude drafting
+                candidate specs from the kit spec-template in-session</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              <strong>The flow check, 10 minutes, queue number first.</strong>
+              Four changes waiting to be checked, oldest 1.2 days — spec 0012
+              (document upload, HIGH), sitting in the security queue, which is
+              read separately because it clears slower. Maya takes chasing Dan
+              as her commitment. The WIP cap (6) holds; one Checker assignment
+              moves so nothing waits on Sara alone. Nobody reports what an
+              agent did yesterday — the meeting walks the work, not the people.
+            </li>
+            <li>
+              <strong>Intent triage, 60 minutes.</strong> Three stories on the
+              table:
+              <ul>
+                <li>
+                  <em>"Show adjusters similar past claims"</em> fails the
+                  vague-line test — nobody can write an acceptance check for
+                  "similar," so nobody can build it. It goes back for
+                  sharpening with Luis; agents never see it. A bounce at triage
+                  costs a conversation; the same vagueness discovered mid-build
+                  costs a redo.
+                </li>
+                <li>
+                  <em>The fast-path work queue</em> (from Gail and Marcus's
+                  feedback on the skeleton demo) sharpens cleanly into
+                  <strong>spec 0015</strong>: fast-path claims (D-09's simple
+                  61%) surface first in the adjuster queue. MEDIUM — new
+                  business logic, nothing hard to undo.
+                </li>
+                <li>
+                  <em>Duplicate-claim merge</em> (D-07: the same loss reported
+                  twice becomes one claim, never a rejection) becomes
+                  <strong>spec 0016</strong>. Maya tiers it
+                  <strong>HIGH</strong> — merging claim records is hard to
+                  undo, and a wrong merge mangles two policyholders' data.
+                  Triage also surfaces a silent decision: <em>what does the
+                  second reporter see when their claim joins an existing
+                  one?</em> Nobody answers it in the room; it goes on the
+                  decision list with Luis's 2-day clock.
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <h3>Tuesday 5/5 — 0015 rides the loop, clean.</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none">No plugin command</span
+              ><span class="note"
+                >— Spec 0015 rides the loop: authored from the kit
+                spec-template, plan mode under bounds, ci.yml + grader.yml on
+                the PR, a non-author Checker, deploy-dev.yml on merge</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              Jonah authors the spec — five acceptance checks, each one
+              testable ("a fast-path claim created after a standard claim still
+              sorts above it; ties break by FNOL timestamp, oldest first").
+            </li>
+            <li>
+              He sets the bounds: scope is the work-queue service and its
+              tests, nothing else; context is the existing queue read model
+              ("reuse it — do not invent a second one"); permissions are the
+              standard set. The agent's plan glosses sort stability; Jonah
+              makes it explicit and approves. Total human time before code:
+              about forty minutes.
+            </li>
+            <li>
+              The agent builds. The Stop hook holds it to a green suite; the PR
+              fires CI and the grader; the grader walks all five checks and
+              reports clean; Sara — who didn't write it — checks and merges.
+              Deploy-dev ships it. Gail has the new queue in dev before the end
+              of the day. Accepted as-is: no rework, no drama.
+              <strong>Most specs should look like this one.</strong>
+            </li>
+          </ul>
+
+          <h3>Wednesday 5/6 — 0016: intent sharpened, then delegated tight.</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none">No plugin command</span
+              ><span class="note"
+                >— Luis's decision lands inside his clock; spec 0016 enters the
+                loop at HIGH</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              Luis answers the decision-list item within his clock: the second
+              reporter sees <em>"your report has been added to an existing
+              claim for this loss"</em> — a confirmation, never a rejection,
+              honoring D-07's spirit. The answer goes in the spec, not in
+              anyone's memory.
+            </li>
+            <li>
+              Sara finalizes the spec. The check that matters most is the one
+              written from Dee Alvarez's intake reality — phone reporters often
+              don't have their policy number:
+              <div class="callout">
+                <strong>Check 3.</strong> Matching is keyed per policy number
+                plus a 7-day loss window, independently — one policy's
+                candidate matches never affect another's. A claim arriving
+                <strong>without</strong> a policy number is never auto-merged;
+                it routes to the manual-review queue.
+              </div>
+            </li>
+            <li>
+              She delegates with two leashes: tight on the matching keys and
+              the merge write path ("follow the plan exactly; deviate only by
+              asking"), loose on the merge-audit log formatting ("your call").
+              In plan mode she pushes on the one thing the plan glosses —
+              <em>what exactly is the match key when the policy number is
+              absent?</em> — and the agent's answer is vague, which is a tell.
+              The plan gets the explicit route-to-manual-review path before she
+              approves it.
+            </li>
+          </ul>
+
+          <h3>Thursday 5/7 — 0016: the grader catches what green tests missed.</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none">No plugin command</span
+              ><span class="note"
+                >— The <code>risk:high</code> label fires security.yml
+                <span class="arr">→</span> the security-reviewer agent;
+                grader.yml posts the verdict; Wes's named sign-off lands in the
+                PR. The setup review (Rob + Jonah) merges the week's harness
+                changes.</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              The agent finishes. Its own tests pass — eleven of them, all
+              green. The Stop hook lets it stop. The PR opens; CI goes green.
+              On an unchecked team, this is where it ships.
+            </li>
+            <li>
+              The grader — a fresh agent, told plainly it did not write this
+              code — walks the acceptance checks and fails it on check 3.
+              Despite the approved plan, the built code normalizes a missing
+              policy number to an empty string <em>before</em> the matcher
+              runs, so every no-policy phone claim inside a 7-day window shares
+              one match bucket. Two unrelated phone reporters in the same storm
+              week would have been merged into one claim. The author's eleven
+              tests only cover claims that <em>have</em> a policy number — the
+              suite is green and the bug is live. (The full verdict is in
+              section 4.)
+            </li>
+            <li>
+              The fix goes back through the same loop: no-policy claims route
+              to manual review before the matcher, plus a test for the
+              no-policy path. Re-graded clean. The security-reviewer agent
+              passes the data-handling. <strong>Wes signs off by name</strong>
+              — the named human sign-off HIGH risk requires — and Jonah, not
+              Sara, checks and merges. Deploy-dev ships it.
+            </li>
+            <li>
+              At the setup review, Rob and Jonah (his deputy) merge the week's
+              harness changes — including last week's Retro+ item: an escaped
+              bug (acknowledgment timestamps rendered in UTC, which showed the
+              wrong day against the 15-business-day regulatory clock, C-04) was
+              answered with "which check should have caught it?" — so the
+              test-writer skill now drafts timezone-boundary cases into every
+              suite that touches a date the business reads.
+            </li>
+          </ul>
+
+          <h3>Friday 5/8 — Retro+, then the biweekly steering.</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool">/visual-explainer</span
+              ><span class="arr">→</span
+              ><span class="tool hood"
+                >the steering demo narrative and scorecard visuals</span
+              >
+            </div>
+            <div class="trow">
+              <span class="note"
+                >the weekly five-bullet summary drafted by Claude, corrected by
+                Maya. The retro is humans.</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              <strong>Retro+.</strong> Zero escaped bugs this week. The 0016
+              catch is read out loud — not as a near-failure but as the system
+              working: the check existed because intent was sharp, the grader
+              caught it because the check gave it something to grade, and it
+              never reached dev. The "similar claims" bounce gets the same
+              framing: the cheap place caught it. One trend flagged: the
+              security queue's wait (2.1 days median) is drifting up; Maya
+              takes it to Dan outside the room.
+            </li>
+            <li>
+              <strong>Steering, 45 minutes.</strong> Gail drives the demo
+              herself — the fast-path queue and the duplicate-merge flow, live
+              in Harbor's dev environment. The scorecard: 11 of 14 Build specs
+              merged accepted-as-is (79%); median review wait 0.9 days (under
+              the one-working-day tripwire); the FNOL→decision clock is
+              instrumented and ticking in dev — Karen is told plainly that the
+              production needle moves at rollout, not before. Q-18 (Priti and
+              Nadia's surge load-test dataset, built from the 2024 CAT event)
+              lands this week — hardening pass 1 is scheduled against it. The
+              decision list carries one new item for Luis. No PR counts, no
+              "AI productivity" numbers — demos and outcomes only.
+            </li>
+          </ul>
+        </section>
+
+        <section id="notice">
+          <h2>2. What to notice</h2>
+          <ul>
+            <li>
+              <strong
+                >The catch happened because the check existed.</strong
+              >
+              The grader found the empty-string bucket <em>because</em> check 3
+              said "per policy, independently, never auto-merge without a
+              number." A vague spec ("detect duplicate claims") would have
+              given it nothing to grade against, and the bug ships. Sharp
+              intent is what makes checking possible — the beats are one
+              system.
+            </li>
+            <li>
+              <strong>Green tests are not done.</strong> Eleven passing tests,
+              a green build, a satisfied Stop hook — and a live data-mangling
+              bug. The author's tests prove what the author thought to test.
+              That is why the author is never the only approver, human or
+              agent.
+            </li>
+            <li>
+              <strong>The depth matched the risk.</strong> 0015 (MEDIUM)
+              cleared with the grader plus one Checker in a day. 0016 (HIGH)
+              got tight bounds, the security agent, and a named sign-off.
+              Neither was over- or under-checked; the tier decided, not the
+              mood.
+            </li>
+            <li>
+              <strong
+                >The bounce at triage is the loop protecting itself.</strong
+              >
+              "Similar claims" never reached an agent. The vague-line test at
+              intent costs a conversation; the same gap found at the PR costs a
+              build.
+            </li>
+            <li>
+              <strong>The queue numbers ran the week.</strong> The flow check
+              opened with them every day, the security queue was read on its
+              own line (and its drift got an owner before it became a stall),
+              and the WIP cap kept the pod from outrunning its own checking.
+            </li>
+            <li>
+              <strong>The client saw outcomes.</strong> Gail demoed software
+              she uses; Karen saw the scorecard and an honest statement about
+              when the metric moves. Nobody saw a PR count.
+            </li>
+          </ul>
+        </section>
+
+        <section id="spec0016">
+          <span class="artifact-tag">Artifact</span>
+          <h2>3. Artifact: spec 0016 (as merged)</h2>
+          <pre><code># 0016 — Duplicate-claim detection and merge
+
+## Goal
+The same loss reported twice becomes one claim — never a rejection, never two
+claims adjusted in parallel (D-07).
+
+## Why
+Storm weeks produce duplicate reports across channels (portal, phone, email).
+Today they become separate claims and get reconciled by hand at adjudication —
+or not at all.
+
+## Scope
+- In: candidate matching at intake, the merge write path, the merge audit log,
+  the second reporter's confirmation experience (per Luis's decision 5/6).
+- Out: cross-policy fraud detection, retroactive merging of pre-Build claims,
+  adjuster-initiated manual merges. Not now.
+
+## Acceptance checks (each one is testable)
+1. A second FNOL for the same policy number with a loss date inside a 7-day
+   window of an open claim joins that claim; the event log records both
+   reports with their channels and timestamps.
+2. The second reporter receives "your report has been added to an existing
+   claim for this loss" — a confirmation, never a rejection (D-07).
+3. Matching is keyed per policy number plus the 7-day loss window,
+   independently — one policy's candidate matches never affect another's. A
+   claim arriving without a policy number is never auto-merged; it routes to
+   the manual-review queue.
+4. A merge is recorded in the append-only event log with both source reports;
+   the merged claim's audit trail reconstructs who reported what, when, from
+   which channel (NFR-07).
+5. Merging never deletes a report. Un-merge (splitting a wrong merge) is out
+   of scope for v1, which is exactly why auto-merge must be conservative:
+   when in doubt, manual review.
+
+## Risk: HIGH
+Merging claim records is hard to undo and touches policyholder data. Full
+ladder: tight permissions, security-reviewer pass, named human sign-off (Wes).
+
+## Delegation plan
+May touch: the intake matching service, the merge write path, their tests.
+Gated: the claim schema (any migration is its own spec), the event log
+contract. Reuse the existing event-log writer — do not invent a second one.
+
+## Checking plan
+All five rungs. Grader against every check; security-reviewer on the data
+path; Wes's named sign-off before merge.</code></pre>
+        </section>
+
+        <section id="verdict">
+          <span class="artifact-tag">Artifact</span>
+          <h2>4. Artifact: the grader's verdict that mattered</h2>
+          <p>
+            The grader's PR comment on 0016's first build, posted by the rails
+            (grader.yml), verbatim:
+          </p>
+          <pre><code>VERDICT: FAIL
+
+Check 1 (same policy + 7-day window joins the claim): MET — covered by
+  tests/merge.candidate.test (4 cases, including window boundaries).
+Check 2 (second reporter sees confirmation, never rejection): MET.
+Check 3 (per-policy independence; no-policy-number claims never auto-merge):
+  NOT MET. intake/matching.service normalizes a missing policy number to ""
+  before keying candidate matches. Every claim without a policy number
+  therefore shares one match bucket: two unrelated phone reporters with loss
+  dates in the same 7-day window WILL be auto-merged into one claim. The
+  test suite only exercises claims that have a policy number, so all 11
+  tests pass with this bug live.
+  Fix: route claims with no policy number to the manual-review queue before
+  the matcher runs (the spec's stated path), and add a no-policy-number test.
+Check 4 (append-only audit of merges): MET.
+Check 5 (no deletion; conservative auto-merge): AT RISK via check 3 — the
+  empty-string bucket makes auto-merge aggressive for exactly the claims the
+  spec says to treat conservatively.
+
+The tests prove what they test. They do not test the spec's claim of
+per-policy independence for the no-policy path.</code></pre>
+          <p>
+            The trail after the fix, recorded in the PR: re-grade PASS (all
+            five checks, including the new no-policy-path test) ·
+            security-reviewer agent pass on the data path ·
+            <strong>signed off: Wes Carter</strong> (named HIGH-risk sign-off)
+            · checked and merged by Jonah Kim (non-author) · deploy-dev green.
+            The bug existed for roughly four hours, all of them on a branch.
+          </p>
+        </section>
+
+        <section id="numbers">
+          <h2>5. Artifact: the week by the numbers</h2>
+          <p>
+            What the pod's internal dashboard showed Friday (baseline-and-trend,
+            no targets):
+          </p>
+          <table>
+            <tr>
+              <th>Number</th>
+              <th>This week</th>
+              <th>Read as</th>
+            </tr>
+            <tr>
+              <td>Accepted-as-is</td>
+              <td>11 of 14 specs (79%)</td>
+              <td>Trust rising — intent and bounds are working</td>
+            </tr>
+            <tr>
+              <td>Review wait (median)</td>
+              <td>0.9 days</td>
+              <td>Under the one-working-day tripwire; no stop triggered</td>
+            </tr>
+            <tr>
+              <td>Security-review wait (median)</td>
+              <td>2.1 days</td>
+              <td>Drifting up — flagged at Retro+, Maya owns it with Dan</td>
+            </tr>
+            <tr>
+              <td>Bounce-backs at triage</td>
+              <td>1 ("similar claims")</td>
+              <td>The cheap place caught it</td>
+            </tr>
+            <tr>
+              <td>Escaped bugs</td>
+              <td>0 (1 last week: the UTC clock)</td>
+              <td>
+                Last week's answered with a harness change, merged Thursday
+              </td>
+            </tr>
+            <tr>
+              <td>WIP</td>
+              <td>5 of 6 cap</td>
+              <td>Headroom held all week</td>
+            </tr>
+          </table>
+          <p>
+            What steering saw instead: the live demo, the outcome clock
+            (instrumented, moves at rollout), the stability trend, the
+            accepted-as-is trend, and the decision list. What steering never
+            sees: PR counts, lines of code, story points, "AI productivity."
+          </p>
+        </section>
+
+        <section id="tooling">
+          <h2>6. The tooling behind this week</h2>
+          <p>
+            The <a href="build-loop.html">Build loop deep-dive</a> describes
+            this work generically. What actually ran, on the
+            <strong>claude-code-sdlc</strong> plugin, the kit's rails, and the
+            paired skills:
+          </p>
+          <table>
+            <tr>
+              <th>What got produced</th>
+              <th>How</th>
+            </tr>
+            <tr>
+              <td>Flow-check queue numbers</td>
+              <td>
+                <code>/sdlc-status</code> at the daily flow check; the security
+                queue read on its own line
+              </td>
+            </tr>
+            <tr>
+              <td>Ready specs (0015, 0016)</td>
+              <td>
+                Triage is humans; Claude drafts candidate specs from the kit
+                spec-template in-session; the Pod Lead tiers them
+              </td>
+            </tr>
+            <tr>
+              <td>Spec 0015 (MEDIUM), end to end</td>
+              <td>
+                Rides the loop: plan mode under bounds, Stop hook, ci.yml +
+                grader.yml on the PR, non-author Checker, deploy-dev.yml on
+                merge
+              </td>
+            </tr>
+            <tr>
+              <td>Spec 0016 (HIGH), end to end</td>
+              <td>
+                Same loop plus the HIGH path: <code>risk:high</code> label →
+                security.yml → the security-reviewer agent; Wes's named
+                sign-off in the PR
+              </td>
+            </tr>
+            <tr>
+              <td>The 0016 catch</td>
+              <td>
+                grader.yml — a fresh agent grading check-by-check against the
+                spec in the diff; verdict posted as a PR comment, read by the
+                human Checker
+              </td>
+            </tr>
+            <tr>
+              <td>Harness improvement (timezone checks)</td>
+              <td>
+                Last week's Retro+ answer; the test-writer skill updated by
+                reviewed PR, merged at the setup review (Rob + Jonah)
+              </td>
+            </tr>
+            <tr>
+              <td>Steering demo narrative + scorecard</td>
+              <td>
+                <code>/visual-explainer</code> → the demo walkthrough and
+                scorecard visuals; Gail drives the live demo herself
+              </td>
+            </tr>
+            <tr>
+              <td>Weekly five-bullet client summary</td>
+              <td>
+                Claude drafts from the week's merged specs; Maya corrects and
+                sends
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <footer>
+          Build Loop Worked Example: Harbor Mutual · Delivery Standard ·
+          MCKRUZ/delivery-standard · Paired source: docs/build-loop-example.md
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

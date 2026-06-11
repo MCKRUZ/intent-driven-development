@@ -1,0 +1,1473 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase 3 Worked Example: Harbor Mutual — Delivery Standard</title>
+    <style>
+      :root {
+        --ink: #1a2332;
+        --ink-soft: #46556b;
+        --accent: #0f5c8c;
+        --accent-soft: #e8f1f7;
+        --rule: #d8dee8;
+        --bg: #f7f8fa;
+        --card: #ffffff;
+        --high: #b3372f;
+        --med: #b07a1e;
+        --low: #2e7d4f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      .layout {
+        display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      nav {
+        width: 290px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 32px 20px 32px 28px;
+        border-right: 1px solid var(--rule);
+        font-size: 13.5px;
+      }
+      nav .brand {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      nav .brand-sub {
+        color: var(--ink-soft);
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      nav .back {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      nav a.toc {
+        display: block;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-bottom: 1px;
+      }
+      nav a.toc:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      nav .toc-group {
+        font-size: 11.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--ink-soft);
+        margin: 14px 0 4px 10px;
+      }
+      main {
+        flex: 1;
+        padding: 40px 56px 96px;
+        min-width: 0;
+      }
+      header.doc {
+        background: linear-gradient(135deg, #11314e, #0f5c8c);
+        color: #fff;
+        border-radius: 14px;
+        padding: 36px 40px;
+        margin-bottom: 36px;
+      }
+      header.doc h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        letter-spacing: -0.3px;
+      }
+      header.doc p {
+        margin: 0 0 8px;
+        color: #cfe2f1;
+        max-width: 72ch;
+      }
+      header.doc .meta {
+        font-size: 13px;
+        color: #9fc3dd;
+        margin-top: 14px;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 28px 34px;
+        margin-bottom: 26px;
+      }
+      .artifact-tag {
+        display: inline-block;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: var(--accent-soft);
+        border-radius: 5px;
+        padding: 2px 10px;
+        margin-bottom: 8px;
+      }
+      .made {
+        font-size: 13px;
+        color: var(--ink-soft);
+        font-style: italic;
+        margin: 0 0 14px;
+      }
+      .toolbar {
+        margin: 4px 0 14px;
+      }
+      .toolbar > .lbl {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-bottom: 5px;
+      }
+      .trow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+        margin: 4px 0;
+      }
+      .tool {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #0f1722;
+        color: #9fd6b1;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+      .tool.hood {
+        background: #1b2735;
+        color: #9db8d6;
+      }
+      .tool.none {
+        background: #eef1f6;
+        color: var(--ink-soft);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        font-style: italic;
+        padding: 2px 12px;
+      }
+      .arr {
+        color: var(--ink-soft);
+        font-weight: 700;
+      }
+      .trow .note {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+      }
+      .legend-tbl {
+        border: 0;
+        margin: 12px 0 10px;
+        width: auto;
+      }
+      .legend-tbl td {
+        border: 0;
+        padding: 4px 18px 4px 0;
+        vertical-align: middle;
+        background: none !important;
+        white-space: nowrap;
+      }
+      .legend-tbl td:last-child {
+        white-space: normal;
+      }
+      .legend-foot {
+        font-size: 12.5px;
+        color: var(--ink-soft);
+        display: block;
+      }
+      .wk-label {
+        display: block;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 22px 0 2px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 0 0 10px;
+        color: var(--accent);
+        letter-spacing: -0.2px;
+      }
+      h3 {
+        font-size: 16px;
+        margin: 22px 0 8px;
+      }
+      p {
+        margin: 0 0 12px;
+        max-width: 80ch;
+      }
+      ul,
+      ol {
+        margin: 0 0 14px;
+        padding-left: 24px;
+        max-width: 80ch;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 14px 0 18px;
+        font-size: 13px;
+      }
+      th {
+        background: var(--accent-soft);
+        color: var(--accent);
+        text-align: left;
+        padding: 8px 11px;
+        border: 1px solid var(--rule);
+      }
+      td {
+        padding: 8px 11px;
+        border: 1px solid var(--rule);
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #fafbfd;
+      }
+      code {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #eef1f6;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 0.92em;
+      }
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .adr {
+        border: 1px solid var(--rule);
+        border-left: 5px solid var(--accent);
+        border-radius: 8px;
+        padding: 16px 24px;
+        background: #fcfdfe;
+        margin: 14px 0;
+        max-width: 86ch;
+      }
+      .risk-high {
+        color: var(--high);
+        font-weight: 700;
+      }
+      .open-q {
+        color: var(--high);
+        font-weight: 700;
+      }
+      footer {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        text-align: center;
+        padding: 12px 0 32px;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          padding: 24px;
+        }
+      }
+      @media print {
+        nav {
+          display: none;
+        }
+        section {
+          border: none;
+          padding: 0 0 18px;
+        }
+        header.doc {
+          color: #000;
+          background: none;
+          padding: 0;
+        }
+        header.doc p,
+        header.doc .meta {
+          color: #333;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav>
+        <div class="brand">Phase 3 Worked Example</div>
+        <div class="brand-sub">Harbor Mutual · Delivery Standard</div>
+        <a class="back" href="phase-3-foundation.html">← Phase 3: Foundation</a>
+        <a class="back" href="phase-2-example.html">← Phase 2 example</a>
+        <div class="toc-group">The story</div>
+        <a class="toc" href="#twoweeks">1 · The two weeks</a>
+        <a class="toc" href="#notice">2 · What to notice</a>
+        <div class="toc-group">The artifacts</div>
+        <a class="toc" href="#claudemd">3 · The adapted CLAUDE.md</a>
+        <a class="toc" href="#pipeline">4 · The pipeline</a>
+        <a class="toc" href="#specs">5 · Walking-skeleton specs</a>
+        <a class="toc" href="#spec2">6 · Spec 0002 in full</a>
+        <a class="toc" href="#bicep">7 · Bicep dev environment</a>
+        <a class="toc" href="#gates">8 · Security gates wired</a>
+        <a class="toc" href="#handoff">9 · The Build handoff</a>
+        <div class="toc-group">Behind the scenes</div>
+        <a class="toc" href="#tooling">10 · The tooling</a>
+        <a class="back" href="build-loop-example.html" style="margin-top: 16px"
+          >Next: the Build loop example →</a
+        >
+      </nav>
+      <main>
+        <header class="doc">
+          <h1>Phase 3 Worked Example: Harbor Mutual</h1>
+          <p>
+            The continuation of the Phase 2 example. Phase 2 closed Friday
+            2026-03-27 with four signed ADRs, contracts carrying REQ-014's error
+            spec, two build-time security gates, and a walking-skeleton
+            definition sliced into four specs. Phase 3 turns that into running
+            software.
+          </p>
+          <p>
+            Two roles shift this phase. <strong>Wes Carter</strong>, Harbor's
+            lead engineer, becomes the Setup Owner counterpart — he pairs into
+            the harness build and reviews the adaptation PRs. And one person
+            joins: <strong>Tom Reilly</strong>, Harbor's platform engineer, who
+            owns branch protection, the runners (the machines that execute the
+            CI jobs), and the secrets, and who reviews the pipeline he will
+            operate after the pod leaves. His hours, like Wes's, are the
+            handoff being built early.
+          </p>
+          <div class="meta">
+            Paired source: docs/phase-3-example.md · part of
+            MCKRUZ/delivery-standard v1.0
+          </div>
+        </header>
+
+        <section>
+          <h2>The story so far (you can start here)</h2>
+          <table>
+            <tr>
+              <td style="width: 150px"><strong>The client</strong></td>
+              <td>
+                Harbor Mutual — a fictional regional insurer. They hired a
+                five-person consulting pod to rebuild how property-insurance
+                claims get reported and decided.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The problem</strong></td>
+              <td>
+                A claim takes a median of <strong>11.4 days</strong> from FNOL
+                (first notice of loss — the policyholder reporting the damage)
+                to a coverage decision.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The target</strong></td>
+              <td>Median <strong>5 days or less</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Where we are</strong></td>
+              <td>
+                Phases 0-2 fixed the problem, signed the requirements, and chose
+                the architecture. This phase builds the factory and runs the
+                first real software through it.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The architecture</strong></td>
+              <td>
+                Coverage checks read the nightly
+                <strong>snapshot replica</strong> of PolicyOne (Harbor's policy
+                administration system) directly (ADR-001), behind a
+                verification service that owns a staleness contract — the rules
+                for how old the replica's data may be and what happens when it
+                is older. Claims live in a relational model plus an append-only
+                event log (ADR-002). Surge is absorbed by a buffered queue
+                (ADR-003).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The walking skeleton</strong></td>
+              <td>
+                The thinnest end-to-end path, sliced into four specs — listed
+                just below. Each rides the full loop; together they prove the
+                architecture.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The security gates</strong></td>
+              <td>
+                Two build-time gates from the Phase 2 threat review: malware
+                scanning on the document-upload path (HIGH), and a PII
+                (personally identifiable information) template-review gate on
+                acknowledgment letters.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Our pod</strong></td>
+              <td>
+                Maya Chen (Pod Lead) · Rob Feld (Setup Owner — builds and owns
+                the harness) · Jonah Kim (Orchestrator, and Rob's named deputy)
+                · Sara Whitfield (Orchestrator/Checker) · Nadia Brooks (Quality
+                Engineer).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Harbor's cast</strong></td>
+              <td>
+                Karen Voss (VP Claims Operations — sponsor) · Luis Ortega
+                (product owner) · Wes Carter (lead engineer, Setup Owner
+                counterpart) · Tom Reilly (platform engineer) · Dan Kowalski (IT
+                security) · Priti Shah (data and reporting lead).
+              </td>
+            </tr>
+          </table>
+          <p><strong>The four walking-skeleton specs:</strong></p>
+          <table>
+            <tr>
+              <th>Spec</th>
+              <th>What it is</th>
+            </tr>
+            <tr>
+              <td><strong>0001</strong></td>
+              <td>Queue entry from a portal FNOL</td>
+            </tr>
+            <tr>
+              <td><strong>0002</strong></td>
+              <td>Replica verification read</td>
+            </tr>
+            <tr>
+              <td><strong>0003</strong></td>
+              <td>Test-mode acknowledgment</td>
+            </tr>
+            <tr>
+              <td><strong>0004</strong></td>
+              <td>Metric event</td>
+            </tr>
+          </table>
+          <p>
+            <strong>The IDs you'll see on this page</strong> (IDs are stable
+            across phases):
+          </p>
+          <table>
+            <tr>
+              <th>ID</th>
+              <th>What it is</th>
+            </tr>
+            <tr>
+              <td><strong>ADR-NN</strong></td>
+              <td>Architecture decision record</td>
+            </tr>
+            <tr>
+              <td><strong>REQ-NN</strong></td>
+              <td>Requirement</td>
+            </tr>
+            <tr>
+              <td><strong>NFR-NN</strong></td>
+              <td>Non-functional requirement</td>
+            </tr>
+            <tr>
+              <td><strong>Q-NN</strong></td>
+              <td>Open question with a named owner</td>
+            </tr>
+            <tr>
+              <td><strong>D-NN</strong></td>
+              <td>Product decision</td>
+            </tr>
+            <tr>
+              <td><strong>C-NN</strong></td>
+              <td>Constraint from Phase 0</td>
+            </tr>
+            <tr>
+              <td><strong>NNNN-name.md</strong></td>
+              <td>A spec file — one feature, one file in the repo</td>
+            </tr>
+          </table>
+          <p>
+            <strong>Words this page leans on</strong> (everything else is
+            explained where it first appears):
+          </p>
+          <table>
+            <tr>
+              <th>Term</th>
+              <th>What it means</th>
+            </tr>
+            <tr>
+              <td><strong>The harness</strong></td>
+              <td>
+                The project's CLAUDE.md, specs, skills, agents, hooks, and
+                settings — the context and rules every AI agent loads when it
+                starts work in the repo.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The kit</strong></td>
+              <td>
+                Our firm's reusable engagement starter: templates, the grader
+                and security-reviewer agents, hooks, pipeline YAML, Bicep
+                starters. Built and improved between engagements in our own
+                standard repo; Phase 3 installs it into Harbor's repo and
+                adapts it. Harbor never pays to build the kit — only to adapt
+                it.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The build loop</strong></td>
+              <td>
+                The per-spec cycle — Intent (decide and write what you want),
+                Delegate (an agent builds it inside set bounds), Discern
+                (checks and a non-author prove it). When a spec "rides the
+                loop," this is the ride.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Plan mode</strong></td>
+              <td>
+                The agent mode where Claude can read the repo and propose an
+                approach but cannot change files. A human approves the plan
+                before any code is written.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>CI</strong></td>
+              <td>
+                Continuous integration — the automated checks (build, tests,
+                lint, test coverage) that run on every proposed change before
+                it can merge.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The grader</strong></td>
+              <td>
+                A fresh AI agent that did <strong>not</strong> write the code.
+                It reads the spec and the change, and posts a check-by-check
+                verdict on the pull request. It is required to run, but its
+                verdict advises — the human decides.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The Stop hook</strong></td>
+              <td>
+                A script that fires when an agent tries to finish. If tests
+                fail or the build is broken, it refuses to let the agent stop.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Branch protection</strong></td>
+              <td>
+                Repository settings that make the gates mandatory: no change
+                can merge without CI green, the grader having run, and an
+                approval from someone who didn't write it.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Rails</strong></td>
+              <td>
+                All of the above enforcement taken together: CI gates, the
+                grader, branch protection, and the deploy pipeline. Every
+                change runs on them.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Risk tier</strong></td>
+              <td>
+                HIGH / MEDIUM / LOW, assigned per spec. Sets how tightly an
+                agent is bounded and how much review a change gets.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Bicep</strong></td>
+              <td>
+                Azure's language for infrastructure as code — the cloud
+                environment defined in version-controlled files instead of
+                clicked together by hand.
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="twoweeks">
+          <h2>1. How the two weeks played out</h2>
+          <div class="callout legend">
+            <strong>Reading the Tooling bars</strong> — each day names the
+            claude-code-sdlc machinery in play.
+            <table class="legend-tbl">
+              <tr>
+                <td><span class="tool">/sdlc-gate</span></td>
+                <td><strong>You run it</strong></td>
+                <td>
+                  a slash command you type (e.g. <code>/sdlc-gate</code>,
+                  <code>/e2e</code>)
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tool hood">check_gates.py</span></td>
+                <td><strong>It triggers</strong></td>
+                <td>
+                  an agent or script the command above runs under the hood —
+                  always shown after a <span class="arr">→</span>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tool none">No plugin command</span></td>
+                <td><strong>Human / build loop</strong></td>
+                <td>
+                  a meeting, client-system work, repo scaffolding, or a spec
+                  riding the build loop — nothing the plugin drives
+                </td>
+              </tr>
+            </table>
+            <span class="legend-foot"
+              >Foundation is the least plugin-driven phase of the opening: most
+              of the work is code and rails, so most days carry the grey pill.
+              The plugin returns at the gate.</span
+            >
+          </div>
+
+          <span class="wk-label">Week one — the rails</span>
+
+          <h3>Day 1 (Mon 3/30) — kickoff and access</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — access negotiation with Harbor's platform
+                team; a live smoke test of Claude Code on Harbor's procured
+                seats</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              The Phase 0/1 access checklist closes: the pod gets contributor
+              access to Harbor's repo, Rob gets branch-protection admin, Tom
+              enables GitHub Actions and agrees the runner policy
+              (Harbor-hosted), and secrets provisioning starts in Harbor's Key
+              Vault (Azure's managed store for keys and secrets).
+            </li>
+            <li>
+              The Anthropic access Harbor procured in Phase 0 gets a
+              <strong>live smoke test</strong> — a quick does-it-actually-work
+              check: Claude Code runs on Harbor's
+              seats, against Harbor's repo, on Harbor's keys. It works — the
+              fallback rider is never needed.
+            </li>
+            <li>
+              The two open questions from Phase 2 get re-confirmed:
+              <strong>Q-17</strong> (postal dispatch vendor — Dan + Harbor ops,
+              due this phase) and <strong>Q-18</strong> (surge load-test dataset
+              — Priti + Nadia, due before hardening pass 1).
+            </li>
+          </ul>
+
+          <h3>Day 2 (Tue 3/31) — the kit install, in the open</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — Claude scaffolds Harbor's repo from the
+                delivery-standard kit; CLAUDE.md adapted in PRs Wes
+                reviews</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              Claude scaffolds the repo from the kit: CLAUDE.md template, spec
+              template, settings, the grader and security-reviewer agents, the
+              Stop hook, the workflow YAML, the Bicep starters.
+            </li>
+            <li>
+              CLAUDE.md gets adapted to Harbor in the open: the domain glossary
+              in Harbor's words (FNOL, PolicyOne, the snapshot replica, the
+              fast-path, the regulatory clock), the .NET 8 / Angular / SQL
+              Server / Azure standards, the risk taxonomy, the gated paths
+              (<code>infra/</code>, the replica adapter, migrations,
+              acknowledgment-letter templates), and the Definition of Checked
+              (what must be true before a change counts as done).
+              <strong>Wes reviews the adaptation PRs</strong> — Harbor's first
+              concrete look at how the pod works.
+            </li>
+          </ul>
+
+          <h3>Day 3 (Wed 4/1) — the dev environment</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — Claude drafts the Bicep (HIGH risk,
+                reviewed every change); the data-flow brief goes to Dan</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              Claude drafts the Bicep for Harbor's dev environment; Rob and Tom
+              review every change. The environment provisions from code: the app
+              hosting, the buffered queue (ADR-003), and the
+              <strong>private endpoint to the snapshot replica</strong> under
+              the Q-15 controls.
+            </li>
+            <li>
+              Secrets land in Harbor's Key Vault and GitHub secrets — the
+              Anthropic key, the Azure credentials, the replica's read-only
+              service-account reference. Nothing in code. The
+              <strong>data-flow brief</strong> goes to Dan: what reaches the API
+              (repo code context, specs), what is held out, where the keys live,
+              who can see usage.
+            </li>
+          </ul>
+
+          <h3>Day 4 (Thu 4/2) — the pipeline</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — Claude drafts the
+                ci/grader/security/deploy-dev YAML; Tom reviews and enables
+                branch protection</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              The four workflows get built and reviewed by Tom:
+              <strong>ci.yml</strong> (build, test, lint, 80% coverage — hard
+              gates), <strong>grader.yml</strong> (claude-code-action: a fresh
+              agent reads the spec in the diff and posts a check-by-check
+              verdict; required to run, advisory verdict),
+              <strong>security.yml</strong> (fires on the
+              <code>risk:high</code> label, runs the security-reviewer agent),
+              <strong>deploy-dev.yml</strong> (merge to main ships to Harbor's
+              dev environment).
+            </li>
+            <li>
+              Rob turns on branch protection: CI green, grader-ran, and a
+              non-author approval are required; <code>risk:high</code> adds
+              security.yml plus a named sign-off. The two Phase 2 security gates
+              get wired — the upload malware scan and the acknowledgment-letter
+              PII template-review gate.
+            </li>
+          </ul>
+
+          <h3>Day 5 (Fri 4/3) — the first slice through the loop</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — spec 0001 rides the loop: Orchestrator
+                authors from the kit spec-template, the agent codes in plan mode
+                under bounds, the PR fires ci.yml + grader.yml, a human Checker
+                merges, deploy-dev.yml ships to dev</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              <strong>Spec 0001 (queue entry from a portal FNOL)</strong> runs
+              the full build loop for the first time on this engagement. Sara
+              authors the spec from the kit template (Goal, Why, Scope in/out,
+              Acceptance checks, Risk tier MEDIUM, Delegation plan, Checking
+              plan). The agent works in plan mode; Sara corrects the plan before
+              any code. The Stop hook refuses to let it finish on a failing
+              build.
+            </li>
+            <li>
+              The PR fires ci.yml and grader.yml. The grader posts a
+              check-by-check verdict; <strong>Jonah</strong> (not the author)
+              reads it, approves, and merges. deploy-dev.yml ships it to
+              Harbor's dev environment. One thing breaks in the rails — the
+              coverage gate miscounts generated files — and is fixed here, on
+              day five, where it is cheap. End of week one: a portal FNOL
+              creates a queue entry in Harbor's dev environment, through the
+              real pipeline.
+            </li>
+          </ul>
+
+          <span class="wk-label">Week two — the skeleton</span>
+
+          <h3>Day 6 (Mon 4/6) — the first HIGH-risk slice</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — spec 0002 rides the loop at HIGH risk: the
+                risk:high label fires security.yml → the security-reviewer
+                agent; Dan's named sign-off in the PR</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              <strong>Spec 0002 (replica verification read)</strong> is
+              <span class="risk-high">HIGH risk</span> — it touches the replica
+              integration and the Q-15 controls. The agent runs under tight
+              permissions; the <code>risk:high</code> label fires security.yml,
+              which runs the security-reviewer agent over the diff.
+              <strong>Dan reviews and records a named sign-off</strong> in the
+              PR.
+            </li>
+            <li>
+              The Q-15 controls get verified live against the dev environment:
+              the read-only service account, the private endpoint, the audit
+              trail. The staleness contract from ADR-001 (the 02:00-04:30
+              refresh-window degradation) goes in as real behavior —
+              <code>pending-verification</code>, intake never blocked. The HIGH
+              path of the loop is proven before Build relies on it.
+            </li>
+          </ul>
+
+          <h3>Day 7 (Tue 4/7) — the remaining slices</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — specs 0003 and 0004 ride the loop; the PII
+                template-review gate fires on 0003's PR</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              <strong>Spec 0003 (test-mode acknowledgment)</strong> wires the
+              acknowledgment path in test mode (no letters actually leave the
+              system). Its PR is the first to touch acknowledgment-letter
+              templates, so the
+              <strong>PII template-review gate fires</strong> — proven, not just
+              configured.
+            </li>
+            <li>
+              <strong>Spec 0004 (metric event)</strong> emits the FNOL→coverage
+              clock as a structured event. It is the slice that lights up the
+              outcome scorecard: Harbor's success metric becomes measurable from
+              day one of Build, not as a Phase 9 afterthought.
+            </li>
+          </ul>
+
+          <h3>Day 8 (Wed 4/8) — the skeleton, end-to-end</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool">/e2e</span><span class="arr">→</span
+              ><span class="tool hood">Playwright journey</span
+              ><span class="note">— across the FNOL→metric path</span>
+            </div>
+          </div>
+          <ul>
+            <li>
+              The four slices connect in Harbor's dev environment: a portal FNOL
+              → queue entry → replica coverage check → test-mode acknowledgment
+              → metric event.
+              <strong
+                >Nadia verifies the running skeleton against the Phase 2
+                walking-skeleton definition</strong
+              >
+              — it proves the architecture, end to end, under the rails.
+            </li>
+            <li>
+              A first E2E smoke journey — an automated end-to-end pass over the
+              whole user path, checking that it works at all rather than
+              testing it deeply — runs the whole thread with the
+              <code>/e2e</code> skill: the thinnest proof that the slices hold
+              together, not just each in isolation. Nadia confirms each NFR's
+              proving method now has a real place to read its number, now that
+              the metric event exists.
+            </li>
+          </ul>
+
+          <h3>Day 9 (Thu 4/9) — harden the rails, not the features</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool none"
+                >No plugin command — the rails get a deliberate shakedown; the
+                setup review merges harness corrections</span
+              >
+            </div>
+          </div>
+          <ul>
+            <li>
+              The rails get shaken down on purpose: a deliberately failing build
+              proves the Stop hook <strong>blocks</strong>; a PR with a planted
+              spec mismatch proves the grader <strong>posts</strong> the miss; a
+              bad deploy proves deploy-dev <strong>rolls back</strong> cleanly
+              (the environment returns itself to the last good version).
+              A rail that has never failed safely has not been proven.
+            </li>
+            <li>
+              The setup review (Rob + Jonah, his deputy) merges the week's
+              harness corrections — the coverage gate fix, two CLAUDE.md
+              glossary additions the agents kept missing. The Build cadences get
+              scheduled — flow check (daily), intent triage (weekly), retro+
+              (the retro that feeds improvements back into the kit), setup
+              review — and two flow limits get set: the WIP cap (the limit on
+              how much work may be in flight at once — at most 2 streams per
+              Orchestrator) and the review-wait tripwire (once the median
+              review wait passes one working day, no new streams start until
+              the queue clears).
+            </li>
+            <li>
+              <strong>Q-17 lands:</strong> Dan and Harbor ops choose the postal
+              dispatch vendor; credential provisioning starts. It surfaces one
+              new open question — <span class="open-q">Q-19</span> (the vendor's
+              sandbox credentials for the acknowledgment-delivery spec), owner
+              Tom + Harbor ops, due before the first acknowledgment-delivery
+              spec in Build.
+            </li>
+          </ul>
+
+          <h3>Day 10 (Fri 4/10) — gate, demo, and the handoff into Build</h3>
+          <div class="toolbar">
+            <span class="lbl">Tooling</span>
+            <div class="trow">
+              <span class="tool">/sdlc-gate</span><span class="arr">→</span
+              ><span class="tool hood">check_gates.py</span>
+            </div>
+            <div class="trow">
+              <span class="tool">/sdlc-phase-report</span
+              ><span class="arr">→</span
+              ><span class="tool hood">generate_phase_report.py</span>
+            </div>
+            <div class="trow">
+              <span class="tool">/visual-explainer</span
+              ><span class="note"
+                >— renders the demo narrative for the sponsor</span
+              >
+            </div>
+            <div class="trow">
+              <span class="tool">/sdlc-next</span><span class="arr">→</span
+              ><span class="tool hood">advance_phase.py</span>
+            </div>
+          </div>
+          <ul>
+            <li>
+              <strong><code>/sdlc-gate</code></strong> passes.
+              <strong><code>/sdlc-phase-report</code></strong> renders the gate
+              packet (the phase's evidence, bundled for sign-off). Claude
+              drafts the Build handoff: the ordered spec backlog
+              ready for triage, the risk-tier map (including the two security
+              gates), the cadence calendar, and the open questions (Q-18, Q-19)
+              under their IDs.
+            </li>
+            <li>
+              <strong>The exit demo:</strong> Karen watches a portal FNOL flow
+              end to end in Harbor's own dev environment, through the real
+              pipeline, with the FNOL→coverage clock
+              <strong>ticking on the scorecard</strong> — rendered with
+              <code>/visual-explainer</code>, not slides. Working software, in
+              their environment, on day one of the build.
+            </li>
+            <li>
+              The phase review: Rob and Wes walk the harness, Tom confirms the
+              pipeline he will operate, Dan confirms the security gates, Karen
+              approves. <strong><code>/sdlc-next</code></strong> re-verifies the
+              gates and advances the engagement out of the gated opening and
+              into the <strong>Build loop</strong>. Billing milestone 4.
+            </li>
+          </ul>
+        </section>
+
+        <section id="notice">
+          <h2>2. What to notice</h2>
+          <ul>
+            <li>
+              <strong
+                >Foundation is the least plugin-driven phase — and that is the
+                point.</strong
+              >
+              The plugin drives the document phases; Foundation is hands
+              building the factory and the first real specs riding the loop. The
+              Tooling bars go quiet because the work is code and rails, not
+              drafts. The plugin returns only at the gate.
+            </li>
+            <li>
+              <strong
+                >The skeleton ran the full loop, including a HIGH-risk
+                spec.</strong
+              >
+              Spec 0002 exercised the <code>risk:high</code> path — tight
+              permissions, the security workflow, Dan's named sign-off — on
+              software that was cheap to get wrong. The dress rehearsal happened
+              before Build depended on the HIGH path working.
+            </li>
+            <li>
+              <strong
+                >The metric event made the outcome measurable on day one of
+                Build.</strong
+              >
+              Spec 0004 means the FNOL→coverage clock ticks in dev from the
+              first slice. The scorecard has real data before the second feature
+              merges — the metric is not a Phase 9 retrofit.
+            </li>
+            <li>
+              <strong>The adaptation happened in the open.</strong> Wes reviewed
+              the CLAUDE.md adaptation PRs and Tom reviewed the pipeline YAML —
+              Harbor's first concrete look at how the pod works, and the
+              transfer rehearsed months before the close.
+            </li>
+            <li>
+              <strong>Secrets never touched the repo.</strong> Harbor's Key
+              Vault held the Anthropic key, the Azure credentials, and the
+              replica service-account reference from day one. The data-flow
+              brief gave Dan what he needed to sign off without a single secret
+              in a commit.
+            </li>
+            <li>
+              <strong
+                >A rail broke on day five — and that was the rails
+                working.</strong
+              >
+              The coverage gate miscounted generated files on the very first
+              real spec; found and fixed while it cost an hour, not in Build
+              week three when it would have blocked every PR.
+            </li>
+          </ul>
+        </section>
+
+        <section id="claudemd">
+          <span class="artifact-tag">Artifact</span>
+          <h2>3. The adapted CLAUDE.md (excerpt)</h2>
+          <p class="made">
+            The kit template, adapted to Harbor in PRs Wes reviewed. The full
+            file is longer; this is the shape.
+          </p>
+          <ul>
+            <li>
+              <strong>What this project is</strong> — Harbor Mutual's
+              property-claims intake rebuild; the FNOL→coverage median target of
+              ≤5 days, and where that number is read from.
+            </li>
+            <li>
+              <strong>Domain glossary (Harbor's words)</strong> — FNOL,
+              PolicyOne, the snapshot replica, the fast-path (61% of claims,
+              D-09), the duplicate-merge rule (D-07), the regulatory clock
+              (C-04: 15 business days in two states).
+            </li>
+            <li>
+              <strong>Stack standards</strong> — .NET 8 / Angular / SQL Server /
+              Azure / GitHub Actions, immutability defaults, Result&lt;T&gt; for
+              expected failures, FluentValidation at the boundary.
+            </li>
+            <li>
+              <strong>Risk taxonomy</strong> — HIGH (the replica adapter,
+              <code>infra/</code>, migrations, auth, acknowledgment-letter
+              templates, public API contracts); MEDIUM (new business logic,
+              integrations); LOW (UI in existing patterns, copy, additive CRUD).
+            </li>
+            <li>
+              <strong>Gated paths</strong> — <code>infra/</code>, the replica
+              adapter, <code>migrations/</code>, acknowledgment templates: the
+              agent asks before touching these.
+            </li>
+            <li>
+              <strong>Definition of Checked</strong> — the spec's acceptance
+              checks pass; the Stop hook is green; the grader has run; a
+              non-author approved; HIGH risk carries a named sign-off.
+            </li>
+          </ul>
+        </section>
+
+        <section id="pipeline">
+          <span class="artifact-tag">Artifact</span>
+          <h2>4. The pipeline</h2>
+          <p class="made">
+            The four workflows, all reviewed by Tom, branch protection enforcing
+            them.
+          </p>
+          <table>
+            <tr>
+              <th>Workflow</th>
+              <th>Trigger</th>
+              <th>What it does</th>
+              <th>Blocks?</th>
+            </tr>
+            <tr>
+              <td><code>ci.yml</code></td>
+              <td>Every PR</td>
+              <td>Build, test, lint, 80% coverage on new code</td>
+              <td>Hard block</td>
+            </tr>
+            <tr>
+              <td><code>grader.yml</code></td>
+              <td>Every PR</td>
+              <td>
+                claude-code-action: a fresh agent reads the spec in the diff,
+                posts a check-by-check verdict
+              </td>
+              <td>Required to run; verdict advisory</td>
+            </tr>
+            <tr>
+              <td><code>security.yml</code></td>
+              <td><code>risk:high</code> label</td>
+              <td>Runs the security-reviewer agent over the diff</td>
+              <td>Pass + named sign-off required to merge</td>
+            </tr>
+            <tr>
+              <td><code>deploy-dev.yml</code></td>
+              <td>Merge to <code>main</code></td>
+              <td>Ships to Harbor's dev environment</td>
+              <td>— (deploy step)</td>
+            </tr>
+          </table>
+          <p>
+            <strong>Branch protection on <code>main</code>:</strong> CI green +
+            grader-ran + one non-author approval. <code>risk:high</code> adds
+            security.yml passing and a named human sign-off recorded in the PR.
+          </p>
+        </section>
+
+        <section id="specs">
+          <span class="artifact-tag">Artifact</span>
+          <h2>5. The walking-skeleton specs</h2>
+          <p class="made">
+            Four specs, authored from the kit spec-template, each riding the
+            full loop.
+          </p>
+          <table>
+            <tr>
+              <th>Spec</th>
+              <th>Slice</th>
+              <th>Risk</th>
+              <th>What it proved</th>
+            </tr>
+            <tr>
+              <td>0001</td>
+              <td>Queue entry from a portal FNOL</td>
+              <td>MEDIUM</td>
+              <td>
+                The ingestion path and the buffered queue (ADR-003); the rails
+                caught a coverage-gate defect on first run
+              </td>
+            </tr>
+            <tr>
+              <td>0002</td>
+              <td>Replica verification read</td>
+              <td><span class="risk-high">HIGH</span></td>
+              <td>
+                The replica integration and the Q-15 controls live; the
+                staleness/refresh-window degradation (ADR-001); the HIGH path of
+                the loop
+              </td>
+            </tr>
+            <tr>
+              <td>0003</td>
+              <td>Test-mode acknowledgment</td>
+              <td>MEDIUM</td>
+              <td>
+                The acknowledgment path in test mode; fired the PII
+                template-review security gate
+              </td>
+            </tr>
+            <tr>
+              <td>0004</td>
+              <td>Metric event</td>
+              <td>LOW</td>
+              <td>
+                The FNOL→coverage clock as a structured event; the outcome
+                scorecard measurable from Build day one
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="spec2">
+          <span class="artifact-tag">Artifact</span>
+          <h2>6. Spec 0002 in full (the HIGH-risk one)</h2>
+          <div class="adr">
+            <p>
+              <strong>Spec 0002 — Replica verification read</strong><br />
+              Risk tier: <span class="risk-high">HIGH</span> · Authored: Jonah
+              Kim · Checked: Sara Whitfield · Security sign-off: Dan Kowalski ·
+              Merged 2026-04-06
+            </p>
+            <p>
+              <strong>Goal.</strong> A coverage-verification service reads the
+              PolicyOne snapshot replica directly (ADR-001) and returns coverage
+              status with an as-of timestamp, honoring the staleness contract.
+            </p>
+            <p>
+              <strong>Why.</strong> REQ-014 promises same-business-day coverage
+              status; ADR-001 chose the replica read as the source. This slice
+              proves the integration and its degradation behavior in running
+              software.
+            </p>
+            <p>
+              <strong>Scope in.</strong> The replica adapter, the verification
+              service, the staleness contract (as-of timestamp; &gt;36h
+              escalates; refresh-window 02:00-04:30 degrades to
+              <code>pending-verification</code>).
+              <strong>Scope out.</strong> The fast-path escalation logic
+              (REQ-019, a Build spec); real acknowledgment dispatch (0003 is
+              test-mode).
+            </p>
+            <p>
+              <strong>Acceptance checks.</strong> Fresh data → status + as-of
+              timestamp. Policy not found → <code>needs-review</code> with a
+              reason code, never a silent "verified." Refresh window or
+              unreachable → <code>pending-verification</code>, intake never
+              blocked. Snapshot &gt;36h → staleness warning,
+              written-acknowledgment-state claims escalate.
+            </p>
+            <p>
+              <strong>Delegation plan.</strong> The agent may touch the replica
+              adapter and the verification service. <strong>Gated:</strong> the
+              Q-15 service-account configuration and the private-endpoint
+              settings (the agent proposes; a human applies). Plan-mode approval
+              before any code.
+            </p>
+            <p>
+              <strong>Checking plan.</strong> Full ladder: CI hard gates, the
+              grader, a non-author Checker (Sara). Because HIGH: the
+              security.yml security-reviewer pass and Dan's named sign-off in
+              the PR.
+            </p>
+            <p>
+              <strong>How it rode the loop.</strong> Plan approved by Sara →
+              agent implemented under tight permissions → Stop hook green → PR
+              fired ci.yml, grader.yml, and (on the
+              <code>risk:high</code> label) security.yml → Dan signed off → Sara
+              merged → deploy-dev shipped it. The Q-15 controls were verified
+              live against the dev environment the same afternoon.
+            </p>
+          </div>
+        </section>
+
+        <section id="bicep">
+          <span class="artifact-tag">Artifact</span>
+          <h2>7. The Bicep dev environment (summary)</h2>
+          <p class="made">
+            Drafted by Claude, reviewed every change by Rob and Tom, provisioned
+            from code.
+          </p>
+          <ul>
+            <li>
+              <strong>Resource group + app hosting</strong> for the intake
+              service and the Angular portal.
+            </li>
+            <li>
+              <strong>The buffered ingestion queue</strong> (ADR-003), sized for
+              dev; the surge profile load test waits on Q-18 and a test
+              environment at hardening pass 1.
+            </li>
+            <li>
+              <strong>The private endpoint to the snapshot replica</strong>
+              under the Q-15 controls — read-only service account, no public
+              path, every access audited.
+            </li>
+            <li>
+              <strong>Key Vault references</strong> for the Anthropic key, Azure
+              credentials, and the replica service account. No secret in code,
+              CLAUDE.md, or any spec.
+            </li>
+            <li>
+              <strong>The deploy-dev target</strong> — what
+              <code>deploy-dev.yml</code> ships to on merge.
+            </li>
+          </ul>
+        </section>
+
+        <section id="gates">
+          <span class="artifact-tag">Artifact</span>
+          <h2>8. The build-time security gates, wired</h2>
+          <p class="made">
+            The two gates from the Phase 2 threat review, now enforced and each
+            fired on a real PR.
+          </p>
+          <ul>
+            <li>
+              <strong>Document-upload malware scan</strong> — HIGH tier;
+              security.yml runs on every PR touching the upload path. (The
+              upload path itself is a Build spec; the gate is wired and tested
+              with a probe PR.)
+            </li>
+            <li>
+              <strong>Acknowledgment-letter PII template-review gate</strong> —
+              fired live on spec 0003's PR, the first to touch acknowledgment
+              templates. PII leaves the system on paper, so a human reviews any
+              template change.
+            </li>
+          </ul>
+        </section>
+
+        <section id="handoff">
+          <span class="artifact-tag">Artifact</span>
+          <h2>9. The Build handoff (summary)</h2>
+          <ul>
+            <li>
+              <strong>The factory:</strong> the adapted harness, the
+              four-workflow pipeline, branch protection, and the Bicep dev
+              environment — all owned by Rob, reviewed by Jonah and Tom.
+            </li>
+            <li>
+              <strong>The proof:</strong> the walking skeleton running in
+              Harbor's dev environment, verified against the Phase 2 definition,
+              with the FNOL→coverage clock ticking on the scorecard.
+            </li>
+            <li>
+              <strong>The risk-tier map:</strong> the HIGH/MEDIUM/LOW taxonomy
+              in CLAUDE.md, plus the two build-time security gates registered
+              against the paths they guard.
+            </li>
+            <li>
+              <strong>The cadences:</strong> flow check (daily), intent triage
+              (weekly), retro+, setup review; WIP cap 2 streams per
+              Orchestrator; halt new streams past one working-day median review
+              wait.
+            </li>
+          </ul>
+          <p><strong>Open questions into Build:</strong></p>
+          <table>
+            <tr>
+              <th>ID</th>
+              <th>Question</th>
+              <th>Owner</th>
+              <th>Due</th>
+            </tr>
+            <tr>
+              <td>Q-18</td>
+              <td>
+                Construction of the surge load-test dataset from the 2024 CAT
+                (catastrophe) event (volume curve + channel mix)
+              </td>
+              <td>Priti Shah + Nadia Brooks</td>
+              <td>Before hardening pass 1</td>
+            </tr>
+            <tr>
+              <td>Q-19</td>
+              <td>
+                Postal vendor sandbox credentials for the
+                acknowledgment-delivery spec (follows Q-17's vendor choice)
+              </td>
+              <td>Tom Reilly + Harbor ops</td>
+              <td>Before the first acknowledgment-delivery spec</td>
+            </tr>
+          </table>
+          <p>
+            <strong>Recommended first Build specs:</strong> the fast-path
+            escalation (REQ-019, builds on 0002), the document-upload path
+            (triggers the malware-scan gate), and the email FNOL extraction
+            (ADR-004 — the engagement's first agentic spec, where the feature
+            itself runs on an AI model. That activates the AI-engineering
+            module: a golden set (real example inputs with known correct
+            answers) as acceptance criteria, the eval gate in CI (every change
+            is scored against that set), prompt/model changes tiered HIGH).
+          </p>
+        </section>
+
+        <section id="tooling">
+          <h2>10. The tooling behind this phase</h2>
+          <p>
+            The abstract Phase 3 page describes this work generically. What
+            actually ran — and how little of it was the plugin, which is itself
+            the point:
+          </p>
+          <table>
+            <tr>
+              <th>What got produced</th>
+              <th>How</th>
+            </tr>
+            <tr>
+              <td>Repo scaffold + CLAUDE.md adaptation</td>
+              <td>
+                Claude scaffolds from the delivery-standard kit; adapted in PRs
+                Wes reviewed; no plugin command — Foundation is hands-on
+              </td>
+            </tr>
+            <tr>
+              <td>Bicep dev environment</td>
+              <td>
+                Claude drafts; HIGH risk, Rob + Tom review every change; secrets
+                in Harbor's Key Vault
+              </td>
+            </tr>
+            <tr>
+              <td>Pipeline (ci/grader/security/deploy-dev)</td>
+              <td>
+                Claude drafts the YAML against the kit workflow starters; Tom
+                reviews; Rob enables branch protection
+              </td>
+            </tr>
+            <tr>
+              <td>Walking-skeleton specs (0001-0004)</td>
+              <td>
+                Orchestrators author from the kit spec-template; each rides the
+                full loop — plan mode, Stop hook, ci.yml + grader.yml, a
+                non-author Checker, deploy-dev.yml
+              </td>
+            </tr>
+            <tr>
+              <td>The HIGH-risk path (0002)</td>
+              <td>
+                <code>risk:high</code> label → security.yml → the
+                security-reviewer agent; Dan's named sign-off in the PR
+              </td>
+            </tr>
+            <tr>
+              <td>Skeleton smoke journey</td>
+              <td>
+                <code>/e2e</code> → a Playwright journey across the FNOL→metric
+                path
+              </td>
+            </tr>
+            <tr>
+              <td>Rails shakedown + setup review</td>
+              <td>
+                Manual — prove the Stop hook blocks, the grader posts,
+                deploy-dev rolls back; Rob + Jonah (deputy) merge harness
+                corrections
+              </td>
+            </tr>
+            <tr>
+              <td>Gate, packet, demo, advance</td>
+              <td>
+                <code>/sdlc-gate</code>, <code>/sdlc-phase-report</code>,
+                <code>/visual-explainer</code> (demo narrative),
+                <code>/sdlc-next</code> (after the gate sign-off)
+              </td>
+            </tr>
+          </table>
+          <div class="callout">
+            <strong>Next:</strong>
+            <a href="build-loop-example.html">the Build loop worked example</a>
+            — one ordinary week of Build: two specs end to end, and the grader
+            catching a bug that eleven green tests missed.
+          </div>
+        </section>
+
+        <footer>
+          Phase 3 Worked Example: Harbor Mutual · Delivery Standard ·
+          MCKRUZ/delivery-standard · Paired source: docs/phase-3-example.md
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

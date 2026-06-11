@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 0 Worked Example: Harbor Mutual — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 4px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav .toc-group { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--ink-soft); margin: 14px 0 4px 10px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, #11314e, #0f5c8c); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 28px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  .artifact-tag { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 2px 10px; margin-bottom: 8px; }
+  .made { font-size: 13px; color: var(--ink-soft); font-style: italic; margin: 0 0 14px; }
+  .toolbar { margin: 4px 0 14px; }
+  .toolbar > .lbl { display:block; font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 5px; }
+  .trow { display:flex; flex-wrap:wrap; align-items:center; gap:5px; margin:4px 0; }
+  .tool { font-family: Consolas, "Cascadia Code", monospace; background: #0f1722; color: #9fd6b1; padding: 2px 10px; border-radius: 999px; font-size: 12px; }
+  .tool.hood { background: #1b2735; color: #9db8d6; }
+  .tool.none { background: #eef1f6; color: var(--ink-soft); font-family: "Segoe UI", system-ui, sans-serif; font-style: italic; padding: 2px 12px; }
+  .arr { color: var(--ink-soft); font-weight: 700; }
+  .trow .note { color: var(--ink-soft); font-size: 12.5px; }
+  .legend-tbl { border:0; margin:12px 0 10px; width:auto; }
+  .legend-tbl td { border:0; padding:4px 18px 4px 0; vertical-align:middle; background:none !important; white-space:nowrap; }
+  .legend-tbl td:last-child { white-space:normal; }
+  .legend-foot { font-size:12.5px; color:var(--ink-soft); display:block; }
+  h2 { font-size: 21px; margin: 0 0 10px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16px; margin: 22px 0 8px; }
+  h4 { font-size: 13.5px; margin: 16px 0 6px; color: var(--ink-soft); }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 8px 11px; border: 1px solid var(--rule); }
+  td { padding: 8px 11px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .con { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 20px; margin: 14px 0; background: #fcfdfe; }
+  .con .con-head { font-weight: 700; margin-bottom: 6px; }
+  .sev { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .sev.blocks { background: #f6e3e1; color: var(--high); }
+  .sev.shapes { background: #f5ecd9; color: var(--med); }
+  .quote-a, .quote-b { font-size: 13px; padding: 6px 12px; border-left: 3px solid var(--rule); margin: 6px 0; color: var(--ink-soft); }
+  .resolved { color: var(--low); font-weight: 600; }
+  .open-q { color: var(--high); font-weight: 700; }
+  .brief { border: 1px solid var(--rule); border-left: 5px solid var(--accent); border-radius: 8px; padding: 18px 26px; background: #fcfdfe; font-size: 13.5px; max-width: 86ch; }
+  .brief h4 { margin: 14px 0 4px; color: var(--ink); text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
+  .brief .brief-title { font-weight: 700; font-size: 15px; }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">Phase 0 Worked Example</div>
+  <div class="brand-sub">Harbor Mutual · Delivery Standard</div>
+  <a class="back" href="phase-0-discovery.html">← Phase 0: Discovery</a>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <div class="toc-group">The story</div>
+  <a class="toc" href="#scenario">1 · The scenario</a>
+  <a class="toc" href="#tendays">2 · The ten days</a>
+  <a class="toc" href="#notice">3 · What to notice</a>
+  <div class="toc-group">The artifacts</div>
+  <a class="toc" href="#registry">4 · Document registry</a>
+  <a class="toc" href="#contradictions">5 · Contradiction list</a>
+  <a class="toc" href="#questions">6 · Question list</a>
+  <a class="toc" href="#brief">7 · Workshop brief</a>
+  <a class="toc" href="#problem">8 · Problem statement</a>
+  <a class="toc" href="#success">9 · Success criteria</a>
+  <a class="toc" href="#constraints">10 · Constraints</a>
+  <a class="toc" href="#constitution">11 · Constitution</a>
+  <a class="toc" href="#handoff">12 · Phase 1 handoff</a>
+  <div class="toc-group">Behind the scenes</div>
+  <a class="toc" href="#tooling">13 · The tooling</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>Phase 0 Worked Example: Harbor Mutual</h1>
+  <p>The companion to the Phase 0 deep-dive: a complete, filled-in Phase 0 for a fictional
+  engagement, showing what every artifact looks like when it's done and which day produced it.</p>
+  <p>All names, numbers, and documents are invented but internally consistent — the 11.4-day
+  baseline, the CR-204 report, and the open question IDs trace through every artifact.</p>
+  <div class="meta">Paired source: docs/phase-0-example.md · part of MCKRUZ/delivery-standard v1.0</div>
+</header>
+
+<section>
+<h2>If you're starting here</h2>
+<table>
+<tr><td style="width:170px"><strong>The method</strong></td><td>Claude (the AI coding agent) drafts documents and writes most code. Humans own every decision and verify every result.</td></tr>
+<tr><td><strong>This phase</strong></td><td>Phase 0 (discovery) is the two-week opening that pins down the problem, one measurable success metric, who decides product questions, and the constraints — before any requirements or code.</td></tr>
+</table>
+<p><strong>Words this page leans on</strong> (every other term is explained where it first appears):</p>
+<table>
+<tr><th>Term</th><th>What it means</th></tr>
+<tr><td><strong>The pod</strong></td><td>Our four-to-six person delivery team. In Phase 0 it is mostly two people: the Pod Lead and the Setup Owner.</td></tr>
+<tr><td><strong>PO</strong></td><td>Product owner — the client-side person who answers product questions during the build.</td></tr>
+<tr><td><strong>The gates</strong></td><td>The automated checks plus a named human sign-off that close a phase. Gates are the billing milestones.</td></tr>
+<tr><td><strong>The loop</strong></td><td>The build loop the later phases run on: Intent (decide and write what you want), Delegate (an agent builds it inside set bounds), Discern (checks and a non-author prove it).</td></tr>
+<tr><td><strong>The decision list</strong></td><td>The running list of product decisions nobody has made yet, each needing a named human answer.</td></tr>
+<tr><td><strong>Steering</strong></td><td>The recurring decision meeting between the pod and the client's leadership; biweekly from Phase 1 on.</td></tr>
+<tr><td><strong>The fallback rider</strong></td><td>A pre-agreed contract amendment that would let the pod start under its own Anthropic account, with a migration date, if the client's procurement ran late.</td></tr>
+<tr><td><strong>The data-flow brief</strong></td><td>A short document for client security: what data the AI tooling sees, where it flows, and where it is stored.</td></tr>
+<tr><td><strong>A HITL gate</strong></td><td>A human-in-the-loop pause built into a command: the tool stops and a named person reviews and decides before anything moves on.</td></tr>
+<tr><td><strong>RFP</strong></td><td>Request for proposal — the document a company issues to ask vendors to bid.</td></tr>
+<tr><td><strong>Adjudication</strong></td><td>Deciding a claim: is it covered, and what gets paid.</td></tr>
+<tr><td><strong>A book</strong></td><td>Insurance shorthand for a portfolio of policies — the property book, the auto book.</td></tr>
+<tr><td><strong>PII</strong></td><td>Personally identifiable information — data that identifies a person; claim files are full of it.</td></tr>
+<tr><td><strong>SLA</strong></td><td>Service-level agreement — a promised maximum handling or response time.</td></tr>
+</table>
+<p><strong>The IDs you'll see on this page</strong> (they stay stable for the whole engagement — a question
+raised here is traceable through every later phase):</p>
+<table>
+<tr><th>ID</th><th>What it means</th></tr>
+<tr><td><strong>DOC-NN</strong></td><td>A client document cataloged at intake.</td></tr>
+<tr><td><strong>CON-NN</strong></td><td>A contradiction found between two client documents.</td></tr>
+<tr><td><strong>Q-NN</strong></td><td>An open question with a named owner and due date.</td></tr>
+<tr><td><strong>C-NN</strong></td><td>A constraint.</td></tr>
+</table>
+</section>
+
+<section id="scenario">
+<h2>1. The scenario</h2>
+<p><strong>Harbor Mutual Insurance Group</strong> (regional property and auto insurer, ~400 employees)
+hires the pod to modernize property-claims intake. Today a claim takes a median of 11.4 days
+from first notice of loss (FNOL) to a coverage decision; policyholders who wait more than 7
+days renew measurably less often. A 2024 modernization attempt with another vendor failed.
+Claims live in "PolicyOne," a mainframe-era core system with a nightly batch window (policy
+data syncs to other systems only once a night).</p>
+<table>
+<tr><th>Side</th><th>Person</th><th>Role</th></tr>
+<tr><td>Harbor</td><td>Karen Voss</td><td>VP Claims Operations — sponsor, owns budget and outcome</td></tr>
+<tr><td>Harbor</td><td>Luis Ortega</td><td>Claims Product Manager — candidate (and eventual) PO</td></tr>
+<tr><td>Harbor</td><td>Priti Shah</td><td>BI (business intelligence) lead — data owner for claims metrics</td></tr>
+<tr><td>Harbor</td><td>Dan Kowalski</td><td>IT Security — procurement, data boundary, access</td></tr>
+<tr><td>Harbor</td><td>Gail Tran, Marcus Webb</td><td>Senior adjusters — domain experts</td></tr>
+<tr><td>Harbor</td><td>Dee Alvarez</td><td>Intake supervisor — domain expert</td></tr>
+<tr><td>Pod</td><td>Maya Chen</td><td>Pod Lead</td></tr>
+<tr><td>Pod</td><td>Rob Feld</td><td>Setup Owner</td></tr>
+</table>
+</section>
+
+<section id="tendays">
+<h2>2. How the ten days played out</h2>
+<p>Engagement start Monday 2026-03-02. The artifacts below show end-of-phase state (resolution
+and answer logs filled in after the workshop).</p>
+<div class="callout legend"><strong>Reading the Tooling bars</strong> — each day names the claude-code-sdlc machinery in play.
+<table class="legend-tbl">
+<tr><td><span class="tool">/sdlc-gate</span></td><td><strong>You run it</strong></td><td>a slash command you type (e.g. <code>/sdlc-gate</code>, <code>/sdlc-coach</code>)</td></tr>
+<tr><td><span class="tool hood">check_gates.py</span></td><td><strong>It triggers</strong></td><td>an agent or script the command above runs under the hood — always shown after a <span class="arr">→</span></td></tr>
+<tr><td><span class="tool none">No plugin command</span></td><td><strong>Human / client</strong></td><td>a meeting, client-system work, or an exploratory spike — nothing the plugin drives</td></tr>
+</table>
+<span class="legend-foot">Drafting phase artifacts runs through <code>/sdlc-coach</code> — guided dialogue that fills the phase templates. The templates themselves are files Claude reads; they're named in the artifacts, not here.</span></div>
+
+<h3>Day 1 (Mon 3/2) — kickoff</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool">/sdlc-setup</span><span class="arr">→</span><span class="tool hood">init_project.py</span></div></div>
+<ul>
+<li>60-minute kickoff with Karen, Luis, and Dan: introductions, the how-we-work briefing (the loop, the gates, the biweekly demo cadence, what the pod needs from Harbor and when).</li>
+<li>The document corpus arrives: 8 documents, unsorted, exactly as requested.</li>
+<li>Rob hands Dan the data-flow brief and opens the Anthropic procurement conversation — Dan owns vendor onboarding and quotes a typical two-week lead time.</li>
+<li>Rob issues the access checklist: contributor access, GitHub Actions enabled, secrets permissions, runner policy.</li>
+<li>Rob initializes the engagement scaffold (the standard folder-and-state structure every engagement starts from) with <strong><code>/sdlc-setup</code></strong> (microsoft-enterprise profile) in the pod workspace; it moves into the Harbor repo on day 8. The corpus goes into the configured intake folder.</li>
+</ul>
+
+<h3>Day 2 (Tue 3/3) — intake and prep</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool">/sdlc-intake</span><span class="arr">→</span><span class="tool hood">intake_documents.py</span><span class="note">— catalogs the corpus</span></div>
+<div class="trow"><span class="tool">/sdlc-brief</span><span class="arr">→</span><span class="tool hood">discovery-analyst agent</span><span class="note">— contradictions + questions, then drafts the brief</span></div></div>
+<ul>
+<li>Document intake runs (<strong>Phase 0 Step 0c</strong>: the <code>intake_documents.py</code> cataloger, then Claude summarization): all 8 documents cataloged as DOC-001 through DOC-008. Maya prioritizes the catalog at the HITL gate (the RFP, the architecture overview, and the ops report first). Claude writes a summary per document plus the registry; the catalog is locked so document references stay stable into requirements.</li>
+<li>The <strong><code>discovery-analyst</code></strong> agent (<strong>Step 0d</strong>) compares the corpus and produces two artifacts:
+  <ul>
+  <li>Four contradictions (CON-01 through CON-04), each with two verbatim quotes — including the big one: the RFP demands real-time adjudication while the architecture document's nightly batch makes it impossible.</li>
+  <li>Fourteen questions (Q-01 through Q-14), grouped by agenda block and routed: 6 for the workshop, 3 answerable by email, 3 for the day-5 interviews (2 would surface later).</li>
+  </ul></li>
+<li>The three pre-workshop questions go out by email — and all three come back the same day: reopened claims are excluded from the cycle-time figure (Q-05, Priti), the cloud is Azure only (Q-07, Dan), and PII stays inside Harbor's own cloud tenant (Q-12, Dan).</li>
+<li><strong><code>/sdlc-brief</code></strong> drafts the workshop brief through its curation gate: Maya picks what makes the page — all four contradictions, six questions, four decisions the room must leave with. She edits the draft and sends it to the six attendees herself (the command never sends).</li>
+</ul>
+
+<h3>Day 3 (Wed 3/4) — the outcome workshop</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool none">No plugin command — the workshop is humans in a room</span></div></div>
+<ul>
+<li>Three hours, Harbor HQ room 4B, six attendees, Maya facilitating. Humans only.</li>
+<li>All four contradictions get resolved in the room: same-business-day decisions for v1 (CON-01), property-only scope that must not preclude auto (CON-02), a 40,000-claims/yr design target (CON-03), and the metric defined as FNOL-to-coverage-decision (CON-04).</li>
+<li>Six questions answered, including the two that shape the engagement: the business pain is renewal churn — policyholders leaving when their policies come up for renewal (Q-01) — and the 2024 attempt died from having no internal owner (Q-02).</li>
+<li>The PO decision lands: Luis Ortega, named, 6 hours per week, triage on his calendar.</li>
+</ul>
+
+<h3>Day 4 (Thu 3/5) — first drafts</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool">/sdlc-coach</span><span class="note">— drafts the problem statement, success criteria, and constraints from the workshop notes (fills the discovery templates)</span></div></div>
+<ul>
+<li>Claude drafts the problem statement, success criteria, and constraints from Maya's workshop notes.</li>
+<li>Maya corrects all three the same day — drafts age badly.</li>
+</ul>
+
+<h3>Day 5 (Fri 3/6) — interviews and the first checkpoint</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool none">No plugin command — interviews and the sponsor checkpoint are human conversations</span></div></div>
+<ul>
+<li>Interviews: Gail and Marcus (senior adjusters), Dee (intake supervisor), and Harbor compliance. Two more questions close: the 15-business-day acknowledgment rule in two states (Q-08), and the email channel's dirty secret — a shared Outlook inbox triaged manually twice a day with no SLA (Q-11).</li>
+<li>The sponsor checkpoint: Maya reads the draft problem statement to Karen out loud. Karen stops her — the corpus framed this as an adjuster-efficiency problem; the real pain is renewal churn. The problem statement is reframed the same afternoon. This is the single most valuable correction of the phase.</li>
+</ul>
+
+<h3>Day 6 (Mon 3/9) — the metric gets proven</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool none">No plugin command — the metric session runs on the client's own reporting system</span></div></div>
+<ul>
+<li>Working session with Priti: report CR-204 is run live, the 11.4-day baseline is read off the screen and recorded with its source.</li>
+<li>A surprise: the report's caption says "to first payment" but the underlying query measures to coverage decision — the caption is wrong, the query is right. Flagged to Harbor BI.</li>
+<li>The pod's Quality Engineer vets all three success criteria for measurability.</li>
+</ul>
+
+<h3>Day 7 (Tue 3/10) — constitution and the PO record</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool">/sdlc-coach</span><span class="note">— drafts the constitution (fills the constitution template)</span></div></div>
+<ul>
+<li>Claude drafts the constitution; Maya keeps it short enough that Karen will actually read it.</li>
+<li>The PO decision is recorded in writing: PO mode, Luis Ortega, 6 hours/week, 2-business-day decision turnaround.</li>
+</ul>
+
+<h3>Day 8 (Wed 3/11) — enablement converges</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool none">No plugin command — procurement, keys, repo access; the day-1 scaffold moves into the Harbor repo</span></div></div>
+<ul>
+<li>Harbor's Anthropic agreement is signed — two days ahead of the fallback-rider trigger. Keys go into Harbor's Key Vault (their cloud secret store); pod seats are issued under Harbor's account.</li>
+<li>The delivery repo is live in Harbor's GitHub org with the engagement structure initialized; every Phase 0 artifact moves in and is committed. The repo is now the only home.</li>
+<li>The access checklist closes.</li>
+</ul>
+
+<h3>Day 9 (Thu 3/12) — the gate run</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool">/sdlc-gate</span><span class="arr">→</span><span class="tool hood">check_gates.py</span><span class="tool hood">gate-repair agent</span></div>
+<div class="trow"><span class="tool">/sdlc-enhance</span><span class="arr">→</span><span class="tool hood">narrative-enhancer agent</span></div>
+<div class="trow"><span class="tool">/sdlc-phase-report</span><span class="arr">→</span><span class="tool hood">generate_phase_report.py</span></div></div>
+<ul>
+<li>Claude drafts the Phase 1 handoff; the two still-open questions (Q-13, Q-14) carry into it under their original IDs, each with an owner and a due date.</li>
+<li><strong><code>/sdlc-gate</code></strong> runs the six-gate check: one completeness failure — a leftover placeholder in the constraints file — which the <strong><code>gate-repair</code></strong> agent fixes (structural repair only), and the gate re-runs clean.</li>
+<li><strong><code>/sdlc-enhance</code></strong> generates the plain-language narrative companion for Karen (the <code>narrative-enhancer</code> agent); Maya edits it before it goes anywhere.</li>
+<li><strong><code>/sdlc-phase-report</code></strong> renders the stakeholder HTML report for tomorrow's review.</li>
+</ul>
+
+<h3>Day 10 (Fri 3/13) — phase review and sign-off</h3>
+<div class="toolbar"><span class="lbl">Tooling</span>
+<div class="trow"><span class="tool">/sdlc-next</span><span class="arr">→</span><span class="tool hood">check_gates.py</span><span class="tool hood">advance_phase.py</span></div></div>
+<ul>
+<li>45 minutes with Karen: the constitution walked page by page, the metric shown with its verified baseline, the constraints, the PO record, and the two open questions with their owners.</li>
+<li>Karen signs the outcome statement. The advance is approved and recorded with <strong><code>/sdlc-next</code></strong>, which re-verifies the gates and moves the engagement state to Phase 1. Billing milestone 1.</li>
+</ul>
+</section>
+
+<section id="notice">
+<h2>3. What to notice</h2>
+<ul>
+<li><strong>The contradiction that paid for the phase:</strong> CON-01 (the RFP demands real-time adjudication; the architecture doc makes it impossible). Resolved in 20 minutes in a room; would have been weeks of rework discovered mid-build.</li>
+<li><strong>The metric definition fight (CON-04):</strong> two Harbor documents measured "cycle time" differently. The success metric is worthless until the room picks one. They picked FNOL-to-coverage-decision.</li>
+<li><strong>The reframe on day 5:</strong> the corpus framed the problem as adjuster efficiency; the sponsor, hearing the draft read aloud, corrected it to renewal churn. That one correction changed the primary metric's "why" — and it's exactly what the day-5 checkpoint exists to catch.</li>
+<li><strong>Questions only:</strong> the brief never proposes an outcome. Every framing appears as an attributed claim with a DOC reference.</li>
+<li><strong>Q-NN continuity:</strong> Q-13 and Q-14 are still open at phase exit and appear in the handoff under the same IDs.</li>
+</ul>
+</section>
+
+<section id="registry">
+<span class="artifact-tag">Artifact</span>
+<h2>4. The document registry</h2>
+<p class="made">Produced day 2 by document intake (Step 0c: <code>intake_documents.py</code> + Claude summarization). Registry locked 2026-03-03. 8 documents, ~96,000 tokens: pdf (5), docx (1), md (2).</p>
+<table>
+<tr><th>ID</th><th>Filename</th><th>Est. Tokens</th><th>Key Topics</th></tr>
+<tr><td>DOC-001</td><td>claims-modernization-rfp.pdf</td><td>22,000</td><td>scope, requirements, real-time adjudication, volumes</td></tr>
+<tr><td>DOC-002</td><td>policyone-architecture-overview.pdf</td><td>18,500</td><td>PolicyOne core, nightly batch, integration points</td></tr>
+<tr><td>DOC-003</td><td>fnol-intake-process-flows.docx</td><td>9,000</td><td>FNOL channels (phone 55%, portal 30%, email 15%), triage steps</td></tr>
+<tr><td>DOC-004</td><td>2024-modernization-postmortem.pdf</td><td>7,500</td><td>prior vendor attempt, integration failure, lessons</td></tr>
+<tr><td>DOC-005</td><td>claims-ops-q4-2025-report.pdf</td><td>12,000</td><td>cycle time 11.4 days, 38,000 property claims/yr, adjuster touches 7.3</td></tr>
+<tr><td>DOC-006</td><td>it-security-standards.md</td><td>8,000</td><td>Azure-only cloud policy, data residency, vendor onboarding</td></tr>
+<tr><td>DOC-007</td><td>integration-api-inventory.md</td><td>6,000</td><td>PolicyOne APIs, document store, payment gateway</td></tr>
+<tr><td>DOC-008</td><td>claims-2027-strategy-deck.pdf</td><td>13,000</td><td>auto-claims expansion, PolicyOne retirement ambition, cycle-time goals</td></tr>
+</table>
+<p>Topic clusters: <strong>Current state</strong> (DOC-002/003/005/007), <strong>Ambition</strong> (DOC-001/008),
+<strong>Constraints</strong> (DOC-006/002), <strong>History</strong> (DOC-004).</p>
+</section>
+
+<section id="contradictions">
+<span class="artifact-tag">Artifact</span>
+<h2>5. The contradiction list</h2>
+<p class="made">Produced day 2 by the <code>discovery-analyst</code> agent (Step 0d); resolutions recorded at the day-3 workshop.</p>
+
+<div class="con">
+<div class="con-head">CON-01: Real-time adjudication vs. the nightly batch window <span class="sev blocks">blocks-outcome</span></div>
+<div class="quote-a"><strong>DOC-001 §3.2:</strong> "The solution shall provide real-time adjudication for eligible claims at the point of first notice of loss."</div>
+<div class="quote-b"><strong>DOC-002 §4.1:</strong> "Policy and coverage records are synchronized to downstream systems via the nightly batch cycle (21:00–04:30); intraday reads reflect the prior business day."</div>
+<p><strong>Why it matters:</strong> The RFP's headline requirement is impossible against the current core system. Either "real-time" gets redefined, or the engagement includes a PolicyOne read-path nobody has scoped or priced.</p>
+<p><strong>The question for the room:</strong> Is a same-business-day coverage decision acceptable for v1, or is true real-time a hard requirement worth the integration cost?</p>
+<p class="resolved">Resolution: same-business-day accepted for v1; true real-time deferred to the auto-claims phase. (Karen Voss, 2026-03-04)</p>
+</div>
+
+<div class="con">
+<div class="con-head">CON-02: v1 scope — property only, or property and auto? <span class="sev blocks">blocks-outcome</span></div>
+<div class="quote-a"><strong>DOC-001 §2.1:</strong> "This procurement covers the property claims intake and triage process."</div>
+<div class="quote-b"><strong>DOC-008 slide 9:</strong> "Unified intake across property and auto books by FY2027 — single platform, single queue."</div>
+<p><strong>Why it matters:</strong> Scope determines volume targets, data model, and timeline. Designing for property-only and discovering auto in month four is the 2024 failure replayed.</p>
+<p><strong>The question for the room:</strong> Is v1 property-only, and if so, what must the design not preclude for auto?</p>
+<p class="resolved">Resolution: v1 is property-only; the claim data model and queue design must not preclude adding the auto book — gated at Phase 2 design review. (Karen Voss, 2026-03-04)</p>
+</div>
+
+<div class="con">
+<div class="con-head">CON-03: Annual claim volume — 38,000 or 60,000? <span class="sev shapes">shapes-design</span></div>
+<div class="quote-a"><strong>DOC-005 p.3:</strong> "Property claims received FY2025: 38,142."</div>
+<div class="quote-b"><strong>DOC-001 §1.4:</strong> "Harbor processes approximately 60,000 claims annually."</div>
+<p><strong>Why it matters:</strong> Sizing, load assumptions, and fast-path eligibility analysis all key off volume. A 60% disagreement is not a rounding error.</p>
+<p><strong>The question for the room:</strong> Which number is the design target, and what does 60,000 include?</p>
+<p class="resolved">Resolution: 60,000 includes the auto book; property design target is 40,000/yr with 25% headroom. (Priti Shah, 2026-03-04)</p>
+</div>
+
+<div class="con">
+<div class="con-head">CON-04: What "cycle time" means <span class="sev shapes">shapes-design</span></div>
+<div class="quote-a"><strong>DOC-005 p.2:</strong> "Median cycle time (FNOL to first indemnity payment): 11.4 days."</div>
+<div class="quote-b"><strong>DOC-008 slide 4:</strong> "Target: claims cycle time (FNOL to coverage decision) under 3 days by 2027."</div>
+<p><strong>Why it matters:</strong> The engagement's success metric is unusable until one definition wins — the two definitions can move in opposite directions.</p>
+<p><strong>The question for the room:</strong> Which definition does the success metric use?</p>
+<p class="resolved">Resolution: FNOL to coverage decision. The 11.4-day baseline was confirmed to be FNOL-to-decision in the underlying CR-204 query despite the DOC-005 caption (caption error flagged to BI). (Priti Shah, 2026-03-04; verified at the 2026-03-09 metric session)</p>
+</div>
+</section>
+
+<section id="questions">
+<span class="artifact-tag">Artifact</span>
+<h2>6. The question list</h2>
+<p class="made">Produced day 2 by the <code>discovery-analyst</code> agent (Step 0d). 14 questions: 6 routed workshop, 3 pre-workshop (emailed day 2), 3 interview, 2 still open at phase exit.</p>
+<table>
+<tr><th>ID</th><th>Block</th><th>Question</th><th>Route</th><th>Answer</th></tr>
+<tr><td>Q-01</td><td>Problem</td><td>Who is hurt most by the 11.4 days — policyholders or the claims team?</td><td>workshop</td><td>Renewal churn is the frame: claimants waiting &gt;7 days renew 2.1 points lower (Karen, 3/4)</td></tr>
+<tr><td>Q-02</td><td>Problem</td><td>What actually killed the 2024 attempt?</td><td>workshop</td><td>No named internal owner; integration scope found in month five (Karen, 3/4)</td></tr>
+<tr><td>Q-03</td><td>Outcomes</td><td>Should Harbor's engineers run this delivery model after handoff?</td><td>workshop</td><td>Yes — four engineers trained into the loop (Karen, 3/4)</td></tr>
+<tr><td>Q-04</td><td>Metric</td><td>What exact report produces the 11.4-day figure; can it run on demand?</td><td>interview</td><td>CR-204, ClaimsCenter BI, weekly, on-demand capable; run live 3/9 (Priti)</td></tr>
+<tr><td>Q-05</td><td>Metric</td><td>Does the figure include reopened claims?</td><td>pre-workshop</td><td>No — tracked separately (Priti, email 3/3)</td></tr>
+<tr><td>Q-06</td><td>Constraints</td><td>Is the PolicyOne retirement date funded and fixed, or aspirational?</td><td>workshop</td><td>Aspirational, unfunded — treat PolicyOne as permanent for v1 (Karen, 3/4)</td></tr>
+<tr><td>Q-07</td><td>Constraints</td><td>Azure-only, or is anything on AWS?</td><td>pre-workshop</td><td>Azure only; the AWS reference was the failed vendor's proposal (Dan, email 3/3)</td></tr>
+<tr><td>Q-08</td><td>Constraints</td><td>Do state regulations bound acknowledgment or decision timelines?</td><td>interview</td><td>15-business-day acknowledgment in two states; 96.2% compliance today (compliance, 3/6)</td></tr>
+<tr><td>Q-09</td><td>PO</td><td>Can Harbor commit a named PO at the agreed hours with 2-day turnaround?</td><td>workshop</td><td>Luis Ortega, 6 hrs/week, triage on his calendar (Karen, 3/4)</td></tr>
+<tr><td>Q-10</td><td>Tooling</td><td>Who owns Anthropic vendor onboarding; what lead time?</td><td>workshop</td><td>Dan owns it; ~2 weeks; started day 1, signed 3/11 — fallback rider not needed</td></tr>
+<tr><td>Q-11</td><td>Other</td><td>Where does FNOL email volume land; who triages it?</td><td>interview</td><td>Shared Outlook inbox, manual triage twice daily, no SLA (Dee, 3/6)</td></tr>
+<tr><td>Q-12</td><td>Other</td><td>Can claim documents (PII) appear in agent context?</td><td>pre-workshop</td><td>PII stays in Harbor tenant; intake corpus was redacted (Dan, email 3/3)</td></tr>
+<tr><td>Q-13</td><td>Other</td><td>Do the two states' acknowledgment rules apply differently to the portal channel?</td><td>interview</td><td><span class="open-q">OPEN</span> — carried to handoff (owner Luis, due Phase 1 wk 1)</td></tr>
+<tr><td>Q-14</td><td>Other</td><td>What share of property claims is "simple" (single dwelling, no injury, &lt;$25k) and fast-path eligible?</td><td>interview</td><td><span class="open-q">OPEN</span> — carried to handoff (owner Priti, due Phase 1 wk 1)</td></tr>
+</table>
+</section>
+
+<section id="brief">
+<span class="artifact-tag">Artifact</span>
+<h2>7. The workshop brief</h2>
+<p class="made">Drafted day 2 via <code>/sdlc-brief</code>, curated by Maya at its HITL gate, sent by Maya. The one page, as sent:</p>
+<div class="brief">
+<div class="brief-title">Workshop Brief — Harbor Mutual Outcome Workshop</div>
+<p>Wednesday 2026-03-04, 9:00–12:00, Harbor HQ room 4B · runs 3 hours<br>
+Attendees: Karen Voss (VP Claims Ops, sponsor), Luis Ortega (Claims PM), Priti Shah (BI),
+Dan Kowalski (IT Security), Gail Tran (senior adjuster), Dee Alvarez (intake supervisor)<br>
+Facilitator: Maya Chen · Pre-reading: this page only</p>
+<h4>What we read</h4>
+<p>8 documents provided by your team. The load-bearing three: DOC-001 (the modernization RFP),
+DOC-002 (PolicyOne architecture), DOC-005 (Q4 2025 claims ops report).</p>
+<h4>What the documents say</h4>
+<ul>
+<li>Median property-claim cycle time is 11.4 days; an average claim is touched 7.3 times (DOC-005)</li>
+<li>FNOL arrives by phone (55%), portal (30%), and email (15%) (DOC-003)</li>
+<li>Policy data syncs on a nightly batch; intraday reads show yesterday (DOC-002 §4.1)</li>
+<li>A 2024 modernization attempt was cancelled in month six (DOC-004)</li>
+</ul>
+<h4>Where the documents disagree</h4>
+<ol>
+<li>DOC-001 §3.2 requires real-time adjudication; DOC-002 §4.1 says the nightly batch makes intraday policy reads stale. <em>Is same-business-day acceptable for v1?</em> (CON-01)</li>
+<li>DOC-001 scopes property; DOC-008 plans property + auto by 2027. <em>Is v1 property-only, and what must the design not preclude?</em> (CON-02)</li>
+<li>38,142 claims/yr (DOC-005) vs ~60,000 (DOC-001). <em>Which is the design target?</em> (CON-03)</li>
+<li>Cycle time to first payment (DOC-005) vs to coverage decision (DOC-008). <em>Which definition does the success metric use?</em> (CON-04)</li>
+</ol>
+<h4>What nobody has written down</h4>
+<p><strong>Problem:</strong> who is hurt most — policyholders or the claims team? (Q-01) What killed the
+2024 attempt? (Q-02) · <strong>Outcomes:</strong> should Harbor's engineers run this model after we
+leave? (Q-03) · <strong>Constraints:</strong> is the PolicyOne retirement funded? (Q-06) ·
+<strong>Ownership:</strong> can Harbor commit a named PO at ~4-6 hrs/week? (Q-09) · <strong>Tooling:</strong>
+who owns Anthropic onboarding? (Q-10)</p>
+<h4>Decisions we need from the room</h4>
+<ol>
+<li>The one success metric — definition and source system</li>
+<li>v1 scope</li>
+<li>Real-time vs same-business-day</li>
+<li>The PO commitment</li>
+</ol>
+<h4>Agenda</h4>
+<p>The problem in your words (45) · the three outcomes (45) · the one metric (30) ·
+constraints (30) · product ownership (20) · tooling status (10)</p>
+</div>
+</section>
+
+<section id="problem">
+<span class="artifact-tag">Artifact</span>
+<h2>8. The problem statement</h2>
+<p class="made">Drafted day 4 from workshop notes; reframed day 5 at the sponsor checkpoint; signed day 10.</p>
+<p><strong>The problem.</strong> Property policyholders wait a median of 11.4 days from first notice of
+loss to a coverage decision. Claimants who wait more than 7 days renew at a rate 2.1 points
+lower — on Harbor's property book, approximately $3.4M in annual premium. The cost of the
+delay is paid at renewal time, by retention, not primarily in claims-department overtime.</p>
+<div class="callout">That framing is the sponsor's, corrected at the day-5 checkpoint: the corpus framed this as
+adjuster efficiency; Karen Voss reframed it as retention. Efficiency improves as a consequence,
+not as the goal.</div>
+<p><strong>Observable symptoms.</strong> Median FNOL-to-decision 11.4 days (CR-204, verified live 3/9);
+7.3 touches by 5 people per average claim; email FNOL (15% of volume) lands in a shared
+Outlook inbox triaged manually twice a day with no SLA; portal FNOL re-keyed into PolicyOne by
+hand; intraday policy reads show yesterday because of the nightly batch — a built-in extra day
+on every same-day claim.</p>
+<p><strong>Who is affected.</strong> Policyholders at the worst moment of their relationship with Harbor;
+64 property adjusters spending touches on coordination instead of decisions; the 9-person
+intake team; Harbor's renewal book, where the cost actually lands.</p>
+<p><strong>Why now.</strong> The 2024 attempt failed (no internal owner, late integration scope), the 2027
+strategy depends on a working property platform to extend to auto, and Q4 2026 is the first
+renewal season a fixed cycle time could protect.</p>
+<p><strong>Root cause.</strong> Five-whys (asking "why" repeatedly until the answers stop changing)
+converges on two causes: (1) no single queue — three FNOL
+channels with three intake mechanics and no shared prioritization; (2) coverage verification
+blocked on a nightly batch. Everything else is downstream of those two.</p>
+</section>
+
+<section id="success">
+<span class="artifact-tag">Artifact</span>
+<h2>9. The success criteria</h2>
+<p class="made">Drafted day 4; baselines verified live at the day-6 metric session.</p>
+<h3>Primary — the one metric: median days from FNOL to coverage decision, property claims</h3>
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Definition</td><td>FNOL timestamp to coverage-decision timestamp, median, property book, reopened claims excluded (Q-05); definition fixed by CON-04</td></tr>
+<tr><td>Baseline</td><td><strong>11.4 days</strong> (FY2025) — read live with the data owner on 2026-03-09</td></tr>
+<tr><td>Source system</td><td>Report CR-204, ClaimsCenter BI; weekly batch, on-demand capable</td></tr>
+<tr><td>Target</td><td>≤ 5.0 days median within 12 months of go-live</td></tr>
+<tr><td>Stretch / partial / failure</td><td>≤ 3.0 / ≤ 7.0 (clears the churn threshold) / no meaningful movement</td></tr>
+</table>
+<p><strong>Secondary:</strong> S1 regulatory acknowledgment compliance (baseline 96.2% → target 100%);
+S2 adjuster touches per claim (baseline 7.3 → target ≤ 4.0). <strong>Explicitly not success
+metrics:</strong> features shipped, PR (pull request) counts, story points, agent productivity figures.</p>
+<p><strong>Instrumentation debt (measurement work that still has to be built) carried to Phase 1:</strong> S1's read is quarterly and manual today
+(automating it is Phase 1 scope); Q-14 blocks fast-path target-setting.</p>
+</section>
+
+<section id="constraints">
+<span class="artifact-tag">Artifact</span>
+<h2>10. The constraints</h2>
+<p class="made">Drafted day 4; signed day 10.</p>
+<table>
+<tr><th>#</th><th>Constraint</th><th>Fixed / Negotiable</th><th>Source</th></tr>
+<tr><td>C-01</td><td>Azure is the only approved cloud</td><td>Fixed</td><td>DOC-006 §2; Q-07</td></tr>
+<tr><td>C-02</td><td>PolicyOne stays; the nightly batch window is a hard integration boundary for v1</td><td>Fixed</td><td>Q-06; CON-01</td></tr>
+<tr><td>C-03</td><td>v1 property-only; design must not preclude the auto book</td><td>Fixed</td><td>CON-02; gated at Phase 2</td></tr>
+<tr><td>C-04</td><td>15-business-day acknowledgment in two regulated states</td><td>Fixed</td><td>Q-08 — becomes acceptance criteria and test cases</td></tr>
+<tr><td>C-05</td><td>Claim documents and PII stay in the Harbor tenant; no PII in model context outside the approved Azure path</td><td>Fixed</td><td>Q-12</td></tr>
+<tr><td>C-06</td><td>Anthropic access under Harbor's agreement; keys in Harbor Key Vault</td><td>Fixed</td><td>Signed 3/11</td></tr>
+<tr><td>C-07</td><td>Fixed fee per phase; gates are the billing milestones</td><td>Fixed</td><td>SOW (statement of work)</td></tr>
+<tr><td>C-08</td><td>Go-live before the Q4 2026 renewal season (Oct 1)</td><td>Negotiable</td><td>Karen prefers scope cuts over date slips, in that order</td></tr>
+<tr><td>C-09</td><td>Design target 40,000 property claims/yr including headroom</td><td>Negotiable</td><td>CON-03; revisit after Q-14</td></tr>
+</table>
+</section>
+
+<section id="constitution">
+<span class="artifact-tag">Artifact</span>
+<h2>11. The constitution</h2>
+<p class="made">Drafted day 7; signed by the sponsor at the day-10 phase review.</p>
+<p><strong>Identity.</strong> Harbor Claims Intake — a unified property-claims intake and triage system
+replacing three disconnected FNOL channels with one queue and same-business-day coverage
+decisions, integrated with PolicyOne. Project type: service.</p>
+<p><strong>Mission.</strong> Get property policyholders a coverage decision in days, not weeks, so that a
+claim becomes a reason to renew instead of a reason to leave.</p>
+<p><strong>The three outcomes.</strong></p>
+<ul>
+<li><strong>Business:</strong> median FNOL-to-decision ≤ 5 days (from 11.4), protecting renewal retention</li>
+<li><strong>Software:</strong> one intake system across phone, portal, email; a single prioritized queue; fast-path triage for simple claims; PolicyOne integration that lives with the batch window</li>
+<li><strong>Capability:</strong> four named Harbor engineers run this delivery model independently by engagement close</li>
+</ul>
+<p><strong>Governing principles.</strong> (1) Retention is the frame — when efficiency and claimant
+experience conflict, claimant experience wins. (2) The batch window is real — v1 designs with
+it, not around an unfunded retirement. (3) Property-only, auto-proof — checked at every design
+gate. (4) Regulatory clocks are acceptance criteria, tested not remembered. (5) No PII in
+model context outside the approved Azure path.</p>
+<table>
+<tr><th>Decision</th><th>Owner</th></tr>
+<tr><td>Outcome, budget, phase advancement sign-off</td><td>Karen Voss (sponsor)</td></tr>
+<tr><td>Product decisions, story acceptance, decision-list answers (2-business-day turnaround)</td><td>Luis Ortega (PO, 6 hrs/week)</td></tr>
+<tr><td>Architecture decisions (ADRs)</td><td>Pod Setup Owner, co-signed by Harbor's lead engineer from Phase 2</td></tr>
+<tr><td>Security and data-boundary decisions</td><td>Dan Kowalski</td></tr>
+<tr><td>Scope changes</td><td>Karen Voss, on Luis's recommendation</td></tr>
+</table>
+</section>
+
+<section id="handoff">
+<span class="artifact-tag">Artifact</span>
+<h2>12. The Phase 1 handoff</h2>
+<p class="made">Drafted day 9; phase closed day 10 (billing milestone 1).</p>
+<p><strong>Key findings.</strong> The business problem is renewal churn, not adjuster overtime. Two root
+causes: no single queue, and verification blocked on the nightly batch. v1 property-only
+(40k/yr target), auto-proof. Same-business-day accepted; real-time deferred. Two regulated
+states impose a 15-business-day acknowledgment clock. The 2024 attempt failed on ownership and
+late integration scope — the PO commitment and the Phase 3 walking skeleton (the thinnest
+end-to-end slice of the system, built first to prove the architecture works in practice) are
+the direct countermeasures. Harbor wants the capability outcome: four engineers trained.</p>
+<h3>Open questions for Phase 1</h3>
+<table>
+<tr><th>ID</th><th>Question</th><th>Owner</th><th>Due</th></tr>
+<tr><td>Q-13</td><td>Do the two states' acknowledgment rules apply differently to the portal channel?</td><td>Luis Ortega</td><td>Phase 1, week 1</td></tr>
+<tr><td>Q-14</td><td>What share of property claims is "simple" and fast-path eligible?</td><td>Priti Shah</td><td>Phase 1, week 1</td></tr>
+</table>
+<h3>Risks carried forward</h3>
+<ul>
+<li><strong>PolicyOne integration surprises</strong> — it killed the 2024 attempt; DOC-007's API inventory is dated 2023. Phase 2 design spike, a short timeboxed technical investigation, against the live inventory before any contract is drawn.</li>
+<li><strong>CR-204 caption/definition drift</strong> — BI fix confirmed before the metric goes on the steering scorecard.</li>
+<li><strong>Email-channel mechanics undocumented</strong> — Phase 1 interviews the intake team, not just the supervisor.</li>
+<li><strong>Renewal-season deadline pressure</strong> — scope cuts decided at steering, never silently in the flow.</li>
+</ul>
+<div class="callout"><strong>Recommended Phase 1 starting point:</strong> start requirements with the single queue
+(channel unification), not the fast-path — the queue is the prerequisite for everything, and
+the email channel is the least understood. Fast-path requirements wait on Q-14's segmentation.</div>
+</section>
+
+<section id="tooling">
+<span class="artifact-tag">Behind the scenes</span>
+<h2>13. The tooling behind this phase</h2>
+<p>The abstract Phase 0 page describes this work generically. In practice, the engagement ran
+on the <strong>claude-code-sdlc</strong> plugin. What produced what:</p>
+<table>
+<tr><th>What got produced</th><th>How</th></tr>
+<tr><td>Engagement scaffold (state, profile, artifact folders)</td><td><code>/sdlc-setup</code> with the <code>microsoft-enterprise</code> profile (day 1, pod workspace; moved into the Harbor repo day 8)</td></tr>
+<tr><td>Document catalog, summaries, registry, intake index</td><td>Phase 0 Step 0c: <code>scripts/intake_documents.py</code> catalogs with DOC-NNN IDs; Claude writes the summaries and registry; Maya prioritizes at the HITL gate; catalog locked</td></tr>
+<tr><td>Contradiction list, question list</td><td>The <code>discovery-analyst</code> agent (Phase 0 Step 0d)</td></tr>
+<tr><td>Workshop brief</td><td><code>/sdlc-brief</code> — analysis reused, Maya curates at the HITL gate, Maya sends</td></tr>
+<tr><td>Problem statement, success criteria, constraints, constitution, handoff</td><td>Drafted in-session against the <code>templates/phases/00-discovery/</code> templates, following the <code>/sdlc</code> phase guidance</td></tr>
+<tr><td>Gate check (day 9)</td><td><code>/sdlc-gate</code> (the six-gate check via <code>check_gates.py</code>); the structural placeholder fixed by the <code>gate-repair</code> agent</td></tr>
+<tr><td>Narrative companion for Karen</td><td><code>/sdlc-enhance</code> (the <code>narrative-enhancer</code> agent), edited by Maya</td></tr>
+<tr><td>Stakeholder HTML report</td><td><code>/sdlc-phase-report</code></td></tr>
+<tr><td>Phase advance + billing milestone record</td><td><code>/sdlc-next</code> (re-runs gates, records the human sign-off, moves state to Phase 1)</td></tr>
+</table>
+<div class="callout"><strong>Next:</strong> <a href="phase-1-example.html">the Phase 1 worked example</a> — what
+happened to Q-13, Q-14, and the recommended starting point in the week that followed.</div>
+</section>
+
+<footer>Phase 0 Worked Example: Harbor Mutual · Delivery Standard · MCKRUZ/delivery-standard · Paired source: docs/phase-0-example.md</footer>
+</main>
+</div>
+</body>
+</html>
