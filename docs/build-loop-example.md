@@ -298,3 +298,9 @@ on the **claude-code-sdlc** plugin, the kit's rails, and the paired skills:
 | Harness improvement (timezone checks)   | Last week's Retro+ answer; the test-writer skill updated by reviewed PR, merged at the setup review (Rob + Jonah)                                        |
 | Steering demo narrative + scorecard     | `/visual-explainer` → the demo walkthrough and scorecard visuals; Gail drives the live demo herself                                                      |
 | Weekly five-bullet client summary       | Claude drafts from the week's merged specs; Maya corrects and sends                                                                                      |
+
+---
+
+Next: [the Phase 7 worked example](phase-7-example.md) — Build closes feature-complete at
+spec 0044, and the documentation week proves Harbor can run the system without us: a cold
+checkout that fails on step 4 (on purpose), a 3 a.m. runbook, and two unwritten ADRs collected.

@@ -324,3 +324,7 @@ doubled PR volume while actual delivery stayed flat.
 
 Back: [Phase 3: Foundation](phase-3-foundation.md) — the phase that built the rails this loop
 runs on.
+
+Next: [Phase 7: Documentation](phase-7-documentation.md) — when Build is feature-complete,
+the close begins: proving a stranger can understand, run, and operate the system from its
+documentation alone.

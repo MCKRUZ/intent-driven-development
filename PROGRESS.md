@@ -106,6 +106,16 @@ found a read-only nightly **snapshot replica**. Storm surge ~10x for a week. 61%
   Harbor's platform engineer — owns branch protection, runners, secrets; reviews the pipeline
   he'll operate post-engagement. Jonah Kim is Rob's **named deputy** on the harness (the
   both-eyes rule). 0002 (replica verify) is the HIGH-risk spec that proves the security rails.
+- **Build + Phase 7 additions (keep consistent):** Build ran 2026-04-13 to **2026-07-10**,
+  feature-complete at **spec 0044**; both hardening passes done; WIP cap 6; review-wait
+  tripwire = one working day. Build-example week = wk4 (5/4-5/8): specs 0015 (fast-path
+  queue, MEDIUM) + 0016 (duplicate merge, HIGH; the empty-policy-number bucket catch; Wes
+  signs). Phase 7 = **2026-07-13 to 07-17**, billing milestone 5. NEW character: **Ines
+  Roy**, Harbor engineer hired 3 wks earlier — the README cold verifier (stalled at step 4:
+  Key Vault perms; fixed same day). Tom cold-walks the RUNBOOK. Drift catalog: 2 entries —
+  intentional `staleness_as_of` on REQ-014's degraded response; defect spec **0045**
+  (claims-search bare 500). Decision sweep → **ADR-012** (surge queue retry/backoff) +
+  **ADR-013** (claim-document retention tiering); ADRs complete through 013, none open.
 
 ---
 
@@ -196,7 +206,11 @@ Phase 3 HTML. Remaining work, in likely order:
    week 4 but are not itemized — keep future references consistent.
 2. ~~Casual-reader clarity pass~~ DONE 2026-06-11 (all four phase pairs + examples; team.md
    was already clean; see convention 1 for the binding rules).
-3. **Phases 7 (Docs), 8 (Deployment), 9 (Monitoring), C (Close & Transfer)** deep-dives + examples.
+3. ~~Phase 7 (Documentation)~~ DONE 2026-06-11: `phase-7-documentation.md/.html` +
+   `phase-7-example.md/.html`, fully cross-linked (build-loop pair Next links, GOLD-STANDARD
+   index). Phase 7 ends with Back-link only — add its Next link when phase-8 exists.
+4. **Phases 8 (Deployment), 9 (Monitoring), C (Close & Transfer)** deep-dives + examples —
+   phase 8 next.
 3. **Build the `kit/`** — the actual installable artifacts (templates, agents, hooks, CI YAML,
    Bicep). Currently only described in GOLD-STANDARD §10, not built. Phase 3 docs now name its
    contents in use — keep the kit consistent with what the example shows running.
