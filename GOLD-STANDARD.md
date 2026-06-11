@@ -60,6 +60,7 @@ disabled. Gates tell you whether you _may_ advance; a named human decides whethe
 > - `docs/phase-7-documentation.md` + example `docs/phase-7-example.md`
 > - `docs/phase-8-deployment.md` + example `docs/phase-8-example.md`
 > - `docs/phase-9-monitoring.md` + example `docs/phase-9-example.md`
+> - `docs/phase-c-close.md` + example `docs/phase-c-example.md`
 
 Rough calendar for a typical engagement (4-6 person pod, medium-sized product): Open 4-6 weeks
 (the phases overlap — the Setup Owner's enablement work runs ahead while requirements and design
@@ -442,6 +443,9 @@ decision, the tooling decision, constraints, and pod introductions.
 ---
 
 ## 13. Close & Transfer (Phase C)
+
+> Deep-dive: `docs/phase-c-close.md` — the shadow flip, the harness audit, the close gate,
+> and the clean exit, week by week.
 
 The engagement ends when the client can run this without us:
 

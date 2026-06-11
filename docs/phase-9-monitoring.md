@@ -301,3 +301,6 @@ Phase 9 closes — and hypercare ends with it — when all of these are true:
 ---
 
 Back: [Phase 8: Deployment](phase-8-deployment.md) — the go-live this phase makes observable.
+
+Next: [Phase C: Close & Transfer](phase-c-close.md) — the engagement ends when the client can
+run all of this without us, proven the way everything else was proven: by use, observed.

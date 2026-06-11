@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase C: Close &amp; Transfer · Delivery Standard</title>
+    <style>
+      :root {
+        --ink: #1a2332;
+        --ink-soft: #46556b;
+        --accent: #0f5c8c;
+        --accent-soft: #e8f1f7;
+        --rule: #d8dee8;
+        --bg: #f7f8fa;
+        --card: #ffffff;
+        --high: #b3372f;
+        --med: #b07a1e;
+        --low: #2e7d4f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      .layout {
+        display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      nav {
+        width: 290px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 32px 20px 32px 28px;
+        border-right: 1px solid var(--rule);
+        font-size: 13.5px;
+      }
+      nav .brand {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      nav .brand-sub {
+        color: var(--ink-soft);
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      nav .back {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      nav a.toc {
+        display: block;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-bottom: 1px;
+      }
+      nav a.toc:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      nav a.toc.sub {
+        padding-left: 24px;
+        font-size: 12.5px;
+      }
+      main {
+        flex: 1;
+        padding: 40px 56px 96px;
+        min-width: 0;
+      }
+      header.doc {
+        background: linear-gradient(135deg, #11314e, #0f5c8c);
+        color: #fff;
+        border-radius: 14px;
+        padding: 36px 40px;
+        margin-bottom: 36px;
+      }
+      header.doc h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        letter-spacing: -0.3px;
+      }
+      header.doc p {
+        margin: 0 0 8px;
+        color: #cfe2f1;
+        max-width: 72ch;
+      }
+      header.doc .meta {
+        font-size: 13px;
+        color: #9fc3dd;
+        margin-top: 14px;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 28px 34px;
+        margin-bottom: 26px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 0 0 14px;
+        color: var(--accent);
+        letter-spacing: -0.2px;
+      }
+      h3 {
+        font-size: 16.5px;
+        margin: 26px 0 8px;
+      }
+      h3:first-of-type {
+        margin-top: 10px;
+      }
+      h4 {
+        font-size: 14px;
+        margin: 18px 0 6px;
+        color: var(--ink-soft);
+      }
+      h4.day {
+        color: var(--accent);
+        font-size: 14.5px;
+      }
+      p {
+        margin: 0 0 12px;
+        max-width: 80ch;
+      }
+      ul,
+      ol {
+        margin: 0 0 14px;
+        padding-left: 24px;
+        max-width: 80ch;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 14px 0 18px;
+        font-size: 13.5px;
+      }
+      th {
+        background: var(--accent-soft);
+        color: var(--accent);
+        text-align: left;
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+      }
+      td {
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #fafbfd;
+      }
+      code {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #eef1f6;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 0.92em;
+      }
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .warn {
+        border-left: 4px solid var(--high);
+        background: #faf0ef;
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .checklist {
+        list-style: none;
+        padding-left: 4px;
+      }
+      .checklist li::before {
+        content: "☐";
+        margin-right: 10px;
+        color: var(--accent);
+      }
+      .week {
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 4px 22px 10px;
+        margin: 16px 0;
+        background: #fcfdfe;
+      }
+      .week > .wk-label {
+        display: block;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 12px 0 0;
+      }
+      footer {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        text-align: center;
+        padding: 12px 0 32px;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          padding: 24px;
+        }
+      }
+      @media print {
+        nav {
+          display: none;
+        }
+        section {
+          border: none;
+          padding: 0 0 18px;
+        }
+        header.doc {
+          color: #000;
+          background: none;
+          padding: 0;
+        }
+        header.doc p,
+        header.doc .meta {
+          color: #333;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav>
+        <div class="brand">Phase C: Close &amp; Transfer</div>
+        <div class="brand-sub">Delivery Standard deep-dive</div>
+        <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+        <a class="back" href="phase-9-monitoring.html"
+          >← Phase 9: Monitoring</a
+        >
+        <a class="toc" href="#who">1 · Who is involved</a>
+        <a class="toc sub" href="#ourside">Our side</a>
+        <a class="toc sub" href="#clientside">Client side</a>
+        <a class="toc sub" href="#clauderole">Claude's role</a>
+        <a class="toc" href="#weeks">2 · The three weeks</a>
+        <a class="toc" href="#artifacts">3 · The artifacts</a>
+        <a class="toc" href="#cadences">4 · The cadences</a>
+        <a class="toc" href="#exitgate">5 · The exit gate</a>
+        <a class="toc" href="#failures">6 · What goes wrong</a>
+        <a class="back" href="phase-c-example.html" style="margin-top: 16px"
+          >Worked example: Harbor Mutual →</a
+        >
+      </nav>
+      <main>
+        <header class="doc">
+          <h1>Phase C: Close &amp; Transfer</h1>
+          <p>
+            Deep-dive on the last phase of the engagement. The engagement does
+            not end when the code is done — the code was done weeks ago. It
+            ends when the client can run all of this without us: the system,
+            the harness, the loop, and the judgment. Phase C is where that
+            claim stops being an intention and gets proven the same way
+            everything else in this standard gets proven —
+            <strong>by use, observed, without help.</strong>
+          </p>
+          <p>
+            The whole engagement built toward this phase. The kit was adapted
+            in the open in Foundation so the client's engineers saw how it
+            works. Their lead engineer co-signed every ADR. Their platform
+            engineer executed every promotion. Their newest hire cold-verified
+            the README. Their on-call answered the drill. Phase C is not a
+            handover event; it is the moment the handover that has been
+            happening all along is tested — and then we leave, cleanly, and
+            the standard itself learns from the engagement before the door
+            closes.
+          </p>
+          <div class="meta">
+            Paired source: docs/phase-c-close.md · part of
+            MCKRUZ/delivery-standard v1.0
+          </div>
+        </header>
+
+        <section>
+          <h2>If you're starting here</h2>
+          <table>
+            <tr>
+              <td style="width: 170px"><strong>The method</strong></td>
+              <td>
+                Claude (the AI coding agent) drafts documents and writes most
+                code. Humans own every decision and verify every result.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The rhythm</strong></td>
+              <td>
+                Numbered phases open and close the engagement; in between ran
+                the continuous build loop. Each phase ends with automated
+                checks (the <strong>gate</strong>) plus a named human sign-off.
+                Gates are the billing milestones.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Where we are</strong></td>
+              <td>
+                Live in production, observable, drilled, retrospected. The
+                client's operators hold the watch. One thing remains unproven:
+                that the client's team can run the build loop — intent through
+                deploy — without us in the driver's seat.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Our pod (4-6 people)</strong></td>
+              <td>
+                Pod Lead · Setup Owner · Orchestrators · Quality Engineer. (<a
+                  href="team.html"
+                  >Team deep-dive</a
+                >)
+              </td>
+            </tr>
+          </table>
+          <p>
+            <strong>Words this page leans on</strong> (every other term is
+            explained where it first appears):
+          </p>
+          <table>
+            <tr>
+              <th>Term</th>
+              <th>What it means</th>
+            </tr>
+            <tr>
+              <td><strong>The loop</strong></td>
+              <td>
+                Intent → Delegate → Discern, per spec — how every change has
+                been made since Foundation, and what the client's team inherits
+                as a working practice, not a document.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The harness</strong></td>
+              <td>
+                The project's CLAUDE.md, specs, skills, agents, hooks, and
+                settings — versioned in the client's repo. After this phase it
+                has a client owner, not a pod owner.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The client Setup Owner</strong></td>
+              <td>
+                The named client engineer who owns the harness after close —
+                and who must have <strong>merged harness changes
+                themselves</strong> before we leave, not merely been told about
+                them.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The shadow flip</strong></td>
+              <td>
+                The role reversal that opens the phase: the client's engineers
+                orchestrate specs while the pod only checks. The inverse of how
+                Build started.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The close gate</strong></td>
+              <td>
+                The phase's defining test: the client team runs one real spec
+                end-to-end — triage, spec, delegate, grade, merge, deploy —
+                without us driving. Observed, unassisted.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The harness audit</strong></td>
+              <td>
+                A sweep for anything only we understand: undocumented skills,
+                hooks with pod-only assumptions, knowledge living in pod memory
+                instead of the repo.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The harvest</strong></td>
+              <td>
+                The mandatory improvements PR against our own standard and kit,
+                carrying what this engagement taught: generalized skills,
+                corrected templates, patterns worth repeating. Opened in this
+                phase, from the Phase 9 retrospective's list.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Access revocation</strong></td>
+              <td>
+                The deliberate, audited removal of every pod credential, seat,
+                and permission — a checklist item with a date, not an eventual
+                cleanup.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>A real spec</strong></td>
+              <td>
+                A spec with stakes: something the client actually needs, with a
+                real risk tier and real consequences. The close gate run on a
+                toy spec proves nothing and counts for nothing.
+              </td>
+            </tr>
+          </table>
+          <p>Phase C answers four questions, and nothing else:</p>
+          <ol>
+            <li>
+              <strong>Can their people run the loop?</strong> (their engineers
+              orchestrate real specs with our Checkers first; then one real
+              spec end-to-end with nobody from the pod driving)
+            </li>
+            <li>
+              <strong>Is the harness fully theirs?</strong> (the audit finds
+              nothing undocumented; the client Setup Owner is named and has
+              merged harness changes themselves)
+            </li>
+            <li>
+              <strong>Is the record complete and delivered?</strong> (every
+              phase report, the outcomes dashboard, the debt log — handed over,
+              in their hands, in their tooling)
+            </li>
+            <li>
+              <strong>Did we leave cleanly — and did the standard
+              learn?</strong> (access revoked and audited; the harvest PR
+              opened against our own repo before the engagement's lessons
+              evaporate)
+            </li>
+          </ol>
+          <p>
+            New features for the client are out of scope unless they are the
+            vehicle — the specs run during this phase are real work from the
+            client's own backlog, chosen because the close gate must be run on
+            something that matters. A follow-on engagement, if there is one, is
+            a new SOW with its own Phase 0, not a quiet extension of this one.
+          </p>
+        </section>
+
+        <section id="who">
+          <h2>1. Who is involved</h2>
+          <p>
+            Phase C is the Pod Lead's phase, and the pod spends it deliberately
+            becoming less necessary: hands off the keyboard in week one, out of
+            the room by the gate, out of the building at the end. The client's
+            cast carries the phase — which is the point.
+          </p>
+
+          <h3 id="ourside">Our side</h3>
+          <table>
+            <tr>
+              <th>Person</th>
+              <th>Load</th>
+              <th>Workstream</th>
+            </tr>
+            <tr>
+              <td><strong>Pod Lead</strong></td>
+              <td>60-80%</td>
+              <td>
+                Runs the transfer: the shadow-flip schedule, the close-gate
+                observation, the final steering, the clean exit. Holds the line
+                against scope arriving dressed as closure.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Orchestrators</strong></td>
+              <td>40-60%</td>
+              <td>
+                Become Checkers only: review the client engineers' specs, coach
+                by question rather than by keyboard, and then stop.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Setup Owner</strong></td>
+              <td>30-50%</td>
+              <td>
+                Runs the harness audit with Claude, fixes findings by
+                documented PR that the <strong>client</strong> Setup Owner
+                merges, and hands over the last keys.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Quality Engineer</strong></td>
+              <td>20-40%</td>
+              <td>
+                Verifies the transfer the way they verified everything: by
+                observation. Owns the close-gate evidence and the final
+                outcomes-dashboard handover.
+              </td>
+            </tr>
+          </table>
+
+          <h3 id="clientside">Client side</h3>
+          <table>
+            <tr>
+              <th>Person</th>
+              <th>Needed for</th>
+              <th>How much</th>
+            </tr>
+            <tr>
+              <td><strong>Their engineers</strong></td>
+              <td>
+                Orchestrating real specs — at least three with our Checkers,
+                then the close-gate spec solo
+              </td>
+              <td>The thread of the phase</td>
+            </tr>
+            <tr>
+              <td><strong>The client Setup Owner</strong></td>
+              <td>
+                Named before the phase starts; merges the audit-finding PRs and
+                at least one harness change of their own
+              </td>
+              <td>Steady hours</td>
+            </tr>
+            <tr>
+              <td><strong>Product Owner</strong></td>
+              <td>
+                Their own intent triage — the decision clock and the vague-line
+                test are theirs now
+              </td>
+              <td>Their normal cadence</td>
+            </tr>
+            <tr>
+              <td><strong>Operations / platform</strong></td>
+              <td>
+                Confirm the access revocation against their audit trail;
+                receive the last operational keys
+              </td>
+              <td>2-3 hours</td>
+            </tr>
+            <tr>
+              <td><strong>Sponsor</strong></td>
+              <td>
+                The close steering: the engagement record, the outcome read,
+                the formal end
+              </td>
+              <td>1 hour</td>
+            </tr>
+          </table>
+          <p>
+            If the client cannot name engineers to run the loop, the close gate
+            cannot be passed — and that conversation belongs at steering
+            <strong>weeks before</strong> this phase, which is why the training
+            workstream (priced into the SOW from Phase 0) existed. Phase C
+            reveals the transfer's state; it cannot manufacture one.
+          </p>
+
+          <h3 id="clauderole">Claude's role in Phase C</h3>
+          <p>
+            Claude is not handed over — Claude was never ours. The harness, the
+            agents, the skills, and the keys have been the client's since
+            Foundation; what transfers in Phase C is the human judgment around
+            them. Claude's work this phase:
+          </p>
+          <ul>
+            <li>
+              <strong>Audits the harness, read-only.</strong> A sweep of the
+              repo for anything that would strand the client: skills with
+              pod-specific assumptions, hooks referencing paths or permissions
+              only we had, conventions that live in pod memory instead of
+              CLAUDE.md. Every finding becomes a documented fix the client
+              Setup Owner merges.
+            </li>
+            <li>
+              <strong>Drafts the final handoff report</strong> from the
+              engagement's own records: every gate, every phase report, the
+              metrics history, the debt log, the open items with owners.
+            </li>
+            <li>
+              <strong>Drafts the harvest PR</strong> against our standard repo
+              from the Phase 9 retrospective's list — client specifics
+              stripped, patterns generalized — for the pod to review and our
+              standard's deputy to merge.
+            </li>
+            <li>
+              <strong>Keeps working for the client.</strong> During the shadow
+              flip and the close gate, Claude is the same agent inside the same
+              harness — driven now by the client's Orchestrators. That
+              continuity is the proof the harness, not the pod, was the
+              operating system.
+            </li>
+          </ul>
+          <p>
+            What Claude never does: drive the close-gate spec (nobody from our
+            side does — that is the test), approve the client team's work as
+            the gate evidence, or write the retrospective's candor for them.
+          </p>
+        </section>
+
+        <section id="weeks">
+          <h2>2. The three weeks</h2>
+          <p>
+            The default calendar is <strong>three weeks</strong> — long enough
+            for the role flip to be real, short enough that the pod's presence
+            doesn't quietly become a dependency again.
+          </p>
+
+          <div class="week" id="week1">
+            <span class="wk-label">Week one — their hands, our eyes</span>
+            <ul>
+              <li>
+                <strong>The shadow flip.</strong> The client's engineers take
+                the Orchestrator seat on real specs from their own backlog —
+                triage with their PO, spec writing, bounds, plan approval,
+                driving the agent — while the pod serves only as Checkers.
+                Coaching happens by question ("what does the spec say about
+                that path?"), never by taking the keyboard. At least
+                <strong>three real specs</strong> ride the loop this way, and
+                the bar is the same bar: the grader runs, a non-author
+                approves, merge deploys.
+              </li>
+              <li>
+                <strong>The harness audit</strong> runs in parallel: Claude's
+                read-only sweep plus the Setup Owner's walk of every skill,
+                hook, and convention, asking one question — <em>could their
+                team operate this if we vanished tonight?</em> Findings get
+                fixed by documented PRs that the <strong>client Setup
+                Owner</strong> merges, which kills two birds: the gap closes,
+                and the client owner's merge history starts being real.
+              </li>
+            </ul>
+          </div>
+
+          <div class="week" id="week2">
+            <span class="wk-label">Week two — the close gate</span>
+            <ul>
+              <li>
+                <strong>The solo spec.</strong> One real spec — something the
+                client genuinely needs, with a real risk tier — runs the loop
+                end to end with nobody from the pod driving: their triage,
+                their spec, their bounds, their plan approval, their Checker,
+                their merge, the automatic deploy. The pod observes the way the
+                QE observed the cold runs: present, silent, taking notes.
+                Stalls are data. Help voids the run.
+              </li>
+              <li>
+                A failed or wobbly run is information, not embarrassment: the
+                gap gets named, fixed — more reps, a harness clarification, a
+                missing playbook line — and the gate is <strong>re-run on a
+                different real spec</strong>. "They got through it with a
+                little help" fails the close gate for the same reason it failed
+                the README checkout.
+              </li>
+              <li>
+                The client Setup Owner ships at least one harness change of
+                their own this week — their improvement, their PR, their deputy
+                arrangement on their side.
+              </li>
+            </ul>
+          </div>
+
+          <div class="week" id="week3">
+            <span class="wk-label">Week three — the clean exit</span>
+            <ul>
+              <li>
+                <strong>The record hands over.</strong> The final handoff
+                report; every phase report from 0 through 9; the outcomes
+                dashboard re-pointed to client ownership with its caveats
+                intact; the debt log with owners and dates. Delivered into
+                their tooling, not left in ours.
+              </li>
+              <li>
+                <strong>Access revokes, audited.</strong> Every pod seat,
+                token, repo permission, environment role, and vault access —
+                removed on a checklist, confirmed against the client's audit
+                trail by their security. The engagement ends with the pod
+                provably unable to touch the system, which is not distrust; it
+                is the last deliverable of the security posture the engagement
+                ran on.
+              </li>
+              <li>
+                <strong>The harvest PR opens</strong> against our own standard
+                repo: the generalized skills, the corrected templates, the
+                patterns the Phase 9 retrospective flagged — reviewed by the
+                pod, merged by the standard's deputy. This is the compounding
+                asset doing its compounding; an engagement that ends without a
+                harvest taught the standard nothing.
+              </li>
+              <li>
+                <strong>The close steering.</strong> The sponsor gets the
+                engagement record, the outcome metric's current read with its
+                caveats, the formal end of the SOW, and the answer to the only
+                question left: who they call now (their own team), and what a
+                future engagement would look like (a new Phase 0). The last
+                billing milestone lands with the close gate's evidence
+                attached.
+              </li>
+            </ul>
+          </div>
+
+          <h3>When the three weeks stretch</h3>
+          <ul>
+            <li>
+              <strong>The close gate fails.</strong> The most important stretch
+              there is. Name the gap honestly at steering, fix it, re-run on a
+              different real spec. Leaving on schedule with an unpassed close
+              gate is not closing — it is abandoning, with paperwork.
+            </li>
+            <li>
+              <strong>The backlog has no real specs</strong> — everything
+              queued is too big or too trivial for the gate window. That is a
+              triage problem the client's PO now owns; solving it together
+              <em>is</em> transfer work.
+            </li>
+            <li>
+              <strong>"One more feature" arrives dressed as closure.</strong>
+              Scope at close is still scope. It goes to a follow-on
+              conversation with its own SOW, not into the close-gate window.
+            </li>
+            <li>
+              <strong>The pod becomes the pager again.</strong> A production
+              wobble during Phase C pulls the pod back into the driver's seat
+              "just this once." Hold the Phase 9 handover: their watch, their
+              playbook, the pod one escalation away — an escalation, not a
+              reflex.
+            </li>
+          </ul>
+        </section>
+
+        <section id="artifacts">
+          <h2>3. The artifacts</h2>
+          <div class="callout">
+            <strong>Worked example:</strong>
+            <a href="phase-c-example.html"
+              >Phase C Worked Example: Harbor Mutual</a
+            >
+            — Harbor Mutual's close: Ines and Wes orchestrating with the pod
+            checking, the harness audit's two findings, the solo spec that
+            decommissions the legacy fallback on its day-30 date, the access
+            revocation Dan confirms against his own audit log, and the harvest
+            PR that sends four patterns home.
+          </div>
+          <table>
+            <tr>
+              <th>Artifact</th>
+              <th>Drafted by</th>
+              <th>Owned by</th>
+              <th>Done means</th>
+            </tr>
+            <tr>
+              <td>Shadow-flip spec record</td>
+              <td>Quality Engineer</td>
+              <td>Pod Lead</td>
+              <td>
+                At least three real specs orchestrated by client engineers with
+                pod Checkers — the bar unchanged
+              </td>
+            </tr>
+            <tr>
+              <td>Harness audit + fixes</td>
+              <td>Claude (sweep), Setup Owner (walk)</td>
+              <td>Client Setup Owner</td>
+              <td>
+                Nothing only-we-understand remains; every finding fixed by a
+                documented PR the client Setup Owner merged
+              </td>
+            </tr>
+            <tr>
+              <td>The close-gate evidence</td>
+              <td>Quality Engineer (observation record)</td>
+              <td>Pod Lead</td>
+              <td>
+                One real spec, end to end, client-driven, observed and
+                unassisted — names, timestamps, and the merge that deployed
+              </td>
+            </tr>
+            <tr>
+              <td>Final handoff report</td>
+              <td>Claude (drafts)</td>
+              <td>Pod Lead</td>
+              <td>
+                The engagement record in one place: gates, reports, metrics
+                history, debt log, open items with owners
+              </td>
+            </tr>
+            <tr>
+              <td>Outcomes dashboard handover</td>
+              <td>Quality Engineer + client data lead</td>
+              <td>Client</td>
+              <td>
+                Re-pointed to client ownership, caveats intact, the
+                quarter-read date on their calendar
+              </td>
+            </tr>
+            <tr>
+              <td>Access revocation record</td>
+              <td>Setup Owner + client security</td>
+              <td>Client security</td>
+              <td>
+                Every pod credential removed, confirmed against the client's
+                audit trail
+              </td>
+            </tr>
+            <tr>
+              <td>The harvest PR</td>
+              <td>Claude (drafts), pod (reviews)</td>
+              <td>Our standard's owner</td>
+              <td>
+                Opened against our repo with client specifics stripped; merged
+                by the standard's deputy
+              </td>
+            </tr>
+            <tr>
+              <td>The retro file</td>
+              <td>Pod Lead</td>
+              <td>Our standard's owner</td>
+              <td>
+                One file in our repo's retros/: what this engagement changed
+                about the standard and why
+              </td>
+            </tr>
+          </table>
+          <p>
+            What is deliberately <strong>not</strong> produced: a
+            transition-services annex that quietly keeps the pod on retainer
+            (if the client wants ongoing help, that is a new agreement made in
+            daylight), and any "final improvements" to the client's code
+            outside the loop — the loop is theirs now, and so is every change.
+          </p>
+        </section>
+
+        <section id="cadences">
+          <h2>4. The cadences</h2>
+          <table>
+            <tr>
+              <th>Rhythm</th>
+              <th>Who</th>
+              <th>What</th>
+            </tr>
+            <tr>
+              <td><strong>Their daily flow check</strong></td>
+              <td>Client team, pod observing</td>
+              <td>
+                Run by the client from week one — the queue numbers are theirs
+                to read now
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Their intent triage</strong></td>
+              <td>Client PO + their engineers</td>
+              <td>
+                The vague-line test and the decision clock, client-run; the pod
+                watches the bar hold
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The close-gate observation</strong></td>
+              <td>Client team driving, QE observing</td>
+              <td>Week two's defining event — present, silent, recorded</td>
+            </tr>
+            <tr>
+              <td><strong>The exit checklist walk</strong></td>
+              <td>Setup Owner + client security</td>
+              <td>
+                Week three: access, keys, seats, audit trail — item by item
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The close steering</strong></td>
+              <td>Sponsor + Pod Lead</td>
+              <td>
+                The formal end: the record, the read, the gate evidence, the
+                goodbye
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="exitgate">
+          <h2>5. The exit gate</h2>
+          <p>The engagement closes when all of these are true:</p>
+          <ul class="checklist">
+            <li>
+              The harness audit ran and found nothing undocumented — no skill
+              or hook only we understand; every finding fixed by a PR the
+              client Setup Owner merged
+            </li>
+            <li>
+              The client Setup Owner is named and has merged harness changes
+              themselves — including at least one of their own
+            </li>
+            <li>
+              Client engineers completed at least three real specs as
+              Orchestrators with pod Checkers — the bar unchanged
+            </li>
+            <li>
+              <strong>The close gate: the client team ran one real spec
+              end-to-end — triage, spec, delegate, grade, merge, deploy —
+              without us driving.</strong> Observed, unassisted; a run that
+              needed help was re-run on a different real spec
+            </li>
+            <li>
+              Every phase report is delivered and the outcomes dashboard is
+              handed over, caveats intact, with the quarter-read date on the
+              client's calendar
+            </li>
+            <li>The debt log is in the client's hands with owners and dates</li>
+            <li>
+              Our access is revoked — every seat, token, and permission — and
+              confirmed against the client's audit trail
+            </li>
+            <li>
+              The harvest PR is opened against our standard repo, and the retro
+              file is written
+            </li>
+            <li>
+              A named human on each side signed the close — gates report,
+              humans decide, one last time
+            </li>
+          </ul>
+        </section>
+
+        <section id="failures">
+          <h2>6. What goes wrong in Phase C</h2>
+          <ul>
+            <li>
+              <strong>The indispensable pod member.</strong> One person's head
+              still holds how something really works, discovered the week after
+              they leave. The harness audit exists for exactly this; "ask the
+              pod" must return zero results before the gate.
+            </li>
+            <li>
+              <strong>The toy close gate.</strong> The solo spec is a copy
+              change with a LOW tier and no stakes, chosen so it cannot fail.
+              It proves nothing, and everyone in the room knows it. Real spec,
+              real tier, real consequences — or the gate did not run.
+            </li>
+            <li>
+              <strong>The helpful observer.</strong> Forty minutes into the
+              solo spec, someone from the pod answers one little question. The
+              run is void — same rule as the cold checkout, same reason. The
+              gap the question revealed is the finding; record it, fix it,
+              re-run.
+            </li>
+            <li>
+              <strong>The Setup Owner in name only.</strong> A client owner who
+              was named in a deck but never merged anything. Merge history is
+              the test: the audit fixes, plus at least one change of their own,
+              or the harness has no owner — it has a label.
+            </li>
+            <li>
+              <strong>Access that lingers.</strong> "We'll clean up the seats
+              next sprint." Months later the pod can still reach production,
+              which is a finding on somebody's audit eventually. Revocation is
+              a dated checklist item confirmed by their security, not a cleanup
+              intention.
+            </li>
+            <li>
+              <strong>Scope dressed as closure.</strong> "Before you go, could
+              you just—" at close burns the calendar the gate needs. New work
+              is a new conversation with a new SOW; the Pod Lead holds that
+              line precisely because everyone else in the room has an incentive
+              not to.
+            </li>
+            <li>
+              <strong>The skipped harvest.</strong> The pod rolls off to the
+              next engagement and the PR never opens; the standard learns
+              nothing, and the next pod re-discovers this engagement's lessons
+              at a client's expense. The harvest is a gate item, not a virtue.
+            </li>
+            <li>
+              <strong>The quiet retainer.</strong> Hypercare reflexes outlive
+              their window and the pod keeps answering questions for free,
+              indefinitely, off the record. It feels generous and it
+              un-transfers the engagement one Slack message at a time. The
+              close means the close; future help is a future agreement.
+            </li>
+          </ul>
+          <div class="callout">
+            <strong>Back:</strong>
+            <a href="phase-9-monitoring.html">Phase 9: Monitoring</a> — the
+            watch this phase hands over for good.
+          </div>
+        </section>
+
+        <footer>
+          Phase C: Close &amp; Transfer · Delivery Standard deep-dive ·
+          MCKRUZ/delivery-standard · Paired source: docs/phase-c-close.md
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

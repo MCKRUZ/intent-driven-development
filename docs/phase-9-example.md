@@ -259,3 +259,9 @@ ran, on the **claude-code-sdlc** plugin and its paired skills:
 | The drill                           | No plugin command — synthetic triggers agreed with Tom; Harbor's on-call responding; the two fixes rode the loop                  |
 | Retrospective evidence pack         | `/sdlc` → the feedback-synthesizer agent over hypercare findings and intake feedback · `/visual-explainer` → the evidence visuals |
 | Gate, report, advance               | `/sdlc-gate` → `check_gates.py` · `/sdlc-phase-report` → the phase record · `/sdlc-next` (after Karen's sign-off)                 |
+
+---
+
+Next: [the Phase C worked example](phase-c-example.md) — the close: Harbor's engineers take
+the loop, the close gate runs on a HIGH spec with a deadline, access revokes on a checklist,
+and the harvest sends four patterns home. The end of the Harbor Mutual story.

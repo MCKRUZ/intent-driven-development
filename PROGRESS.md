@@ -238,9 +238,32 @@ Phase 3 HTML. Remaining work, in likely order:
    vendor-blip severity split. First metric read: fast-path median **1.9 days** (overall
    median needs a quarter — caveat stated). Phase 9 ends with Back-link only — add Next when
    phase-C exists.
-6. **Phase C (Close & Transfer)** deep-dive + example — the last phase pair; completes the
-   engagement arc. C's gate: client team runs one real spec end-to-end without us driving
-   (GOLD-STANDARD §13). The harvest PR opens here (the 4-item list above).
+6. ~~Phase C (Close & Transfer)~~ DONE 2026-06-11: `phase-c-close.md/.html` +
+   `phase-c-example.md/.html`. **THE ENGAGEMENT ARC IS COMPLETE** — every phase (0-3, Build
+   loop, 7, 8, 9, C) has a deep-dive + Harbor example, fully chained with Next/Back links
+   in both formats, all indexed from GOLD-STANDARD §1 (and §3/§5/§13 deep-dive callouts)
+   and the README. **Phase C continuity facts:** three weeks 2026-08-10 to 08-28, final
+   milestone 8. Shadow-flip specs 0047/0048 (Ines), 0050 (Wes); Wes = Harbor Setup Owner
+   (Tom his deputy), ships his own onboarding-bootstrap skill (born from Ines's Phase 7
+   stall). Harness audit: 2 findings (grader prompt referenced "MCKRUZ standards" by name;
+   stop-gate hook assumed pod-machine lint path), both fixed via PRs Wes merged. Close gate
+   8/20: spec 0049 decommission legacy fallback (HIGH, day-30 date 8/22) — Ines drives, the
+   hook blocks a gated-path edit, she escalates to Wes correctly, Dan signs, Harbor's own
+   go/no-go promotes. Access revoked Wed 8/26 (Dan audit-confirms). Harvest PR: 4 items +
+   retros/2026-harbor-mutual.md. Final metric read: completed-cohort median 4.2 days (under
+   the 5-day target; cohort caveat; unbiased read October 2026, Harbor's dashboard).
+
+## Remaining work (the docs arc is done; these build the rest of the repo)
+
+1. **Build the `kit/`** — the installable artifacts GOLD-STANDARD §10 describes and the
+   examples show in use: CLAUDE.md.template, spec-template, settings.json, skills/, agents/
+   (grader, security-reviewer), hooks/ (stop-gate), workflows/ (ci, grader, security,
+   deploy-dev), infra/ Bicep starters, profile/. Keep consistent with what the examples
+   show running — including the four harvest items (config-with-artifact, timezone tests,
+   suppression-window alerts, vendor-blip split), which per the story are already IN the kit.
+2. **The four `docs/` support files:** profile-swap, commercial, data-flow-brief,
+   po-onboarding (phase-0 mentions the PO onboarding guide unlinked — re-link when built).
+3. Optional cleanup: retrofit sidebar "Next" links to phase-0/1 pages (convention 8).
 3. **Build the `kit/`** — the actual installable artifacts (templates, agents, hooks, CI YAML,
    Bicep). Currently only described in GOLD-STANDARD §10, not built. Phase 3 docs now name its
    contents in use — keep the kit consistent with what the example shows running.

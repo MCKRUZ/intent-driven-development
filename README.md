@@ -21,6 +21,7 @@ The standard is published at **https://mckruz.github.io/intent-driven-developmen
 | [Phase 7: Documentation](https://mckruz.github.io/intent-driven-development/docs/phase-7-documentation.html) | Proving a stranger can run it · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-7-example.html) |
 | [Phase 8: Deployment](https://mckruz.github.io/intent-driven-development/docs/phase-8-deployment.html)     | The rehearsal, the ceremony, go-live · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-8-example.html) |
 | [Phase 9: Monitoring](https://mckruz.github.io/intent-driven-development/docs/phase-9-monitoring.html)     | Alerts from real baselines, the drill, the retro · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-9-example.html) |
+| [Phase C: Close & Transfer](https://mckruz.github.io/intent-driven-development/docs/phase-c-close.html)    | The close gate, the clean exit, the harvest · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-c-example.html) |
 
 ## Repo layout
 
