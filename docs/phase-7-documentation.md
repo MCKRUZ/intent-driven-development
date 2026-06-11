@@ -268,3 +268,7 @@ Phase 7 closes when all of these are true:
 ---
 
 Back: [The Build Loop](build-loop.md) — the continuous middle this phase closes out.
+
+Next: [Phase 8: Deployment](phase-8-deployment.md) — promoting to production through the
+pipeline that has existed since Foundation: the rehearsal, the ceremony, and a named human
+saying go.

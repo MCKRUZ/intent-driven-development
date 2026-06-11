@@ -233,3 +233,9 @@ actually ran, on the **claude-code-sdlc** plugin and its paired skills:
 | Defect fix (spec 0045)                   | No plugin command — rides the build loop: bounds, plan mode, grader, non-author Checker, deploy-dev                                          |
 | The cold runs                            | No plugin command, deliberately: Ines on the README, Tom on the RUNBOOK — observed, unassisted                                               |
 | Gate, audit visual, report, advance      | `/sdlc-gate` → `check_gates.py` · `/visual-explainer` → the documentation audit · `/sdlc-phase-report` → the phase record · `/sdlc-next`     |
+
+---
+
+Next: [the Phase 8 worked example](phase-8-example.md) — go-live week: the rollback rehearsal
+that fails on Tuesday (and why that was the win), seven names on the go/no-go, and the first
+real FNOL through production in 3.1 hours.

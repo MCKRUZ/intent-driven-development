@@ -19,6 +19,7 @@ The standard is published at **https://mckruz.github.io/intent-driven-developmen
 | [Phase 3: Foundation](https://mckruz.github.io/intent-driven-development/docs/phase-3-foundation.html)     | The factory gets built · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-3-example.html) |
 | [The Build Loop](https://mckruz.github.io/intent-driven-development/docs/build-loop.html)                  | The heart of the method · [worked example](https://mckruz.github.io/intent-driven-development/docs/build-loop-example.html) |
 | [Phase 7: Documentation](https://mckruz.github.io/intent-driven-development/docs/phase-7-documentation.html) | Proving a stranger can run it · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-7-example.html) |
+| [Phase 8: Deployment](https://mckruz.github.io/intent-driven-development/docs/phase-8-deployment.html)     | The rehearsal, the ceremony, go-live · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-8-example.html) |
 
 ## Repo layout
 

@@ -209,8 +209,20 @@ Phase 3 HTML. Remaining work, in likely order:
 3. ~~Phase 7 (Documentation)~~ DONE 2026-06-11: `phase-7-documentation.md/.html` +
    `phase-7-example.md/.html`, fully cross-linked (build-loop pair Next links, GOLD-STANDARD
    index). Phase 7 ends with Back-link only — add its Next link when phase-8 exists.
-4. **Phases 8 (Deployment), 9 (Monitoring), C (Close & Transfer)** deep-dives + examples —
-   phase 8 next.
+4. ~~Phase 8 (Deployment)~~ DONE 2026-06-11: `phase-8-deployment.md/.html` +
+   `phase-8-example.md/.html`, fully cross-linked. **Phase 8 continuity facts:** week =
+   2026-07-20 to 07-24; go-live **Thu 2026-07-23 07:00**, rc-1.0.1, billing milestone 6.
+   Rollout shape = cutover at intake (new FNOLs only; in-flight claims drain in legacy; no
+   migration; legacy fallback warm 30 days; triggers: >2% intake errors 30 min sustained, or
+   verification down outside replica window with growing queue). Tue rehearsal rollback
+   FAILED (config keys moved ahead of artifact) → **spec 0046** (config versioned with the
+   release artifact); re-rehearsed clean Wed. Go/no-go: 7 named roles, Dan held until the
+   rotation record was attached. First real FNOL Thu 08:14 (burst pipe, portal): coverage
+   recommendation in **3h 06m**; 27 claims day one. Secrets rotated — pod never held prod
+   values. Hypercare = two weeks; day-one finding: ack-dispatch retry burst during postal
+   vendor blip → Phase 9 alert candidate. Phase 8 ends with Back-link only — add its Next
+   when phase-9 exists.
+5. **Phases 9 (Monitoring) and C (Close & Transfer)** deep-dives + examples — phase 9 next.
 3. **Build the `kit/`** — the actual installable artifacts (templates, agents, hooks, CI YAML,
    Bicep). Currently only described in GOLD-STANDARD §10, not built. Phase 3 docs now name its
    contents in use — keep the kit consistent with what the example shows running.
