@@ -222,7 +222,25 @@ Phase 3 HTML. Remaining work, in likely order:
    values. Hypercare = two weeks; day-one finding: ack-dispatch retry burst during postal
    vendor blip → Phase 9 alert candidate. Phase 8 ends with Back-link only — add its Next
    when phase-9 exists.
-5. **Phases 9 (Monitoring) and C (Close & Transfer)** deep-dives + examples — phase 9 next.
+5. ~~Phase 9 (Monitoring)~~ DONE 2026-06-11: `phase-9-monitoring.md/.html` +
+   `phase-9-example.md/.html`, fully cross-linked. **Phase 9 continuity facts:** two weeks
+   inside hypercare, 2026-07-27 to 08-07; gate = hypercare end; billing milestone 7. Six
+   alerts shipped (VERIFY-DEGRADED w/ 02:00-04:30 suppression window + recovery check,
+   SYNC-MISSED, QUEUE-DEPTH — modeled from Q-18, revisit at first CAT event, INTAKE-ERROR-RATE
+   — same 2%/30min number as the Phase 8 fallback trigger, ACK-RETRY-BURST, EVAL-GATE-DRIFT);
+   two cut at fatigue review. Baseline: portal p95 410ms, replica verify p95 165ms, error
+   0.3%, queue <40, ack median 22min. Drill 8/5: VERIFY-DEGRADED routing typo caught + one
+   pod-permissions playbook link — both fixed, re-drilled. Retro receipts: accepted-as-is
+   84%, 4 escaped bugs total, security queue 2.1d vs 0.9d (fix: committed twice-weekly
+   security slot), Luis 31/34 decisions inside clock. Debt log: un-merge path (Q4 2026),
+   legacy fallback decommission (Tom, day 30), modeled surge thresholds (Priti). Harvest
+   list (4): config-with-artifact, timezone test pattern, suppression-window alert pattern,
+   vendor-blip severity split. First metric read: fast-path median **1.9 days** (overall
+   median needs a quarter — caveat stated). Phase 9 ends with Back-link only — add Next when
+   phase-C exists.
+6. **Phase C (Close & Transfer)** deep-dive + example — the last phase pair; completes the
+   engagement arc. C's gate: client team runs one real spec end-to-end without us driving
+   (GOLD-STANDARD §13). The harvest PR opens here (the 4-item list above).
 3. **Build the `kit/`** — the actual installable artifacts (templates, agents, hooks, CI YAML,
    Bicep). Currently only described in GOLD-STANDARD §10, not built. Phase 3 docs now name its
    contents in use — keep the kit consistent with what the example shows running.

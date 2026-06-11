@@ -238,3 +238,9 @@ ran, on the **claude-code-sdlc** plugin and its paired skills:
 | The go/no-go evidence packet           | `/visual-explainer` → the packet visual: rehearsals, smoke results, rotation record, rollout shape, triggers                             |
 | The promotion itself                   | No plugin command, deliberately — Tom executes, Rob calls steps; the plugin prepares evidence, people promote                            |
 | Gate, report, advance                  | `/sdlc-gate` → `check_gates.py` · `/sdlc-phase-report` → the phase record · `/sdlc-next` (after Karen's sign-off)                        |
+
+---
+
+Next: [the Phase 9 worked example](phase-9-example.md) — the two hypercare weeks: alert
+thresholds from a real baseline, the drill that catches a silent-night routing typo, and the
+retrospective that sends four patterns back into the kit.

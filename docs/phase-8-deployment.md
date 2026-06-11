@@ -276,3 +276,6 @@ Phase 8 closes when all of these are true:
 
 Back: [Phase 7: Documentation](phase-7-documentation.md) — the docs this week's procedures
 were proven against.
+
+Next: [Phase 9: Monitoring](phase-9-monitoring.md) — making production observable: alert
+thresholds from real baselines, the drill, and the engagement retrospective.
