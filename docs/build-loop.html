@@ -380,7 +380,10 @@
               <td>
                 The running list of product decisions nobody has made yet ("you
                 haven't decided X"), each needing a named human answer — on the
-                client clock agreed in Phase 1.
+                client clock agreed in Phase 1. Each item records the question,
+                the date raised, the named client owner, the clock date, and
+                the answer once given; the list lives in the repo with the
+                phase artifacts and goes to every steering.
               </td>
             </tr>
             <tr>
@@ -450,15 +453,19 @@
               <td><strong>WIP cap</strong></td>
               <td>
                 The limit on how many changes may be in flight at once. Set at
-                the end of Phase 3, enforced at the daily flow check.
+                the end of Phase 3 from checking capacity (the standard's
+                default: no Orchestrator runs more than two concurrent agent
+                streams), enforced at the daily flow check.
               </td>
             </tr>
             <tr>
               <td><strong>Review-wait tripwire</strong></td>
               <td>
                 The wait-time threshold that, once crossed, stops new work
-                starting until the review queue clears. Review is the loop's
-                real bottleneck; this number is how the pod refuses to bury it.
+                starting until the review queue clears (default: median one
+                working day; set alongside the WIP cap at the end of Phase 3).
+                Review is the loop's real bottleneck; this number is how the
+                pod refuses to bury it.
               </td>
             </tr>
           </table>
@@ -621,7 +628,9 @@
           <p>
             What Claude never does: merge, approve its own work, assign a risk
             tier, answer a decision-list item, or downgrade a challenge. Risk
-            challenges escalate up, never down, without discussion.
+            challenges escalate up, never down, without discussion (anyone —
+            human or agent — can raise a tier on the spot; lowering one always
+            takes a discussion with the Pod Lead, who owns the tier).
           </p>
         </section>
 
@@ -863,7 +872,11 @@
               check-by-check verdict as a PR comment. It cannot be skipped —
               "the grader has run" is a required status check — but its verdict
               does not block. The human Checker reads it and makes the call.
-              Machines gate the mechanical; humans own the judgment.
+              Machines gate the mechanical; humans own the judgment. A failed
+              check — the grader's verdict or the Checker's bounce — goes back
+              to the same Orchestrator, who drives the fix on the same branch.
+              Every gate, including a fresh grader run, runs again on the
+              updated PR before merge.
             </li>
             <li>
               <strong>The human Checker</strong> (hard block): non-author
@@ -914,10 +927,13 @@
               <td>standup</td>
               <td>
                 The queue number first: how many changes wait for checking, how
-                long the oldest has waited. Walk the work right to left —
-                nearest-done first. Every waiting change gets a Checker; vague
-                specs get flagged back to triage; the WIP cap gets enforced;
-                one commitment each.
+                long the oldest has waited. Walk the in-flight changes
+                nearest-done first — start with PRs waiting on a Checker, end
+                with work not yet started — reading from wherever the pod
+                tracks changes in flight. Every waiting change gets a Checker;
+                vague specs get flagged back to triage; the WIP cap gets
+                enforced; one commitment each (each person names the one thing
+                they will move or unblock today).
               </td>
             </tr>
             <tr>
@@ -952,6 +968,12 @@
             </tr>
           </table>
           <p>
+            The Pod Lead runs the flow check and intent triage (whole pod
+            attends; the Quality Engineer vets checks for testability at
+            triage); the Quality Engineer brings the escaped-bug list to Retro+
+            (whole pod); the Setup Owner and their deputy run the setup review.
+          </p>
+          <p>
             Two numbers run the week. The <strong>WIP cap</strong> keeps the
             pod from opening more changes than its checking capacity can clear
             — agents can always write more code; the constraint is proving it.
@@ -981,7 +1003,8 @@
             <li>
               <strong>A weekly five-bullet async summary</strong> in between.
               Written for a busy reader: what shipped, what's next, what we
-              need from you.
+              need from you. Claude drafts it from the week's merged work; the
+              Pod Lead corrects and sends it.
             </li>
             <li>
               <strong>No activity metrics in client materials, ever.</strong>
@@ -1003,9 +1026,10 @@
           <p>
             Quality in the loop is per-change; some concerns only exist at the
             integration level — performance under load, end-to-end journeys
-            across many features, penetration testing. Those run as
-            <strong>scheduled hardening passes</strong>: typically one
-            mid-Build and one before deployment prep, driven by the end-to-end
+            across many features, penetration testing. The Quality Engineer
+            plans and runs them as
+            <strong>scheduled hardening passes</strong> — typically one
+            mid-Build and one before deployment prep — using the end-to-end
             and security tooling. The first hardening pass is also where the
             test environment gets added alongside dev. Hardening is scheduled
             work inside the flow — specs, triage, the loop — not a phase that

@@ -195,7 +195,7 @@
 <div class="trow"><span class="tool">/sdlc-phase-report</span><span class="arr">→</span><span class="tool hood">generate_phase_report.py</span></div>
 <div class="trow"><span class="tool">/sdlc-next</span><span class="arr">→</span><span class="tool hood">advance_phase.py</span></div></div>
 <ul>
-<li><strong><code>/sdlc-review --all</code></strong> runs the <code>multi-reviewer</code> agent in all three modes (council, adversarial, edge-cases). Three findings survive triage:
+<li><strong><code>/sdlc-review --all</code></strong> runs the <code>multi-reviewer</code> agent in all three modes (council, adversarial, edge-cases) (council debates the design from several reviewer perspectives; adversarial tries to break it; edge-cases hunts boundary conditions). Three findings survive Rob's triage (agent findings that misread the design get dropped; the rest get fixed or accepted by name):
   <ul>
   <li><strong>HIGH:</strong> no back-pressure behavior (what the portal does when claims arrive faster than the queue can absorb them) defined for surge — the contract gains an explicit degraded-acceptance mode (accept, queue deeper, never reject a FNOL).</li>
   <li><strong>MEDIUM:</strong> the replica staleness flag wasn't wired into the fast-path escalation rule — fixed in the design, traced to REQ-019.</li>
@@ -349,7 +349,7 @@ reviewer that did not write the code) live.</div>
 <tr><td>Data model + API contracts</td><td>Claude drafts carrying the Phase 1 error specs down into contract behavior; Rob shapes; Wes reviews</td></tr>
 <tr><td>Threat model + mitigation map</td><td>Claude drafts the data-flow diagrams and candidate threat list; the day-4 session with Dan decides; outputs feed the Build risk-tier map</td></tr>
 <tr><td>Design review (day 5)</td><td><code>/sdlc-review --all</code> — the <code>multi-reviewer</code> agent in council, adversarial, and edge-cases modes; report written as a phase artifact</td></tr>
-<tr><td>Consistency check</td><td>Cross-artifact reference checks inside <code>/sdlc-gate</code>; locked-metric consistency via the frozen-layer validation</td></tr>
+<tr><td>Consistency check</td><td>Cross-artifact reference checks inside <code>/sdlc-gate</code>; locked-metric consistency via the frozen-layer validation (the plugin's check that values locked in earlier phases — the success metric, the constraints — haven't been silently altered by later artifacts)</td></tr>
 <tr><td>Gate, review packet, advance</td><td><code>/sdlc-gate</code>, <code>/sdlc-phase-report</code>, <code>/sdlc-next</code> (after the four-signature phase review)</td></tr>
 </table>
 <div class="callout"><strong>Next:</strong> <a href="phase-3-example.html">the Phase 3 worked example</a> — the kit

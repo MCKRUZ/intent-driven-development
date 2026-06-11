@@ -31,6 +31,7 @@ bounced at triage for vagueness, and the cadences and numbers that steer all of 
 | **D-NN**    | A product decision, made by a named human and logged.                                                            |
 | **C-NN**    | A constraint from Phase 0.                                                                                       |
 | **REQ-NN**  | A requirement from the Phase 1 baseline.                                                                         |
+| **NFR-NN**  | A non-functional requirement from the Phase 1 baseline.                                                          |
 | **Q-NN**    | An open question with a named owner and a due date.                                                              |
 
 **Words this page leans on** (every other term is explained where it first appears):
@@ -154,7 +155,8 @@ weekly five-bullet summary drafted by Claude, corrected by Maya. The retro is hu
   outside the room.
 - **Steering, 45 minutes.** Gail drives the demo herself — the fast-path queue and the
   duplicate-merge flow, live in Harbor's dev environment. The scorecard: 11 of 14 Build specs
-  merged accepted-as-is (79%); median review wait 0.9 days (under the one-working-day
+  merged accepted-as-is (79%; 14 counts every spec that has entered the loop since Build
+  began, merged or still in flight); median review wait 0.9 days (under the one-working-day
   tripwire); the FNOL→decision clock is instrumented and ticking in dev — Karen is told
   plainly that the production needle moves at rollout, not before. Q-18 (Priti and Nadia's
   surge load-test dataset, built from the 2024 CAT event) lands this week — hardening pass 1

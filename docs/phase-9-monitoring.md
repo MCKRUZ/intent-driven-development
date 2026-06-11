@@ -119,7 +119,10 @@ gate falls at hypercare's end, closing both together.
 - The session that shapes the phase: the pod and the client's operations walk the RUNBOOK's
   failure scenarios and the top-priority user journeys and answer, for each, what healthy
   looks like, what degraded looks like, and who should be woken for what. Operations'
-  answers win ties — they are the ones being paged.
+  answers win ties — they are the ones being paged. Capture one line per scenario and
+  journey — healthy looks like, degraded looks like, who is woken, who is told in the
+  morning — in the monitoring configuration. That table is what the alert definitions are
+  written from.
 - The monitoring scope lands in writing: which stack (theirs — we wire into what their team
   already watches), which dashboards, which alert channels, who owns each dashboard. A
   dashboard without a named owner is decoration.
@@ -130,8 +133,11 @@ gate falls at hypercare's end, closing both together.
   request rates, latency percentiles, error rates, queue depths, dependency health — each
   recorded with the period it was measured over. Where production hasn't yet exercised a
   path (the seasonal surge, the rare failure), the threshold derives from the engagement's
-  modeled data instead — **flagged as modeled, with a revisit date**, never silently
-  presented as baseline.
+  modeled data instead (whatever the engagement already measured: the hardening passes'
+  load-test results, the design phase's spikes) — **flagged as modeled, with a revisit
+  date**, never silently presented as baseline. Claude measures, the Setup Owner runs the
+  capture in the client's tooling, and the Quality Engineer owns the resulting artifact —
+  including the honesty of every modeled flag.
 - Dashboards go live in the client's stack: system health, application health, and the
   business layer — the outcome metric and what feeds it — in the client's own reporting
   language, co-built with their data lead.
@@ -141,10 +147,14 @@ gate falls at hypercare's end, closing both together.
 - Every critical failure mode from the RUNBOOK gets its alert; every alert gets a condition
   derived from the baseline, a severity, a named recipient, a response expectation, and a
   link to its playbook entry. The derivation is written next to the threshold — "2x the
-  measured p95 over 10 minutes" survives an argument; "500ms" does not.
-- The alert-fatigue review runs on everything proposed: anything that would have fired more
-  than once a week during hypercare without demanding action gets raised or cut now, not
-  after the team has learned to ignore it.
+  measured p95 over 10 minutes" survives an argument; "500ms" does not. Confirmation is a
+  recorded act, not a meeting memory: the operations names go on the review of the change
+  that ships the alert rules, and the gate reads them there.
+- The alert-fatigue review runs on everything proposed (replay each proposed condition
+  against the hypercare metrics history — the same data the baseline came from — and count
+  the firings): anything that would have fired more than once a week during hypercare
+  without demanding action gets raised or cut now, not after the team has learned to ignore
+  it.
 
 ### Week two — prove the response, and learn
 
@@ -160,10 +170,17 @@ gate falls at hypercare's end, closing both together.
 
 - Each critical alert fires for real, triggered in a controlled way, and the client's
   on-call responds from the playbook while the pod observes silently — the same discipline
-  as Phase 7's cold runs and Phase 8's rehearsal. Routing that goes to the wrong channel, a
-  playbook step that assumes pod access, a threshold that doesn't actually trigger: all of
-  it fails here, by appointment, at drill prices.
+  as Phase 7's cold runs and Phase 8's rehearsal. Controlled means designed: before drill
+  day, the Quality Engineer and the client's platform engineer write down one synthetic
+  trigger per critical alert — a test lane, flagged test data, a test toggle, a deliberately
+  blocked dependency — that makes the real alert condition true without touching real
+  traffic or real data. No trigger agreed in writing, no drill. Routing that goes to the
+  wrong channel, a playbook step that assumes pod access, a threshold that doesn't actually
+  trigger: all of it fails here, by appointment, at drill prices.
 - What the drill breaks gets fixed through the loop and re-drilled.
+- The Quality Engineer records, per alert: the trigger used, trigger time, detection time,
+  where it routed, who responded, and the outcome — pass, or the finding and its fix. That
+  record goes in the gate packet.
 
 **Day 9 — the retrospective.**
 
@@ -183,8 +200,9 @@ gate falls at hypercare's end, closing both together.
 - Hypercare closes on its agreed date with a deliberate handover of the watch: the client's
   operators have been driving for two weeks; now the dashboards, the pager, and the playbook
   are formally theirs, with the pod one escalation away until Close.
-- The automated gate check runs; the Close & Transfer handoff is drafted: monitoring
-  inventory, the drill record, the debt log, open items with owners. Steering: the gate
+- The Pod Lead runs the automated gate check; Claude drafts the Close & Transfer handoff
+  for the Pod Lead to own: monitoring inventory, the drill record, the debt log, open items
+  with owners. Steering: the gate
   sign-off, the billing milestone, and the outcome metric's first honest production read —
   stated with its caveats, because the credibility protected all engagement gets spent or
   banked here.

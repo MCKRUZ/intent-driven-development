@@ -145,7 +145,7 @@ pod fills in and the product owner becomes the busiest person on the client side
 <tr><td><strong>Domain experts</strong></td><td>Elicitation sessions, one per epic area</td><td>60-90 min each</td></tr>
 <tr><td><strong>Data owner</strong></td><td>The instrumentation epic (any metric Phase 0 showed can't be read yet)</td><td>One session</td></tr>
 <tr><td><strong>Compliance / security</strong></td><td>Regulatory requirements become explicit, testable entries</td><td>One session if regulated</td></tr>
-<tr><td><strong>Sponsor</strong></td><td>One checkpoint plus the phase review; the biweekly steering cadence (the recurring sponsor check-in) starts at the end of this phase</td><td>~1.5 hours total</td></tr>
+<tr><td><strong>Sponsor</strong></td><td>One checkpoint (a 30-minute mid-week read of the draft epic map and emerging scope-out, typically day 3) plus the phase review; the biweekly steering cadence (the recurring sponsor check-in) starts at the end of this phase</td><td>~1.5 hours total</td></tr>
 </table>
 <div class="callout"><strong>Proxy mode</strong> (no client PO): the Pod Lead owns stories and priorities, every
 product decision goes in the decision log, and the sponsor ratifies the log at the phase
@@ -170,7 +170,9 @@ Those are the product owner's, and in proxy mode they're logged, not just made.<
 signed problem statement, a verified metric, resolved contradictions, a working PO
 arrangement). It stretches to 8-10 days when the epic count is large, the domain is heavily
 regulated, or proxy mode adds ratification latency. The week is front-loaded with conversation
-and back-loaded with verification.</p>
+and back-loaded with verification. Every "Claude drafts" and "the check runs" below has a
+concrete command behind it — the worked example's closing section, "The tooling behind this
+phase," maps each step to the command and agent that runs it.</p>
 
 <div class="week">
 <h4 class="day">Day 1 — handoff intake and the elicitation plan</h4>
@@ -190,16 +192,17 @@ and back-loaded with verification.</p>
 
 <h4 class="day">Day 3 — the full draft and the decision list</h4>
 <ul>
-<li>Claude produces the complete draft: functional requirements with acceptance criteria, plus non-functional requirements — and every NFR carries a <strong>measurement basis</strong>: the number, how it will be measured, and where ("p95 API response under 800ms, measured at the gateway, read from the monitoring dashboard" — p95 meaning 95% of requests come in at or under the number). An NFR without a measurement basis is an opinion.</li>
+<li>Claude produces the complete draft: functional requirements with acceptance criteria, plus non-functional requirements — and every NFR carries a <strong>measurement basis</strong>: the number, how it will be measured, and where ("p95 API response under 800ms, measured at the gateway, read from the monitoring dashboard" — p95 meaning 95% of requests come in at or under the number). An NFR without a measurement basis is an opinion. The numbers themselves come from humans — elicitation, the constraints, the client's own data; a target nobody on the client side stated goes on the decision list, not into the draft.</li>
 <li>The decision list regenerates against the full draft. The PO starts working it — the 2-business-day clock is now the phase's critical path (the item everything else waits on), and the Pod Lead tracks it visibly.</li>
 <li>The Quality Engineer runs the testability pass: every acceptance criterion through the vague-line test (could two people build different things from this line?). Criteria that fail go back to the Pod Lead, not quietly into the pile.</li>
+<li>The sponsor checkpoint (30 minutes): the draft epic map and the emerging scope-out get a mid-week read, so nothing at the day-5 review is a surprise.</li>
 </ul>
 
 <h4 class="day">Day 4 — priorities and stories</h4>
 <ul>
-<li>The priority session, 90 minutes, PO driving: every requirement gets a priority the <strong>PO assigns</strong> — the pod advises on cost and risk, the PO owns the order. The hard rule: the top-priority tier has a budget. If everything is P0, nothing is.</li>
+<li>The priority session, 90 minutes, PO driving: every requirement gets a priority the <strong>PO assigns</strong> — the pod advises on cost and risk, the PO owns the order. The hard rule: the top-priority tier has a budget. If everything is P0, nothing is. The Pod Lead sets the budget before the session — sized to what the pod can credibly deliver in the first stretch of Build — and announces it when the session opens; the PO ranks within it.</li>
 <li>Epics get sequenced against the outcome: which epic moves the success metric first.</li>
-<li>User stories are drafted under each epic, each carrying its stakeholder justification ("Dee's intake team needs X because Y") — no fabricated personas (made-up stand-in users); if nobody named the stakeholder, the story doesn't get one invented.</li>
+<li>User stories are drafted under each epic, each carrying its stakeholder justification ("Dee's intake team needs X because Y") — no fabricated personas (made-up stand-in users); if nobody named the stakeholder, the story doesn't get one invented. A story carries three things: the epic it belongs to, the named stakeholder and why ("Dee's intake team needs X because Y"), and the requirements it bundles — nothing else; estimates and design stay out.</li>
 <li>For the top two priority tiers, error behavior is spelled out explicitly: what each operation accepts, what it returns, and what happens on each failure mode. This is where most confident-wrong builds get prevented.</li>
 <li>Feasibility spike results land: anything the spikes contradicted gets reconciled now (the integration that doesn't exist as documented becomes a requirement change or a risk).</li>
 </ul>

@@ -19,7 +19,7 @@ hand that stays after the pod leaves.
 | **Where we are** | 44 feature specs built and verified; documentation proven by use in Phase 7. Production has never seen real traffic. This week: rehearse the failure, hold the ceremony, go live.                     |
 | **The system**   | Portal/phone/email FNOL intake → a buffered claim queue → coverage verification against PolicyOne's nightly **snapshot replica** → fast-path recommendations for simple claims → acknowledgment dispatch (test-mode capable, built in Foundation as spec 0003). |
 | **Our pod**      | Maya Chen (Pod Lead) · Rob Feld (Setup Owner — the **release manager** this week) · Jonah Kim and Sara Whitfield (Orchestrators) · Nadia Brooks (Quality Engineer).                                  |
-| **Harbor's cast**| Tom Reilly (platform engineer — executes every promotion) · Dan Kowalski (IT security) · Luis Ortega (product owner — owns the rollout shape) · Dee Alvarez (intake supervisor) · Wes Carter (lead engineer) · Karen Voss (sponsor).                          |
+| **Harbor's cast**| Tom Reilly (platform engineer — executes every promotion) · Dan Kowalski (IT security) · Luis Ortega (product owner — owns the rollout shape) · Dee Alvarez (intake supervisor) · Wes Carter (lead engineer) · Karen Voss (sponsor) · Harbor's on-call lead (operations — walks the rollback in rehearsal week, answers at the go/no-go, drives hypercare).                          |
 
 **The IDs you'll see on this page:**
 
@@ -113,17 +113,20 @@ go/no-go evidence packet. The ceremony itself is no plugin command, deliberately
 - 07:00: the promotion runs. The same artifact that passed test moves to production —
   promoted, not rebuilt. Each checklist step gets called, executed, verified: services
   healthy, the replica connection live (read-only service account, private endpoint, as
-  designed in Phase 2), the queue draining its synthetic warm-up messages.
+  designed in Phase 2), the queue draining its synthetic warm-up messages (flagged test
+  messages pre-loaded before the window, so the first thing watched in production is the
+  queue draining correctly — no real claims involved).
 - 07:25: production smoke green — every journey through the test-mode paths, no real letters
   dispatched, no real records left behind beyond flagged test rows.
 - Monitoring confirmed **receiving**: the dashboards Phase 3 wired show production telemetry.
   Tuning the alerts is Phase 9's job; today the requirement is simply not flying blind.
 - **08:14: the first real FNOL.** A policyholder reports a burst pipe through the portal.
   The room watches it end to end: queue entry, replica verification (140 ms), fast-path
-  recommendation (single dwelling, no injury, under $25k — the 61% case), acknowledgment
-  dispatched through the postal vendor (Q-17's integration, live for the first time), and
-  the claim lands in Gail's queue with a coverage recommendation **3 hours and 6 minutes**
-  after FNOL. The clock that read 11.4 days has a production data point.
+  recommendation (single dwelling, no injury, under $25k — the 61% case (the share of
+  Harbor's property claims measured simple back in Phase 1, the number the fast-path was
+  built on)), acknowledgment dispatched through the postal vendor (Q-17's integration, live
+  for the first time), and the claim lands in the queue of Gail Tran (one of Harbor's senior
+  adjusters) with a coverage recommendation **3 hours and 6 minutes** after FNOL. The clock that read 11.4 days has a production data point.
 - Dee's team runs intake all day on the new system; 27 claims arrive by close of business.
   The legacy fallback stays warm and untouched.
 
@@ -138,7 +141,8 @@ dashboards together.
   retry, but the retry burst is exactly what an alert should catch. It becomes a named alert
   candidate in the Phase 9 handoff rather than a defect: the system behaved; the visibility
   should improve.
-- Release notes go to Harbor's stakeholders — written for people who never saw a spec: what
+- Release notes go to Harbor's stakeholders (drafted Monday from the merged specs, refreshed
+  after spec 0046 merged mid-week) — written for people who never saw a spec: what
   the new intake does, what changes for the claims office, what is not in this release
   (auto-insurance, adjuster-initiated merges), and the C-04 acknowledgment clock now
   enforced by the system rather than by vigilance.

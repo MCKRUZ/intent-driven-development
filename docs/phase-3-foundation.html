@@ -456,6 +456,14 @@
               </td>
             </tr>
             <tr>
+              <td><strong>Definition of Checked</strong></td>
+              <td>
+                What must be true before a change counts as done: the spec's
+                acceptance checks pass, the Stop hook is green, the grader has
+                run, a non-author approved (HIGH risk adds a named sign-off).
+              </td>
+            </tr>
+            <tr>
               <td><strong>IaC / Bicep</strong></td>
               <td>
                 Infrastructure as code: the cloud environment defined in
@@ -713,7 +721,8 @@
                 grader (required to run on every PR; its verdict advises, the
                 human decides), the security workflow (fires on the
                 <code>risk:high</code> label), and deploy-dev (merge to main
-                ships to the client dev environment).
+                ships to the client dev environment, and restores the last good
+                version when a deploy fails — the rollback Day 9 will prove).
               </li>
               <li>
                 Branch protection turns on: CI green, the grader has run, and a
@@ -722,7 +731,12 @@
               </li>
               <li>
                 The build-time security gates from the Phase 2 threat review get
-                wired into the security workflow.
+                wired into the security workflow. Wiring a gate means
+                registering its guarded path with the security workflow, so the
+                workflow runs on any PR that touches that path — independent of
+                the spec's risk tier — in addition to firing on the
+                <code>risk:high</code> label. The gate is the workflow plus the
+                path registration.
               </li>
             </ul>
 
@@ -774,7 +788,10 @@
               <li>
                 Any build-time security gate that touches these slices (a
                 template-review gate, an upload scan) fires on its first
-                qualifying PR — proven, not just configured.
+                qualifying PR — proven, not just configured. If no skeleton
+                slice touches a gate's guarded path, prove it with a probe PR —
+                a throwaway change to that path opened solely to confirm the
+                gate fires, then closed unmerged.
               </li>
             </ul>
 
@@ -790,7 +807,8 @@
                 A first end-to-end smoke journey — an automated test that walks
                 the same path a user would — runs across the skeleton: the
                 thinnest proof that the whole thread holds together, not just
-                each slice in isolation.
+                each slice in isolation (the Quality Engineer builds and runs
+                it).
               </li>
             </ul>
 
@@ -800,7 +818,11 @@
                 The rails get a deliberate shakedown: the Stop hook is proven to
                 actually block a failing build, the grader is proven to actually
                 post on a real PR, deploy-dev is proven to roll back cleanly. A
-                rail that has never failed safely has not been proven.
+                rail that has never failed safely has not been proven. Force
+                each failure deliberately: a failing test proves the Stop hook
+                blocks, a PR with a planted spec mismatch proves the grader
+                posts the miss, and a known-bad deploy proves the pipeline
+                restores the last good version.
               </li>
               <li>
                 The setup review merges any harness corrections found during the
@@ -812,7 +834,10 @@
                 (the limit on how many changes may be in flight at once) and
                 the review-wait tripwire (the wait-time threshold that, once
                 crossed, stops new work starting until the review queue
-                clears).
+                clears). (The Pod Lead proposes both at the setup review; the
+                standard's defaults — at most 2 concurrent streams per
+                Orchestrator, and a one-working-day median review wait — apply
+                unless the engagement has a reason to differ.)
               </li>
             </ul>
 
@@ -971,8 +996,10 @@
               <td>Pod Lead</td>
               <td>
                 Flow check, intent triage, retro+, and setup review scheduled;
-                WIP cap and review-wait tripwire set; the Phase 2 security gates
-                on the map
+                WIP cap and review-wait tripwire set; the risk-tier map lists
+                each codebase area with its tier and any security gate
+                registered against it; the Phase 2 security gates are on the
+                map
               </td>
             </tr>
             <tr>

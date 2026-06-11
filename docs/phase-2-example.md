@@ -127,7 +127,10 @@ steering narrative · the threat review is a human session with client security 
 `/sdlc-phase-report` → `generate_phase_report.py` · `/sdlc-next` → `advance_phase.py` (after the
 human sign-off).
 - **`/sdlc-review --all`** runs the `multi-reviewer` agent in all three modes (council,
-  adversarial, edge-cases). Three findings survive triage:
+  adversarial, edge-cases) (council debates the design from several reviewer perspectives;
+  adversarial tries to break it; edge-cases hunts boundary conditions). Three findings
+  survive Rob's triage (agent findings that misread the design get dropped; the rest get
+  fixed or accepted by name):
   - **HIGH:** no back-pressure behavior (what the portal does when claims arrive faster than
     the queue can absorb them) defined for surge — the contract gains an explicit
     degraded-acceptance mode (accept, queue deeper, never reject a FNOL).
@@ -304,7 +307,7 @@ The abstract Phase 2 page describes this work generically. What actually ran, on
 | Data model + API contracts | Claude drafts carrying the Phase 1 error specs down into contract behavior; Rob shapes; Wes reviews |
 | Threat model + mitigation map | Claude drafts the data-flow diagrams and candidate threat list; the day-4 session with Dan decides; outputs feed the Build risk-tier map |
 | Design review (day 5) | `/sdlc-review --all` — the `multi-reviewer` agent in council, adversarial, and edge-cases modes; report written as a phase artifact |
-| Consistency check | Cross-artifact reference checks inside `/sdlc-gate`; locked-metric consistency via the frozen-layer validation |
+| Consistency check | Cross-artifact reference checks inside `/sdlc-gate`; locked-metric consistency via the frozen-layer validation (the plugin's check that values locked in earlier phases — the success metric, the constraints — haven't been silently altered by later artifacts) |
 | Gate, review packet, advance | `/sdlc-gate`, `/sdlc-phase-report`, `/sdlc-next` (after the four-signature phase review) |
 
 ---

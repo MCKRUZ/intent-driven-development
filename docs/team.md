@@ -59,15 +59,18 @@ in the pod happens here.
   record it in the spec. Hear challenges; challenges escalate up only.
 - Keep the decision list moving: every silent decision Claude surfaces gets a human answer
   within 2 business days — from the client PO in PO mode, or from the Pod Lead with a decision-log
-  entry the client ratifies at steering in proxy mode.
+  entry the client ratifies at steering in proxy mode (the Phase 0 choice: in PO mode the client
+  committed a named product owner who answers; in proxy mode we answer on their behalf and they
+  ratify the decision log at each steering — section 12 of the standard).
 
 **Daily:**
 - Run the 10-minute flow check: a Checker assigned to every PR waiting for review, vague specs
   flagged, WIP cap enforced, security queue glanced at.
 
 **Weekly:**
-- Run intent triage (60 min): stories become ready specs, oversized stories get split there
-  (never at review), decision lists get answered.
+- Run intent triage (60 min): stories become ready specs, oversized stories get split there,
+  never at review (the bar: will the resulting change fit in one reviewable PR?), decision
+  lists get answered.
 - Write the 5-bullet async client summary.
 
 **Biweekly:**
@@ -77,8 +80,8 @@ in the pod happens here.
 **Per phase:**
 - Run the Phase 0 outcome workshop (the three outcomes, the one metric, the PO decision, the
   tooling decision).
-- Own the recommendation at every phase gate: gates report, the Pod Lead recommends, the human
-  chain signs.
+- Own the recommendation at every phase gate: gates report, the Pod Lead recommends, and the
+  named sign-off humans for that gate (per the phase deep-dive) decide.
 - Run Phase C: the transfer checklist, the client-solo close gate.
 
 **Stopped doing:** story-point estimation, velocity tracking, sprint planning and sprint reviews
@@ -163,7 +166,9 @@ approver" real on a small team, and it keeps both sharp at both crafts.
   sent.
 - Probe one edge the tests didn't cover. Run the code, don't just read it.
 - Approve, or bounce with specifics tied to acceptance checks. On HIGH risk: confirm the
-  security workflow passed and add the named sign-off.
+  security workflow passed and that the named human sign-off (the person named in the spec's
+  checking plan — client security or the security lead, never the Checker alone) is recorded
+  in the PR before merging.
 
 **Daily:** flow check; at most 2 concurrent agent streams; pick up waiting reviews before
 starting new streams (the queue outranks new work).
@@ -256,7 +261,9 @@ All four, not any one:
       trending up
 - [ ] The harness is extracted and versioned well enough that pod 2 installs it rather than
       rebuilds it
-- [ ] A second Pod Lead and at least two certified Orchestrator/Checkers actually exist
+- [ ] A second Pod Lead and at least two certified Orchestrator/Checkers (per the certification
+      rule in section 3 of the standard: course completed, rubric passed on practice work)
+      actually exist
 
 The measurable claim that proves the model is compounding: **pod 2 ships its first spec faster
 than pod 1 did.** If it doesn't, the foundation isn't real yet — fix that before pod 3.

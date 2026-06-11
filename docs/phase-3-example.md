@@ -317,7 +317,7 @@ proposes; a human applies). Plan-mode approval before any code.
 **Checking plan.** Full ladder: CI hard gates, the grader, a non-author Checker (Sara). Because
 HIGH: the security.yml security-reviewer pass and Dan's named sign-off in the PR.
 
-**How it rode the loop.** Plan approved by Sara → agent implemented under tight permissions →
+**How it rode the loop.** Plan approved by Jonah → agent implemented under tight permissions →
 Stop hook green → PR fired ci.yml, grader.yml, and (on the `risk:high` label) security.yml → Dan
 signed off → Sara merged → deploy-dev shipped it. The Q-15 controls were verified live against
 the dev environment the same afternoon.
@@ -340,7 +340,10 @@ _Drafted by Claude, reviewed every change by Rob and Tom, provisioned from code.
 _The two gates from the Phase 2 threat review, now enforced and each fired on a real PR._
 
 - **Document-upload malware scan** — HIGH tier; security.yml runs on every PR touching the upload
-  path. (The upload path itself is a Build spec; the gate is wired and tested with a probe PR.)
+  path. (The upload path itself is a Build spec; the gate is wired and tested with a probe PR — a
+  throwaway change to the upload path opened solely to confirm the gate fires, then closed
+  unmerged.) The template-review gate triggers on the templates path itself, independent of the
+  risk label — which is why it fired on 0003's MEDIUM PR.
 - **Acknowledgment-letter PII template-review gate** — fired live on spec 0003's PR, the first to
   touch acknowledgment templates. PII leaves the system on paper, so a human reviews any template
   change.

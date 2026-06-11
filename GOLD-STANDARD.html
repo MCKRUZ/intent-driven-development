@@ -724,7 +724,10 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
               build different things from this line? then it's not ready)
             </li>
             <li>Scope in / scope out stated</li>
-            <li>Silent decisions answered (the decision list is empty)</li>
+            <li>
+              Silent decisions answered (no open decision-list items for this
+              story)
+            </li>
             <li>
               Risk tier assigned by the Pod Lead (taxonomy below), recorded in
               the spec
@@ -876,7 +879,8 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
           <p>
             Biweekly 45-minute steering: live demo of working software in the
             dev environment, the outcome scorecard (their success metric, the
-            DORA stability pair, the accepted-as-is trend), the decision list
+            DORA stability pair (change-fail rate and time-to-recover), the
+            accepted-as-is trend), the decision list
             needing their answers, and gate status when a phase boundary is
             near. Weekly 5-bullet async summary in between.
             <strong>No activity metrics in client materials, ever</strong> — no
@@ -1133,8 +1137,10 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
               refusal rates, eval drift in production samples.
             </li>
             <li>
-              <strong>The worked example</strong> in <code>docs/</code> walks
-              one agentic spec end-to-end: golden set construction, the eval
+              <strong>The worked example</strong>
+              (<code>docs/agentic-spec-example.md</code>, to be added with the
+              first agentic engagement) will walk one agentic spec end-to-end:
+              golden set construction, the eval
               harness, the CI wiring, and what the grader checks differently
               (behavior distribution against the golden set, not just code
               against acceptance lines).

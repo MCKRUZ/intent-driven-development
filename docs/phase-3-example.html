@@ -1251,7 +1251,7 @@
               the PR.
             </p>
             <p>
-              <strong>How it rode the loop.</strong> Plan approved by Sara →
+              <strong>How it rode the loop.</strong> Plan approved by Jonah →
               agent implemented under tight permissions → Stop hook green → PR
               fired ci.yml, grader.yml, and (on the
               <code>risk:high</code> label) security.yml → Dan signed off → Sara
@@ -1307,7 +1307,11 @@
               <strong>Document-upload malware scan</strong> — HIGH tier;
               security.yml runs on every PR touching the upload path. (The
               upload path itself is a Build spec; the gate is wired and tested
-              with a probe PR.)
+              with a probe PR — a throwaway change to the upload path opened
+              solely to confirm the gate fires, then closed unmerged.) The
+              template-review gate triggers on the templates path itself,
+              independent of the risk label — which is why it fired on 0003's
+              MEDIUM PR.
             </li>
             <li>
               <strong>Acknowledgment-letter PII template-review gate</strong> —

@@ -24,7 +24,7 @@ gate closes to the day the backlog is done.
 | **A story**               | A user-facing piece of work as the backlog holds it — what a spec is before it has been made ready and written down precisely.                                                                                            |
 | **Definition of Ready**   | The bar a story clears before anyone builds it: acceptance criteria pass the vague-line test, scope in/out stated, the silent decisions answered, a risk tier assigned, the harness context named.                       |
 | **The vague-line test**   | "Could two people build different things from this line?" If yes, the line is a wish, not a check.                                                                                                                       |
-| **The decision list**     | The running list of product decisions nobody has made yet ("you haven't decided X"), each needing a named human answer — on the client clock agreed in Phase 1.                                                          |
+| **The decision list**     | The running list of product decisions nobody has made yet ("you haven't decided X"), each needing a named human answer — on the client clock agreed in Phase 1. Each item records the question, the date raised, the named client owner, the clock date, and the answer once given; the list lives in the repo with the phase artifacts and goes to every steering. |
 | **Plan mode**             | The agent mode where Claude can read the repo and propose an approach but cannot change files. Plans get approved by a human before any code is written.                                                                  |
 | **PR**                    | Pull request — the proposed change under review. One spec = one branch = one PR.                                                                                                                                          |
 | **CI**                    | Continuous integration — the automated checks (build, tests, lint, test coverage) that run on every PR before it can merge.                                                                                               |
@@ -33,8 +33,8 @@ gate closes to the day the backlog is done.
 | **The Stop hook**         | A script that fires when an agent tries to finish its turn. If tests fail or the build is broken, it refuses to let the agent stop. "Done" stops being the agent's opinion.                                              |
 | **Rails**                 | The enforcement built in Phase 3, taken together: CI gates, the grader, branch protection (the repo settings that make the gates mandatory), and the deploy pipeline. Every change runs on them; nobody has to remember them. |
 | **Risk tier**             | HIGH / MEDIUM / LOW, assigned per spec at triage. Sets how tightly the agent is bounded and how much review the change gets.                                                                                              |
-| **WIP cap**               | The limit on how many changes may be in flight at once. Set at the end of Phase 3, enforced at the daily flow check.                                                                                                      |
-| **Review-wait tripwire**  | The wait-time threshold that, once crossed, stops new work starting until the review queue clears. Review is the loop's real bottleneck; this number is how the pod refuses to bury it.                                  |
+| **WIP cap**               | The limit on how many changes may be in flight at once. Set at the end of Phase 3 from checking capacity (the standard's default: no Orchestrator runs more than two concurrent agent streams), enforced at the daily flow check. |
+| **Review-wait tripwire**  | The wait-time threshold that, once crossed, stops new work starting until the review queue clears (default: median one working day; set alongside the WIP cap at the end of Phase 3). Review is the loop's real bottleneck; this number is how the pod refuses to bury it. |
 
 The loop is three beats, run for every change, large or small:
 
@@ -92,7 +92,9 @@ Claude does most of the building and much of the checking — but never both on 
   of it.
 
 What Claude never does: merge, approve its own work, assign a risk tier, answer a decision-list
-item, or downgrade a challenge. Risk challenges escalate up, never down, without discussion.
+item, or downgrade a challenge. Risk challenges escalate up, never down, without discussion
+(anyone — human or agent — can raise a tier on the spot; lowering one always takes a
+discussion with the Pod Lead, who owns the tier).
 
 ---
 
@@ -202,6 +204,9 @@ In the rails, the ladder lands as three layers on every PR:
   the diff and posts a check-by-check verdict as a PR comment. It cannot be skipped — "the
   grader has run" is a required status check — but its verdict does not block. The human
   Checker reads it and makes the call. Machines gate the mechanical; humans own the judgment.
+  A failed check — the grader's verdict or the Checker's bounce — goes back to the same
+  Orchestrator, who drives the fix on the same branch. Every gate, including a fresh grader
+  run, runs again on the updated PR before merge.
 - **The human Checker** (hard block): non-author approval on every PR. On HIGH risk, also a
   security review pass and a named human sign-off recorded in the PR.
 
@@ -228,10 +233,14 @@ the clarity of intent going in, and the review queue coming out.
 
 | Meeting                | Length    | Replaces   | What it does                                                                                                                                        |
 | ---------------------- | --------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Flow check** (daily) | 10-15 min | standup    | The queue number first: how many changes wait for checking, how long the oldest has waited. Walk the work right to left — nearest-done first. Every waiting change gets a Checker; vague specs get flagged back to triage; the WIP cap gets enforced; one commitment each. |
+| **Flow check** (daily) | 10-15 min | standup    | The queue number first: how many changes wait for checking, how long the oldest has waited. Walk the in-flight changes nearest-done first — start with PRs waiting on a Checker, end with work not yet started — reading from wherever the pod tracks changes in flight. Every waiting change gets a Checker; vague specs get flagged back to triage; the WIP cap gets enforced; one commitment each (each person names the one thing they will move or unblock today). |
 | **Intent triage**      | 60 min    | refinement | Stories become ready specs: vague lines sharpened, silent decisions surfaced onto the decision list, risk tiers assigned, the backlog ordered.        |
 | **Retro+**             | 60 min    | retro      | Every escaped bug gets the same question — "which check should have caught it?" — and the answer becomes a harness improvement, not a resolution to try harder. |
 | **Setup review**       | 30-60 min | (new)      | The week's harness changes merge: CLAUDE.md updates, skill and hook improvements, permission tuning — versioned, PR'd, reviewed by the Setup Owner's deputy. |
+
+The Pod Lead runs the flow check and intent triage (whole pod attends; the Quality Engineer
+vets checks for testability at triage); the Quality Engineer brings the escaped-bug list to
+Retro+ (whole pod); the Setup Owner and their deputy run the setup review.
 
 Two numbers run the week. The **WIP cap** keeps the pod from opening more changes than its
 checking capacity can clear — agents can always write more code; the constraint is proving
@@ -250,7 +259,8 @@ The client never sees the loop's internals — they see working software on a st
   scorecard (their success metric, the delivery-stability trend, the accepted-as-is trend),
   the decision list needing their answers, and gate status when a phase boundary is near.
 - **A weekly five-bullet async summary** in between. Written for a busy reader: what shipped,
-  what's next, what we need from you.
+  what's next, what we need from you. Claude drafts it from the week's merged work; the Pod
+  Lead corrects and sends it.
 - **No activity metrics in client materials, ever.** No PR counts, no "AI productivity"
   claims. Agents inflate every activity number; demos and outcomes don't lie.
 
@@ -264,9 +274,10 @@ delivery risk, not absorbed as quiet guessing.
 ## 7. Hardening passes
 
 Quality in the loop is per-change; some concerns only exist at the integration level —
-performance under load, end-to-end journeys across many features, penetration testing. Those
-run as **scheduled hardening passes**: typically one mid-Build and one before deployment
-prep, driven by the end-to-end and security tooling. The first hardening pass is also where
+performance under load, end-to-end journeys across many features, penetration testing. The
+Quality Engineer plans and runs them as **scheduled hardening passes** — typically one
+mid-Build and one before deployment prep — using the end-to-end and security tooling. The
+first hardening pass is also where
 the test environment gets added alongside dev. Hardening is scheduled work inside the flow —
 specs, triage, the loop — not a phase that gates all other work.
 

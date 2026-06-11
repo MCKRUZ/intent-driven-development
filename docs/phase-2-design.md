@@ -17,7 +17,7 @@ signed decisions, and what has to be true before anyone provisions an environmen
 
 | Term | What it means |
 |---|---|
-| **ADR** | Architecture decision record: one hard-to-undo choice written down — the options considered, the decision, and its consequences — signed by a named human on each side. |
+| **ADR** | Architecture decision record: one hard-to-undo choice written down — the options considered, the decision, and its consequences — signed by a named human on each side (a signature is the person's name and date recorded in the ADR file itself). |
 | **NFR** | Non-functional requirement — a measurable quality target (speed, capacity, availability), with a stated measurement basis. |
 | **Spike** | Small throwaway code written to test a risky assumption against reality before the design depends on it; the findings are kept, the code is deleted. |
 | **Contract** | Exactly how a piece of the system behaves at its boundary, failures included — what callers may rely on. |
@@ -118,7 +118,8 @@ can start immediately after.
 - Claude presents the option sets: for each major decision, 2-3 candidate approaches with
   trade-offs against *these* drivers. The Setup Owner reviews, kills the strawmen (the
   options that were never real contenders), and schedules the option session for the
-  decisions worth a room.
+  decisions worth a room. (Decisions not worth a room are settled asynchronously between the
+  Setup Owner and the counterpart, and still get an ADR if they're hard to undo.)
 - The riskiest assumptions get named, and spikes get assigned: anything the design would bet
   on that has only been verified on paper.
 
@@ -129,7 +130,10 @@ can start immediately after.
   findings are recorded.
 - The option session (90-120 min): Setup Owner and the client's lead engineer work through
   the major decisions, Claude's option framings on the table, spike results in hand. The
-  humans choose. Product-facing trade-offs split off to the PO with the usual clock.
+  humans choose. Product-facing trade-offs split off to the PO with the usual clock. The
+  Setup Owner runs it. Per decision: the option framing is walked, the spike evidence
+  weighed, the counterpart's questions answered, and the choice recorded with its reasons in
+  session notes — those notes are the raw material for the next day's ADR drafts.
 - By end of day, the architecture direction is chosen and the ADR list is known.
 
 **Day 3 — decisions become records; the model takes shape.**
@@ -139,7 +143,9 @@ can start immediately after.
   (the element where the most constraints converge).
 - The forward-compatibility check the constitution demanded runs against the draft model:
   does this design preclude the futures the client paid to keep open? Verified now, gated
-  again at every design review.
+  again at every design review. (The Setup Owner walks each constitution-protected future
+  against the draft model and records the verdict — and what made it true — alongside the
+  model.)
 
 **Day 4 — contracts, threat review, and the proving plan.**
 - API contracts completed: every operation with its request/response shapes, error semantics
@@ -148,7 +154,8 @@ can start immediately after.
 - The threat review session with client security: data-flow diagrams on the table, the
   candidate threat list worked through, mitigations assigned — some become design changes,
   some become build-time security gates on specific areas (these feed the risk-tier map the
-  Build loop will use).
+  Build loop will use — the register listing each area of the codebase with its risk tier
+  and any security gate guarding it, which Build triage reads when tiering specs).
 - The Quality Engineer completes the proving plan: for each NFR, how it will be verified and
   where its number will be read; and the walking-skeleton definition — the thin end-to-end
   slice Phase 3 must make real to prove the architecture under the rails (the automated
@@ -158,7 +165,9 @@ can start immediately after.
 - The design review: fresh eyes (a review agent that didn't draft the design, plus the QE and
   Pod Lead) challenge it from four angles — architecture (failure points, scale), product
   (does it serve the requirements), quality (is it testable), security (gaps the threat
-  session missed). Findings get fixed or explicitly accepted with a name attached.
+  session missed). Findings get fixed or explicitly accepted with a name attached (the Setup
+  Owner's, as the design's owner — or the client counterpart's when the accepted risk is
+  theirs to carry; the acceptance lives in the review record).
 - The consistency check runs both directions (requirements ↔ design); orphans resolved.
 - The automated gate check runs; the Phase 3 handoff is drafted: the signed decisions, the
   contracts, the walking-skeleton definition, the build risks, the recommended first specs.
@@ -195,7 +204,7 @@ can start immediately after.
 | Spike findings | Orchestrators | Setup Owner | Each risky assumption: confirmed or falsified, with evidence; spike code deleted |
 | Threat model + mitigation map | Claude (drafts), security session (decides) | Setup Owner + client security | Data flows reviewed; each threat mitigated in design or assigned as a build-time security gate |
 | NFR proving plan | QE | QE | Per NFR: the verification method and where the number will be read |
-| Walking-skeleton definition | QE + Setup Owner | Setup Owner | The thin end-to-end slice Phase 3 must ship: named, bounded, and sufficient to prove the architecture |
+| Walking-skeleton definition | QE + Setup Owner | Setup Owner | The thin end-to-end slice Phase 3 must ship: named, bounded, and sufficient to prove the architecture (the definition states the end-to-end path step by step, the environment it must run in, and the rails that must be live; sufficient means every ADR's chosen mechanism is exercised at least once on the path) |
 | Consistency check record | Claude | Pod Lead | Requirements ↔ design traced both directions; orphans resolved or removed |
 | Phase 3 handoff | Claude | Pod Lead | Decisions, contracts, skeleton definition, build risks, recommended first specs, open questions under their original IDs |
 

@@ -644,7 +644,10 @@
                 top-priority user journeys and answer, for each, what healthy
                 looks like, what degraded looks like, and who should be woken
                 for what. Operations' answers win ties — they are the ones
-                being paged.
+                being paged. Capture one line per scenario and journey —
+                healthy looks like, degraded looks like, who is woken, who is
+                told in the morning — in the monitoring configuration. That
+                table is what the alert definitions are written from.
               </li>
               <li>
                 The monitoring scope lands in writing: which stack (theirs — we
@@ -662,9 +665,14 @@
                 rates, queue depths, dependency health — each recorded with the
                 period it was measured over. Where production hasn't yet
                 exercised a path (the seasonal surge, the rare failure), the
-                threshold derives from the engagement's modeled data instead —
+                threshold derives from the engagement's modeled data instead
+                (whatever the engagement already measured: the hardening
+                passes' load-test results, the design phase's spikes) —
                 <strong>flagged as modeled, with a revisit date</strong>, never
-                silently presented as baseline.
+                silently presented as baseline. Claude measures, the Setup
+                Owner runs the capture in the client's tooling, and the Quality
+                Engineer owns the resulting artifact — including the honesty of
+                every modeled flag.
               </li>
               <li>
                 Dashboards go live in the client's stack: system health,
@@ -682,13 +690,18 @@
                 severity, a named recipient, a response expectation, and a link
                 to its playbook entry. The derivation is written next to the
                 threshold — "2x the measured p95 over 10 minutes" survives an
-                argument; "500ms" does not.
+                argument; "500ms" does not. Confirmation is a recorded act, not
+                a meeting memory: the operations names go on the review of the
+                change that ships the alert rules, and the gate reads them
+                there.
               </li>
               <li>
-                The alert-fatigue review runs on everything proposed: anything
-                that would have fired more than once a week during hypercare
-                without demanding action gets raised or cut now, not after the
-                team has learned to ignore it.
+                The alert-fatigue review runs on everything proposed (replay
+                each proposed condition against the hypercare metrics history —
+                the same data the baseline came from — and count the firings):
+                anything that would have fired more than once a week during
+                hypercare without demanding action gets raised or cut now, not
+                after the team has learned to ignore it.
               </li>
             </ul>
           </div>
@@ -714,7 +727,13 @@
                 Each critical alert fires for real, triggered in a controlled
                 way, and the client's on-call responds from the playbook while
                 the pod observes silently — the same discipline as Phase 7's
-                cold runs and Phase 8's rehearsal. Routing that goes to the
+                cold runs and Phase 8's rehearsal. Controlled means designed:
+                before drill day, the Quality Engineer and the client's
+                platform engineer write down one synthetic trigger per critical
+                alert — a test lane, flagged test data, a test toggle, a
+                deliberately blocked dependency — that makes the real alert
+                condition true without touching real traffic or real data. No
+                trigger agreed in writing, no drill. Routing that goes to the
                 wrong channel, a playbook step that assumes pod access, a
                 threshold that doesn't actually trigger: all of it fails here,
                 by appointment, at drill prices.
@@ -722,6 +741,12 @@
               <li>
                 What the drill breaks gets fixed through the loop and
                 re-drilled.
+              </li>
+              <li>
+                The Quality Engineer records, per alert: the trigger used,
+                trigger time, detection time, where it routed, who responded,
+                and the outcome — pass, or the finding and its fix. That record
+                goes in the gate packet.
               </li>
             </ul>
 
@@ -757,9 +782,10 @@
                 formally theirs, with the pod one escalation away until Close.
               </li>
               <li>
-                The automated gate check runs; the Close &amp; Transfer handoff
-                is drafted: monitoring inventory, the drill record, the debt
-                log, open items with owners. Steering: the gate sign-off, the
+                The Pod Lead runs the automated gate check; Claude drafts the
+                Close &amp; Transfer handoff for the Pod Lead to own:
+                monitoring inventory, the drill record, the debt log, open
+                items with owners. Steering: the gate sign-off, the
                 billing milestone, and the outcome metric's first honest
                 production read — stated with its caveats, because the
                 credibility protected all engagement gets spent or banked here.

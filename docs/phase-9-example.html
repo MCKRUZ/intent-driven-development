@@ -753,7 +753,7 @@
           <ul>
             <li>
               Every critical alert fires for real, one at a time, through
-              controlled synthetic triggers: replica reads blocked outside the
+              controlled synthetic triggers — among them: replica reads blocked outside the
               window (VERIFY-DEGRADED), a synthetic retry storm against the
               dispatch queue's test lane (ACK-RETRY-BURST at its critical
               threshold), queue depth pushed past threshold with flagged test
@@ -761,7 +761,7 @@
               test toggle (SYNC-MISSED).
             </li>
             <li>
-              <strong>Two failures, both the drill's job to find.</strong>
+              <strong>Two findings, both the drill's job to find.</strong>
               VERIFY-DEGRADED routed to the general ops channel instead of the
               pager rotation — a routing-key typo that would have meant a
               silent night during a real incident. And one playbook diagnosis
@@ -1001,7 +1001,10 @@
                 ADR-004 gate, now watched in production)
               </td>
               <td>Warning</td>
-              <td>Quality owner (Harbor)</td>
+              <td>
+                Quality owner (Harbor — the role assigned at the
+                what-healthy-means session for the ADR-004 eval gate)
+              </td>
             </tr>
           </table>
           <p>

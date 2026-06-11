@@ -67,7 +67,7 @@ fills in and the product owner becomes the busiest person on the client side.
 | **Domain experts** | Elicitation sessions, one per epic area | 60-90 min each |
 | **Data owner** | The instrumentation epic (any metric that day 6 of Phase 0 showed can't be read yet) | One session |
 | **Compliance / security** | Regulatory requirements become explicit, testable entries | One session if regulated |
-| **Sponsor** | One checkpoint plus the phase review; the biweekly steering cadence (the recurring sponsor check-in) starts at the end of this phase | ~1.5 hours total |
+| **Sponsor** | One checkpoint (a 30-minute mid-week read of the draft epic map and emerging scope-out, typically day 3) plus the phase review; the biweekly steering cadence (the recurring sponsor check-in) starts at the end of this phase | ~1.5 hours total |
 
 **Proxy mode** (no client PO): the Pod Lead owns stories and priorities, every product decision
 goes in the decision log, and the sponsor ratifies the log at the phase review. The phase runs
@@ -104,7 +104,9 @@ The default calendar is **5 business days** — one week, assuming Phase 0 did i
 problem statement, a verified metric, resolved contradictions, a working PO arrangement). It
 stretches to 8-10 days when the epic count is large, the domain is heavily regulated, or proxy
 mode adds ratification latency. The week is front-loaded with conversation and back-loaded
-with verification.
+with verification. Every "Claude drafts" and "the check runs" below has a concrete command
+behind it — the worked example's closing section, "The tooling behind this phase," maps each
+step to the command and agent that runs it.
 
 **Day 1 — handoff intake and the elicitation plan.**
 - The pod works the open questions Phase 0 carried forward: each has an owner and a due date
@@ -133,22 +135,30 @@ with verification.
   non-functional requirements — and every NFR carries a **measurement basis**: the number, how
   it will be measured, and where ("p95 API response under 800ms, measured at the gateway, read
   from the monitoring dashboard" — p95 meaning 95% of requests come in at or under the number).
-  An NFR without a measurement basis is an opinion.
+  An NFR without a measurement basis is an opinion. The numbers themselves come from humans —
+  elicitation, the constraints, the client's own data; a target nobody on the client side
+  stated goes on the decision list, not into the draft.
 - The decision list regenerates against the full draft. The PO starts working it — the
   2-business-day clock is now the phase's critical path (the item everything else waits on),
   and the Pod Lead tracks it visibly.
 - The Quality Engineer runs the testability pass: every acceptance criterion through the
   vague-line test (could two people build different things from this line?). Criteria that
   fail go back to the Pod Lead, not quietly into the pile.
+- The sponsor checkpoint (30 minutes): the draft epic map and the emerging scope-out get a
+  mid-week read, so nothing at the day-5 review is a surprise.
 
 **Day 4 — priorities and stories.**
 - The priority session, 90 minutes, PO driving: every requirement gets a priority the **PO
   assigns** — the pod advises on cost and risk, the PO owns the order. The hard rule: the
-  top-priority tier has a budget. If everything is P0, nothing is.
+  top-priority tier has a budget. If everything is P0, nothing is. The Pod Lead sets the
+  budget before the session — sized to what the pod can credibly deliver in the first stretch
+  of Build — and announces it when the session opens; the PO ranks within it.
 - Epics get sequenced against the outcome: which epic moves the success metric first.
 - User stories are drafted under each epic, each carrying its stakeholder justification
   ("Dee's intake team needs X because Y") — no fabricated personas (made-up stand-in users);
-  if nobody named the stakeholder, the story doesn't get one invented.
+  if nobody named the stakeholder, the story doesn't get one invented. A story carries three
+  things: the epic it belongs to, the named stakeholder and why ("Dee's intake team needs X
+  because Y"), and the requirements it bundles — nothing else; estimates and design stay out.
 - For the top two priority tiers, error behavior is spelled out explicitly: what each
   operation accepts, what it returns, and what happens on each failure mode. This is where
   most confident-wrong builds get prevented.

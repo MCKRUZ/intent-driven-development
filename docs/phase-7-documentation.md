@@ -120,7 +120,9 @@ long or a cold run fails badly — both of which are the phase doing its job.
   docs, RUNBOOK), and any client documentation standards the deliverables must follow.
 - The spec library gets a sample audit: the QE picks a handful of specs and checks them
   against live behavior in dev. Specs stayed current by construction all through Build — this
-  is the trust-but-verify pass that proves the construction held.
+  is the trust-but-verify pass that proves the construction held. (A handful: five to ten,
+  weighted toward HIGH-risk and recently changed specs. Checking means executing each spec's
+  acceptance checks by hand against dev — not re-reading the spec.)
 
 **Day 2 — parallel drafts: the README and the contract diff.**
 
@@ -130,8 +132,9 @@ long or a cold run fails badly — both of which are the phase doing its job.
 - The diff produces the **drift catalog**: every difference between the contracts and the
   built system, each labeled by a human — *intentional* (the decision and its why get
   documented, the contract updated) or *unintentional* (a defect spec, into the loop, fixed
-  before the phase closes). The catalog is reviewed with the client's lead engineer — the
-  contracts are theirs after close.
+  before the phase closes). One row per drift: what the contract said, what the system does,
+  the label, and the resolution. The catalog is reviewed with the client's lead engineer —
+  the contracts are theirs after close.
 
 **Day 3 — the RUNBOOK, written for 3 a.m.**
 
@@ -148,7 +151,8 @@ long or a cold run fails badly — both of which are the phase doing its job.
 **Day 4 — the decision sweep.**
 
 - Claude's read-only sweep of the Build-era history surfaces candidate undocumented
-  decisions. Humans triage: each real one becomes an ADR — context, options, decision,
+  decisions. Humans triage — the Setup Owner with the client's lead engineer: each real one
+  becomes an ADR — context, options, decision,
   consequences — co-signed by the client's lead engineer like every ADR before it. Open ADRs
   get closed as accepted or superseded.
 - This is debt collection. An unwritten decision is tribal knowledge, and at close, the
@@ -157,15 +161,29 @@ long or a cold run fails badly — both of which are the phase doing its job.
 **Day 5 — verified by use, then the gate.**
 
 - **The cold checkout:** a client engineer who has never opened the repo follows the README
-  exactly, on a clean machine, while the pod watches without helping. Every stall, every
+  exactly, on a clean machine (a clean machine: a fresh OS account or VM with none of the
+  project's toolchain pre-installed — the verifier installs everything the README tells them
+  to, and nothing it doesn't), while the pod watches without helping. Every stall, every
   assumed tool, every "wait, what's my…" is a documentation defect, fixed the same day and
-  re-run.
+  re-run. A stall is any step the verifier cannot complete as written without information
+  from outside the document — having to ask, guess, or go searching counts; a typo they can
+  read past does not. The QE observes and logs each stall as it happens: the step number,
+  what was missing, and what the verifier did instead. That log is the doc-defect list. The
+  re-run is the same verifier, from step one, end to end — a partial run that starts at the
+  failed step proves nothing about the fixes upstream, and the verifier is still cold for
+  every step they never reached.
 - **The cold walk-through:** the client's ops engineer executes real RUNBOOK procedures in
   the dev environment — a deploy, a rollback, one simulated failure scenario — using their
   own permissions. A procedure that silently assumed the pod's access fails here, which is
-  exactly where it should fail.
+  exactly where it should fail. The QE picks the scenario and stages it in dev ahead of
+  time — inducing the failure condition or faking its symptoms — and hands the ops engineer
+  only the symptom. They respond from the RUNBOOK alone, the pod silent, same rule as the
+  checkout.
 - The automated gate check runs; the Phase 8 handoff is drafted: the documentation inventory,
-  the honest gaps, the deployment checklist, the ADR status. Steering: the sign-off, the
+  the honest gaps, the deployment checklist (the deployment checklist: the ordered list of
+  what Phase 8 must do before go-live — drawn from the RUNBOOK's deploy and rollback
+  procedures plus what this phase knowingly left open: secrets rotation, production
+  infrastructure promotion, the ceremony roles), the ADR status. Steering: the sign-off, the
   billing milestone, and the engagement advances to Deployment.
 
 ### When the week stretches

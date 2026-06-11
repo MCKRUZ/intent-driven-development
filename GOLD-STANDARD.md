@@ -179,7 +179,7 @@ A story enters the loop only through **Definition of Ready**, enforced at weekly
 - Acceptance criteria pass the vague-line test (could two people build different things from this
   line? then it's not ready)
 - Scope in / scope out stated
-- Silent decisions answered (the decision list is empty)
+- Silent decisions answered (no open decision-list items for this story)
 - Risk tier assigned by the Pod Lead (taxonomy below), recorded in the spec
 - References the harness context the agent will have
 
@@ -232,7 +232,8 @@ without discussion):
 ### 5.5 Client cadence
 
 Biweekly 45-minute steering: live demo of working software in the dev environment, the outcome
-scorecard (their success metric, the DORA stability pair, the accepted-as-is trend), the decision
+scorecard (their success metric, the DORA stability pair (change-fail rate and time-to-recover),
+the accepted-as-is trend), the decision
 list needing their answers, and gate status when a phase boundary is near. Weekly 5-bullet async
 summary in between. **No activity metrics in client materials, ever** — no PR counts, no "AI
 productivity" claims. Demos and outcomes only. The durable record is the SDLC HTML phase report
@@ -405,7 +406,8 @@ pass" is not sufficient verification for probabilistic behavior.
   (what the agent saw, decided, called), token cost per task, and failure-mode logging. The
   monitoring phase (9) includes agent-specific alerts: cost spikes, refusal rates, eval drift in
   production samples.
-- **The worked example** in `docs/` walks one agentic spec end-to-end: golden set construction,
+- **The worked example** (`docs/agentic-spec-example.md`, to be added with the first agentic
+  engagement) will walk one agentic spec end-to-end: golden set construction,
   the eval harness, the CI wiring, and what the grader checks differently (behavior distribution
   against the golden set, not just code against acceptance lines).
 - Security inherits the firm's AI rules: model output is untrusted input; no raw user input

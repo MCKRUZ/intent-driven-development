@@ -121,7 +121,13 @@ enough that the pod's presence doesn't quietly become a dependency again.
   agent — while the pod serves only as Checkers. Coaching happens by question ("what does
   the spec say about that path?"), never by taking the keyboard. At least **three real
   specs** ride the loop this way, and the bar is the same bar: the grader runs, a non-author
-  approves, merge deploys.
+  approves, merge deploys. The specs come out of the client's own intent triage like any
+  other work — ordinary backlog items, mixed tiers, each sized to merge within the week.
+  The Pod Lead confirms each one is real work, not an exercise built for the occasion.
+- The pod Checkers log every place they had to coach — every moment they wanted the
+  keyboard — because each one is a transfer gap with a name. The Quality Engineer rolls
+  those logs into the shadow-flip spec record: per spec, who orchestrated, who checked, the
+  grader and Checker outcomes, and the gaps.
 - **The harness audit** runs in parallel: Claude's read-only sweep plus the Setup Owner's
   walk of every skill, hook, and convention, asking one question — *could their team operate
   this if we vanished tonight?* Findings get fixed by documented PRs that the **client
@@ -133,14 +139,21 @@ enough that the pod's presence doesn't quietly become a dependency again.
 - **The solo spec.** One real spec — something the client genuinely needs, with a real risk
   tier — runs the loop end to end with nobody from the pod driving: their triage, their
   spec, their bounds, their plan approval, their Checker, their merge, the automatic deploy.
+  The client's triage picks the spec; the Pod Lead confirms it clears the real-spec bar —
+  real need, real tier, real consequences — before the run is scheduled.
   The pod observes the way the QE observed the cold runs: present, silent, taking notes.
-  Stalls are data. Help voids the run.
+  The Quality Engineer's record captures each loop step with timestamps and names, every
+  stall, every guardrail event and how the team responded, the merge and deploy that closed
+  it, and the verdict. Stalls are data. Help — any answer, hint, or keyboard touch from our
+  side — voids the run.
 - A failed or wobbly run is information, not embarrassment: the gap gets named, fixed —
   more reps, a harness clarification, a missing playbook line — and the gate is **re-run on
   a different real spec**. "They got through it with a little help" fails the close gate for
   the same reason it failed the README checkout.
 - The client Setup Owner ships at least one harness change of their own this week — their
-  improvement, their PR, their deputy arrangement on their side.
+  improvement, their PR, their deputy arrangement on their side (the no-role-without-a-deputy
+  rule transfers too: a named client engineer reviews the client Setup Owner's harness
+  changes, the way our deputy reviewed ours).
 
 ### Week three — the clean exit
 
@@ -149,8 +162,11 @@ enough that the pod's presence doesn't quietly become a dependency again.
   log with owners and dates. Delivered into their tooling, not left in ours.
 - **Access revokes, audited.** Every pod seat, token, repo permission, environment role, and
   vault access — removed on a checklist, confirmed against the client's audit trail by their
-  security. The engagement ends with the pod provably unable to touch the system, which is
-  not distrust; it is the last deliverable of the security posture the engagement ran on.
+  security. The Setup Owner drafts the checklist in week one from everything the engagement
+  was ever granted — the Phase 0/1 access checklist, CI secrets, environment roles, vault
+  policies — so that week three is execution, not discovery. The engagement ends with the
+  pod provably unable to touch the system, which is not distrust; it is the last deliverable
+  of the security posture the engagement ran on.
 - **The harvest PR opens** against our own standard repo: the generalized skills, the
   corrected templates, the patterns the Phase 9 retrospective flagged — reviewed by the pod,
   merged by the standard's deputy. This is the compounding asset doing its compounding; an
@@ -181,7 +197,7 @@ enough that the pod's presence doesn't quietly become a dependency again.
 
 > Worked example: [`phase-c-example.md`](phase-c-example.md) — Harbor Mutual's close: Ines
 > and Wes orchestrating with the pod checking, the harness audit's two findings, the solo
-> spec that decommissions the legacy fallback on its day-30 date, the access revocation Dan
+> spec that decommissions the legacy fallback ahead of its day-30 deadline, the access revocation Dan
 > confirms against his own audit log, and the harvest PR that sends four patterns home.
 
 | Artifact                     | Drafted by                                | Owned by            | Done means                                                                                                     |
@@ -190,7 +206,7 @@ enough that the pod's presence doesn't quietly become a dependency again.
 | Harness audit + fixes        | Claude (sweep), Setup Owner (walk)         | Client Setup Owner  | Nothing only-we-understand remains; every finding fixed by a documented PR the client Setup Owner merged       |
 | The close-gate evidence      | Quality Engineer (observation record)      | Pod Lead            | One real spec, end to end, client-driven, observed and unassisted — names, timestamps, and the merge that deployed |
 | Final handoff report         | Claude (drafts)                            | Pod Lead            | The engagement record in one place: gates, reports, metrics history, debt log, open items with owners          |
-| Outcomes dashboard handover  | Quality Engineer + client data lead        | Client              | Re-pointed to client ownership, caveats intact, the quarter-read date on their calendar                        |
+| Outcomes dashboard handover  | Quality Engineer + client data lead        | Client              | Re-pointed to client ownership, caveats intact, the quarter-read date — the day the outcome metric gets its first full-period reading, resolving the caveats Phase 9's first read carried — on their calendar |
 | Access revocation record     | Setup Owner + client security              | Client security     | Every pod credential removed, confirmed against the client's audit trail                                       |
 | The harvest PR               | Claude (drafts), pod (reviews)             | Our standard's owner | Opened against our repo with client specifics stripped; merged by the standard's deputy                        |
 | The retro file               | Pod Lead                                   | Our standard's owner | One file in our repo's retros/: what this engagement changed about the standard and why                        |

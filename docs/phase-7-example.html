@@ -477,6 +477,14 @@
               <td>A constraint from Phase 0.</td>
             </tr>
             <tr>
+              <td><strong>Q-NN</strong></td>
+              <td>
+                An open question with a named owner (Q-18 produced the surge
+                load-test dataset from the 2024 CAT — catastrophe — event,
+                built before the first hardening pass).
+              </td>
+            </tr>
+            <tr>
               <td><strong>NFR-NN</strong></td>
               <td>
                 A non-functional requirement — a measurable quality target.
@@ -589,10 +597,11 @@
             <li>
               The scope session, with Wes and Tom in the room: three audiences
               (Harbor engineers, Harbor ops, and the adjusters' supervisors for
-              the user-facing guide), three documents to create (README, API
-              docs, RUNBOOK), and one decision that shapes the week — Harbor
-              has no documentation standard of its own, so ours becomes theirs,
-              which means it has to stand alone.
+              the user-facing guide), four documents to create (README, API
+              docs, RUNBOOK, and the user guide for the intake supervisors),
+              and one decision that shapes the week — Harbor has no
+              documentation standard of its own, so ours becomes theirs, which
+              means it has to stand alone.
             </li>
             <li>
               What already exists and is current by construction: 44 specs
@@ -629,7 +638,9 @@
               The README draft comes from the repo as it is, not as anyone
               remembers it: prerequisites, step-by-step local setup, run modes,
               configuration, and how changes get made (the loop, in one page,
-              because Harbor's engineers inherit the loop too).
+              because Harbor's engineers inherit the loop too). The same stream
+              drafts the intake-supervisors' user guide; Luis and Dee Alvarez
+              review it before Friday's gate.
             </li>
             <li>
               The diff against the Phase 2 contracts produces the
@@ -664,9 +675,12 @@
               degradation behavior), a failed PolicyOne nightly sync (replica
               staleness past 24 hours), storm-surge queue depth (with scale
               steps sized from the 2024 CAT profile, Q-18's dataset), an
-              email-extraction accuracy regression (what the eval gate blocks,
-              and what to do when it fires), and a bad deploy (the rollback,
-              proven in Foundation and at both hardening passes).
+              email-extraction accuracy regression (the eval gate: CI re-runs
+              the email-extraction golden set on any AI-behavior change and
+              blocks on degradation — the AI-engineering rule that ran all
+              through Build; the scenario covers what it blocks and what to do
+              when it fires), and a bad deploy (the rollback, proven in
+              Foundation and at both hardening passes).
             </li>
             <li>
               Every procedure: numbered steps, exact commands, an observable
@@ -722,9 +736,9 @@
                   <strong
                     >ADR-013 — claim-document retention tiering.</strong
                   >
-                  A storage-lifecycle choice made with Priti in a Build review;
-                  significant, irreversible after go-live, and previously
-                  written down nowhere.
+                  A storage-lifecycle choice made with Priti Shah — Harbor's
+                  data lead — in a Build review; significant, irreversible
+                  after go-live, and previously written down nowhere.
                 </li>
                 <li>
                   Both co-signed by Rob and Wes, like every ADR before them.
@@ -964,9 +978,10 @@ read failures outside the refresh window (configured in Phase 9).</code></pre>
             <li>
               <strong>Inventory:</strong> README (created, cold-verified), API
               docs (created, diffed, one defect fixed), RUNBOOK (created,
-              cold-walked), user guide for intake supervisors (created, Luis
-              and Dee reviewed), ADR registry complete through ADR-013, spec
-              library current (audited sample 8/8).
+              cold-walked), user guide for intake supervisors (created,
+              reviewed by Luis and Dee Alvarez — Harbor's intake supervisor),
+              ADR registry complete through ADR-013, spec library current
+              (audited sample 8/8).
             </li>
             <li>
               <strong>Honest gaps:</strong> production topology and alert

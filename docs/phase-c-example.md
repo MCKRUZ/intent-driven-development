@@ -25,7 +25,7 @@ Phase 2 example promised he would become: Harbor's Setup Owner.
 
 | ID         | What it is                                                                                                       |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **NNNN**   | A spec — one feature in one file. Build closed at 0044; the close phases continued the sequence (0045, 0046).     |
+| **NNNN**   | A spec — one feature in one file. Build closed at 0044; the close phases continued the sequence (0045, 0046); this phase adds 0047-0050. |
 | **ADR-NN** | Architecture decision record. Complete through ADR-013, none open.                                               |
 
 **Words this page leans on** (every other term is explained where it first appears):
@@ -66,8 +66,9 @@ orchestrating.
   **Wes merges** — the gap closes, and Harbor's Setup Owner's merge history starts being
   real on day three.
 - Wes also ships a harness change of his own, unprompted and perfect: an **onboarding
-  bootstrap skill** for new Harbor engineers — born directly from Ines's step-4 stall in the
-  Phase 7 cold checkout, turning that day's fix into a permanent practice. Tom is named as
+  bootstrap skill** for new Harbor engineers — born directly from Ines's step-4 stall in
+  [the Phase 7 cold checkout](phase-7-example.md), turning that day's fix into a permanent
+  practice. Tom is named as
   his harness deputy; the both-eyes rule survives the pod's departure.
 
 **Week two (8/17-21) — the close gate.**
@@ -90,8 +91,8 @@ agent; Dan signs.
 - The rest is the loop being the loop: the grader walks the checks and passes, Wes reviews
   as the non-author Checker, **Dan's named HIGH sign-off** lands in the PR, merge, and
   deploy-dev → test → production on Harbor's go/no-go (their second ever; Tom executes,
-  nobody blinks). The legacy fallback goes dark on its day-30 date because Harbor's team
-  took it there. Nadia's observation record — names, timestamps, the blocked edit, the
+  nobody blinks). The legacy fallback goes dark ahead of its day-30 deadline because
+  Harbor's team took it there. Nadia's observation record — names, timestamps, the blocked edit, the
   escalation, the merge — is the close-gate evidence, and it is clean: **observed,
   unassisted, real.**
 
@@ -172,7 +173,8 @@ J. Kim, S. Whitfield. Pod participation: none.
 15:50  Non-author Checker: Wes. Named HIGH sign-off: D. Kowalski.
 16:15  Merged. deploy-dev green. Test promotion smoke green.
 17:00  Production promotion on Harbor go/no-go (their roles, their
-       record; Tom executed). Fallback dark, on its day-30 date.
+       record; Tom executed). Fallback dark, two days ahead of its
+       day-30 deadline.
 
 VERDICT: Close gate PASSED — real spec, end to end, observed,
 unassisted. One guardrail event (the blocked gated-path edit),

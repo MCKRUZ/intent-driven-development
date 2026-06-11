@@ -475,6 +475,10 @@
               <td>A requirement from the Phase 1 baseline.</td>
             </tr>
             <tr>
+              <td><strong>NFR-NN</strong></td>
+              <td>A non-functional requirement from the Phase 1 baseline.</td>
+            </tr>
+            <tr>
               <td><strong>Q-NN</strong></td>
               <td>An open question with a named owner and a due date.</td>
             </tr>
@@ -824,7 +828,9 @@
               <strong>Steering, 45 minutes.</strong> Gail drives the demo
               herself — the fast-path queue and the duplicate-merge flow, live
               in Harbor's dev environment. The scorecard: 11 of 14 Build specs
-              merged accepted-as-is (79%); median review wait 0.9 days (under
+              merged accepted-as-is (79%; 14 counts every spec that has
+              entered the loop since Build began, merged or still in flight);
+              median review wait 0.9 days (under
               the one-working-day tripwire); the FNOL→decision clock is
               instrumented and ticking in dev — Karen is told plainly that the
               production needle moves at rollout, not before. Q-18 (Priti and

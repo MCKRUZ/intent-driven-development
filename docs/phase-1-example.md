@@ -95,7 +95,9 @@ NFRs; the decision list is written to the open-questions file as it goes.
   catastrophe events spike intake to roughly 10x normal daily volume for a week. The sizing
   constraint from Phase 0 (40k/yr) said nothing about peaks.
 - The decision list — the running list of product decisions nobody has answered yet —
-  regenerates and persists to the open-questions file (so it survives sessions and audits):
+  regenerates and persists to the open-questions file (the running Q-NN/D-NN artifact the
+  plugin keeps with the phase artifacts — the same file the handoff questions carry forward;
+  so it survives sessions and audits):
   9 open decisions for Luis. The two that matter most:
   - **D-07:** what happens when a duplicate FNOL arrives for the same policy and loss date?
     Luis, same day: flag and merge into one claim, never silently reject — a rejected

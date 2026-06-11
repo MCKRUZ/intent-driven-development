@@ -106,7 +106,10 @@ conversations. Claude preps the questions going in and structures the notes comi
 
 The default calendar is **10 business days**. The constraint is rarely effort — it's lead time
 on the client side (procurement, security review, calendars). The two workstreams run in
-parallel the whole way so that lead-time waits never idle the phase.
+parallel the whole way so that lead-time waits never idle the phase. Every "Claude drafts" and
+"the check runs" below has a concrete command behind it — the worked example's closing section,
+"The tooling behind this phase," maps each step on this calendar to the command and agent that
+runs it.
 
 ### Before day 1 (pre-engagement, no billing)
 
@@ -132,14 +135,16 @@ The most tool-dense day of the phase. Claude does the heavy reading; the Pod Lea
 every output before it travels.
 - **Document intake.** Every corpus document is cataloged with a stable ID (DOC-001, DOC-002,
   ...). The Pod Lead reviews the catalog and sets priorities — which documents matter most,
-  which to skip. Claude then writes a budgeted summary per document, a human-readable
-  registry, and a condensed index that loads at the start of every later session. The catalog
+  which to skip. Claude then writes a budgeted summary per document (capped at a length set
+  by the document's priority, so the whole corpus stays loadable in one later session), a
+  human-readable registry, and a condensed index that loads at the start of every later session. The catalog
   is locked once complete so document references stay stable all the way into requirements
   traceability.
 - **Cross-document analysis.** A fresh analysis agent (one that has not been part of the
   conversation so far) compares the documents against each other and produces two artifacts:
   - The **contradiction list** — every place the documents disagree (CON-01, CON-02, ...),
-    each entry carrying two verbatim quotes with their sources, a severity rating, and the
+    each entry carrying two verbatim quotes with their sources, a severity rating (does it
+    block an outcome, or merely shape a design choice?), and the
     question a human must answer to resolve it.
   - The **question list** — everything no document answers (Q-01, Q-02, ...), grouped by
     workshop agenda block, each question routed one of three ways: *workshop* (only the room
@@ -195,7 +200,7 @@ The agenda, run by the Pod Lead, humans only:
   means, the three outcomes, the metric, the constraints, the guiding principles. The sponsor
   will sign this; the Pod Lead makes it short enough that they actually read it.
 - PO decision finalized in writing: **PO mode** (named person, triage invitations on their
-  calendar, the PO onboarding guide delivered) or **proxy mode** (rider
+  calendar, the PO onboarding guide (po-onboarding.md, in the kit's docs) delivered) or **proxy mode** (rider
   signed, decision log created, ratification added to the steering agenda).
 
 **Day 8 — enablement converges.**
@@ -240,7 +245,9 @@ The two-week figure assumes client lead times cooperate. When they don't:
 ## 3. The artifacts
 
 Everything Phase 0 produces, who owns it, and what "done" means for each. All of it ends up in
-the discovery artifacts folder of the delivery repo, committed, by day 8.
+the discovery artifacts folder of the delivery repo (the folder-and-state structure the
+engagement scaffold creates on day 1 — the same structure every later phase writes into; the
+worked example shows the command that creates it), committed, by day 8.
 
 > Worked example: [`phase-0-example.md`](phase-0-example.md) — a complete, filled-in Phase 0
 > for a fictional insurer (Harbor Mutual): registry, contradictions, question list, workshop

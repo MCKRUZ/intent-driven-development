@@ -92,8 +92,9 @@ and answer logs filled in after the workshop).
 **Day 2 (Tue 3/3) — intake and prep.**
 **Tooling —** `/sdlc-intake` → runs the `intake_documents.py` cataloger (you never call the
 script directly); then `/sdlc-brief` → spawns the `discovery-analyst` agent and drafts the brief.
-- Document intake runs (**Phase 0 Step 0c**: the `intake_documents.py` cataloger, then Claude
-  summarization): all 8 documents cataloged as DOC-001 through DOC-008. Maya prioritizes the
+- Document intake runs (**Phase 0 Step 0c** — the plugin's internal step labels for this
+  phase; 0c is document intake, 0d the cross-document analysis: the `intake_documents.py`
+  cataloger, then Claude summarization): all 8 documents cataloged as DOC-001 through DOC-008. Maya prioritizes the
   catalog at the HITL gate (the RFP, the architecture overview, and the ops report first).
   Claude writes a summary per document plus the registry; the catalog is locked so document
   references stay stable into requirements.

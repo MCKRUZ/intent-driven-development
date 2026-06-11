@@ -348,7 +348,8 @@
               <td>
                 Architecture decision record: one hard-to-undo choice written
                 down — the options considered, the decision, and its
-                consequences — signed by a named human on each side.
+                consequences — signed by a named human on each side (a signature
+                is the person's name and date recorded in the ADR file itself).
               </td>
             </tr>
             <tr>
@@ -601,6 +602,9 @@
                 <em>these</em> drivers. The Setup Owner reviews, kills the
                 strawmen (the options that were never real contenders), and
                 schedules the option session for the decisions worth a room.
+                (Decisions not worth a room are settled asynchronously between
+                the Setup Owner and the counterpart, and still get an ADR if
+                they're hard to undo.)
               </li>
               <li>
                 The riskiest assumptions get named, and spikes get assigned:
@@ -623,7 +627,11 @@
                 lead engineer work through the major decisions, Claude's option
                 framings on the table, spike results in hand. The humans choose.
                 Product-facing trade-offs split off to the PO with the usual
-                clock.
+                clock. The Setup Owner runs it. Per decision: the option framing
+                is walked, the spike evidence weighed, the counterpart's
+                questions answered, and the choice recorded with its reasons in
+                session notes — those notes are the raw material for the next
+                day's ADR drafts.
               </li>
               <li>
                 By end of day, the architecture direction is chosen and the ADR
@@ -649,7 +657,10 @@
                 The forward-compatibility check the constitution demanded runs
                 against the draft model: does this design preclude the futures
                 the client paid to keep open? Verified now, gated again at every
-                design review.
+                design review. (The Setup Owner walks each
+                constitution-protected future against the draft model and
+                records the verdict — and what made it true — alongside the
+                model.)
               </li>
             </ul>
 
@@ -669,7 +680,9 @@
                 diagrams on the table, the candidate threat list worked through,
                 mitigations assigned — some become design changes, some become
                 build-time security gates on specific areas (these feed the
-                risk-tier map the Build loop will use).
+                risk-tier map the Build loop will use — the register listing
+                each area of the codebase with its risk tier and any security
+                gate guarding it, which Build triage reads when tiering specs).
               </li>
               <li>
                 The Quality Engineer completes the proving plan: for each NFR,
@@ -689,7 +702,10 @@
                 angles — architecture (failure points, scale), product (does it
                 serve the requirements), quality (is it testable), security
                 (gaps the threat session missed). Findings get fixed or
-                explicitly accepted with a name attached.
+                explicitly accepted with a name attached (the Setup Owner's, as
+                the design's owner — or the client counterpart's when the
+                accepted risk is theirs to carry; the acceptance lives in the
+                review record).
               </li>
               <li>
                 The consistency check runs both directions (requirements ↔
@@ -831,7 +847,10 @@
               <td>Setup Owner</td>
               <td>
                 The thin end-to-end slice Phase 3 must ship: named, bounded, and
-                sufficient to prove the architecture
+                sufficient to prove the architecture (the definition states the
+                end-to-end path step by step, the environment it must run in,
+                and the rails that must be live; sufficient means every ADR's
+                chosen mechanism is exercised at least once on the path)
               </td>
             </tr>
             <tr>

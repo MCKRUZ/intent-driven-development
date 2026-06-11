@@ -31,6 +31,7 @@ the gated phases and into the continuous Build loop.
 | **Rails**             | All of the above enforcement, taken together: CI gates, the grader, branch protection, and the deploy pipeline. Called rails because nobody has to remember them — every change runs on them.                                                                   |
 | **Walking skeleton**  | The thinnest end-to-end slice of the system, built first to prove the architecture works in practice, not on paper.                                                                                                                                             |
 | **Risk tier**         | HIGH / MEDIUM / LOW, assigned per spec. Sets how tightly an agent is bounded and how much review a change gets.                                                                                                                                                 |
+| **Definition of Checked** | What must be true before a change counts as done: the spec's acceptance checks pass, the Stop hook is green, the grader has run, a non-author approved (HIGH risk adds a named sign-off). |
 | **IaC / Bicep**       | Infrastructure as code: the cloud environment defined in version-controlled files instead of clicked together by hand. Bicep is Azure's language for doing this.                                                                                                |
 
 Phase 3 answers four questions, and nothing else:
@@ -154,11 +155,15 @@ slices riding the loop, the architecture proven end-to-end, the rails shaken dow
 - The four workflows get built and reviewed by the client's DevOps: CI (build, test, lint,
   coverage — hard gates), the grader (required to run on every PR; its verdict advises, the
   human decides), the security workflow (fires on the `risk:high` label), and deploy-dev (merge
-  to main ships to the client dev environment).
+  to main ships to the client dev environment, and restores the last good version when a deploy
+  fails — the rollback Day 9 will prove).
 - Branch protection turns on: CI green, the grader has run, and a non-author approval are
   required; `risk:high` adds the security workflow plus a named human sign-off.
 - The build-time security gates from the Phase 2 threat review get wired into the security
-  workflow.
+  workflow. Wiring a gate means registering its guarded path with the security workflow, so the
+  workflow runs on any PR that touches that path — independent of the spec's risk tier — in
+  addition to firing on the `risk:high` label. The gate is the workflow plus the path
+  registration.
 
 **Day 5 — the first slice through the loop.**
 
@@ -185,7 +190,9 @@ slices riding the loop, the architecture proven end-to-end, the rails shaken dow
   gets special attention: it makes the engagement's success metric measurable from day one of
   Build, so the scorecard has real data before the second feature merges.
 - Any build-time security gate that touches these slices (a template-review gate, an upload scan)
-  fires on its first qualifying PR — proven, not just configured.
+  fires on its first qualifying PR — proven, not just configured. If no skeleton slice touches a
+  gate's guarded path, prove it with a probe PR — a throwaway change to that path opened solely
+  to confirm the gate fires, then closed unmerged.
 
 **Day 8 — the skeleton, end-to-end.**
 
@@ -194,18 +201,23 @@ slices riding the loop, the architecture proven end-to-end, the rails shaken dow
   architecture, end to end, under the rails?
 - A first end-to-end smoke journey — an automated test that walks the same path a user would —
   runs across the skeleton: the thinnest proof that the whole thread holds together, not just
-  each slice in isolation.
+  each slice in isolation (the Quality Engineer builds and runs it).
 
 **Day 9 — harden the rails, not the features.**
 
 - The rails get a deliberate shakedown: the Stop hook is proven to actually block a failing
   build, the grader is proven to actually post on a real PR, deploy-dev is proven to roll back
-  cleanly. A rail that has never failed safely has not been proven.
+  cleanly. A rail that has never failed safely has not been proven. Force each failure
+  deliberately: a failing test proves the Stop hook blocks, a PR with a planted spec mismatch
+  proves the grader posts the miss, and a known-bad deploy proves the pipeline restores the
+  last good version.
 - The setup review merges any harness corrections found during the week (Setup Owner + deputy).
 - The Build cadences get scheduled — flow check, intent triage, retro+, setup review — and two
   numbers get agreed: the WIP cap (the limit on how many changes may be in flight at once) and
   the review-wait tripwire (the wait-time threshold that, once crossed, stops new work starting
-  until the review queue clears).
+  until the review queue clears). (The Pod Lead proposes both at the setup review; the
+  standard's defaults — at most 2 concurrent streams per Orchestrator, and a one-working-day
+  median review wait — apply unless the engagement has a reason to differ.)
 
 **Day 10 — gate, demo, and the handoff into Build.**
 
@@ -249,7 +261,7 @@ slices riding the loop, the architecture proven end-to-end, the rails shaken dow
 | The walking skeleton (deployed)                               | The build loop                                    | Setup Owner + QE              | End-to-end in the client's dev environment through the real pipeline; verified against the Phase 2 definition                              |
 | Build-time security gates (wired)                             | Claude (drafts), security (confirms)              | Setup Owner + client security | The Phase 2 gates enforced in the security workflow; each fired at least once on a real PR                                                 |
 | Data-flow brief                                               | Claude (drafts), Setup Owner                      | Setup Owner                   | Client security has, in writing: what goes to the API, what doesn't, where keys live, who sees usage                                       |
-| Cadence calendar + risk-tier map                              | Pod Lead                                          | Pod Lead                      | Flow check, intent triage, retro+, and setup review scheduled; WIP cap and review-wait tripwire set; the Phase 2 security gates on the map |
+| Cadence calendar + risk-tier map                              | Pod Lead                                          | Pod Lead                      | Flow check, intent triage, retro+, and setup review scheduled; WIP cap and review-wait tripwire set; the risk-tier map lists each codebase area with its tier and any security gate registered against it; the Phase 2 security gates are on the map |
 | Build handoff                                                 | Claude (drafts)                                   | Pod Lead                      | Ordered spec backlog, risk-tier map, cadences, open questions under their original IDs                                                     |
 
 What is deliberately **not** produced: the full feature backlog (Build triage owns it), the test

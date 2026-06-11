@@ -142,13 +142,13 @@ thinking in the pod happens here.</p>
 <ul>
 <li>Run every incoming story through the vague-line test at triage (could two people build different things from this line?). Bounce what fails — back to the PO, not down to an agent.</li>
 <li>Assign the risk tier (HIGH / MEDIUM / LOW per the taxonomy in section 5 of the standard) and record it in the spec. Hear challenges; challenges escalate up only.</li>
-<li>Keep the decision list moving: every silent decision Claude surfaces gets a human answer within 2 business days — from the client PO in PO mode, or from the Pod Lead with a decision-log entry the client ratifies at steering in proxy mode.</li>
+<li>Keep the decision list moving: every silent decision Claude surfaces gets a human answer within 2 business days — from the client PO in PO mode, or from the Pod Lead with a decision-log entry the client ratifies at steering in proxy mode (the Phase 0 choice: in PO mode the client committed a named product owner who answers; in proxy mode we answer on their behalf and they ratify the decision log at each steering — section 12 of the standard).</li>
 </ul>
 <h4>Daily</h4>
 <ul><li>Run the 10-minute flow check: a Checker assigned to every PR waiting for review, vague specs flagged, WIP cap enforced, security queue glanced at.</li></ul>
 <h4>Weekly</h4>
 <ul>
-<li>Run intent triage (60 min): stories become ready specs, oversized stories get split there (never at review), decision lists get answered.</li>
+<li>Run intent triage (60 min): stories become ready specs, oversized stories get split there, never at review (the bar: will the resulting change fit in one reviewable PR?), decision lists get answered.</li>
 <li>Write the 5-bullet async client summary.</li>
 </ul>
 <h4>Biweekly</h4>
@@ -156,7 +156,7 @@ thinking in the pod happens here.</p>
 <h4>Per phase</h4>
 <ul>
 <li>Run the Phase 0 outcome workshop (the three outcomes, the one metric, the PO decision, the tooling decision).</li>
-<li>Own the recommendation at every phase gate: gates report, the Pod Lead recommends, the human chain signs.</li>
+<li>Own the recommendation at every phase gate: gates report, the Pod Lead recommends, and the named sign-off humans for that gate (per the phase deep-dive) decide.</li>
 <li>Run Phase C: the transfer checklist, the client-solo close gate.</li>
 </ul>
 <div class="stopped"><strong>Stopped doing:</strong> story-point estimation, velocity tracking, sprint planning and
@@ -215,7 +215,7 @@ never sole approver" real on a small team, and it keeps both sharp at both craft
 <li>Read the CI grader's check-by-check verdict first — it's a brief, not a verdict to rubber-stamp.</li>
 <li>Grade against the <strong>spec</strong>, not against the author's tests. The author's tests share the author's blind spots; the rate-limiting bug that ships is the keyless request nobody's test sent.</li>
 <li>Probe one edge the tests didn't cover. Run the code, don't just read it.</li>
-<li>Approve, or bounce with specifics tied to acceptance checks. On HIGH risk: confirm the security workflow passed and add the named sign-off.</li>
+<li>Approve, or bounce with specifics tied to acceptance checks. On HIGH risk: confirm the security workflow passed and that the named human sign-off (the person named in the spec's checking plan — client security or the security lead, never the Checker alone) is recorded in the PR before merging.</li>
 </ul>
 <h4>Daily</h4>
 <ul><li>Flow check; at most 2 concurrent agent streams; pick up waiting reviews before starting new streams (the queue outranks new work).</li></ul>
@@ -283,7 +283,7 @@ sign-off replaces it), and any dashboard with story points on it.</p>
 <li>The outcome genuinely needs parallel workstreams (scope, not impatience)</li>
 <li>Pod 1's flow is healthy: median review wait stable or falling for 4+ weeks, accepted-as-is trending up</li>
 <li>The harness is extracted and versioned well enough that pod 2 installs it rather than rebuilds it</li>
-<li>A second Pod Lead and at least two certified Orchestrator/Checkers actually exist</li>
+<li>A second Pod Lead and at least two certified Orchestrator/Checkers (per the certification rule in section 3 of the standard: course completed, rubric passed on practice work) actually exist</li>
 </ul>
 <div class="callout">The measurable claim that proves the model is compounding: <strong>pod 2 ships its first spec
 faster than pod 1 did.</strong> If it doesn't, the foundation isn't real yet — fix that before pod 3.</div>

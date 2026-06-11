@@ -30,6 +30,7 @@ contributor, because the README is for her.
 | **ADR-NN** | Architecture decision record — one hard-to-undo choice, signed by a named human on each side. ADR-001..011 exist entering this week. |
 | **REQ-NN** | A requirement from the Phase 1 baseline.                                                                            |
 | **C-NN**   | A constraint from Phase 0.                                                                                          |
+| **Q-NN**   | An open question with a named owner (Q-18 produced the surge load-test dataset from the 2024 CAT — catastrophe — event, built before the first hardening pass). |
 | **NFR-NN** | A non-functional requirement — a measurable quality target.                                                         |
 
 **Words this page leans on** (every other term is explained where it first appears):
@@ -55,8 +56,9 @@ contributor, because the README is for her.
 docs, client standards) before anything gets written.
 
 - The scope session, with Wes and Tom in the room: three audiences (Harbor engineers, Harbor
-  ops, and the adjusters' supervisors for the user-facing guide), three documents to create
-  (README, API docs, RUNBOOK), and one decision that shapes the week — Harbor has no
+  ops, and the adjusters' supervisors for the user-facing guide), four documents to create
+  (README, API docs, RUNBOOK, and the user guide for the intake supervisors), and one
+  decision that shapes the week — Harbor has no
   documentation standard of its own, so ours becomes theirs, which means it has to stand
   alone.
 - What already exists and is current by construction: 44 specs (each updated in the same PR
@@ -73,7 +75,8 @@ Phase 2 contracts) in parallel — they touch nothing shared.
 
 - The README draft comes from the repo as it is, not as anyone remembers it: prerequisites,
   step-by-step local setup, run modes, configuration, and how changes get made (the loop, in
-  one page, because Harbor's engineers inherit the loop too).
+  one page, because Harbor's engineers inherit the loop too). The same stream drafts the
+  intake-supervisors' user guide; Luis and Dee Alvarez review it before Friday's gate.
 - The diff against the Phase 2 contracts produces the **drift catalog: two entries** (section
   3). Wes reviews it with Maya the same afternoon — one drift gets a documented why, one gets
   a defect spec. A two-entry catalog after fourteen weeks of Build is the loop's discipline
@@ -88,9 +91,11 @@ steps are his to get right.
   imagined: the replica's 02:00-04:30 refresh window (the Phase 2 spike finding that became
   REQ-014's degradation behavior), a failed PolicyOne nightly sync (replica staleness past 24
   hours), storm-surge queue depth (with scale steps sized from the 2024 CAT profile, Q-18's
-  dataset), an email-extraction accuracy regression (what the eval gate blocks, and what to
-  do when it fires), and a bad deploy (the rollback, proven in Foundation and at both
-  hardening passes).
+  dataset), an email-extraction accuracy regression (the eval gate: CI re-runs the
+  email-extraction golden set on any AI-behavior change and blocks on degradation — the
+  AI-engineering rule that ran all through Build; the scenario covers what it blocks and
+  what to do when it fires), and a bad deploy (the rollback, proven in Foundation and at
+  both hardening passes).
 - Every procedure: numbered steps, exact commands, an observable check after each, a recovery
   path if it fails. Each scenario ends with the alert that should catch it — Phase 9 will
   configure those alerts, and the runbook and the alerts must describe the same failures.
@@ -107,8 +112,8 @@ The defect fix is no plugin command — spec 0045 rides the loop.
     near-miss during the first hardening pass; it lived in a PR thread until today. Now it
     has context, options, consequences — and signatures.
   - **ADR-013 — claim-document retention tiering.** A storage-lifecycle choice made with
-    Priti in a Build review; significant, irreversible after go-live, and previously written
-    down nowhere.
+    Priti Shah — Harbor's data lead — in a Build review; significant, irreversible after
+    go-live, and previously written down nowhere.
   - Both co-signed by Rob and Wes, like every ADR before them. The other two candidates are
     struck as implementation detail, recorded as struck. No open ADRs remain.
 - The drift defect, spec **0045** (claims-search returns a bare 500 on replica timeout
@@ -207,9 +212,9 @@ Numbered, copy-pasteable, observable, recoverable — and the first branch is th
 ## 5. Artifact: the Phase 8 handoff (summary)
 
 - **Inventory:** README (created, cold-verified), API docs (created, diffed, one defect
-  fixed), RUNBOOK (created, cold-walked), user guide for intake supervisors (created, Luis
-  and Dee reviewed), ADR registry complete through ADR-013, spec library current (audited
-  sample 8/8).
+  fixed), RUNBOOK (created, cold-walked), user guide for intake supervisors (created,
+  reviewed by Luis and Dee Alvarez — Harbor's intake supervisor), ADR registry complete
+  through ADR-013, spec library current (audited sample 8/8).
 - **Honest gaps:** production topology and alert thresholds are pointers to Phases 8 and 9,
   not content; the RUNBOOK's scale procedures are dev/test-proven and get their production
   rehearsal in Phase 8.

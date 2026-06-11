@@ -173,7 +173,10 @@ conversations. Claude preps the questions going in and structures the notes comi
 <h2>2. Day one to the last day</h2>
 <p>The default calendar is <strong>10 business days</strong>. The constraint is rarely effort — it's lead
 time on the client side (procurement, security review, calendars). The two workstreams run in
-parallel the whole way so that lead-time waits never idle the phase.</p>
+parallel the whole way so that lead-time waits never idle the phase. Every "Claude drafts" and
+"the check runs" below has a concrete command behind it — the worked example's closing section,
+"The tooling behind this phase," maps each step on this calendar to the command and agent that
+runs it.</p>
 
 <h3>Before day 1 (pre-engagement, no billing)</h3>
 <ul>
@@ -196,10 +199,10 @@ parallel the whole way so that lead-time waits never idle the phase.</p>
 <p>The most tool-dense day of the phase. Claude does the heavy reading; the Pod Lead curates
 every output before it travels.</p>
 <ul>
-<li><strong>Document intake.</strong> Every corpus document is cataloged with a stable ID (DOC-001, DOC-002, ...). The Pod Lead reviews the catalog and sets priorities — which documents matter most, which to skip. Claude then writes a budgeted summary per document, a human-readable registry, and a condensed index that loads at the start of every later session. The catalog is locked once complete so document references stay stable all the way into requirements traceability.</li>
+<li><strong>Document intake.</strong> Every corpus document is cataloged with a stable ID (DOC-001, DOC-002, ...). The Pod Lead reviews the catalog and sets priorities — which documents matter most, which to skip. Claude then writes a budgeted summary per document (capped at a length set by the document's priority, so the whole corpus stays loadable in one later session), a human-readable registry, and a condensed index that loads at the start of every later session. The catalog is locked once complete so document references stay stable all the way into requirements traceability.</li>
 <li><strong>Cross-document analysis.</strong> A fresh analysis agent (one that has not been part of the conversation so far) compares the documents against each other and produces two artifacts:
   <ul>
-  <li>The <strong>contradiction list</strong> — every place the documents disagree (CON-01, CON-02, ...), each entry carrying two verbatim quotes with their sources, a severity rating, and the question a human must answer to resolve it.</li>
+  <li>The <strong>contradiction list</strong> — every place the documents disagree (CON-01, CON-02, ...), each entry carrying two verbatim quotes with their sources, a severity rating (does it block an outcome, or merely shape a design choice?), and the question a human must answer to resolve it.</li>
   <li>The <strong>question list</strong> — everything no document answers (Q-01, Q-02, ...), grouped by workshop agenda block, each question routed one of three ways: <em>workshop</em> (only the room can answer it), <em>pre-workshop</em> (answerable by email before day 3), or <em>interview</em> (better asked one-on-one on day 5).</li>
   </ul></li>
 <li><strong>The cheap questions go out by email today.</strong> Anything routed pre-workshop gets sent now, so room time on day 3 is spent only on what that room can uniquely answer.</li>
@@ -245,7 +248,7 @@ every output before it travels.</p>
 <h4 class="day">Day 7 — constitution and the PO decision land</h4>
 <ul>
 <li>Claude drafts <code>constitution.md</code> — the project's identity document: what this is, what done means, the three outcomes, the metric, the constraints, the guiding principles. The sponsor will sign this; the Pod Lead makes it short enough that they actually read it.</li>
-<li>PO decision finalized in writing: <strong>PO mode</strong> (named person, triage invitations on their calendar, the PO onboarding guide delivered) or <strong>proxy mode</strong> (rider signed, decision log created, ratification added to the steering agenda).</li>
+<li>PO decision finalized in writing: <strong>PO mode</strong> (named person, triage invitations on their calendar, the PO onboarding guide (po-onboarding.md, in the kit's docs) delivered) or <strong>proxy mode</strong> (rider signed, decision log created, ratification added to the steering agenda).</li>
 </ul>
 
 <h4 class="day">Day 8 — enablement converges</h4>
@@ -281,7 +284,9 @@ every output before it travels.</p>
 <section id="artifacts">
 <h2>3. The artifacts</h2>
 <p>Everything Phase 0 produces, who owns it, and what "done" means for each. All of it ends up in
-the discovery artifacts folder of the delivery repo, committed, by day 8.</p>
+the discovery artifacts folder of the delivery repo (the folder-and-state structure the
+engagement scaffold creates on day 1 — the same structure every later phase writes into; the
+worked example shows the command that creates it), committed, by day 8.</p>
 <div class="callout"><strong>Worked example:</strong> <a href="phase-0-example.html">Phase 0 Worked Example: Harbor
 Mutual</a> — a complete, filled-in Phase 0 for a fictional insurer: registry, contradictions,
 question list, workshop brief, problem statement, verified success criteria, constraints,

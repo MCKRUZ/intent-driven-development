@@ -120,9 +120,13 @@ change-control board adds latency.
 - **Secrets rotate before go-live.** Everything the pod ever touched gets rotated into
   production-only values the pod cannot read; the client's security signs the rotation. The
   engagement should end with us never having known a production secret.
-- The rollout shape gets decided with the product owner and operations — cutover, pilot, or
-  parallel run; what happens to work in flight in the old process; what the fallback is and
-  for how long. Written down, with trigger conditions, before any ceremony.
+- The Pod Lead convenes the rollout-shape session; the product owner and operations decide —
+  cutover, pilot, or parallel run; what happens to work in flight in the old process; what
+  the fallback is and for how long. Written down, with trigger conditions, before any
+  ceremony.
+- The hypercare window gets agreed with the client's operations the same day — length and
+  response expectations written down before the ceremony, so it goes in the packet as a
+  commitment, not a courtesy. One to two weeks is the usual shape.
 
 **Day 2 — promote the environment, rehearse the failure.**
 
@@ -131,19 +135,28 @@ change-control board adds latency.
   engineer.
 - **The rehearsal, in test: deploy → roll back → redeploy.** The rollback runs for real, by
   the hands that would run it at 2 a.m., from the RUNBOOK Phase 7 cold-verified. A rollback
-  that has never executed is a hope; after today it is a procedure with evidence. Anything
-  the rehearsal breaks gets fixed through the loop and re-rehearsed.
+  that has never executed is a hope; after today it is a procedure with evidence. (The
+  evidence: a timestamped timeline of each step — deploy, roll back, redeploy — with the
+  outcome of each and the time back to healthy, attached to the go/no-go packet. A failed
+  first rehearsal goes in alongside the clean one: found-and-fixed is stronger evidence than
+  never-stressed.) Anything the rehearsal breaks gets fixed through the loop and
+  re-rehearsed.
 
 **Day 3 — the dress rehearsal and the ceremony.**
 
 - The release candidate deploys to test through the full procedure; the smoke suite runs —
-  one journey per top-priority story, non-destructive, results recorded per test.
+  one journey per top-priority story, non-destructive, results recorded per test. The suite
+  is not written this week: the Quality Engineer assembles it from the end-to-end journeys
+  the hardening passes already built, trimmed to the non-destructive, test-mode paths.
 - **The go/no-go ceremony**, end of day: the evidence packet on the table (rehearsal results,
   smoke results, the rollback trigger, the rollout shape, the notification list), every named
-  role asked in turn — release manager, operations, security, product owner, sponsor. Anyone
-  can say no, and a no is cheap today. The decision and its rationale are recorded with
-  names. A go/no-go where no one could plausibly say no is theater, and theater here is how
-  outages get scheduled.
+  role asked in turn — release manager, platform engineer, operations, security, product
+  owner, quality, sponsor. Anyone can say no, and a no is cheap today. The decision and its
+  rationale are recorded with names. Each role answers go, no, or held — a held answer names
+  its condition, and the ceremony waits until it is met or it becomes a no. The Pod Lead
+  records every answer with the name, the time, and one line of rationale; that record, plus
+  the decided window, is the artifact. A go/no-go where no one could plausibly say no is
+  theater, and theater here is how outages get scheduled.
 
 **Day 4 — go-live.**
 
@@ -151,8 +164,11 @@ change-control board adds latency.
   release manager calls each checklist step, the pod and operations watch the same
   dashboards. The same artifact that passed test goes to production — promoted, not rebuilt.
 - Production smoke runs against live endpoints (non-destructive, using the test-mode paths
-  built for exactly this). Monitoring is confirmed **receiving** production data — alert
-  tuning is Phase 9, but blind is unacceptable today.
+  built for exactly this (test-mode paths: production endpoints that accept flagged
+  synthetic transactions, exercising the full journey without dispatching anything real or
+  leaving unflagged records — built during Foundation and Build precisely so production can
+  be verified safely)). The Quality Engineer confirms monitoring is **receiving** production
+  data — alert tuning is Phase 9, but blind is unacceptable today.
 - The first real traffic gets watched end to end, deliberately: the first true transactions
   traced against expected behavior, with the people who own the outcome looking at the same
   screen.

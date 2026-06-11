@@ -114,12 +114,13 @@ table and the RUNBOOK; Harbor's on-call lead corrects it line by line.
 **Tooling —** No plugin command, deliberately. Synthetic triggers agreed with Tom; Harbor's
 on-call responds from the playbook; Nadia observes, silent.
 
-- Every critical alert fires for real, one at a time, through controlled synthetic triggers:
+- Every critical alert fires for real, one at a time, through controlled synthetic
+  triggers — among them:
   replica reads blocked outside the window (VERIFY-DEGRADED), a synthetic retry storm against
   the dispatch queue's test lane (ACK-RETRY-BURST at its critical threshold), queue depth
   pushed past threshold with flagged test messages (QUEUE-DEPTH), a staleness clock wound
   forward in the test toggle (SYNC-MISSED).
-- **Two failures, both the drill's job to find.** VERIFY-DEGRADED routed to the general ops
+- **Two findings, both the drill's job to find.** VERIFY-DEGRADED routed to the general ops
   channel instead of the pager rotation — a routing-key typo that would have meant a silent
   night during a real incident. And one playbook diagnosis step opened a dashboard link that
   assumed pod permissions — the same class of gap Tom caught in the Phase 7 RUNBOOK walk,
@@ -203,7 +204,7 @@ candor is no plugin command.
 | QUEUE-DEPTH        | Claim queue > 400 sustained 15 min (10x measured normal of ~40; **modeled** vs Q-18 surge curve — revisit at first CAT event) | Warning → critical at 1,200 | On-call rotation   |
 | INTAKE-ERROR-RATE  | > 2% sustained 30 min (matches the Phase 8 fallback trigger — one number, two documents)                  | Critical            | On-call + Dee notified |
 | ACK-RETRY-BURST    | Dispatch retries > 3x baseline per 10 min: warning; sustained 60 min: critical (hypercare day-one finding) | Warning → critical  | On-call; vendor escalation path |
-| EVAL-GATE-DRIFT    | Email extraction accuracy < 95% on the golden set (the ADR-004 gate, now watched in production)           | Warning             | Quality owner (Harbor) |
+| EVAL-GATE-DRIFT    | Email extraction accuracy < 95% on the golden set (the ADR-004 gate, now watched in production)           | Warning             | Quality owner (Harbor — the role assigned at the what-healthy-means session for the ADR-004 eval gate) |
 
 Cut at the fatigue review: per-instance CPU (not actionable under autoscale), portal latency
 warning (duplicated INTAKE-ERROR-RATE's signal).

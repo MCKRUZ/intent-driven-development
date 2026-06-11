@@ -263,6 +263,19 @@ Phase 3 HTML. Remaining work, in likely order:
    suppression-window alerts, vendor-blip split), which per the story are already IN the kit.
 2. **The four `docs/` support files:** profile-swap, commercial, data-flow-brief,
    po-onboarding (phase-0 mentions the PO onboarding guide unlinked — re-link when built).
+2b. **`docs/agentic-spec-example.md`** — GOLD-STANDARD §11 now forward-references it ("to be
+   added with the first agentic engagement"); write it when the AI-engineering module gets
+   its worked example.
+2c. **(2026-06-11) Comprehensibility pass DONE** — 5 audit agents (actionability lens: could
+   a new pod member RUN the phase from the page?) found ~70 real stalls; 99 fixes applied
+   across every doc pair, both formats. Notable corrections of record: security gates are
+   PATH-triggered (workflow runs on any PR touching a registered guarded path, independent
+   of risk tier, in addition to the `risk:high` label); the go/no-go roster is SEVEN roles
+   (release manager, platform, operations, security, product, quality, sponsor); spec 0002's
+   plan was approved by Jonah (Orchestrator approves, never the Checker); DoR requires no
+   open decision-list items FOR THIS STORY (not an empty list); P0 budget is set by the Pod
+   Lead before the day-4 session; tripwire default = one-working-day median, WIP default =
+   2 streams per Orchestrator (both from §14); 0049 closed ahead of its day-30 deadline.
 3. Optional cleanup: retrofit sidebar "Next" links to phase-0/1 pages (convention 8).
 3. **Build the `kit/`** — the actual installable artifacts (templates, agents, hooks, CI YAML,
    Bicep). Currently only described in GOLD-STANDARD §10, not built. Phase 3 docs now name its
