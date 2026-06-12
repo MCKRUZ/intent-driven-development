@@ -16,6 +16,13 @@ independently, by 2026: none of them lets an agent merge to a protected branch o
 destructive infrastructure unsupervised. The rails are where that rule stops being a good
 intention and becomes a fact about the world.
 
+> **The gates at a glance.** Four workflows, plus the branch protection that makes them
+> mandatory. **ci** — build/test/lint/coverage — *hard block*. **grader** — a fresh agent's
+> check-by-check verdict against the spec — *required to run; advises, never blocks*. **security**
+> — the security-reviewer agent, on a `risk:high` label or any guarded path — *blocks on HIGH*.
+> **deploy-dev** — ships the merged artifact to dev and rolls back on a failed deploy. All four
+> ride one rule: the agent proposes, a gate disposes. The detail is in §3–§5.
+
 **If you're starting here:**
 
 |                          |                                                                                                                                                                                                             |

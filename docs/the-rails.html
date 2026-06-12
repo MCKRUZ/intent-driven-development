@@ -314,6 +314,45 @@
         </header>
 
         <section>
+          <h2>The gates at a glance</h2>
+          <p>
+            Four workflows, plus the branch protection that makes them
+            mandatory. All four ride one rule: the agent proposes, a gate
+            disposes. The detail is in sections 3–5.
+          </p>
+          <table>
+            <tr>
+              <th>Workflow</th>
+              <th>Job</th>
+              <th>Blocks or advises</th>
+            </tr>
+            <tr>
+              <td><strong>ci</strong></td>
+              <td>Build, test, lint, 80% coverage on new code</td>
+              <td><strong>Hard block</strong></td>
+            </tr>
+            <tr>
+              <td><strong>grader</strong></td>
+              <td>A fresh agent's check-by-check verdict against the spec</td>
+              <td>Required to run; <strong>advises</strong>, never blocks</td>
+            </tr>
+            <tr>
+              <td><strong>security</strong></td>
+              <td>
+                The security-reviewer agent, on a <code>risk:high</code> label
+                or any guarded path
+              </td>
+              <td><strong>Blocks on HIGH</strong></td>
+            </tr>
+            <tr>
+              <td><strong>deploy-dev</strong></td>
+              <td>Ships the merged artifact to dev; rolls back on a failed deploy</td>
+              <td>— (it ships)</td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
           <h2>If you're starting here</h2>
           <table>
             <tr>

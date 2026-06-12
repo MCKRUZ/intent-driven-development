@@ -13,6 +13,10 @@ per-agent identities. Those are flagged inline as **(net-new to the kit)** and c
 in section 3 — they are exactly what a first agentic-ops-heavy engagement would build once and
 harvest back into the kit, not commands you can type today.
 
+> **What's real today.** Episodes 1 and 5 ran on the rails the plugin ships now. Episodes 2, 3, 4,
+> and 6 use machinery that is **net-new to the kit** — not commands a pod can type today. The
+> honest tally of what's plugin vs. invented is section 3.
+
 **The story so far (you can start here):**
 
 |                  |                                                                                                                                                                                                                       |
