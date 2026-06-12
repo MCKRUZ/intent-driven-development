@@ -11,6 +11,12 @@ A good Phase 8 is boring. The drama gets spent in rehearsal, where it costs noth
 also the week the engagement's success metric stops being instrumentation and starts being
 real: production traffic puts the first true numbers on the clock the client hired us to fix.
 
+> **What closes Phase 8** (full checklist in §5): the rollback was rehearsed in test by the
+> client's own operators, a go/no-go was recorded with every named role asked, the proven artifact
+> was promoted to production — not rebuilt — through the pipeline, production smoke passed, and
+> monitoring is receiving real data. The single most protected stop: the go/no-go. The failure
+> mode to watch (§6): go/no-go theater — a ceremony where no one could plausibly say no.
+
 **If you're starting here:**
 
 |                          |                                                                                                                                                                                                              |

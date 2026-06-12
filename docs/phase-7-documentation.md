@@ -13,6 +13,12 @@ docs at the end." It is: consolidate what exists, verify it against the system *
 close the decision debt, write the operational docs — and then prove all of it by use, not by
 reading.
 
+> **What closes Phase 7** (full checklist in §5): a client engineer new to the repo completed the
+> README cold checkout unassisted on a clean machine, the client's ops engineer executed a deploy,
+> a rollback, and a failure scenario from the RUNBOOK cold, the API docs match the implementation,
+> and the drift catalog is empty or every item has an owner and a Phase 8 decision. The bar (§6):
+> "they managed with a little help" is a fail — a failed cold run is fixed and re-run clean.
+
 **If you're starting here:**
 
 |                          |                                                                                                                                                                                                              |
