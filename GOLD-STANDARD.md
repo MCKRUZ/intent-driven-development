@@ -13,6 +13,11 @@ the tiebreaker.
 **Version:** 1.0 (2026-06-10). Changes to this standard go through a PR reviewed by someone who
 didn't write it, same as everything else.
 
+> **The one rule, and where the teeth are.** Claude drafts and interrogates; humans decide and own
+> — the mandatory human stops, phase by phase, are in §2. What blocks a merge is in §9; the SOW
+> preconditions that make the gates billable are in §12; the close bar that ends the engagement is
+> in §13.
+
 ---
 
 ## 1. The shape of an engagement
