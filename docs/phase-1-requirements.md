@@ -4,11 +4,11 @@ Deep-dive on the second phase of the Delivery Standard. What happens from the da
 closes to the day the requirements baseline is signed: who is in the room, what gets made, what
 runs on a schedule, and what has to be true before design starts.
 
-> **What closes Phase 1** (full checklist in §5): every top-priority requirement has testable
+> **What closes Phase 1** (full checklist in section 5): every top-priority requirement has testable
 > acceptance criteria with a source and outcome trace, every NFR has a measurement basis (number,
 > method, named source), priorities were set by the PO within the top-tier budget, and the decision
 > list is empty or every survivor is a numbered open question with an owner and a due date. The
-> failure mode to watch (§6): "everything is P0" — priority inflation that blows the budget.
+> failure mode to watch (section 6): "everything is P0" — priority inflation that blows the budget.
 
 **If you're starting here:**
 

@@ -7,10 +7,10 @@ engagement — runs as this loop. There is no exit gate at the end of a loop pas
 loop is not a phase. It is how every single change gets built, from the day the Foundation
 gate closes to the day the backlog is done.
 
-> **What gates every change** (the checking ladder, §4): nothing merges without CI green (build,
+> **What gates every change** (the checking ladder, section 4): nothing merges without CI green (build,
 > tests, lint, 80% coverage), the grader having run (advisory), and a non-author approval — HIGH
 > risk adds a security pass and a named sign-off. The depth scales by risk tier, and the author
-> never approves their own work. The failure mode to watch (§9): the author grading itself —
+> never approves their own work. The failure mode to watch (section 9): the author grading itself —
 > checking theater that catches nothing.
 
 **If you're starting here:**

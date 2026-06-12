@@ -21,7 +21,7 @@ intention and becomes a fact about the world.
 > check-by-check verdict against the spec — *required to run; advises, never blocks*. **security**
 > — the security-reviewer agent, on a `risk:high` label or any guarded path — *blocks on HIGH*.
 > **deploy-dev** — ships the merged artifact to dev and rolls back on a failed deploy. All four
-> ride one rule: the agent proposes, a gate disposes. The detail is in §3–§5.
+> ride one rule: the agent proposes, a gate disposes. The detail is in section 3–section 5.
 
 **If you're starting here:**
 

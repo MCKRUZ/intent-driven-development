@@ -13,11 +13,11 @@ Their on-call answered the drill. Phase C is not a handover event; it is the mom
 handover that has been happening all along is tested — and then we leave, cleanly, and the
 standard itself learns from the engagement before the door closes.
 
-> **What closes the engagement** (full checklist in §5): the harness audit found nothing only the
+> **What closes the engagement** (full checklist in section 5): the harness audit found nothing only the
 > pod understands, the client Setup Owner has merged harness changes themselves, client engineers
 > completed at least three real specs as Orchestrators, and — the close gate — the client team ran
 > one real spec end-to-end, observed and unassisted. Then our access is revoked and confirmed
-> against the audit trail, and the harvest PR is opened. The failure mode to watch (§6): a toy
+> against the audit trail, and the harvest PR is opened. The failure mode to watch (section 6): a toy
 > close-gate spec instead of a real one.
 
 **If you're starting here:**

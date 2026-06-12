@@ -239,9 +239,9 @@ workshop.*
 ### CON-01: Real-time adjudication vs. the nightly batch window
 
 - **Type:** assumption · **Severity:** blocks-outcome
-- **DOC-001 §3.2:** "The solution shall provide real-time adjudication for eligible claims at
+- **DOC-001 section 3.2:** "The solution shall provide real-time adjudication for eligible claims at
   the point of first notice of loss."
-- **DOC-002 §4.1:** "Policy and coverage records are synchronized to downstream systems via
+- **DOC-002 section 4.1:** "Policy and coverage records are synchronized to downstream systems via
   the nightly batch cycle (21:00–04:30); intraday reads reflect the prior business day."
 - **Why it matters:** The RFP's headline requirement is impossible against the current core
   system. Either "real-time" gets redefined, or the engagement includes a PolicyOne read-path
@@ -254,7 +254,7 @@ workshop.*
 ### CON-02: v1 scope — property only, or property and auto?
 
 - **Type:** scope · **Severity:** blocks-outcome
-- **DOC-001 §2.1:** "This procurement covers the property claims intake and triage process."
+- **DOC-001 section 2.1:** "This procurement covers the property claims intake and triage process."
 - **DOC-008 slide 9:** "Unified intake across property and auto books by FY2027 — single
   platform, single queue."
 - **Why it matters:** Scope determines volume targets, data model, and timeline. Designing for
@@ -268,7 +268,7 @@ workshop.*
 
 - **Type:** fact · **Severity:** shapes-design
 - **DOC-005 p.3:** "Property claims received FY2025: 38,142."
-- **DOC-001 §1.4:** "Harbor processes approximately 60,000 claims annually."
+- **DOC-001 section 1.4:** "Harbor processes approximately 60,000 claims annually."
 - **Why it matters:** Sizing, load assumptions, and fast-path eligibility analysis all key off
   volume. A 60% disagreement is not a rounding error.
 - **The question for the room:** Which number is the design target, and what does 60,000 include?
@@ -327,11 +327,11 @@ page, as sent:*
 > **What the documents say.**
 > - Median property-claim cycle time is 11.4 days; an average claim is touched 7.3 times (DOC-005)
 > - FNOL arrives by phone (55%), portal (30%), and email (15%) (DOC-003)
-> - Policy data syncs on a nightly batch; intraday reads show yesterday (DOC-002 §4.1)
+> - Policy data syncs on a nightly batch; intraday reads show yesterday (DOC-002 section 4.1)
 > - A 2024 modernization attempt was cancelled in month six (DOC-004)
 >
 > **Where the documents disagree.**
-> 1. DOC-001 §3.2 requires real-time adjudication; DOC-002 §4.1 says the nightly batch makes
+> 1. DOC-001 section 3.2 requires real-time adjudication; DOC-002 section 4.1 says the nightly batch makes
 >    intraday policy reads stale. *Is same-business-day acceptable for v1?* (CON-01)
 > 2. DOC-001 scopes property; DOC-008 plans property + auto by 2027. *Is v1 property-only, and
 >    what must the design not preclude?* (CON-02)
@@ -409,7 +409,7 @@ it is Phase 1 scope); Q-14 blocks fast-path target-setting.
 
 | # | Constraint | Fixed / Negotiable | Source |
 |---|-----------|--------------------|--------|
-| C-01 | Azure is the only approved cloud | Fixed | DOC-006 §2; Q-07 |
+| C-01 | Azure is the only approved cloud | Fixed | DOC-006 section 2; Q-07 |
 | C-02 | PolicyOne stays; the nightly batch window is a hard integration boundary for v1 | Fixed | Q-06; CON-01 |
 | C-03 | v1 property-only; design must not preclude the auto book | Fixed | CON-02; gated at Phase 2 |
 | C-04 | 15-business-day acknowledgment in two regulated states | Fixed | Q-08 — becomes acceptance criteria and test cases |

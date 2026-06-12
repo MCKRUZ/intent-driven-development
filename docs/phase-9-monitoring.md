@@ -12,11 +12,11 @@ Build; Phase 9 asks the cumulative version — what worked, what didn't, what th
 engagement inherits — and produces the raw material for the harvest that closes the loop on
 the standard itself.
 
-> **What closes Phase 9** (full checklist in §5 — and hypercare ends with it): every critical
+> **What closes Phase 9** (full checklist in section 5 — and hypercare ends with it): every critical
 > RUNBOOK failure mode has an alert with a baseline-derived (or flagged-as-modeled) threshold
 > confirmed by client ops, the alert-fatigue review ran, the drill happened — every critical alert
 > fired and was answered by the client's own on-call — and the watch was formally handed over.
-> The failure mode to watch (§6): thresholds set by intuition instead of measured baselines.
+> The failure mode to watch (section 6): thresholds set by intuition instead of measured baselines.
 
 **If you're starting here:**
 

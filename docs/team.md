@@ -4,9 +4,9 @@ Deep-dive on section 3 of the Delivery Standard. Three parts: how a typical team
 the new ones, the concrete job of each role, and how the model scales from one pod to many.
 
 > **The shift in one line.** Nobody is fired — the bottleneck moves from writing code to deciding
-> what to build and checking what comes back. Who does what is §2; what *no one* owns anymore
-> (vacated ground breeds turf wars) is §2.5; the anti-patterns this whole structure exists to
-> prevent are §3.8.
+> what to build and checking what comes back. Who does what is section 2; what *no one* owns anymore
+> (vacated ground breeds turf wars) is section 2.5; the anti-patterns this whole structure exists to
+> prevent are section 3.8.
 
 **If you're starting here:**
 

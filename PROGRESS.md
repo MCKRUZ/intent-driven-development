@@ -37,7 +37,7 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
 10. Claude access: client procures Anthropic access (their keys, their account).
 11. Phase 1 (Foundation) exit: walking skeleton deployed to client dev env via pipeline.
 12. Reporting: biweekly steering + working demo; NO activity metrics to client.
-13. Risk tiers: Pod Lead assigns at triage (HIGH/MEDIUM/LOW taxonomy in GOLD-STANDARD.md §5).
+13. Risk tiers: Pod Lead assigns at triage (HIGH/MEDIUM/LOW taxonomy in GOLD-STANDARD.md section 5).
 14. Training: pod certified before; client trained during (priced workstream).
 15. AI-engineering module: full rigor (evals as acceptance criteria, prompts tiered HIGH).
 16. Commercial: thin chapter (SOW must-haves, PO clause, pricing posture).
@@ -53,7 +53,7 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
 - `PROGRESS.md` — this file.
 
 ### docs/ (deep-dives, each paired .md + .html, same dark-sidebar styling)
-- `team.md/.html` — §3 deep-dive: old-role→new-role mapping (PM/Architect/2 devs/QA →
+- `team.md/.html` — section 3 deep-dive: old-role→new-role mapping (PM/Architect/2 devs/QA →
   Pod Lead/Setup Owner/Orchestrator-Checkers/Quality Engineer), concrete jobs, 1→3 pod scaling.
 - `phase-0-discovery.md/.html` — Phase 0 (Discovery) deep-dive. **Tool-GENERIC** (no plugin
   names). 10-business-day calendar, who's involved, artifacts, cadences, exit gate, failure modes.
@@ -69,9 +69,9 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
 - `phase-3-example.md/.html` — Harbor Mutual Phase 3 example. Tool-specific. Specs 0001-0004
   ride the full loop; 0002 is the HIGH-risk proving spec.
 - `build-loop.md/.html` — the Build loop deep-dive (the heart of the method, expands
-  GOLD-STANDARD §5): the three beats, the risk taxonomy, the 5-rung checking ladder, the
+  GOLD-STANDARD section 5): the three beats, the risk taxonomy, the 5-rung checking ladder, the
   weekly cadences, the client's view, hardening passes, metrics, failure modes. Tool-generic.
-  Sources: GOLD-STANDARD §5/§9 + IDD course modules 2-5 (v2) + ceremonies/flow-check.md.
+  Sources: GOLD-STANDARD section 5/section 9 + IDD course modules 2-5 (v2) + ceremonies/flow-check.md.
   NO worked example yet — that's the next doc to write.
 
 - `the-rails.md/.html` — **(2026-06-12)** cross-cutting deep-dive on the agentic CI/CD & DevOps
@@ -83,8 +83,8 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
   flaky-test Active/Quarantined/Disabled state machine, containment), identity/secrets/blast
   radius, proving-the-rails-by-forcing-failure + DORA, failure modes. Source: project-research
   `2026-06-04-agentic-devops-best-practices/report.md` (Verified claims only). Stays in the
-  PRIMARY develop-WITH-agents track; consolidates GOLD-STANDARD §4/§6/§7 + Phase 3 §Day-4.
-  Indexed in GOLD-STANDARD §1 + §7 deep-dive callout (both .md/.html), README table, and sidebar
+  PRIMARY develop-WITH-agents track; consolidates GOLD-STANDARD section 4/section 6/section 7 + Phase 3 section Day-4.
+  Indexed in GOLD-STANDARD section 1 + section 7 deep-dive callout (both .md/.html), README table, and sidebar
   "Companion: The Rails →" links added to phase-3-foundation.html + build-loop.html.
 - `the-rails-example.md/.html` — **(2026-06-12)** Harbor worked example for the rails. NOT a
   calendar (rails aren't a phase) — **six episodes**, chronological Build→Phase 9: (1) grader
@@ -96,16 +96,16 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
   [NET-NEW gates], (5) Phase 8 rollback FAILS in rehearsal → spec 0046 config-with-artifact →
   clean Wed → Thu go-live rc-1.0.1 promoted-not-rebuilt, secrets rotated [reuses Phase 8], (6)
   Phase 9 drift caught by schedule, proposes remediation PR, Tom absorbs into Bicep [NET-NEW].
-  Per Matt's steer ("we may need to make things up"), §3 is an HONEST table of what's net-new vs
+  Per Matt's steer ("we may need to make things up"), section 3 is an HONEST table of what's net-new vs
   plugin (self-heal.yml, iac.yml funnel gates, drift-check.yml, flaky-test state machine,
   per-agent identity) — all flagged as harvest candidates, NOT existing plugin commands. Uses a
   4th tooling pill `.tool.netnew` (amber) added ONLY to this page's CSS — flag for Matt: this
   EXTENDS the 3-pill taxonomy (convention 3); revert to grey-only if he prefers. Cross-linked:
-  the-rails nav + worked-example callout (both formats), GOLD-STANDARD §1 index (both formats),
+  the-rails nav + worked-example callout (both formats), GOLD-STANDARD section 1 index (both formats),
   README. Continuity kept consistent with PROGRESS Build/Phase-8/Phase-9 facts.
   **Page 2 of 2 NOT yet built:** the autonomous-ops / agentic-AIOps deep-dive (AI-as-product
   track) — Matt chose "two pages split by track." The rails page already forward-references it
-  (unlinked, "forthcoming") in its closing callout. That page covers the report's §3/§4 (MAF/
+  (unlinked, "forthcoming") in its closing callout. That page covers the report's section 3/section 4 (MAF/
   Magentic orchestration, Azure SRE Agent two-tier Review/Autonomous autonomy, agentic incident
   response/RCA, observability via OTel GenAI conventions) — overlaps Phase 9, keep distinct.
 
@@ -124,14 +124,14 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
   - **Fix applied across ALL 12 standard docs (24 files, both formats), committed in 3 batches**
     (4ba9823 phases 0-3, 8b9c102 build-loop + 7/8/9/c, 027522a GOLD + team; rails were 26b597c):
     an additive top-of-doc callout condensing each doc's OWN gate/merge-bar + worst failure mode,
-    with §-pointers. **Deliberately did NOT reorder primer/vocab/four-questions** (that half of
+    with section-pointers. **Deliberately did NOT reorder primer/vocab/four-questions** (that half of
     the audit fix conflicts with locked convention 1: vocab directly after primer) — flagged for
     Matt as a separate standard-wide decision if he wants it. Examples were NOT touched (they use
     "The story so far", audited implicitly via the-rails-example).
   - All commits on `main` (repo convention — prior phases committed straight to main). NOT pushed
     (remote is public github.com/MCKRUZ/intent-driven-development). Offer push when Matt's ready.
 
-### Referenced but NOT yet built (named in GOLD-STANDARD §10, do not exist as files yet)
+### Referenced but NOT yet built (named in GOLD-STANDARD section 10, do not exist as files yet)
 - `docs/profile-swap.md`, `docs/commercial.md`, `docs/data-flow-brief.md`, `docs/po-onboarding.md`
 - `kit/` — the entire installable engagement starter (CLAUDE.md.template, spec-template,
   settings.json, skills/, agents/ grader+security-reviewer, hooks/ stop-gate, workflows/
@@ -251,7 +251,7 @@ Nothing committed in either repo. Both working trees are dirty and ready for Mat
 ## NEXT STEPS (where to resume)
 
 Phases done as deep-dive + example: **0, 1, 2, 3.** Phase 3 (2026-06-11) is fully cross-linked
-in both formats and indexed in GOLD-STANDARD §10. Matt has NOT yet reviewed the rendered
+in both formats and indexed in GOLD-STANDARD section 10. Matt has NOT yet reviewed the rendered
 Phase 3 HTML. Remaining work, in likely order:
 
 1. ~~Build loop deep-dive + worked example~~ DONE 2026-06-11: `build-loop.md/.html` +
@@ -259,7 +259,7 @@ Phase 3 HTML. Remaining work, in likely order:
    fast-path work queue MEDIUM + 0016 duplicate-claim merge HIGH; the grader catches the
    empty-policy-number match-bucket bug — eleven green tests, live bug; Wes's named HIGH
    sign-off; Q-18 lands; security-queue drift flagged at 2.1 days). Fully cross-linked:
-   GOLD-STANDARD §1+§5, phase-3-foundation, phase-3-example. Specs 0005-0014 exist by
+   GOLD-STANDARD section 1+section 5, phase-3-foundation, phase-3-example. Specs 0005-0014 exist by
    week 4 but are not itemized — keep future references consistent.
 2. ~~Casual-reader clarity pass~~ DONE 2026-06-11 (all four phase pairs + examples; team.md
    was already clean; see convention 1 for the binding rules).
@@ -298,7 +298,7 @@ Phase 3 HTML. Remaining work, in likely order:
 6. ~~Phase C (Close & Transfer)~~ DONE 2026-06-11: `phase-c-close.md/.html` +
    `phase-c-example.md/.html`. **THE ENGAGEMENT ARC IS COMPLETE** — every phase (0-3, Build
    loop, 7, 8, 9, C) has a deep-dive + Harbor example, fully chained with Next/Back links
-   in both formats, all indexed from GOLD-STANDARD §1 (and §3/§5/§13 deep-dive callouts)
+   in both formats, all indexed from GOLD-STANDARD section 1 (and section 3/section 5/section 13 deep-dive callouts)
    and the README. **Phase C continuity facts:** three weeks 2026-08-10 to 08-28, final
    milestone 8. Shadow-flip specs 0047/0048 (Ines), 0050 (Wes); Wes = Harbor Setup Owner
    (Tom his deputy), ships his own onboarding-bootstrap skill (born from Ines's Phase 7
@@ -312,7 +312,7 @@ Phase 3 HTML. Remaining work, in likely order:
 
 ## Remaining work (the docs arc is done; these build the rest of the repo)
 
-1. **Build the `kit/`** — the installable artifacts GOLD-STANDARD §10 describes and the
+1. **Build the `kit/`** — the installable artifacts GOLD-STANDARD section 10 describes and the
    examples show in use: CLAUDE.md.template, spec-template, settings.json, skills/, agents/
    (grader, security-reviewer), hooks/ (stop-gate), workflows/ (ci, grader, security,
    deploy-dev), infra/ Bicep starters, profile/. Keep consistent with what the examples
@@ -320,7 +320,7 @@ Phase 3 HTML. Remaining work, in likely order:
    suppression-window alerts, vendor-blip split), which per the story are already IN the kit.
 2. **The four `docs/` support files:** profile-swap, commercial, data-flow-brief,
    po-onboarding (phase-0 mentions the PO onboarding guide unlinked — re-link when built).
-2b. **`docs/agentic-spec-example.md`** — GOLD-STANDARD §11 now forward-references it ("to be
+2b. **`docs/agentic-spec-example.md`** — GOLD-STANDARD section 11 now forward-references it ("to be
    added with the first agentic engagement"); write it when the AI-engineering module gets
    its worked example.
 2c. **(2026-06-11) Comprehensibility pass DONE** — 5 audit agents (actionability lens: could
@@ -332,10 +332,10 @@ Phase 3 HTML. Remaining work, in likely order:
    plan was approved by Jonah (Orchestrator approves, never the Checker); DoR requires no
    open decision-list items FOR THIS STORY (not an empty list); P0 budget is set by the Pod
    Lead before the day-4 session; tripwire default = one-working-day median, WIP default =
-   2 streams per Orchestrator (both from §14); 0049 closed ahead of its day-30 deadline.
+   2 streams per Orchestrator (both from section 14); 0049 closed ahead of its day-30 deadline.
 3. Optional cleanup: retrofit sidebar "Next" links to phase-0/1 pages (convention 8).
 3. **Build the `kit/`** — the actual installable artifacts (templates, agents, hooks, CI YAML,
-   Bicep). Currently only described in GOLD-STANDARD §10, not built. Phase 3 docs now name its
+   Bicep). Currently only described in GOLD-STANDARD section 10, not built. Phase 3 docs now name its
    contents in use — keep the kit consistent with what the example shows running.
 4. **The four `docs/` support files** (profile-swap, commercial, data-flow-brief, po-onboarding).
 5. Optional cleanup: retrofit the sidebar "Next" link to the phase-0/1 pages (convention 8).

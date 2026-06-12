@@ -320,8 +320,8 @@ and answer logs filled in after the workshop).</p>
 
 <div class="con">
 <div class="con-head">CON-01: Real-time adjudication vs. the nightly batch window <span class="sev blocks">blocks-outcome</span></div>
-<div class="quote-a"><strong>DOC-001 §3.2:</strong> "The solution shall provide real-time adjudication for eligible claims at the point of first notice of loss."</div>
-<div class="quote-b"><strong>DOC-002 §4.1:</strong> "Policy and coverage records are synchronized to downstream systems via the nightly batch cycle (21:00–04:30); intraday reads reflect the prior business day."</div>
+<div class="quote-a"><strong>DOC-001 section 3.2:</strong> "The solution shall provide real-time adjudication for eligible claims at the point of first notice of loss."</div>
+<div class="quote-b"><strong>DOC-002 section 4.1:</strong> "Policy and coverage records are synchronized to downstream systems via the nightly batch cycle (21:00–04:30); intraday reads reflect the prior business day."</div>
 <p><strong>Why it matters:</strong> The RFP's headline requirement is impossible against the current core system. Either "real-time" gets redefined, or the engagement includes a PolicyOne read-path nobody has scoped or priced.</p>
 <p><strong>The question for the room:</strong> Is a same-business-day coverage decision acceptable for v1, or is true real-time a hard requirement worth the integration cost?</p>
 <p class="resolved">Resolution: same-business-day accepted for v1; true real-time deferred to the auto-claims phase. (Karen Voss, 2026-03-04)</p>
@@ -329,7 +329,7 @@ and answer logs filled in after the workshop).</p>
 
 <div class="con">
 <div class="con-head">CON-02: v1 scope — property only, or property and auto? <span class="sev blocks">blocks-outcome</span></div>
-<div class="quote-a"><strong>DOC-001 §2.1:</strong> "This procurement covers the property claims intake and triage process."</div>
+<div class="quote-a"><strong>DOC-001 section 2.1:</strong> "This procurement covers the property claims intake and triage process."</div>
 <div class="quote-b"><strong>DOC-008 slide 9:</strong> "Unified intake across property and auto books by FY2027 — single platform, single queue."</div>
 <p><strong>Why it matters:</strong> Scope determines volume targets, data model, and timeline. Designing for property-only and discovering auto in month four is the 2024 failure replayed.</p>
 <p><strong>The question for the room:</strong> Is v1 property-only, and if so, what must the design not preclude for auto?</p>
@@ -339,7 +339,7 @@ and answer logs filled in after the workshop).</p>
 <div class="con">
 <div class="con-head">CON-03: Annual claim volume — 38,000 or 60,000? <span class="sev shapes">shapes-design</span></div>
 <div class="quote-a"><strong>DOC-005 p.3:</strong> "Property claims received FY2025: 38,142."</div>
-<div class="quote-b"><strong>DOC-001 §1.4:</strong> "Harbor processes approximately 60,000 claims annually."</div>
+<div class="quote-b"><strong>DOC-001 section 1.4:</strong> "Harbor processes approximately 60,000 claims annually."</div>
 <p><strong>Why it matters:</strong> Sizing, load assumptions, and fast-path eligibility analysis all key off volume. A 60% disagreement is not a rounding error.</p>
 <p><strong>The question for the room:</strong> Which number is the design target, and what does 60,000 include?</p>
 <p class="resolved">Resolution: 60,000 includes the auto book; property design target is 40,000/yr with 25% headroom. (Priti Shah, 2026-03-04)</p>
@@ -395,12 +395,12 @@ DOC-002 (PolicyOne architecture), DOC-005 (Q4 2025 claims ops report).</p>
 <ul>
 <li>Median property-claim cycle time is 11.4 days; an average claim is touched 7.3 times (DOC-005)</li>
 <li>FNOL arrives by phone (55%), portal (30%), and email (15%) (DOC-003)</li>
-<li>Policy data syncs on a nightly batch; intraday reads show yesterday (DOC-002 §4.1)</li>
+<li>Policy data syncs on a nightly batch; intraday reads show yesterday (DOC-002 section 4.1)</li>
 <li>A 2024 modernization attempt was cancelled in month six (DOC-004)</li>
 </ul>
 <h4>Where the documents disagree</h4>
 <ol>
-<li>DOC-001 §3.2 requires real-time adjudication; DOC-002 §4.1 says the nightly batch makes intraday policy reads stale. <em>Is same-business-day acceptable for v1?</em> (CON-01)</li>
+<li>DOC-001 section 3.2 requires real-time adjudication; DOC-002 section 4.1 says the nightly batch makes intraday policy reads stale. <em>Is same-business-day acceptable for v1?</em> (CON-01)</li>
 <li>DOC-001 scopes property; DOC-008 plans property + auto by 2027. <em>Is v1 property-only, and what must the design not preclude?</em> (CON-02)</li>
 <li>38,142 claims/yr (DOC-005) vs ~60,000 (DOC-001). <em>Which is the design target?</em> (CON-03)</li>
 <li>Cycle time to first payment (DOC-005) vs to coverage decision (DOC-008). <em>Which definition does the success metric use?</em> (CON-04)</li>
@@ -478,7 +478,7 @@ metrics:</strong> features shipped, PR (pull request) counts, story points, agen
 <p class="made">Drafted day 4; signed day 10.</p>
 <table>
 <tr><th>#</th><th>Constraint</th><th>Fixed / Negotiable</th><th>Source</th></tr>
-<tr><td>C-01</td><td>Azure is the only approved cloud</td><td>Fixed</td><td>DOC-006 §2; Q-07</td></tr>
+<tr><td>C-01</td><td>Azure is the only approved cloud</td><td>Fixed</td><td>DOC-006 section 2; Q-07</td></tr>
 <tr><td>C-02</td><td>PolicyOne stays; the nightly batch window is a hard integration boundary for v1</td><td>Fixed</td><td>Q-06; CON-01</td></tr>
 <tr><td>C-03</td><td>v1 property-only; design must not preclude the auto book</td><td>Fixed</td><td>CON-02; gated at Phase 2</td></tr>
 <tr><td>C-04</td><td>15-business-day acknowledgment in two regulated states</td><td>Fixed</td><td>Q-08 — becomes acceptance criteria and test cases</td></tr>
