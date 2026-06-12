@@ -109,6 +109,28 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
   Magentic orchestration, Azure SRE Agent two-tier Review/Autonomous autonomy, agentic incident
   response/RCA, observability via OTel GenAI conventions) — overlaps Phase 9, keep distinct.
 
+- **(2026-06-12) Skills run on the rails pages, then a standard-wide surfacing pass.**
+  - **humanizer** on the-rails.md + the-rails-example.md: verdict = the "AI tells" it flags
+    (em-dashes, rule-of-three, "not X; Y" cadence, bold lead-ins) ARE the deliberate house voice
+    shared across all sibling docs. Left AS-IS by design; the only honest change would be a
+    standard-wide voice decision, not per-page edits. Docs were otherwise clean (no curly quotes,
+    no emojis, no AI-vocab, no copula avoidance).
+  - **executive-eye** on the-rails pages → applied 2 additive surfacing fixes (gates-at-a-glance
+    table in the deep-dive; "what's real today" 2-of-6 banner in the example). Then audited the
+    FULL standard (11 parallel sonnet subagents, one per deep-dive + GOLD-STANDARD). Finding:
+    **systemic buried-weight, 11/11** — the house template ends every phase doc with the exit
+    gate + failure modes (the highest-value content for a scanner) and front-loads a long
+    vocabulary table, so the lead/gate sit below the first screen.
+  - **Fix applied across ALL 12 standard docs (24 files, both formats), committed in 3 batches**
+    (4ba9823 phases 0-3, 8b9c102 build-loop + 7/8/9/c, 027522a GOLD + team; rails were 26b597c):
+    an additive top-of-doc callout condensing each doc's OWN gate/merge-bar + worst failure mode,
+    with §-pointers. **Deliberately did NOT reorder primer/vocab/four-questions** (that half of
+    the audit fix conflicts with locked convention 1: vocab directly after primer) — flagged for
+    Matt as a separate standard-wide decision if he wants it. Examples were NOT touched (they use
+    "The story so far", audited implicitly via the-rails-example).
+  - All commits on `main` (repo convention — prior phases committed straight to main). NOT pushed
+    (remote is public github.com/MCKRUZ/intent-driven-development). Offer push when Matt's ready.
+
 ### Referenced but NOT yet built (named in GOLD-STANDARD §10, do not exist as files yet)
 - `docs/profile-swap.md`, `docs/commercial.md`, `docs/data-flow-brief.md`, `docs/po-onboarding.md`
 - `kit/` — the entire installable engagement starter (CLAUDE.md.template, spec-template,
