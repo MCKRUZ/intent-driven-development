@@ -4,6 +4,10 @@ How we use Claude to build software for clients, start to finish. This is the go
 every engagement: who does what, what Claude does, what the templates are, how source control and
 DevOps are structured, and what has to be true before anything merges, ships, or gets handed over.
 
+**Owner:** Matt Kruczek. **Deputy:** named per the rule in section 4 (no role without a deputy).
+**Version:** 1.0 (2026-06-10). Changes to this standard go through a PR reviewed by someone who
+didn't write it, same as everything else.
+
 This standard describes the **method as a concept**, kept independent of any one tool. Where it
 names a specific tool — the SDLC orchestration plugin we drive it with (`claude-code-sdlc`), the
 .NET/Azure stack, a particular CI system — treat that as **an example of how we implement the
@@ -16,14 +20,8 @@ The method synthesizes two bodies of work: the Intent-Driven Development methodo
 our example tool for running the phases). Where the two disagreed, this document is the
 resolution; where it is silent, Intent-Driven Development is the tiebreaker.
 
-**Owner:** Matt Kruczek. **Deputy:** named per the rule in section 4 (no role without a deputy).
-**Version:** 1.0 (2026-06-10). Changes to this standard go through a PR reviewed by someone who
-didn't write it, same as everything else.
-
-> **The one rule, and where the teeth are.** Claude drafts and interrogates; humans decide and own
-> — the mandatory human stops, phase by phase, are in section 2. What blocks a merge is in
-> section 9; the contract preconditions that make the gates billable are in section 12; the bar
-> that ends the engagement is in section 13.
+> **The one rule.** Claude drafts and interrogates; humans decide and own. Every gate in this
+> standard exists to enforce it: a machine reports, a named human signs.
 
 ---
 
