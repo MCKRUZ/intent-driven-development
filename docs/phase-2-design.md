@@ -4,6 +4,12 @@ Deep-dive on the third phase of the Delivery Standard. What happens between the 
 baseline and the foundation build: who decides the shape of the system, how options become
 signed decisions, and what has to be true before anyone provisions an environment.
 
+> **What closes Phase 2** (full checklist in §5): every ADR records 2-3 genuinely considered
+> options and carries both signatures, every external integration was spiked against the live
+> system, contracts carry error and degradation semantics, the threat review is done with each
+> threat mitigated or assigned to a build-time gate, and the walking-skeleton definition exists.
+> The failure mode to watch (§6): the single-option ADR — documentation of a reflex, not a decision.
+
 **If you're starting here:**
 
 | | |

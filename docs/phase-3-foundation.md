@@ -6,6 +6,12 @@ get built, the build loop runs for the first time, and the walking skeleton beco
 code in the client's own dev environment. Foundation closes, and the engagement crosses out of
 the gated phases and into the continuous Build loop.
 
+> **What closes Phase 3** (full checklist in §5): the harness is installed and adapted to the
+> client, the pipeline runs with branch protection enforcing it, the walking skeleton is deployed
+> to the client's dev environment through the real pipeline (with at least one HIGH-risk spec
+> through the full loop), and the rails are proven by failing safely. The unrecoverable failure
+> mode (§6): a secret in the repo.
+
 **If you're starting here:**
 
 |                          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |

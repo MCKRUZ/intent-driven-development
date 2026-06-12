@@ -4,6 +4,12 @@ Deep-dive on the first phase of the Delivery Standard. What happens from the fir
 engagement to the day Phase 0 closes: who is in the room, what gets made, what runs on a
 schedule, and what has to be true before Phase 1 starts.
 
+> **What closes Phase 0** (full checklist in §5): a signed outcome statement, the success metric
+> read at least once from its source system with a baseline recorded, the PO decision in writing
+> (named PO or signed proxy rider), and live Anthropic access — each with a named sponsor-side
+> sign-off. The PO decision and tooling carry billing teeth. The failure mode that sinks the phase
+> (§6): a success metric nobody can actually query.
+
 **If you're starting here:**
 
 | | |
