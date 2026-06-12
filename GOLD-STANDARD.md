@@ -4,53 +4,76 @@ How we use Claude to build software for clients, start to finish. This is the go
 every engagement: who does what, what Claude does, what the templates are, how source control and
 DevOps are structured, and what has to be true before anything merges, ships, or gets handed over.
 
-It synthesizes two bodies of work: the Intent-Driven Development methodology
-(`MCKRUZ/intent-driven-development`) and the SDLC orchestration plugin (`MCKRUZ/claude-code-sdlc`).
-Where the two disagreed, this document is the resolution. Where this document is silent, IDD is
-the tiebreaker.
+This standard describes the **method as a concept**, kept independent of any one tool. Where it
+names a specific tool — the SDLC orchestration plugin we drive it with (`claude-code-sdlc`), the
+.NET/Azure stack, a particular CI system — treat that as **an example of how we implement the
+method today**, not as part of the method itself. The specific tools and commands appear in full
+in the worked examples (the fictional Harbor Mutual engagement that runs alongside each
+deep-dive); the concept here should still make sense if you swapped every one of them out.
+
+The method synthesizes two bodies of work: the Intent-Driven Development methodology
+(`MCKRUZ/intent-driven-development`) and an SDLC orchestration plugin (`MCKRUZ/claude-code-sdlc`,
+our example tool for running the phases). Where the two disagreed, this document is the
+resolution; where it is silent, Intent-Driven Development is the tiebreaker.
 
 **Owner:** Matt Kruczek. **Deputy:** named per the rule in section 4 (no role without a deputy).
 **Version:** 1.0 (2026-06-10). Changes to this standard go through a PR reviewed by someone who
 didn't write it, same as everything else.
 
 > **The one rule, and where the teeth are.** Claude drafts and interrogates; humans decide and own
-> — the mandatory human stops, phase by phase, are in §2. What blocks a merge is in §9; the SOW
-> preconditions that make the gates billable are in §12; the close bar that ends the engagement is
-> in §13.
+> — the mandatory human stops, phase by phase, are in section 2. What blocks a merge is in
+> section 9; the contract preconditions that make the gates billable are in section 12; the bar
+> that ends the engagement is in section 13.
 
 ---
 
 ## 1. The shape of an engagement
 
-The engagement runs on a hybrid spine. The claude-code-sdlc plugin's phase machine opens and
-closes the engagement; the IDD build loop is the engine in the middle. The plugin's phases 4-6
-(Implementation, Quality, Testing as separate sequential phases) are **not used as written**,
-because batch verification after batch implementation is the failure mode the evidence base
-(Faros: PR volume +98%, review time +91%, delivery flat) warns about. Verification runs per
-change, inside the loop, not as a later phase.
+An engagement has three parts, in order. An **opening** frames the problem and builds the
+"factory" — the code repository, the build-and-deploy pipeline, and the set of rules and context
+the AI agents work inside. A long **middle** is where the software actually gets built, one small
+piece at a time. A **close** documents the system, ships it to production, and hands everything
+over to the client.
+
+The opening and the close run as **numbered phases**. Each phase ends at a **gate**: a checkpoint
+where automated checks run and a named human has to sign off before the work advances. The middle
+is different — it is not phased. It runs as a continuous **build loop**, repeating the same short
+cycle for every piece of work.
+
+A traditional software lifecycle phases the middle too: separate Implementation, Quality, and
+Testing stages, each finishing before the next starts. We deliberately don't. Checking a large
+batch of work only after it has all been built is the failure mode the delivery research warns
+about — when AI agents write the code, the volume of code and pull requests can balloon while
+delivery gets no faster, because the checking piles up unreviewed. So checking happens **per
+change, inside the loop**, never as a later phase.
+
+We run the phased opening and close with an example orchestration tool (the `claude-code-sdlc`
+plugin), and only for its phase structure — deliberately with less automation than it offers.
+Nothing about the shape below depends on that tool; any phase-gating mechanism that keeps a human
+in the loop would do.
 
 ```
-OPEN (SDLC phases, gated, human sign-off to advance)
+OPEN (gated phases — automated checks, then a human signs to advance)
   Phase 0  Discovery        problem, outcomes, constraints, tooling approval, PO decision
   Phase 1  Requirements     epics, stories, NFRs (drafted by Claude, owned by humans)
   Phase 2  Design           architecture, ADRs, API contracts (Claude proposes 2-3, human picks)
-  Phase 3  Foundation       harness + walking skeleton deployed to client dev environment
+  Phase 3  Foundation       the factory built; thinnest end-to-end slice deployed to client dev
 
-BUILD (the IDD loop, continuous, per spec — replaces SDLC phases 4-6)
+BUILD (the build loop — continuous, one piece of work at a time; replaces the batch middle phases)
   for every story:  Intent -> Delegate -> Discern -> merged & deployed to dev
   weekly cadence:   intent triage, flow check, retro+, setup review
   biweekly:         steering with the client (demo + outcome scorecard)
   hardening passes: scheduled, not a phase — see 5.6
 
-CLOSE (SDLC phases, gated, human sign-off to advance)
+CLOSE (gated phases — automated checks, then a human signs to advance)
   Phase 7  Documentation    README, API docs, RUNBOOK (Claude drafts, humans verify by using them)
   Phase 8  Deployment       promote to prod + release ceremony (pipeline already exists from Phase 3)
   Phase 9  Monitoring       alerts, incident response, retrospective
   Phase C  Close & Transfer consulting-only: client owns the harness, runs the loop solo, we leave
 ```
 
-Phase advancement is **always manual**. The plugin's auto-advance behavior for phases 4 and 6 is
-disabled. Gates tell you whether you _may_ advance; a named human decides whether you _do_.
+Phase advancement is **always manual**. Any auto-advance the orchestration tool offers is turned
+off. Gates tell you whether you _may_ advance; a named human decides whether you _do_.
 
 > Deep-dives, each phase day by day (who is involved, every artifact with its owner and
 > done-condition, the cadences, the exit gate), with the Harbor Mutual worked example running
@@ -80,10 +103,10 @@ billing milestones to phase gates, not to dates (section 12).
 
 ## 2. The human/AI collaboration model, phase by phase
 
-The single most important rule: **Claude drafts and interrogates; humans decide and own.** The
-claude-code-sdlc plugin automates a lot. We deliberately run it with less automation than it
-offers. The table below is the contract for every phase: what the human drives, what Claude does,
-and where the mandatory stops are.
+The single most important rule: **Claude drafts and interrogates; humans decide and own.** Our
+orchestration tooling can automate much of this; we deliberately run it with less automation than
+it offers. The table below is the contract for every phase: what the human drives, what Claude
+does, and where the mandatory stops are.
 
 | Phase              | Human drives                                                                                                       | Claude does                                                                                                                                                | Mandatory human stops                                                                                            |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -179,7 +202,8 @@ Trunk-based. **One spec = one branch = one PR.**
 > Deep-dive: `docs/build-loop.md` — the loop end to end: the three beats, the checking
 > ladder, the weekly cadences, the client's view, and the metrics that steer it.
 
-This replaces SDLC phases 4-6. Every story runs the same three beats.
+This is the middle of the engagement — it replaces the batch Implementation/Quality/Testing phases
+of a traditional lifecycle. Every story runs the same three beats.
 
 ### 5.1 Intent
 
@@ -245,15 +269,15 @@ scorecard (their success metric, the DORA stability pair (change-fail rate and t
 the accepted-as-is trend), the decision
 list needing their answers, and gate status when a phase boundary is near. Weekly 5-bullet async
 summary in between. **No activity metrics in client materials, ever** — no PR counts, no "AI
-productivity" claims. Demos and outcomes only. The durable record is the SDLC HTML phase report
-generated at each gate.
+productivity" claims. Demos and outcomes only. The durable record is the HTML phase report our
+tooling generates at each gate.
 
 ### 5.6 Hardening passes
 
 Quality is per-change, but integration-level concerns (performance under load, E2E journeys,
 penetration testing) run as scheduled hardening passes — typically one mid-Build and one before
-Phase 8 — driven by the `/e2e` and security tooling. These are scheduled work in the flow, not a
-phase that gates all other work.
+Phase 8 — driven by end-to-end and security tooling (in our toolchain, the `/e2e` workflow). These
+are scheduled work in the flow, not a phase that gates all other work.
 
 ---
 
@@ -282,7 +306,7 @@ client-repo/
 │   ├── security.yml           # security-reviewer on risk:high label
 │   └── deploy-dev.yml         # merge to main -> client dev environment
 ├── infra/                     # Bicep: dev environment first, test/prod added at hardening
-└── .sdlc/                     # plugin state, artifacts, phase reports (committed)
+└── .sdlc/                     # orchestration-tool state, artifacts, phase reports (committed)
 ```
 
 CLAUDE.md contents (the kit template, adapted per client in week one): what the project is, the
@@ -300,9 +324,9 @@ work, reviewed at setup review.
 > four workflows, the merge bar, deploy and promotion, the agent-safe IaC pipeline, agents working
 > inside the pipeline, and the governing principle (agent proposes, gate disposes).
 
-- **Stack default:** .NET 8 / Angular / SQL Server / Azure / GitHub Actions, per the
-  microsoft-enterprise profile in claude-code-sdlc. A profile-swap appendix in this repo covers
-  what changes for other stacks; everything else in this standard is stack-independent.
+- **Stack default:** .NET 8 / Angular / SQL Server / Azure / GitHub Actions — the example profile
+  we ship. A profile-swap appendix in this repo covers what changes for other stacks; everything
+  else in this standard is stack-independent.
 - **IaC:** Bicep, in-repo, HIGH risk tier. Dev environment provisioned in Phase 3; test and prod
   added at the first hardening pass; prod promoted in Phase 8.
 - **Pipeline ownership:** Setup Owner builds it (with Claude drafting the YAML); the client's
@@ -340,10 +364,11 @@ never as a client-facing productivity claim.
 
 ### Phase gates
 
-The plugin's 6-gate validation (integrity, completeness, metrics, compliance, consistency,
-quality) runs at every phase boundary via `/sdlc-gate`. Gates report; a named human advances.
-Override rules per the plugin: mechanical gates (1-3) are never overridden; quality-gate
-overrides require written justification in `.sdlc/state.yaml`.
+At every phase boundary an automated gate check runs a fixed battery of validations (integrity,
+completeness, metrics, compliance, consistency, quality). Gates report; a named human advances.
+(In our toolchain this is the `/sdlc-gate` check — the concept is the battery plus the human, not
+the command.) Override rules: the mechanical gates are never overridden; a quality-gate override
+requires written justification recorded with the phase state.
 
 ### Merge gates
 
@@ -363,7 +388,8 @@ Internal dashboard (baseline-and-trend, no vanity targets):
 - **Security-review wait** — tracked separately; it clears slower and would hide in an average.
 
 Never tracked, never reported: velocity, story points, PR count, lines of code. Agents inflate
-all of them; Faros showed PR volume can double while delivery stays flat.
+all of them, and the published delivery research shows PR volume can double while delivery stays
+flat.
 
 Client-facing scorecard: their success metric, the DORA stability pair, accepted-as-is trend,
 and the demo. That's it.
@@ -484,5 +510,5 @@ Decisions made by the standard's author without a dedicated discussion, listed s
   — independence comes from not having written the code, not from model size.
 - `.sdlc/` state and artifacts are committed to the client repo (their visibility, their record).
 - Conventional commits enforced by convention and PR title check, not by hook.
-- The plugin's `/sdlc-enhance` narrative companions are used for client-facing artifacts at gates,
-  generated by Claude, edited by the Pod Lead before any client sees them.
+- A narrative-companion generator (in our toolchain, `/sdlc-enhance`) produces client-facing
+  artifacts at gates, generated by Claude and edited by the Pod Lead before any client sees them.

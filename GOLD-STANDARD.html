@@ -268,11 +268,25 @@
             ships, or gets handed over.
           </p>
           <p>
-            It synthesizes two bodies of work: the Intent-Driven Development
-            methodology (<code>MCKRUZ/intent-driven-development</code>) and the
-            SDLC orchestration plugin (<code>MCKRUZ/claude-code-sdlc</code>).
-            Where the two disagreed, this document is the resolution. Where this
-            document is silent, IDD is the tiebreaker.
+            This standard describes the <strong>method as a concept</strong>,
+            kept independent of any one tool. Where it names a specific tool —
+            the SDLC orchestration plugin we drive it with
+            (<code>claude-code-sdlc</code>), the .NET/Azure stack, a particular CI
+            system — treat that as <strong>an example of how we implement the
+            method today</strong>, not as part of the method itself. The specific
+            tools and commands appear in full in the worked examples (the
+            fictional Harbor Mutual engagement that runs alongside each
+            deep-dive); the concept here should still make sense if you swapped
+            every one of them out.
+          </p>
+          <p>
+            The method synthesizes two bodies of work: the Intent-Driven
+            Development methodology
+            (<code>MCKRUZ/intent-driven-development</code>) and an SDLC
+            orchestration plugin (<code>MCKRUZ/claude-code-sdlc</code>, our
+            example tool for running the phases). Where the two disagreed, this
+            document is the resolution; where it is silent, Intent-Driven
+            Development is the tiebreaker.
           </p>
           <div class="meta">
             <strong>Owner:</strong> Matt Kruczek &nbsp;·&nbsp;
@@ -287,45 +301,68 @@
         <div class="callout">
           <strong>The one rule, and where the teeth are.</strong> Claude drafts
           and interrogates; humans decide and own — the mandatory human stops,
-          phase by phase, are in §2. What blocks a merge is in §9; the SOW
-          preconditions that make the gates billable are in §12; the close bar
-          that ends the engagement is in §13.
+          phase by phase, are in section 2. What blocks a merge is in section 9;
+          the contract preconditions that make the gates billable are in
+          section 12; the bar that ends the engagement is in section 13.
         </div>
 
         <section id="s1">
           <h2>1. The shape of an engagement</h2>
           <p>
-            The engagement runs on a hybrid spine. The claude-code-sdlc plugin's
-            phase machine opens and closes the engagement; the IDD build loop is
-            the engine in the middle. The plugin's phases 4-6 (Implementation,
-            Quality, Testing as separate sequential phases) are
-            <strong>not used as written</strong>, because batch verification
-            after batch implementation is the failure mode the evidence base
-            (Faros: PR volume +98%, review time +91%, delivery flat) warns
-            about. Verification runs per change, inside the loop, not as a later
-            phase.
+            An engagement has three parts, in order. An <strong>opening</strong>
+            frames the problem and builds the "factory" — the code repository,
+            the build-and-deploy pipeline, and the set of rules and context the
+            AI agents work inside. A long <strong>middle</strong> is where the
+            software actually gets built, one small piece at a time. A
+            <strong>close</strong> documents the system, ships it to production,
+            and hands everything over to the client.
           </p>
-          <pre><code>OPEN (SDLC phases, gated, human sign-off to advance)
+          <p>
+            The opening and the close run as <strong>numbered phases</strong>.
+            Each phase ends at a <strong>gate</strong>: a checkpoint where
+            automated checks run and a named human has to sign off before the
+            work advances. The middle is different — it is not phased. It runs as
+            a continuous <strong>build loop</strong>, repeating the same short
+            cycle for every piece of work.
+          </p>
+          <p>
+            A traditional software lifecycle phases the middle too: separate
+            Implementation, Quality, and Testing stages, each finishing before
+            the next starts. We deliberately don't. Checking a large batch of
+            work only after it has all been built is the failure mode the
+            delivery research warns about — when AI agents write the code, the
+            volume of code and pull requests can balloon while delivery gets no
+            faster, because the checking piles up unreviewed. So checking happens
+            <strong>per change, inside the loop</strong>, never as a later phase.
+          </p>
+          <p>
+            We run the phased opening and close with an example orchestration
+            tool (the <code>claude-code-sdlc</code> plugin), and only for its
+            phase structure — deliberately with less automation than it offers.
+            Nothing about the shape below depends on that tool; any phase-gating
+            mechanism that keeps a human in the loop would do.
+          </p>
+          <pre><code>OPEN (gated phases — automated checks, then a human signs to advance)
   Phase 0  Discovery        problem, outcomes, constraints, tooling approval, PO decision
   Phase 1  Requirements     epics, stories, NFRs (drafted by Claude, owned by humans)
   Phase 2  Design           architecture, ADRs, API contracts (Claude proposes 2-3, human picks)
-  Phase 3  Foundation       harness + walking skeleton deployed to client dev environment
+  Phase 3  Foundation       the factory built; thinnest end-to-end slice deployed to client dev
 
-BUILD (the IDD loop, continuous, per spec — replaces SDLC phases 4-6)
+BUILD (the build loop — continuous, one piece of work at a time; replaces the batch middle phases)
   for every story:  Intent -&gt; Delegate -&gt; Discern -&gt; merged &amp; deployed to dev
   weekly cadence:   intent triage, flow check, retro+, setup review
   biweekly:         steering with the client (demo + outcome scorecard)
   hardening passes: scheduled, not a phase — see 5.6
 
-CLOSE (SDLC phases, gated, human sign-off to advance)
+CLOSE (gated phases — automated checks, then a human signs to advance)
   Phase 7  Documentation    README, API docs, RUNBOOK (Claude drafts, humans verify by using them)
   Phase 8  Deployment       promote to prod + release ceremony (pipeline already exists from Phase 3)
   Phase 9  Monitoring       alerts, incident response, retrospective
   Phase C  Close &amp; Transfer consulting-only: client owns the harness, runs the loop solo, we leave</code></pre>
           <div class="callout">
-            Phase advancement is <strong>always manual</strong>. The plugin's
-            auto-advance behavior for phases 4 and 6 is disabled. Gates tell you
-            whether you <em>may</em> advance; a named human decides whether you
+            Phase advancement is <strong>always manual</strong>. Any auto-advance
+            the orchestration tool offers is turned off. Gates tell you whether
+            you <em>may</em> advance; a named human decides whether you
             <em>do</em>.
           </div>
           <div class="callout">
@@ -402,8 +439,9 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
             <strong
               >Claude drafts and interrogates; humans decide and own.</strong
             >
-            The claude-code-sdlc plugin automates a lot. We deliberately run it
-            with less automation than it offers. The table below is the contract
+            Our orchestration tooling can automate much of this; we deliberately
+            run it with less automation than it offers. The table below is the
+            contract
             for every phase: what the human drives, what Claude does, and where
             the mandatory stops are.
           </p>
@@ -724,8 +762,9 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
             client's view, and the metrics that steer it.
           </div>
           <p>
-            This replaces SDLC phases 4-6. Every story runs the same three
-            beats.
+            This is the middle of the engagement — it replaces the batch
+            Implementation/Quality/Testing phases of a traditional lifecycle.
+            Every story runs the same three beats.
           </p>
           <h3>5.1 Intent</h3>
           <p>
@@ -900,7 +939,8 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
             near. Weekly 5-bullet async summary in between.
             <strong>No activity metrics in client materials, ever</strong> — no
             PR counts, no "AI productivity" claims. Demos and outcomes only. The
-            durable record is the SDLC HTML phase report generated at each gate.
+            durable record is the HTML phase report our tooling generates at each
+            gate.
           </p>
           <h3>5.6 Hardening passes</h3>
           <p>
@@ -938,7 +978,7 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
 │   ├── security.yml           # security-reviewer on risk:high label
 │   └── deploy-dev.yml         # merge to main -&gt; client dev environment
 ├── infra/                     # Bicep: dev environment first, test/prod added at hardening
-└── .sdlc/                     # plugin state, artifacts, phase reports (committed)</code></pre>
+└── .sdlc/                     # orchestration-tool state, artifacts, phase reports (committed)</code></pre>
           <p>
             CLAUDE.md contents (the kit template, adapted per client in week
             one): what the project is, the domain glossary in the client's
@@ -964,10 +1004,9 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
           <ul>
             <li>
               <strong>Stack default:</strong> .NET 8 / Angular / SQL Server /
-              Azure / GitHub Actions, per the microsoft-enterprise profile in
-              claude-code-sdlc. A profile-swap appendix in this repo covers what
-              changes for other stacks; everything else in this standard is
-              stack-independent.
+              Azure / GitHub Actions — the example profile we ship. A
+              profile-swap appendix in this repo covers what changes for other
+              stacks; everything else in this standard is stack-independent.
             </li>
             <li>
               <strong>IaC:</strong> Bicep, in-repo, HIGH risk tier. Dev
@@ -1033,12 +1072,13 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
           <h2>9. Gates and metrics</h2>
           <h3>Phase gates</h3>
           <p>
-            The plugin's 6-gate validation (integrity, completeness, metrics,
-            compliance, consistency, quality) runs at every phase boundary via
-            <code>/sdlc-gate</code>. Gates report; a named human advances.
-            Override rules per the plugin: mechanical gates (1-3) are never
-            overridden; quality-gate overrides require written justification in
-            <code>.sdlc/state.yaml</code>.
+            At every phase boundary an automated gate check runs a fixed battery
+            of validations (integrity, completeness, metrics, compliance,
+            consistency, quality). Gates report; a named human advances. (In our
+            toolchain this is the <code>/sdlc-gate</code> check — the concept is
+            the battery plus the human, not the command.) Override rules: the
+            mechanical gates are never overridden; a quality-gate override
+            requires written justification recorded with the phase state.
           </p>
           <h3>Merge gates</h3>
           <p>
@@ -1079,8 +1119,9 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
           </ul>
           <div class="callout">
             Never tracked, never reported: velocity, story points, PR count,
-            lines of code. Agents inflate all of them; Faros showed PR volume
-            can double while delivery stays flat.
+            lines of code. Agents inflate all of them, and the published
+            delivery research shows PR volume can double while delivery stays
+            flat.
           </div>
           <p>
             Client-facing scorecard: their success metric, the DORA stability
@@ -1294,9 +1335,10 @@ CLOSE (SDLC phases, gated, human sign-off to advance)
               not by hook.
             </li>
             <li>
-              The plugin's <code>/sdlc-enhance</code> narrative companions are
-              used for client-facing artifacts at gates, generated by Claude,
-              edited by the Pod Lead before any client sees them.
+              A narrative-companion generator (in our toolchain,
+              <code>/sdlc-enhance</code>) produces client-facing artifacts at
+              gates, generated by Claude and edited by the Pod Lead before any
+              client sees them.
             </li>
           </ul>
         </section>
