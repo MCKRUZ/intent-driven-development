@@ -74,6 +74,41 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
   Sources: GOLD-STANDARD §5/§9 + IDD course modules 2-5 (v2) + ceremonies/flow-check.md.
   NO worked example yet — that's the next doc to write.
 
+- `the-rails.md/.html` — **(2026-06-12)** cross-cutting deep-dive on the agentic CI/CD & DevOps
+  pipeline ("the rails"), NOT a numbered phase (sits alongside build-loop). Tool-generic, 10
+  sections: the one principle (agent proposes, gate disposes) + 3 corollaries, who's involved,
+  the four workflows (ci/grader/security/deploy-dev, block-vs-advise), the merge bar, deploy &
+  promotion, the agent-safe IaC pipeline (generate→validate→policy→what-if→approve→scoped
+  apply→drift), agents working INSIDE the pipeline (self-healing CI fix-PRs, bounded tools,
+  flaky-test Active/Quarantined/Disabled state machine, containment), identity/secrets/blast
+  radius, proving-the-rails-by-forcing-failure + DORA, failure modes. Source: project-research
+  `2026-06-04-agentic-devops-best-practices/report.md` (Verified claims only). Stays in the
+  PRIMARY develop-WITH-agents track; consolidates GOLD-STANDARD §4/§6/§7 + Phase 3 §Day-4.
+  Indexed in GOLD-STANDARD §1 + §7 deep-dive callout (both .md/.html), README table, and sidebar
+  "Companion: The Rails →" links added to phase-3-foundation.html + build-loop.html.
+- `the-rails-example.md/.html` — **(2026-06-12)** Harbor worked example for the rails. NOT a
+  calendar (rails aren't a phase) — **six episodes**, chronological Build→Phase 9: (1) grader
+  catches the empty-policy-number bug 11 green tests missed on spec 0016 [reuses build-loop
+  example], (2) self-healing CI — agent fixes a red pipeline via bounded tools, opens a `fix/`
+  PR, stops [NET-NEW], (3) flaky replica-refresh-window test Quarantined not "fixed" — UTC/local
+  race, ties to harvest "timezone test pattern" [NET-NEW], (4) test-env Bicep through the IaC
+  funnel — PSRule catches public storage + missing tag, `bicep what-if` Tom reads, scoped apply
+  [NET-NEW gates], (5) Phase 8 rollback FAILS in rehearsal → spec 0046 config-with-artifact →
+  clean Wed → Thu go-live rc-1.0.1 promoted-not-rebuilt, secrets rotated [reuses Phase 8], (6)
+  Phase 9 drift caught by schedule, proposes remediation PR, Tom absorbs into Bicep [NET-NEW].
+  Per Matt's steer ("we may need to make things up"), §3 is an HONEST table of what's net-new vs
+  plugin (self-heal.yml, iac.yml funnel gates, drift-check.yml, flaky-test state machine,
+  per-agent identity) — all flagged as harvest candidates, NOT existing plugin commands. Uses a
+  4th tooling pill `.tool.netnew` (amber) added ONLY to this page's CSS — flag for Matt: this
+  EXTENDS the 3-pill taxonomy (convention 3); revert to grey-only if he prefers. Cross-linked:
+  the-rails nav + worked-example callout (both formats), GOLD-STANDARD §1 index (both formats),
+  README. Continuity kept consistent with PROGRESS Build/Phase-8/Phase-9 facts.
+  **Page 2 of 2 NOT yet built:** the autonomous-ops / agentic-AIOps deep-dive (AI-as-product
+  track) — Matt chose "two pages split by track." The rails page already forward-references it
+  (unlinked, "forthcoming") in its closing callout. That page covers the report's §3/§4 (MAF/
+  Magentic orchestration, Azure SRE Agent two-tier Review/Autonomous autonomy, agentic incident
+  response/RCA, observability via OTel GenAI conventions) — overlaps Phase 9, keep distinct.
+
 ### Referenced but NOT yet built (named in GOLD-STANDARD §10, do not exist as files yet)
 - `docs/profile-swap.md`, `docs/commercial.md`, `docs/data-flow-brief.md`, `docs/po-onboarding.md`
 - `kit/` — the entire installable engagement starter (CLAUDE.md.template, spec-template,

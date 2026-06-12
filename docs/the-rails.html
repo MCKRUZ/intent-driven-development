@@ -1,0 +1,1335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Rails · Delivery Standard</title>
+    <style>
+      :root {
+        --ink: #1a2332;
+        --ink-soft: #46556b;
+        --accent: #0f5c8c;
+        --accent-soft: #e8f1f7;
+        --rule: #d8dee8;
+        --bg: #f7f8fa;
+        --card: #ffffff;
+        --high: #b3372f;
+        --med: #b07a1e;
+        --low: #2e7d4f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      .layout {
+        display: flex;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      nav {
+        width: 290px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 32px 20px 32px 28px;
+        border-right: 1px solid var(--rule);
+        font-size: 13.5px;
+      }
+      nav .brand {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+      nav .brand-sub {
+        color: var(--ink-soft);
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      nav .back {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      nav a.toc {
+        display: block;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 4px 10px;
+        border-radius: 6px;
+        margin-bottom: 1px;
+      }
+      nav a.toc:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      nav a.toc.sub {
+        padding-left: 24px;
+        font-size: 12.5px;
+      }
+      main {
+        flex: 1;
+        padding: 40px 56px 96px;
+        min-width: 0;
+      }
+      header.doc {
+        background: linear-gradient(135deg, #11314e, #0f5c8c);
+        color: #fff;
+        border-radius: 14px;
+        padding: 36px 40px;
+        margin-bottom: 36px;
+      }
+      header.doc h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        letter-spacing: -0.3px;
+      }
+      header.doc p {
+        margin: 0 0 8px;
+        color: #cfe2f1;
+        max-width: 72ch;
+      }
+      header.doc .meta {
+        font-size: 13px;
+        color: #9fc3dd;
+        margin-top: 14px;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 28px 34px;
+        margin-bottom: 26px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 0 0 14px;
+        color: var(--accent);
+        letter-spacing: -0.2px;
+      }
+      h3 {
+        font-size: 16.5px;
+        margin: 26px 0 8px;
+      }
+      h3:first-of-type {
+        margin-top: 10px;
+      }
+      h4 {
+        font-size: 14px;
+        margin: 18px 0 6px;
+        color: var(--ink-soft);
+      }
+      h4.day {
+        color: var(--accent);
+        font-size: 14.5px;
+      }
+      p {
+        margin: 0 0 12px;
+        max-width: 80ch;
+      }
+      ul,
+      ol {
+        margin: 0 0 14px;
+        padding-left: 24px;
+        max-width: 80ch;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 14px 0 18px;
+        font-size: 13.5px;
+      }
+      th {
+        background: var(--accent-soft);
+        color: var(--accent);
+        text-align: left;
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+      }
+      td {
+        padding: 9px 12px;
+        border: 1px solid var(--rule);
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #fafbfd;
+      }
+      code {
+        font-family: Consolas, "Cascadia Code", monospace;
+        background: #eef1f6;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 0.92em;
+      }
+      pre {
+        background: #11314e;
+        color: #d7e6f2;
+        padding: 16px 20px;
+        border-radius: 10px;
+        overflow-x: auto;
+        font-size: 12.8px;
+        line-height: 1.5;
+        max-width: 80ch;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        color: inherit;
+        font-size: inherit;
+      }
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .warn {
+        border-left: 4px solid var(--high);
+        background: #faf0ef;
+        padding: 12px 18px;
+        border-radius: 0 8px 8px 0;
+        margin: 14px 0;
+        max-width: 80ch;
+      }
+      .checklist {
+        list-style: none;
+        padding-left: 4px;
+      }
+      .checklist li::before {
+        content: "☐";
+        margin-right: 10px;
+        color: var(--accent);
+      }
+      footer {
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        text-align: center;
+        padding: 12px 0 32px;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          padding: 24px;
+        }
+      }
+      @media print {
+        nav {
+          display: none;
+        }
+        section {
+          border: none;
+          padding: 0 0 18px;
+        }
+        header.doc {
+          color: #000;
+          background: none;
+          padding: 0;
+        }
+        header.doc p,
+        header.doc .meta {
+          color: #333;
+        }
+        pre {
+          color: #000;
+          background: #f0f0f0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav>
+        <div class="brand">The Rails</div>
+        <div class="brand-sub">Delivery Standard deep-dive</div>
+        <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+        <a class="back" href="phase-3-foundation.html">← Phase 3: Foundation</a>
+        <a class="toc" href="#principle">1 · The one principle</a>
+        <a class="toc" href="#who">2 · Who is involved</a>
+        <a class="toc" href="#workflows">3 · The four workflows</a>
+        <a class="toc" href="#mergebar">4 · The merge bar</a>
+        <a class="toc" href="#promotion">5 · Deploy and promotion</a>
+        <a class="toc" href="#iac">6 · The infrastructure pipeline</a>
+        <a class="toc" href="#agents">7 · Agents inside the pipeline</a>
+        <a class="toc" href="#identity">8 · Identity and secrets</a>
+        <a class="toc" href="#proving">9 · Proving and watching</a>
+        <a class="toc" href="#failures">10 · What goes wrong</a>
+        <a class="back" href="the-rails-example.html" style="margin-top: 16px"
+          >Worked example: Harbor Mutual →</a
+        >
+        <a class="back" href="build-loop.html">Next: The Build Loop →</a>
+      </nav>
+      <main>
+        <header class="doc">
+          <h1>The Rails</h1>
+          <p>
+            Deep-dive on the CI/CD and DevOps pipeline every agent-built change
+            rides. The rails are not a phase. They get <strong>built</strong> in
+            Phase 3 (the factory), they run under <strong>every</strong> change
+            all through Build, the same artifact gets <strong>promoted</strong>
+            to production in Phase 8, and they get <strong>watched</strong> in
+            Phase 9. This page is the pipeline itself, as a standing standard:
+            the workflows, the merge bar, the deploy-and-promote path, the
+            infrastructure pipeline, the agents that work inside the pipeline —
+            and the one principle that governs all of it.
+          </p>
+          <p>
+            That principle is the whole reason agent-built software can be
+            trusted to ship at all: <strong>the agent proposes, a gate
+            disposes.</strong> An agent investigates, plans, and produces a
+            change as a reviewable artifact — a branch and a pull request, an
+            infrastructure plan, a fix suggestion — but a deterministic policy
+            layer plus a named human decides whether that change ever takes
+            effect. This is not our invention. It is what every mature
+            agentic-DevOps system in the industry converged on, independently,
+            by 2026: none of them lets an agent merge to a protected branch or
+            apply destructive infrastructure unsupervised. The rails are where
+            that rule stops being a good intention and becomes a fact about the
+            world.
+          </p>
+          <div class="meta">
+            Paired source: docs/the-rails.md · part of MCKRUZ/delivery-standard
+            v1.0
+          </div>
+        </header>
+
+        <section>
+          <h2>If you're starting here</h2>
+          <table>
+            <tr>
+              <td style="width: 180px"><strong>The method</strong></td>
+              <td>
+                Claude (the AI coding agent) drafts documents and writes most
+                code. Humans own every decision and verify every result.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The rhythm</strong></td>
+              <td>
+                Numbered phases open and close the engagement; in between runs a
+                continuous build loop. Each phase ends with automated checks
+                (the <strong>gate</strong>) plus a named human sign-off. Gates
+                are the billing milestones.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Where the rails live</strong></td>
+              <td>
+                Built in Phase 3, before any feature exists. Run under every
+                change all through Build. Promote the proven artifact to
+                production in Phase 8. Watched in Phase 9. The rails outlast
+                every phase boundary.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Our pod (4-6 people)</strong></td>
+              <td>
+                Pod Lead · Setup Owner · Orchestrators · Quality Engineer. (<a
+                  href="team.html"
+                  >Team deep-dive</a
+                >) The Setup Owner owns the rails as a product.
+              </td>
+            </tr>
+          </table>
+          <p>
+            <strong>Words this page leans on</strong> (every other term is
+            explained where it first appears):
+          </p>
+          <table>
+            <tr>
+              <th>Term</th>
+              <th>What it means</th>
+            </tr>
+            <tr>
+              <td><strong>The rails</strong></td>
+              <td>
+                The enforcement, taken together: CI gates, the grader, branch
+                protection, the deploy pipeline, and the infrastructure
+                pipeline. Called rails because nobody has to remember them —
+                every change runs on them.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>CI</strong></td>
+              <td>
+                Continuous integration — the automated checks (build, tests,
+                lint, test coverage) that run on every proposed change before it
+                can merge.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>A workflow</strong></td>
+              <td>
+                One automation file in the repo (a GitHub Actions YAML) that
+                runs on a trigger — a push, a PR, a label, a merge. The rails
+                are four of them.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>PR</strong></td>
+              <td>
+                Pull request — the proposed change under review. One spec = one
+                branch = one PR.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The grader</strong></td>
+              <td>
+                A fresh AI agent that did <strong>not</strong> write the code.
+                It reads the spec and the change and posts a check-by-check
+                verdict on the PR. Required to run; its verdict advises — the
+                human Checker decides.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The Stop hook</strong></td>
+              <td>
+                A script that fires when an agent tries to finish its turn. If
+                tests fail or the build is broken, it refuses to let the agent
+                stop. "Done" stops being the agent's opinion.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Branch protection</strong></td>
+              <td>
+                Repository settings that make the gates mandatory: no change
+                merges without CI green, the grader having run, and an approval
+                from someone who didn't write it.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The deploy pipeline</strong></td>
+              <td>
+                The workflow that ships a merged change to an environment. Merge
+                to main deploys to dev automatically; promotion up to test and
+                prod is deliberate and gated.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Promotion</strong></td>
+              <td>
+                Moving the <strong>same proven artifact</strong> up an
+                environment: dev → test → production. The same pipeline, the
+                same build, a different target — never a rebuild, never a
+                hand-copy.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Rollback</strong></td>
+              <td>
+                The exact, rehearsed procedure that returns an environment to
+                the previous version — with a written trigger, not a judgment
+                call invented mid-incident.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>IaC / Bicep</strong></td>
+              <td>
+                Infrastructure as code — the cloud environment defined in
+                version-controlled files instead of clicked together by hand.
+                Bicep is Azure's language for it; the pattern is
+                stack-independent.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Gated path</strong></td>
+              <td>
+                A file or directory in the repo (migrations, auth, the pipeline
+                itself, infrastructure) where any change is held to extra
+                review, independent of the spec's risk tier.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Dry-run</strong></td>
+              <td>
+                Running a change in read-only preview to see what it
+                <em>would</em> do without doing it: <code>bicep what-if</code>,
+                <code>terraform plan</code>, a <code>--dry-run=server</code>
+                apply. The infrastructure equivalent of plan mode.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Policy-as-code</strong></td>
+              <td>
+                Rules about what infrastructure is allowed — no public storage,
+                encryption on, tags present — written as code that runs as a
+                gate, so the check is mechanical, not a reviewer's memory.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Agent proposes, gate disposes</strong></td>
+              <td>
+                The governing rule: an agent may produce any change, but only as
+                a reviewable artifact; a deterministic check plus a named human
+                decides whether it takes effect. The rails enforce it.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Least-privilege identity</strong></td>
+              <td>
+                Every actor — human or agent — gets its own credential scoped to
+                exactly what its job needs and nothing more. What an agent
+                <em>can</em> do is bounded by its permissions, not by its
+                instructions.
+              </td>
+            </tr>
+          </table>
+          <p>This page answers five questions, and nothing else:</p>
+          <ol>
+            <li>
+              <strong>What is the one rule the rails enforce, and why does
+              everything hang off it?</strong> (agent proposes, gate disposes —
+              and its three corollaries)
+            </li>
+            <li>
+              <strong>What are the gates, concretely?</strong> (the four
+              workflows, the merge bar, what blocks and what advises)
+            </li>
+            <li>
+              <strong>How does a change reach production safely?</strong>
+              (deploy, promotion, the rehearsed rollback)
+            </li>
+            <li>
+              <strong>How is infrastructure changed without a 2 a.m.
+              incident?</strong> (the agent-safe IaC pipeline: generate →
+              validate → policy → dry-run → approve → scoped apply → watch
+              drift)
+            </li>
+            <li>
+              <strong>When agents work <em>inside</em> the pipeline, what holds
+              them?</strong> (bounded tools, self-validation, least-privilege
+              identity, containment)
+            </li>
+          </ol>
+          <p>
+            Operating the rails day to day, promoting to production, and tuning
+            production alerts are out of scope here — those are the Build loop,
+            Phase 8, and Phase 9. This page is the pipeline as an artifact: how
+            it is built, what it enforces, and the principle it exists to make
+            unavoidable.
+          </p>
+          <div class="callout">
+            <strong>Worked example:</strong>
+            <a href="the-rails-example.html"
+              >The Rails Worked Example: Harbor Mutual</a
+            >
+            — six episodes of the rails doing their job: the grader catching a
+            bug eleven green tests missed, a self-healing pipeline that stops at
+            a PR, a flaky test quarantined instead of "fixed," a Bicep change
+            through the what-if funnel, the rollback that failed in rehearsal
+            first, and drift proposed-not-applied. With an honest table of what
+            in it is net-new to the kit.
+          </div>
+        </section>
+
+        <section id="principle">
+          <h2>1. The one principle: agent proposes, gate disposes</h2>
+          <p>
+            Strip away the vendor names and every working agentic-DevOps system
+            in 2025–2026 is the same shape. The agent does the investigating,
+            planning, and producing. It stops at a <strong>reviewable
+            artifact</strong>. A deterministic policy layer plus a human decides
+            whether the artifact takes effect. The agent never has the last word
+            on a protected resource.
+          </p>
+          <p>
+            The pattern is so consistent across the industry that it reads like
+            a law:
+          </p>
+          <ul>
+            <li>
+              A leading vendor's <strong>coding agent</strong> can only push to
+              branches it creates, cannot approve or merge its own work, and its
+              checks will not even run without explicit human approval —
+              autonomy bounded by the same branch protection humans live under.
+            </li>
+            <li>
+              A <strong>self-healing CI agent</strong> that diagnoses a broken
+              pipeline stops at a merge request with the fix. It does not push
+              to the protected branch; it proposes.
+            </li>
+            <li>
+              An <strong>infrastructure health system</strong> that detects
+              configuration drift visualizes it and <em>proposes</em> a
+              remediation plan. Applying it is a human choice, never a silent
+              auto-apply.
+            </li>
+          </ul>
+          <p>
+            Three different companies, three different problems, one rule. We did
+            not adopt it because the industry did; we arrived at it for the same
+            reason they did — it is the only rule that holds when the agent is
+            wrong, and a probabilistic actor is sometimes wrong. This is the same
+            sentence that runs through the whole standard —
+            <strong>gates report, humans decide</strong> — and the rails are
+            where it is mechanically enforced rather than merely intended.
+          </p>
+          <p>
+            Three corollaries fall out of the principle. Each one is a design
+            rule for the rails, not a nicety:
+          </p>
+          <ul>
+            <li>
+              <strong>Mechanical self-validation is mandatory.</strong> Before
+              an agent surfaces a change as done, it must re-run the build, the
+              tests, the linters from the environment itself and prove them green
+              — not assert success, prove it. This is exactly what the
+              <strong>Stop hook</strong> is: the agent cannot end its turn on a
+              red test or a broken build. An agent's claim that something works
+              is an opinion; the environment's green is ground truth. The rails
+              trust only the second.
+            </li>
+            <li>
+              <strong>A bounded tool surface beats raw access.</strong> An agent
+              given named, constrained tools (read a file, write a file, run the
+              tests, run the linter) outperforms — and is far safer than — an
+              agent handed the whole filesystem and a shell with "fix it." The
+              constraint is not a limitation to apologize for; it is the thing
+              that makes the agent's behavior legible and its blast radius small.
+            </li>
+            <li>
+              <strong>Autonomy is graded, and it widens slowly.</strong> A new
+              piece of agent automation starts in a <em>propose-and-approve</em>
+              posture — it recommends, a human disposes — and only graduates to
+              a tighter loop after its behavior has been watched and trusted on
+              real work. The risk of agentic systems is almost never the model
+              being dumb; it is granting too much autonomy too quickly. The
+              rails make the cautious default the easy one.
+            </li>
+          </ul>
+          <p>
+            And underneath all three: <strong>identity is the real
+            guardrail.</strong> What an agent can do is bounded by the
+            permissions of the credential it runs under, not by the words in its
+            prompt. When a prompt fails — and prompts fail — the identity is what
+            is still holding. Section 8 is where this gets concrete.
+          </p>
+        </section>
+
+        <section id="who">
+          <h2>2. Who is involved</h2>
+          <p>
+            The rails are the <strong>Setup Owner's</strong> product, the way
+            Intent is the Pod Lead's and design is the architect's. They are
+            built in Phase 3 and tended as a product for the whole engagement:
+            the workflows, the branch protection, the infrastructure code, the
+            secrets handling. The Setup Owner is never the sole approver of their
+            own rails — a named deputy reads every change, because the both-eyes
+            rule applies hardest to the code that <em>is</em> the factory.
+          </p>
+
+          <h3>Our side</h3>
+          <table>
+            <tr>
+              <th>Person</th>
+              <th>In the rails</th>
+            </tr>
+            <tr>
+              <td><strong>Setup Owner</strong></td>
+              <td>
+                Owns the rails as a product: the four workflows, branch
+                protection, the infrastructure pipeline, secrets handling, the
+                agent identities. Drafts with Claude; reviews everything; merges
+                none of it alone.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Setup Owner's deputy</strong></td>
+              <td>
+                Named on day one (the senior Orchestrator in a 4-6 pod). Reviews
+                every rails change — workflow YAML, IaC, identity scope. The
+                both-eyes rule applied to the foundation.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Quality Engineer</strong></td>
+              <td>
+                Wires the mechanical gates (coverage, the eval gate on agentic
+                specs) and — the part most teams skip — <strong>proves the rails
+                fail safely</strong>: that the Stop hook actually blocks, the
+                grader actually posts, the deploy actually rolls back.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Orchestrators</strong></td>
+              <td>
+                Run changes through the rails all day. When the pipeline itself
+                needs a fix, it rides the loop like any change — a spec, a plan,
+                a bounded agent, a non-author Checker.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Pod Lead</strong></td>
+              <td>
+                Owns the risk tiers that decide how hard each path is gated, and
+                the gate-exception rule for the rare true emergency.
+              </td>
+            </tr>
+          </table>
+
+          <h3>Client side</h3>
+          <table>
+            <tr>
+              <th>Person</th>
+              <th>Needed for</th>
+            </tr>
+            <tr>
+              <td><strong>DevOps / platform engineer</strong></td>
+              <td>
+                Reviews every pipeline and IaC change — <strong>they operate the
+                rails after we leave.</strong> Owns branch-protection admin,
+                runner policy, the secrets vault.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Security</strong></td>
+              <td>
+                Signs off on the pipeline, the secrets handling, the agent
+                identities and their RBAC scope, and the data-flow brief.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Sponsor</strong></td>
+              <td>
+                Sees the rails proven at the Phase 3 exit demo — working software
+                in their own dev environment, through the real pipeline.
+              </td>
+            </tr>
+          </table>
+
+          <h3>Claude's role in the rails</h3>
+          <p>
+            This is where Claude writes the most consequential code in the
+            engagement — the code that <em>is</em> the factory — and where that
+            code is under the tightest gating, because a defect in the rails
+            ships in every change that rides them afterward.
+          </p>
+          <ul>
+            <li>
+              <strong>Drafts the workflow YAML and the Bicep.</strong> Both HIGH
+              risk: human review on every change, the deputy and the client's
+              DevOps reading them before they merge.
+            </li>
+            <li>
+              <strong>Runs as the grader.</strong> A fresh agent that did not
+              write the change reads the spec and posts a check-by-check verdict
+              on the PR — itself a part of the rails (section 3).
+            </li>
+            <li>
+              <strong>May propose pipeline and infrastructure fixes</strong> — as
+              a PR, never as an apply. A red pipeline, a drifted resource: Claude
+              can analyze it and draft the fix, and the fix goes through the same
+              merge bar as everything else (section 7).
+            </li>
+          </ul>
+          <p>
+            What Claude never does: merge IaC or pipeline changes unattended, act
+            as the sole approver of rails work, apply infrastructure directly,
+            put a secret anywhere near the repo, or hand-build a pipeline
+            shortcut "off the rails" to save a day. The entire value of the rails
+            is that the first real software went <em>through</em> them, not
+            around them.
+          </p>
+        </section>
+
+        <section id="workflows">
+          <h2>3. The gates: the four workflows</h2>
+          <p>
+            The rails are four workflows in the repo, plus the branch protection
+            that makes them mandatory (section 4). Each one has a job, and each
+            one is clear about whether it <strong>blocks</strong> (a hard gate, a
+            machine's call) or <strong>advises</strong> (an input to a human's
+            call). Confusing the two is how teams either ship unreviewed agent
+            code or drown every typo in ceremony.
+          </p>
+          <table>
+            <tr>
+              <th>Workflow</th>
+              <th>Fires on</th>
+              <th>Blocks or advises</th>
+              <th>What it does</th>
+            </tr>
+            <tr>
+              <td><strong>ci</strong></td>
+              <td>every PR</td>
+              <td><strong>Blocks</strong> (hard gate)</td>
+              <td>
+                Build, tests, lint, 80% coverage on new code. The mechanical
+                floor. A red CI is a closed door — no human can wave it through
+                without an exception.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>grader</strong></td>
+              <td>every PR</td>
+              <td>
+                <strong>Advises</strong> (required to run, can't block)
+              </td>
+              <td>
+                A fresh AI agent reads the spec in the diff and posts a
+                check-by-check verdict as a PR comment. "The grader ran" is a
+                required check; <em>what</em> it said is the human Checker's
+                input, not a gate.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>security</strong></td>
+              <td>
+                the <code>risk:high</code> label <strong>or</strong> any PR
+                touching a registered gated path
+              </td>
+              <td>
+                <strong>Blocks</strong> on HIGH; <strong>advises</strong>
+                otherwise
+              </td>
+              <td>
+                Runs the security-reviewer agent. Path-triggered: it fires on any
+                PR that touches a guarded path (auth, migrations, the pipeline,
+                infra) independent of the spec's tier.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>deploy-dev</strong></td>
+              <td>merge to main</td>
+              <td>n/a (it ships)</td>
+              <td>
+                Deploys the merged artifact to the client's dev environment, and
+                restores the last good version when a deploy fails — the rollback
+                the rails rehearse.
+              </td>
+            </tr>
+          </table>
+          <p>
+            Two things about this table carry more weight than they look:
+          </p>
+          <p>
+            <strong>The grader advises; it never blocks.</strong> It is tempting
+            to let a confident AI verdict gate the merge. We do not, and the
+            reason is in the threat model: a polished, plausible explanation is
+            exactly how an agent talks a human into approving harm. The grader's
+            job is to surface the check-by-check truth — including the hole the
+            author was blind to — and hand it to a person who owns the decision.
+            Machines gate the mechanical (does it build, do the tests pass);
+            humans own the judgment (is this the right change, is this risk
+            acceptable). The grader sits on the seam and informs the human side
+            without ever becoming it.
+          </p>
+          <p>
+            <strong>The security gate is path-triggered, not just
+            tier-triggered.</strong> A change can be tiered MEDIUM and still
+            touch the auth code, the migration folder, or the pipeline YAML.
+            Wiring a security gate means registering its guarded path with the
+            security workflow, so the workflow runs on <em>any</em> PR that
+            touches that path — in addition to firing on the
+            <code>risk:high</code> label. The gate is the workflow plus the path
+            registration. This is why a "small" change to a dangerous file does
+            not slip through on its tier: the path catches it regardless.
+          </p>
+        </section>
+
+        <section id="mergebar">
+          <h2>4. The merge bar</h2>
+          <p>
+            Branch protection is what turns four workflows from suggestions into
+            rails. It is repository configuration — set by the Setup Owner or a
+            named client admin applying our policy — and it makes the gates
+            mandatory at the one moment that matters: the merge.
+          </p>
+          <p>Every PR, to merge, must clear:</p>
+          <ul>
+            <li>
+              <strong>CI green</strong> — build, tests, lint, coverage, all
+              passing. Hard block.
+            </li>
+            <li>
+              <strong>The grader has run</strong> — the workflow completed and
+              posted its verdict. The verdict can say anything; the
+              <em>running</em> is required.
+            </li>
+            <li>
+              <strong>A non-author approval</strong> — someone who did not write
+              the change approved it. The author of a change is never its only
+              approver. This is the rule that survives every collapse of pod size:
+              even a two-person pod holds it.
+            </li>
+          </ul>
+          <p>A <code>risk:high</code> change adds two more:</p>
+          <ul>
+            <li>
+              <strong>The security workflow passed</strong> — the
+              security-reviewer agent's pass, blocking on HIGH.
+            </li>
+            <li>
+              <strong>A named human sign-off recorded in the PR</strong> — a
+              person, by name, accepting the risk. Not a thumbs-up; a recorded
+              sentence with a name attached.
+            </li>
+          </ul>
+          <p>
+            And the constraints on the agent itself, enforced by the platform,
+            not by trust:
+          </p>
+          <ul>
+            <li>
+              The agent can push <strong>only to branches it creates</strong>
+              (<code>spec/NNNN-*</code>), never to main.
+            </li>
+            <li>
+              The agent <strong>cannot approve or merge its own work</strong> —
+              the platform forbids it, the same way it forbids a human author
+              from being their own approver.
+            </li>
+            <li>
+              Every commit an agent makes is <strong>co-authored</strong>, so the
+              provenance is in the history: who, or what, wrote this line is never
+              a guess.
+            </li>
+          </ul>
+          <p>
+            The merge bar has exactly one escape hatch, and it is deliberately
+            expensive: a true emergency merge past a gate requires the Pod Lead
+            plus one other human, an exception label, and a Retro+ agenda item.
+            Two exceptions in a month is not bad luck — it means the gate or the
+            specs are wrong. Fix that; do not normalize the bypass.
+          </p>
+        </section>
+
+        <section id="promotion">
+          <h2>5. Deploy and promotion</h2>
+          <p>
+            A merge is not a deploy to production. The rails move a change up
+            through environments, and the gap between "merged" and "in
+            production" is where the most important word in this section lives:
+            <strong>promotion.</strong>
+          </p>
+          <p>The environment path:</p>
+          <ul>
+            <li>
+              <strong>Merge → dev, automatically.</strong> The
+              <code>deploy-dev</code> workflow ships every merged change to the
+              client's dev environment with no human in the loop — because the
+              merge already cleared the merge bar, and dev is the safe place for
+              the rails to be exercised by real software constantly.
+            </li>
+            <li>
+              <strong>Dev → test, on demand.</strong> Promoted deliberately,
+              smoke-tested on arrival. The test environment is added at the first
+              hardening pass, not in Phase 3 — Foundation builds the narrowest
+              real thing.
+            </li>
+            <li>
+              <strong>Test → prod, by ceremony.</strong> The first promotion to
+              production is the Phase 8 go/no-go: evidence on the table, every
+              named role asked, a human saying <strong>go</strong>, out loud, on
+              the record. Every promotion after that rides the client's release
+              cadence — and a human go/no-go <strong>every</strong> time. This is
+              the single most protected stop in the standard, and no amount of
+              agent confidence ever removes it.
+            </li>
+          </ul>
+          <p>Two rules govern every promotion:</p>
+          <p>
+            <strong>Promote the artifact; never rebuild it.</strong> The same
+            build that passed test goes to production — promoted, not freshly
+            compiled "real quick." A rebuilt artifact is something no environment
+            ever verified, running in the one environment where that matters. The
+            pipeline moves the proven thing up; it does not make a new thing at
+            each step.
+          </p>
+          <p>
+            <strong>A rollback that has never run is a wish.</strong> The deploy
+            pipeline restores the last good version when a deploy fails — and that
+            path is <em>rehearsed</em> before it is ever needed, in test, by the
+            hands that would run it at 2 a.m.: deploy → roll back → redeploy, with
+            the trigger condition ("roll back if X") written down in advance, not
+            invented mid-incident. The rails are not proven by the YAML being
+            present; they are proven by a deploy failing and the rollback catching
+            it. A rail that has never failed safely has not been proven (section
+            9).
+          </p>
+        </section>
+
+        <section id="iac">
+          <h2>6. The infrastructure pipeline</h2>
+          <p>
+            Infrastructure is code, it lives in the repo, and it is
+            <strong>HIGH risk every time</strong> — because it is hard to undo and
+            it runs in production later. An agent can draft a Bicep change in
+            seconds; the discipline is entirely in what stands between that draft
+            and a changed cloud. The industry's agent-safe IaC pipeline is a
+            read-only-until-the-last-step funnel, and we run it as such:
+          </p>
+          <pre><code>generate IaC (agent drafts)
+  → build / schema-validate          (does it even compile against the resource schema?)
+  → static policy-as-code gate       (no public storage, encryption on, tags present, region allowed)
+  → dry-run: bicep what-if           (read-only — what would this change, exactly?)
+  → cost / budget review             (what does the diff cost; does it breach the budget gate?)
+  → human approval gate              (a named human reads the what-if and the policy result)
+  → scoped, least-privilege apply    (a deploy identity that can touch only this, nothing more)
+  → continuous drift assessment      (real infra vs. code, on a schedule)
+  → propose — not auto-apply — remediation when drift appears</code></pre>
+          <p>
+            Every step before the apply is read-only. That is the point: the
+            agent and the pipeline can do all the thinking, validating, and
+            previewing they want, and <em>nothing changes</em> until a human has
+            read the dry-run and a least-privilege identity executes a scoped
+            apply.
+          </p>
+          <p>
+            The pieces, on the .NET/Azure default (the pattern is
+            stack-independent — see the profile-swap appendix for what the names
+            become elsewhere):
+          </p>
+          <ul>
+            <li>
+              <strong>Schema validation</strong> catches the malformed resource
+              before it ever reaches the cloud. A generated template that does
+              not validate is caught by a machine, not by an apply that
+              half-succeeds.
+            </li>
+            <li>
+              <strong>Policy-as-code</strong> is the security baseline as a gate:
+              a rules engine (PSRule for Azure, or a scanner over the compiled
+              ARM) blocks the public-by-default storage account, the unencrypted
+              disk, the untagged resource group — mechanically, on every change,
+              instead of relying on a reviewer remembering to look.
+            </li>
+            <li>
+              <strong>The dry-run is plan mode for infrastructure.</strong>
+              <code>bicep what-if</code> shows precisely what would be created,
+              changed, or deleted. A human reads it before approving. An
+              infrastructure change approved without reading its what-if is a
+              change approved blind.
+            </li>
+            <li>
+              <strong>The cost gate</strong> puts the price of the diff on the PR
+              and can block on a budget breach. (Cost-estimation tooling is most
+              mature on the Terraform profile; on the Bicep default the what-if
+              pricing read carries it. Named honestly so nobody promises a tool
+              that doesn't fit the stack.)
+            </li>
+            <li>
+              <strong>Drift assessment</strong> runs on a schedule and compares
+              the real environment to the code. When it finds drift, it
+              <strong>flags and proposes</strong> — it does not silently re-apply
+              the config over whatever a human changed by hand in a real
+              incident. Remediation is a choice an operator makes, the same
+              agent-proposes/gate-disposes rule one more time.
+            </li>
+          </ul>
+          <div class="warn">
+            The infrastructure pipeline is the place the principle is least
+            negotiable, because the blast radius is largest. Never auto-apply a
+            destructive change. Schema-validate before apply. Scope the deploy
+            identity to exactly the resources in play. A destructive
+            <code>apply</code> an agent ran unattended is the one mistake on this
+            page with no clean undo.
+          </div>
+        </section>
+
+        <section id="agents">
+          <h2>7. Agents working inside the pipeline</h2>
+          <p>
+            This is the part the phrase "DevOps pipelines using agentic" points
+            straight at: not only do agents build software that rides the rails —
+            agents work <strong>inside</strong> the rails, on the pipeline
+            itself. A red build, a flaky test, a drifted resource: an agent can
+            investigate and fix it. The discipline that makes this safe instead of
+            reckless is everything in section 1, applied to the pipeline's own
+            machinery.
+          </p>
+          <p>
+            <strong>The self-healing pipeline, done right.</strong> When CI goes
+            red, an agent can be pointed at the failure: it reads the build logs,
+            forms a hypothesis about the config or code at fault, works the
+            problem through a <strong>bounded set of named tools</strong> — read a
+            file, write a file, run the tests, run the linter — and iterates until
+            the environment itself reports green. Then it emits the fix
+            <strong>as a PR suggestion.</strong> It stops at a merge request. It
+            does not push to the protected branch; it proposes the change and the
+            change clears the same merge bar as everything else.
+          </p>
+          <p>
+            Two design choices separate a self-healing pipeline from a
+            self-harming one:
+          </p>
+          <ul>
+            <li>
+              <strong>Named tools, not the raw repo.</strong> The reference
+              implementations in the industry are emphatic on this: do not dump
+              the whole repository and the whole failure log into the model and
+              say "fix it." Give the agent a small, named tool surface and let it
+              work through it. The bounded surface is what makes the agent's
+              actions legible and its mistakes containable. "Here is the
+              filesystem, go" is the prompt that produces the incident.
+            </li>
+            <li>
+              <strong>Self-validation before it surfaces a fix.</strong> The agent
+              does not get to claim the pipeline is fixed. It re-runs the tests
+              and the lint from the environment and proves green, exactly as the
+              Stop hook demands of any agent. A proposed fix that the agent has
+              not validated against the environment is not a fix; it is a guess
+              wearing a green checkmark.
+            </li>
+          </ul>
+          <p>
+            <strong>Flaky tests get a state machine, not a reflex.</strong> The
+            wrong design is "an agent fixes every red test." A flaky test — one
+            that fails intermittently with no code change — is not always a bug to
+            fix; sometimes it is a test to quarantine while a human looks. The
+            industry-proven shape is a small state machine —
+            <strong>Active → Quarantined → Disabled</strong> — with eligibility
+            thresholds before an agent touches anything (a real failure rate, real
+            wasted time, failures on the default branch, not a single red run) and
+            a grace period after a confirmed fix before the test rejoins the
+            suite, so a stale branch does not re-break CI. Triage and a state
+            machine beat a reflex to "make it green."
+          </p>
+          <p>
+            <strong>Containment wraps all of it.</strong> An agent that touches
+            the pipeline runs in a sandbox with default-deny network egress and
+            writes confined to its workspace. The environment layer — the sandbox,
+            the egress policy — catches what the model's own judgment misses. The
+            worst real-world agent incidents were not the model deciding to do
+            harm; they were exfiltration through a <em>permitted</em> path the
+            model never flagged as dangerous. The containment is the backstop for
+            exactly the failure the model cannot see.
+          </p>
+        </section>
+
+        <section id="identity">
+          <h2>8. Identity, secrets, and blast radius</h2>
+          <p>
+            Every actor that touches the rails — human or agent — runs under its
+            own credential, scoped to exactly what its job needs. This is the
+            guardrail that is still standing when a prompt has been talked into
+            something it shouldn't do. <strong>No role grant, no resource
+            access</strong> — and an agent's instructions cannot grant it a role.
+          </p>
+          <ul>
+            <li>
+              <strong>Each agent that acts on infrastructure or the pipeline gets
+              its own least-privilege identity.</strong> A managed or federated
+              credential — no stored secret, rotated automatically — beats a
+              certificate, which beats a client secret. Scope it to the resource
+              or resource group, never the whole subscription. An agent with its
+              own narrow identity is also an agent whose every action is
+              attributable to it in the audit log.
+            </li>
+            <li>
+              <strong>Secrets live in the client's vault, never in the
+              repo.</strong> Not in code, not in CLAUDE.md, not in a spec. The
+              Anthropic API key, the Azure credentials, every token — the client's
+              Key Vault and GitHub secrets from day one. A key in a commit is the
+              one unrecoverable mistake of the foundation: a rotation event and an
+              audit-log review, not an edit.
+            </li>
+            <li>
+              <strong>Secrets rotate before production.</strong> Everything the
+              pod ever touched gets rotated into production-only values the pod
+              cannot read, signed by the client's security. The engagement should
+              end with us having never known a production secret.
+            </li>
+            <li>
+              <strong>There is a kill switch.</strong> Conditional-access policy
+              applied at the class level means a whole category of agent identity
+              can be disabled in one operation if something goes wrong. The
+              ability to stop an agent class instantly is not optional
+              infrastructure; it is part of granting the autonomy in the first
+              place.
+            </li>
+          </ul>
+          <p>
+            The mental model from the threat side: treat an agent as a
+            first-class non-human identity with its own lifecycle, owner, and
+            time-bounded access — not as a script running under a human's
+            credentials. Agent sprawl (orphaned identities nobody owns, shadow
+            automation nobody inventoried) is its own risk; every agent identity
+            has a named owner or it does not exist.
+          </p>
+        </section>
+
+        <section id="proving">
+          <h2>9. Proving and watching the rails</h2>
+          <p>
+            A pipeline that has never caught anything is not proven — it is merely
+            present. The rails earn trust by failing safely on purpose, and they
+            keep it by being watched.
+          </p>
+          <p>
+            <strong>Prove every rail by forcing its failure.</strong> Before
+            Foundation closes, each rail is made to fail deliberately and caught:
+          </p>
+          <ul>
+            <li>
+              A failing test proves the <strong>Stop hook</strong> actually blocks
+              an agent from finishing.
+            </li>
+            <li>
+              A PR with a planted spec mismatch proves the
+              <strong>grader</strong> actually posts the miss.
+            </li>
+            <li>
+              A known-bad deploy proves the <strong>pipeline restores</strong> the
+              last good version.
+            </li>
+            <li>
+              A probe PR touching a guarded path proves the <strong>security
+              gate</strong> fires — a throwaway change opened solely to confirm
+              the gate triggers, then closed unmerged.
+            </li>
+          </ul>
+          <p>
+            A rail that has only ever seen green has not been tested; it has been
+            <em>assumed</em>. The shakedown is not optional polish — it is the
+            difference between a rail and a decoration.
+          </p>
+          <p>
+            <strong>Watch the rails with the delivery numbers, not activity
+            counts.</strong> The health of the rails shows up in the DORA four —
+            deploy frequency, lead time, change-fail rate, time-to-recover — read
+            as trends, on the internal dashboard. Never velocity, story points, PR
+            count, or lines of code: agents inflate every one of those, and the
+            published research is blunt about it — measured teams have doubled PR
+            volume while actual delivery stayed flat. The rails are healthy when
+            changes flow and fail rarely, not when the agents are busy.
+          </p>
+          <p>
+            <strong>Log everything with provenance.</strong> Every recommendation
+            an agent made, every artifact that got applied, every policy-gate
+            outcome — logged centrally, with co-authorship on the commits, so any
+            change is traceable to the identity that produced it. After a poisoned
+            tool-return steers an agent into something it shouldn't, the log that
+            only shows "a successful authorized call" is useless; the provenance
+            trail is what makes the rails auditable rather than merely automated.
+          </p>
+        </section>
+
+        <section id="failures">
+          <h2>10. What goes wrong with the rails</h2>
+          <ul>
+            <li>
+              <strong>The pipeline that exists but was never exercised.</strong>
+              CI green because nothing real ever ran through it. The rails are
+              proven by a change breaking and being caught, not by the YAML being
+              present. Force each failure; a rail that has never failed safely has
+              not been proven.
+            </li>
+            <li>
+              <strong>Auto-merging the agent's fix.</strong> A self-healing
+              pipeline that pushes its own fix to the protected branch has thrown
+              away the only rule that makes it safe. The agent proposes; the merge
+              bar disposes. Stopping at the PR is the whole design, not a
+              limitation to optimize away.
+            </li>
+            <li>
+              <strong>The raw-shell agent.</strong> Handing an agent the whole
+              repo and a shell with "fix the build" instead of a bounded, named
+              tool surface. It will touch three things nobody wanted touched, and
+              the log won't tell you why. Named tools, every time.
+            </li>
+            <li>
+              <strong>The rebuilt artifact.</strong> Production gets a fresh build
+              instead of the promoted one that passed test — and now production
+              runs something no environment verified. Promote, never rebuild.
+            </li>
+            <li>
+              <strong>The rollback that was only ever written.</strong>
+              Documented, reviewed, never run — then executed for the first time
+              during an incident, where every surprise costs downtime. Rehearse it
+              in test, before it is needed.
+            </li>
+            <li>
+              <strong>A secret in the repo.</strong> The one unrecoverable
+              foundation mistake. The client's vault from day one — never in code,
+              never in CLAUDE.md, never in a spec.
+            </li>
+            <li>
+              <strong>The unattended destructive apply.</strong> An agent runs an
+              infrastructure <code>apply</code> that deletes or replaces, with no
+              human reading the dry-run first. Every step before the apply is
+              read-only for exactly this reason; the what-if is read by a person,
+              always.
+            </li>
+            <li>
+              <strong>Autonomy granted too fast.</strong> Wiring a brand-new agent
+              automation straight to closed-loop because it worked twice. Autonomy
+              widens slowly, after behavior is watched on real work. The primary
+              risk of agentic ops is too much autonomy too soon.
+            </li>
+            <li>
+              <strong>The over-scoped agent identity.</strong> An agent running
+              with subscription-wide rights "to keep it simple." When its prompt
+              is subverted, the blast radius is everything it could reach. Scope to
+              the resource, give it its own identity, keep the kill switch.
+            </li>
+            <li>
+              <strong>Approval fatigue.</strong> Gating every trivial step behind a
+              human until the humans rubber-stamp without reading. Shift oversight
+              from per-step to per-strategy — approve the plan up front, retain the
+              ability to intervene — and keep the sandbox so an incautious approval
+              is not catastrophic. Effective oversight is being positioned to
+              intervene, not clicking approve a hundred times.
+            </li>
+            <li>
+              <strong>Ignoring drift.</strong> The schedule flags that real
+              infrastructure diverged from the code, and nobody acts, so the repo
+              stops being the truth. Drift is a proposed remediation waiting for an
+              operator, not a notification to dismiss.
+            </li>
+          </ul>
+          <div class="callout">
+            <strong>Where this goes next.</strong> This page is the
+            <strong>delivery rails</strong> — the CI/CD and DevOps pipeline the
+            pod builds so that agents can develop software safely. It is the
+            primary, develop-<em>with</em>-agents track of the standard. There is
+            a second track, for the engagements where the deliverable <em>is</em>
+            autonomous operations: agentic AIOps, SRE-style incident agents that
+            observe, diagnose, and remediate production, the two-tier (Review vs.
+            Autonomous) trust model, and agentic remediation at scale. That
+            companion deep-dive (forthcoming, with the first agentic-ops
+            engagement) is a different track — but it runs on the exact same
+            governing principle this page is built on: the agent proposes, a gate
+            disposes.
+          </div>
+          <div class="callout">
+            <strong>Back:</strong>
+            <a href="phase-3-foundation.html">Phase 3: Foundation</a> — the phase
+            that builds the rails and proves them on the walking skeleton.
+          </div>
+          <div class="callout">
+            <strong>Next:</strong>
+            <a href="build-loop.html">The Build Loop</a> — what the rails were
+            built for: how every change from Foundation to feature-complete gets
+            specified, bounded, built, and proven on them.
+          </div>
+        </section>
+
+        <footer>
+          The Rails · Delivery Standard deep-dive · MCKRUZ/delivery-standard ·
+          Paired source: docs/the-rails.md
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

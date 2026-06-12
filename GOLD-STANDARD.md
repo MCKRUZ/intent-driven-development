@@ -57,6 +57,10 @@ disabled. Gates tell you whether you _may_ advance; a named human decides whethe
 > - `docs/phase-3-foundation.md` + example `docs/phase-3-example.md`
 > - `docs/build-loop.md` — the Build loop that runs between the opening and closing phases
 >   (+ example `docs/build-loop-example.md`)
+> - `docs/the-rails.md` — the CI/CD and DevOps pipeline every change rides, as a standing
+>   standard: the four workflows, the merge bar, deploy and promotion, the agent-safe IaC
+>   pipeline, and the one principle (agent proposes, gate disposes)
+>   (+ example `docs/the-rails-example.md`)
 > - `docs/phase-7-documentation.md` + example `docs/phase-7-example.md`
 > - `docs/phase-8-deployment.md` + example `docs/phase-8-example.md`
 > - `docs/phase-9-monitoring.md` + example `docs/phase-9-example.md`
@@ -286,6 +290,10 @@ work, reviewed at setup review.
 ---
 
 ## 7. DevOps
+
+> Deep-dive: `docs/the-rails.md` — the CI/CD and DevOps pipeline as a standing standard: the
+> four workflows, the merge bar, deploy and promotion, the agent-safe IaC pipeline, agents working
+> inside the pipeline, and the governing principle (agent proposes, gate disposes).
 
 - **Stack default:** .NET 8 / Angular / SQL Server / Azure / GitHub Actions, per the
   microsoft-enterprise profile in claude-code-sdlc. A profile-swap appendix in this repo covers
