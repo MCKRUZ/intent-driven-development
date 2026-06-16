@@ -251,13 +251,42 @@
           color: #333;
         }
       }
-    </style>
+    /* shared top bar */
+.topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+.topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+.topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+.topbar a.home { font-weight: 700; color: #fff; }
+.topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref { position: relative; }
+.topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+.topbar .ref summary.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref summary::-webkit-details-marker { display: none; }
+.topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+.topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.topbar .ref .menu a { display: block; padding: 9px 16px; }
+@media print { .topbar { display: none; } }
+</style>
   </head>
   <body>
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../index.html">Home</a>
+  <a class="active" href="../GOLD-STANDARD.html">The Standard</a>
+  <a href="journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="cheatsheet.html">Loop cheat-sheet</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="faq.html">FAQ</a>
+      <a href="anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
     <div class="layout">
       <nav>
         <div class="brand">Phase 7: Documentation</div>
         <div class="brand-sub">Delivery Standard deep-dive</div>
+        <a class="back" href="../index.html">← Home</a>
         <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
         <a class="back" href="build-loop.html">← The Build Loop</a>
         <a class="toc" href="#who">1 · Who is involved</a>

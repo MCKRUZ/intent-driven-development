@@ -26,6 +26,8 @@ coding — the loop closes it.** That's what makes the speed safe to put in fron
 - **Brand new to the method?** Read the [loop cheat-sheet](docs/cheatsheet.html) (20 seconds),
   then the [glossary](docs/glossary.html) for any word that trips you, then
   [The Delivery Standard](GOLD-STANDARD.html) itself.
+- **Prefer a story to a spec?** Follow [The Harbor Journey](docs/journey.html) — one full
+  engagement, start to finish, as a continuous worked example.
 - **A pod member joining an engagement?** [The Delivery Standard](GOLD-STANDARD.html) front to
   back, then [The Team](docs/team.html) for your role, then the
   [build loop](docs/build-loop.html). Keep the [glossary](docs/glossary.html) and
@@ -46,6 +48,7 @@ The standard is published at **https://mckruz.github.io/intent-driven-developmen
 | Page                                                                                                       | What it covers                                                                       |
 | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | [The Delivery Standard](https://mckruz.github.io/intent-driven-development/GOLD-STANDARD.html)             | The master document — the whole method in 14 sections                                |
+| [The Harbor Journey](https://mckruz.github.io/intent-driven-development/docs/journey.html)                 | The whole worked example as one continuous story — 10 stops, start to finish         |
 | [The Team](https://mckruz.github.io/intent-driven-development/docs/team.html)                              | Old roles to new roles, the concrete job of each, scaling from one pod to many       |
 | [Phase 0: Discovery](https://mckruz.github.io/intent-driven-development/docs/phase-0-discovery.html)       | Fixing the problem · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-0-example.html) |
 | [Phase 1: Requirements](https://mckruz.github.io/intent-driven-development/docs/phase-1-requirements.html) | The signed baseline · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-1-example.html) |

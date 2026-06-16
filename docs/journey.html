@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Harbor Mutual Engagement — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  /* shared top bar */
+  .topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+  .topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+  .topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+  .topbar a.home { font-weight: 700; color: #fff; }
+  .topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+  .topbar .ref { position: relative; }
+  .topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+  .topbar .ref summary.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+  .topbar .ref summary::-webkit-details-marker { display: none; }
+  .topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+  .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  .topbar .ref .menu a { display: block; padding: 9px 16px; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav.side {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav.side .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav.side .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav.side .back { display: block; margin-bottom: 6px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav.side a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav.side a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav.side .navhead { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--ink-soft); margin: 16px 0 6px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, #11314e, #0f5c8c); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 30px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 74ch; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 24px 30px; margin-bottom: 24px; }
+  h2 { font-size: 20px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  p { margin: 0 0 12px; max-width: 82ch; }
+  a { color: var(--accent); }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 4px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  td a { text-decoration: none; font-weight: 600; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0 0; max-width: 82ch; }
+  /* timeline */
+  .tl { margin: 0; padding: 0; list-style: none; }
+  .tl .stop { border: 1px solid var(--rule); border-left: 4px solid var(--accent); background: var(--card); border-radius: 10px; padding: 18px 22px; margin: 0 0 16px; }
+  .tl .stop .when { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-soft); }
+  .tl .stop h3 { margin: 3px 0 8px; font-size: 18px; }
+  .tl .stop h3 .num { color: var(--accent); margin-right: 4px; }
+  .tl .stop p { margin: 0 0 9px; font-size: 14px; }
+  .tl .stop .gate { font-size: 13px; background: var(--accent-soft); border-radius: 6px; padding: 7px 11px; color: var(--ink); margin: 0 0 8px; }
+  .tl .stop .drama { font-style: italic; color: var(--ink-soft); font-size: 13.5px; margin: 0; }
+  .tl .stop a.open { display: inline-block; margin-top: 11px; font-weight: 600; text-decoration: none; }
+  .tl .stop.mid { border-left-color: var(--med); }
+  .tl .stop.mid h3 .num { color: var(--med); }
+  .tl .stop.mid .gate { background: #f6efe0; }
+  .tl .stop.close { border-left-color: var(--low); }
+  .tl .stop.close h3 .num { color: var(--low); }
+  .tl .stop.close .gate { background: #e9f3ec; }
+  .phase-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-soft); margin: 6px 0 10px; font-weight: 700; }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav.side { display: none; } main { padding: 24px; } }
+  @media print { .topbar, nav.side { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+</style>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../index.html">Home</a>
+  <a href="../GOLD-STANDARD.html">The Standard</a>
+  <a class="active" href="journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="cheatsheet.html">Loop cheat-sheet</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="faq.html">FAQ</a>
+      <a href="anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="layout">
+<nav class="side">
+  <div class="brand">The Harbor Journey</div>
+  <div class="brand-sub">Delivery Standard · the worked example, end to end</div>
+  <a class="back" href="../index.html">← Home</a>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <div class="navhead">The engagement, in order</div>
+  <a class="toc" href="phase-0-example.html">1 · Phase 0 · Discovery</a>
+  <a class="toc" href="phase-1-example.html">2 · Phase 1 · Requirements</a>
+  <a class="toc" href="phase-2-example.html">3 · Phase 2 · Design</a>
+  <a class="toc" href="phase-3-example.html">4 · Phase 3 · Foundation</a>
+  <a class="toc" href="build-loop-example.html">5 · The Build Loop</a>
+  <a class="toc" href="the-rails-example.html">6 · The Rails</a>
+  <a class="toc" href="phase-7-example.html">7 · Phase 7 · Documentation</a>
+  <a class="toc" href="phase-8-example.html">8 · Phase 8 · Deployment</a>
+  <a class="toc" href="phase-9-example.html">9 · Phase 9 · Monitoring</a>
+  <a class="toc" href="phase-c-example.html">10 · Phase C · Close &amp; Transfer</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>The Harbor Mutual Engagement</h1>
+  <p>The standard tells you how the method works. This is one engagement actually running it, from
+  the first workshop to the day we hand back the keys. Harbor Mutual is a fictional regional insurer
+  rebuilding its property-claims intake; the numbers, people, and decisions below are the worked
+  example that runs through every deep-dive.</p>
+  <p>Read it straight through as a story, or jump to any stop. Ten stops, in the order they
+  happened — each links to the full episode.</p>
+  <div class="meta">Paired source: docs/journey.md · part of MCKRUZ/delivery-standard v1.0</div>
+</header>
+
+<section>
+<h2>The engagement at a glance</h2>
+<table>
+<tr><th style="width:34px"></th><th>Stop</th><th style="width:150px">When</th><th>The gate it had to pass</th></tr>
+<tr><td>1</td><td><a href="phase-0-example.html">Phase 0 · Discovery</a></td><td>wk of 2026-03-02</td><td>Problem framed, one metric set, PO decided</td></tr>
+<tr><td>2</td><td><a href="phase-1-example.html">Phase 1 · Requirements</a></td><td>wk of 2026-03-16</td><td>The signed baseline</td></tr>
+<tr><td>3</td><td><a href="phase-2-example.html">Phase 2 · Design</a></td><td>wk of 2026-03-23</td><td>Architecture and every ADR signed</td></tr>
+<tr><td>4</td><td><a href="phase-3-example.html">Phase 3 · Foundation</a></td><td>two weeks following</td><td>Walking skeleton live in client dev</td></tr>
+<tr><td>5</td><td><a href="build-loop-example.html">The Build Loop</a></td><td>2026-04-13 → 07-10</td><td>Every spec checked per change, not in a batch</td></tr>
+<tr><td>6</td><td><a href="the-rails-example.html">The Rails</a></td><td>across the middle</td><td>Agent proposes, gate disposes</td></tr>
+<tr><td>7</td><td><a href="phase-7-example.html">Phase 7 · Documentation</a></td><td>2026-07-13 → 07-17</td><td>A stranger can run it from the docs</td></tr>
+<tr><td>8</td><td><a href="phase-8-example.html">Phase 8 · Deployment</a></td><td>2026-07-20 → 07-24</td><td>Human go/no-go to production</td></tr>
+<tr><td>9</td><td><a href="phase-9-example.html">Phase 9 · Monitoring</a></td><td>2026-07-27 → 08-07</td><td>Alerts from real baselines; hypercare ends</td></tr>
+<tr><td>10</td><td><a href="phase-c-example.html">Phase C · Close &amp; Transfer</a></td><td>2026-08-10 → 08-28</td><td>Harbor ran a real spec without us</td></tr>
+</table>
+</section>
+
+<section>
+<div class="phase-label">Opening — gated phases</div>
+<ul class="tl">
+  <li class="stop">
+    <div class="when">Week of 2026-03-02</div>
+    <h3><span class="num">1 ·</span> Phase 0 — Discovery</h3>
+    <p>Karen Voss, VP of Claims Ops, owns the problem: a property-claims intake that takes a median
+    11.4 days from first notice of loss to a coverage decision. The target is five. The pod runs the
+    outcome workshop, Claude interrogates the brief for unmade decisions, and Luis Ortega is named
+    product owner at six hours a week.</p>
+    <div class="gate"><strong>The gate:</strong> the problem is human-authored, the one success
+    metric is set and has a source, and the PO decision is made.</div>
+    <p class="drama">The workshop forces the choice nobody had made — committed PO or proxy mode — on
+    day one, before a line of code.</p>
+    <a class="open" href="phase-0-example.html">Read the full episode →</a>
+  </li>
+  <li class="stop">
+    <div class="when">Week of 2026-03-16</div>
+    <h3><span class="num">2 ·</span> Phase 1 — Requirements</h3>
+    <p>Epics, stories, and NFRs get drafted by Claude and owned by humans. The big discovery: the
+    core system "PolicyOne" only exposes a read-only nightly <strong>snapshot replica</strong> —
+    which quietly reshapes everything downstream.</p>
+    <div class="gate"><strong>The gate:</strong> a signed requirements baseline, every silent
+    decision answered.</div>
+    <p class="drama">The replica constraint surfaces in requirements, not in production — exactly
+    where you want to find it.</p>
+    <a class="open" href="phase-1-example.html">Read the full episode →</a>
+  </li>
+  <li class="stop">
+    <div class="when">Week of 2026-03-23, closed Friday the 27th</div>
+    <h3><span class="num">3 ·</span> Phase 2 — Design</h3>
+    <p>Claude presents architectures with concrete trade-offs; a human picks; every ADR is signed.
+    Wes Carter, Harbor's lead engineer, co-signs the decisions he'll have to live with.</p>
+    <div class="gate"><strong>The gate:</strong> architecture selected, every ADR signed.</div>
+    <p class="drama">The client's own engineer signs the design, not just the consultants — ownership
+    starts here.</p>
+    <a class="open" href="phase-2-example.html">Read the full episode →</a>
+  </li>
+  <li class="stop">
+    <div class="when">The two weeks following</div>
+    <h3><span class="num">4 ·</span> Phase 3 — Foundation</h3>
+    <p>The factory gets built: the kit is installed into Harbor's repo, the rails go in, and the
+    thinnest end-to-end slice — four sliced specs (0001–0004) — rides the full loop into the client's
+    dev environment. Spec 0002 (replica verify) is the HIGH-risk spec that proves the security rails
+    hold. Tom Reilly, Harbor's platform engineer, reviews the pipeline he'll operate after we leave.</p>
+    <div class="gate"><strong>The gate:</strong> one real feature running in client dev, through the
+    whole loop.</div>
+    <p class="drama">The walking skeleton deploys itself — the factory is real before any volume hits
+    it.</p>
+    <a class="open" href="phase-3-example.html">Read the full episode →</a>
+  </li>
+</ul>
+
+<div class="phase-label">The middle — the loop runs</div>
+<ul class="tl">
+  <li class="stop mid">
+    <div class="when">2026-04-13 to 07-10 · feature-complete at spec 0044</div>
+    <h3><span class="num">5 ·</span> The Build Loop</h3>
+    <p>The middle of the engagement — no phases, just the loop, one spec at a time. The worked week is
+    the first week of May: spec 0015 (a fast-path work queue, MEDIUM) and spec 0016 (duplicate-claim
+    merge, HIGH). On 0016 the grader catches an empty-policy-number bug that <strong>eleven green
+    tests missed</strong> — a live bug, caught before merge — and Wes gives the named HIGH-risk
+    sign-off.</p>
+    <div class="gate"><strong>The gate:</strong> every change checked per change — mechanical gates,
+    a grader that didn't write it, a non-author human.</div>
+    <p class="drama">Eleven passing tests, one real bug, and the grader is the thing that catches it.</p>
+    <a class="open" href="build-loop-example.html">Read the full episode →</a>
+  </li>
+  <li class="stop mid">
+    <div class="when">Across the middle · Build through Phase 9</div>
+    <h3><span class="num">6 ·</span> The Rails</h3>
+    <p>Not a phase — the pipeline every change rides, shown through six episodes: the grader catch, a
+    self-healing CI fix, a flaky test quarantined (not "fixed"), the IaC funnel stopping a public
+    storage account, a rollback that <strong>fails in rehearsal</strong> and forces a fix, and
+    configuration drift caught on a schedule.</p>
+    <div class="gate"><strong>The gate:</strong> agent proposes, gate disposes — every time.</div>
+    <p class="drama">The rollback failing in rehearsal is the win, not the failure — that's what
+    rehearsal is for.</p>
+    <a class="open" href="the-rails-example.html">Read the full episode →</a>
+  </li>
+</ul>
+
+<div class="phase-label">Closing — gated phases</div>
+<ul class="tl">
+  <li class="stop close">
+    <div class="when">2026-07-13 to 07-17</div>
+    <h3><span class="num">7 ·</span> Phase 7 — Documentation</h3>
+    <p>Claude drafts the README, API docs, and RUNBOOK; humans verify them by following them cold.
+    Ines Roy — a Harbor engineer hired three weeks earlier — cold-verifies the README and stalls at
+    step four on a Key Vault permission, fixed the same day. Tom cold-walks the RUNBOOK.</p>
+    <div class="gate"><strong>The gate:</strong> the docs are verified by use, not by reading.</div>
+    <p class="drama">The test of documentation is a new hire who's never seen the system getting it
+    running — and where she stalls is the bug.</p>
+    <a class="open" href="phase-7-example.html">Read the full episode →</a>
+  </li>
+  <li class="stop close">
+    <div class="when">Week of 2026-07-20 · go-live Thursday the 23rd, 07:00</div>
+    <h3><span class="num">8 ·</span> Phase 8 — Deployment</h3>
+    <p>The rehearsal on Tuesday fails — config keys moved ahead of the release artifact — which
+    becomes spec 0046 (configuration versioned with the artifact); re-rehearsed clean on Wednesday.
+    The go/no-go has seven named roles; Dan in security holds until the secret-rotation record is
+    attached. First real claim lands Thursday at 08:14: a coverage recommendation in three hours and
+    six minutes. Twenty-seven claims, day one.</p>
+    <div class="gate"><strong>The gate:</strong> a human go/no-go to production. Always.</div>
+    <p class="drama">A rehearsal that fails on Tuesday is why Thursday's go-live is boring.</p>
+    <a class="open" href="phase-8-example.html">Read the full episode →</a>
+  </li>
+  <li class="stop close">
+    <div class="when">2026-07-27 to 08-07 · inside hypercare</div>
+    <h3><span class="num">9 ·</span> Phase 9 — Monitoring</h3>
+    <p>Six alerts ship, each modeled from a real baseline rather than a guess. A drill on the 5th
+    catches a routing typo in one alert before it ever mattered. The retro is honest: accepted-as-is
+    at 84%, four escaped bugs total, the security-review queue running slow at 2.1 days — which
+    becomes a standing twice-weekly security slot.</p>
+    <div class="gate"><strong>The gate:</strong> alert thresholds confirmed against real baseline
+    data; hypercare ends clean.</div>
+    <p class="drama">Every escaped bug gets the same question — which check should have caught it? —
+    and the answer becomes a new check.</p>
+    <a class="open" href="phase-9-example.html">Read the full episode →</a>
+  </li>
+  <li class="stop close">
+    <div class="when">2026-08-10 to 08-28</div>
+    <h3><span class="num">10 ·</span> Phase C — Close &amp; Transfer</h3>
+    <p>The clean exit. Harbor's own engineers run specs as Orchestrators with our Checkers, Wes
+    becomes Harbor's Setup Owner with Tom as his deputy, and the close gate on the 20th is the real
+    test: spec 0049 (decommission the legacy fallback, HIGH risk) driven end-to-end by Ines, with the
+    hook correctly blocking a gated-path edit, Dan signing, and Harbor's own go/no-go promoting it.
+    We were not driving. Our access is revoked Wednesday the 26th. Final read: a completed-cohort
+    median of <strong>4.2 days</strong>, under the five-day target.</p>
+    <div class="gate"><strong>The gate:</strong> the client ran one real spec end-to-end — triage,
+    spec, delegate, grade, merge, deploy — without us.</div>
+    <p class="drama">The engagement ends not when the software ships, but when Harbor doesn't need us
+    to ship the next thing.</p>
+    <a class="open" href="phase-c-example.html">Read the full episode →</a>
+  </li>
+</ul>
+</section>
+
+<section>
+<div class="callout">New to the method behind the story? The <a href="cheatsheet.html">loop
+cheat-sheet</a> is the 20-second version, the <a href="glossary.html">glossary</a> defines the
+terms, and <a href="../GOLD-STANDARD.html">The Delivery Standard</a> is the whole method.</div>
+</section>
+
+<footer>The Harbor Journey · Delivery Standard worked example · MCKRUZ/delivery-standard · Paired source: docs/journey.md</footer>
+</main>
+</div>
+</body>
+</html>

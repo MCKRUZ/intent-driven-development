@@ -234,14 +234,44 @@
         header.doc .meta {
           color: #333;
         }
+        .topbar { display: none; }
       }
+      /* shared top bar */
+      .topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+      .topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+      .topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+      .topbar a.home { font-weight: 700; color: #fff; }
+      .topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+      .topbar .ref { position: relative; }
+      .topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+      .topbar .ref summary::-webkit-details-marker { display: none; }
+      .topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+      .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+      .topbar .ref .menu a { display: block; padding: 9px 16px; }
+      nav .nav-home { color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+      nav .nav-start { color: var(--accent); font-weight: 600; margin-top: 16px; border-top: 1px solid var(--rule); padding-top: 12px; }
     </style>
   </head>
   <body>
+    <div class="topbar" role="navigation" aria-label="Site">
+      <a class="home" href="index.html">Home</a>
+      <a class="active" href="GOLD-STANDARD.html">The Standard</a>
+      <a href="docs/journey.html">The Harbor Journey</a>
+      <details class="ref">
+        <summary>Reference &#9662;</summary>
+        <div class="menu">
+          <a href="docs/cheatsheet.html">Loop cheat-sheet</a>
+          <a href="docs/glossary.html">Glossary</a>
+          <a href="docs/faq.html">FAQ</a>
+          <a href="docs/anti-patterns.html">Anti-pattern field guide</a>
+        </div>
+      </details>
+    </div>
     <div class="layout">
       <nav>
         <div class="brand">The Delivery Standard</div>
         <div class="brand-sub">MCKRUZ / delivery-standard · v1.0</div>
+        <a class="nav-home" href="index.html">← Home</a>
         <a href="#s1">1 · The shape of an engagement</a>
         <a href="#s2">2 · Human/AI collaboration model</a>
         <a href="#s3">3 · The team</a>
@@ -256,6 +286,8 @@
         <a href="#s12">12 · Commercial chapter</a>
         <a href="#s13">13 · Close &amp; Transfer</a>
         <a href="#s14">14 · Defaults you can veto</a>
+        <a class="nav-start" href="docs/phase-0-discovery.html">Begin the walkthrough · Phase 0 →</a>
+        <a href="docs/journey.html" style="color:var(--accent);">Or watch it run · the Harbor journey →</a>
       </nav>
       <main>
         <header class="doc">

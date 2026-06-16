@@ -99,9 +99,37 @@
     .arc { grid-template-columns: 1fr; }
     .loop .arrow { flex-basis: 100%; height: 28px; transform: rotate(90deg); }
   }
+
+  /* shared top bar */
+  .topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+  .topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+  .topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+  .topbar a.home { font-weight: 700; color: #fff; }
+  .topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+  .topbar .ref { position: relative; }
+  .topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+  .topbar .ref summary::-webkit-details-marker { display: none; }
+  .topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+  .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  .topbar .ref .menu a { display: block; padding: 9px 16px; }
 </style>
 </head>
 <body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home active" href="index.html">Home</a>
+  <a href="GOLD-STANDARD.html">The Standard</a>
+  <a href="docs/journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="docs/cheatsheet.html">Loop cheat-sheet</a>
+      <a href="docs/glossary.html">Glossary</a>
+      <a href="docs/faq.html">FAQ</a>
+      <a href="docs/anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
 
 <header class="hero">
   <div class="wrap">
@@ -207,6 +235,7 @@
         </div>
       </div>
     </div>
+    <p class="sub" style="margin-top:20px;">Want to watch it actually happen? <a href="docs/journey.html"><strong>Follow the Harbor Mutual engagement, start to finish →</strong></a> — the worked example as one continuous story.</p>
   </div>
 </section>
 
@@ -262,6 +291,7 @@
         <h3>The standard</h3>
         <div class="row"><a href="GOLD-STANDARD.html">The Delivery Standard</a></div>
         <div class="row"><a href="docs/team.html">The Team</a></div>
+        <div class="row"><a href="docs/journey.html">The Harbor Journey</a><a class="ex" href="docs/journey.html">story, end to end</a></div>
       </div>
       <div class="col">
         <h3>Opening phases</h3>
