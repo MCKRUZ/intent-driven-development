@@ -23,6 +23,12 @@ resolution; where it is silent, Intent-Driven Development is the tiebreaker.
 > **The one rule.** Claude drafts and interrogates; humans decide and own. Every gate in this
 > standard exists to enforce it: a machine reports, a named human signs.
 
+> **New here?** This document is the full reference and assumes the vocabulary. For a softer way
+> in: the [loop cheat-sheet](docs/cheatsheet.md) is the method in 20 seconds, the
+> [glossary](docs/glossary.md) defines every term of art used below, the [FAQ](docs/faq.md)
+> answers what clients and new pod members ask, and the [anti-pattern field guide](docs/anti-patterns.md)
+> is the nine ways it goes wrong. None of them are required to read this — they're the on-ramp.
+
 ---
 
 ## 1. The shape of an engagement

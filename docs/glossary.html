@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, #11314e, #0f5c8c); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">Glossary</div>
+  <div class="brand-sub">Delivery Standard · plain-language reference</div>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <a class="toc" href="cheatsheet.html">Loop cheat-sheet</a>
+  <a class="toc" href="faq.html">FAQ</a>
+  <a class="toc" href="anti-patterns.html">Anti-pattern field guide</a>
+  <a class="back" href="cheatsheet.html" style="margin-top:16px">Next: Loop cheat-sheet →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>Glossary</h1>
+  <p>Every term the Delivery Standard leans on, defined in plain words. Alphabetical. Written for
+  anyone joining a pod, onboarding from the client side, or reading the standard for the first time
+  and hitting a word they don't recognize.</p>
+  <div class="meta">Paired source: docs/glossary.md · part of MCKRUZ/delivery-standard v1.0</div>
+</header>
+
+<section>
+<p>This is the on-ramp, not the law. Where a term has a precise home in the standard, the entry
+points you there: <strong>the standard</strong> means <a href="../GOLD-STANDARD.html">GOLD-STANDARD.html</a>; a <strong>deep-dive</strong> is the matching page
+under <code>docs/</code>.</p>
+</section>
+
+<section>
+<p><strong>Accepted-as-is rate.</strong> How often Claude's work merges without anyone having to redo it. The
+clearest single sign that the specs are sharp and the harness is tuned. Tracked on the internal
+dashboard as a trend, never a target (standard, section 9). The trust signal of the whole method.</p>
+
+<p><strong>ADR (Architecture Decision Record).</strong> A short written record of one design decision and why it
+was made over the alternatives. Claude researches the options and drafts the ADR; the Architect
+(Setup Owner at one-pod scale) signs it. Produced in Phase 2 (see <code>docs/phase-2-design.md</code>).</p>
+
+<p><strong>Agent.</strong> A run of Claude doing work — reading, planning, writing code, or grading. "One agent
+vs. many" is a real decision in the loop: one agent for tightly coupled code, many only for
+independent read-only exploration (see <a href="build-loop.html">the build loop</a>). See also <strong>subagent</strong>.</p>
+
+<p><strong>The author is never the sole approver.</strong> The rule that whoever produced a change doesn't get to
+be the only one who signs it off — not for code, not for a harness change, not for a spec, not for
+this document. A fresh grader and a non-author human carry the verdict. This is the practical
+answer to "how do you trust code you didn't write." Survives every team size (see
+<a href="team.html">the team</a>).</p>
+
+<p><strong>Bicep.</strong> Microsoft's infrastructure-as-code language for Azure — the cloud environment described
+as files in the repo instead of clicked together by hand. Always HIGH risk; lives in <code>infra/</code>.
+See <strong>IaC</strong> and <a href="the-rails.html">the rails</a>.</p>
+
+<p><strong>Branch protection.</strong> GitHub/ADO settings on <code>main</code> that block a merge until the rules are met:
+CI green, the grader has run, a non-author has approved. It's how the merge bar is enforced by the
+platform rather than by good intentions (standard, section 4).</p>
+
+<p><strong>Build loop.</strong> The middle of an engagement, and the heart of the method. Instead of separate
+Implementation, Quality, and Testing phases run in a batch, every story runs the same short cycle
+— <strong>Intent → Delegate → Discern</strong> — and ships before the next one starts. Checking happens per
+change, never piled up for later. Deep-dive: <a href="build-loop.html">build-loop.html</a>.</p>
+
+<p><strong>Checker.</strong> The role that owns the verdict on a change: reads the grader's report, grades the
+work against the spec, probes an edge the tests missed, and approves or bounces. Not a separate
+headcount — Orchestrators and Checkers swap per change, and the author of a change is never its
+Checker. See <a href="team.html">the team</a>.</p>
+
+<p><strong>Checking ladder</strong> (also <strong>verification ladder</strong>). The series of checks a change climbs, each
+rung harder to skip than the last: (1) a "what done means" rule in CLAUDE.md, (2) a check that
+re-runs every turn, (3) a blocking <strong>Stop hook</strong> that won't let the agent finish with red tests,
+(4) a separate <strong>grader</strong> agent that didn't write the code, (5) a human gate for HIGH-risk work
+(with a security-reviewer pass first). It is not "please check your work." Detail in
+<a href="build-loop.html">build-loop.html</a>.</p>
+
+<p><strong>CLAUDE.md.</strong> The file every agent session loads first. It holds the project's standards: the
+stack rules, the domain glossary in the client's words, the risk taxonomy, the spec convention,
+the gated paths, and the Definition of Checked. A stale CLAUDE.md means agents guess, and guesses
+differ per run — keeping it current is Setup Owner work. Versioned and PR-reviewed like code
+(standard, section 6).</p>
+
+<p><strong>Definition of Checked.</strong> What replaces "Definition of Done." A change is done when it has been
+specified, tested, graded by someone other than its author, approved by a human where the risk
+demands it, and merged without breaking anything. "The agent finished typing" is not done.</p>
+
+<p><strong>Definition of Ready (DoR).</strong> The bar a story has to clear before it enters the build loop,
+enforced at intent triage: acceptance criteria pass the vague-line test, scope in/out is stated,
+every silent decision for that story is answered, a risk tier is assigned, and the harness context
+the agent will have is named (standard, section 5.1).</p>
+
+<p><strong>Delegate.</strong> The middle beat of the loop. The agent proposes a plan, the Orchestrator corrects or
+approves it <strong>before</strong> any code, then the agent builds and self-checks inside the bounds it was
+given (scope, context, one-agent-or-many). The building is the agent's job, not the human's.</p>
+
+<p><strong>Deputy.</strong> The named second person who reviews work the owner can't review alone — above all, the
+Setup Owner's deputy, who reviews every harness change so the Setup Owner is never sole approver of
+their own foundation. "No role without a deputy" is a standing rule (standard, section 4; see
+<a href="team.html">the team</a>).</p>
+
+<p><strong>Discern.</strong> The last beat of the loop, and the one the whole method is built around. Discern just
+means working out whether the change is actually good before anyone trusts it: mechanical gates in
+CI, the grader's check-by-check verdict, and a non-author human's approval — plus a named sign-off
+on HIGH risk. A change is done only when something other than its author has proven it.</p>
+
+<p><strong>DORA.</strong> Google's long-running research program on what makes software delivery work (named for
+the DevOps Research and Assessment team). Its 2024–2025 reports found that as teams leaned harder
+on AI, delivery stability dropped two years running — AI makes a strong team faster and a sloppy
+team worse. The standard tracks the DORA "four": deploy frequency, lead time, change-fail rate,
+time-to-recover (standard, section 9).</p>
+
+<p><strong>Evals / golden set.</strong> For deliverables that are themselves AI-powered: a versioned set of input
+scenarios with graded expected behavior (the golden set) and a pass threshold ("correct on ≥ 95%
+of the set"). Evals are acceptance criteria, run in CI like tests. Changing a prompt, model, or
+tool definition runs the full golden set as a regression gate (standard, section 11).</p>
+
+<p><strong>Flow check.</strong> What the daily standup becomes — 10 minutes, not "what did you do" (the agents did
+plenty) but "what's waiting to be checked, which specs are vague, how long is the review queue."
+Every waiting change leaves with a Checker assigned and the WIP cap enforced (standard, section
+5.4).</p>
+
+<p><strong>Gate.</strong> A checkpoint where automated checks run and a named human signs before work advances.
+<strong>Phase gates</strong> open and close the engagement (a fixed battery of validations, then a human
+advances — advancement is always manual). <strong>Merge gates</strong> guard <code>main</code> inside the build loop. Gates
+report; humans decide (standard, section 9).</p>
+
+<p><strong>Grader.</strong> A fresh agent whose only job is to grade work it did not write. It runs in CI, reads
+the spec file in the diff, and posts a check-by-check verdict as a PR comment. Its run is required
+(can't be skipped); its verdict is advisory (doesn't block) — the human Checker reads it and makes
+the call. Machines gate the mechanical; humans own the judgment (standard, section 5.3).</p>
+
+<p><strong>Hardening pass.</strong> Scheduled integration-level work — load and performance, end-to-end journeys,
+penetration testing — typically one mid-Build and one before deployment. It is scheduled work in
+the flow, not a phase that gates everything else (standard, section 5.6).</p>
+
+<p><strong>The harness.</strong> Everything the agents work inside: <code>CLAUDE.md</code>, the <code>.claude/</code> directory (skills,
+agents, hooks, settings), the CI workflows, and <code>infra/</code>. The Setup Owner treats it as a product —
+versioned, owned, changed only by reviewed PR. A line in CLAUDE.md is a design decision enforced a
+hundred times a day (standard, section 6).</p>
+
+<p><strong>The harvest loop.</strong> After every engagement, a mandatory retro PR against this repo: skills
+generalized (client specifics stripped), hooks improved, templates corrected, a retro file added.
+This is the compounding asset — the second engagement starts where the first finished (standard,
+section 10).</p>
+
+<p><strong>Hook.</strong> An automatic gate that fires on its own at a set point — for example, when an agent tries
+to stop. A <strong>blocking</strong> hook (the <strong>Stop hook</strong> / <code>stop-gate</code>) refuses to let the agent finish
+while tests fail or the build is broken. It isn't optional or persuadable. The single
+highest-value automation the kit ships (standard, section 5.2).</p>
+
+<p><strong>IaC (Infrastructure as Code).</strong> Defining the cloud environment as files in the repo rather than
+configuring it by hand, so it's reviewable, repeatable, and auditable. Always HIGH risk; runs
+through a generate → validate → policy → what-if → approve → scoped-apply → drift-check funnel.
+See <a href="the-rails.html">the rails</a>.</p>
+
+<p><strong>Intent.</strong> The first beat of the loop, and the one humans own outright. Decide what you want, then
+write it as something you can test ("returns 401 for a bad token," not "make auth good"). Vagueness
+here is amplified by the agent, not fixed by it. Intent quality is the Pod Lead's charge; product
+decisions inside it belong to the PO.</p>
+
+<p><strong>The kit.</strong> The installable engagement starter in this repo: CLAUDE.md template, spec template,
+settings, skills, agents (grader, security-reviewer), hooks, CI workflows, Bicep starters, and the
+stack profile. Phase 3 of every engagement begins by installing it into the client repo and
+adapting it in the open (standard, section 10).</p>
+
+<p><strong>Mechanical gates.</strong> The hard blocks in CI that no human overrides: build, tests, lint, and 80%
+coverage on new code. Distinct from the grader (required to run, advisory verdict) and the human
+Checker (a hard block of a different kind). See <a href="the-rails.html">the rails</a>.</p>
+
+<p><strong>METR.</strong> A 2025 study in which 16 experienced developers ran 246 real tasks on their own mature
+projects. They were about 19% slower with AI while believing they were 20% faster. A small study,
+but the best causal evidence available, and it points opposite to the hype — most of the slowdown
+came from people fixing work they hadn't described well. The standing argument for sharp intent.</p>
+
+<p><strong>PO (Product Owner).</strong> The person who owns what gets built and what "done" means, written clearly
+enough to test. Either the client commits a named PO (≥ 4 hrs/week, answers decision lists within 2
+business days) or <strong>proxy mode</strong> applies: the Pod Lead makes product calls on the client's behalf,
+logged in a decision log the client ratifies at each steering. The Phase 0 workshop forces this
+choice (standard, section 12).</p>
+
+<p><strong>Plan mode.</strong> A mode where the agent can read and think but change nothing. The Orchestrator works
+out the approach and approves the plan here, before any code exists — corrections cost minutes in
+plan mode and hours after the build (standard, section 5.2).</p>
+
+<p><strong>Pod.</strong> The delivery team that runs the loop: 4–6 people running 2–3 parallel work streams. The
+limit on parallelism is <strong>checking capacity, not headcount</strong>. A pod never grows past 6 — when
+there's more work than it can check, you add a pod, not a seventh person (see <a href="team.html">the team</a>).</p>
+
+<p><strong>Pod Lead</strong> (was: Project Manager). Owns intent: every spec sharp, every decision answered, every
+gate earned. Runs intent triage, the flow check, and client steering; assigns risk tiers; is the
+interface to the client PO (or plays proxy-PM in proxy mode). See <a href="team.html">the team</a>.</p>
+
+<p><strong>Quality Engineer</strong> (was: QA). Stops <em>performing</em> checks and starts <em>building the machinery</em> that
+checks every change: the grader definition, the Stop hook, the CI test gates, test infrastructure,
+and (for agentic deliverables) the eval harness. Takes a regular turn as Checker. See
+<a href="team.html">the team</a>.</p>
+
+<p><strong>The rails.</strong> The agentic CI/CD and DevOps pipeline every change rides — the four workflows (CI,
+grader, security, deploy), the merge bar, deploy and promotion, and the agent-safe IaC funnel. Not
+a numbered phase; a standing standard. Governing principle: <strong>agent proposes, gate disposes.</strong>
+Deep-dive: <a href="the-rails.html">the-rails.html</a>.</p>
+
+<p><strong>Review wait (median).</strong> How long a change sits waiting to be checked. The real bottleneck
+indicator under this model, and the number that caps parallelism — when it grows past the tripwire
+(default: one working day), the pod stops opening new streams. Cheering output while this climbs is
+the trap (standard, section 9).</p>
+
+<p><strong>Retro+.</strong> The retrospective, with one non-negotiable question added: for every bug that escaped
+to production, "which check should have caught it?" The answer becomes a concrete change to a rung
+of the checking ladder. An escaped bug that doesn't change a check is a wasted bug (standard,
+section 5.4).</p>
+
+<p><strong>Risk tier (HIGH / MEDIUM / LOW).</strong> The taxonomy the Pod Lead assigns to every spec at triage,
+recorded in the spec and in CLAUDE.md so agents see it too. HIGH (auth, payments, PII, migrations,
+public API or pipeline/IaC changes, prompt/model/tool changes, anything hard to undo) triggers the
+full ladder, a security-reviewer pass, and a named human sign-off. Challenges escalate up, never
+down (standard, section 5.1).</p>
+
+<p><strong>Setup Owner</strong> (was: Architect). Owns the harness as a product — CLAUDE.md, skills, agents, hooks,
+settings, the pipeline, the IaC, the kit install. Names a deputy on day one. The keystone role and
+the known bus-factor risk, which is why the deputy rule exists. See <a href="team.html">the team</a>.</p>
+
+<p><strong>Setup review.</strong> The weekly 30–60 minute meeting where the week's harness changes merge, Retro+
+findings become new checks or skills, and token spend is reviewed. The Setup Owner's deputy reviews
+(standard, section 5.4).</p>
+
+<p><strong>Skill.</strong> A written-down team practice or runbook the agent loads when it's relevant (a
+test-writing pattern, an API convention). Skills keep their detail out of the way until needed, so
+the agent isn't carrying everything at once. Generalized skills are harvested back into the kit
+between engagements.</p>
+
+<p><strong>Spec.</strong> The written description of one piece of work plus how it will be checked —
+<code>specs/NNNN-name.md</code>, one file per feature. The real source of truth: the code is just one way to
+satisfy it, and the spec lasts when the chat history is gone. The spec file rides in the PR diff so
+the reviewer sees intent and implementation together (standard, sections 4 and 5).</p>
+
+<p><strong>Sponsor.</strong> The client executive who owns the business outcome and the one success metric. Their
+obligations are written into the SOW (standard, section 12).</p>
+
+<p><strong>Steering.</strong> The biweekly 45-minute client meeting: a live demo of working software in the dev
+environment, the outcome scorecard, the decision list the client needs to answer, and gate status
+near a phase boundary. <strong>No activity metrics, ever</strong> — demos and outcomes only (standard, section
+5.5).</p>
+
+<p><strong>Stop hook</strong> (<code>stop-gate</code>). The blocking hook that refuses to let an agent finish a turn while the
+tests fail or the build is broken. See <strong>hook</strong>.</p>
+
+<p><strong>Subagent.</strong> A separate agent instance run alongside the main one, used two ways: fanned out in
+parallel for read-only investigation or option comparison, and kept separate from the author so the
+grader never reviews its own work. A side-quest's mess stays out of the main conversation.</p>
+
+<p><strong>Trunk-based.</strong> The branching model: a protected <code>main</code>, one short-lived branch per spec
+(<code>spec/0007-rate-limiting</code>), one PR, squash-merged and deleted on merge. <strong>One spec = one branch =
+one PR</strong> (standard, section 4).</p>
+
+<p><strong>Vague-line test.</strong> The bar for an acceptance line: <em>could two people build different things from
+this line?</em> If yes, it isn't ready — it bounces back to the PO, not down to an agent. The Pod
+Lead's first filter at triage (standard, section 5.1).</p>
+
+<p><strong>Vibe coding.</strong> Casual prompting with no checking — letting the agent write straight to production
+with nobody verifying. Fine for a throwaway prototype, dangerous for a system. The thing this
+standard exists to replace: no checking is just vibe coding; the loop closes it.</p>
+
+<p><strong>Walking skeleton</strong> (also <strong>thin slice</strong>). The thinnest possible end-to-end feature, built through
+the full loop and deployed to the client's dev environment — the exit proof of Phase 3 (Foundation)
+that the factory actually works before the build loop opens at volume (see
+<code>docs/phase-3-foundation.md</code>).</p>
+
+<p><strong>WIP cap.</strong> The hard limit on concurrent agent streams — default: no Orchestrator runs more than 2
+at once, and the pod halts new streams when median review wait exceeds one working day. A
+checking-capacity limit, not a headcount one (standard, section 14).</p>
+</section>
+
+<section>
+<div class="callout">
+New to the method? Read the <a href="cheatsheet.html">loop cheat-sheet</a> next, then the
+<a href="faq.html">FAQ</a>. No checking is just vibe coding — the loop closes it.
+</div>
+</section>
+
+<footer>Glossary · Delivery Standard reference · MCKRUZ/delivery-standard · Paired source: docs/glossary.md</footer>
+</main>
+</div>
+</body>
+</html>

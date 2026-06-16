@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, #11314e, #0f5c8c); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">FAQ</div>
+  <div class="brand-sub">Delivery Standard · plain-language reference</div>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <a class="toc" href="#method">About the method</a>
+  <a class="toc sub" href="#trust-unread">Trusting code you didn't read</a>
+  <a class="toc sub" href="#spec-driven">Just spec-driven dev?</a>
+  <a class="toc sub" href="#checking-slow">Won't checking slow us down?</a>
+  <a class="toc sub" href="#vibe-coding">Different from vibe coding?</a>
+  <a class="toc sub" href="#sprints-agile">Sprints and Agile?</a>
+  <a class="toc sub" href="#agents-per-person">Agents per person</a>
+  <a class="toc sub" href="#most-important">Most important practice</a>
+  <a class="toc" href="#engagement">About a client engagement</a>
+  <a class="toc sub" href="#vague-requirements">Vague requirements</a>
+  <a class="toc sub" href="#no-product-owner">No full-time PO</a>
+  <a class="toc sub" href="#code-data-keys">Code, data, and keys</a>
+  <a class="toc sub" href="#week-to-week">What you'll see weekly</a>
+  <a class="toc sub" href="#greenfield">Only for greenfield?</a>
+  <a class="toc sub" href="#claude-tooling">Must you use Claude?</a>
+  <a class="toc sub" href="#engagement-ends">When the engagement ends</a>
+  <a class="toc sub" href="#cicd-dora">Keep CI/CD and DORA?</a>
+  <a class="toc sub" href="#metrics-stopped">Metrics you stop tracking</a>
+  <a class="back" href="glossary.html" style="margin-top:16px">Next: Glossary →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>FAQ</h1>
+  <p>Honest answers to the questions clients and new pod members actually ask. No overselling.
+  Terms are defined in the <a href="glossary.html">glossary</a>; the full method is the
+  <a href="../GOLD-STANDARD.html">standard</a>.</p>
+  <div class="meta">Paired source: docs/faq.md · part of MCKRUZ/delivery-standard v1.0</div>
+</header>
+
+<section id="method">
+<h2>About the method</h2>
+
+<h3 id="trust-unread">How do you trust code that Claude wrote and nobody read line by line?</h3>
+<p>You don't trust it because someone read it — there's too much of it for that to scale. You trust it
+because it climbed the <a href="cheatsheet.html">checking ladder</a>: mechanical gates (build, tests, lint,
+coverage) block it, a separate grader that didn't write it reads the spec and grades the diff, and a
+non-author human approves it — with a security pass and a named sign-off on anything HIGH risk. The
+human attention is spent where the risk is, not on every line. Checking has to be mostly automatic;
+that's the whole design.</p>
+
+<h3 id="spec-driven">Isn't this just spec-driven development?</h3>
+<p>It overlaps, and it borrows the describe-first idea directly. Where it goes further is the
+<strong>checking</strong>. Spec-driven work gets you a good description; it doesn't tell you how to trust
+high-volume agent output without reading every line. That gap — the <a href="glossary.html">grader</a>, the
+ladder, the risk-tiered review — is the half this standard is built around. The spec is one half;
+the checking is the other.</p>
+
+<h3 id="checking-slow">Won't all this checking slow us down?</h3>
+<p>Some of it, yes — and that's the point. When code got cheap, the work didn't vanish; it moved to
+review and integration. The checking isn't extra work bolted on, it's the work that was always going
+to happen, made deliberate and mostly automatic. The alternative is the documented failure mode: cut
+the rituals, skip the checking, and delivery gets <em>less</em> stable, not faster.</p>
+
+<h3 id="vibe-coding">How is this different from vibe coding?</h3>
+<p>Vibe coding is casual prompting with no checking — fine for a throwaway prototype, dangerous for a
+client system. This standard closes the loop: every change, even a small one, runs Intent → Delegate
+→ Discern, and nothing is trusted until something other than its author proves it's good. The
+one-liner: <em>no checking is just vibe coding; the loop closes it.</em></p>
+
+<h3 id="sprints-agile">Do we still run sprints? Does this replace Agile?</h3>
+<p>There's no sprint-as-budget here. Sprints existed to ration how much a fixed team of people could
+build; when code is cheap that forecast loses its point. What survives is the rhythm: a daily
+<a href="glossary.html">flow check</a>, weekly intent triage and Retro+, biweekly client steering. The standard
+keeps the parts of Agile that were never about coding speed — short feedback, working software as
+the measure, a clear definition of done — and retires the parts that only budgeted scarce human
+coding time (story points, velocity).</p>
+
+<h3 id="agents-per-person">How many agents can one person run?</h3>
+<p>Nobody has a proven number, and be suspicious of anyone who gives you one. The real limit isn't
+headcount, it's how much a person can <strong>review</strong>. The standard caps WIP (default 2 streams per
+Orchestrator) and halts new streams when median review wait crosses one working day. Review
+capacity is the ceiling, measured — not assumed.</p>
+
+<h3 id="most-important">What's the single most important practice?</h3>
+<p>Checking the work with something stronger than a glance, and matching the depth to the risk.
+Everything else leans on it. Plenty of teams say review is the bottleneck now; almost none have
+built the checking to handle the volume. That gap is the reason the method exists.</p>
+</section>
+
+<section id="engagement">
+<h2>About a client engagement</h2>
+
+<h3 id="vague-requirements">Our requirements are always a bit vague. Will this still work?</h3>
+<p>It will hurt before it helps, and you should know that going in. A vague spec doesn't get fixed by
+the agent — it gets amplified, and the agent builds the wrong thing fast and confidently. That's
+where most of the documented AI slowdown comes from. The standard front-loads this: the
+<a href="glossary.html">vague-line test</a> at triage, the decision list Claude generates ("you haven't decided
+X, Y, Z"), and a named PO to answer it. "Being clear is the hard part now" isn't a slogan — it's the
+job we price and staff for.</p>
+
+<h3 id="no-product-owner">What if we can't commit a full-time product owner?</h3>
+<p>Then <strong>proxy mode</strong> applies, and it's decided explicitly at the Phase 0 workshop. Either you commit
+a named PO at ≥ 4 hrs/week who answers decision lists within 2 business days, or the Pod Lead makes
+product calls on your behalf, logged in a decision log you ratify at each steering. What doesn't
+work is leaving decisions unanswered — that's what stalls agents and produces the wrong thing.</p>
+
+<h3 id="code-data-keys">Where does our code and data go? Who holds the keys?</h3>
+<p>By default <strong>you</strong> procure Anthropic access under your own agreement (with the standard
+no-training-on-API-data terms), keys live in your Key Vault, and the pod works on your seats — your
+contract, your audit trail. The kit includes a one-page data-flow brief for your security team:
+what goes to the API (repo code context, specs), what doesn't (we tag genuinely sensitive material
+out of agent context), where keys live, who sees usage. A high-compliance path runs Claude inside
+your own Azure tenant (standard, section 8).</p>
+
+<h3 id="week-to-week">What will we actually see from you week to week?</h3>
+<p>Working software, not activity reports. Biweekly steering is a live demo from your dev environment
+plus an outcome scorecard — your success metric, the DORA stability pair, the accepted-as-is trend —
+and the decisions we need from you. A 5-bullet async summary in between. <strong>No PR counts, no "AI
+productivity" claims, ever.</strong> Demos and outcomes only.</p>
+
+<h3 id="greenfield">Is this only for greenfield code?</h3>
+<p>No — and the evidence cuts the other way. The flashy "AI made me 55% faster" results were fresh,
+self-contained tasks with no integration. The documented slowdowns happened on old, tangled,
+mature projects — which is where most real client code lives. The checking ladder and the risk
+tiers are built for exactly that harder setting.</p>
+
+<h3 id="claude-tooling">Do you have to use Claude / this specific tooling?</h3>
+<p>The method is tool-neutral. The standard describes the concept; the .NET/Azure stack, the
+orchestration plugin, and the CI system named in it are <em>an example of how we implement it today</em>,
+and the worked examples are where the specific commands appear. Swap any of them out and the method
+still holds. We use Claude Code because its features line up almost one-to-one with the beats —
+plan mode, CLAUDE.md, skills, hooks, subagents, the ladder.</p>
+
+<h3 id="engagement-ends">What happens when the engagement ends — are we stuck depending on you?</h3>
+<p>The opposite is the explicit goal. The harness lives in <strong>your</strong> repo from day one, so handoff is
+mostly revoking our access. Phase C (Close & Transfer) doesn't end until your team has run a real
+spec end-to-end — triage, spec, delegate, grade, merge, deploy — without us driving, and your named
+Setup Owner has merged harness changes themselves (standard, section 13). The capability transfer is
+a priced deliverable, not a favor.</p>
+
+<h3 id="cicd-dora">Can we keep our CI/CD and DORA tracking?</h3>
+<p>Yes, and you'll lean on them more. Deploy frequency, lead time, change-fail rate, and time-to-recover
+are exactly the flow and stability numbers the standard asks you to watch. They carry straight over.</p>
+
+<h3 id="metrics-stopped">What metrics do you stop tracking?</h3>
+<p>Story points and velocity (they forecast a capacity that no longer limits us), and lines, commits,
+and PR count (now actively harmful — an agent inflates them in seconds and they hide rework). They
+look great while delivery slows, which is exactly why they mislead.</p>
+
+<div class="callout">Still have a term you don't recognize? The <a href="glossary.html">glossary</a> has it. Want the 20-second
+shape of the method? The <a href="cheatsheet.html">loop cheat-sheet</a>.</div>
+</section>
+
+<footer>FAQ · Delivery Standard reference · MCKRUZ/delivery-standard · Paired source: docs/faq.md</footer>
+</main>
+</div>
+</body>
+</html>

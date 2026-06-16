@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anti-Pattern Field Guide — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, #11314e, #0f5c8c); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">Anti-Pattern Field Guide</div>
+  <div class="brand-sub">Delivery Standard · plain-language reference</div>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <a class="toc" href="#ap1">1 · Shipping with no checking</a>
+  <a class="toc" href="#ap2">2 · Authors grading themselves</a>
+  <a class="toc" href="#ap3">3 · The junk flood</a>
+  <a class="toc" href="#ap4">4 · Counting the wrong things</a>
+  <a class="toc" href="#ap5">5 · Cutting the safety net too early</a>
+  <a class="toc" href="#ap6">6 · Too many agents on one thing</a>
+  <a class="toc" href="#ap7">7 · Letting the spec rot</a>
+  <a class="toc" href="#ap8">8 · Pretending review isn't the bottleneck</a>
+  <a class="toc" href="#ap9">9 · One review depth for everything</a>
+  <a class="back" href="team.html" style="margin-top:16px">Next: The team →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>Anti-Pattern Field Guide</h1>
+  <p>The nine ways this goes wrong. For each: the symptom you'll actually notice, the root cause, the
+  fix in our standard, and how to keep it from coming back. Use it to spot trouble before it ships.</p>
+  <div class="meta">Paired source: docs/anti-patterns.md · part of MCKRUZ/delivery-standard v1.0</div>
+</header>
+
+<section id="ap1">
+<div class="callout">
+The standard buries these inside each phase's "failure modes" section. This page pulls them into one scannable place. Terms are defined in the <a href="glossary.html">glossary</a>.
+</div>
+<h2>1. Shipping with no checking</h2>
+<p>The most common and most dangerous mistake — letting the agent write straight to merge with nobody
+verifying.</p>
+<ul>
+<li><strong>Symptom:</strong> Changes go from agent to merged with no test run, no second pair of eyes, no gate. "It looked right" is the only sign-off. Production incidents start tracing back to code nobody actually read or tested.</li>
+<li><strong>Root cause:</strong> Treating "the agent finished typing" as the work being done. The <strong>Discern</strong> beat is missing entirely.</li>
+<li><strong>Fix:</strong> The checking ladder, enforced by branch protection. At minimum: mechanical gates (build, tests, lint, 80% coverage) as hard blocks, the grader required to run, the Stop hook blocking on red, and a non-author human approval on every PR. A change is done when it's <strong>checked</strong>, not when it's written.</li>
+<li><strong>Prevent:</strong> Make <strong>Definition of Checked</strong> the standard, not Definition of Done. No change skips the three beats — not even a one-line fix.</li>
+</ul>
+</section>
+
+<section id="ap2">
+<h2>2. Authors grading themselves</h2>
+<p>Checking theater: letting the thing that wrote the code also approve it.</p>
+<ul>
+<li><strong>Symptom:</strong> The "review" is the same agent (or the person who drove it) confirming its own work. Approvals are instant, nothing ever bounces back, and the grader and the author are effectively the same.</li>
+<li><strong>Root cause:</strong> You can't trust the thing that wrote the code to vouch for it, and a self-review quietly violates that.</li>
+<li><strong>Fix:</strong> The grader is a <strong>fresh agent that did not write the code</strong>; the human Checker is never the change's author. On HIGH risk, a security-reviewer pass precedes a named human sign-off.</li>
+<li><strong>Prevent:</strong> <strong>The author is never the sole approver</strong> — a hard rule at every team size. The Orchestrator/Checker swap makes it real on a small pod; subagents keep the grader separate by construction.</li>
+</ul>
+</section>
+
+<section id="ap3">
+<h2>3. The junk flood</h2>
+<p>Optimizing for volume. You get churn and duplicate code, not progress.</p>
+<ul>
+<li><strong>Symptom:</strong> Lots of code appearing fast, but rising churn, near-identical blocks, copy-paste everywhere, and refactoring dropping off. It feels productive while the codebase gets worse. (GitClear measured copy-paste blocks rising roughly 8×.)</li>
+<li><strong>Root cause:</strong> Cheap code with no discipline. Junk is the default; volume was never the goal.</li>
+<li><strong>Fix:</strong> Build against the mess — a grader that catches duplication, standards in CLAUDE.md the agent reads every session, and the one-canonical-pattern bound set per spec.</li>
+<li><strong>Prevent:</strong> Watch <strong>rework/revert rate</strong> and <strong>accepted-as-is rate</strong>. If churn rises, the discipline isn't there yet. Never reward volume.</li>
+</ul>
+</section>
+
+<section id="ap4">
+<h2>4. Counting the wrong things</h2>
+<p>Tracking PR or line counts. They look great while delivery slows.</p>
+<ul>
+<li><strong>Symptom:</strong> Dashboards full of green — PR count up, lines up, commits up, leadership happy — while actual delivery is flat and people feel faster than they are (METR's gap between feeling and reality).</li>
+<li><strong>Root cause:</strong> An agent inflates these numbers in seconds, and they hide rework. They measure output, not delivery.</li>
+<li><strong>Fix:</strong> Drop lines, commits, and PR count — they're now actively harmful. Measure trust and flow instead: accepted-as-is, rework rate, review wait, change-fail rate, time-to-recover.</li>
+<li><strong>Prevent:</strong> Keep the vanity numbers off every dashboard, and <strong>never put activity metrics in client materials</strong> (standard, section 5.5). If a number jumps when an agent runs faster, it isn't measuring delivery.</li>
+</ul>
+</section>
+
+<section id="ap5">
+<h2>5. Cutting the safety net too early</h2>
+<p>Dropping the old rituals before the checking that replaces them exists. That's how you ship
+instability.</p>
+<ul>
+<li><strong>Symptom:</strong> A team announces "agents do everything now," loosens its process, and then delivery stability drops, escaped bugs rise, and releases start breaking. The old rituals are gone and nothing replaced them.</li>
+<li><strong>Root cause:</strong> Velocity, estimation, and sprint planning were also a safety net. Removing them without the checking in place leaves the exact gap the DORA numbers warn about.</li>
+<li><strong>Fix:</strong> Stand up the checking first — automatic gates, a separate grader, hooks that block on failure — and only then retire the ceremony the checking has taken over for.</li>
+<li><strong>Prevent:</strong> The cardinal rule: <strong>install the checking before removing any old ritual.</strong> Never the other way around. (In a consulting engagement this is structural — the rails and the ladder exist from Phase 3, before the build loop opens at volume.)</li>
+</ul>
+</section>
+
+<section id="ap6">
+<h2>6. Too many agents on one thing</h2>
+<p>Splitting tightly connected code across many agents. They clobber each other.</p>
+<ul>
+<li><strong>Symptom:</strong> Several agents editing the same closely coupled code at once. They overwrite each other's changes, the result is tangled, and you've burned tokens for a worse outcome than one agent would have produced.</li>
+<li><strong>Root cause:</strong> Most coding doesn't split cleanly across agents. Parallelizing connected writing fragments the work.</li>
+<li><strong>Fix:</strong> Spread out to explore, line up to commit — many agents for read-only investigation and option comparison, <strong>one agent for writing shared code</strong>.</li>
+<li><strong>Prevent:</strong> Default to a single thread for implementation. Reserve parallel subagents for "look into these three options," and isolated worktrees for the rare genuinely independent specs.</li>
+</ul>
+</section>
+
+<section id="ap7">
+<h2>7. Letting the spec rot</h2>
+<p>Using the spec once to generate code, then never updating it. It drifts into a lie.</p>
+<ul>
+<li><strong>Symptom:</strong> The spec says one thing, the code does another. Nobody trusts the spec anymore, so people read the code to find the truth — which defeats the point of having a spec.</li>
+<li><strong>Root cause:</strong> The spec was treated as a throwaway prompt, not the source of truth. Used once and abandoned.</li>
+<li><strong>Fix:</strong> Keep the spec a living, version-controlled file that rides in the PR diff. When behavior changes, update the spec first — it's the thing that lasts when the chat history is gone.</li>
+<li><strong>Prevent:</strong> The Orchestrator owns keeping the spec current; at Retro+ and setup review, treat a drifted spec as a defect to fix, not a footnote.</li>
+</ul>
+</section>
+
+<section id="ap8">
+<h2>8. Pretending review isn't the bottleneck</h2>
+<p>Cheering individual output while delivery stays flat. The work moved to review.</p>
+<ul>
+<li><strong>Symptom:</strong> Everyone celebrates how much the agents produce, but things still take as long to actually ship. Changes pile up waiting to be checked, review is understaffed, and nobody's measuring the queue.</li>
+<li><strong>Root cause:</strong> The bottleneck relocated from writing to review, and the team is still managing as if writing were the constraint.</li>
+<li><strong>Fix:</strong> Staff review as the real work and make checking a respected job. Cap WIP, and measure <strong>review wait</strong> and <strong>security-review wait</strong> separately (security clears slower and would hide in an average).</li>
+<li><strong>Prevent:</strong> Run the standup as a <strong>flow check</strong> ("how long is the review queue?"), not a status update. When review wait crosses the tripwire, stop opening streams.</li>
+</ul>
+</section>
+
+<section id="ap9">
+<h2>9. One review depth for everything</h2>
+<p>Reading a typo fix as hard as an auth change — or waving everything through. Match the care to the
+risk.</p>
+<ul>
+<li><strong>Symptom:</strong> Either every diff gets the same heavy scrutiny (slow, and reviewers burn out on trivia), or everything gets rubber-stamped (and the auth change slips through with the typo fix). Risk and review effort are disconnected.</li>
+<li><strong>Root cause:</strong> A single review depth ignores that risk varies. Trivial and dangerous changes get the same treatment.</li>
+<li><strong>Fix:</strong> The <strong>risk taxonomy</strong> routes it — light checks for LOW, grader-plus-human for MEDIUM, a human plus security review for HIGH.</li>
+<li><strong>Prevent:</strong> Build the tiered checking into the workflow. Assign the tier at triage, record it in the spec, and track security-review wait on its own.</li>
+</ul>
+<div class="callout">
+The structure that prevents most of these is in <a href="team.html">the team</a> and the <a href="build-loop.html">build-loop deep-dive</a>. The terms are in the <a href="glossary.html">glossary</a>. No checking is just vibe coding — the loop closes it.
+</div>
+</section>
+
+<footer>Anti-Pattern Field Guide · Delivery Standard reference · MCKRUZ/delivery-standard · Paired source: docs/anti-patterns.md</footer>
+</main>
+</div>
+</body>
+</html>
