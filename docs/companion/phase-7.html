@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 7 · Walkthrough — Documentation, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase 7 (Documentation): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics. The core idea — docs are verified by use, not by reading.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-7-documentation.html">Phase 7 · Documentation</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase 7 · Walkthrough</p>
+    <h1>Documentation, explained
+      <span class="sub">The week that decides whether the client can run this system after we leave — each idea paired with how it actually played out on a real project.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">A document that reads well and a document that <strong>works</strong> are two
+        different things. You only find out which one you wrote by handing it to a stranger and
+        watching them try to use it.</p>
+      <p class="big" style="margin-top:18px;">Phase&nbsp;7 is where the documentation gets proven
+        <em>by use, not by reading</em> &mdash; before the team that wrote the system walks out the door.</p>
+      <p class="sig">Every idea below is paired with the real thing — examples come from a fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 why this phase exists -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>In a consulting engagement, the documentation <em>is</em> the handoff</h2>
+      <p class="lead">The build is feature-complete. The system runs. And in a few weeks the people who
+        wrote it are gone. Everything this phase produces is what the client lives with after that
+        &mdash; so the only question worth asking is whether someone who isn't us can understand, run,
+        and operate it from the documents alone.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>This isn't hygiene and it isn't "write the docs at the end." Most of the record already
+            exists &mdash; specs stayed current as the code changed, decisions were signed when they
+            were made. Phase&nbsp;7 consolidates what's there, checks it against the system <em>as
+            built</em>, closes the open decisions, writes the operational manual &mdash; and then proves
+            all of it.</p>
+          <p>The proof is the whole point. A document nobody has executed is a promise, not a fact.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Build closed feature-complete: 44 features merged, the system running in Harbor's dev and
+            test environments, the claim-decision clock instrumented. One question remained for the week:</p>
+          <div class="snippet">
+            <div class="from">The only thing Phase 7 had to answer</div>
+            <blockquote>"Can Harbor understand, run, and operate this system without us in the room?"</blockquote>
+          </div>
+          <p style="margin-top:12px;">After this week the pod leaves. Whatever the docs don't say,
+            Harbor's on-call engineer won't know &mdash; at 3 a.m., alone.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Treat it as "just docs" and&hellip;</div>
+        <p>It stays "just docs" right up until the client's on-call engineer is alone with the system at
+          3 a.m. In a consulting engagement, this phase <em>is</em> the product the client keeps.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the one rule -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs everything</p>
+      <h2>Claude drafts from the code; humans verify by use</h2>
+      <p class="lead">The same spine runs through every phase: the AI does the reading, the diffing, and
+        the first drafts; people make every decision and carry the accountability. Phase&nbsp;7 has its
+        own sharp edge &mdash; the AI wrote most of the system, so now it drafts most of the record of
+        it, but it can never declare that record true.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <ul>
+            <li><strong>Claude</strong> drafts the README from a fresh checkout, diffs every endpoint
+              against the signed contracts, sweeps the build history for decisions nobody wrote down,
+              and drafts the operations manual from the real pipeline.</li>
+            <li><strong>People</strong> decide whether a difference was a choice or a defect, sign each
+              decision, and &mdash; the part that matters &mdash; <em>verify by use</em>.</li>
+          </ul>
+          <p style="margin-top:12px;">Why so strict? Reading your own output back is the author grading
+            the author. The AI can't prove its own docs any more than it can review its own code.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Claude drafted the README, the API docs, and the runbook procedures. But none of those
+            counted as done until a human used them. The phase belonged to Nadia Brooks, the Quality
+            Engineer, whose job was to define what "verified" meant &mdash; and to make sure the people
+            doing the verifying were <em>not the pod</em>.</p>
+          <div class="snippet">
+            <div class="from">The human rule of the phase</div>
+            <blockquote>"Claude drafts from the code and the specs; humans verify by use."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the four questions -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">What the week must answer</p>
+      <h2>Four questions &mdash; and deliberately nothing else</h2>
+      <p class="lead">Phase&nbsp;7 isn't a place to add features, deploy to production, or wire up
+        monitoring &mdash; each of those has its own home. Everything this week produces exists to
+        answer exactly four questions.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; the four questions</div>
+          <ol>
+            <li><strong>Is the written system the built system?</strong> The API docs get diffed
+              against the signed contracts; every difference is explained or fixed.</li>
+            <li><strong>Can a stranger run it?</strong> Proven by a newcomer doing a setup from scratch.</li>
+            <li><strong>Can a stranger operate it at 3 a.m.?</strong> Proven by an ops engineer walking
+              real procedures in a real environment.</li>
+            <li><strong>Is the decision record complete?</strong> Every significant choice from the
+              build has a written record &mdash; nothing lives only in someone's head.</li>
+          </ol>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual &mdash; the answers in motion</div>
+          <ol>
+            <li>The endpoint diff produced a catalog of exactly <strong>two</strong> differences &mdash;
+              one a deliberate choice, one a defect.</li>
+            <li><strong>Ines Roy</strong>, a Harbor engineer hired three weeks earlier, ran the README
+              on a clean machine.</li>
+            <li><strong>Tom Reilly</strong>, Harbor's platform engineer, executed a deploy, a rollback,
+              and a simulated failure from the runbook.</li>
+            <li>The history sweep found two decisions living in PR threads and one person's memory;
+              both became signed records.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The temptation to resist</div>
+        <p>It feels efficient to start prepping the production deploy now, or to sketch the alerts. Don't.
+          The runbook can <em>point</em> at things that don't exist yet &mdash; it must not invent them.
+          Documenting a topology that isn't built is documenting fiction.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 the diff, not the transcription -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">The technique that earns the phase</p>
+      <h2>Diff the docs against the code &mdash; never transcribe</h2>
+      <p class="lead">There are two easy, wrong ways to write API documentation. Copy the old contracts,
+        and the docs describe a plan the system may have outgrown. Copy the code, and the docs faithfully
+        describe every bug as if it were a feature. The honest way is to read both and compare them.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Every endpoint gets read from the implementation and held up against what it was
+            <em>promised</em> to do. Each gap is a <strong>drift</strong> &mdash; and each drift gets a
+            human label:</p>
+          <ul>
+            <li><strong>Intentional</strong> &mdash; somebody chose this during the build. Fine, but the
+              <em>why</em> gets written down and the contract updated.</li>
+            <li><strong>Unintentional</strong> &mdash; nobody decided this; it's a defect. It goes
+              through the same fix-and-review loop as any other bug, before the phase can close.</li>
+          </ul>
+          <p style="margin-top:12px;">The diff is what makes drift visible. Transcribing either side
+            hides it.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Fourteen weeks of build, and the diff surfaced just two differences &mdash; the receipt for
+            keeping specs current the whole way. One of each kind:</p>
+          <div class="snippet">
+            <div class="from">Intentional &mdash; a choice, now documented</div>
+            <blockquote>The degraded "pending verification" response also carries the replica's last-refresh timestamp &mdash; added so adjusters could judge how stale it was. Approved at the time; the why is now in the contract.</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Unintentional &mdash; a defect, fixed in-week</div>
+            <blockquote>Claims-search returned a bare 500 with an empty body on a replica timeout, bypassing the standard error format. No decision behind it. Fixed through the loop, merged, deployed.</blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="lbl">Why two drifts is good news</div>
+        <p>A short catalog after a long build is the discipline showing: behavior and its contract
+          changed together all along, so the system mostly <em>is</em> the contract. A long catalog is a
+          build-quality finding, not a documentation chore.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 the cold checkout (THE key idea) -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">The one idea this phase is built around</p>
+      <h2>Prove the README by handing it to someone who has never seen the repo</h2>
+      <p class="lead">A senior engineer can read a setup guide, nod, and approve it &mdash; and still be
+        wrong, because they fill every gap with what they already know. The only honest test is to give
+        the document to someone with <em>no</em> prior knowledge and watch them follow it, word for word,
+        without help.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; the cold checkout</div>
+          <p>A person who has never touched the system follows the README exactly, on a clean machine,
+            while the team watches in silence. Every place they stall &mdash; every assumed tool, every
+            "wait, what's my&hellip;", every step they can't complete without asking &mdash; is a
+            documentation defect, logged on the spot.</p>
+          <p>The defects get fixed the same day, and then the <em>same person</em> runs it again from
+            step one, end to end. A partial re-run that starts at the broken step proves nothing about
+            the steps above it.</p>
+          <p style="margin-top:12px;"><strong>"They managed with a little help" is a fail.</strong> The
+            help is exactly the thing the client won't have after close.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Ines Roy &mdash; three weeks at Harbor, never opened the repo &mdash; was the week's most
+            valuable contributor, precisely because the README is for her. She started at 9:00 with the
+            pod silent.</p>
+          <div class="snippet">
+            <div class="from">Where she stalled &mdash; step 4</div>
+            <blockquote>The local-secrets bootstrap assumed a vault read permission that new Harbor engineers don't have by default. Nobody helped. The stall was the data.</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The fix, then the clean re-run</div>
+            <blockquote>A bootstrap script plus a documented access-request path (with a named approver) merged before lunch. The 11:30 re-run was clean, end-to-end, forty minutes.</blockquote>
+          </div>
+          <p style="margin-top:12px;">The README failing on a new hire's permissions in week one of the
+            close &mdash; instead of month one of ownership &mdash; <em>is the phase doing its job</em>.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The way this test gets quietly broken</div>
+        <p>Someone leans over the verifier's shoulder: "oh, you just need to&hellip;". The run is now
+          void. The stalls are the data; helping erases the data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 the runbook for 3am -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Writing for the worst moment</p>
+      <h2>The operations manual is written for someone exhausted, stressed, and new</h2>
+      <p class="lead">The runbook's reader isn't a calm engineer at their desk. It's whoever is on call
+        when something breaks &mdash; possibly seeing the system for the first time, mid-incident, at 3
+        a.m. Every procedure is written for <em>that</em> reader, or it isn't written at all.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Every procedure is numbered steps, exact copy-pasteable commands, an observable check after
+            each one ("you should now see&hellip;"), and a recovery path if a step fails. The failure
+            scenarios aren't imagined &mdash; they come from what the engagement actually learned: the
+            constraints, the designed-in degradations, the near-misses from the build.</p>
+          <p style="margin-top:12px;"><strong>"See the wiki" and "ask the team" are banned strings.</strong>
+            After close, there is no wiki to trust and no team to ask. If it isn't in the runbook, it
+            doesn't exist.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Five failure scenarios, every one earned during the engagement &mdash; the nightly
+            data-replica refresh window, a failed sync, a storm-surge queue (sized from a real 2024
+            catastrophe event), an AI-accuracy regression, and a bad deploy. The first scenario opens
+            with the question a 3 a.m. responder actually needs:</p>
+          <div class="snippet">
+            <div class="from">Failure scenario 1 &mdash; the first branch</div>
+            <blockquote>"First question — what time is it? 02:00&ndash;04:30 Eastern: this is the replica's nightly refresh window. EXPECTED. Do nothing. Any other time: continue to step 1."</blockquote>
+          </div>
+          <p style="margin-top:12px;">"See the wiki" and "ask the team" appear zero times. Each scenario
+            also names the alert that should catch it &mdash; so when monitoring is configured later, the
+            runbook and the alerts describe the same failures.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 the decision sweep -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Collecting the debt before the debtors leave</p>
+      <h2>Sweep the build history for decisions nobody wrote down</h2>
+      <p class="lead">During a long build, real decisions get made in passing &mdash; a dependency added,
+        a pattern changed, an alternative rejected in a review thread. Each one that never got written
+        down is tribal knowledge. And at close, the tribe leaves the building.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Claude does a read-only pass over the merge history and the spec library, looking for the
+            hard-to-undo choices that never got a written decision record. Each candidate becomes a
+            drafted record &mdash; context, options, decision, consequences &mdash; for humans to sign or
+            strike.</p>
+          <p style="margin-top:12px;">This is debt collection, done while the people who made the choices
+            are still in the room to confirm them. Anything found to be mere implementation detail is
+            struck &mdash; and the fact that it was struck is itself recorded.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The sweep surfaced four candidates; the humans triaged them to two real ones:</p>
+          <div class="decision">
+            <strong>The surge-queue retry policy</strong> &mdash; chosen after a near-miss in the first
+            hardening pass, lived in a PR thread until today.<br>
+            <strong>The claim-document retention tiering</strong> &mdash; a storage choice made with
+            Harbor's data lead in a review, irreversible after go-live, written down nowhere.
+          </div>
+          <p style="margin-top:12px;">Both got context, options, consequences &mdash; and signatures from
+            the people who'll live with them. The other two candidates were struck as implementation
+            detail, recorded as struck. No decisions left undocumented.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">What happens if you skip it</div>
+        <p>The choices that live only in PR threads and pod memory walk out the door with the pod. Six
+          months later the client hits one, asks "why is it built this way?", and there's no one left to
+          answer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 the gate -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">How a phase actually ends</p>
+      <h2>A gate, not a calendar &mdash; and the verification <em>is</em> the gate</h2>
+      <p class="lead">The default week is five days, but the phase doesn't close because five days passed.
+        It closes when a specific list is true and a named human on each side signs to advance. The
+        teeth on that list are the cold runs &mdash; the things proven by use, not by reading.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Automated checks confirm the mechanical parts; people own the judgment. <strong>Gates
+            report; humans decide.</strong> And because the gate is a billing milestone, an unmet teeth
+            item isn't something the pod quietly absorbs &mdash; the phase doesn't close until it's true.</p>
+          <p>If the client can't free a genuinely-new verifier, you slip the gate rather than verify by
+            reading &mdash; and you say so at steering. The verification isn't a step in the phase; it
+            <em>is</em> the phase.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Both cold runs passed &mdash; Ines on the README after her clean re-run, Tom on the runbook
+            after one rewrite (a scale-up step had assumed a subscription role the pod held and Harbor
+            didn't). The gate passed; the sponsor signed at steering with one honest line on the record:</p>
+          <div class="decision">
+            Production topology and alert thresholds are documented as pointers to the next phases &mdash;
+            not as content, because they don't exist yet. <strong>Billing milestone five.</strong> The
+            engagement advanced to Deployment.
+          </div>
+        </div>
+      </div>
+      <p class="dim" style="margin-top:24px;">The full checklist &mdash; tick it:</p>
+      <ul class="gate" style="margin-top:12px;">
+        <li class="teeth"><span class="box" aria-hidden="true"></span><span class="txt">A client engineer new to the repo completed the README cold checkout exactly as written &mdash; observed, unassisted, on a clean machine</span></li>
+        <li class="teeth"><span class="box" aria-hidden="true"></span><span class="txt">The client's ops engineer executed a deploy, a rollback, and a failure scenario from the RUNBOOK, cold, with their own permissions</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The API docs match the implementation; the drift catalog is empty, or every open item has an owner and a next-phase decision</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">No decisions left undocumented &mdash; the sweep ran and every significant build choice is recorded and co-signed</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The spec-library sample audit passed, or its mismatches became defects, now fixed</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">Defects found by the cold runs are fixed and the failed run was re-run clean &mdash; "managed with a little help" is a fail</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The next-phase handoff exists: inventory, honest gaps, the deployment checklist, decision status</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">A named human on each side has approved the move to the next phase</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 09 seeing it happen — the timeline -->
+  <section class="s">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">09</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>The week, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. The first half
+          <strong>drafts and diffs</strong>; the second half <strong>verifies by use</strong> and fixes
+          what the verification finds. The two streams &mdash; understanding the system and proving the
+          docs &mdash; converge on Friday's cold runs. Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 7 timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 <span class="date">· scope &amp; audit</span></div>
+          <h3>Decide who reads what, then trust-but-verify the specs</h3>
+          <p>With the client in the room: who reads each document (their engineers, their ops, their
+            users), what already exists and is current, what must be created. Then a sample of specs gets
+            checked against live behavior &mdash; the pass that proves the specs really did stay current
+            all through the build.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 <span class="date">· parallel drafts</span></div>
+          <h3>The README and the contract diff, at the same time</h3>
+          <p>Two drafting streams run at once because they share nothing: one drafts the README and
+            user-facing docs from the repo as it actually is; the other reads every endpoint and diffs it
+            against the signed contracts. The diff produces the drift catalog &mdash; reviewed with the
+            client's lead engineer, since the contracts are theirs after close.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 <span class="date">· the RUNBOOK</span></div>
+          <h3>Write for 3 a.m.</h3>
+          <p>Every procedure as numbered steps, exact commands, an observable check, a recovery path. The
+            failure scenarios come from what the engagement learned, not from a template's imagination.
+            Each scenario names the alert that should catch it. "See the wiki" and "ask the team" are
+            banned &mdash; after close, there's nobody to ask.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 <span class="date">· the decision sweep</span></div>
+          <h3>Collect the decision debt before the debtors leave</h3>
+          <p>A read-only sweep of the build history surfaces choices that never got a written record.
+            Humans triage each candidate: the real ones become signed decision records, co-signed by the
+            client's lead engineer; the rest are struck as implementation detail. Any defect the
+            documenting surfaced rides the fix loop the same day.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 <span class="date">· verify by use, then the gate</span></div>
+          <h3>The cold runs, then a signature</h3>
+          <p>A new engineer follows the README on a clean machine while the pod stays silent &mdash; every
+            stall fixed and re-run. The ops engineer walks real procedures in the real environment with
+            their own permissions. Then the automated gate, the next-phase handoff, and steering: the
+            sign-off, the billing milestone, advance to Deployment.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 how it goes wrong -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has happened to someone. Knowing them by name is half the
+        defense &mdash; and Harbor's structure caught one of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Verified by reading</strong></td><td>Someone senior reads the README, nods, approves it</td><td>Reading checks prose; only use checks truth. The cold run is the phase &mdash; protect it.</td><td>Ines ran it cold; step 4 failed under observation</td></tr>
+          <tr><td><strong>The helpful cold run</strong></td><td>"Oh, you just need to&hellip;" leaned over the verifier's shoulder</td><td>Stalls are the data; helping erases the data. The pod stays silent.</td><td>Pod silent; the stall was logged, not solved</td></tr>
+          <tr><td><strong>Documenting the plan</strong></td><td>API docs transcribed from the old contracts, never checked against the code</td><td>Diff, never transcribe. The contract diff is what finds drift.</td><td>Diff caught both drifts before deployment</td></tr>
+          <tr><td><strong>Transcribing the code</strong></td><td>Docs generated from the implementation, bugs documented as features</td><td>Diff against the signed contracts; that's what makes a defect visible.</td><td>The bare-500 defect surfaced and got fixed</td></tr>
+          <tr><td><strong>"See the wiki"</strong></td><td>Pointers to knowledge that lives outside the repo</td><td>The 3 a.m. reader has nobody to ask. Write it down or it doesn't exist.</td><td>Banned strings appeared zero times</td></tr>
+          <tr><td><strong>Decision debt walking out</strong></td><td>Build-era choices that live only in PR threads and memory</td><td>The sweep plus signatures is the collection mechanism &mdash; do it while they're here.</td><td>Two records signed; two struck on purpose</td></tr>
+          <tr><td><strong>The documentation fork</strong></td><td>A shiny new "system specification" duplicating the specs</td><td>Two sources of truth means one starts lying. Consolidate and point.</td><td>No fork &mdash; the specs stayed the truth</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase 7 is done</p>
+      <h2>The proof is the deliverable</h2>
+      <p class="dim">Documentation doesn't close because the documents read well. It closes because a
+        stranger ran the system from them &mdash; a newcomer set it up cold, an ops engineer operated it
+        cold, every difference between the docs and the code is explained or fixed, and every decision is
+        written down and signed. That's a handoff the client can actually live with. Where to go next:</p>
+      <div class="next">
+        <a href="phase-8.html"><span class="t">Phase 8 &rarr;</span><span class="d">Deployment &mdash; promoting to production through the rehearsal, the ceremony, and a named human saying go.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 7 &mdash; roles, calendar, artifacts, the exact gate.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase 7 · Documentation</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, cadences, and gate, including the tooling specifics the Learn-it view leaves out. For
+        the full deep-dive see <a href="../phase-7-documentation.html">phase-7-documentation</a>; for the
+        complete worked example with every ID and command, <a href="../phase-7-example.html">phase-7-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase 7 answers four questions, and nothing else. New features, production deployment, and
+        monitoring configuration are out of scope &mdash; they belong to the (now-closed) Build loop,
+        Phase 8, and Phase 9. Defects <em>found by documenting</em> are in scope and ride the build loop
+        as specs before the phase can close.</p>
+      <ol>
+        <li><strong>Is the written system the built system?</strong> (API docs diffed against the Phase 2 contracts, every drift explained or fixed; specs spot-audited against behavior)</li>
+        <li><strong>Can a stranger run it?</strong> (the README, proven by a cold checkout)</li>
+        <li><strong>Can a stranger operate it at 3 a.m.?</strong> (the RUNBOOK, proven by a cold walk-through of real procedures in a real environment)</li>
+        <li><strong>Is the decision record complete?</strong> (every significant Build-era decision has an ADR; nothing lives only in someone's head)</li>
+      </ol>
+
+      <h2>The human / AI contract for this phase</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>Humans verify by use: a new engineer runs the README cold; an ops engineer walks the RUNBOOK cold. Humans label each drift, sign each ADR, and own the decision record.</td><td>Drafts the README and user-facing docs from a fresh checkout; generates API docs by diffing every endpoint against the Phase 2 contracts; sweeps Build history for undocumented decisions; drafts RUNBOOK procedures from the real pipeline.</td><td>Claude never declares a document verified, decides whether a drift was intentional, or signs an ADR. Reading its own output back is not verification. Phase advance.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who is involved</h2>
+      <p>Phase 7 is the Quality Engineer's phase: the QE owns what "verified" means here, and the
+        verification is done by people who must not be us.</p>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Quality Engineer</td><td>70&ndash;90%</td><td>Owns the verification design &mdash; who does each cold run, what counts as a stall, how doc defects get triaged. Audits the spec library against behavior on a sample.</td></tr>
+          <tr><td>Setup Owner</td><td>50&ndash;70%</td><td>Owns the RUNBOOK's truth &mdash; deploy, rollback, secrets, scaling. Owns the harness documentation the client inherits.</td></tr>
+          <tr><td>Orchestrators</td><td>40&ndash;60%</td><td>Drive the drafting agents, run the contract diff, fix the doc defects the cold runs surface &mdash; through the loop, like any change.</td></tr>
+          <tr><td>Pod Lead</td><td>30&ndash;40%</td><td>Routes drift decisions (intentional or defect?) to the right owner, schedules the client verifiers' time, runs the gate and the steering.</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>An engineer new to the repo</td><td>The README cold checkout &mdash; deliberately someone who has never opened the project, because that is who the README is for</td><td>2&ndash;3 hours</td></tr>
+          <tr><td>Ops / platform engineer</td><td>The RUNBOOK cold walk-through in the real dev environment: a deploy, a rollback, one simulated failure scenario &mdash; with their own permissions, not ours</td><td>3&ndash;4 hours</td></tr>
+          <tr><td>Lead engineer</td><td>Reviews the drift catalog and co-signs the new ADRs &mdash; the decision record is theirs after close</td><td>2&ndash;3 hours</td></tr>
+          <tr><td>Product Owner</td><td>Confirms any user-facing documentation matches what users actually do</td><td>~1 hour</td></tr>
+          <tr><td>Sponsor</td><td>Steering at the gate: the documentation audit and the deployment readiness picture</td><td>45 min</td></tr>
+        </tbody>
+      </table>
+      <p class="note">If the client cannot field a cold verifier &mdash; someone genuinely new to the repo &mdash; that is a finding about the handoff, not a scheduling nuisance. A README verified by someone who already knows the system has not been verified.</p>
+
+      <h2>The five-day calendar</h2>
+      <p>The default is 5 business days. The first half drafts and diffs; the second half verifies by use
+        and fixes what the verification finds.</p>
+      <table>
+        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Scope &amp; audit</td><td>Documentation scope decided with the client (audiences, what exists, what to create, client standards); QE samples 5&ndash;10 specs (weighted to HIGH-risk and recently changed) against live behavior in dev</td><td><code>/sdlc</code></td></tr>
+          <tr><td>2</td><td>Parallel drafts</td><td>README + user-facing docs drafted from the repo; every endpoint diffed against the Phase 2 contracts &rarr; the drift catalog, labeled and reviewed with the client lead engineer</td><td><code>/sdlc</code> (doc-updater + backend-architect agents)</td></tr>
+          <tr><td>3</td><td>The RUNBOOK</td><td>Procedures drafted from the real pipeline &amp; infrastructure; failure scenarios drawn from the engagement's own history; each notes its Phase 9 alert; "see the wiki" / "ask the team" banned</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>4</td><td>Decision sweep</td><td>Read-only sweep of Build merge history &amp; specs surfaces undocumented decisions; humans triage; real ones become co-signed ADRs, open ADRs closed; doc-surfaced defects ride the loop</td><td><code>/sdlc</code> (Explore agent), <code>/sdlc-coach</code></td></tr>
+          <tr><td>5</td><td>Verify &amp; gate</td><td>The cold checkout and the cold walk-through, observed and unassisted; defects fixed and re-run clean; gate check; Phase 8 handoff drafted; steering sign-off &mdash; billing milestone</td><td><code>/sdlc-gate</code>, <code>/visual-explainer</code>, <code>/sdlc-phase-report</code>, <code>/sdlc-next</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">A clean machine means a fresh OS account or VM with none of the project's toolchain pre-installed &mdash; the verifier installs only what the README tells them to. A stall is any step the verifier cannot complete as written without information from outside the document; the re-run is the same verifier, from step one, end to end.</p>
+
+      <h2>The artifacts</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Drafted by</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>README + user-facing docs</td><td>Claude (from the repo), Orchestrators</td><td>Quality Engineer</td><td>A client engineer who never saw the repo completed the cold checkout exactly as written</td></tr>
+          <tr><td>API documentation</td><td>Claude (diff against the Phase 2 contracts)</td><td>Setup Owner</td><td>Every endpoint current with the implementation; every drift labeled intentional-with-why or fixed</td></tr>
+          <tr><td>The drift catalog</td><td>Claude (drafts), humans (label each entry)</td><td>Pod Lead</td><td>Empty, or every open item has an owner and an explicit Phase 8 blocker decision</td></tr>
+          <tr><td>RUNBOOK</td><td>Claude (drafts), Setup Owner (corrects)</td><td>Setup Owner</td><td>The client's ops engineer executed a deploy, a rollback, and a failure scenario from it, cold, with their own permissions</td></tr>
+          <tr><td>ADR closeout</td><td>Claude (sweep + drafts), humans (sign)</td><td>Setup Owner</td><td>No open ADRs; every significant Build decision recorded and co-signed; superseded ones marked</td></tr>
+          <tr><td>Spec library audit</td><td>Quality Engineer</td><td>Quality Engineer</td><td>The sample matches live behavior; any mismatch became a defect spec</td></tr>
+          <tr><td>Phase 8 handoff</td><td>Claude (drafts)</td><td>Pod Lead</td><td>Documentation inventory, honest gaps, the deployment checklist, ADR status</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: documentation for things that don't exist yet
+        (production topology is Phase 8, alert definitions are Phase 9 &mdash; the RUNBOOK points at them,
+        it doesn't invent them), and a separate "specification document" duplicating the spec library
+        &mdash; the specs <em>are</em> the feature documentation, and forking that truth creates two
+        versions where one will start lying.</p>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min pod sync</td><td>Whole pod</td><td>Draft status, drift triage, cold-run scheduling, the doc-defect queue</td></tr>
+          <tr><td>Drift review</td><td>Pod Lead + client lead engineer</td><td>Each catalog entry labeled: intentional (document the why) or defect (into the loop)</td></tr>
+          <tr><td>The cold runs</td><td>Client verifiers + QE observing</td><td>The README checkout and the RUNBOOK walk-through &mdash; the phase's actual verification events</td></tr>
+          <tr><td>Setup review</td><td>Setup Owner + deputy</td><td>Continues from Build: doc PRs and harness-doc changes merge reviewed, on the rails like everything else</td></tr>
+          <tr><td>Steering</td><td>Sponsor + Pod Lead</td><td>Falls at the gate: the documentation audit, the drift story, deployment readiness</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The exit gate</h2>
+      <p>Phase 7 closes when all of these are true, verified at the gate:</p>
+      <ul>
+        <li><strong>A client engineer new to the repo completed the README cold checkout</strong> exactly as written &mdash; observed, unassisted, on a clean machine <em>(verification teeth)</em></li>
+        <li><strong>The client's ops engineer executed a deploy, a rollback, and at least one failure scenario from the RUNBOOK</strong>, cold, in the dev environment, with their own permissions <em>(verification teeth)</em></li>
+        <li>API documentation matches the implementation; the drift catalog is empty or every open item has an owner and an explicit Phase 8 blocker decision</li>
+        <li>No open ADRs; the decision sweep ran and every significant Build-era decision is recorded and co-signed</li>
+        <li>The spec library sample audit passed (or its mismatches became defect specs, now merged)</li>
+        <li>Doc defects found by the cold runs are fixed and the failed run was re-run clean &mdash; "they managed with a little help" is a fail</li>
+        <li>The Phase 8 handoff exists: inventory, gaps, deployment checklist, ADR status</li>
+        <li>A named human on each side approved the advance &mdash; gates report, humans decide</li>
+      </ul>
+      <p class="note">The bar is exact: "they managed with a little help" is a fail. A failed cold run is fixed and re-run clean, by the same verifier, from step one. If the client can't free the verifiers, slip the gate rather than verify by reading &mdash; and say so at steering.</p>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>Verified by reading.</strong> Someone senior reads the README, nods, approves. Reading checks prose; only use checks truth. The cold run is the phase &mdash; protect it.</li>
+        <li><strong>Documenting the plan, not the build.</strong> API docs transcribed from the Phase 2 contracts instead of diffed against the code. The drift goes undetected and the docs lie from day one. Diff, never transcribe.</li>
+        <li><strong>Transcribing the code, bugs and all.</strong> Docs generated from the implementation with no contract comparison faithfully document defects as features. The diff against the signed contracts is what makes drift visible.</li>
+        <li><strong>"See the wiki."</strong> Every pointer to knowledge outside the repo is a 3 a.m. failure deferred. The runbook reader has nobody to ask &mdash; write it down or it doesn't exist.</li>
+        <li><strong>The helpful cold run.</strong> Someone leans over the verifier: "oh, you just need to&hellip;" The run is now void. Stalls are the data; helping erases the data.</li>
+        <li><strong>ADR debt walking out the door.</strong> Build-era decisions that live in PR threads and pod memory. At close, that memory leaves the building. The sweep and the signatures are the collection mechanism.</li>
+        <li><strong>The documentation fork.</strong> A shiny new "system specification" duplicating what the specs already say. Two sources of truth means one is lying within a quarter. Consolidate and point; don't fork.</li>
+        <li><strong>Treating the phase as a formality.</strong> It's "just docs" until the client's on-call engineer is alone with the system. In a consulting engagement, this phase <em>is</em> the product the client keeps.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase 7 · Walkthrough &mdash; a companion to the <a href="../phase-7-documentation.html">Documentation phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

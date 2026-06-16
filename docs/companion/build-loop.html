@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Build Loop · Walkthrough — explained</title>
+<meta name="description" content="An interactive walkthrough of the Build loop — Intent, Delegate, Discern, run for every change: each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../build-loop.html">The Build Loop</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">The Build Loop · Walkthrough</p>
+    <h1>The build loop, explained
+      <span class="sub">The continuous middle of an engagement — how every single change gets built, three beats at a time, with the real Harbor Mutual week alongside each idea.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">The phases open and close the engagement. The <strong>middle</strong> — usually two
+        to four months, the bulk of the work — isn't a phase at all.</p>
+      <p class="big" style="margin-top:18px;">It's one short cycle, repeated for <em>every</em> change:
+        decide what you want, hand it to an agent, prove it before anyone trusts it.</p>
+      <p class="sig">Every idea below is paired with the real thing — one ordinary week of Harbor Mutual,
+        a fictional but fully worked engagement: two features built end to end, a bug caught, a story
+        bounced.</p>
+    </div>
+  </section>
+
+  <!-- 01 why the middle isn't phased -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why the middle isn't a phase</p>
+      <h2>If checking waits, it piles up &mdash; and a pile never gets checked</h2>
+      <p class="lead">A traditional project saves up testing and review for the end. When an AI writes the
+        code, that's fatal: it can produce more in a week than a saved-up review queue will ever clear.
+        So the middle isn't phased. It's a loop, and the checking happens <em>per change</em>.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The loop is three beats &mdash; <strong>Intent</strong>, <strong>Delegate</strong>,
+            <strong>Discern</strong> &mdash; run for every piece of work, large or small. Nothing waits.
+            A change is checked before the next one starts, not weeks later in a batch nobody has time for.</p>
+          <p>There's no gate at the end of a loop pass, because the loop isn't a phase. There's a
+            <em>merge bar</em> every change clears: checks pass, a fresh agent has graded it, and a human
+            who didn't write it has approved it.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>By week four, ten changes had already shipped this way &mdash; each one proven before the
+            next began. The week we're watching is deliberately ordinary: nothing on the board is special.</p>
+          <div class="snippet">
+            <div class="from">What the loop replaces</div>
+            <blockquote>"The implementation, testing, and review phases of a traditional SDLC &mdash; collapsed into one cycle, run per change."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Phases 0&ndash;3 fixed the problem and built the factory. The loop
+            now grows it into the product, spec by spec.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Save the checking for later and&hellip;</div>
+        <p>You get a review queue an AI can outrun by Tuesday. The whole point of the loop is that checking
+          never gets to pile up &mdash; it happens on each change, while it's still one change.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the three beats -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The whole loop in one picture</p>
+      <h2>Three beats, every time: Intent &rarr; Delegate &rarr; Discern</h2>
+      <p class="lead">Everything in the middle of the engagement is this one cycle. Each beat answers a
+        different question, and skipping any of them is exactly where agent-built work goes wrong.</p>
+      <div class="compare three">
+        <div class="col">
+          <div class="plabel">Intent</div>
+          <p><strong>Decide what you want</strong> &mdash; clearly enough to <em>check</em> &mdash; and
+            write it down as a spec. When the agent can build in minutes, how clearly you said it is what
+            decides whether you got what you wanted.</p>
+        </div>
+        <div class="col">
+          <div class="plabel">Delegate</div>
+          <p><strong>An agent builds it</strong>, inside bounds a human set, from a plan a human approved.
+            Not "go build it" &mdash; it's drawing the box the agent works in, then approving its plan
+            before a line is written.</p>
+        </div>
+        <div class="col">
+          <div class="plabel">Discern</div>
+          <p><strong>Prove it before anyone trusts it.</strong> Checks and a non-author confirm it against
+            the spec. Merge deploys it. Written is cheap now; <em>checked</em> is the bar.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">"It's too small to bother"</div>
+        <p>The moment the loop gets skipped for "small" changes is the moment unchecked work creeps back in.
+          Small-and-risky is the cheap-to-type, expensive-to-get-wrong case &mdash; the worst bugs in
+          agent-built code ship inside changes someone decided were too small to check.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Intent -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Beat one &mdash; Intent</p>
+      <h2>Nothing enters the loop as a conversation</h2>
+      <p class="lead">A story becomes buildable only by clearing one bar first: the
+        <strong>Definition of Ready</strong>. The test that does the most work is dead simple &mdash;
+        <em>could two people build different things from this line?</em> If yes, the line is a wish, not a
+        check.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; the vague-line test</div>
+          <p>"Handle errors gracefully" is a wish. "A duplicate submission returns an error with a specific
+            message" is a check. The difference is whether anyone can tell, mechanically, if it's done.</p>
+          <p>A ready story also states what the change must <em>not</em> touch, answers the silent product
+            decisions (fail open or fail closed? what does a blocked user see?), and names which existing
+            pattern to reuse. A silent decision left unwritten doesn't disappear &mdash; the agent makes it
+            for you, fast, unsupervised, and you find out what it chose when something breaks.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>At Monday's triage, three stories were on the table. One failed the vague-line test on the
+            spot:</p>
+          <div class="snippet">
+            <div class="from">The story that bounced</div>
+            <blockquote>"Show adjusters similar past claims."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Why it never reached an agent</div>
+            <blockquote>"Nobody can write an acceptance check for 'similar' &mdash; so nobody can build it. Back to sharpening with Luis. A bounce here costs a conversation; the same vagueness found mid-build costs a redo."</blockquote>
+          </div>
+          <p style="margin-top:12px;">The other two sharpened cleanly into spec&nbsp;0015 (the fast-path
+            queue) and spec&nbsp;0016 (duplicate-claim merge).</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The highest-leverage hour in the loop</div>
+        <p>Vague intent doesn't get fixed downstream. It gets built &mdash; fast, and wrong. The hour spent
+          making a spec checkable is the hour that decides everything after it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 risk tiers -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Still in Intent &mdash; how much rigor</p>
+      <h2>Not every change deserves the same scrutiny</h2>
+      <p class="lead">One review depth for everything fails in both directions: reading a typo fix as hard
+        as an auth change burns the pod's scarce attention, and waving an auth change through on a glance
+        ships an incident. So every spec gets a <strong>risk tier</strong> &mdash; and the tier decides
+        the rigor.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; three tiers</div>
+          <ul>
+            <li><strong>HIGH</strong> &mdash; auth, payments, personal data, schema changes, anything hard
+              to undo. Tight leash on the agent, the full checking ladder, a security pass, a named human
+              signature.</li>
+            <li><strong>MEDIUM</strong> &mdash; new business logic, integrations, shared services. Standard
+              leash; the grader plus one human checker.</li>
+            <li><strong>LOW</strong> &mdash; UI inside existing patterns, copy, internal tooling. Lighter
+              look &mdash; but the grader and the mechanical checks still run.</li>
+          </ul>
+          <p style="margin-top:12px;">The Pod Lead assigns the tier and owns it. Anyone can <em>raise</em>
+            a tier on the spot; lowering one always takes a conversation. Risk escalates up, never quietly
+            down.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The two ready stories landed on different tiers, and that decided everything that followed:</p>
+          <div class="decision">
+            <strong>Spec 0015</strong> &mdash; fast-path queue &mdash; <strong>MEDIUM</strong><br>
+            New business logic, nothing hard to undo.
+          </div>
+          <div class="decision" style="margin-top:10px;">
+            <strong>Spec 0016</strong> &mdash; duplicate-claim merge &mdash; <strong>HIGH</strong><br>
+            Merging claim records is hard to undo, and a wrong merge mangles two policyholders' data.
+          </div>
+          <p style="margin-top:12px;">Neither was over- or under-checked. The tier decided the rigor, not
+            the mood.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Delegate -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Beat two &mdash; Delegate</p>
+      <h2>Draw the box, approve the plan &mdash; then let it build</h2>
+      <p class="lead">Delegating is not "go build it." The agent starts in <strong>plan mode</strong>: it
+        reads the repo and proposes an approach &mdash; which files, how it satisfies each check &mdash;
+        before it may change anything. A human corrects or approves the plan first.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; three bounds, plus the leash</div>
+          <ul>
+            <li><strong>Scope</strong> &mdash; the files it may touch. Everything else is out: "if
+              something outside this needs to change, stop and ask."</li>
+            <li><strong>Context</strong> &mdash; the one pattern to reuse, named. An agent not pointed at
+              the existing pattern will cheerfully invent a second one.</li>
+            <li><strong>Permissions</strong> &mdash; what it may do without asking. Safe commands auto-run;
+              installs, network calls, and gated paths force a human confirm.</li>
+          </ul>
+          <p style="margin-top:12px;"><strong>Freedom by risk, within one change:</strong> loose leash on
+            the parts cheap to undo ("format the log however reads cleanest"), tight leash on the parts
+            expensive to get wrong ("for the keying and the auth check, follow the plan exactly").</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>On spec&nbsp;0016 (HIGH), Sara delegated with two leashes &mdash; tight on the matching keys
+            and merge write path, loose on the audit-log formatting. In plan mode she pushed on the one
+            thing the plan glossed:</p>
+          <div class="snippet">
+            <div class="from">The decision the plan glossed over</div>
+            <blockquote>"What exactly is the match key when the policy number is absent?"</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The tell, and the fix</div>
+            <blockquote>"The agent's answer was vague &mdash; which is a tell. The plan got an explicit route-to-manual-review path before she approved it. Correcting a plan costs a sentence; correcting a finished build costs a redo."</blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="lbl">The box is enforced, not requested</div>
+        <p>A script &mdash; the Stop hook &mdash; fires when the agent tries to finish. With a red test or
+          a broken build, it refuses. "Done" stops being the agent's opinion and becomes a fact about the
+          world.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 fan out vs single-thread -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Still in Delegate &mdash; one agent or many</p>
+      <h2>Spread out to explore; line up to commit</h2>
+      <p class="lead">It's tempting to throw a swarm of agents at a feature to go faster. That's how you
+        get agents clobbering each other's edits. The honest rule is a single question.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p><strong>Are the pieces independent, or tangled?</strong></p>
+          <ul>
+            <li><strong>Fan out to explore.</strong> Three candidate approaches, each written up by its
+              own agent, run in parallel &mdash; they touch nothing shared.</li>
+            <li><strong>Single-thread to build.</strong> One feature writing into shared code gets exactly
+              one agent, start to finish &mdash; parallel agents in the same files overwrite each other.</li>
+          </ul>
+          <p style="margin-top:12px;">Spread out to explore, line up to commit. The test is independence,
+            not impatience.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Both of the week's specs were features writing into shared code paths &mdash; the work-queue
+            service, the intake matching service. So each got exactly one agent, start to finish.</p>
+          <div class="decision">
+            Spec 0015 and spec 0016: one agent each. No fan-out &mdash; nothing here was independent enough
+            to parallelize without two agents stepping on the same files.
+          </div>
+          <p style="margin-top:12px;">Fanning out would have been faster to start and slower to finish,
+            once the conflicts surfaced.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 Discern -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Beat three &mdash; Discern</p>
+      <h2>The author never checks their own work</h2>
+      <p class="lead">A change is done when it has been proven against its spec by something
+        <em>other than its author</em> &mdash; not when the code exists. That's the whole beat. Three
+        layers stand on every change, and the author is in none of them.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; three layers on every change</div>
+          <ul>
+            <li><strong>Mechanical gates</strong> &mdash; build, tests, lint, coverage. Hard blocks; a red
+              one stops the merge, no judgment involved.</li>
+            <li><strong>An independent grader</strong> &mdash; a fresh agent that did <em>not</em> write
+              the code, told so plainly, grading check-by-check against the spec. It's required to run; its
+              verdict advises.</li>
+            <li><strong>A non-author human</strong> &mdash; someone who didn't write it approves the merge.
+              On HIGH risk, also a security pass and a named signature.</li>
+          </ul>
+          <p style="margin-top:12px;">Why no author? Their tests prove only what they thought to test. The
+            grader catches the hole the author was blind to &mdash; the case they never imagined, so never
+            tested.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>On spec&nbsp;0016, the agent finished with <strong>eleven green tests</strong> and a clean
+            build. On an unchecked team, that ships. The grader &mdash; a fresh agent &mdash; failed it:</p>
+          <div class="snippet">
+            <div class="from">The grader's verdict on check 3</div>
+            <blockquote>"NOT MET. A missing policy number is normalized to "" before keying. Every no-policy claim shares one match bucket &mdash; two unrelated phone reporters in the same week WILL be merged into one claim. All 11 tests pass with this bug live."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">How it ended</div>
+            <blockquote>"Fix re-graded clean · security agent passed the data path · Wes signed off by name · checked and merged by Jonah, not the author. The bug existed four hours, all of them on a branch."</blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Checking theater</div>
+        <p>The deadliest failure mode is the author grading itself &mdash; the agent that wrote the code
+          confirming it works, or the Orchestrator who drove it approving it. It catches nothing the author
+          didn't already think of. Author never approves, no exceptions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 the loop's beats as a sequence — TIMELINE -->
+  <section class="s paper">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">08</span>
+        <p class="kicker">Now watch one change go through</p>
+        <h2>Spec 0016, beat by beat</h2>
+        <p class="dim">You've got the three beats; here's a single HIGH-risk change walking through all of
+          them, the way it actually ran at Harbor &mdash; from a story on the triage table to deployed in
+          dev, with the grader's catch in the middle. Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="The build loop, beat by beat" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a beat"></div>
+
+        <div class="tl-step" data-day="Intent">
+          <div class="day">Intent <span class="date">· make it ready</span></div>
+          <h3>A story clears the Definition of Ready</h3>
+          <p>The duplicate-merge story passes the vague-line test, scope-in and scope-out get stated, and
+            a silent decision surfaces &mdash; <em>what does the second reporter see?</em> &mdash; onto the
+            decision list with the client's two-day clock. The Pod Lead tiers it HIGH.</p>
+        </div>
+
+        <div class="tl-step" data-day="Spec">
+          <div class="day">Intent <span class="date">· write the spec</span></div>
+          <h3>One file, five testable checks</h3>
+          <p>Once the client answers the silent decision, the Orchestrator writes spec&nbsp;0016: goal,
+            scope, five acceptance checks each one testable, the risk tier, the delegation plan, the
+            checking plan. The spec lives in the repo &mdash; the agent reads it, the grader grades against
+            it.</p>
+        </div>
+
+        <div class="tl-step" data-day="Delegate">
+          <div class="day">Delegate <span class="date">· bound it</span></div>
+          <h3>Three bounds and two leashes</h3>
+          <p>Scope: the matching service and merge path, nothing else. Context: reuse the existing event-log
+            writer. Permissions: standard, with the schema gated. Tight leash on the keys and write path;
+            loose on the audit-log format.</p>
+        </div>
+
+        <div class="tl-step" data-day="Plan">
+          <div class="day">Delegate <span class="date">· approve the plan</span></div>
+          <h3>The plan gets corrected before a line is written</h3>
+          <p>In plan mode the agent proposes its approach. The Orchestrator pushes on the one thing it
+            glosses &mdash; the match key when the policy number is absent. The vague answer is a tell; the
+            explicit route-to-manual-review path goes in before approval.</p>
+        </div>
+
+        <div class="tl-step" data-day="Build">
+          <div class="day">Delegate <span class="date">· the agent builds</span></div>
+          <h3>Eleven green tests &mdash; and a live bug</h3>
+          <p>The agent builds inside the box. Its own tests pass, the Stop hook lets it stop, CI goes
+            green. But the suite only covers claims that <em>have</em> a policy number. The bug is live and
+            invisible. On an unchecked team, this is where it ships.</p>
+        </div>
+
+        <div class="tl-step" data-day="Grade">
+          <div class="day">Discern <span class="date">· the grader</span></div>
+          <h3>A fresh agent catches what green tests hid</h3>
+          <p>The grader &mdash; told plainly it did not write this code &mdash; walks the checks against the
+            spec, not the tests. It fails check 3: empty-string match bucket would merge two unrelated
+            phone reporters. The verdict posts as a PR comment for the human Checker to read.</p>
+        </div>
+
+        <div class="tl-step" data-day="Sign-off">
+          <div class="day">Discern <span class="date">· the HIGH gate</span></div>
+          <h3>Fix, security pass, a named signature</h3>
+          <p>The fix routes no-policy claims to manual review and adds the missing test. Re-graded clean.
+            The security agent passes the data path. <strong>Wes signs off by name</strong> &mdash; the
+            named sign-off HIGH risk requires &mdash; and a non-author checks and merges.</p>
+        </div>
+
+        <div class="tl-step" data-day="Merge">
+          <div class="day">Discern <span class="date">· merge deploys</span></div>
+          <h3>Merge ships it to dev, automatically</h3>
+          <p>Merge fires the deploy pipeline; the change lands in Harbor's dev environment with no manual
+            step. The bug lived roughly four hours &mdash; all of them on a branch, none of them in dev.
+            The loop is ready for the next change.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 8</span>
+          <button data-tl-next type="button">Next beat &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 the week — cadence -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">What keeps the loop honest</p>
+      <h2>Four short meetings &mdash; and two numbers that run the week</h2>
+      <p class="lead">None of the meetings asks "what did you do yesterday." When agents do the building,
+        that answer is "the agents wrote a lot," and it means nothing. The meetings point at the two things
+        that actually constrain the loop: the clarity going in, and the review queue coming out.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The daily <strong>flow check</strong> opens with the queue number &mdash; how many changes
+            wait for checking, how long the oldest has waited &mdash; not a status round-robin. Weekly
+            <strong>intent triage</strong> turns stories into ready specs. <strong>Retro+</strong> asks of
+            every escaped bug: "which check should have caught it?" and the answer becomes a harness
+            change, not a resolution to try harder.</p>
+          <p style="margin-top:12px;">Two numbers run it. The <strong>WIP cap</strong> stops the pod
+            opening more changes than it can check. The <strong>review-wait tripwire</strong>: when the
+            median wait crosses the line, the pod stops starting new work and clears the queue. Review is
+            the loop's real bottleneck &mdash; more building can't fix a checking constraint.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The week's numbers, read at Friday's retro:</p>
+          <div class="bigstat"><span class="b">79%</span> &rarr; <span class="t">0.9d</span>
+            <small>specs accepted as-is (11 of 14) &rarr; median review wait, under the one-day tripwire</small></div>
+          <p style="margin-top:14px;">One trend flagged: the security queue's wait was drifting up to
+            2.1&nbsp;days &mdash; read on its own line, because averaged in with the rest it would hide
+            until something HIGH had quietly waited a week. Maya took it to Dan outside the room.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Ignoring the queue number</div>
+        <p>Review wait creeps up, everyone keeps starting work, and the loop silts up invisibly until
+          nothing merges. The tripwire exists to make stopping automatic, not heroic.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 small PRs / what the client sees -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">Two disciplines that make it work</p>
+      <h2>One spec, one change &mdash; and the client sees outcomes, never activity</h2>
+      <p class="lead">Two habits keep the loop sustainable: changes stay small (one spec, one branch, one
+        pull request), and the client is shown working software, not numbers an agent can inflate.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p><strong>Small changes.</strong> One spec is one branch is one pull request. A small change is
+            cheap to read, cheap to grade, and cheap to revert if it's wrong. The discipline is the same at
+            forty lines as at four hundred &mdash; "too small to bother" is how unchecked work sneaks in.</p>
+          <p style="margin-top:12px;"><strong>Outcomes, not activity.</strong> No PR counts, no "AI
+            productivity" claims in anything the client sees &mdash; ever. Agents inflate every activity
+            number; demos and outcomes don't lie. Published research backs the caution: measured teams
+            doubled PR volume while actual delivery stayed flat.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>At Friday's 45-minute steering, the adjuster &mdash; Gail &mdash; drove the demo herself: the
+            fast-path queue and the duplicate-merge flow, live in dev.</p>
+          <div class="decision">
+            The scorecard showed the outcome clock (instrumented, moves at rollout), the stability trend,
+            the accepted-as-is trend, and the decision list. <strong>Nobody saw a PR count.</strong>
+          </div>
+          <p style="margin-top:12px;">Karen, the sponsor, was told plainly: the production needle moves at
+            rollout, not before. Honest beats impressive.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">The loop, in one breath</p>
+      <h2>Say it clearly, bound it tight, let no one check their own work</h2>
+      <p class="dim">That's the whole middle of the engagement &mdash; Intent, Delegate, Discern, run for
+        every change, with the checking happening per change so it never piles up. The beats are one system:
+        sharp intent is what makes checking possible, and independent checking is what makes speed safe.
+        Where to go next:</p>
+      <div class="next">
+        <a href="the-rails.html"><span class="t">The Rails &rarr;</span><span class="d">The CI/CD enforcement the loop runs on &mdash; the gates, the grader, branch protection, and deploy-on-merge, built in Phase 3.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of the loop &mdash; the three beats in full, the risk taxonomy, the checking ladder, the cadences, the metrics.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · The Build Loop</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the three beats in full, the
+        Definition of Ready, the risk taxonomy, the checking ladder, the cadences, and the metrics. For the
+        full deep-dive see <a href="../build-loop.md">build-loop</a>; for the complete worked week with
+        every ID, verdict, and command, <a href="../build-loop-example.md">build-loop-example</a>.</p>
+
+      <h2>The loop is not a phase</h2>
+      <p>The gated phases open the engagement (0&ndash;3) and close it (7&ndash;9, C). Everything in between
+        &mdash; typically 8 to 16 weeks, the bulk of the engagement &mdash; runs as this loop. There is no
+        exit gate at the end of a loop pass; the loop is how every change gets built, from the day the
+        Foundation gate closes to the day the backlog is done. It has no gate &mdash; it has a merge bar
+        that every change clears.</p>
+
+      <h2>The three beats</h2>
+      <ol>
+        <li><strong>Intent</strong> &mdash; decide what you want, clearly enough to check, and write it
+          down as a spec.</li>
+        <li><strong>Delegate</strong> &mdash; an agent builds it, inside bounds a human set, from a plan a
+          human approved.</li>
+        <li><strong>Discern</strong> &mdash; checks and a non-author prove it before anyone trusts it;
+          merge deploys it.</li>
+      </ol>
+      <p>Run for every change, large or small. Skipping the loop for "small" changes is the moment unchecked
+        work creeps back in &mdash; small and risky is the cheap-to-type, expensive-to-get-wrong case.</p>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>In the loop</th></tr></thead>
+        <tbody>
+          <tr><td>Pod Lead</td><td>50&ndash;70%</td><td>Owns triage: stories become ready specs, risk tiers assigned, the WIP cap holds. Routes decision-list items to the client. Runs cadences and steering. First escalation when the queue grows.</td></tr>
+          <tr><td>Orchestrators</td><td>90&ndash;100%</td><td>Run the loop all day: author specs, set bounds, approve plans, drive agents, and check each other's changes. The craft is in the bounds and the checking, not the keystrokes.</td></tr>
+          <tr><td>Quality Engineer</td><td>60&ndash;80%</td><td>Owns the checking: the checking plan per spec, the rails' health, the escaped-bug answer at every retro, the scheduled hardening passes.</td></tr>
+          <tr><td>Setup Owner</td><td>30&ndash;50%</td><td>Keeps the harness a product through Build: CLAUDE.md current, skills and hooks improved by reviewed PR, the deputy reviewing every harness change, token spend watched.</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Product Owner</td><td>The decision list &mdash; every silent product decision gets their named answer on the agreed clock; acceptance of what demos show</td><td>Steady weekly hours, agreed in the SOW</td></tr>
+          <tr><td>Domain experts</td><td>Pulled into intent when a spec touches their ground truth</td><td>As specs demand</td></tr>
+          <tr><td>Security</td><td>The named sign-off on every HIGH-risk change; their queue tracked separately</td><td>Per HIGH change</td></tr>
+          <tr><td>Sponsor</td><td>The biweekly steering: a live demo and the outcome scorecard, not activity reports</td><td>45 minutes biweekly</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Claude's role in the loop</h2>
+      <p>Claude does most of the building and much of the checking &mdash; but never both on the same change.</p>
+      <ul>
+        <li><strong>Builds, bounded.</strong> From an approved plan, inside the scope, context, and permissions set per spec. The Stop hook means it cannot call its own work finished with a red test or a broken build.</li>
+        <li><strong>Grades, as a separate agent.</strong> The grader is a fresh agent that did not write the change, told so plainly, grading check-by-check against the spec.</li>
+        <li><strong>Drafts the connective tissue.</strong> Candidate specs from triaged stories, test suites from acceptance checks, the weekly client summary from merged work. Humans correct and own all of it.</li>
+      </ul>
+      <p class="note">What Claude never does: merge, approve its own work, assign a risk tier, answer a decision-list item, or downgrade a risk challenge. Risk escalates up without discussion; lowering a tier always takes a conversation with the Pod Lead.</p>
+
+      <h2>Intent &mdash; the Definition of Ready</h2>
+      <p>A story becomes buildable only by clearing this bar at weekly intent triage:</p>
+      <ul>
+        <li>Every acceptance criterion passes the <strong>vague-line test</strong> &mdash; "could two people build different things from this line?" "Handle errors gracefully" is a wish; "a duplicate submission returns 409 with a specific error body" is a check.</li>
+        <li>Scope in <em>and</em> scope out are both stated. What the change must not touch is as load-bearing as what it must do.</li>
+        <li>The silent decisions are answered &mdash; fail open or fail closed? what does a blocked user see? An unwritten product choice gets made by the agent, fast, unsupervised.</li>
+        <li>A risk tier is assigned by the Pod Lead and recorded in the spec.</li>
+        <li>The harness context is named &mdash; which existing pattern this change reuses.</li>
+      </ul>
+      <p>The Orchestrator then writes the spec &mdash; one file in the repo: Goal, Why, Scope in/out, Acceptance checks, Risk tier, Delegation plan, Checking plan. When behavior changes later, the spec changes in the same PR &mdash; a stale spec is a lie that misleads the next reader and the next agent.</p>
+
+      <h2>The risk taxonomy</h2>
+      <p>The tier lives in the harness so agents see it too.</p>
+      <table>
+        <thead><tr><th>Tier</th><th>What lands here</th><th>What it triggers</th></tr></thead>
+        <tbody>
+          <tr><td><strong>HIGH</strong></td><td>Auth/identity, payments, personal or client data handling, schema migrations, public API contract changes, infrastructure and pipeline changes, AI-behavior changes (prompts, models, tool definitions), anything hard to undo</td><td>Tight agent permissions, the full checking ladder, a security review pass, a named human sign-off in the PR</td></tr>
+          <tr><td><strong>MEDIUM</strong></td><td>New business logic, external integrations, changes to shared internal services</td><td>Standard permissions, grader plus a human Checker</td></tr>
+          <tr><td><strong>LOW</strong></td><td>UI within existing patterns, copy, internal tooling, additive CRUD on established rails</td><td>Lighter review; the grader and the mechanical gates still run</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Delegate &mdash; the three bounds</h2>
+      <p>The agent starts in <strong>plan mode</strong> &mdash; it reads the repo and proposes an approach before it may write anything. A human approves the plan first, looking for the one decision it glosses. Three bounds are set per spec:</p>
+      <table>
+        <thead><tr><th>Bound</th><th>What it fixes</th></tr></thead>
+        <tbody>
+          <tr><td>Scope</td><td>The file patterns the change may touch. Everything else is out, and "if something outside this needs to change, stop and ask" is part of the handoff.</td></tr>
+          <tr><td>Context</td><td>The one canonical pattern to reuse, named explicitly &mdash; or the agent invents a second way to do what the codebase already does.</td></tr>
+          <tr><td>Permissions</td><td>What the agent may do without asking. Safe commands (build, test, lint, reads) auto-allow; package installs, network calls, and gated paths force a human confirm.</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Freedom by risk, within one change:</strong> loose leash on the cheap-to-undo parts, tight leash on the expensive-to-get-wrong parts. <strong>One agent or many:</strong> fan out to explore (independent investigations run in parallel); single-thread to build (one feature into shared code gets exactly one agent). The box is enforced, not requested &mdash; the Stop hook refuses to let the agent finish with failing tests or a broken build.</p>
+
+      <h2>Discern &mdash; the checking ladder</h2>
+      <p>Five rungs, each catching what the one below cannot. The risk tier sets how high a change climbs.</p>
+      <table>
+        <thead><tr><th>Rung</th><th>The check</th><th>What it catches that the rung below can't</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>The done-rule in the harness</td><td>Sets the bar ("done means checked, not typed"); persuasion only &mdash; it enforces nothing by itself</td></tr>
+          <tr><td>2</td><td>The agent re-checks each turn</td><td>The agent's own mechanical slips: the broken import, the test it broke two steps back</td></tr>
+          <tr><td>3</td><td>The blocking Stop hook</td><td>The agent declaring itself done anyway &mdash; it cannot finish with red tests or a broken build. But it enforces only the tests that exist</td></tr>
+          <tr><td>4</td><td>The separate grader</td><td>The hole the author was blind to: it grades check-by-check against the spec, not the tests, so it catches the case the author never thought to test</td></tr>
+          <tr><td>5</td><td>The human / security gate</td><td>The judgment calls no machine should own: the risk acceptance, the product call, the security sign-off on a HIGH change</td></tr>
+        </tbody>
+      </table>
+      <p>In the rails, the ladder lands as three layers on every PR:</p>
+      <ul>
+        <li><strong>Mechanical gates in CI</strong> (hard blocks): build, tests, lint, 80% coverage on new code.</li>
+        <li><strong>The grader in CI</strong> (required to run, advisory verdict): a fresh agent reads the spec in the diff and posts a check-by-check verdict as a PR comment. It cannot be skipped &mdash; "the grader has run" is a required status check &mdash; but its verdict does not block. A failed check goes back to the same Orchestrator, who fixes it on the same branch; every gate re-runs on the updated PR before merge.</li>
+        <li><strong>The human Checker</strong> (hard block): non-author approval on every PR. On HIGH risk, also a security review pass and a named human sign-off recorded in the PR.</li>
+      </ul>
+      <p class="note">You don't run every change up all five rungs &mdash; that recreates the bottleneck the loop exists to remove. LOW stops after the grader's advisory pass and a light human look; MEDIUM gets grader-plus-Checker; HIGH goes all the way up. Merge deploys to the client's dev environment automatically. A true emergency merge past a gate requires the Pod Lead plus one other human, an exception label, and a retro item. Two exceptions in a month means the gate or the specs are wrong.</p>
+
+      <h2>The week &mdash; the four meetings</h2>
+      <table>
+        <thead><tr><th>Meeting</th><th>Length</th><th>Replaces</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td>Flow check (daily)</td><td>10&ndash;15 min</td><td>standup</td><td>The queue number first: how many changes wait for checking, how long the oldest waited. Walk the in-flight work nearest-done first; every waiting change gets a Checker; vague specs flagged back to triage; the WIP cap enforced; one commitment each.</td></tr>
+          <tr><td>Intent triage</td><td>60 min</td><td>refinement</td><td>Stories become ready specs: vague lines sharpened, silent decisions surfaced onto the decision list, risk tiers assigned, the backlog ordered.</td></tr>
+          <tr><td>Retro+</td><td>60 min</td><td>retro</td><td>Every escaped bug gets the same question &mdash; "which check should have caught it?" &mdash; and the answer becomes a harness improvement, not a resolution to try harder.</td></tr>
+          <tr><td>Setup review</td><td>30&ndash;60 min</td><td>(new)</td><td>The week's harness changes merge: CLAUDE.md updates, skill and hook improvements, permission tuning &mdash; versioned, PR'd, reviewed by the Setup Owner's deputy.</td></tr>
+        </tbody>
+      </table>
+      <p>Two numbers run the week. The <strong>WIP cap</strong> keeps the pod from opening more changes than its checking capacity can clear. The <strong>review-wait tripwire</strong> is the alarm on the same constraint: when the median wait crosses the agreed threshold, the pod stops starting new work and clears the queue. The security queue is read separately at every flow check &mdash; it clears slower, and averaged in with the rest it hides until something HIGH has quietly waited a week.</p>
+
+      <h2>The client's view</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>What the client sees</th></tr></thead>
+        <tbody>
+          <tr><td>Biweekly steering (45 min)</td><td>A live demo in the dev environment, the outcome scorecard (their success metric, the delivery-stability trend, the accepted-as-is trend), the decision list needing answers, and gate status when a phase boundary is near.</td></tr>
+          <tr><td>Weekly five-bullet async summary</td><td>Written for a busy reader: what shipped, what's next, what we need from you. Claude drafts it from merged work; the Pod Lead corrects and sends.</td></tr>
+          <tr><td>Never, ever</td><td>No PR counts, no "AI productivity" claims. Agents inflate every activity number; demos and outcomes don't lie.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The numbers that steer the loop</h2>
+      <p>Internal dashboard, baseline-and-trend, no vanity targets:</p>
+      <ul>
+        <li><strong>Accepted-as-is rate</strong> &mdash; agent work merged without rework. The trust signal: rising means intent and bounds are working.</li>
+        <li><strong>Review wait (median)</strong> &mdash; the real bottleneck indicator. If it grows, stop opening streams; more building throughput cannot fix a checking constraint.</li>
+        <li><strong>Rework / revert rate</strong> and <strong>bounce-back-for-unclear rate</strong> &mdash; intent quality signals. A spec that bounces as unbuildable is a triage miss, not an agent failure.</li>
+        <li><strong>Escaped bugs</strong> &mdash; every one answered at Retro+ with "which check should have caught it?"</li>
+        <li><strong>The DORA four</strong> &mdash; deploy frequency, lead time, change-fail rate, time-to-recover, watched as trends.</li>
+        <li><strong>Security-review wait</strong> &mdash; on its own line, always.</li>
+      </ul>
+      <p class="note">Never tracked, never reported: velocity, story points, PR count, lines of code. Agents inflate all of them, and the published research backs the caution &mdash; measured teams doubled PR volume while actual delivery stayed flat.</p>
+
+      <h2>Hardening passes</h2>
+      <p>Quality in the loop is per-change; some concerns only exist at the integration level &mdash; performance under load, end-to-end journeys across many features, penetration testing. The Quality Engineer plans and runs them as scheduled hardening passes &mdash; typically one mid-Build and one before deployment prep &mdash; using the end-to-end and security tooling. The first pass is also where the test environment gets added alongside dev. Hardening is scheduled work inside the flow, not a phase that gates everything else.</p>
+
+      <h2>What goes wrong in the loop</h2>
+      <ul>
+        <li><strong>Skipping Intent.</strong> Typing the wish straight to the agent ("add rate limiting, go"). The agent builds something plausible and fast, and the undescribed case is the one it gets wrong. Everything enters through a ready spec.</li>
+        <li><strong>The author grading itself.</strong> Checking theater &mdash; it catches nothing the author didn't already think of. Author never approves, no exceptions.</li>
+        <li><strong>One review depth for everything.</strong> Gating every typo recreates the bottleneck; waving auth changes through ships the incident. The tier sets the climb.</li>
+        <li><strong>"Too small to bother."</strong> The loop skipped for small changes. Small and risky is the expensive case; the discipline is the same at forty lines as at four hundred.</li>
+        <li><strong>The unbounded handoff.</strong> No scope, no named pattern, no permissions &mdash; the agent fills every gap with a guess and touches three things nobody wanted touched.</li>
+        <li><strong>Fanning out a build.</strong> Parallel agents writing the same files clobber each other. Fan out only to explore; one agent writes shared code.</li>
+        <li><strong>The rotting spec.</strong> Behavior changes, the spec doesn't, and the source of truth lies to the next agent and human. The spec changes in the same PR as the behavior.</li>
+        <li><strong>A hook that passes by hiding the failure.</strong> Skipping the flaky test to go green is the rail lying to you. Fix the cause; never suppress the check.</li>
+        <li><strong>Ignoring the queue number.</strong> Review wait creeps up, everyone keeps starting work, and the loop silts up until nothing merges. The tripwire makes stopping automatic, not heroic.</li>
+        <li><strong>Quiet gate exceptions.</strong> Emergency merges that stop being emergencies. Two in a month means the gate or the specs are wrong &mdash; fix the system, don't normalize the bypass.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    The Build Loop · Walkthrough &mdash; a companion to <a href="../build-loop.md">the Build loop deep-dive</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

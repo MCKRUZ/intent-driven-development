@@ -1,0 +1,314 @@
+/* ============================================================================
+   Phase Walkthrough — shared engine styles
+   Companion to the Delivery Standard. Same palette as the main site
+   (index.html), with more room to breathe and larger display type so the
+   pages read as a story rather than a spec. System fonts only — no webfont
+   dependency, matching the rest of the site.
+   Reused across every phase walkthrough; per-phase pages supply only content.
+   ============================================================================ */
+
+:root {
+  --ink: #1a2332;
+  --ink-soft: #46556b;
+  --ink-faint: #7a8699;
+  --accent: #0f5c8c;
+  --accent-deep: #11314e;
+  --accent-soft: #e8f1f7;
+  --rule: #d8dee8;
+  --rule-soft: #e7ebf1;
+  --bg: #f7f8fa;
+  --paper: #fbfaf7;        /* subtle warmth for story sections */
+  --card: #ffffff;
+  --mono-bg: #0f1722;
+  --mono-ink: #d6e2f0;
+  --high: #b3372f;
+  --med: #b07a1e;
+  --low: #2e7d4f;
+  --shadow: 0 1px 2px rgba(16,32,54,.04), 0 8px 24px rgba(16,32,54,.06);
+  --shadow-lg: 0 12px 40px rgba(16,32,54,.12);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.65;
+}
+
+a { color: var(--accent); }
+
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ---- shared top bar (mirrors index.html) ---------------------------------- */
+.topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+.topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+.topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+.topbar a.home { font-weight: 700; color: #fff; }
+.topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref { position: relative; }
+.topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+.topbar .ref summary::-webkit-details-marker { display: none; }
+.topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+.topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.topbar .ref .menu a { display: block; padding: 9px 16px; }
+
+/* ---- scroll progress bar -------------------------------------------------- */
+.progress { position: sticky; top: 0; z-index: 50; height: 3px; background: transparent; }
+.progress .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #5ea9d6); transition: width .1s linear; }
+
+/* ---- page masthead -------------------------------------------------------- */
+.masthead { background: linear-gradient(135deg, var(--accent-deep), var(--accent)); color: #fff; }
+.masthead .wrap { padding: 40px 24px 30px; }
+.masthead .crumbs { font-size: 13px; color: #9fc3dd; margin: 0 0 14px; }
+.masthead .crumbs a { color: #cfe2f1; text-decoration: none; }
+.masthead .crumbs a:hover { color: #fff; text-decoration: underline; }
+.masthead .eyebrow { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: #9fc3dd; margin: 0 0 8px; }
+.masthead h1 { margin: 0; font-size: 38px; line-height: 1.1; letter-spacing: -0.5px; }
+.masthead h1 .sub { display: block; font-size: 19px; font-weight: 500; color: #cfe2f1; margin-top: 10px; letter-spacing: 0; max-width: 60ch; }
+
+/* ---- view toggle (Story | Reference) -------------------------------------- */
+.viewbar { background: var(--card); border-bottom: 1px solid var(--rule); position: sticky; top: 3px; z-index: 40; }
+.viewbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; }
+.toggle { display: inline-flex; background: #eef2f7; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; }
+.toggle button {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--ink-soft);
+  padding: 7px 18px; border-radius: 999px; transition: background .15s, color .15s;
+}
+.toggle button[aria-selected="true"] { background: var(--accent); color: #fff; }
+.toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.viewbar .hint { font-size: 13px; color: var(--ink-faint); }
+.viewbar .hint kbd { font: inherit; font-size: 12px; background: #eef2f7; border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; }
+
+/* ---- track visibility ----------------------------------------------------- */
+.track { display: none; }
+.track.active { display: block; }
+
+/* ---- generic story section ------------------------------------------------ */
+.s { padding: 64px 0; }
+.s.paper { background: var(--paper); border-top: 1px solid var(--rule-soft); border-bottom: 1px solid var(--rule-soft); }
+.kicker { font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; font-weight: 700; }
+.s h2 { font-size: 30px; line-height: 1.15; letter-spacing: -0.4px; margin: 0 0 16px; }
+.s h3 { font-size: 20px; margin: 28px 0 10px; }
+.s p { font-size: 17px; max-width: 68ch; }
+.s p.lead { font-size: 21px; line-height: 1.5; color: var(--ink); max-width: 64ch; }
+.dim { color: var(--ink-soft); }
+
+/* ---- cold open hook ------------------------------------------------------- */
+.hook { background: var(--mono-bg); color: var(--mono-ink); }
+.hook .wrap { padding: 72px 24px; }
+.hook .big { font-size: 30px; line-height: 1.35; font-weight: 500; letter-spacing: -0.3px; max-width: 26ch; margin: 0; color: #eaf2fb; }
+.hook .big strong { color: #fff; }
+.hook .sig { margin-top: 22px; font-size: 15px; color: #8fb4d4; }
+
+/* ---- cast cards ----------------------------------------------------------- */
+.cast { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.cast .group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--ink-soft); margin: 0 0 12px; }
+.cast .person { display: flex; gap: 12px; align-items: baseline; padding: 9px 0; border-bottom: 1px dashed var(--rule); }
+.cast .person:last-child { border-bottom: 0; }
+.cast .person .nm { font-weight: 700; min-width: 96px; }
+.cast .person .rl { font-size: 14px; color: var(--ink-soft); }
+
+/* ---- the four questions --------------------------------------------------- */
+.fourq { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; counter-reset: q; }
+.fourq .q { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); position: relative; }
+.fourq .q::before { counter-increment: q; content: counter(q); position: absolute; top: 14px; right: 18px; font-size: 38px; font-weight: 800; color: var(--accent-soft); line-height: 1; }
+.fourq .q h4 { margin: 0 0 6px; font-size: 16px; color: var(--accent); padding-right: 36px; }
+.fourq .q p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+
+/* ---- timeline stepper ----------------------------------------------------- */
+.tl { margin-top: 8px; }
+.tl-rail { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+.tl-rail button {
+  appearance: none; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600;
+  color: var(--ink-soft); background: var(--card); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 7px 11px; transition: all .15s;
+}
+.tl-rail button:hover { border-color: var(--accent); color: var(--accent); }
+.tl-rail button[aria-current="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tl-rail button.visited:not([aria-current="true"]) { border-color: #bcd7e8; color: var(--accent); }
+.tl-rail button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* when JS is active, only one step shows at a time */
+.js-stepper .tl-step { display: none; }
+.js-stepper .tl-step.active { display: block; animation: fade .35s ease; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.tl-step { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 26px 28px; box-shadow: var(--shadow); }
+.tl-step .day { font-size: 13px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--accent); }
+.tl-step .date { color: var(--ink-faint); font-weight: 500; letter-spacing: 0; text-transform: none; }
+.tl-step h3 { margin: 4px 0 14px; font-size: 24px; letter-spacing: -0.3px; }
+.tl-step p { font-size: 16px; max-width: 64ch; }
+.tl-step.beat { border-left: 4px solid var(--med); }
+
+/* tooling line */
+.tooling { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0; font-size: 13px; }
+.tooling .label { color: var(--ink-faint); text-transform: uppercase; letter-spacing: .5px; font-weight: 700; }
+.cmd { font-family: "Cascadia Code", "Consolas", ui-monospace, monospace; font-size: 13px; background: var(--mono-bg); color: var(--mono-ink); padding: 3px 9px; border-radius: 6px; white-space: nowrap; }
+.cmd .arrow { color: #7fa9cc; padding: 0 2px; }
+.cmd .script { color: #a9c9e6; }
+.tooling .none { font-style: italic; color: var(--ink-faint); }
+
+/* artifacts produced */
+.artifacts { margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 7px; }
+.artifacts .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-faint); font-weight: 700; width: 100%; margin-bottom: 2px; }
+.tag { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid #cfe1ee; }
+.tag.green { background: #e7f3ec; color: var(--low); border-color: #bfe0cb; }
+
+.tl-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; gap: 12px; }
+.tl-nav button {
+  appearance: none; cursor: pointer; font: inherit; font-weight: 600; font-size: 15px;
+  padding: 10px 20px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff;
+}
+.tl-nav button.ghost { background: transparent; color: var(--accent); }
+.tl-nav button:disabled { opacity: .4; cursor: default; }
+.tl-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tl-nav .count { font-size: 14px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+/* ---- contradiction collision --------------------------------------------- */
+.collide { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: stretch; margin: 8px 0 18px; }
+.collide .doc { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; box-shadow: var(--shadow); }
+.collide .doc .src { font-size: 12px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--high); margin-bottom: 8px; }
+.collide .doc blockquote { margin: 0; font-size: 15.5px; font-style: italic; color: var(--ink); }
+.collide .vs { display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--high); font-size: 18px; }
+.resolution { background: #e7f3ec; border: 1px solid #bfe0cb; border-left: 4px solid var(--low); border-radius: 10px; padding: 16px 20px; }
+.resolution .src { font-size: 12px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--low); margin-bottom: 6px; }
+.resolution p { margin: 0; font-size: 16px; }
+
+/* ---- metric block --------------------------------------------------------- */
+.metric { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 24px 28px; box-shadow: var(--shadow); }
+.metric .num { font-size: 46px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+.metric .num.base { color: var(--high); }
+.metric .num.target { color: var(--low); }
+.metric .to { font-size: 28px; color: var(--ink-faint); }
+.metric .cap { font-size: 13px; color: var(--ink-soft); }
+
+/* ---- aha / callout boxes -------------------------------------------------- */
+.aha { background: var(--accent-soft); border: 1px solid #cfe1ee; border-left: 4px solid var(--accent); border-radius: 10px; padding: 18px 22px; margin: 24px 0; }
+.aha .lbl { font-size: 12px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.aha p { margin: 0; font-size: 16px; max-width: none; }
+/* warning variant — "what breaks if you skip this" */
+.aha.warn { background: #fbeeec; border-color: #e8c4bf; border-left-color: var(--high); }
+.aha.warn .lbl { color: var(--high); }
+
+/* ---- module number badge -------------------------------------------------- */
+.modnum { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: .5px; color: #fff; background: var(--accent); border-radius: 999px; padding: 3px 12px; margin: 0 0 14px; }
+.s.paper .modnum { background: var(--accent-deep); }
+
+/* ---- compare grid (two or three columns) ---------------------------------- */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 22px 0; }
+.compare.three { grid-template-columns: repeat(3, 1fr); }
+.compare .col { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 22px; box-shadow: var(--shadow); }
+.compare .col h4 { margin: 0 0 4px; font-size: 17px; color: var(--accent); }
+.compare .col .tagline { font-size: 13px; color: var(--ink-faint); margin: 0 0 12px; }
+.compare .col.alt h4 { color: var(--med); }
+.compare .col.bad { border-color: #e8c4bf; }
+.compare .col.bad h4 { color: var(--high); }
+.compare .col ul { margin: 0; padding-left: 18px; font-size: 15px; }
+.compare .col li { margin-bottom: 6px; }
+@media (max-width: 760px) { .compare, .compare.three { grid-template-columns: 1fr; } }
+
+/* ---- concept | example pairing -------------------------------------------- */
+/* Left = the abstract idea (cool/blue). Right = the real Harbor instance
+   (warm/amber). The colour contrast itself signals "concept vs reality". */
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 24px 0; align-items: stretch; }
+.pair > div { border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); }
+.pair .idea { background: var(--card); border: 1px solid var(--rule); }
+.pair .eg { background: #fbf6ec; border: 1px solid #ecdcbf; }
+.pair .plabel { font-size: 12px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; margin: 0 0 12px; display: flex; align-items: center; gap: 7px; }
+.pair .idea .plabel { color: var(--accent); }
+.pair .eg .plabel { color: #9a6a14; }
+.pair .eg .plabel::before { content: ""; width: 8px; height: 8px; background: var(--med); transform: rotate(45deg); display: inline-block; }
+.pair p { font-size: 15.5px; max-width: none; margin: 0 0 12px; }
+.pair p:last-child { margin-bottom: 0; }
+.pair ul, .pair ol { font-size: 15px; margin: 8px 0 0; padding-left: 20px; }
+.pair li { margin-bottom: 7px; }
+.pair li:last-child { margin-bottom: 0; }
+
+/* document / decision snippets inside an example panel */
+.snippet { background: #fff; border: 1px solid #e7d9bb; border-left: 3px solid var(--med); border-radius: 8px; padding: 11px 14px; margin: 12px 0 0; }
+.snippet .from { font-size: 11px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink-faint); margin-bottom: 5px; }
+.snippet blockquote { margin: 0; font-size: 14.5px; font-style: italic; color: var(--ink); }
+.snippet.resolve { border-left-color: var(--low); background: #f3f9f5; border-color: #cfe6d6; }
+.snippet.resolve .from { color: var(--low); }
+.eg .decision { background: #fff; border: 1px solid #e7d9bb; border-radius: 8px; padding: 12px 15px; margin-top: 12px; }
+.eg .bigstat { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; color: var(--accent-deep); margin-top: 12px; line-height: 1.1; }
+.eg .bigstat .b { color: var(--high); }
+.eg .bigstat .t { color: var(--low); }
+.eg .bigstat small { display: block; font-size: 13px; font-weight: 500; color: var(--ink-soft); margin-top: 4px; letter-spacing: 0; }
+
+@media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+
+/* ---- exit gate checklist -------------------------------------------------- */
+.gate { list-style: none; margin: 0; padding: 0; }
+.gate li { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer; transition: border-color .15s, background .15s; }
+.gate li:hover { border-color: var(--accent); }
+.gate li .box { flex: 0 0 22px; width: 22px; height: 22px; border: 2px solid var(--rule); border-radius: 6px; margin-top: 1px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 800; transition: all .15s; }
+.gate li.checked { background: #f2f9f4; border-color: #bfe0cb; }
+.gate li.checked .box { background: var(--low); border-color: var(--low); }
+.gate li .txt { font-size: 16px; }
+.gate li.teeth .txt::after { content: " billing teeth"; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--med); background: #fbf3e2; border: 1px solid #ecd9b0; border-radius: 999px; padding: 1px 8px; margin-left: 8px; white-space: nowrap; }
+
+/* ---- next / close --------------------------------------------------------- */
+.next { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 10px; }
+.next a { display: block; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 22px; text-decoration: none; color: var(--ink); box-shadow: var(--shadow); transition: border-color .15s, transform .15s; }
+.next a:hover { border-color: var(--accent); transform: translateY(-2px); }
+.next a .t { font-weight: 700; color: var(--accent); font-size: 16px; }
+.next a .d { font-size: 14px; color: var(--ink-soft); margin-top: 4px; }
+
+/* ---- glossary tooltip terms ----------------------------------------------- */
+.term { border-bottom: 1px dashed var(--accent); cursor: pointer; }
+.term:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#tip { position: fixed; z-index: 200; max-width: 300px; background: var(--mono-bg); color: var(--mono-ink); font-size: 13.5px; line-height: 1.5; padding: 11px 14px; border-radius: 9px; box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transition: opacity .12s; }
+#tip.show { opacity: 1; }
+#tip .t { color: #fff; font-weight: 700; display: block; margin-bottom: 3px; }
+
+/* ---- reference track styling ---------------------------------------------- */
+.ref-doc h2 { font-size: 26px; margin: 44px 0 14px; letter-spacing: -0.3px; }
+.ref-doc h2:first-child { margin-top: 0; }
+.ref-doc h3 { font-size: 18px; margin: 24px 0 8px; }
+.ref-doc p { font-size: 16px; max-width: 70ch; }
+.ref-doc table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14.5px; }
+.ref-doc th, .ref-doc td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.ref-doc th { color: var(--ink-soft); font-size: 12.5px; text-transform: uppercase; letter-spacing: .4px; border-bottom: 2px solid var(--rule); }
+.ref-doc tr:hover td { background: var(--paper); }
+.ref-doc ul { font-size: 16px; max-width: 70ch; }
+.ref-doc li { margin-bottom: 6px; }
+.ref-doc .note { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 12px 18px; margin: 16px 0; font-size: 15px; }
+
+/* ---- footer --------------------------------------------------------------- */
+footer.foot { padding: 30px 0 48px; color: var(--ink-soft); font-size: 13px; border-top: 1px solid var(--rule); margin-top: 8px; }
+footer.foot a { color: var(--accent); }
+
+/* ---- scroll reveal -------------------------------------------------------- */
+/* Content is visible by default. The hidden-then-animate state only applies
+   once JS adds .js-anim to <html> (and only when motion is allowed), so a
+   failed/absent observer can never leave content invisible. */
+.reveal { transition: opacity .6s ease, transform .6s ease; }
+.js-anim .reveal { opacity: 0; transform: translateY(18px); }
+.js-anim .reveal.in { opacity: 1; transform: none; }
+
+/* ---- responsive ----------------------------------------------------------- */
+@media (max-width: 760px) {
+  .masthead h1 { font-size: 28px; }
+  .hook .big { font-size: 23px; }
+  .s h2 { font-size: 24px; }
+  .cast { grid-template-columns: 1fr; }
+  .collide { grid-template-columns: 1fr; }
+  .collide .vs { padding: 4px 0; }
+  .viewbar .hint { display: none; }
+}
+
+/* ---- reduced motion ------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .js-stepper .tl-step.active { animation: none; }
+  .next a:hover { transform: none; }
+}

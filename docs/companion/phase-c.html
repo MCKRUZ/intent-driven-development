@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase C · Walkthrough — Close &amp; Transfer, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase C (Close & Transfer): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics of leaving cleanly.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-c-close.html">Phase C · Close &amp; Transfer</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase C · Walkthrough</p>
+    <h1>Close &amp; transfer, explained
+      <span class="sub">How an engagement ends on purpose — the client takes the wheel, proves they can drive it solo, and we leave with nothing left in our hands.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">The code was done weeks ago. The system is live, watched, and quiet.
+        So why isn't the engagement <strong>over</strong>?</p>
+      <p class="big" style="margin-top:18px;">Because "done" was never about the code. It's about
+        whether the client can run <strong>all of this</strong> — the system, the build loop, the
+        judgment — <em>without us in the room.</em></p>
+      <p class="sig">The engagement ends when the client can run this without us — proven by use,
+        observed, unassisted. Every idea below is paired with the real thing: the close of the Harbor
+        Mutual engagement, a fictional but fully worked project.</p>
+    </div>
+  </section>
+
+  <!-- 01 why this phase exists -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>Leaving is a deliverable, not an afterthought</h2>
+      <p class="lead">Most projects end by drifting: the team rolls off, a few people keep answering
+        questions on the side, and one day everyone notices it's over. That's not a close. That's a
+        slow leak — and it leaves the client depending on people who are already gone.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The whole engagement was built so the client's own people learned to run it as they went.
+            Phase&nbsp;C is where that claim stops being an intention and gets <strong>proven the same
+            way everything else got proven — by use, observed, without help.</strong></p>
+          <p>So this phase has a job nobody enjoys: make ourselves unnecessary, on purpose, and prove
+            it. Hands off the keyboard early, out of the room by the test, out of the building at the
+            end.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>By the time Phase&nbsp;C started, Harbor had been doing the handover all along without a
+            ceremony for it. Their lead engineer co-signed every architecture decision back in March.
+            Their newest hire cold-verified the README as a total stranger. Their on-call answered the
+            incident drill.</p>
+          <p style="margin-top:12px;">Phase&nbsp;C wasn't a handover <em>event</em> — it was the moment
+            the handover that had been happening for five months finally got <strong>tested</strong>,
+            and then proven on the record.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip this phase and&hellip;</div>
+        <p>You leave a dependency, not a capability. The client owns a system they can't actually run —
+          and the people who could are billing somewhere else now.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the one rule -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs the whole method</p>
+      <h2>The harness was always the operating system &mdash; never us</h2>
+      <p class="lead">Throughout the engagement, the AI did the drafting and most of the typing while
+        humans made every decision and carried the accountability. Phase&nbsp;C asks the question that
+        rule was always building toward: <em>was the thing running this project the harness, or was it
+        secretly us?</em></p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The harness &mdash; the project's instructions, its specs, its skills and guardrails, all
+            versioned in the client's own repo &mdash; was the operating system the whole time. The AI
+            ran inside it. The pod ran inside it.</p>
+          <p style="margin-top:12px;">If that's true, then the client's people can step into the same
+            seats and the machine keeps working. If it's <em>not</em> true &mdash; if something only
+            lived in a pod member's head &mdash; this phase is where that lie surfaces, while there's
+            still time to fix it.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The proof was continuity. During the transfer, the same AI agent kept working inside the
+            same harness &mdash; only now the client's engineers were the ones driving it.</p>
+          <div class="snippet">
+            <div class="from">The question the whole phase answers</div>
+            <blockquote>"Could Harbor operate this if the pod vanished tonight?"</blockquote>
+          </div>
+          <p style="margin-top:12px;">Nothing about the agent changed when the hands on the wheel did.
+            That's how you know it was the harness running the project, not the people leaving.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the four questions -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">What these three weeks must answer</p>
+      <h2>Four questions &mdash; and deliberately nothing else</h2>
+      <p class="lead">Everything Phase&nbsp;C does exists to answer exactly four questions. New features
+        are out of scope unless they're the <em>vehicle</em> for the test &mdash; and a "quick follow-on"
+        is a brand-new agreement, not a quiet extension of this one.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; the four questions</div>
+          <ol>
+            <li><strong>Can their people run the loop?</strong> First with us checking, then one real
+              change end to end with nobody from our side driving.</li>
+            <li><strong>Is the harness fully theirs?</strong> A sweep finds nothing only we understand,
+              and a named client owner has merged changes themselves.</li>
+            <li><strong>Is the record complete and delivered?</strong> Every report, the outcomes
+              dashboard, the debt log &mdash; in their hands, in their tooling.</li>
+            <li><strong>Did we leave cleanly &mdash; and did the standard learn?</strong> Our access
+              revoked and audited; the lessons sent home before they evaporate.</li>
+          </ol>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual &mdash; the four answers</div>
+          <ol>
+            <li>Ines ran a HIGH-risk change end to end, hit a guardrail, escalated correctly, shipped
+              to production &mdash; zero pod hands.</li>
+            <li>The audit found <strong>two</strong> small things; Wes, Harbor's owner, merged the fix
+              for each &mdash; and a change of his own on top.</li>
+            <li>Every report 0 through C, the dashboard re-pointed to Priti, the debt log in Harbor's
+              tracker with Harbor owners.</li>
+            <li>Every pod seat and key revoked and confirmed by Harbor's security; four patterns sent
+              back into our own standard.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The temptation to resist</div>
+        <p>At the very end, "could you just build one more thing while you're here?" feels generous to
+          say yes to. It isn't. Scope at close is still scope &mdash; it burns the calendar the test
+          needs, and it belongs to a new SOW with its own Phase&nbsp;0.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 the shadow flip -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">How the transfer actually starts</p>
+      <h2>The shadow flip &mdash; their hands, our eyes</h2>
+      <p class="lead">You can't prove someone can drive by describing the car. The transfer opens by
+        reversing the roles that built the whole project: the client's engineers take the driver's seat
+        on real work, and the pod is demoted to checking.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>This is the inverse of how the build began &mdash; back then we drove and they watched; now
+            they drive and we watch. The pod becomes <strong>Checkers only</strong>: review the work,
+            coach <em>by question</em> ("what does the spec say about that path?"), and never, ever grab
+            the keyboard.</p>
+          <p style="margin-top:12px;">And every time a Checker <em>wanted</em> the keyboard gets written
+            down &mdash; because each one is a gap in the transfer with a name on it. The point isn't to
+            look good; it's to find what hasn't transferred yet, while it's still cheap to fix.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Three real changes from Harbor's own backlog rode the loop with Harbor driving and the pod
+            checking:</p>
+          <div class="decision">
+            <strong>0047</strong> &mdash; adjuster queue saved filters (Ines)<br>
+            <strong>0048</strong> &mdash; intake supervisor daily digest (Ines)<br>
+            <strong>0050</strong> &mdash; claims-search timeout messaging (Wes)
+          </div>
+          <p style="margin-top:12px;">The bar didn't move an inch: plan-then-build, the automated
+            grader, a non-author reviewer, merge deploys. Jonah and Sara coached by question and logged
+            every keyboard itch as a transfer gap.</p>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="lbl">Why "real work" matters here</div>
+        <p>These aren't exercises invented for the occasion. They're ordinary backlog items, mixed
+          difficulty, each sized to finish within the week. A rehearsal with no stakes teaches the
+          rehearsal, not the job.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 the harness audit -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Finding what only we understand</p>
+      <h2>Audit the harness for anything living in our heads</h2>
+      <p class="lead">The most dangerous thing you can leave behind is knowledge that never made it
+        into the repo &mdash; a convention "everyone just knows," a script that only works on a pod
+        laptop, a setting nobody wrote down. It works fine right up until the people who knew it are gone.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>So the harness gets swept &mdash; the AI reads the whole repo looking for assumptions that
+            only the pod could satisfy, and a human walks every skill, hook, and convention asking one
+            blunt question: <em>could their team operate this if we vanished tonight?</em></p>
+          <p style="margin-top:12px;">Every finding becomes a documented fix &mdash; and here's the
+            clever part: the <strong>client's</strong> owner merges each one. The gap closes, and the
+            client owner's real merge history starts to exist at the same time. Two birds.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>After a five-month engagement, the sweep found only <strong>two</strong> things &mdash;
+            because every harness change had been a reviewed PR all along, in the open, where Wes could
+            see it:</p>
+          <div class="snippet">
+            <div class="from">Finding 1</div>
+            <blockquote>The grader's prompt said "review per MCKRUZ standards" &mdash; a phrase only the pod could resolve. Rewritten to state the actual rule inline.</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Finding 2 &mdash; both merged by Wes</div>
+            <blockquote>A hook read a lint config from a path that existed on pod machines but wasn't in the repo. Pinned into the repo; path made repo-relative.</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 the client setup owner -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">An owner, not a label</p>
+      <h2>The harness gets a real owner &mdash; proven by their merge history</h2>
+      <p class="lead">It's easy to put a name in a slide: "Harbor's Setup Owner is Wes." It means
+        nothing. A harness with a named owner who has never actually changed it doesn't have an owner
+        &mdash; it has a label.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The test for real ownership is the git log, not the org chart. Before we leave, the client's
+            Setup Owner must have <strong>merged harness changes themselves</strong> &mdash; the audit
+            fixes, and at least one improvement of their own.</p>
+          <p style="margin-top:12px;">And the rule that protected us protects them too: no role without
+            a deputy. A named client engineer reviews the owner's harness changes, the same way our
+            deputy reviewed ours. The safety practice transfers along with the keys.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Wes didn't just merge the two audit fixes. He shipped a harness change of his own,
+            unprompted:</p>
+          <div class="decision">
+            An <strong>onboarding bootstrap skill</strong> for new Harbor engineers &mdash; born directly
+            from Ines's stumble during the July README checkout, turning that one bad day into a
+            permanent practice.
+          </div>
+          <p style="margin-top:12px;">Tom became his named deputy. "Harbor has a Setup Owner" stopped
+            being an org-chart claim and became a git log.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 the close gate -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">The test the whole phase exists for</p>
+      <h2>The close gate &mdash; one real change, solo, with us silent in the room</h2>
+      <p class="lead">This is the moment everything was building toward. The client team runs one real
+        change end to end &mdash; deciding it's worth doing, writing the spec, driving the agent, grading
+        it, reviewing it, merging, deploying &mdash; with <strong>nobody from our side driving.</strong>
+        We sit in the room, silent, taking notes.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The change has to be <strong>real</strong>: something the client genuinely needs, with a
+            real risk level and real consequences if it goes wrong. A toy change picked because it can't
+            fail proves nothing, and everyone in the room knows it.</p>
+          <p style="margin-top:12px;">And the one unbreakable rule: <strong>help voids the run.</strong>
+            Any answer, hint, or keyboard touch from our side, and it doesn't count &mdash; the gap that
+            question revealed becomes a finding, gets fixed, and the gate re-runs on a <em>different</em>
+            real change. "They got through it with a little help" is a fail, for the same reason it was
+            a fail at the README checkout.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The gate ran on a HIGH-risk change with a deadline: <strong>0049 &mdash; decommission the
+            legacy intake fallback</strong>, due at day 30 of the rollout. Ines drove the whole thing.</p>
+          <p style="margin-top:12px;">The wobble the observers were waiting for arrived right on cue:</p>
+          <div class="snippet">
+            <div class="from">The guardrail event</div>
+            <blockquote>The agent's plan drifted toward editing a protected deploy file. The hook blocked it cold.</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The judgment that transferred</div>
+            <blockquote>Ines stopped, escalated the change to Wes as its own reviewed PR &mdash; exactly the rule she'd learned eight weeks earlier. The pod said nothing.</blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The wobble was the win</div>
+        <p>The best moment of the gate wasn't a flawless run &mdash; it was the agent drifting, the rails
+          catching it, and a Harbor engineer responding with the right judgment, unprompted. Mechanics
+          transfer in documents; judgment only shows up under observation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 the clean exit -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Leaving so you provably can't come back</p>
+      <h2>The clean exit &mdash; revoke our access and prove it</h2>
+      <p class="lead">A close that ends with the pod still able to reach production isn't a close. It's
+        a "we'll clean up the seats next sprint" that, months later, becomes a finding on somebody's
+        security audit. Leaving cleanly is the <em>last deliverable</em> of the security posture the
+        whole engagement ran on.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Every pod seat, token, repo permission, environment role, and vault key gets removed
+            &mdash; as a <strong>dated checklist item</strong>, confirmed against the client's own audit
+            trail by their security. Not a cleanup intention; a checklist with a date and a signature.</p>
+          <p style="margin-top:12px;">The list isn't improvised on the last day. It's drafted in week
+            one from everything the engagement was ever granted, so week three is execution, not
+            archaeology. The engagement ends with the pod <em>provably unable</em> to touch the system
+            &mdash; which is not distrust, it's the posture being honored to the end.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Rob and Dan walked the revocation as a checklist, item by item, then confirmed it against
+            Harbor's audit trail. By end of day the pod provably could not touch the system it built.</p>
+          <div class="decision">
+            Dan signed the record. It went in the close packet next to Phase&nbsp;8's secrets rotation
+            &mdash; the engagement's bookends: <strong>we never held production secrets, and now we hold
+            nothing at all.</strong>
+          </div>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The trap to name out loud</div>
+        <p>"We'll sort the seats out next sprint" un-revokes the whole thing. Revocation is a gate item
+          with a date and a security signature, or it didn't happen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 capability is paid -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">The two things that quietly un-do a close</p>
+      <h2>Capability is a paid deliverable &mdash; not a parting gift</h2>
+      <p class="lead">There are two warm, generous instincts at the end of a good engagement, and both
+        of them quietly cancel the close. The first leaks the standard's value away for free. The
+        second un-transfers everything you just proved, one Slack message at a time.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p><strong>The capability was sold, not given.</strong> The client's team can now run this
+            loop because a training workstream was priced into the contract from day one. That's why
+            the close gate can be passed at all &mdash; it was paid for. If the client wants more help
+            after close, that's a new agreement, made in daylight.</p>
+          <p style="margin-top:12px;"><strong>And the close means the close.</strong> The reflex to
+            keep answering questions "just for a while" feels kind and slowly un-does the transfer. Future
+            help is a future agreement, not an indefinite off-the-record retainer.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The engagement also paid the <em>standard</em> back. Four patterns Harbor's project
+            surfaced went home through a single PR against our own repo &mdash; client specifics
+            stripped, patterns generalized:</p>
+          <div class="bigstat"><span class="b">4</span> <span class="t">patterns</span>
+            <small>harvested from Harbor &rarr; into the kit the next engagement starts from</small></div>
+          <p style="margin-top:14px;">An engagement that ends without a harvest taught the standard
+            nothing. The next pod starts where Harbor finished &mdash; which is the whole reason the kit
+            exists.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The quiet retainer</div>
+        <p>Hypercare reflexes that outlive their window are the most common way a clean close rots. It
+          feels generous, and it un-transfers the engagement one free answer at a time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 seeing it happen — the timeline -->
+  <section class="s paper">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">10</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>The three weeks, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. The pod gets
+          deliberately less necessary as the weeks go: <strong>hands off the keyboard</strong> in week
+          one, <strong>out of the room</strong> by the gate in week two, <strong>out of the building</strong>
+          by the end of week three. Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase C timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Wk 1 · Mon">
+          <div class="day">Week 1 &middot; Mon <span class="date">· the flip begins</span></div>
+          <h3>Their hands take the wheel</h3>
+          <p>The client's engineers take the driver's seat on real backlog work; the pod drops to
+            Checkers only. The flow check and the intent triage are run by the client now &mdash; the
+            queue numbers are theirs to read. In parallel, the harness audit's read-only sweep starts.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 1 · mid">
+          <div class="day">Week 1 &middot; mid <span class="date">· three real specs</span></div>
+          <h3>Coach by question, never by keyboard</h3>
+          <p>At least three real changes ride the loop with the client driving and the pod checking.
+            Every place a Checker wanted to grab the keyboard gets logged &mdash; each one a named gap in
+            the transfer. The bar doesn't move: plan, grader, non-author reviewer, merge.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 1 · Fri">
+          <div class="day">Week 1 &middot; Fri <span class="date">· the audit closes</span></div>
+          <h3>Findings fixed by the client's owner</h3>
+          <p>The harness audit's findings &mdash; anything only the pod understood &mdash; get fixed as
+            documented PRs that the <em>client's</em> Setup Owner merges. At Harbor, two findings, both
+            merged by Wes, whose real ownership history starts here.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 2 · triage">
+          <div class="day">Week 2 &middot; triage <span class="date">· choosing the gate spec</span></div>
+          <h3>A real change, with real stakes</h3>
+          <p>The client's triage picks the close-gate change from their own backlog; the Pod Lead
+            confirms it clears the bar &mdash; real need, real risk tier, real consequences. At Harbor:
+            decommission the legacy fallback, HIGH risk, with a hard deadline two days out.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 2 · run">
+          <div class="day">Week 2 &middot; the run <span class="date">· the close gate</span></div>
+          <h3>Solo, end to end, observed and silent</h3>
+          <p>The client runs the whole loop with nobody from the pod driving. The pod observes &mdash;
+            present, silent, taking notes. A guardrail blocks the agent; the client engineer escalates
+            correctly, unprompted. Stalls are data; any help from our side voids the run.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 2 · own">
+          <div class="day">Week 2 &middot; own <span class="date">· the owner ships</span></div>
+          <h3>The client owner's own change</h3>
+          <p>The client's Setup Owner ships at least one harness change of their own &mdash; their
+            improvement, their PR, their named deputy reviewing it. The "no role without a deputy" rule
+            transfers along with the keys.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 3 · record">
+          <div class="day">Week 3 &middot; record <span class="date">· the record hands over</span></div>
+          <h3>Everything, in their tooling</h3>
+          <p>The final handoff report; every phase report from 0 through the close; the outcomes
+            dashboard re-pointed to client ownership with its caveats intact and the quarter-read date
+            on their calendar; the debt log with owners and dates. Delivered into their tooling, not
+            left in ours.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 3 · revoke">
+          <div class="day">Week 3 &middot; revoke <span class="date">· access goes dark</span></div>
+          <h3>Provably unable to touch it</h3>
+          <p>Every pod seat, token, permission, role, and key is removed on the checklist and confirmed
+            against the client's audit trail by their security. By end of day, the pod provably cannot
+            reach the system it built. Their security signs the record.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wk 3 · Fri">
+          <div class="day">Week 3 &middot; Fri <span class="date">· harvest &amp; goodbye</span></div>
+          <h3>Send the lessons home, then close</h3>
+          <p>The harvest PR opens against our own standard repo with the engagement's lessons
+            generalized, plus a retro file. The close steering hands the sponsor the record, the gate
+            evidence, and the metric's read &mdash; and the last milestone bills. The engagement ends.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 9</span>
+          <button data-tl-next type="button">Next step &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 how it goes wrong -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">11</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these is a way a close quietly fails while looking finished. Knowing
+        them by name is half the defense &mdash; and Harbor's structure caught the ones that count.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>The toy close gate</strong></td><td>A no-stakes copy change picked so it can't fail &mdash; proving nothing</td><td>Real change, real tier, real consequences, or the gate didn't run.</td><td>HIGH-risk fallback decommission, dated</td></tr>
+          <tr><td><strong>The helpful observer</strong></td><td>Someone from the pod answers "one little question" mid-run</td><td>Help voids the run &mdash; same rule as the cold checkout. The question is a finding.</td><td><strong>Held</strong> &mdash; pod silent through the wobble</td></tr>
+          <tr><td><strong>The indispensable pod member</strong></td><td>One head still holds how something really works &mdash; found the week after they leave</td><td>The audit; "ask the pod" must return zero results before the gate.</td><td>Two findings, both documented &amp; fixed</td></tr>
+          <tr><td><strong>The owner in name only</strong></td><td>A client owner named in a deck who never merged anything</td><td>Merge history is the test: audit fixes plus one of their own.</td><td>Wes merged both fixes + a skill of his own</td></tr>
+          <tr><td><strong>Access that lingers</strong></td><td>"We'll clean up the seats next sprint"</td><td>A dated checklist confirmed by their security, not an intention.</td><td>Revoked &amp; audit-confirmed, Dan signed</td></tr>
+          <tr><td><strong>Scope dressed as closure</strong></td><td>"Before you go, could you just&hellip;"</td><td>New work is a new SOW. The Pod Lead holds the line.</td><td>Held &mdash; follow-on = a new Phase 0</td></tr>
+          <tr><td><strong>The skipped harvest</strong></td><td>The pod rolls off and the lessons-PR never opens</td><td>The harvest is a gate item, not a virtue.</td><td>Four patterns sent home</td></tr>
+          <tr><td><strong>The quiet retainer</strong></td><td>Free answers continuing indefinitely, off the record</td><td>The close means the close; future help is a future agreement.</td><td>Clean break &mdash; who they call now: their own team</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase C is done</p>
+      <h2>The engagement is over &mdash; and that's the deliverable</h2>
+      <p class="dim">11.4 days when the pod arrived in March; a 4.2-day median when it left in August
+        &mdash; with the honest, unbiased read scheduled for October on a dashboard <em>Harbor</em>
+        owns, watched by alerts Harbor drilled, fed by a system Harbor ships changes to through a loop
+        Harbor runs. That last sentence is the whole deliverable. Where to go next:</p>
+      <div class="next">
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story &mdash; end to end.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase C &mdash; roles, the three-week calendar, artifacts, the exact close gate.</span></a>
+        <a href="../../index.html"><span class="t">Back to the standard &rarr;</span><span class="d">The full Intent-Driven Development standard this companion explains.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase C · Close &amp; Transfer</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, the
+        three-week calendar, the artifacts, and the close gate, including the specifics the Learn-it
+        view leaves out. For the full deep-dive see <a href="../phase-c-close.html">phase-c-close</a>; for
+        the complete worked example with every ID and command, <a href="../phase-c-example.html">phase-c-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase C answers four questions, and nothing else. New features are out of scope unless they are
+        the vehicle &mdash; the specs run this phase are real work from the client's own backlog, chosen
+        because the close gate must be run on something that matters.</p>
+      <ol>
+        <li><strong>Can their people run the loop?</strong> (their engineers orchestrate real specs with our Checkers first; then one real spec end-to-end with nobody from the pod driving)</li>
+        <li><strong>Is the harness fully theirs?</strong> (the audit finds nothing undocumented; the client Setup Owner is named and has merged harness changes themselves)</li>
+        <li><strong>Is the record complete and delivered?</strong> (every phase report, the outcomes dashboard, the debt log &mdash; handed over, in their hands, in their tooling)</li>
+        <li><strong>Did we leave cleanly &mdash; and did the standard learn?</strong> (access revoked and audited; the harvest PR opened against our own repo before the lessons evaporate)</li>
+      </ol>
+
+      <h2>The human / AI contract for this phase</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>The client's engineers orchestrate real specs, then the close-gate spec solo. The Pod Lead runs the transfer; the client Setup Owner merges every harness fix.</td><td>Audits the harness read-only; drafts the final handoff report from the engagement's records; drafts the harvest PR against our standard. Keeps working for the client &mdash; same agent, same harness, now driven by the client.</td><td>Claude never drives the close-gate spec, never serves as the gate evidence, never writes the retrospective's candor. The close-gate run, the access revocation, and the goodbye are no plugin command.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Pod Lead</td><td>60&ndash;80%</td><td>Runs the transfer &mdash; the shadow-flip schedule, the close-gate observation, the final steering, the clean exit. Holds the line against scope dressed as closure.</td></tr>
+          <tr><td>Orchestrators</td><td>40&ndash;60%</td><td>Become Checkers only &mdash; review the client engineers' specs, coach by question rather than by keyboard, then stop</td></tr>
+          <tr><td>Setup Owner</td><td>30&ndash;50%</td><td>Runs the harness audit with Claude, fixes findings by documented PR that the <em>client</em> Setup Owner merges, hands over the last keys</td></tr>
+          <tr><td>Quality Engineer</td><td>20&ndash;40%</td><td>Verifies the transfer by observation; owns the close-gate evidence and the final outcomes-dashboard handover</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Their engineers</td><td>Orchestrating real specs &mdash; at least three with our Checkers, then the close-gate spec solo</td><td>The thread of the phase</td></tr>
+          <tr><td>Client Setup Owner</td><td>Named before the phase; merges the audit-finding PRs and at least one harness change of their own</td><td>Steady hours</td></tr>
+          <tr><td>Product Owner</td><td>Their own intent triage &mdash; the decision clock and the vague-line test are theirs now</td><td>Their normal cadence</td></tr>
+          <tr><td>Operations / platform</td><td>Confirm the access revocation against their audit trail; receive the last operational keys</td><td>2&ndash;3 hours</td></tr>
+          <tr><td>Sponsor</td><td>The close steering &mdash; the engagement record, the outcome read, the formal end</td><td>1 hour</td></tr>
+        </tbody>
+      </table>
+      <p class="note">If the client cannot name engineers to run the loop, the close gate cannot be passed &mdash; and that conversation belongs at steering <strong>weeks before</strong> this phase. The training workstream was priced into the SOW from Phase 0; Phase C reveals the transfer's state, it cannot manufacture one.</p>
+
+      <h2>The three-week calendar</h2>
+      <table>
+        <thead><tr><th>Week</th><th>Theme</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td>One</td><td>Their hands, our eyes</td><td>The shadow flip &mdash; client engineers orchestrate at least three real specs with the pod as Checkers, coaching by question and logging every transfer gap. The harness audit runs in parallel; findings fixed by PRs the client Setup Owner merges.</td></tr>
+          <tr><td>Two</td><td>The close gate</td><td>One real spec, real risk tier, runs the loop end to end with nobody from the pod driving &mdash; observed, silent, recorded. Help voids the run; a wobbly run is re-run on a different real spec. The client Setup Owner ships one harness change of their own.</td></tr>
+          <tr><td>Three</td><td>The clean exit</td><td>The record hands over into client tooling; access revokes on an audited checklist; the harvest PR opens against our standard repo; the close steering ends the SOW and bills the final milestone with the gate evidence attached.</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Three weeks is long enough for the role flip to be real, short enough that the pod's presence doesn't quietly become a dependency again. If the close gate fails, that is the most important stretch: name the gap, fix it, re-run on a different real spec. Leaving on schedule with an unpassed close gate is not closing &mdash; it is abandoning, with paperwork.</p>
+
+      <h2>The artifacts</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Drafted by</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>Shadow-flip spec record</td><td>Quality Engineer</td><td>Pod Lead</td><td>At least three real specs orchestrated by client engineers with pod Checkers &mdash; the bar unchanged</td></tr>
+          <tr><td>Harness audit + fixes</td><td>Claude (sweep), Setup Owner (walk)</td><td>Client Setup Owner</td><td>Nothing only-we-understand remains; every finding fixed by a documented PR the client Setup Owner merged</td></tr>
+          <tr><td>Close-gate evidence</td><td>Quality Engineer (observation record)</td><td>Pod Lead</td><td>One real spec, end to end, client-driven, observed and unassisted &mdash; names, timestamps, and the merge that deployed</td></tr>
+          <tr><td>Final handoff report</td><td>Claude (drafts)</td><td>Pod Lead</td><td>The engagement record in one place: gates, reports, metrics history, debt log, open items with owners</td></tr>
+          <tr><td>Outcomes dashboard handover</td><td>Quality Engineer + client data lead</td><td>Client</td><td>Re-pointed to client ownership, caveats intact, the quarter-read date on their calendar</td></tr>
+          <tr><td>Access revocation record</td><td>Setup Owner + client security</td><td>Client security</td><td>Every pod credential removed, confirmed against the client's audit trail</td></tr>
+          <tr><td>The harvest PR</td><td>Claude (drafts), pod (reviews)</td><td>Our standard's owner</td><td>Opened against our repo with client specifics stripped; merged by the standard's deputy</td></tr>
+          <tr><td>The retro file</td><td>Pod Lead</td><td>Our standard's owner</td><td>One file in our repo's retros/: what this engagement changed about the standard and why</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: a transition-services annex that quietly keeps the pod on retainer (ongoing help is a new agreement made in daylight), and any "final improvements" to the client's code outside the loop &mdash; the loop is theirs now, and so is every change.</p>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Their daily flow check</td><td>Client team, pod observing</td><td>Run by the client from week one &mdash; the queue numbers are theirs to read now</td></tr>
+          <tr><td>Their intent triage</td><td>Client PO + their engineers</td><td>The vague-line test and the decision clock, client-run; the pod watches the bar hold</td></tr>
+          <tr><td>The close-gate observation</td><td>Client team driving, QE observing</td><td>Week two's defining event &mdash; present, silent, recorded</td></tr>
+          <tr><td>The exit checklist walk</td><td>Setup Owner + client security</td><td>Week three: access, keys, seats, audit trail &mdash; item by item</td></tr>
+          <tr><td>The close steering</td><td>Sponsor + Pod Lead</td><td>The formal end: the record, the read, the gate evidence, the goodbye</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The close gate</h2>
+      <p>The engagement closes when all of these are true, verified at the close steering:</p>
+      <ul>
+        <li>The harness audit ran and found nothing undocumented &mdash; no skill or hook only we understand; every finding fixed by a PR the client Setup Owner merged</li>
+        <li>The client Setup Owner is named and has merged harness changes themselves &mdash; including at least one of their own</li>
+        <li>Client engineers completed at least three real specs as Orchestrators with pod Checkers &mdash; the bar unchanged</li>
+        <li><strong>The close gate: the client team ran one real spec end-to-end &mdash; triage, spec, delegate, grade, merge, deploy &mdash; without us driving.</strong> Observed, unassisted; a run that needed help was re-run on a different real spec <em>(billing teeth)</em></li>
+        <li>Every phase report is delivered and the outcomes dashboard handed over, caveats intact, with the quarter-read date on the client's calendar</li>
+        <li>The debt log is in the client's hands with owners and dates</li>
+        <li><strong>Our access is revoked</strong> &mdash; every seat, token, and permission &mdash; and confirmed against the client's audit trail <em>(billing teeth)</em></li>
+        <li>The harvest PR is opened against our standard repo, and the retro file is written</li>
+        <li>A named human on each side signed the close &mdash; gates report, humans decide, one last time</li>
+      </ul>
+      <p class="note">The close-gate run and the access revocation are the two items with the most weight. A toy spec instead of a real one, or "we'll clean the seats up later," is how a close looks finished while failing. Real spec, real tier, real consequences &mdash; and a dated, audit-confirmed revocation &mdash; or it didn't happen.</p>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>The indispensable pod member.</strong> One person's head still holds how something really works, discovered the week after they leave. The audit exists for this; "ask the pod" must return zero results before the gate.</li>
+        <li><strong>The toy close gate.</strong> A copy change with a LOW tier and no stakes, chosen so it cannot fail. It proves nothing. Real spec, real tier, real consequences &mdash; or the gate did not run.</li>
+        <li><strong>The helpful observer.</strong> Someone from the pod answers one little question mid-run. The run is void &mdash; same rule as the cold checkout. The gap the question revealed is the finding; record it, fix it, re-run.</li>
+        <li><strong>The Setup Owner in name only.</strong> A client owner named in a deck who never merged anything. Merge history is the test: the audit fixes, plus at least one change of their own.</li>
+        <li><strong>Access that lingers.</strong> "We'll clean up the seats next sprint." Revocation is a dated checklist item confirmed by their security, not a cleanup intention.</li>
+        <li><strong>Scope dressed as closure.</strong> "Before you go, could you just&mdash;" burns the calendar the gate needs. New work is a new conversation with a new SOW.</li>
+        <li><strong>The skipped harvest.</strong> The pod rolls off and the PR never opens; the standard learns nothing, and the next pod re-discovers this engagement's lessons at a client's expense. The harvest is a gate item, not a virtue.</li>
+        <li><strong>The quiet retainer.</strong> Hypercare reflexes outlive their window and the pod keeps answering questions for free, indefinitely. It feels generous and it un-transfers the engagement one message at a time.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase C · Walkthrough &mdash; a companion to the <a href="../phase-c-close.html">Close &amp; Transfer phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

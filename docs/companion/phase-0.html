@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 0 · Walkthrough — Discovery, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase 0 (Discovery): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-0-discovery.html">Phase 0 · Discovery</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase 0 · Walkthrough</p>
+    <h1>Discovery, explained
+      <span class="sub">What the first two weeks of an engagement are really for — each idea paired with how it actually played out on a real project.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">When an AI writes the code, the hard part isn't writing it.
+        It's knowing <strong>what to build</strong> — and being sure it's the <strong>right</strong> thing.</p>
+      <p class="big" style="margin-top:18px;">Phase&nbsp;0 is where you find that out, <em>before</em> a single line gets written.</p>
+      <p class="sig">Every idea below is paired with the real thing — examples come from a fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 why this phase exists -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>The expensive mistake is building the wrong thing — fast</h2>
+      <p class="lead">An AI agent can produce a working feature in an afternoon. That speed is only an
+        advantage if the feature is the right one. Build the wrong thing quickly and you've just
+        arrived at the wrong place sooner.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>So the most valuable move at the start isn't to build — it's to make sure everyone agrees
+            what "done" means, that the goal can be measured, and that the client's own documents
+            don't quietly contradict each other.</p>
+          <p>A wrong assumption caught in week one is a twenty-minute conversation. Caught in month
+            three, it's a rebuild — because real code now depends on it. Phase&nbsp;0 trades a little
+            time now for a lot of rework avoided.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor had already lived this. An earlier attempt to modernize the same system was
+            cancelled in its sixth month — it launched with no internal owner, and the real
+            integration work wasn't discovered until month five.</p>
+          <div class="snippet">
+            <div class="from">From Harbor's own post-mortem</div>
+            <blockquote>"Cancelled in month six. No single internal owner; integration scope only surfaced in month five."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Phase&nbsp;0 is the countermeasure: surface that scope in week
+            one, not month five.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip this phase and&hellip;</div>
+        <p>You build the wrong thing precisely — a polished, well-tested solution to a problem nobody
+          actually had.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the one rule -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs everything</p>
+      <h2>Claude drafts and interrogates; humans decide and own</h2>
+      <p class="lead">This single sentence is the spine of the whole method. The AI does the reading,
+        the summarizing, the questioning, and the first drafts. People make every decision and carry
+        the accountability. A machine reports; a named human signs.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Phase&nbsp;0 applies the rule at its strictest: the AI never invents the problem. What
+            the project is actually for is written by a human, full stop.</p>
+          <ul>
+            <li><strong>Claude</strong> reads every document, finds the contradictions, lists the open
+              questions, writes the first drafts.</li>
+            <li><strong>People</strong> decide what the problem is, settle the contradictions, choose
+              the measure of success, and correct &amp; sign the drafts.</li>
+          </ul>
+          <p style="margin-top:12px;">Drafting is cheap; truth is expensive. So the humans spend their
+            time on <em>is this true?</em> — not on typing.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Claude drafted Harbor's problem statement from the workshop notes — and framed it as a
+            <em>claims-team efficiency</em> problem, because that's what the documents emphasized.</p>
+          <p>On day&nbsp;5, hearing it read aloud, the sponsor stopped and corrected it:</p>
+          <div class="snippet">
+            <div class="from">The AI's draft, from the documents</div>
+            <blockquote>"Adjusters are overloaded; the goal is to make the claims team more efficient."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The sponsor's correction — the real problem</div>
+            <blockquote>"Customers leave when claims drag. This is about renewals — roughly $3.4M a year."</blockquote>
+          </div>
+          <p style="margin-top:12px;">The AI produced the draft; a human owned the truth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the four questions -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">What the two weeks must answer</p>
+      <h2>Four questions — and deliberately nothing else</h2>
+      <p class="lead">Everything Phase&nbsp;0 produces exists to answer exactly four questions. Each is
+        non-negotiable, and each has a specific way of going wrong when you skip it.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea — the four questions</div>
+          <ol>
+            <li><strong>What problem, and how will we know we solved it?</strong> A problem and one
+              number — not a feature list.</li>
+            <li><strong>Who decides product questions during the build?</strong> Someone client-side
+              has to own the daily calls.</li>
+            <li><strong>Can we legally and technically work?</strong> Tooling, access, and what data
+              the AI sees.</li>
+            <li><strong>What's non-negotiable?</strong> The constraints that can't be designed away.</li>
+          </ol>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual — the four answers</div>
+          <ol>
+            <li>Customers leaving at renewal; success = median days from claim to decision
+              (<strong>11.4 today</strong>).</li>
+            <li><strong>Luis Ortega</strong>, the Claims Product Manager — 6 hours a week.</li>
+            <li>Cloud is Azure-only; customer data stays inside Harbor's own tenant; AI access under
+              Harbor's account.</li>
+            <li>The once-a-night core system stays; two states mandate a 15-day acknowledgment clock.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The temptation to resist</div>
+        <p>It feels productive to start sketching requirements or architecture now. Don't. Each has
+          its own phase, and anything built before these four answers exist gets rebuilt once the
+          answers arrive.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 contradictions -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">The technique that earns the phase</p>
+      <h2>Read the client's documents against each other</h2>
+      <p class="lead">A client hands over a stack of documents written by different people at different
+        times. They disagree constantly — and those disagreements are exactly where the project's
+        biggest risks are hiding.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The AI doesn't just summarize the pile. It reads it <em>against itself</em>, finding every
+            place document A says one thing and document B another.</p>
+          <p>A contradiction isn't an embarrassment — it's a decision nobody realized they had to make,
+            surfaced while it's still cheap. Each gets sized two ways: <strong>how much it matters</strong>
+            (blocks the goal, or just nudges a design choice?) and <strong>where it's answered</strong>
+            (a quick email, or a decision that needs the right people in a room).</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Reading Harbor's eight documents against each other surfaced four contradictions. The one
+            that earned the phase:</p>
+          <div class="snippet">
+            <div class="from">What the client asked for</div>
+            <blockquote>"Real-time claim decisions at the moment a claim is reported."</blockquote>
+          </div>
+          <div class="snippet">
+            <div class="from">What their system actually does</div>
+            <blockquote>"Records sync only once a night; during the day you see yesterday's data."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Settled in the workshop</div>
+            <blockquote>"Same-day decisions for v1; real-time deferred. Caught on day 3 — not month 3."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 the metric -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">The one measure of success</p>
+      <h2>A number you can actually read &mdash; not one you agreed to in a meeting</h2>
+      <p class="lead">"Reduce processing time by 30%" sounds like a goal. It's worthless if nobody can
+        produce <em>today's</em> processing time. A target with no readable baseline is a wish.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The success metric must be <strong>read live from a real system</strong>, with the current
+            number written down and its source named. Promised isn't good enough; proven is the bar.</p>
+          <p>And if the number can't be produced? That's not a footnote — it's a finding. Either the
+            metric changes to something measurable, or "build the measurement" becomes the very first
+            job of the next phase. Decided now, not discovered in week nine.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The team sat with the data owner and produced the number on screen, from the real report:</p>
+          <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">&le; 5.0</span>
+            <small>days from claim to decision today &rarr; the target within a year</small></div>
+          <p style="margin-top:14px;">They even caught that the report's <em>label</em> was wrong while
+            its underlying number was right — something you only see by actually running it.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The most common way Phase 0 fails</div>
+        <p>Everyone nods along to a goal nobody can measure. Months later there's no way to tell if the
+          project worked. That's why proving the metric is a whole day's work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 who decides -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Who answers the daily questions</p>
+      <h2>Decide who owns product decisions &mdash; on purpose, in writing</h2>
+      <p class="lead">Once building starts, product questions arrive every day. There are two honest
+        ways to handle who answers them — and one dishonest way that quietly poisons the engagement.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <ul>
+            <li><strong>Named-owner mode</strong> — the client commits a person, with hours, who
+              answers within a couple of business days.</li>
+            <li><strong>Proxy mode</strong> — no owner available, so the pod decides on the client's
+              behalf, logs every call, and the client ratifies the log at each check-in.</li>
+            <li><strong>&times; "We'll figure it out as we go"</strong> — proxy mode by accident, with
+              no agreement and no log. The worst of both. The workshop forces the choice out loud.</li>
+          </ul>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor committed a named owner:</p>
+          <div class="decision">
+            <strong>Luis Ortega</strong> — Claims Product Manager<br>
+            6 hours a week · product decisions answered within two business days
+          </div>
+          <p style="margin-top:12px;">Because this is a contract precondition, the build clock couldn't
+            start until it was settled — no shrugging it down the road.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 tooling / data boundary -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Can we even work here?</p>
+      <h2>Settle the tooling and the data boundary before anyone opens a terminal</h2>
+      <p class="lead">The AI needs a contract and keys, and the client's security team needs a clear,
+        written answer to one question: <em>what data does this thing see, and where does it go?</em></p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea — three paths</div>
+          <ul>
+            <li><strong>Default</strong> — the client procures access under their own agreement; keys
+              live in their vault; their contract, their audit trail.</li>
+            <li><strong>Fallback</strong> — if procurement is slow, start under our keys with the
+              client's written consent and a fixed date to migrate to theirs.</li>
+            <li><strong>High-compliance</strong> — the AI runs inside the client's own cloud tenant,
+              for the strictest environments.</li>
+          </ul>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor took the <strong>default</strong> path:</p>
+          <div class="decision">
+            AI agreement signed on <strong>day 8</strong> — two days before the fallback would have
+            triggered. Keys went into Harbor's own vault; customer data stays inside their cloud
+            (Azure-only).
+          </div>
+          <p style="margin-top:12px;">The fallback sat ready the whole time, just in case procurement
+            slipped. It didn't.</p>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="lbl">Why this one has teeth</div>
+        <p>Live access (or a signed fallback) is a condition of closing Phase&nbsp;0. The next phase
+          doesn't begin without it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 the gate -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">How a phase actually ends</p>
+      <h2>A gate, not a calendar</h2>
+      <p class="lead">A phase doesn't end because two weeks went by. It ends when a specific list is
+        true and a named human signs to advance. Automated checks confirm the mechanical parts; a
+        person owns the judgment. <strong>Gates report; humans decide.</strong></p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>These gates are also the billing milestones — the moment a phase closes is the moment that
+            work is accepted and paid for. That's what gives two of the checklist items below their
+            weight.</p>
+          <p>If a teeth item isn't met on the last day, the phase doesn't close — and because billing
+            is tied to the gate, that becomes the client's problem to unblock, not the pod's to quietly
+            absorb.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>At Harbor's gate run, the automated check found one problem — a leftover placeholder in the
+            constraints file. It was fixed, the check re-ran clean, and the next day the sponsor signed.</p>
+          <div class="decision">
+            That signature was <strong>billing milestone one</strong>. The engagement formally moved to
+            Phase&nbsp;1.
+          </div>
+        </div>
+      </div>
+      <p class="dim" style="margin-top:24px;">The full checklist — tick it:</p>
+      <ul class="gate" style="margin-top:12px;">
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The automated checks pass &mdash; every artifact exists, is complete, has no leftover placeholders</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The sponsor has signed off on what the project is and what success means</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The success metric was read from its real source, and the starting number is recorded</span></li>
+        <li class="teeth"><span class="box" aria-hidden="true"></span><span class="txt">Who owns product decisions is settled in writing</span></li>
+        <li class="teeth"><span class="box" aria-hidden="true"></span><span class="txt">AI access is live under the client's account, or the fallback is signed</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The project repository exists in the client's organization, with everything committed</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">Every still-open question is written down, numbered, with an owner</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">A named human has approved the move to the next phase</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 09 seeing it happen — the timeline -->
+  <section class="s">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">09</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>The two weeks, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. Two streams run in
+          parallel the whole time — one chasing <strong>understanding</strong> (the workshop, the
+          metric, the artifacts), another chasing <strong>enablement</strong> (access, the repo, the
+          data boundary) — so the slow, waiting-on-other-people work never holds up the phase. Step
+          through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 0 timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 <span class="date">· kickoff</span></div>
+          <h3>Get both clocks running</h3>
+          <p>A short kickoff explains how the work will run. The client hands over everything they've
+            written about the problem. In parallel, the slow things start <em>today</em> — getting AI
+            access approved and repo access sorted — because those wait on other people.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 <span class="date">· intake</span></div>
+          <h3>The AI reads everything</h3>
+          <p>Every document gets cataloged and summarized. Then a fresh pass hunts for contradictions
+            and unanswered questions. The cheap questions go out by email the same day — no need to
+            spend a meeting on them.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 <span class="date">· the workshop</span></div>
+          <h3>The one meeting that must happen in a room</h3>
+          <p>Three hours, the right people, no AI in the room. The contradictions get settled, the real
+            problem gets named in the sponsor's own words, and the single measure of success gets chosen.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 <span class="date">· first drafts</span></div>
+          <h3>Drafted by the AI, corrected by a human the same day</h3>
+          <p>The problem statement, the success measures, and the constraints get drafted from the
+            workshop notes — then corrected while everyone's memory is fresh. Drafts age badly.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 <span class="date">· interviews &amp; the reframe</span></div>
+          <h3>The cheap-correction point</h3>
+          <p>Talk to the people who live the problem daily, then read the draft problem statement
+            <em>aloud</em> to the sponsor. This is where "that's not actually the problem" surfaces —
+            and at Harbor it did: what looked like an efficiency problem was really about customers
+            leaving. The single most valuable correction of the phase.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 6">
+          <div class="day">Day 6 <span class="date">· prove the metric</span></div>
+          <h3>Produce the number, live</h3>
+          <p>Sit with the data owner and actually run the report on the real system. Read the starting
+            number off the screen and record it with its source. A promised metric isn't good enough.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 7">
+          <div class="day">Day 7 <span class="date">· the constitution &amp; the owner</span></div>
+          <h3>Write the thing the sponsor will sign</h3>
+          <p>A short identity document for the project — what it is, what done means, the goal, the
+            constraints. Kept short enough that the sponsor will actually read it. And who owns product
+            decisions gets put in writing.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 8">
+          <div class="day">Day 8 <span class="date">· the plumbing converges</span></div>
+          <h3>Access goes live; the repo becomes home</h3>
+          <p>AI access turns on under the client's own account. The project repository is created inside
+            the client's organization, and everything produced so far moves into it. From here, the repo
+            is the only home.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 9">
+          <div class="day">Day 9 <span class="date">· the check</span></div>
+          <h3>The machine checks the work</h3>
+          <p>Automated checks run over everything; anything incomplete gets fixed. Any still-open
+            questions are written down to carry forward. A plain-language summary is prepared for the
+            sponsor's review.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 10">
+          <div class="day">Day 10 <span class="date">· review &amp; sign-off</span></div>
+          <h3>A signature, and the meter starts</h3>
+          <p>A 45-minute review: the project's identity, the metric with its proven starting number, the
+            constraints, the ownership decision, the open questions. The sponsor signs. The phase closes
+            and the build can begin — the first billing milestone.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 10</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 how it goes wrong -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has happened to someone. Knowing them by name is half the
+        defense — and Harbor's structure caught two of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A feature list in disguise</strong></td><td>"Build an API, a portal, a dashboard" written down as if it were the goal</td><td>A real goal survives the feature list changing. If the sentence names a system, keep asking why.</td><td>Goal stated as renewals, not features</td></tr>
+          <tr><td><strong>The unmeasurable metric</strong></td><td>Everyone agrees to a target nobody can produce a number for</td><td>Produce it live, or change it.</td><td><strong>Caught</strong> — the day-6 live run</td></tr>
+          <tr><td><strong>The dodged owner</strong></td><td>"We'll sort out who decides as we go"</td><td>The workshop forces the choice; the contract records it.</td><td>Luis named, in writing</td></tr>
+          <tr><td><strong>Tooling drift</strong></td><td>"Access will sort itself out next phase"</td><td>A hard checkpoint, with a fallback ready.</td><td>Signed day 8, fallback on standby</td></tr>
+          <tr><td><strong>The sponsor who nods</strong></td><td>A beautiful draft, skimmed and approved, wrong months later</td><td>Read it aloud; interview the people who live the problem.</td><td><strong>Caught</strong> — the day-5 reframe</td></tr>
+          <tr><td><strong>Discovery that won't end</strong></td><td>Week four of "just two more interviews"</td><td>Four questions, not all questions. Open ones get carried forward.</td><td>Two questions handed to Phase 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase 0 is done</p>
+      <h2>You don't know everything &mdash; and that's the point</h2>
+      <p class="dim">Discovery doesn't end in certainty. It ends with the four questions answered, a
+        signed agreement on what the project is, and every remaining unknown written down and handed
+        forward. That's a foundation you can build on. Where to go next:</p>
+      <div class="next">
+        <a href="phase-1.html"><span class="t">Phase 1 &rarr;</span><span class="d">Requirements &mdash; what happens to the open questions and the recommended starting point.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 0 &mdash; roles, calendar, artifacts, the exact gate.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase 0 · Discovery</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, and gate, including the tooling specifics the Learn-it view leaves out. For the
+        full deep-dive see <a href="../phase-0-discovery.html">phase-0-discovery</a>; for the complete
+        worked example with every ID and command, <a href="../phase-0-example.html">phase-0-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase 0 answers four questions, and nothing else. Requirements, design, and planning are
+        deliberately out of scope.</p>
+      <ol>
+        <li><strong>What problem are we solving, and how will we know we solved it?</strong> (one measurable metric)</li>
+        <li><strong>Who decides product questions during the build?</strong> (the PO decision)</li>
+        <li><strong>Can we legally and technically work?</strong> (tooling, access, data boundary)</li>
+        <li><strong>What constraints are non-negotiable?</strong> (technical, regulatory, organizational)</li>
+      </ol>
+
+      <h2>The human / AI contract for this phase</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>Sponsor states the problem and the one success metric. Pod Lead runs the outcome workshop.</td><td>Interrogates: surfaces unmade decisions; drafts constitution, problem statement, constraints from workshop notes; runs document intake on the client's RFPs and specs.</td><td>Problem framing is human-authored &mdash; Claude never invents the problem. Phase advance.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Pod Lead</td><td>60&ndash;80%</td><td>Understanding &mdash; workshop, interviews, every artifact's content, the decision list, sponsor sign-off</td></tr>
+          <tr><td>Setup Owner</td><td>40&ndash;50%</td><td>Enablement &mdash; Anthropic procurement, repo &amp; access, the data-flow brief, the initialized delivery repo</td></tr>
+          <tr><td>Quality Engineer</td><td>~10%</td><td>One job: vet the success criteria for measurability</td></tr>
+          <tr><td>Orchestrators</td><td>0&ndash;10%</td><td>Not yet staffed; they arrive in Phase 1</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Sponsor</td><td>Workshop, the PO decision, phase sign-off</td><td>Half-day + two 30-min checkpoints</td></tr>
+          <tr><td>Candidate PO</td><td>Workshop; the PO-mode commitment</td><td>Workshop + one conversation</td></tr>
+          <tr><td>Security / IT</td><td>Procurement, repo access, data-flow review</td><td>Hours &mdash; but engage day 1 for lead time</td></tr>
+          <tr><td>Domain experts (2&ndash;4)</td><td>Week-1 interviews</td><td>45&ndash;60 min each</td></tr>
+          <tr><td>Ops / data owner</td><td>Verifying the metric is readable</td><td>One working session</td></tr>
+        </tbody>
+      </table>
+      <p class="note">The hardest person to get is usually the data owner. Book them early &mdash; an unverifiable success metric is the most common Phase 0 failure.</p>
+
+      <h2>The ten-day calendar</h2>
+      <table>
+        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Kickoff</td><td>How-we-work briefing; corpus received; enablement workstream opened with client IT</td><td><code>/sdlc-setup</code></td></tr>
+          <tr><td>2</td><td>Intake &amp; prep</td><td>Catalog the corpus; cross-document contradiction &amp; question lists; cheap questions emailed; workshop brief drafted, curated, sent</td><td><code>/sdlc-intake</code>, <code>/sdlc-brief</code></td></tr>
+          <tr><td>3</td><td>Outcome workshop</td><td>The problem, three outcomes, the one metric, constraints, the PO decision, tooling status &mdash; humans only</td><td>&mdash;</td></tr>
+          <tr><td>4</td><td>First drafts</td><td>Problem statement, success criteria, constraints drafted &amp; corrected; decision list v1</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>5</td><td>Interviews &amp; checkpoint</td><td>Stakeholder interviews; sponsor checkpoint reads the draft out loud &mdash; the cheap-correction point</td><td>&mdash;</td></tr>
+          <tr><td>6</td><td>Prove the metric</td><td>Run the report live with the data owner; record the baseline with its source; QE vets every criterion</td><td>&mdash;</td></tr>
+          <tr><td>7</td><td>Constitution &amp; PO</td><td>Constitution drafted; PO decision finalized in writing (PO mode or proxy mode)</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>8</td><td>Enablement converges</td><td>Anthropic access live (or fallback rider invoked); delivery repo live with artifacts committed</td><td>&mdash;</td></tr>
+          <tr><td>9</td><td>Gate run</td><td>Phase 1 handoff drafted; automated gate check; narrative companion generated</td><td><code>/sdlc-gate</code>, <code>/sdlc-enhance</code></td></tr>
+          <tr><td>10</td><td>Review &amp; sign-off</td><td>45-min phase review; sponsor signs; advance recorded &mdash; billing milestone 1</td><td><code>/sdlc-next</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">The two-week figure assumes client lead times cooperate. When procurement stalls, invoke the fallback rider on day 8 as planned &mdash; don't stretch the phase. Never start Phase 1 work early "since we're waiting."</p>
+
+      <h2>The artifacts</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>constitution.md</td><td>Sponsor (signs)</td><td>Identity, three outcomes, metric, constraints, principles &mdash; short enough to be read</td></tr>
+          <tr><td>problem-statement.md</td><td>Pod Lead</td><td>Root cause &amp; quantified impact in the sponsor's language; human-authored framing</td></tr>
+          <tr><td>success-criteria.md</td><td>Pod Lead + QE</td><td>Every criterion has baseline, target, method, source &mdash; baseline produced on day 6, not promised</td></tr>
+          <tr><td>constraints.md</td><td>Pod Lead</td><td>Each constraint has a rationale and a fixed/negotiable flag</td></tr>
+          <tr><td>Decision list</td><td>Pod Lead</td><td>Every unmade decision named; answered, or carried to the handoff as a numbered question</td></tr>
+          <tr><td>Document registry</td><td>Setup Owner</td><td>Every document has a DOC ID and summary; contradictions listed</td></tr>
+          <tr><td>PO decision record</td><td>Sponsor</td><td>Mode chosen in writing; PO named with commitments, or rider signed</td></tr>
+          <tr><td>Tooling record</td><td>Setup Owner</td><td>Anthropic access live under client account, or fallback rider signed with a date</td></tr>
+          <tr><td>phase1-handoff.md</td><td>Pod Lead</td><td>Summary, decisions, numbered open questions, risks, recommended starting point</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: requirements, user stories, architecture options, technology selections, or any code beyond the empty repo scaffold. Each has its own phase; each done early is rework.</p>
+
+      <h2>The data boundary &mdash; three paths</h2>
+      <table>
+        <thead><tr><th>Path</th><th>When</th><th>How it works</th></tr></thead>
+        <tbody>
+          <tr><td>Default</td><td>Normal case</td><td>Client procures Anthropic access under their own agreement; keys in their Key Vault; pod on client-issued seats. Their contract, their audit trail.</td></tr>
+          <tr><td>Fallback rider</td><td>Procurement stalled</td><td>Firm's keys under a signed client consent rider, migrated to client keys as soon as procurement lands.</td></tr>
+          <tr><td>High-compliance</td><td>Strict tenancy needs</td><td>Claude via the client's own Azure tenant (Foundry). Verify model availability and Claude Code compatibility at Phase 0 before promising it.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min sync</td><td>Pod Lead + Setup Owner</td><td>The two workstreams trade status &mdash; what's blocked on the client, what lands today</td></tr>
+          <tr><td>Sponsor checkpoints (days 1, 5, 10)</td><td>Pod Lead + Sponsor</td><td>Kickoff, draft review, phase review. The day-5 one is the cheap-correction point</td></tr>
+          <tr><td>Anchor events</td><td>Per calendar</td><td>Workshop (3), metric session (6), gate run (9) &mdash; move only if people can't be gotten</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The exit gate</h2>
+      <p>Phase 0 closes when all of these are true, verified at the day-10 review:</p>
+      <ul>
+        <li>Automated gate checks pass &mdash; artifacts complete, no placeholders</li>
+        <li>Sponsor signed the outcome statement (constitution)</li>
+        <li>Success metric read from its source system, baseline recorded</li>
+        <li><strong>The PO decision in writing</strong> &mdash; named PO with commitments, or signed proxy rider <em>(billing teeth)</em></li>
+        <li><strong>Anthropic access live</strong> under the client's account, or fallback rider signed <em>(billing teeth)</em></li>
+        <li>Repo exists in the client org with artifacts committed; access checklist closed</li>
+        <li>Handoff carries every open question, numbered, with an owner</li>
+        <li>A named human approved the advance</li>
+      </ul>
+      <p class="note">Two of these are contract preconditions with billing teeth (the PO decision and tooling). If either is unresolved on day 10, the phase does not close &mdash; and gate-based billing makes that the client's problem to unblock rather than the pod's to absorb.</p>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>The deliverables list in an outcome costume.</strong> "Build an API, a portal, a dashboard" instead of an outcome. Test: an outcome survives the deliverable changing.</li>
+        <li><strong>The unreadable metric.</strong> Everyone agrees to "reduce processing time 30%" and nobody can produce the current number. Day 6 exists for this.</li>
+        <li><strong>The dodged PO decision.</strong> "We'll figure out ownership as we go" is proxy mode chosen implicitly &mdash; the worst of both modes.</li>
+        <li><strong>Procurement drift.</strong> "Tooling will sort itself out in Phase 1." Day 8 is the hard checkpoint.</li>
+        <li><strong>The sponsor who nods.</strong> A beautiful draft, skimmed and approved, wrong on day 50. The defense is the day-5 read-aloud and the interviews.</li>
+        <li><strong>Discovery that won't end.</strong> Week 4 of "just two more interviews." Open questions go in the handoff, numbered &mdash; that's what the list is for.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase 0 · Walkthrough &mdash; a companion to the <a href="../phase-0-discovery.html">Discovery phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

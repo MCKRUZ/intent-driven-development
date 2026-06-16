@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 2 · Walkthrough — Design, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase 2 (Design): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-2-design.html">Phase 2 · Design</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase 2 · Walkthrough</p>
+    <h1>Design, explained
+      <span class="sub">How a team decides the shape of a system it can't easily change later — each idea paired with how it actually played out on a real project.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">Some decisions are cheap to change later. A few are not &mdash; and those few
+        quietly decide whether the whole thing works.</p>
+      <p class="big" style="margin-top:18px;">Phase&nbsp;2 is where you find the <strong>hard-to-undo</strong>
+        decisions, make them <em>on purpose</em>, and write down <strong>why</strong>.</p>
+      <p class="sig">Every idea below is paired with the real thing — examples come from a fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 why this phase exists -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>A handful of decisions are expensive to take back &mdash; so take them deliberately</h2>
+      <p class="lead">By now the problem is fixed and the requirements are signed. The danger has
+        shifted. It's no longer "are we building the right thing?" &mdash; it's "are we building it on a
+        shape we can live with?" Most choices in a project can be reversed in an afternoon. A few
+        cannot, because everything else gets built on top of them.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Phase&nbsp;2 does one thing: it finds the small number of decisions that are hard to undo,
+            makes each one in the open with real alternatives on the table, and records the reasoning so
+            nobody has to guess later.</p>
+          <p>A shape chosen carelessly in week three becomes a rebuild in month four &mdash; because real
+            code now sits on top of it. Spend a week choosing well now, and you save a quarter of
+            rework.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor's claims rebuild had to read policy data to decide coverage. The obvious source &mdash;
+            the core system, PolicyOne &mdash; only updates once a night. Choose the wrong way to read it and
+            you either re-add the very delay the project exists to remove, or you commit to mainframe work
+            nobody could staff this year.</p>
+          <div class="snippet">
+            <div class="from">The decision that shaped the week</div>
+            <blockquote>"Where does a coverage check get its answer &mdash; and how fast, given the once-a-night sync?"</blockquote>
+          </div>
+          <p style="margin-top:12px;">Get that one wrong and the 11.4-days-to-5 goal is gone before a
+            line ships.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip this phase and&hellip;</div>
+        <p>The hard-to-undo decisions still get made &mdash; just by accident, by whoever typed first, with
+          no alternatives weighed and no record of why. You discover them when they break.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the one rule -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs everything</p>
+      <h2>Claude presents options; humans choose</h2>
+      <p class="lead">This is the second-strictest version of the standard's spine, after Discovery's.
+        The AI does the research, lays out the real choices with honest trade-offs, and drafts the
+        records once a person has decided. But it never picks the architecture. A machine compares; a
+        named human chooses.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>For every decision that matters, the AI puts <strong>two or three genuine options</strong> on
+            the table &mdash; with their costs, their risks, and what each one closes off later.</p>
+          <ul>
+            <li><strong>Claude</strong> researches the options, frames the trade-offs against this
+              project's real constraints, and drafts the records after the choice is made.</li>
+            <li><strong>People</strong> weigh the options, pick one, and put their name on it &mdash; on both
+              sides of the engagement.</li>
+          </ul>
+          <p style="margin-top:12px;">One option presented alone isn't a decision. It's a default wearing
+            a decision's costume.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>For the coverage-source decision, Claude laid out three real paths and what each cost:</p>
+          <div class="snippet">
+            <div class="from">Option, honestly costed</div>
+            <blockquote>"Queue batch requests through PolicyOne &mdash; no new access, but answers arrive next business day. Re-adds the day the metric exists to remove."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">What the humans chose &mdash; Rob (pod) + Wes (Harbor)</div>
+            <blockquote>"Read the nightly snapshot replica directly. Milliseconds, fresh-as-of-yesterday, behind a service that owns the staleness rule."</blockquote>
+          </div>
+          <p style="margin-top:12px;">The AI framed the choice; two named humans owned it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the ADR -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">How a decision becomes a record</p>
+      <h2>Write down what you rejected, not just what you chose</h2>
+      <p class="lead">A decision you can't reconstruct is a decision you'll relitigate. So each hard-to-undo
+        choice gets a short record: what the situation was, which options were really considered, what was
+        picked, and what that costs you &mdash; including the parts you won't enjoy.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The record's most valuable line is often the <em>rejected</em> option, with the reason beside
+            it. That's what stops the same argument from coming back in month three &mdash; and it's proof the
+            alternative was actually weighed, not waved past.</p>
+          <p>Two people sign each one: the team's design owner and the client's own engineer. A record
+            with one signature is an engagement artifact. A record with both is a decision the client made
+            with you, not one handed to them after.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The claim-store record could have just said "relational model, append-only log." Instead it
+            recorded what it turned down:</p>
+          <div class="snippet">
+            <div class="from">The rejection, written down with its reason</div>
+            <blockquote>"Full event sourcing &mdash; considered and rejected as unfunded gold-plating, and as an operability cost the team would carry at 2 a.m."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Nobody relitigates it later, and nobody wonders whether it was even
+            considered. Every record that week carried both Rob's name and Wes's.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The failure mode to watch</div>
+        <p>The single-option record: one approach presented, everyone nods, and the document gets written
+          around a reflex. The alternatives are exactly where the thinking lives &mdash; skip them and the
+          record proves nothing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 spikes -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Don't bet the design on a guess</p>
+      <h2>Test the risky assumption against the real thing &mdash; with throwaway code</h2>
+      <p class="lead">A design quietly bets on things being true: that an old system answers fast enough,
+        that an integration behaves like its documentation claims. Bet wrong and you find out in build
+        week three, when it's expensive. So you check first &mdash; cheaply.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>For each risky assumption, someone writes a small, throwaway piece of code that pokes the real
+            system for a few hours. The point isn't the code &mdash; it gets deleted. The point is the
+            finding, which the design then gets built around.</p>
+          <p>The most valuable spikes <em>falsify</em> something. A spike that proves a favored option
+            won't work just did its job for the price of an afternoon.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Jonah spiked the snapshot replica. It answered in 180 milliseconds &mdash; easily fast enough. But
+            the throwaway code found something no document mentioned:</p>
+          <div class="snippet">
+            <div class="from">What the spike found that the docs didn't</div>
+            <blockquote>"The replica is unavailable during its 02:00&ndash;04:30 nightly refresh window."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Designed around the truth, not surprised by it</div>
+            <blockquote>"During refresh, the service shows 'pending verification' and never blocks intake &mdash; written into the contract, not discovered as a 2 a.m. incident."</blockquote>
+          </div>
+          <p style="margin-top:12px;">One hour of code nobody kept saved a midnight outage in month four.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 contracts -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Define the edges &mdash; including how they break</p>
+      <h2>A contract that only describes success is half a contract</h2>
+      <p class="lead">Every part of the system has a boundary where it meets the others. The boundary has
+        to say not just what happens when things go right, but exactly what happens when they go wrong &mdash;
+        because that's the part the next person will need and won't be able to guess.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>For each operation, the design pins down the success behavior <em>and</em> the failure
+            behavior: what callers see when a dependency is down, when data is stale, when the system is
+            overwhelmed. The error behavior agreed earlier in requirements flows straight into these
+            concrete responses.</p>
+          <p>Leave the failure paths to "the implementer's imagination" and you've thrown away the careful
+            thinking that already happened &mdash; and guaranteed each developer invents a different answer.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The coverage-check contract spells out every failure, not just the happy answer:</p>
+          <div class="snippet">
+            <div class="from">A failure path, made explicit</div>
+            <blockquote>"Policy not found &rarr; return 'needs-review' with a reason code &mdash; never a silent 'verified'; raise the queue flag the same business day."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">And a degradation path the design review added</div>
+            <blockquote>"Under a surge, the portal never rejects a claim: accept it, queue deeper, show the degraded-confirmation message the product owner approved."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 designing within the constraint -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">The constraints don't bend</p>
+      <h2>Design <em>with</em> the hard limit, not around it</h2>
+      <p class="lead">Some constraints are fixed: a system that only syncs at night, a rule that the
+        business must keep a door open for a future product, a regulatory clock. The tempting move is to
+        wish them away &mdash; "we'll add a real-time feed later." That's how projects quietly break their own
+        promises.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>What Discovery fixed as non-negotiable, the design honors &mdash; or it re-opens the conversation
+            <em>out loud</em>, never silently. The constraint is an input to the shape, not an obstacle to
+            route around.</p>
+          <p>The forward-compatibility rule cuts both ways: don't close off the future the client paid to
+            keep open &mdash; and don't furnish a room for a future nobody funded. "Must not preclude" means
+            the door stays open, not that you build behind it now.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The constitution said the design must not preclude Harbor's future auto-insurance business &mdash;
+            but v1 ships property claims only. Checking the draft model against that rule forced exactly one
+            change:</p>
+          <div class="decision">
+            Claim type moved from a fixed code-level list to a <strong>reference table</strong> with an
+            extensible coverage schema.<br>
+            Adding the auto book later becomes a <strong>data change</strong>, not a schema rebuild &mdash; door
+            open, room unfurnished.
+          </div>
+          <p style="margin-top:12px;">They honored the once-a-night sync the same way: the replica read
+            <em>is</em> the design, not a workaround pasted over it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 property-only, but auto-proof / the model -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Build the smallest thing &mdash; the right way</p>
+      <h2>Ship only what's funded, but leave the right seams</h2>
+      <p class="lead">Restraint and foresight sound opposed, but they're the same discipline pointed in
+        two directions: don't build the future, but don't make the future a rebuild either. The skill is
+        knowing which is which.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The data model serves every top-priority requirement and nothing more &mdash; no service exists
+            that no requirement asked for. But where the design knows a future is coming, it leaves a clean
+            seam rather than a wall.</p>
+          <p>A good seam is invisible until you need it, costs nothing today, and turns tomorrow's "rewrite"
+            into tomorrow's "configure." A bad one is a half-built feature nobody paid for.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The model carried its audit trail as structure, not as an afterthought, and its merge rules
+            as first-class history:</p>
+          <div class="snippet">
+            <div class="from">From the data model summary</div>
+            <blockquote>"Append-only event log &mdash; every state change with actor and timestamp; the duplicate-merge is an event pair, so history survives the merge."</blockquote>
+          </div>
+          <p style="margin-top:12px;">And the coverage service got built as the <em>seam</em> for
+            real-time: if Harbor funds it later, the contract doesn't change &mdash; only the source behind it
+            does. That's a door left open, costing nothing now.</p>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="lbl">The check that keeps it honest</div>
+        <p>The design is traced both ways: every top requirement lands somewhere, and every component
+          traces back to a requirement. A part that nothing asks for is how accidental scope is born &mdash; so
+          it gets cut.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 seeing it happen — the timeline -->
+  <section class="s paper">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">08</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>The week, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. The week's spine is
+          simple &mdash; <strong>options early, decisions in the middle, contracts and proving at the end</strong> &mdash;
+          with the riskiest bets tested against reality on day two before anything depends on them. Step
+          through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 2 timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 <span class="date">· drivers &amp; options</span></div>
+          <h3>Find the few requirements that actually shape the architecture</h3>
+          <p>Most requirements don't drive the design. The day's craft is finding the five-to-eight that
+            do &mdash; the nightly batch window, the storm surge, the auto-proof rule, the regulatory clock. The
+            two open questions carried from Phase&nbsp;1 come due, because their answers are design inputs.
+            Claude lays out two-to-three options per major decision; the design owner kills the strawmen and
+            books the option session.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 <span class="date">· spikes &amp; the option session</span></div>
+          <h3>Test the risky bets, then let humans choose</h3>
+          <p>Orchestrators run the throwaway spikes &mdash; does the replica answer fast, does the email parser
+            reach useful accuracy. Then the option session: the design owner and Harbor's lead engineer work
+            through Claude's framings with the spike results in hand, and <em>choose</em>. By end of day the
+            architecture direction is set and the list of records to write is known.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 <span class="date">· decisions become records</span></div>
+          <h3>Sign the decisions; draft the model</h3>
+          <p>Claude drafts the records from yesterday's choices; the design owner edits and signs, the
+            client's engineer co-signs. An unsigned record is just a conversation. The claim data model gets
+            drafted &mdash; starting where the most constraints converge &mdash; and the forward-compatibility check
+            forces its one structural change.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 <span class="date">· contracts, threats, proving</span></div>
+          <h3>Pin the edges, walk the attack surface, plan the proof</h3>
+          <p>The API contracts get completed &mdash; every operation, every failure path, every degradation
+            behavior. The security session walks the data flows and assigns each threat: mitigate it in the
+            design now, or guard it with a build-time gate later. The quality engineer writes how every
+            quality target will be proven, and defines the thin end-to-end slice Phase&nbsp;3 must make real.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 <span class="date">· review, gate, handoff</span></div>
+          <h3>Fresh eyes attack it, then it ships forward</h3>
+          <p>A reviewer that didn't draft the design challenges it from four angles &mdash; architecture,
+            product, quality, security. Findings get fixed or accepted by name; the consistency check runs
+            both directions and an orphaned service gets cut. The gate runs, the sponsor gets the
+            <em>narrative</em> (not the diagrams), the signatures land &mdash; and the engagement advances. That
+            sign-off is billing milestone three.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 how it goes wrong -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has killed a real project. Knowing them by name is half the
+        defense &mdash; and Harbor's structure caught two of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>The single-option decision</strong></td><td>One approach presented, everyone nods, a record written around a reflex</td><td>Two or three real options, or it's not a decision. The alternatives are where the thinking is.</td><td>Three options costed per decision</td></tr>
+          <tr><td><strong>Resume-driven architecture</strong></td><td>The interesting technology beats the boring one that fits</td><td>The client runs it at 2 a.m., not you. Their operating model is the tiebreaker.</td><td>Serverless rejected &mdash; foreign to Harbor's ops</td></tr>
+          <tr><td><strong>Designing around the constraint</strong></td><td>"We'll add the real-time feed later" wishes the batch window away</td><td>Honor the fixed limit, or re-open it out loud &mdash; never silently.</td><td>The nightly replica <em>is</em> the design</td></tr>
+          <tr><td><strong>Faith-based integration</strong></td><td>The design bets on an interface nobody actually called</td><td>Spike it against the live system before you depend on it.</td><td><strong>Caught</strong> &mdash; the spike found the refresh window</td></tr>
+          <tr><td><strong>Happy-path contracts</strong></td><td>Success is specified; failure is left to imagination</td><td>Carry the error specs down; failure behavior is half the contract.</td><td>Every contract row is a failure case</td></tr>
+          <tr><td><strong>The orphan service</strong></td><td>A component creeps in that no requirement asked for</td><td>Trace the design both directions; cut what nothing needs.</td><td><strong>Caught</strong> &mdash; a service cut on day 5</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase 2 is done</p>
+      <h2>You have a shape you can build on &mdash; and a record of why it's that shape</h2>
+      <p class="dim">Design doesn't end with code. It ends with the hard-to-undo decisions made and
+        signed by both sides, the integrations proven against reality, the contracts honest about failure,
+        and a thin end-to-end slice named for the next phase to make real. That's a foundation you can
+        pour concrete on. Where to go next:</p>
+      <div class="next">
+        <a href="phase-3.html"><span class="t">Phase 3 &rarr;</span><span class="d">Foundation &mdash; the harness gets installed, the rails go live, and the walking skeleton becomes running code.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 2 &mdash; roles, calendar, artifacts, the exact gate.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase 2 · Design</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, and gate, including the tooling specifics the Learn-it view leaves out. For the
+        full deep-dive see <a href="../phase-2-design.html">phase-2-design</a>; for the complete
+        worked example with every ID and command, <a href="../phase-2-example.html">phase-2-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase 2 answers four questions, and nothing else. Production code, the build-spec backlog,
+        environment provisioning, and pixel-level UI design are deliberately out of scope &mdash; they belong
+        to Phase 3 and the Build. Design spikes are explicitly <em>in</em> scope.</p>
+      <ol>
+        <li><strong>What is the shape of the system?</strong> (components, boundaries, data flow, deployment view)</li>
+        <li><strong>What are the contracts?</strong> (API contracts, data model, integration interfaces &mdash; with error semantics, not just happy paths)</li>
+        <li><strong>Which decisions are hard to undo, and what did we choose?</strong> (architecture decision records, each with real options and consequences, each signed)</li>
+        <li><strong>How will the design be proven?</strong> (the verification approach per NFR, and what the Phase 3 walking skeleton must demonstrate)</li>
+      </ol>
+
+      <h2>The human / AI contract for this phase</h2>
+      <p>This phase has the second-strictest human rule in the standard, after Phase 0's:
+        <strong>Claude presents options; humans choose.</strong></p>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>Setup Owner drives the option evaluation, owns the design document, signs every ADR. Client counterpart co-signs each ADR. PO owns product-facing trade-offs.</td><td>Researches and frames 2&ndash;3 genuine options per decision; drafts ADRs after the human picks; drafts contracts and the data model carrying Phase 1 error specs down; checks consistency both directions; drafts the data-flow diagrams and candidate threat list.</td><td>Choosing an architecture, signing an ADR, accepting a risk &mdash; all human. Claude never softens a trade-off to make an option look better. Phase advance.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Setup Owner</td><td>80&ndash;100%</td><td>Design authority &mdash; drives option evaluation, owns the design document, signs every ADR, owns integration strategy</td></tr>
+          <tr><td>Orchestrators</td><td>50&ndash;70%</td><td>Design spikes against the riskiest assumptions; drafting API contracts and the data model under the Setup Owner</td></tr>
+          <tr><td>Pod Lead</td><td>40&ndash;50%</td><td>Keeps design traced to requirements, routes product trade-offs to the PO, runs steering, owns the handoff</td></tr>
+          <tr><td>Quality Engineer</td><td>30&ndash;40%</td><td>The proving plan &mdash; verification approach per NFR, test-strategy skeleton, what the walking skeleton must demonstrate</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Lead engineer / architect counterpart</td><td>The option sessions; co-signs every ADR &mdash; they own this system after handoff</td><td>3&ndash;5 hours across the week</td></tr>
+          <tr><td>Security</td><td>The threat review; data-flow approval; any open access questions from Phase 1</td><td>1&ndash;2 hours</td></tr>
+          <tr><td>Product Owner</td><td>Product-facing trade-offs only (behavior under degradation, what users see when things fail)</td><td>~1 hour; the 2-business-day decision clock still applies</td></tr>
+          <tr><td>Ops / DBA</td><td>Integration access realities, operational constraints the documents don't show</td><td>As the spikes demand</td></tr>
+          <tr><td>Sponsor</td><td>The steering (the design narrative, not the diagrams)</td><td>45 min</td></tr>
+        </tbody>
+      </table>
+      <p class="note">If the client cannot name an engineering counterpart, that's a finding, not an inconvenience &mdash; it predicts the handoff failing, and it goes to the sponsor at steering.</p>
+
+      <h2>The five-day calendar</h2>
+      <p>The default is 5 business days, stretching to 8&ndash;10 when the integration estate is large or the client's review boards add latency.</p>
+      <table>
+        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Drivers &amp; options</td><td>Extract the 5&ndash;8 design drivers from the handoff; the carried open questions come due; Claude presents option sets; strawmen killed, option session booked; spikes assigned</td><td><code>/deep-plan</code></td></tr>
+          <tr><td>2</td><td>Spikes &amp; option session</td><td>Throwaway, hours-boxed spikes run against the live systems; the 90&ndash;120 min option session &mdash; humans choose; product trade-offs split to the PO. Architecture direction set, ADR list known</td><td>&mdash; (spikes are exploratory Claude coding on throwaway branches; the session is humans choosing)</td></tr>
+          <tr><td>3</td><td>Records &amp; model</td><td>ADRs drafted from the day-2 choices, edited, signed (Setup Owner + counterpart); data model and component design drafted; forward-compatibility check run against the model</td><td><code>/sdlc-coach</code> &rarr; drafts ADRs (ADR template) &amp; data model</td></tr>
+          <tr><td>4</td><td>Contracts, threats, proving</td><td>API contracts completed with error &amp; degradation semantics; threat review with security; QE completes the proving plan and the walking-skeleton definition; first steering</td><td><code>/sdlc-coach</code> &rarr; contracts; <code>/visual-explainer</code> &rarr; steering narrative; threat review is a human session</td></tr>
+          <tr><td>5</td><td>Review, gate, handoff</td><td>Multi-mode design review; consistency check both directions, orphans resolved; gate check; Phase 3 handoff drafted; steering; sign-offs &mdash; billing milestone 3</td><td><code>/sdlc-review --all</code> &rarr; <code>multi-reviewer</code>; <code>/sdlc-gate</code> &rarr; <code>check_gates.py</code>; <code>/sdlc-phase-report</code> &rarr; <code>generate_phase_report.py</code>; <code>/sdlc-next</code> &rarr; <code>advance_phase.py</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">When the client has a formal architecture review board, schedule it for day 4&ndash;5 from day 1; if its cadence can't fit the week, the phase stretches and gate-based billing makes the latency visible rather than absorbed. If a spike falsifies a favored option &mdash; good &mdash; re-run the option session with the survivors rather than bending the finding.</p>
+
+      <h2>The artifacts</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>Design document</td><td>Setup Owner</td><td>The shape of the system &mdash; components, boundaries, data flow, deployment view; navigation for the ADRs, short enough to be read, not a novel</td></tr>
+          <tr><td>Architecture decision records</td><td>Setup Owner + client counterpart (both sign)</td><td>Each: context, 2&ndash;3 options genuinely considered, the choice, the consequences including the unpleasant ones, two signatures</td></tr>
+          <tr><td>Data model</td><td>Setup Owner</td><td>Serves every top-tier requirement; passes the forward-compatibility check; convergence constraints (audit, merge rules) are structural, not bolted on</td></tr>
+          <tr><td>API contracts</td><td>Setup Owner</td><td>Every operation: shapes, error semantics from the Phase 1 specs, degradation behavior per dependency failure</td></tr>
+          <tr><td>Integration design</td><td>Setup Owner</td><td>Every external touchpoint verified by a spike against the live system, not the documentation</td></tr>
+          <tr><td>Spike findings</td><td>Setup Owner</td><td>Each risky assumption confirmed or falsified, with evidence; spike code deleted</td></tr>
+          <tr><td>Threat model + mitigation map</td><td>Setup Owner + client security</td><td>Data flows reviewed; each threat mitigated in design or assigned as a build-time security gate</td></tr>
+          <tr><td>NFR proving plan</td><td>Quality Engineer</td><td>Per NFR: the verification method and where the number will be read</td></tr>
+          <tr><td>Walking-skeleton definition</td><td>Setup Owner</td><td>The thin end-to-end slice Phase 3 must ship &mdash; named, bounded, sufficient to prove the architecture (every ADR's chosen mechanism exercised at least once on the path)</td></tr>
+          <tr><td>Consistency check record</td><td>Pod Lead</td><td>Requirements &harr; design traced both directions; orphans resolved or removed</td></tr>
+          <tr><td>Phase 3 handoff</td><td>Pod Lead</td><td>Decisions, contracts, skeleton definition, build risks, recommended first specs, open questions under their original IDs</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: production code, the spec backlog (Phase 3 and triage own that), provisioned environments (Phase 3), UI visual design beyond what product trade-offs required, and estimates beyond the SOW's phase figures.</p>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min pod sync</td><td>Whole pod</td><td>Spike results, decision status, contract progress</td></tr>
+          <tr><td>The option session</td><td>Setup Owner + client counterpart (+ Pod Lead)</td><td>The anchor event &mdash; options chosen by humans, day 2</td></tr>
+          <tr><td>The decision-list clock</td><td>PO + Pod Lead</td><td>Still running &mdash; product-facing design trade-offs go to the PO at 2-business-day turnaround</td></tr>
+          <tr><td>The threat review</td><td>Setup Owner + client security + QE</td><td>Day 4; its outputs become design changes and build-time gates</td></tr>
+          <tr><td>Biweekly steering</td><td>Sponsor + Pod Lead</td><td>Falls mid-or-end of this phase &mdash; the design narrative, the trade-offs, what the decisions protect</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The exit gate</h2>
+      <p>Phase 2 closes when all of these are true:</p>
+      <ul>
+        <li>Automated gate checks pass &mdash; artifacts exist, are complete, contain no placeholders</li>
+        <li><strong>Every ADR records 2&ndash;3 genuinely considered options and carries both signatures</strong> (Setup Owner + client counterpart)</li>
+        <li>Every top-tier requirement maps to a design element, and every major design element traces back &mdash; no orphans in either direction</li>
+        <li>Every external integration the design depends on was spiked against the live system</li>
+        <li>Contracts carry error semantics and degradation behavior, not just success shapes</li>
+        <li>The forward-compatibility rule from the constitution was checked against the data model</li>
+        <li>The threat review happened; every identified threat is mitigated in design or assigned as a build-time security gate</li>
+        <li>Every NFR has a proving method and a named place its number will be read</li>
+        <li>The walking-skeleton definition exists and is sufficient to prove the architecture</li>
+        <li>A named human on each side approved the advance &mdash; gates report, humans decide</li>
+      </ul>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>The single-option decision.</strong> One approach presented, everyone nods, an ADR written around a default. The 2&ndash;3-options rule exists because the alternatives are where the thinking happens.</li>
+        <li><strong>Resume-driven architecture.</strong> The interesting technology wins over the boring one that fits. The constitution's principles and the client's operational reality are the tiebreaker &mdash; they run this at 2 a.m., not us.</li>
+        <li><strong>Designing around the constraint instead of with it.</strong> The hard boundary gets wished away with "we'll add a real-time feed later." Honor it, or re-open it explicitly &mdash; never silently.</li>
+        <li><strong>Faith-based integration.</strong> The design bets on an interface nobody called. Spike-before-you-depend is cheap insurance; the alternative is discovering the truth in Build week 3.</li>
+        <li><strong>The hundred-page design document.</strong> Nobody loads it, so nobody follows it. The design document is navigation &mdash; decisions live in ADRs, details in contracts, all three short enough to stay true.</li>
+        <li><strong>Happy-path contracts.</strong> Success specified, failure left to imagination. The Phase 1 error-behavior specs exist precisely to flow into contract error semantics.</li>
+        <li><strong>Foreclosing the protected future &mdash; or gold-plating for an unfunded one.</strong> "Must not preclude" means the door stays open, not that the room gets furnished.</li>
+        <li><strong>The absent counterpart.</strong> ADRs signed by one side are an engagement artifact, not a client decision. Surface it at steering while it costs days, not at close when it costs the handoff.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase 2 · Walkthrough &mdash; a companion to the <a href="../phase-2-design.html">Design phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

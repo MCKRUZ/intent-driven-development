@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 3 · Walkthrough — Foundation, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase 3 (Foundation): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-3-foundation.html">Phase 3 · Foundation</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase 3 · Walkthrough</p>
+    <h1>Foundation, explained
+      <span class="sub">The phase where the documents stop and the software starts — each idea paired with how the factory actually got built, and run, on a real project.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">For three phases, everyone wrote. Now someone has to <strong>build the place
+        where the building happens</strong> — and prove it works before a single feature counts on it.</p>
+      <p class="big" style="margin-top:18px;">Phase&nbsp;3 builds the factory, then pushes the
+        <em>thinnest real thing</em> all the way through it — to catch the factory's defects while
+        they're still cheap.</p>
+      <p class="sig">Every idea below is paired with the real thing — examples come from a fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 why this phase exists -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>You don't build features yet — you build the factory that builds them</h2>
+      <p class="lead">Three phases settled what to build and how it should be shaped. None of it has
+        run. Foundation is the hinge: the place where the words become a working machine, with one
+        real part already moving through it.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The product of this phase isn't a feature. It's a <strong>factory</strong> — a repo with
+            rules, an automated pipeline that checks every change, and the rails an AI agent runs on
+            so nobody has to remember the discipline. Every future change rides those rails.</p>
+          <p>Build the factory and stop there, and you've proven nothing. So Foundation also runs the
+            thinnest possible slice of real software all the way through — to prove the factory
+            actually works, with software, not with a diagram.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor had a signed problem, signed requirements, and a chosen architecture — and not one
+            line of it running anywhere.</p>
+          <div class="snippet">
+            <div class="from">What Foundation produced for Harbor</div>
+            <blockquote>"A working factory with one part already moving through it: a portal claim flows end-to-end in Harbor's own dev environment, through the real pipeline, with the claim-to-decision clock ticking."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Not a feature. A factory — and proof it runs.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip the "prove it" half and&hellip;</div>
+        <p>You ship a pipeline that's green because nothing real ever ran through it. The defects stay
+          hidden until Build, when every change trips over them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the harness -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rules the agent works inside</p>
+      <h2>Install the rulebook &mdash; then rewrite it in the client's own words</h2>
+      <p class="lead">An AI agent is only as good as the context it loads when it starts work. The
+        firm has a reusable starter kit. But a generic starter makes the agent guess the domain — and
+        guesses differ every run.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The kit lands as a working starting point, not a blank repo: the rulebook, the templates,
+            the checking agents, the pipeline files. It's built and improved <em>between</em>
+            engagements — the client never pays to build it, only to adapt it.</p>
+          <p>The real work is the adaptation: rewriting the project's rulebook in the client's own
+            domain — their terms, their tech stack, what counts as risky, what "done" means. And it
+            happens <strong>in the open</strong>, as reviewed changes the client's own engineer reads
+            — their first concrete look at how the pod works.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The kit was scaffolded in, then the rulebook was rewritten in Harbor's language —
+            reviewed by <strong>Wes Carter</strong>, Harbor's lead engineer:</p>
+          <div class="snippet">
+            <div class="from">What went into Harbor's rulebook</div>
+            <blockquote>"The domain glossary in Harbor's words (FNOL, PolicyOne, the snapshot replica, the regulatory clock), the .NET / Angular / SQL Server / Azure standards, the risk tiers, and the Definition of Checked."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Wes reviewing those changes <em>was</em> the engagement's first
+            real handoff — rehearsed months before the close.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The trap to resist</div>
+        <p>The kit installed but not adapted. A generic rulebook means the agent guesses Harbor's
+          domain, and guesses differ per run. The adaptation in the open is the point of the phase,
+          not a formality to rush past.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the rails -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Why discipline can't be a habit</p>
+      <h2>Build rails, so nobody has to remember the rules</h2>
+      <p class="lead">You could ask everyone to always run the tests, always get a second reviewer,
+        always check the work against the spec. People forget. Rails don't. The discipline gets built
+        into the machinery, so every change rides it automatically.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; what the rails are</div>
+          <ul>
+            <li><strong>Automated checks</strong> — build, tests, lint, coverage run on every proposed
+              change before it can merge.</li>
+            <li><strong>A fresh reviewer agent</strong> — an AI that didn't write the code reads it
+              against the spec and posts a verdict. It advises; a human decides.</li>
+            <li><strong>A "you can't stop" rule</strong> — a script that refuses to let an agent finish
+              its turn while the build is broken. "Done" stops being the agent's opinion.</li>
+            <li><strong>Locked merging</strong> — no change merges without the checks green, the
+              reviewer having run, and approval from someone who didn't write it.</li>
+          </ul>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Tom Reilly, Harbor's platform engineer, reviewed the four pipeline pieces — the ones he'd
+            operate after the pod left — then locked merging down:</p>
+          <div class="decision">
+            No change merges to the main branch without: the automated checks green, the reviewer agent
+            having run, and one approval from a non-author. Riskier changes add a security review and a
+            named sign-off.
+          </div>
+          <p style="margin-top:12px;">Nobody at Harbor has to remember any of that. Every change runs
+            on the rails by default.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 high-risk plumbing -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">The code that builds the factory itself</p>
+      <h2>The environment and the pipeline are the riskiest code &mdash; so a human reads every line</h2>
+      <p class="lead">This is the phase where the AI writes the most code in the whole opening. And the
+        most heavily guarded — because this code <em>is</em> the factory. Get a feature wrong and you
+        fix the feature. Get the pipeline wrong and you've poisoned every change that follows.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The cloud environment is defined in version-controlled files, not clicked together by
+            hand — so it can be rebuilt, reviewed, and reasoned about. Same for the pipeline.</p>
+          <p>Both are rated <strong>HIGH risk</strong> on purpose: a human reviews every single change.
+            They're hard to undo and they run in production later. The AI drafts; the Setup Owner's
+            deputy and the client's own platform engineer read them before they merge. The AI is
+            <em>never</em> the sole approver of the factory it built.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Claude drafted the environment definition and the pipeline; Rob (Setup Owner) and Tom
+            (Harbor's platform engineer) reviewed every change.</p>
+          <div class="snippet">
+            <div class="from">What the environment included</div>
+            <blockquote>"App hosting, the buffered queue, and a private, read-only, fully-audited connection to the snapshot replica — provisioned from code, not from clicks."</blockquote>
+          </div>
+          <p style="margin-top:12px;">No part of it was hand-built off the rails to save a day.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The one unrecoverable mistake</div>
+        <p>A secret in the repo. A key in a commit isn't an edit you undo — it's a rotation event and
+          an audit-log review. Secrets live in the client's vault from day one: never in code, never in
+          the rulebook, never in a spec.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 the skeleton -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">The thinnest thing that proves the architecture</p>
+      <h2>Build a walking skeleton, not a feature</h2>
+      <p class="lead">The temptation is to build something impressive. Resist it. What proves the
+        architecture is the <em>thinnest</em> possible end-to-end slice — bones, no muscle — that
+        touches every layer the design promised.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>A walking skeleton is the narrowest path that runs the whole way through: in one end, out
+            the other, touching every architectural seam once. It proves the architecture works in
+            practice, not on paper.</p>
+          <p>Everything past that thinnest path is Build scope wearing a Foundation badge. Width here
+            delays the rails being proven and the gate being reached. Hold the skeleton to bones.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor's skeleton was four slices — and deliberately nothing more:</p>
+          <div class="snippet">
+            <div class="from">The four slices, in order</div>
+            <blockquote>"A portal claim creates a queue entry &rarr; a coverage check reads the replica &rarr; a test-mode acknowledgment &rarr; a metric event. End to end, no width."</blockquote>
+          </div>
+          <p style="margin-top:12px;">One of those slices just emits the success metric — which means
+            Harbor's claim-to-decision clock is measurable from day one of Build, not retrofitted at
+            the end.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The trap to resist</div>
+        <p>"While we're here, add&hellip;" Every slice beyond the thinnest path is Build scope. It delays
+          the proof Phase&nbsp;3 exists to deliver. Let the backlog carry the rest.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 run the loop on the skeleton -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Why the skeleton runs the full discipline</p>
+      <h2>The skeleton is the loop's dress rehearsal &mdash; nothing gets skipped</h2>
+      <p class="lead">It's tempting to hand-build the skeleton fast, off the rails, "because it's just
+        the skeleton." That's exactly backwards. The skeleton is precisely where the build loop must
+        be proven — on software that's cheap to get wrong.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Every skeleton slice runs the full loop: someone writes down exactly what's wanted, an
+            agent builds it inside set bounds, then the checks and a non-author prove it before it
+            merges and ships.</p>
+          <p>And at least one slice must run the <strong>HIGH-risk</strong> path — tightest bounds,
+            security review, a named sign-off — so the riskiest path is proven <em>before</em> Build
+            ever depends on it. A skeleton built off the rails teaches the team nothing and hides the
+            rails' defects until they're expensive.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The replica-read slice was HIGH risk — it touched the regulated integration:</p>
+          <div class="decision">
+            Spec 0002 ran the HIGH path: tight agent permissions, the security workflow firing, the
+            security-reviewer agent reading the change, and <strong>Dan Kowalski's named sign-off</strong>
+            recorded in the change itself.
+          </div>
+          <p style="margin-top:12px;">The HIGH path got proven on cheap software, before any real
+            feature relied on it working.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 prove the rails fail safely -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">A rail that's never failed safely isn't proven</p>
+      <h2>Break the rails on purpose &mdash; before they break by accident</h2>
+      <p class="lead">A pipeline that's green because nothing real ever stressed it has proven nothing.
+        The rails are proven by a change <em>breaking</em> and being <em>caught</em> — not by the
+        configuration files merely existing.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>So you force each failure deliberately and watch the rail hold:</p>
+          <ul>
+            <li>A deliberately failing test &mdash; does the "you can't stop" rule actually block?</li>
+            <li>A planted mismatch between code and spec &mdash; does the reviewer agent actually catch
+              and post it?</li>
+            <li>A known-bad deploy &mdash; does the pipeline actually restore the last good version?</li>
+          </ul>
+          <p style="margin-top:12px;">A rail that has never failed safely has not been proven. This is
+            a deliberate shakedown, not an accident waiting to happen in Build week three.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The rails got shaken down on purpose — and one defect surfaced early, for cheap:</p>
+          <div class="snippet">
+            <div class="from">The rail that broke first, day five</div>
+            <blockquote>"The coverage gate miscounted generated files on the very first real slice — found and fixed while it cost an hour, not in Build week three when it would have blocked every change."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Each rail was forced to fail and proven to catch it: the stop
+            rule blocked, the reviewer posted the miss, the deploy rolled back clean.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 seeing it happen — the timeline -->
+  <section class="s paper">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">08</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>The two weeks, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. The two weeks split
+          cleanly: <strong>week one is the rails</strong> (access, the kit, the environment, the
+          pipeline), <strong>week two is the skeleton</strong> (the four slices riding the loop, the
+          architecture proven, the rails shaken down, the gate). Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 3 timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 <span class="date">· kickoff &amp; access</span></div>
+          <h3>Get the keys, and prove they work</h3>
+          <p>The access checklist closes: the pod gets repo access, the Setup Owner gets the power to
+            lock merging, automation is turned on, and secrets start landing in the client's vault. The
+            AI access procured back in Phase&nbsp;0 gets a live smoke test — does Claude Code actually
+            run on the client's seats and keys? — before anyone depends on it.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 <span class="date">· the kit, in the open</span></div>
+          <h3>Install the rulebook, rewrite it in the client's words</h3>
+          <p>The kit gets scaffolded into the client's repo — a working starting point, not a blank
+            page. Then the rulebook gets adapted to the client's domain, stack, and risk tiers, as
+            reviewed changes the client's lead engineer reads. Their first concrete look at how the pod
+            works.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 <span class="date">· the environment</span></div>
+          <h3>Provision from code, never from clicks</h3>
+          <p>The AI drafts the cloud environment as version-controlled files — HIGH risk, human-reviewed
+            on every change. Secrets land in the client's vault. A data-flow brief goes to security:
+            what reaches the API, what doesn't, where the keys live, who can see usage.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 <span class="date">· the pipeline</span></div>
+          <h3>Build the rails and lock them on</h3>
+          <p>Four workflows get built and reviewed by the client's platform engineer: the automated
+            checks, the reviewer agent, the security review, and the deploy. Then merging gets locked
+            down — checks green, reviewer ran, non-author approval; risky changes add security plus a
+            named sign-off. The Phase&nbsp;2 security gates get wired in.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 <span class="date">· first slice through the loop</span></div>
+          <h3>Real software hits the rails for the first time</h3>
+          <p>The first skeleton slice runs the full loop end to end: written down, built by a bounded
+            agent in plan mode, checked, approved by a non-author, deployed to dev automatically.
+            Anything broken in the rails surfaces here, while it's cheap — at Harbor, a coverage-gate
+            defect, fixed in an hour. End of week one: one slice live in dev through the real pipeline.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 6">
+          <div class="day">Day 6 <span class="date">· the first HIGH-risk slice</span></div>
+          <h3>Prove the riskiest path before Build needs it</h3>
+          <p>The slice touching the riskiest seam runs the loop at HIGH risk: tight permissions, the
+            security workflow firing, the security-reviewer agent reading the change, a named human
+            sign-off recorded. At Harbor that was the regulated replica read — proven before Build ever
+            relied on the HIGH path working.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 7">
+          <div class="day">Day 7 <span class="date">· the remaining slices</span></div>
+          <h3>Finish the skeleton &mdash; including the metric</h3>
+          <p>The rest of the slices ride the loop. The slice that emits the success metric gets special
+            attention — it makes the engagement's number measurable from day one of Build. Any security
+            gate these slices touch fires on its first qualifying change; if none touch it, a throwaway
+            probe change proves it fires anyway.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 8">
+          <div class="day">Day 8 <span class="date">· the skeleton, end-to-end</span></div>
+          <h3>Connect the bones and walk them</h3>
+          <p>The slices connect into a running skeleton in dev. The Quality Engineer verifies it against
+            the Phase&nbsp;2 definition: does it actually prove the architecture, end to end, under the
+            rails? A first automated smoke journey walks the same path a user would — the thinnest proof
+            the whole thread holds together.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 9">
+          <div class="day">Day 9 <span class="date">· harden the rails</span></div>
+          <h3>Break the rails on purpose</h3>
+          <p>A deliberate shakedown: force a failing build to prove the stop rule blocks, plant a spec
+            mismatch to prove the reviewer posts the miss, ship a known-bad deploy to prove the rollback
+            works. The setup review merges any harness corrections. The Build cadences get scheduled and
+            two flow limits get set.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 10">
+          <div class="day">Day 10 <span class="date">· gate, demo, handoff</span></div>
+          <h3>Working software in the client's environment</h3>
+          <p>The automated gate check runs. The sponsor watches the walking skeleton run in their own
+            dev environment, through the real pipeline, with the outcome metric ticking — working
+            software, not slides. The Build handoff gets drafted, sign-off gets recorded, and the
+            engagement crosses out of the gated opening into the continuous Build loop. Billing
+            milestone.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 10</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 how it goes wrong -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has happened to someone. Knowing them by name is half the
+        defense &mdash; and Harbor's structure caught some of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>"It's just the skeleton"</strong></td><td>Hand-building the skeleton fast, off the rails, to save a day</td><td>The skeleton is where the loop must be proven. Every slice runs the full discipline.</td><td>All four slices rode the full loop</td></tr>
+          <tr><td><strong>The pipeline that never ran</strong></td><td>CI green because nothing real ever went through it</td><td>Prove rails by a change breaking and being caught, not by the YAML being present.</td><td><strong>Caught</strong> &mdash; the day-9 shakedown</td></tr>
+          <tr><td><strong>The kit, not adapted</strong></td><td>A generic rulebook the agent has to guess against</td><td>Rewrite it in the client's words, in the open. Guesses differ per run.</td><td>Adapted in PRs Wes reviewed</td></tr>
+          <tr><td><strong>Factory code merged unread</strong></td><td>Environment or pipeline merged without review "to move faster"</td><td>HIGH risk, human-reviewed every change. Setup Owner is never sole approver.</td><td>Rob + Tom read every change</td></tr>
+          <tr><td><strong>A secret in the repo</strong></td><td>A key in a commit &mdash; the one unrecoverable mistake</td><td>Client's vault from day one; never in code, the rulebook, or a spec.</td><td>No secret touched the repo</td></tr>
+          <tr><td><strong>The feature-rich skeleton</strong></td><td>"While we're here, add&hellip;" &mdash; Build scope in a Foundation badge</td><td>Hold to the thinnest end-to-end path; let the backlog carry the rest.</td><td>Held to four bones-only slices</td></tr>
+          <tr><td><strong>The demo on a laptop</strong></td><td>A localhost demo that proves only that the code compiles</td><td>Demo in the client's own dev environment, through the real pipeline.</td><td>Ran in Harbor's dev environment</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase 3 is done</p>
+      <h2>The opening ends, and the factory takes over</h2>
+      <p class="dim">Foundation closes with a working factory and one part already moving through it:
+        the rails proven by failing safely, the skeleton running in the client's own environment, the
+        success metric already ticking. The four gated phases are done; from here, every change rides
+        the continuous Build loop. Where to go next:</p>
+      <div class="next">
+        <a href="build-loop.html"><span class="t">The Build Loop &rarr;</span><span class="d">What the factory was built for &mdash; how every change from here gets specified, bounded, built, and proven.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 3 &mdash; roles, calendar, artifacts, the exact gate.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase 3 · Foundation</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, and gate, including the pipeline and infrastructure specifics the Learn-it view
+        leaves out. For the full deep-dive see <a href="../phase-3-foundation.html">phase-3-foundation</a>;
+        for the complete worked example with every ID and command, <a href="../phase-3-example.html">phase-3-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase 3 answers four questions, and nothing else. The full feature backlog, the test and
+        production environments, and any breadth beyond the thinnest skeleton are out of scope &mdash;
+        they belong to the Build loop and the hardening passes.</p>
+      <ol>
+        <li><strong>Is the harness real and adapted?</strong> (the kit installed into the client repo, CLAUDE.md rewritten in the client's own domain, owned by the Setup Owner and reviewed by a deputy)</li>
+        <li><strong>Are the rails real and enforced?</strong> (CI hard gates, the grader workflow, the security workflow, the deploy pipeline, branch protection, the Bicep dev environment, secrets in the client's vault)</li>
+        <li><strong>Does the loop actually run?</strong> (the first specs go Intent &rarr; Delegate &rarr; Discern &rarr; merged &rarr; deployed &mdash; including at least one HIGH-risk spec &mdash; so the loop is proven before Build scales it)</li>
+        <li><strong>Is the architecture real?</strong> (the walking skeleton from Phase 2, running end-to-end in the client's dev environment through the real pipeline &mdash; proven by software, not by documents)</li>
+      </ol>
+      <p>Its product is not a feature; it is a working factory with one part already moving through it.</p>
+
+      <h2>Claude's role in this phase</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>Setup Owner owns the harness as a product and owns branch protection &amp; secrets; the deputy and client DevOps review every harness change; Orchestrators author and run the skeleton specs; humans Check every merge.</td><td>Scaffolds the repo from the kit; adapts CLAUDE.md to the client's domain; drafts the Bicep and the pipeline YAML; runs the walking-skeleton specs through the full loop in plan mode.</td><td>Never merges IaC or pipeline without human review; never the sole approver of harness work; never puts a secret near the repo; never hand-builds the skeleton off the rails.</td></tr>
+        </tbody>
+      </table>
+      <p class="note">This is the phase where Claude writes the most code in the whole opening &mdash; and where that code is under the tightest gating, because the code <em>is</em> the factory. IaC and pipeline changes are HIGH risk for exactly this reason.</p>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Setup Owner</td><td>90&ndash;100%</td><td>The harness as a product &mdash; installs and adapts the kit, drafts the Bicep and pipeline YAML, owns branch protection and secrets. Never the sole approver of their own foundation</td></tr>
+          <tr><td>Setup Owner's deputy</td><td>20&ndash;30%</td><td>Named on day one (senior Orchestrator). Reviews every harness change &mdash; pipeline, IaC, CLAUDE.md adaptation. The both-eyes rule applied to the foundation</td></tr>
+          <tr><td>Orchestrators</td><td>60&ndash;80%</td><td>Author the first specs from the Phase 2 slices and run them through the full build loop &mdash; their first real Intent &rarr; Delegate &rarr; Discern cycles</td></tr>
+          <tr><td>Pod Lead</td><td>40&ndash;50%</td><td>Triages the skeleton into ordered specs, assigns risk tiers, schedules the Build cadences, runs the exit demo, owns the handoff into Build</td></tr>
+          <tr><td>Quality Engineer</td><td>40&ndash;50%</td><td>Wires the mechanical gates, then verifies the running skeleton against the Phase 2 walking-skeleton definition</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>DevOps / platform engineer</td><td>Branch-protection admin, Actions enabled, runner policy, secrets in their vault &amp; GitHub; reviews the pipeline they operate after we leave</td><td>4&ndash;6 hours across two weeks</td></tr>
+          <tr><td>Security</td><td>Signs off the pipeline, the secrets handling, the data-flow brief; the build-time security gates get wired and confirmed</td><td>2&ndash;3 hours</td></tr>
+          <tr><td>Lead engineer / Setup Owner counterpart</td><td>Pairs into the harness build; reviews the kit-adaptation PRs &mdash; the client's first concrete look at how we work</td><td>4&ndash;6 hours</td></tr>
+          <tr><td>Product Owner</td><td>Confirms the skeleton slices are the right thinnest end-to-end path; light touch</td><td>~1 hour</td></tr>
+          <tr><td>Sponsor</td><td>The exit demo &mdash; working software in their own dev environment</td><td>45 min</td></tr>
+        </tbody>
+      </table>
+      <p class="note">If the client cannot give DevOps the time to provision access and review the pipeline, that is a gating problem, not a scheduling one &mdash; the rails cannot be proven without it. It goes to the sponsor at steering before the clock runs out.</p>
+
+      <h2>The ten-day calendar</h2>
+      <table>
+        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Kickoff &amp; access</td><td>Access checklist closed; contributor access, branch-protection admin, Actions, runner policy, secrets provisioning started; live smoke test of Claude Code on client seats/keys; Phase 2 open questions re-confirmed</td><td>&mdash; (access, smoke test)</td></tr>
+          <tr><td>2</td><td>Kit install, in the open</td><td>Repo scaffolded from the kit; CLAUDE.md adapted to the client's domain, stack, risk taxonomy, Definition of Checked &mdash; as reviewed PRs the client's lead engineer reads</td><td>&mdash; (Claude scaffolds; PRs)</td></tr>
+          <tr><td>3</td><td>The dev environment</td><td>Bicep drafted (HIGH risk, reviewed every change); environment provisions from code; secrets land in the client's vault; data-flow brief to security</td><td>&mdash; (Claude drafts Bicep)</td></tr>
+          <tr><td>4</td><td>The pipeline</td><td>Four workflows built &amp; reviewed by client DevOps (ci, grader, security, deploy-dev); branch protection on; Phase 2 security gates wired</td><td>&mdash; (Claude drafts YAML)</td></tr>
+          <tr><td>5</td><td>First slice through the loop</td><td>First skeleton spec rides the full loop (Intent &rarr; Delegate &rarr; Discern &rarr; deploy); rails exercised by real software; defects found &amp; fixed cheap. One slice live in dev</td><td>&mdash; (spec rides the loop)</td></tr>
+          <tr><td>6</td><td>First HIGH-risk slice</td><td>The slice touching the riskiest seam runs the loop at HIGH risk: tight permissions, security workflow on <code>risk:high</code>, security-reviewer agent, named sign-off in the PR</td><td>&mdash; (HIGH-risk loop)</td></tr>
+          <tr><td>7</td><td>The remaining slices</td><td>The rest ride the loop; the metric-emitting slice gets special attention; build-time security gates fire on their first qualifying PR (or a probe PR proves them)</td><td>&mdash; (specs ride the loop)</td></tr>
+          <tr><td>8</td><td>Skeleton, end-to-end</td><td>Slices connect into the running skeleton in dev; QE verifies against the Phase 2 definition; a first E2E smoke journey walks the whole thread</td><td><code>/e2e</code></td></tr>
+          <tr><td>9</td><td>Harden the rails</td><td>Deliberate shakedown &mdash; Stop hook blocks, grader posts, deploy-dev rolls back; setup review merges harness corrections; Build cadences scheduled; WIP cap &amp; review-wait tripwire set</td><td>&mdash; (manual shakedown)</td></tr>
+          <tr><td>10</td><td>Gate, demo, handoff</td><td>Automated gate check; exit demo (skeleton running in client dev, metric ticking); Build handoff drafted; gate sign-off recorded &mdash; billing milestone; engagement enters the Build loop</td><td><code>/sdlc-gate</code>, <code>/sdlc-phase-report</code>, <code>/visual-explainer</code>, <code>/sdlc-next</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">Foundation is the least plugin-driven phase of the opening: most days are code and rails, not drafts, so most carry no plugin command. The plugin returns at the gate. The default calendar is two weeks (10 business days) &mdash; the longest of the opening phases.</p>
+
+      <h2>When the two weeks stretch</h2>
+      <ul>
+        <li><strong>Access or secrets provisioning stalls on the client side.</strong> The rails cannot be proven without them; this is a gating dependency, surfaced at steering on day one, not absorbed silently into a slipping schedule.</li>
+        <li><strong>The dev environment fights the IaC</strong> (a subscription policy, a missing role assignment). Expected friction &mdash; exactly what Phase 3 exists to discover before Build, not during.</li>
+        <li><strong>A skeleton slice exposes a design gap.</strong> Good &mdash; the skeleton found in days what the documents missed. Re-open the relevant ADR explicitly rather than patching around it in code.</li>
+        <li><strong>The client wants to widen the skeleton</strong> ("while we're here, add&hellip;"). That is Build scope; it delays the rails being proven and the gate being reached. Hold to the thinnest path and let the backlog carry the rest.</li>
+      </ul>
+
+      <h2>The artifacts</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>Installed harness (CLAUDE.md, <code>.claude/</code>, <code>specs/</code>, settings)</td><td>Setup Owner</td><td>Adapted to the client's domain, stack, and risk taxonomy; committed; reviewed by the deputy</td></tr>
+          <tr><td>Bicep dev environment</td><td>Setup Owner</td><td>Provisioned from code; HIGH-risk human review on every change; secrets in the client's vault</td></tr>
+          <tr><td>Pipeline workflows (ci, grader, security, deploy-dev)</td><td>Setup Owner</td><td>CI hard-gates; grader required to run; security fires on <code>risk:high</code>; deploy-dev on merge &mdash; all running, all reviewed by client DevOps</td></tr>
+          <tr><td>Branch protection</td><td>Setup Owner</td><td>Enforces CI green + grader-ran + non-author approval; <code>risk:high</code> adds the security workflow + a named sign-off</td></tr>
+          <tr><td>Walking-skeleton specs</td><td>Pod Lead</td><td>Each rides the full build loop; together they prove the architecture in running software</td></tr>
+          <tr><td>The walking skeleton (deployed)</td><td>Setup Owner + QE</td><td>End-to-end in the client's dev environment through the real pipeline; verified against the Phase 2 definition</td></tr>
+          <tr><td>Build-time security gates (wired)</td><td>Setup Owner + client security</td><td>The Phase 2 gates enforced in the security workflow; each fired at least once on a real PR</td></tr>
+          <tr><td>Data-flow brief</td><td>Setup Owner</td><td>Client security has, in writing: what goes to the API, what doesn't, where keys live, who sees usage</td></tr>
+          <tr><td>Cadence calendar + risk-tier map</td><td>Pod Lead</td><td>Flow check, intent triage, retro+, setup review scheduled; WIP cap and review-wait tripwire set; the risk-tier map lists each area with its tier and any security gate registered against it</td></tr>
+          <tr><td>Build handoff</td><td>Pod Lead</td><td>Ordered spec backlog, risk-tier map, cadences, open questions under their original IDs</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: the full feature backlog (Build triage owns it), the test and production environments (the first hardening pass and Phase 8 add them), and any feature breadth beyond the thinnest skeleton.</p>
+
+      <h2>The pipeline &mdash; four workflows</h2>
+      <table>
+        <thead><tr><th>Workflow</th><th>Trigger</th><th>What it does</th><th>Blocks?</th></tr></thead>
+        <tbody>
+          <tr><td><code>ci.yml</code></td><td>Every PR</td><td>Build, test, lint, 80% coverage on new code</td><td>Hard block</td></tr>
+          <tr><td><code>grader.yml</code></td><td>Every PR</td><td>A fresh agent reads the spec in the diff, posts a check-by-check verdict</td><td>Required to run; verdict advisory</td></tr>
+          <tr><td><code>security.yml</code></td><td><code>risk:high</code> label</td><td>Runs the security-reviewer agent over the diff</td><td>Pass + named sign-off required to merge</td></tr>
+          <tr><td><code>deploy-dev.yml</code></td><td>Merge to <code>main</code></td><td>Ships to the client dev environment; restores the last good version when a deploy fails</td><td>&mdash; (deploy step)</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Branch protection on <code>main</code>: CI green + grader-ran + one non-author approval. <code>risk:high</code> adds security.yml passing and a named human sign-off recorded in the PR. Wiring a build-time security gate means registering its guarded path with the security workflow, so the workflow runs on any PR touching that path &mdash; independent of the spec's risk tier.</p>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min pod sync</td><td>Whole pod</td><td>Rails progress, spec status, blockers</td></tr>
+          <tr><td>The kit-adaptation PRs</td><td>Setup Owner + client lead engineer</td><td>The client's first look at how we work &mdash; reviewed in the open, not handed over finished</td></tr>
+          <tr><td>Setup review</td><td>Setup Owner + deputy</td><td>Harness changes merged and reviewed; the first real run of a cadence that continues all through Build</td></tr>
+          <tr><td>Intent triage (begins here)</td><td>Pod Lead + Orchestrators</td><td>The skeleton slices become ordered specs; the Build loop's weekly cadence starts in this phase</td></tr>
+          <tr><td>Biweekly steering</td><td>Sponsor + Pod Lead</td><td>Falls at the end of the phase: the exit demo &mdash; working software in the client's own dev environment</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The exit gate</h2>
+      <p>Phase 3 closes &mdash; and the engagement enters the Build loop &mdash; when all of these are true:</p>
+      <ul>
+        <li>The harness is installed, adapted to the client, committed, and reviewed by the Setup Owner's deputy (the Setup Owner is never the sole approver of their own foundation)</li>
+        <li>The pipeline runs: CI hard gates, the grader required to run, the security workflow on <code>risk:high</code>, deploy-dev on merge &mdash; all reviewed by the client's DevOps</li>
+        <li>Branch protection enforces CI green + grader-ran + non-author approval; <code>risk:high</code> adds the security workflow and a named sign-off</li>
+        <li>The Bicep dev environment is provisioned from code; secrets live in the client's vault, never in code</li>
+        <li>The build-time security gates from Phase 2 are wired, and each has fired on a real PR</li>
+        <li>The walking skeleton is deployed to the client's dev environment through the real pipeline &mdash; running software, not a document &mdash; and verified against the Phase 2 definition</li>
+        <li>At least one HIGH-risk spec has run the full loop (the HIGH path is proven before Build depends on it)</li>
+        <li>The rails are proven, not just present: the Stop hook actually blocks, the grader actually posts, deploy-dev actually rolls back</li>
+        <li>The outcome metric is measurable in dev (the metric slice exists and ticks)</li>
+        <li>The Build cadences are scheduled and the WIP cap and review-wait tripwire are set</li>
+        <li>A named human on each side approved the advance &mdash; gates report, humans decide</li>
+      </ul>
+      <p class="note">The gate sign-off is billing milestone 4. The engagement crosses from the gated opening into the continuous Build loop.</p>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>Skipping the loop "because it's just the skeleton."</strong> The skeleton is precisely where the loop must be proven. A skeleton hand-built off the rails teaches the team nothing and hides the rails' defects until Build, when they are expensive.</li>
+        <li><strong>A pipeline that exists but was never exercised.</strong> CI that is green because nothing real ran through it. The rails are proven by a spec breaking and being caught, not by the YAML being present.</li>
+        <li><strong>The kit installed but not adapted.</strong> A generic CLAUDE.md means agents guess the domain, and guesses differ per run. The adaptation in the open is the point of the phase.</li>
+        <li><strong>IaC or pipeline merged without review to move faster.</strong> HIGH risk because they are hard to undo and run in production later. The Setup Owner is never the sole approver of their own foundation.</li>
+        <li><strong>A secret in the repo.</strong> The one unrecoverable mistake: a key in a commit is a rotation event and an audit-log review, not an edit. The client's vault from day one.</li>
+        <li><strong>A feature-rich skeleton.</strong> Every slice beyond the thinnest end-to-end path is Build scope wearing a Foundation badge &mdash; it delays the rails being proven and the gate being reached.</li>
+        <li><strong>Deferring the deputy.</strong> "I'll name a deputy later" means the Setup Owner is approving their own foundation right now. The deputy is named on day one.</li>
+        <li><strong>The demo on a laptop.</strong> The exit demo runs in the client's own dev environment, through the real pipeline, or it has not proven what Phase 3 exists to prove. A localhost demo proves the code compiles, not that the factory works.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase 3 · Walkthrough &mdash; a companion to the <a href="../phase-3-foundation.html">Foundation phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

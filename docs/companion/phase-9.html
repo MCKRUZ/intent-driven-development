@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 9 · Walkthrough — Monitoring, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase 9 (Monitoring): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-9-monitoring.html">Phase 9 · Monitoring</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase 9 · Walkthrough</p>
+    <h1>Monitoring, explained
+      <span class="sub">How a live system becomes a watched one — and how the engagement writes down what it learned — each idea paired with how it actually played out on a real project.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">The system is live. The hard part isn't keeping it running today &mdash;
+        it's making sure that when something breaks at <strong>3 a.m.</strong>, the
+        <strong>right person wakes up</strong>, and knows exactly what to do.</p>
+      <p class="big" style="margin-top:18px;">Phase&nbsp;9 is where a running system becomes a
+        <em>watched</em> one &mdash; and where the whole engagement finally writes down what it learned.</p>
+      <p class="sig">Every idea below is paired with the real thing — examples come from a fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 why this phase exists -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>Live is not the same as watched</h2>
+      <p class="lead">Going live proves the system <em>can</em> run. It says nothing about whether anyone
+        would notice if it quietly stopped. A system nobody is watching is an outage waiting to be
+        discovered by a furious customer instead of an alert.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Phase&nbsp;9 turns "it's running" into "we'd know within minutes if it weren't." That means
+            dashboards someone actually reads, alerts that wake the right person at the right urgency, and
+            a written plan for what to do when one fires.</p>
+          <p>And it does this <strong>on purpose, during hypercare</strong> &mdash; the agreed window after
+            go-live when the client's operators are at the controls and the pod is still beside them. That
+            timing isn't an accident: it's the only moment when the system is finally producing the one
+            thing every alert needs &mdash; real numbers about what "normal" looks like.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor's claims system went live on a Thursday. By the following Monday it was handling real
+            FNOL intake &mdash; but nothing paged anyone. The dashboards didn't exist yet; the alerts were
+            still a wish.</p>
+          <div class="snippet">
+            <div class="from">Where the phase starts</div>
+            <blockquote>"Live since 7/23. Hypercare running. The first real numbers exist; nothing pages anyone yet."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Two weeks &mdash; 7/27 to 8/7 &mdash; ran <em>inside</em> that
+            hypercare window, ending the day it closed.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip this phase and&hellip;</div>
+        <p>The first time you learn the system is broken is when a customer calls &mdash; and by then it's
+          been broken for hours, with no record of how to fix it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 what does healthy mean -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The conversation that shapes everything</p>
+      <h2>Decide what "healthy" means &mdash; together</h2>
+      <p class="lead">You can't alert on "something's wrong" until you've agreed what "fine" looks like.
+        And that question can't be answered by either side alone: the pod knows what the system does;
+        the client's operators know what 3 a.m. is like in their company.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The defining event of the phase is a session where the pod and the client's operations walk
+            through every way the system can fail and every journey that matters, and answer three things
+            for each: what <strong>healthy</strong> looks like, what <strong>degraded</strong> looks like,
+            and <strong>who gets woken</strong> versus who just gets told in the morning.</p>
+          <p>The operators' answers win ties &mdash; they're the ones being paged. Knowing what must
+            <em>not</em> page is as important as knowing what must: an alarm that cries wolf every night
+            trains people to ignore the one that matters.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The deepest decision of the whole phase came from Harbor's side of the table. Their system
+            checks claims against a copy of the core records that refreshes overnight &mdash; and is
+            unavailable from 2&nbsp;to&nbsp;4:30&nbsp;a.m. while it does.</p>
+          <div class="snippet">
+            <div class="from">The trap they spotted</div>
+            <blockquote>"An alert that fires every night at 02:00 trains the on-call to ignore the one that matters."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">What they decided instead</div>
+            <blockquote>"Suppress during the refresh window — but add a check that the system recovered after 04:30. That's the part actually worth waking for."</blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">If operations can't be in the room</div>
+        <p>You'll ship <em>your</em> idea of healthy in <em>their</em> tooling &mdash; which becomes noise
+          the week you leave. Protect this session; it is the phase.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the four questions -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">What the two weeks must answer</p>
+      <h2>Four questions &mdash; and deliberately nothing else</h2>
+      <p class="lead">Phase&nbsp;9 doesn't add features and doesn't migrate the client to fancier tooling.
+        It exists to answer exactly four questions, and everything it produces serves one of them.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea — the four questions</div>
+          <ol>
+            <li><strong>Can the client see the system?</strong> Dashboards with owners, every important
+              feature observable, business numbers next to system numbers.</li>
+            <li><strong>Will the right person find out, at the right urgency?</strong> Alerts built from
+              real numbers, routed to named people.</li>
+            <li><strong>Does the response actually work?</strong> A written plan, <em>proven by drill</em> &mdash;
+              not assumed.</li>
+            <li><strong>What did the engagement learn?</strong> An honest retrospective: what worked, what
+              didn't, what the next project inherits.</li>
+          </ol>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual — the four answers</div>
+          <ol>
+            <li>Three dashboards in Harbor's own tooling &mdash; system, application, and the business
+              clock &mdash; each with a named owner.</li>
+            <li>Six alerts, each routed to Harbor's on-call rotation, each tied to a real failure mode.</li>
+            <li>A drill where every critical alert fired for real and Harbor's own on-call answered it.</li>
+            <li>A retrospective that sent <strong>four patterns</strong> home to improve the next project.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The temptation to resist</div>
+        <p>It feels helpful to add "just one more dashboard" or swap in a better monitoring tool. Don't.
+          You wire into the stack the client's team <em>already</em> watches &mdash; anything else is a
+          thing they won't maintain.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 the baseline -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">The number behind every alarm</p>
+      <h2>Thresholds come from measured reality &mdash; not from a number that "felt right"</h2>
+      <p class="lead">"Alert me if response time goes over 500&nbsp;milliseconds" sounds rigorous. It's a
+        guess. Unless you know what response time actually <em>is</em> on a normal day, that number is
+        arbitrary &mdash; and arbitrary thresholds either cry wolf or stay silent through real trouble.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Before any alert is written, you capture the <strong>baseline</strong>: what normal looks like
+            for each key metric, measured from real production traffic, each number recorded with the period
+            it was measured over. Every threshold is then derived from it &mdash; "twice the measured normal,
+            sustained ten minutes" &mdash; and the derivation is written down next to the number.</p>
+          <p>And when production hasn't yet exercised a path &mdash; the rare storm, the seasonal surge &mdash;
+            you don't guess. You derive from the engagement's earlier modeled data, <strong>flag it as
+            modeled</strong>, and set a date to revisit. Honest beats tidy.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The team measured the real baseline from the first hypercare week &mdash; and caught that
+            production ran slightly <em>better</em> than the old design-phase estimate:</p>
+          <div class="bigstat"><span class="b">~180ms</span> &rarr; <span class="t">165ms</span>
+            <small>the design-phase estimate &rarr; the measured production p95 for verification</small></div>
+          <p style="margin-top:14px;">One path had no real numbers: late July gave Harbor no storm. The
+            surge thresholds were derived from a modeled 2024 catastrophe dataset and <strong>flagged
+            modeled, revisit at the first real storm</strong> &mdash; with a named person on the revisit.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The headline failure mode of Phase 9</div>
+        <p>Thresholds set by intuition. "500ms feels right" is not engineering. A threshold that can't
+          explain where it came from can't be tuned later &mdash; it just gets ignored or deleted.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 alert fatigue -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Why fewer alerts are better</p>
+      <h2>An alert nobody acts on is noise wearing a badge</h2>
+      <p class="lead">Fifty alerts feels thorough. It guarantees the team ignores all of them within a
+        month &mdash; and then misses the real one. Every alert must demand a human <em>do</em> something;
+        anything else is just decoration that erodes trust in the whole system.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Before any alert ships, it's tested against history: replay each proposed condition over the
+            hypercare data and count how often it would have fired. The standing rule &mdash; anything that
+            would fire <strong>more than once a week without demanding action</strong> gets its threshold
+            raised or gets cut. Now, before the team learns to tune it all out.</p>
+          <p>This is the discipline of restraint. Six alerts people answer beat eight they've trained
+            themselves to swipe away.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The fatigue review cut two proposed alerts before they shipped:</p>
+          <div class="decision">
+            <strong>Per-instance CPU alert</strong> &mdash; cut. Not actionable; the platform autoscales,
+            and capacity is already on a dashboard.<br><br>
+            <strong>Portal latency warning</strong> &mdash; cut. It duplicated the signal the intake
+            error-rate alert already gave.
+          </div>
+          <p style="margin-top:12px;">Six actionable alerts beat eight ignorable ones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 the playbook -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">What to do when it fires</p>
+      <h2>An alert tells you something's wrong; the playbook tells you what to do about it</h2>
+      <p class="lead">A pager going off at 3&nbsp;a.m. is useless if the person it woke doesn't know what
+        the alert means, how to diagnose it, who to call, or what to tell upset customers while they work.
+        The alarm is half the system; the response plan is the other half.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The <strong>incident playbook</strong> is the detect-diagnose-communicate companion to the
+            existing repair guide. For each alert it spells out what it means, the first diagnosis steps,
+            who escalates to whom, and the templates for what users and leadership hear while it's happening.</p>
+          <p>It deliberately doesn't repeat the repair steps &mdash; it points to the existing guide for
+            those. One source of truth per failure, two lenses on it: the playbook <em>detects and
+            communicates</em>; the runbook <em>resolves</em>.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor's on-call lead corrected the draft playbook line by line. The escalation names were all
+            Harbor's &mdash; the pod appears only as a last resort:</p>
+          <div class="snippet">
+            <div class="from">Where the pod sits in the playbook</div>
+            <blockquote>"Escalation of last resort until Close."</blockquote>
+          </div>
+          <p style="margin-top:12px;">It spelled out exactly what the claims office hears from the intake
+            team when intake degrades, and what leadership hears on a sev-1 &mdash; and who says it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 the drill -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Proving it actually works</p>
+      <h2>An alert that has never fired is a wish</h2>
+      <p class="lead">Routing rules, paging chains, and playbook steps all look correct on paper. The only
+        way to know they work is to make each one happen on purpose &mdash; and watch the client's own
+        on-call respond. Discover the broken pieces by appointment, at drill prices, not at 3&nbsp;a.m.
+        during a real incident.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Every critical alert is triggered deliberately, in a controlled way, and the client's on-call
+            responds from the playbook while the pod watches in silence. "Controlled" means designed: before
+            drill day, you write down one safe synthetic trigger per alert &mdash; a test lane, flagged test
+            data, a deliberately blocked dependency &mdash; that makes the real condition true without
+            touching real traffic. No agreed trigger, no drill.</p>
+          <p>What breaks gets fixed and re-drilled until it's clean. This is the same discipline that proved
+            the rollback in the previous phase: the difference between a procedure and a hope.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The drill earned its keep. Two findings, both exactly what a drill is for:</p>
+          <div class="snippet">
+            <div class="from">The silent-night bug</div>
+            <blockquote>"VERIFY-DEGRADED routed to the general ops channel instead of the pager rotation — a routing-key typo that would have meant a silent night during a real incident."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Caught and fixed at drill prices</div>
+            <blockquote>"Routing key corrected by reviewed PR. Re-fired 11:05: paged in 38 seconds, responder followed the playbook, closed clean."</blockquote>
+          </div>
+          <p style="margin-top:12px;">A second finding &mdash; a playbook step that opened a dashboard
+            needing pod permissions &mdash; was caught and re-drilled clean the same day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 the retrospective -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">What the whole engagement learned</p>
+      <h2>The honest retrospective &mdash; argued from receipts, not vibes</h2>
+      <p class="lead">Phase&nbsp;9's second job matters as much as the first. With the engagement nearly
+        over, this is the moment to ask the cumulative question: what worked, what didn't, and what the
+        next project should inherit. The trap is the feelings-meeting version &mdash; "great teamwork,
+        communicate better next time" &mdash; written for management and useless to everyone.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The AI assembles the evidence &mdash; the metrics history, the weekly logs, every escaped bug
+            with its answer &mdash; so the humans argue from <strong>facts, not vibes</strong>. The AI never
+            softens the retro; a flattering drafter produces a worthless one. The candor is the humans' job.</p>
+          <p>It produces three concrete outputs: a <strong>technical debt log</strong> (every known shortcut,
+            with a priority and a date &mdash; logged debt is managed, unlogged debt is next year's crisis),
+            <strong>client-facing improvements</strong>, and the <strong>harvest list</strong> &mdash; the
+            patterns and fixes the next engagement inherits.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The retro argued from receipts, not adjectives. Not "security review was slow" but the number,
+            and a structural fix instead of an exhortation:</p>
+          <div class="snippet">
+            <div class="from">The finding, with its evidence</div>
+            <blockquote>"The security-review queue drifted all engagement — 2.1-day median against a 0.9-day general queue."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The concrete fix</div>
+            <blockquote>"A twice-weekly committed security-review slot in Dan's calendar, written into the Close handoff."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Four patterns went onto the harvest list to improve the next
+            project &mdash; among them the suppression-window-plus-recovery-check alert pattern from this
+            very phase.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 the timeline -->
+  <section class="s">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">09</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>The two weeks, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor, running inside the
+          hypercare window. Week one makes the system <strong>visible</strong> &mdash; agree what healthy
+          means, capture the baseline, build the dashboards and the alerts. Week two <strong>proves the
+          response and learns</strong> &mdash; write the playbook, drill it, run the retrospective, hand
+          over the watch. Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 9 timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Days 1-2">
+          <div class="day">Days 1&ndash;2 <span class="date">· what does healthy mean?</span></div>
+          <h3>The session that shapes the phase</h3>
+          <p>The pod and the client's operations walk every failure scenario and every top-priority
+            journey, answering for each: what healthy looks like, what degraded looks like, who gets woken,
+            who's told in the morning. Operations' answers win ties. The monitoring scope &mdash; which
+            stack, which dashboards, which owners &mdash; lands in writing.</p>
+        </div>
+
+        <div class="tl-step" data-day="Days 3-4">
+          <div class="day">Days 3&ndash;4 <span class="date">· baseline &amp; dashboards</span></div>
+          <h3>Measure normal; make it visible</h3>
+          <p>Capture the production baseline from the first hypercare week &mdash; request rates, latency,
+            error rates, queue depths &mdash; each with its measurement period. Paths production hasn't
+            exercised get modeled values, flagged with a revisit date. Dashboards go live in the client's
+            stack: system, application, and the business layer in their own reporting language.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 <span class="date">· the alert definitions</span></div>
+          <h3>Every threshold derived, and confirmed</h3>
+          <p>Each critical failure mode gets an alert with a baseline-derived condition, a severity, a named
+            recipient, and a playbook link &mdash; the derivation written next to the number. The operators
+            confirm every threshold; that's the named human stop of the phase. The fatigue review cuts
+            anything that would fire weekly without demanding action.</p>
+        </div>
+
+        <div class="tl-step" data-day="Days 6-7">
+          <div class="day">Days 6&ndash;7 <span class="date">· the incident playbook</span></div>
+          <h3>Write down what to do when it fires</h3>
+          <p>Per alert: what it means, the first diagnosis steps, the severity classification, the
+            escalation names, and the communication templates &mdash; what users and stakeholders are told,
+            by whom, while it's happening. It cross-references the repair guide rather than duplicating it.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 8">
+          <div class="day">Day 8 <span class="date">· the drill</span></div>
+          <h3>Fire every alert on purpose</h3>
+          <p>Each critical alert fires for real through a pre-agreed synthetic trigger, and the client's
+            on-call responds from the playbook while the pod observes in silence. Wrong routing, a broken
+            playbook step, a threshold that doesn't trigger &mdash; all of it fails here, by appointment.
+            What breaks gets fixed through the loop and re-drilled.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 9">
+          <div class="day">Day 9 <span class="date">· the retrospective</span></div>
+          <h3>The honest cumulative look</h3>
+          <p>Half a day, the pod plus the client's core people, arguing from assembled evidence: what
+            worked with receipts, what didn't without blame, which gates caught real issues. Three concrete
+            outputs &mdash; the technical debt log, the client-facing improvements, and the harvest list the
+            next engagement inherits.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 10">
+          <div class="day">Day 10 <span class="date">· hypercare ends, the gate</span></div>
+          <h3>Hand over the watch; read the metric honestly</h3>
+          <p>Hypercare closes on its agreed date with a deliberate handover: the dashboards, the pager, and
+            the playbook are formally the client's, with the pod one escalation away until Close. The gate
+            runs; the sponsor signs at steering &mdash; and hears the outcome metric's first honest
+            production read, caveats welded on.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 7</span>
+          <button data-tl-next type="button">Next &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 the gate -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">How the phase &mdash; and hypercare &mdash; ends</p>
+      <h2>A gate, not a calendar &mdash; and it closes the watch with it</h2>
+      <p class="lead">Phase&nbsp;9 doesn't end because two weeks passed. It ends when a specific list is
+        true and a named human on each side signs to advance &mdash; and because the gate falls at
+        hypercare's end, signing it is also the moment the pod formally hands over the watch.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>This is also a billing milestone, and it carries the engagement's most delicate moment: the
+            outcome metric's <strong>first honest production read</strong>. The credibility protected all
+            engagement gets spent or banked here &mdash; so the number is stated with every caveat attached,
+            never oversold.</p>
+          <p>The headline checklist items have teeth: a drill where every critical alert actually fired and
+            was answered by the client's own on-call, and a retrospective with real receipts, not platitudes.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The outcome metric read spectacularly &mdash; and was deliberately underclaimed:</p>
+          <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">1.9</span>
+            <small>days, all-claims baseline &rarr; fast-path claims (61% of volume) over the two live weeks</small></div>
+          <p style="margin-top:14px;">Steering heard it with the caveat welded on: complex claims are mostly
+            still in flight, so the <em>overall</em> median can't be read fairly until a full quarter. The
+            sponsor signed &mdash; <strong>billing milestone 7</strong>. The watch became Harbor's.</p>
+        </div>
+      </div>
+      <p class="dim" style="margin-top:24px;">The full checklist &mdash; tick it:</p>
+      <ul class="gate" style="margin-top:12px;">
+        <li><span class="box" aria-hidden="true"></span><span class="txt">Every top-priority feature has at least one metric on a dashboard with a named owner</span></li>
+        <li class="teeth"><span class="box" aria-hidden="true"></span><span class="txt">Every critical failure mode has an alert, each threshold derived from the baseline (or flagged modeled) and confirmed by the client's operations</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The alert-fatigue review ran &mdash; nothing ships that would fire weekly without demanding action</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The incident playbook covers every critical alert &mdash; detection, diagnosis, escalation names, templates</span></li>
+        <li class="teeth"><span class="box" aria-hidden="true"></span><span class="txt">The drill happened &mdash; every critical alert fired and was answered by the client's own on-call; what failed was fixed and re-drilled</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The watch was handed over &mdash; dashboards, paging, and the playbook are formally the client's</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The retrospective exists with receipts &mdash; findings, the debt log, and the harvest list</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">The outcome metric has its first production read on the scorecard, caveats stated</span></li>
+        <li><span class="box" aria-hidden="true"></span><span class="txt">A named human on each side approved the advance</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11 how it goes wrong -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">11</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has happened to someone. Knowing them by name is half the
+        defense &mdash; and Harbor's structure caught two of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Thresholds by intuition</strong></td><td>"500ms feels right" set without a measured baseline</td><td>Measure normal; alert at a stated multiple; write the derivation down.</td><td>Every threshold derived; modeled ones flagged with a revisit</td></tr>
+          <tr><td><strong>Our monitoring, their pager</strong></td><td>Alerts built in a stack the client's team doesn't watch</td><td>Their stack, their names, their session.</td><td>All wired into Harbor's own Azure Monitor workspace</td></tr>
+          <tr><td><strong>Alert fatigue on day one</strong></td><td>Fifty alerts; the team ignores all of them within a month</td><td>Replay against history; cut anything that fires weekly without action.</td><td><strong>Caught</strong> &mdash; two proposals cut at the fatigue review</td></tr>
+          <tr><td><strong>The undrilled pager</strong></td><td>Routing and playbooks that have never actually fired</td><td>Fire each one on purpose; the client's on-call responds.</td><td><strong>Caught</strong> &mdash; the day-8 silent-night routing typo</td></tr>
+          <tr><td><strong>The dashboard nobody owns</strong></td><td>A beautiful screen no one reviews</td><td>Every dashboard has a named owner or it doesn't ship.</td><td>Three dashboards, each with a named Harbor owner</td></tr>
+          <tr><td><strong>The platitude retrospective</strong></td><td>"Great teamwork, communicate better" &mdash; written for management</td><td>Argue from receipts; honest and specific or skip it.</td><td>"2.1 days vs 0.9," a calendar slot, not an exhortation</td></tr>
+          <tr><td><strong>Hypercare that never ends</strong></td><td>Quietly extending the watch because closing feels risky</td><td>Extend deliberately with the sponsor, or close on schedule.</td><td>Closed on its agreed date &mdash; two weeks, as written</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase 9 is done</p>
+      <h2>The system can be seen, the response is proven, and the lessons are written down</h2>
+      <p class="dim">Monitoring closes with a watched system in the client's own hands, a response drilled
+        until it works, and an honest account of what the engagement learned &mdash; debt logged, patterns
+        harvested. One thing remains: proving the client can run all of it without you. Where to go next:</p>
+      <div class="next">
+        <a href="phase-c.html"><span class="t">Phase C &rarr;</span><span class="d">Close &amp; Transfer &mdash; the engagement ends when the client can run everything without us, proven by use.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 9 &mdash; roles, calendar, artifacts, the exact gate.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase 9 · Monitoring</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, cadences, and gate, including the tooling specifics the Learn-it view leaves out. For the
+        full deep-dive see <a href="../phase-9-monitoring.html">phase-9-monitoring</a>; for the complete
+        worked example with every ID and command, <a href="../phase-9-example.html">phase-9-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase 9 answers four questions, and nothing else. New features, alert-tooling migrations, and the
+        formal handover of the harness are out of scope.</p>
+      <ol>
+        <li><strong>Can the client see the system?</strong> (dashboards with owners, every top-priority feature observable, business metrics alongside system metrics)</li>
+        <li><strong>Will the right person find out, at the right urgency?</strong> (alerts derived from measured baselines, routed to named people, covering every critical RUNBOOK failure mode)</li>
+        <li><strong>Does the response actually work?</strong> (the incident playbook, proven by drill &mdash; detected, diagnosed, communicated by the client's own on-call)</li>
+        <li><strong>What did the engagement learn?</strong> (the honest retrospective: product, process, debt, and the patterns the kit inherits)</li>
+      </ol>
+      <p class="note">Phase 9 runs deliberately inside the hypercare window: week one needs the production
+        baseline to accumulate; week two needs the pod present for the drill. The gate falls at hypercare's
+        end, closing both together.</p>
+
+      <h2>The human / AI contract for this phase</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>Operations co-author what healthy means and confirm every threshold against real baseline data; the Pod Lead owns the retrospective's candor; the client's on-call responds to the drill.</td><td>Establishes the baseline from production data; drafts alert definitions with each threshold derived from the baseline; drafts the incident playbook from the RUNBOOK; assembles the retrospective's evidence base.</td><td>Confirming a threshold (the named stop &mdash; every threshold confirmed against real baseline data by the people being paged); declaring the drill passed; softening the retrospective. Phase advance.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Pod Lead</td><td>60&ndash;80%</td><td>Runs the what-healthy-means session, owns the retrospective, routes threshold decisions to named owners, runs the gate and steering</td></tr>
+          <tr><td>Quality Engineer</td><td>60&ndash;80%</td><td>Observability coverage, the alert-fatigue review, and the drill design</td></tr>
+          <tr><td>Setup Owner</td><td>50&ndash;70%</td><td>Wires dashboards and alert rules into the client's stack; owns the baseline capture; versions every monitoring change like a harness change</td></tr>
+          <tr><td>Orchestrators</td><td>20&ndash;40%</td><td>Drive the drafting (alert definitions, playbook, dashboard config); fix what hypercare and the drill surface &mdash; through the loop</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Operations / on-call</td><td>Co-author what healthy means; receive the routing; respond to the drill from the playbook &mdash; they own all of this in a few weeks</td><td>The thread of the phase</td></tr>
+          <tr><td>Platform engineer</td><td>Wires alert channels and paging into their tooling; confirms dashboards live where their team already looks</td><td>3&ndash;4 hours</td></tr>
+          <tr><td>Data / reporting lead</td><td>The business-metric dashboards: the outcome metric and its caveats, in the client's reporting language</td><td>2&ndash;3 hours</td></tr>
+          <tr><td>Security</td><td>The security alert lane: what pages security directly, bypassing the general queue</td><td>1&ndash;2 hours</td></tr>
+          <tr><td>Product Owner</td><td>Confirms the business metrics measure what the business means by them</td><td>~1 hour</td></tr>
+          <tr><td>Sponsor</td><td>The gate steering: the first honest production read of the outcome metric, caveats included</td><td>45 min</td></tr>
+        </tbody>
+      </table>
+      <p class="note">If operations cannot co-author the thresholds, the phase produces our alerts in their tooling &mdash; which become noise the week we leave. The session is the phase; protect it like Phase 7 protected the cold runs.</p>
+
+      <h2>The two-week calendar</h2>
+      <table>
+        <thead><tr><th>Days</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1&ndash;2</td><td>What does healthy mean?</td><td>Pod + operations walk the RUNBOOK failure scenarios and top journeys; healthy/degraded/who-is-woken captured per scenario; monitoring scope (stack, dashboards, owners) lands in writing</td><td>&mdash; (human session)</td></tr>
+          <tr><td>3&ndash;4</td><td>Baseline &amp; dashboards</td><td>Production baseline captured per metric with its measurement period; unexercised paths flagged modeled with a revisit date; dashboards live in the client's stack &mdash; system, application, business</td><td><code>/sdlc</code> &rarr; performance-benchmarker, doc-updater</td></tr>
+          <tr><td>5</td><td>Alert definitions</td><td>Every critical failure mode gets a baseline-derived alert with severity, recipient, response expectation, playbook link; operations confirm every threshold; alert-fatigue review runs</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>6&ndash;7</td><td>Incident playbook</td><td>Per alert: meaning, first three diagnosis steps, severity classification, escalation names, communication templates; cross-references the RUNBOOK</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>8</td><td>The alert drill</td><td>Each critical alert fired via a pre-agreed synthetic trigger; client's on-call responds from the playbook; pod observes silently; failures fixed through the loop and re-drilled; drill record captured</td><td>&mdash; (drill)</td></tr>
+          <tr><td>9</td><td>The retrospective</td><td>Half-day, pod + client core; arguing from assembled evidence; three outputs: technical debt log, client-facing improvements, harvest list</td><td><code>/sdlc</code> &rarr; feedback-synthesizer, <code>/visual-explainer</code></td></tr>
+          <tr><td>10</td><td>Gate &amp; handover</td><td>Hypercare closes; watch formally handed over; gate check; Close &amp; Transfer handoff drafted; steering &mdash; sign-off, billing milestone, the outcome metric's first honest read</td><td><code>/sdlc-gate</code>, <code>/sdlc-phase-report</code>, <code>/sdlc-next</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">When the two weeks stretch: a too-thin baseline ships thresholds as modeled-with-revisit-date rather than waiting for a storm; a badly failed drill is fixed, re-drilled, and &mdash; if the gap is people, not config &mdash; flagged at steering; a political retrospective is held to "for the teams, not for performance reviews"; a defect-heavy hypercare is a quality finding for the retro, not a reason to extend forever.</p>
+
+      <h2>The artifacts</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Drafted by</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>Monitoring configuration</td><td>Claude (drafts), Setup Owner (wires)</td><td>Setup Owner &rarr; client</td><td>Dashboards live in the client's stack, each with a named owner; every top-priority feature observable</td></tr>
+          <tr><td>Production baseline</td><td>Claude (measures)</td><td>Quality Engineer</td><td>Normal recorded per key metric with its measurement period; modeled values flagged with revisit dates</td></tr>
+          <tr><td>Alert definitions</td><td>Claude (drafts), ops (confirm)</td><td>Client operations</td><td>Every critical failure mode covered; every threshold derived from baseline and confirmed by the people being paged</td></tr>
+          <tr><td>Incident playbook</td><td>Claude (drafts), ops (correct)</td><td>Client operations</td><td>Detect-diagnose-escalate-communicate per alert; templates included; cross-referenced to the RUNBOOK</td></tr>
+          <tr><td>The drill record</td><td>Quality Engineer</td><td>Quality Engineer</td><td>Every critical alert fired and answered by the client's on-call from the playbook; failures fixed and re-drilled</td></tr>
+          <tr><td>Engagement retrospective</td><td>Claude (evidence base), humans (the candor)</td><td>Pod Lead</td><td>Product and process findings with receipts; debt log; harvest list &mdash; concrete items, not platitudes</td></tr>
+          <tr><td>Close &amp; Transfer handoff</td><td>Claude (drafts)</td><td>Pod Lead</td><td>Monitoring inventory, drill record, debt log, open items with owners</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: a parallel monitoring stack of our own (we wire into theirs), alerts for things nobody would act on, and a sanitized retrospective for external consumption &mdash; the steering gets the summary; the teams keep the honest version.</p>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min pod sync</td><td>Whole pod</td><td>Hypercare findings, baseline capture state, drill prep</td></tr>
+          <tr><td>Hypercare watch</td><td>Client operators driving, pod beside</td><td>Continues throughout; its findings feed thresholds and the debt log</td></tr>
+          <tr><td>What-healthy-means session</td><td>Pod + client operations</td><td>The phase's defining event, week one: healthy, degraded, and who gets woken, per failure mode</td></tr>
+          <tr><td>The alert drill</td><td>Client on-call responding, QE observing</td><td>Week two: every critical alert fired and answered from the playbook</td></tr>
+          <tr><td>The retrospective</td><td>Pod + client core team</td><td>Week two: the honest cumulative look, from evidence &mdash; produces the debt log and the harvest list</td></tr>
+          <tr><td>Steering</td><td>Sponsor + Pod Lead</td><td>Falls at the gate: the watch handover, the drill record, the outcome metric's first honest read</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The exit gate</h2>
+      <p>Phase 9 closes &mdash; and hypercare ends with it &mdash; when all of these are true:</p>
+      <ul>
+        <li>Every top-priority feature has at least one observable metric on a dashboard with a named owner</li>
+        <li><strong>Every critical RUNBOOK failure mode has an alert</strong>; every threshold is derived from the measured baseline (or explicitly flagged as modeled, with a revisit date) and confirmed by the client's operations <em>(teeth)</em></li>
+        <li>The alert-fatigue review ran &mdash; nothing ships that would fire weekly without demanding action</li>
+        <li>The incident playbook covers every critical alert &mdash; detection, diagnosis, escalation names, communication templates</li>
+        <li><strong>The drill happened</strong> &mdash; every critical alert fired in a controlled way and was answered by the client's own on-call from the playbook; what failed was fixed and re-drilled <em>(teeth)</em></li>
+        <li>The watch was handed over &mdash; dashboards, paging, and the playbook are formally the client's, with the pod one escalation away until Close</li>
+        <li>The retrospective exists with receipts &mdash; findings, the technical debt log, and the harvest list; concrete, honest, owned</li>
+        <li>The outcome metric has its first production read on the scorecard, caveats stated</li>
+        <li>The Close &amp; Transfer handoff exists &mdash; monitoring inventory, drill record, debt log, open items with owners</li>
+        <li>A named human on each side approved the advance &mdash; gates report, humans decide</li>
+      </ul>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>Thresholds by intuition.</strong> "500ms feels right" is not engineering. Measure the baseline, alert at a stated multiple, write the derivation down. A threshold that can't explain itself can't be tuned later.</li>
+        <li><strong>Our monitoring, their pager.</strong> The pod builds alerts in a stack the client's team doesn't watch, routed by assumptions. The week we leave, it's noise. Their stack, their names, their session.</li>
+        <li><strong>Alert fatigue shipped on day one.</strong> Fifty alerts feels thorough and guarantees the team ignores all of them within a month. Fewer, actionable, derived, reviewed.</li>
+        <li><strong>The undrilled pager.</strong> Routing and playbooks that have never fired, discovered broken during the first real incident. The drill is to alerts what the rehearsal was to rollback.</li>
+        <li><strong>The dashboard nobody owns.</strong> A beautiful screen no one reviews is decoration. Every dashboard has a named owner or it doesn't ship.</li>
+        <li><strong>Monitoring the system but not the business.</strong> All system metrics, no outcome metric &mdash; the client can see requests but not whether the thing they bought is working. The business layer is co-built with their data lead, in their language.</li>
+        <li><strong>The platitude retrospective.</strong> "Great teamwork, communicate better next time" &mdash; written for management, useless to everyone. Honest, specific, evidence-backed, or skip the meeting.</li>
+        <li><strong>Debt left unlogged.</strong> The shortcuts everyone knows about but nobody wrote down become next year's crisis. Logged debt is managed debt; the log is a gate item for a reason.</li>
+        <li><strong>Hypercare that never ends.</strong> Quietly extending the watch because closing feels risky. Extend deliberately with the sponsor and a new end date, or close on schedule.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase 9 · Walkthrough &mdash; a companion to the <a href="../phase-9-monitoring.html">Monitoring phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

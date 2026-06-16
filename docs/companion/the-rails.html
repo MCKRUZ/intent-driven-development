@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rails · Walkthrough — CI/CD, explained</title>
+<meta name="description" content="An interactive walkthrough of The Rails (the CI/CD &amp; DevOps pipeline every change rides): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../the-rails.html">The Rails · CI/CD</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">The Rails · Walkthrough</p>
+    <h1>The rails, explained
+      <span class="sub">The pipeline every agent-built change rides — why it exists, what it blocks, and how it lets you move fast without trusting a machine's word for anything.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">An AI agent will tell you the code is done, the tests are green, the change is safe.
+        Sometimes it's right. Sometimes it's <strong>confidently wrong</strong> — and that's the whole problem.</p>
+      <p class="big" style="margin-top:18px;">The rails are how you let an agent move fast anyway:
+        it can <strong>propose</strong> anything, but a gate &mdash; not the agent &mdash; decides what
+        actually ships.</p>
+      <p class="sig">Every idea below is paired with the real thing — examples come from a fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 why the rails exist -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why the rails exist at all</p>
+      <h2>Speed is only safe if something catches the mistakes</h2>
+      <p class="lead">An agent can produce a working change in minutes. That's a gift right up until the
+        moment it's wrong &mdash; and a probabilistic actor is sometimes wrong. Without something
+        standing between "the agent says done" and "it's live," speed just means breaking things
+        faster.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The rails are a set of automatic checks every change must pass before it can take effect.
+            They're called <em>rails</em> because nobody has to remember them &mdash; every change runs
+            on them, every time, whether a human or an agent wrote it.</p>
+          <p>Build them once, early, and from then on the agent can move as fast as it likes. The rails
+            are what make that speed trustworthy instead of terrifying.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor's pod built the rails before a single feature existed &mdash; four automatic
+            checks, a locked main branch, and a dev environment defined in code. Then everything they
+            built afterward rode through them.</p>
+          <div class="snippet">
+            <div class="from">The rails, built once</div>
+            <blockquote>"Four workflows, branch protection on main, a blocking Stop hook, a Bicep dev environment. Proven on the walking skeleton. Everything since has ridden them."</blockquote>
+          </div>
+          <p style="margin-top:12px;">The rails were built once and never stopped running &mdash; under
+            every change, from the first one to go-live.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip the rails and&hellip;</div>
+        <p>You're trusting the agent's word that each change is safe. The first time it's confidently
+          wrong about something that touches real customer data, you find out in production.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the one rule -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs everything</p>
+      <h2>The agent proposes; a gate disposes</h2>
+      <p class="lead">This single sentence is the spine of the whole pipeline. The agent does the
+        investigating, the planning, the producing &mdash; but it stops at a <em>reviewable thing</em>:
+        a proposed change someone (or something) else gets to judge. The agent never has the last word
+        on anything that's already protected.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>This isn't a house rule. Every serious agent-and-DevOps system in the industry landed on
+            the exact same shape, independently &mdash; because it's the only rule that holds when the
+            agent is wrong.</p>
+          <ul>
+            <li><strong>The agent</strong> may produce any change &mdash; a code branch, an
+              infrastructure plan, a fix for a broken pipeline.</li>
+            <li><strong>A gate</strong> &mdash; an automatic check plus, where it matters, a named human
+              &mdash; decides whether that change ever takes effect.</li>
+          </ul>
+          <p style="margin-top:12px;">Machines decide the mechanical questions &mdash; does it build, do
+            the tests pass. Humans own the judgment &mdash; is this the right change, is the risk
+            acceptable.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">Across the industry</div>
+          <p>Three different companies solving three different problems, one rule underneath all of
+            them:</p>
+          <div class="snippet">
+            <div class="from">A leading coding agent</div>
+            <blockquote>"Can only push to branches it creates, cannot approve or merge its own work, and its checks won't even run without explicit human approval."</blockquote>
+          </div>
+          <div class="snippet">
+            <div class="from">A self-healing CI agent</div>
+            <blockquote>"Diagnoses a broken pipeline and stops at a merge request with the fix. It does not push to the protected branch; it proposes."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">An infrastructure drift system</div>
+            <blockquote>"Detects configuration drift and proposes a remediation plan. Applying it is a human choice, never a silent auto-apply."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 self-validation / the Stop hook -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Why "done" can't be the agent's opinion</p>
+      <h2>The agent has to prove it works &mdash; not just say so</h2>
+      <p class="lead">"It works on my machine" is bad enough from a person. From an agent that will
+        cheerfully report success it didn't earn, it's a trap. So the rails refuse to take the agent's
+        word for anything they can check themselves.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Before an agent is allowed to call a change <em>done</em>, it has to re-run the build, the
+            tests, and the checks <strong>from the environment itself</strong> and show them green.
+            Not assert success &mdash; prove it.</p>
+          <p>There's a small script that enforces this: when the agent tries to finish its turn, the
+            script fires and looks at the actual state. Broken build or a red test? It refuses to let
+            the agent stop. "Done" stops being the agent's opinion and becomes a fact the environment
+            confirmed.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Every change Harbor's agents built had to clear this before a human ever saw it. On spec
+            0016 &mdash; the change that merges duplicate claims &mdash; the agent built it, the script
+            held it to a green suite, and:</p>
+          <div class="bigstat"><span class="b">11</span> <span class="t">tests</span>
+            <small>passed before a human ever opened the change</small></div>
+          <p style="margin-top:14px;">Eleven green tests &mdash; and, as the next module shows, that
+            still wasn't enough on its own. Green is necessary; it's just not sufficient.</p>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="lbl">Why this comes first</div>
+        <p>Every other gate assumes the basics already pass. The self-check is what makes "the tests are
+          green" mean something &mdash; the agent couldn't have stopped otherwise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 the four gates -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">What actually stands at the gate</p>
+      <h2>Four checks &mdash; and knowing which ones can say "no"</h2>
+      <p class="lead">The rails are four automatic checks that run on every proposed change. The thing
+        that matters most about them is which ones <strong>block</strong> (a hard stop, the machine's
+        call) and which only <strong>advise</strong> (an input to a human's call). Confusing the two is
+        how teams either ship unreviewed agent code or drown every typo in ceremony.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; the four checks</div>
+          <ol>
+            <li><strong>The build-and-test check</strong> &mdash; does it compile, do the tests pass,
+              is enough of the new code covered? <em>Blocks.</em> A red one is a closed door.</li>
+            <li><strong>The grader</strong> &mdash; a fresh agent reads the spec and the change and
+              posts a verdict. <em>Required to run, but only advises.</em></li>
+            <li><strong>The security check</strong> &mdash; a reviewer agent runs on high-risk changes
+              and anything touching a dangerous file. <em>Blocks on high risk.</em></li>
+            <li><strong>The deploy</strong> &mdash; once merged, ships the change to dev and rolls back
+              if the deploy fails.</li>
+          </ol>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual &mdash; the grader earns its place</div>
+          <p>On spec 0016, the build-and-test check went green &mdash; all eleven tests. Then the
+            grader, a fresh agent that did <em>not</em> write the code, walked the spec's checks one by
+            one and caught the hole the eleven tests never thought to test:</p>
+          <div class="snippet resolve">
+            <div class="from">What the grader found that green tests missed</div>
+            <blockquote>"Two claims with an empty policy number were landing in the same match bucket and merging into one. Real bug, real data, invisible to a green suite."</blockquote>
+          </div>
+          <p style="margin-top:12px;">The grader <em>advised</em> &mdash; its verdict was a comment.
+            Sara, who didn't write the change, read it, agreed, and bounced it back to be fixed.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Why the grader never blocks</div>
+        <p>A confident, polished AI verdict is exactly how an agent talks a human into approving harm.
+          So the grader surfaces the truth and hands it to a person who owns the call. The machine
+          informs; it never decides.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 the merge bar -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">The one moment that matters</p>
+      <h2>The merge bar &mdash; what every change must clear to land</h2>
+      <p class="lead">Four checks are just suggestions until something makes them mandatory at the
+        moment a change merges into the main branch. That's the merge bar: settings on the repository
+        that turn the rails from a good habit into a law.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; the bar every change clears</div>
+          <ul>
+            <li><strong>The checks are green</strong> &mdash; build, tests, coverage all passing.</li>
+            <li><strong>The grader has run</strong> &mdash; it can say anything, but it must have run
+              and posted.</li>
+            <li><strong>Someone who didn't write it approved it</strong> &mdash; the author is never
+              their own only approver. This rule survives even a two-person pod.</li>
+          </ul>
+          <p style="margin-top:12px;">A high-risk change adds two more: the security check passed, and a
+            named human recorded a sentence accepting the risk &mdash; not a thumbs-up, a name attached
+            to a decision.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Spec 0016 was tiered <strong>HIGH</strong> &mdash; merging claim records is hard to undo,
+            and a wrong merge mangles two policyholders' data. So it had to clear the full bar:</p>
+          <div class="decision">
+            <strong>Wes Carter</strong> &mdash; lead engineer<br>
+            recorded a named sign-off in the change, accepting the HIGH risk, before a non-author
+            merged it
+          </div>
+          <p style="margin-top:12px;">The agent could push only to its own branch, could not merge its
+            own work, and every commit it made was co-authored &mdash; so the history always shows who,
+            or what, wrote each line.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The one escape hatch</div>
+        <p>A true-emergency merge past a gate needs the Pod Lead plus one other human, an exception
+          label, and a retro item. Two of those in a month isn't bad luck &mdash; it means the gate or
+          the specs are wrong. Fix that; don't normalize the bypass.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 deploy & promotion -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">From merged to in production</p>
+      <h2>A merge isn't a deploy &mdash; promotion is</h2>
+      <p class="lead">Landing on the main branch doesn't put a change in front of customers. The rails
+        move it up through environments &mdash; dev, then test, then production &mdash; and the gap
+        between "merged" and "in production" is where the most protected stop in the whole standard
+        lives.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <ul>
+            <li><strong>Merge &rarr; dev, automatically.</strong> The merge already cleared the bar, and
+              dev is the safe place to exercise the rails constantly.</li>
+            <li><strong>Dev &rarr; test, on demand.</strong> Promoted deliberately, smoke-tested on
+              arrival.</li>
+            <li><strong>Test &rarr; production, by ceremony.</strong> Evidence on the table, every named
+              role asked, a human saying <strong>go</strong> out loud, on the record. No amount of agent
+              confidence ever removes this stop.</li>
+          </ul>
+          <p style="margin-top:12px;">Two rules govern every promotion: <strong>promote the proven
+            artifact, never rebuild it</strong> (a rebuild is something no environment ever verified),
+            and <strong>a rollback that's never run is a wish</strong> &mdash; rehearse it before you
+            need it.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>At go-live, the pod rehearsed the rollback in test first &mdash; deploy, roll back,
+            redeploy &mdash; and it <em>failed</em>:</p>
+          <div class="snippet">
+            <div class="from">The rollback that failed in rehearsal</div>
+            <blockquote>"The previous artifact came back, but a config key had moved ahead of it, so the rolled-back app booted against config it didn't understand."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Found on a Tuesday, not in an incident</div>
+            <blockquote>"The fix rode the loop as spec 0046 — config versioned with the artifact. Re-rehearsed Wednesday: clean. The same artifact that passed test, rc-1.0.1, was promoted to production, not rebuilt."</blockquote>
+          </div>
+          <div class="bigstat"><span class="b">11.4 days</span> &rarr; <span class="t">3h 6m</span>
+            <small>old baseline &rarr; the first real claim's coverage recommendation after go-live</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 infrastructure -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">The change with no clean undo</p>
+      <h2>Infrastructure is HIGH risk every time &mdash; so it's read-only until the last step</h2>
+      <p class="lead">The cloud environment itself is defined in version-controlled files instead of
+        clicked together by hand. An agent can draft a change to it in seconds &mdash; but a wrong one
+        is hard to undo and runs in production later. So the whole pipeline between draft and changed
+        cloud is deliberately read-only.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; a read-only funnel</div>
+          <p>The agent's draft goes through a funnel where every step before the last one just
+            <em>looks</em>, changing nothing:</p>
+          <ul>
+            <li><strong>Does it even compile?</strong> A malformed change is caught by a machine, not by
+              a half-finished apply.</li>
+            <li><strong>Does it break the rules?</strong> An automatic policy check blocks public storage,
+              unencrypted disks, untagged resources &mdash; on every change, not on a reviewer
+              remembering.</li>
+            <li><strong>What exactly would it do?</strong> A dry-run previews every create, change, and
+              delete &mdash; and a human reads it before approving.</li>
+          </ul>
+          <p style="margin-top:12px;">Only then does a scoped apply run. A change approved without
+            reading its preview is a change approved blind.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Adding the test environment was an infrastructure change &mdash; so it went down the funnel.
+            The compile check passed. The policy check did <em>not</em>:</p>
+          <div class="snippet resolve">
+            <div class="from">Caught mechanically, on the change, before anything was applied</div>
+            <blockquote>"PSRule flagged two things — a storage account that would have defaulted to public network access, and a resource group missing the required cost-center tag."</blockquote>
+          </div>
+          <p style="margin-top:12px;">The agent fixed both, the gate went green, Tom read the dry-run to
+            confirm nothing unexpected, and only then did the apply run &mdash; under an identity scoped
+            to that one resource group and nothing else.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The one mistake with no clean undo</div>
+        <p>An agent running a destructive infrastructure apply unattended &mdash; deleting or replacing,
+          with no human reading the dry-run first. Every read-only step exists for exactly this. Never
+          auto-apply a destructive change.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 identity -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">What holds when the prompt fails</p>
+      <h2>Identity is the real guardrail &mdash; not the instructions</h2>
+      <p class="lead">An agent's instructions can be talked into something they shouldn't do &mdash;
+        prompts fail. What an agent <em>can</em> actually do isn't bounded by the words in its prompt;
+        it's bounded by the permissions of the credential it runs under. That's the wall still standing
+        when everything else gives way.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <ul>
+            <li><strong>Every actor gets its own narrow credential</strong> &mdash; scoped to exactly
+              what its job needs and nothing more. An over-scoped identity means a subverted prompt can
+              reach everything that identity could.</li>
+            <li><strong>Secrets live in the client's vault, never in the repo</strong> &mdash; not in
+              code, not in a config file, not in a spec. A key in a commit is the one unrecoverable
+              mistake.</li>
+            <li><strong>There's a kill switch</strong> &mdash; a whole class of agent identity can be
+              disabled in one move if something goes wrong.</li>
+          </ul>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>When a red pipeline got a self-healing agent pointed at it, the agent ran under its own
+            scoped credential &mdash; able to read the repo and open a proposed change, nothing more:</p>
+          <div class="decision">
+            The fix agent's identity could open a change but never merge one.<br>
+            If its prompt had been steered somewhere bad, the identity was the wall still standing.
+          </div>
+          <p style="margin-top:12px;">And before go-live, every secret the pod had ever touched was
+            rotated into production-only values the pod couldn't read. The engagement reached production
+            with the pod having never known a production secret.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 seeing it happen — the timeline -->
+  <section class="s">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">09</span>
+        <p class="kicker">Now watch one change ride the rails</p>
+        <h2>A single change, from proposed to deployed</h2>
+        <p class="dim">You've got the ideas; here's the actual journey one change takes &mdash; spec 0016
+          at Harbor, the duplicate-claim merge. Notice that the agent's work stops early, at a proposed
+          change, and a gate (and a human) carry it the rest of the way. Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="A change's journey through the rails" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a stage"></div>
+
+        <div class="tl-step" data-day="Open PR">
+          <div class="day">Open PR <span class="date">· the agent proposes</span></div>
+          <h3>The agent stops at a proposed change</h3>
+          <p>The agent built the change on its own branch &mdash; it can't touch main &mdash; and the
+            Stop hook held it to a green suite first: eleven tests passing before it was allowed to
+            finish. Then it opens the change for review and stops. From here, gates and humans take
+            over.</p>
+        </div>
+
+        <div class="tl-step" data-day="CI">
+          <div class="day">CI <span class="date">· the mechanical floor</span></div>
+          <h3>Does it build, test, and cover?</h3>
+          <p>The build-and-test check runs automatically: compile, the full test suite, the linter, and
+            coverage on new code. It went green &mdash; all eleven tests. This one <em>blocks</em>: a red
+            result is a closed door no human can wave through without an expensive exception.</p>
+        </div>
+
+        <div class="tl-step" data-day="Grader">
+          <div class="day">Grader <span class="date">· a fresh set of eyes</span></div>
+          <h3>A second agent checks against the spec</h3>
+          <p>A fresh agent that did <em>not</em> write the code reads the spec and the change, walking
+            the acceptance checks one by one. It caught the hole eleven green tests missed &mdash; two
+            claims with an empty policy number merging into one. It posts a verdict and advises; it never
+            blocks.</p>
+        </div>
+
+        <div class="tl-step" data-day="Security">
+          <div class="day">Security <span class="date">· because it's HIGH</span></div>
+          <h3>The security reviewer runs</h3>
+          <p>Spec 0016 is tiered HIGH &mdash; merging claim records is hard to undo. That fires the
+            security check, the reviewer agent. On a HIGH change this one <em>blocks</em>, and the merge
+            bar will also demand a named human's recorded sign-off accepting the risk.</p>
+        </div>
+
+        <div class="tl-step" data-day="Review">
+          <div class="day">Review <span class="date">· a human disposes</span></div>
+          <h3>Someone who didn't write it decides</h3>
+          <p>Sara &mdash; not the author &mdash; read the grader's catch, agreed, and bounced the change
+            back to be fixed on the same branch. Every gate, including a fresh grader run, ran again on
+            the corrected change. Then Wes recorded his HIGH sign-off.</p>
+        </div>
+
+        <div class="tl-step" data-day="Merge">
+          <div class="day">Merge <span class="date">· the bar clears</span></div>
+          <h3>A non-author merges</h3>
+          <p>With CI green, the grader run, a non-author approval, the security pass, and Wes's named
+            sign-off all true, the merge bar clears. A non-author merges &mdash; the agent never could
+            have merged its own work even if it tried.</p>
+        </div>
+
+        <div class="tl-step" data-day="Deploy">
+          <div class="day">Deploy <span class="date">· to dev, automatically</span></div>
+          <h3>The deploy ships it to dev</h3>
+          <p>The merge already cleared the bar, so the deploy workflow ships the change to dev with no
+            human in the loop &mdash; and would roll back automatically if the deploy failed. Production
+            is later, and by ceremony; dev is where the rails get exercised constantly.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 7</span>
+          <button data-tl-next type="button">Next stage &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 how it goes wrong -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has happened to someone. Knowing them by name is half the
+        defense &mdash; and Harbor's rails caught several of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>The unexercised pipeline</strong></td><td>CI green because nothing real ever ran through it</td><td>Force each rail to fail on purpose and prove it catches.</td><td>Every rail shaken down before Foundation closed</td></tr>
+          <tr><td><strong>Auto-merging the agent's fix</strong></td><td>A self-healing pipeline pushes its own fix to main</td><td>The agent proposes; the merge bar disposes. Stop at the PR.</td><td><strong>Held</strong> &mdash; the self-heal agent stopped at a PR</td></tr>
+          <tr><td><strong>The raw-shell agent</strong></td><td>"Here's the whole repo and a shell, fix the build"</td><td>A small, named tool surface &mdash; read, write, run tests, run lint.</td><td>Fix agent had four tools, nothing more</td></tr>
+          <tr><td><strong>The rebuilt artifact</strong></td><td>Production gets a fresh build, not the one that passed test</td><td>Promote the proven artifact; never rebuild.</td><td>rc-1.0.1 promoted, not recompiled</td></tr>
+          <tr><td><strong>The rollback only ever written</strong></td><td>Documented, reviewed, never run &mdash; until an incident</td><td>Rehearse it in test, before it's needed.</td><td><strong>Caught</strong> &mdash; failed in Tuesday's rehearsal</td></tr>
+          <tr><td><strong>A secret in the repo</strong></td><td>A key committed to code, a config, or a spec</td><td>The client's vault from day one.</td><td>Pod never knew a production secret</td></tr>
+          <tr><td><strong>The unattended destructive apply</strong></td><td>An agent applies infra that deletes or replaces, unread</td><td>Read-only until the last step; a human reads the dry-run.</td><td>Tom read every what-if before any apply</td></tr>
+          <tr><td><strong>Ignoring drift</strong></td><td>Real infra diverges from code and nobody acts</td><td>Drift is a proposed fix waiting for a human, not a notice to dismiss.</td><td>Drift opened a PR; Tom absorbed it into the code</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When the rails are doing their job</p>
+      <h2>The agent moves fast &mdash; and you never have to trust its word</h2>
+      <p class="dim">The rails aren't a brake on the agent. They're what lets you take it off the leash:
+        it can propose anything, as fast as it likes, because nothing it proposes takes effect until a
+        gate &mdash; and where it matters, a named human &mdash; says so. One principle, wired into
+        every place a change could go wrong. Where to go next:</p>
+      <div class="next">
+        <a href="phase-7.html"><span class="t">Phase 7 &rarr;</span><span class="d">Documentation &mdash; how a finished change gets written down so the next person (or agent) can build on it.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics &mdash; the four workflows, the exact merge bar, deploy &amp; promotion, the IaC funnel, identity.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · The Rails · CI/CD &amp; DevOps</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the four workflows, the merge
+        bar, deploy and promotion, the infrastructure funnel, identity, and the governing principle,
+        including the tooling specifics the Learn-it view leaves out. For the full deep-dive see
+        <a href="../the-rails.html">the-rails</a>; for the complete worked example with every ID and
+        command, <a href="../the-rails-example.html">the-rails-example</a>.</p>
+
+      <h2>The governing principle</h2>
+      <p><strong>Agent proposes, gate disposes.</strong> An agent may produce any change, but only as a
+        reviewable artifact &mdash; a branch and a PR, an infrastructure plan, a fix suggestion. A
+        deterministic policy layer plus a named human decides whether that change ever takes effect.
+        This is the same sentence that runs through the whole standard &mdash; <strong>gates report,
+        humans decide</strong> &mdash; mechanically enforced rather than merely intended.</p>
+      <p>Three corollaries fall out of it, each a design rule:</p>
+      <ol>
+        <li><strong>Mechanical self-validation is mandatory.</strong> Before surfacing a change as done,
+          the agent re-runs build, tests, and linters from the environment and proves them green. This
+          is the Stop hook: the agent cannot end its turn on a red test or broken build.</li>
+        <li><strong>A bounded tool surface beats raw access.</strong> Named, constrained tools (read a
+          file, write a file, run tests, run lint) outperform and are far safer than the whole
+          filesystem and a shell.</li>
+        <li><strong>Autonomy is graded and widens slowly.</strong> New agent automation starts in a
+          propose-and-approve posture and only tightens after its behavior is watched on real work.</li>
+      </ol>
+      <p class="note">Underneath all three: <strong>identity is the real guardrail.</strong> What an
+        agent can do is bounded by the permissions of the credential it runs under, not by the words in
+        its prompt.</p>
+
+      <h2>The four workflows</h2>
+      <table>
+        <thead><tr><th>Workflow</th><th>Fires on</th><th>Blocks or advises</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>ci</code></td><td>every PR</td><td><strong>Blocks</strong> (hard gate)</td><td>Build, tests, lint, 80% coverage on new code. The mechanical floor &mdash; a red CI is a closed door.</td></tr>
+          <tr><td><code>grader</code></td><td>every PR</td><td><strong>Advises</strong> (required to run, can't block)</td><td>A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment. "The grader ran" is a required check; <em>what</em> it said is the human Checker's input.</td></tr>
+          <tr><td><code>security</code></td><td>the <code>risk:high</code> label <strong>or</strong> any PR touching a registered gated path</td><td><strong>Blocks</strong> on HIGH; advises otherwise</td><td>Runs the security-reviewer agent. Path-triggered: fires on any PR touching a guarded path (auth, migrations, the pipeline, infra), independent of the spec's tier.</td></tr>
+          <tr><td><code>deploy-dev</code></td><td>merge to main</td><td>n/a (it ships)</td><td>Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails.</td></tr>
+        </tbody>
+      </table>
+      <p class="note">The grader <strong>advises; it never blocks</strong> &mdash; a polished, plausible
+        AI verdict is exactly how an agent talks a human into approving harm. The security gate is
+        <strong>path-triggered, not just tier-triggered</strong>: a MEDIUM change touching the auth code
+        or the migration folder still fires it. The gate is the workflow plus the path registration.</p>
+
+      <h2>The merge bar</h2>
+      <p>Branch protection turns four workflows into rails. It is repository configuration &mdash; set
+        by the Setup Owner or a named client admin &mdash; making the gates mandatory at the merge.</p>
+      <p>Every PR, to merge, must clear:</p>
+      <ul>
+        <li><strong>CI green</strong> &mdash; build, tests, lint, coverage all passing. Hard block.</li>
+        <li><strong>The grader has run</strong> &mdash; the workflow completed and posted. The verdict
+          can say anything; the running is required.</li>
+        <li><strong>A non-author approval</strong> &mdash; someone who did not write the change approved
+          it. The author is never their own only approver; this survives even a two-person pod.</li>
+      </ul>
+      <p>A <code>risk:high</code> change adds two more:</p>
+      <ul>
+        <li><strong>The security workflow passed</strong> &mdash; the security-reviewer agent's pass,
+          blocking on HIGH.</li>
+        <li><strong>A named human sign-off recorded in the PR</strong> &mdash; a person, by name,
+          accepting the risk. A recorded sentence, not a thumbs-up.</li>
+      </ul>
+      <p>Constraints on the agent, enforced by the platform, not by trust:</p>
+      <ul>
+        <li>The agent pushes <strong>only to branches it creates</strong> (<code>spec/NNNN-*</code>),
+          never to main.</li>
+        <li>The agent <strong>cannot approve or merge its own work</strong> &mdash; the platform forbids
+          it, the same way it forbids a human author from being their own approver.</li>
+        <li>Every commit an agent makes is <strong>co-authored</strong>, so provenance is in the
+          history.</li>
+      </ul>
+      <p class="note">The one escape hatch is deliberately expensive: a true-emergency merge past a gate
+        requires the Pod Lead plus one other human, an exception label, and a Retro+ agenda item. Two
+        exceptions in a month means the gate or the specs are wrong &mdash; fix that, don't normalize
+        the bypass.</p>
+
+      <h2>Deploy and promotion</h2>
+      <table>
+        <thead><tr><th>Step</th><th>How</th><th>Gate</th></tr></thead>
+        <tbody>
+          <tr><td>Merge &rarr; dev</td><td>The <code>deploy-dev</code> workflow ships every merged change to dev</td><td>Automatic &mdash; the merge already cleared the bar</td></tr>
+          <tr><td>Dev &rarr; test</td><td>Promoted deliberately, smoke-tested on arrival</td><td>On demand; the test environment is added at the first hardening pass</td></tr>
+          <tr><td>Test &rarr; prod</td><td>The first promotion is the Phase 8 go/no-go; every promotion after rides the client's release cadence</td><td>A human go/no-go <strong>every</strong> time &mdash; the single most protected stop in the standard</td></tr>
+        </tbody>
+      </table>
+      <p>Two rules govern every promotion:</p>
+      <ul>
+        <li><strong>Promote the artifact; never rebuild it.</strong> The same build that passed test
+          goes to production. A rebuilt artifact is something no environment ever verified.</li>
+        <li><strong>A rollback that has never run is a wish.</strong> The deploy pipeline restores the
+          last good version on a failed deploy &mdash; and that path is rehearsed in test
+          (deploy &rarr; roll back &rarr; redeploy) with the trigger condition written down in advance.
+          A rail that has never failed safely has not been proven.</li>
+      </ul>
+
+      <h2>The infrastructure funnel</h2>
+      <p>Infrastructure is code, lives in the repo, and is <strong>HIGH risk every time</strong>. The
+        agent-safe IaC pipeline is a read-only-until-the-last-step funnel:</p>
+      <table>
+        <thead><tr><th>Step</th><th>What runs</th><th>Blocks?</th></tr></thead>
+        <tbody>
+          <tr><td>Schema validate</td><td><code>bicep build</code> against the resource schema</td><td>Hard block on a malformed template</td></tr>
+          <tr><td>Policy-as-code</td><td>PSRule for Azure (public access, encryption, tags, region)</td><td>Hard block on a policy violation</td></tr>
+          <tr><td>Dry-run</td><td><code>bicep what-if</code> &mdash; the exact change preview</td><td>Posted to the PR; a human reads it</td></tr>
+          <tr><td>Cost / budget review</td><td>The price of the diff on the PR</td><td>Can block on a budget breach</td></tr>
+          <tr><td>Approval</td><td>A named human approves the what-if and the policy result</td><td>Required to proceed</td></tr>
+          <tr><td>Apply</td><td>Scoped, least-privilege deploy identity</td><td>&mdash; (the only step that changes cloud)</td></tr>
+          <tr><td>Drift assessment</td><td>Scheduled real-infra-vs-code compare</td><td>Opens a remediation PR; never auto-applies</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Every step before the apply is read-only. The agent and the pipeline can do all
+        the thinking, validating, and previewing they want, and nothing changes until a human has read
+        the dry-run and a least-privilege identity executes a scoped apply. The default profile is
+        .NET/Azure (Bicep); the pattern is stack-independent. A destructive <code>apply</code> an agent
+        runs unattended is the one mistake on this page with no clean undo.</p>
+
+      <h2>Agents inside the pipeline</h2>
+      <table>
+        <thead><tr><th>Pattern</th><th>How it stays safe</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Self-healing CI</strong></td><td>On a red build, an agent works the problem through a <strong>bounded set of named tools</strong> (read a file, write a file, run tests, run lint), self-validates until green, then emits the fix <strong>as a PR suggestion</strong> &mdash; it stops at a merge request, never pushes to the protected branch.</td></tr>
+          <tr><td><strong>Flaky-test handling</strong></td><td>A state machine &mdash; <strong>Active &rarr; Quarantined &rarr; Disabled</strong> &mdash; with eligibility thresholds before quarantine (a real failure rate, failures on the default branch, across more than one pipeline) and a grace period after a confirmed fix before the test rejoins the suite. Triage over reflex.</td></tr>
+          <tr><td><strong>Containment</strong></td><td>An agent touching the pipeline runs in a sandbox with default-deny network egress and writes confined to its workspace. The environment layer catches what the model's judgment misses.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Identity, secrets, and blast radius</h2>
+      <ul>
+        <li><strong>Each agent that acts on infra or the pipeline gets its own least-privilege
+          identity</strong> &mdash; a managed or federated credential (no stored secret, rotated
+          automatically) scoped to the resource or resource group, never the whole subscription. Every
+          action is then attributable to it in the audit log.</li>
+        <li><strong>Secrets live in the client's vault, never in the repo</strong> &mdash; not in code,
+          not in CLAUDE.md, not in a spec. A key in a commit is the one unrecoverable foundation
+          mistake.</li>
+        <li><strong>Secrets rotate before production</strong> &mdash; into production-only values the pod
+          cannot read, signed by the client's security. The engagement should end with the pod having
+          never known a production secret.</li>
+        <li><strong>There is a kill switch</strong> &mdash; conditional-access policy at the class level
+          can disable a whole category of agent identity in one operation.</li>
+      </ul>
+      <p class="note">Treat an agent as a first-class non-human identity with its own lifecycle, owner,
+        and time-bounded access &mdash; not a script running under a human's credentials. Every agent
+        identity has a named owner or it does not exist.</p>
+
+      <h2>Proving and watching the rails</h2>
+      <p>A pipeline that has never caught anything is not proven &mdash; it is merely present. Before
+        Foundation closes, each rail is made to fail on purpose and caught:</p>
+      <ul>
+        <li>A failing test proves the <strong>Stop hook</strong> blocks an agent from finishing.</li>
+        <li>A PR with a planted spec mismatch proves the <strong>grader</strong> posts the miss.</li>
+        <li>A known-bad deploy proves the <strong>pipeline restores</strong> the last good version.</li>
+        <li>A probe PR touching a guarded path proves the <strong>security gate</strong> fires.</li>
+      </ul>
+      <p>Watch the rails with the <strong>DORA four</strong> &mdash; deploy frequency, lead time,
+        change-fail rate, time-to-recover &mdash; read as trends. Never velocity, story points, PR count,
+        or lines of code: agents inflate every one of those. Log everything with provenance so any
+        change is traceable to the identity that produced it.</p>
+
+      <h2>Who owns the rails</h2>
+      <table>
+        <thead><tr><th>Person</th><th>In the rails</th></tr></thead>
+        <tbody>
+          <tr><td>Setup Owner</td><td>Owns the rails as a product: the four workflows, branch protection, the IaC pipeline, secrets, agent identities. Drafts with Claude; reviews everything; merges none of it alone.</td></tr>
+          <tr><td>Setup Owner's deputy</td><td>Named on day one. Reviews every rails change &mdash; workflow YAML, IaC, identity scope. The both-eyes rule applied to the foundation.</td></tr>
+          <tr><td>Quality Engineer</td><td>Wires the mechanical gates and proves the rails fail safely &mdash; the Stop hook blocks, the grader posts, the deploy rolls back.</td></tr>
+          <tr><td>Orchestrators</td><td>Run changes through the rails all day. When the pipeline needs a fix, it rides the loop like any change.</td></tr>
+          <tr><td>Pod Lead</td><td>Owns the risk tiers that decide how hard each path is gated, and the gate-exception rule.</td></tr>
+          <tr><td>Client DevOps / platform</td><td>Reviews every pipeline and IaC change &mdash; they operate the rails after we leave. Owns branch-protection admin, runner policy, the secrets vault.</td></tr>
+          <tr><td>Client Security</td><td>Signs off on the pipeline, secrets handling, agent identities and their RBAC scope.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Where the rails live across phases</h2>
+      <ul>
+        <li><strong>Built in Phase 3</strong> (Foundation), before any feature exists, and proven on the walking skeleton.</li>
+        <li><strong>Run under every change</strong> all through Build.</li>
+        <li><strong>Promote the proven artifact to production in Phase 8.</strong></li>
+        <li><strong>Watched in Phase 9</strong> (hypercare). The rails outlast every phase boundary.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    The Rails · Walkthrough &mdash; a companion to <a href="../the-rails.html">The Rails (CI/CD &amp; DevOps)</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

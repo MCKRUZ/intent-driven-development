@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 1 · Walkthrough — Requirements, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase 1 (Requirements): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-1-requirements.html">Phase 1 · Requirements</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase 1 · Walkthrough</p>
+    <h1>Requirements, explained
+      <span class="sub">How a signed problem turns into a buildable list of exactly what the system must do &mdash; each idea paired with how it actually played out on a real project.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">Phase&nbsp;0 agreed on the <strong>problem</strong> and one number that means
+        "solved." But an AI can't build a problem &mdash; it can only build instructions.</p>
+      <p class="big" style="margin-top:18px;">Phase&nbsp;1 is where the problem becomes a list of
+        <strong>exactly what the system must do</strong>, written so precisely that two people
+        couldn't build two different things from it.</p>
+      <p class="sig">Every idea below is paired with the real thing &mdash; examples come from a
+        fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 why this phase exists -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>An AI builds the instructions, not the intent</h2>
+      <p class="lead">A coding agent does exactly what the requirement says. If the requirement is
+        vague, the agent fills the gap with a guess &mdash; confidently, at 2&nbsp;a.m., in week
+        seven, with nobody watching. The whole point of Phase&nbsp;1 is to leave no gaps worth
+        guessing about.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>A vague line isn't a small problem. It's an open invitation for the build to drift away
+            from what anyone actually wanted &mdash; and you won't notice until the wrong thing is
+            already running.</p>
+          <p>So Phase&nbsp;1 turns the agreed problem into requirements precise enough that there's
+            nothing left to invent. Each requirement carries the checks that prove it's met. A wish
+            caught here is a sentence rewrite; the same wish caught in the build is a feature thrown
+            away.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Harbor's whole reason for hiring the pod was a number from Phase&nbsp;0: a claim takes
+            a median of <strong>11.4 days</strong> from being reported to a decision, and slow claims
+            cost renewals. The target is half that.</p>
+          <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">&le; 5.0</span>
+            <small>days from claim to decision today &rarr; the target &mdash; the number Phase&nbsp;1's requirements have to actually move</small></div>
+          <p style="margin-top:12px;">A number like that isn't moved by good intentions. It's moved
+            by a buildable, testable list of behaviors &mdash; which is exactly what this week produces.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip this phase and&hellip;</div>
+        <p>You hand an AI a goal instead of instructions, and it builds a confident, well-tested
+          answer to a question nobody actually asked.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the one rule -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs everything</p>
+      <h2>Claude drafts and interrogates; humans decide and own</h2>
+      <p class="lead">This is the busiest drafting week of the whole engagement &mdash; and the rule
+        from Phase&nbsp;0 binds harder than ever. The AI writes the requirements, finds the conflicts,
+        and keeps the running list of decisions nobody's made. People make every one of those
+        decisions and sign for them.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>There are three things the AI is never allowed to do in this phase, because each is a
+            human's accountability:</p>
+          <ul>
+            <li>It never <strong>sets a priority</strong> &mdash; what ships first is a product call.</li>
+            <li>It never <strong>accepts a requirement</strong> as good enough &mdash; a person confirms
+              it says what they meant.</li>
+            <li>It never <strong>decides what's in or out</strong> &mdash; scope is owned, not generated.</li>
+          </ul>
+          <p style="margin-top:12px;">The AI's job is to make every decision <em>visible and cheap to
+            make</em>. The human's job is to actually make it.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The clearest example: should the system that spots a "simple" claim <em>decide</em> it,
+            or just <em>recommend</em> and let an adjuster confirm?</p>
+          <div class="snippet">
+            <div class="from">The decision the AI surfaced &mdash; but could not make</div>
+            <blockquote>"Does the fast-path decide a claim, or recommend one for a human to confirm?"</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Luis Ortega, Harbor's product owner &mdash; took the full two days, then ruled</div>
+            <blockquote>"v1 recommends; an adjuster confirms with one click. Regulatory caution until 'simple' is proven against a year of data."</blockquote>
+          </div>
+          <p style="margin-top:12px;">An unanswered question like that is exactly what an agent
+            resolves silently in week seven. Here it got a named human and a recorded reason.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 the four questions -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">What the week must answer</p>
+      <h2>Four questions &mdash; and deliberately nothing else</h2>
+      <p class="lead">Phase&nbsp;1 answers exactly four questions about the system. Anything that
+        smells like <em>how</em> to build it &mdash; the technology, the data model, the diagrams
+        &mdash; is off the table. A requirement says what and how well, never how.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; the four questions</div>
+          <ol>
+            <li><strong>What must the system do?</strong> Behaviors, each with the checks that prove
+              it works.</li>
+            <li><strong>How well must it do it?</strong> Quality targets &mdash; speed, capacity,
+              uptime &mdash; each with a real way to measure it.</li>
+            <li><strong>In what order does value ship?</strong> The work sliced and ranked by what
+              moves the goal first.</li>
+            <li><strong>What is explicitly out?</strong> The not-now list, written down before the
+              pressure to cram it in arrives.</li>
+          </ol>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual &mdash; the four answers</div>
+          <ol>
+            <li>Every claim, from any channel, shows up in one queue within five minutes; duplicates
+              get merged, never rejected.</li>
+            <li>The queue handles 40,000 claims a year <strong>and a 10x storm surge</strong>; coverage
+              status ready the same business day.</li>
+            <li>Queue first (everything lands in it), then coverage, then the fast-path for the simple
+              majority of claims.</li>
+            <li>Out of v1: auto claims, SMS, fraud scoring, payment changes, and the adjuster dashboard
+              rebuild.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The temptation to resist</div>
+        <p>It feels efficient to start naming technologies now &mdash; "we'll use a message queue." That's
+          design leaking upstream. Write the behavior it wanted instead ("intake must keep accepting
+          claims even when downstream systems are down"), and let Phase&nbsp;2 choose the how.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 the vague-line test -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">The technique that earns the phase</p>
+      <h2>The vague-line test: could two people build two different things?</h2>
+      <p class="lead">Every requirement gets one brutal question asked of it: <em>could two people read
+        this line and build two different things?</em> If yes, it's a wish wearing a requirement's
+        clothes &mdash; and it goes back to be sharpened, not quietly into the pile.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Words like "promptly," "intuitive," "robust," and "clearly visible" feel like requirements
+            but specify nothing. An AI handed "respond promptly" will pick a number for you &mdash; and
+            it won't be the one you'd have picked.</p>
+          <p>A dedicated person &mdash; the testability conscience &mdash; runs every acceptance check
+            through this test before it's allowed to stand. This is the enforcement point: catch the
+            vagueness here, on a Wednesday, not three weeks into the build when it's expensive.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>On day&nbsp;3, the testability pass caught five of thirty-one acceptance checks failing the
+            test. The fixes turned wishes into things you can actually verify:</p>
+          <div class="snippet">
+            <div class="from">A line that failed the test</div>
+            <blockquote>"The new claim appears in the queue promptly and is clearly visible."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The same requirement, sharpened</div>
+            <blockquote>"A claim submitted via portal at 14:00 is visible in the queue with status 'new' by 14:05 &mdash; same for phone-entered and parsed-email claims."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 NFRs / measurement basis -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">The quality targets, made real</p>
+      <h2>"Fast" is an opinion &mdash; until you say where the number is read</h2>
+      <p class="lead">Beyond what the system does, there's how well it has to do it: speed, capacity,
+        uptime. The trap is writing "the system shall be fast." A quality target without a way to
+        measure it is just a wish with a number attached.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Every quality target must carry three things: <strong>the number</strong>, <strong>how
+            it's measured</strong>, and <strong>where that measurement is read from</strong>. "Fast"
+            becomes "95% of requests under 800ms, measured at the gateway, read off the monitoring
+            dashboard."</p>
+          <p>And the number itself comes from a human &mdash; the client's own data or a stated target.
+            If nobody on the client side ever said the number, it doesn't get invented into the draft;
+            it goes on the decision list for someone to answer.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Writing the quality targets surfaced a gap nobody had named: <strong>storm season</strong>.
+            The Phase&nbsp;0 sizing said 40,000 claims a year &mdash; and said nothing about peaks.</p>
+          <div class="snippet">
+            <div class="from">What the data lead's catastrophe records showed</div>
+            <blockquote>"A catastrophe event spikes intake to roughly 10x normal daily volume &mdash; about 1,600 claims a day &mdash; for a week straight."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The quality target it forced</div>
+            <blockquote>"Sized for 40,000 claims/yr steady state and a 10x storm surge; load-tested at the surge profile before go-live."</blockquote>
+          </div>
+          <p style="margin-top:12px;">A genuinely buildable spec has to survive a hurricane, not just
+            an average Tuesday.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">A common way this fails</div>
+        <p>Quality targets get written as theater &mdash; impressive-sounding numbers nobody can ever
+          read. If you can't say where the number will be measured, the target isn't done.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 the P0 budget -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Deciding what ships first</p>
+      <h2>If everything is top priority, nothing is</h2>
+      <p class="lead">Left alone, every requirement becomes "must-have." That's not a plan &mdash; it's
+        a refusal to plan. The defense is a hard cap on the top tier, set before the room can argue,
+        and the product owner does the cutting.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The pod sets a budget for the top priority tier &mdash; sized to what can credibly ship in
+            the first stretch of building &mdash; and announces it when the priority session opens. The
+            product owner ranks <em>within</em> that budget.</p>
+          <p>The pod advises on cost and risk; it never sets the order. And it refuses to start building
+            from a list where the top tier is over budget &mdash; because a blown budget just means the
+            hard choices got deferred to a worse time.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The priority session: a top-tier budget of <strong>12</strong> slots, and <strong>19</strong>
+            candidates fighting for them. Luis did the cutting, not the pod.</p>
+          <div class="decision">
+            Seven requirements cut to fit the budget &mdash; including, painfully, the
+            <strong>adjuster dashboard rebuild</strong>.<br>
+            "We survive with the current screens one more quarter."
+          </div>
+          <p style="margin-top:12px;">That cut hurt &mdash; which is exactly what a real priority
+            decision is supposed to feel like. The budget held.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 traceability -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Every requirement earns its place</p>
+      <h2>Where did this come from, and what does it serve?</h2>
+      <p class="lead">A requirement that can't say where it came from and what goal it serves is usually
+        someone's pet feature in disguise. So every one has to point backward to a source and forward
+        to the outcome it moves.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Backward: this requirement traces to a real document or a named working session &mdash;
+            a human said it. Forward: it traces to one of the agreed outcomes &mdash; it actually helps.</p>
+          <p>A requirement that traces to nothing gets challenged on the spot. And a special trap: the
+            client's original hiring document is <em>evidence</em>, not a requirements list. Anything
+            that traces only to that document and was never confirmed by a person is a candidate, not a
+            commitment.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The traceability check claimed one casualty: a requirement for SMS notifications that
+            traced to nothing &mdash; no document, no session, no stakeholder.</p>
+          <div class="snippet">
+            <div class="from">Where it actually came from</div>
+            <blockquote>"It came from the boilerplate appendix of the RFP &mdash; the hiring document &mdash; and no human ever confirmed it."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">What happened to it</div>
+            <blockquote>"Cut on day 5; recorded in the explicit not-in-v1 list so the choice is visible, not silent."</blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The trap in plain sight</div>
+        <p>The hiring document feels authoritative, so its every line gets treated as a requirement. But
+          Phase&nbsp;0 already proved the client's own documents contradict each other. Untraced lines
+          are leads to confirm, not orders to build.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 the adversarial review -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">A fresh pair of eyes, on purpose</p>
+      <h2>Have someone who didn't write it try to break it</h2>
+      <p class="lead">The people who wrote the requirements share the same blind spots that produced
+        them. So before the phase closes, fresh reviewers &mdash; who didn't write a word of it &mdash;
+        attack the whole set from the product, quality, and security angles.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The review hunts for the things authors can't see: conflicting requirements, missing
+            failure paths, unstated assumptions, regulatory gaps. It's adversarial by design &mdash;
+            the goal is to find the holes now, cheaply, instead of in production.</p>
+          <p>For the top-priority items, this is also where <strong>error behavior</strong> gets nailed
+            down: what each operation accepts, what it returns, and what it does on every way it can
+            fail. That's where most confident-wrong builds get prevented.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The day-5 review produced two catches the authors had missed because they shared the
+            draft's blind spots:</p>
+          <div class="snippet">
+            <div class="from">Catch one &mdash; a missing failure path</div>
+            <blockquote>"The acknowledgment requirement had no plan for a bounced email &mdash; against a state rule that demands a written acknowledgment. Added a postal fallback."</blockquote>
+          </div>
+          <div class="snippet">
+            <div class="from">Catch two &mdash; a hidden conflict</div>
+            <blockquote>"A 'recommend' fast-path could let a claim sit unconfirmed past the regulatory clock. Fixed by adding the clock to the fast-path's escalation rule."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 seeing it happen — the timeline -->
+  <section class="s">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">09</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>The week, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. The week is
+          <strong>front-loaded with conversation</strong> &mdash; the open questions, the working
+          sessions, the full draft &mdash; and <strong>back-loaded with verification</strong> &mdash;
+          the priority cut, the checks, the review, the gate. Five days, assuming Phase&nbsp;0 did its
+          job. Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 1 timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 <span class="date">· handoff &amp; the plan</span></div>
+          <h3>Close the loose ends, draw the map</h3>
+          <p>The two questions Phase&nbsp;0 carried forward come due &mdash; and both get answered the
+            same day: every channel gets the 15-day acknowledgment clock (one state needs it in
+            writing), and 61% of claims turn out simple enough to fast-track. The AI drafts a candidate
+            map of the work &mdash; six big slices &mdash; and the Pod Lead corrects it and plans the
+            sessions.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 <span class="date">· elicitation</span></div>
+          <h3>Draw the requirements out of the people who do the work</h3>
+          <p>Five working sessions, the right person in each room. Crucially, not just the managers:
+            the intake clerks reveal a duplicate-claim workaround nobody had documented &mdash; the same
+            loss reported by phone and portal gets two claim numbers today. By evening, the AI has
+            structured the notes into 31 candidate requirements, each traced to its source.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 <span class="date">· the full draft</span></div>
+          <h3>The complete draft &mdash; and what it exposes</h3>
+          <p>The AI produces all 31 requirements plus 7 quality targets, each with a real way to
+            measure it. One target exposes the storm-surge gap nobody had named. The decision list
+            regenerates &mdash; nine open product calls for Luis &mdash; and the testability conscience
+            sends five vague lines back to be sharpened. A 30-minute sponsor checkpoint keeps the
+            day-5 review from holding surprises.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 <span class="date">· priorities &amp; stories</span></div>
+          <h3>The product owner does the cutting</h3>
+          <p>The 90-minute priority session: a 12-slot budget, 19 candidates, Luis ranking within it
+            and cutting seven. The work gets sequenced by what moves the goal first. Stories get written
+            under each slice with real, named stakeholders &mdash; no invented users. And the
+            top-priority items get their error behavior spelled out in full.</p>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 <span class="date">· verify, review, gate</span></div>
+          <h3>Break it, check it, sign it</h3>
+          <p>The traceability check cuts the untraced SMS requirement. Fresh reviewers attack the set
+            and find two real holes. The automated gate check runs clean. The AI drafts the handoff to
+            the design phase &mdash; decisions, open questions, risks, a recommended starting point. The
+            product owner confirms the requirements say what he meant; the sponsor sees the
+            not-in-v1 list with her own eyes. Sign-off. The engagement advances &mdash; billing
+            milestone.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 how it goes wrong -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has happened to someone. Knowing them by name is half the
+        defense &mdash; and Harbor's structure caught several of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Everything is top priority</strong></td><td>Every requirement gets stamped "must-have" and the plan means nothing</td><td>A hard budget for the top tier; the product owner ranks within it.</td><td><strong>Held</strong> &mdash; 19 candidates, 12 slots, 7 cut</td></tr>
+          <tr><td><strong>Design in disguise</strong></td><td>"Shall use a queue," "shall be microservices" written as if it were a requirement</td><td>Rewrite as the behavior that motivated it. Phase 2 chooses the how.</td><td>Behaviors only; no technology named</td></tr>
+          <tr><td><strong>The hiring doc as gospel</strong></td><td>Every line of the RFP treated as a committed requirement</td><td>It's evidence, not a baseline. Untraced lines are candidates.</td><td><strong>Caught</strong> &mdash; SMS line cut on day 5</td></tr>
+          <tr><td><strong>The untestable line</strong></td><td>"Intuitive," "robust," "fast" &mdash; nothing you can verify</td><td>The vague-line test, enforced before the line can stand.</td><td><strong>Caught</strong> &mdash; 5 of 31 sent back</td></tr>
+          <tr><td><strong>Quality-target theater</strong></td><td>Impressive numbers nobody can ever actually read</td><td>Each target names where the number gets measured.</td><td>All 7 carry a measurement basis</td></tr>
+          <tr><td><strong>Only hearing managers</strong></td><td>Every session attendee has "manager" in their title</td><td>Talk to the people who live the process daily.</td><td><strong>Caught</strong> &mdash; clerks found the dupe workaround</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase 1 is done</p>
+      <h2>You have a list precise enough to build from &mdash; and a list of what you won't</h2>
+      <p class="dim">Requirements doesn't end in a wish list. It ends with a buildable set of behaviors,
+        each with the checks that prove it, ranked within a budget, traced to the goal &mdash; and an
+        explicit record of what's out, seen by the person who'd otherwise ask "I assumed that was
+        included" in month four. Where to go next:</p>
+      <div class="next">
+        <a href="phase-2.html"><span class="t">Phase 2 &rarr;</span><span class="d">Design &mdash; how the requirements baseline becomes signed architecture decisions and the thinnest end-to-end slice built first.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 1 &mdash; roles, calendar, artifacts, the exact gate, the tooling.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase 1 · Requirements</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, gate, and the tooling specifics the Learn-it view leaves out. For the full deep-dive
+        see <a href="../phase-1-requirements.html">phase-1-requirements</a>; for the complete worked
+        example with every ID and command, <a href="../phase-1-example.html">phase-1-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase 1 answers four questions, and nothing else. Architecture, technology selection, data
+        modeling, and estimation are deliberately out of scope &mdash; that work belongs to Phase 2 and
+        beyond. A requirement says <em>what</em> and <em>how well</em>, never <em>how</em>.</p>
+      <ol>
+        <li><strong>What must the system do?</strong> (functional requirements with testable acceptance criteria)</li>
+        <li><strong>How well must it do it?</strong> (non-functional requirements, each with a measurement basis)</li>
+        <li><strong>In what order does value ship?</strong> (epics sequenced against the outcome; priorities set by the PO)</li>
+        <li><strong>What is explicitly out?</strong> (scope boundaries, written down before pressure arrives)</li>
+      </ol>
+
+      <h2>The human / AI contract for this phase</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>PO sets priorities and accepts requirements; Pod Lead runs elicitation, owns requirement quality and the decision list.</td><td>Drafts the candidate epic map and requirements from the Phase 0 artifacts and corpus (every one carrying a source trace); regenerates the decision list continuously; cross-checks against the constitution and constraints; flags requirements that trace to nothing; drafts acceptance criteria and error behavior.</td><td>Claude never sets a priority, accepts a criterion, or makes a scope call. In proxy mode those are logged, not just made. Phase advance.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Pod Lead</td><td>80&ndash;100%</td><td>Runs the phase &mdash; elicitation sessions, requirement quality, the decision list, priority-session facilitation, the handoff</td></tr>
+          <tr><td>Orchestrators</td><td>30&ndash;50%</td><td>Arrive for real &mdash; structure elicitation notes into draft requirements, run read-only feasibility spikes against handoff risks, sanity-check that requirements are buildable</td></tr>
+          <tr><td>Quality Engineer</td><td>30&ndash;40%</td><td>The testability conscience &mdash; every acceptance criterion through the vague-line test, every NFR checked for a real measurement basis, the traceability structure</td></tr>
+          <tr><td>Setup Owner</td><td>30&ndash;50%</td><td>Enablement runs ahead &mdash; pipeline groundwork and Phase 3 environment prep, plus answering feasibility questions the requirements raise</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Product Owner (PO)</td><td>The whole phase &mdash; elicitation, the decision list (2-business-day clock), the priority session, sign-off</td><td>Their committed hours, fully spent &mdash; the phase the PO clause was written for</td></tr>
+          <tr><td>Domain experts</td><td>Elicitation sessions, one per epic area</td><td>60&ndash;90 min each</td></tr>
+          <tr><td>Data owner</td><td>The instrumentation epic (any metric Phase 0 showed can't be read yet)</td><td>One session</td></tr>
+          <tr><td>Compliance / security</td><td>Regulatory requirements become explicit, testable entries</td><td>One session if regulated</td></tr>
+          <tr><td>Sponsor</td><td>One mid-week checkpoint (day 3) plus the phase review; biweekly steering starts at phase end</td><td>~1.5 hours total</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><strong>Proxy mode</strong> (no client PO): the Pod Lead owns stories and priorities, every product decision goes in the decision log, and the sponsor ratifies the log at the phase review. Same calendar; the decision-list clock binds the Pod Lead instead. Add 2&ndash;3 days for ratification latency.</p>
+
+      <h2>The five-day calendar</h2>
+      <p>The default is <strong>5 business days</strong>, assuming Phase 0 did its job. It stretches to
+        8&ndash;10 when the epic count is large, the domain is heavily regulated, or proxy mode adds
+        ratification latency.</p>
+      <table>
+        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Handoff intake &amp; elicitation plan</td><td>Work the open questions Phase 0 carried; draft the candidate epic map (4&ndash;8 epics, each traced to an outcome); plan one session per epic area; orchestrators start read-only feasibility spikes</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code> agent</td></tr>
+          <tr><td>2</td><td>Elicitation</td><td>Working sessions with domain experts and the PO, one per epic area, 60&ndash;90 min; Claude preps question lists and structures notes into draft functional requirements with stable IDs and source traces</td><td>No plugin command (human sessions)</td></tr>
+          <tr><td>3</td><td>Full draft &amp; decision list</td><td>Complete draft &mdash; functional requirements with acceptance criteria, NFRs with measurement bases; decision list regenerates and the PO starts working it; QE runs the testability pass; 30-min sponsor checkpoint</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code> agent</td></tr>
+          <tr><td>4</td><td>Priorities &amp; stories</td><td>The 90-min priority session (PO ranks within the top-tier budget); epics sequenced against the outcome; user stories drafted with real stakeholders; error behavior spelled out for the top two tiers; spike results reconciled</td><td><code>/sdlc-coach</code> (stories + error specs); priority session has no plugin command</td></tr>
+          <tr><td>5</td><td>Verification, review &amp; gate</td><td>Traceability check; structured adversarial review; automated gate check; Phase 2 handoff drafted; phase review &amp; sign-off; first biweekly steering scheduled</td><td><code>/sdlc-review --adversarial</code> &rarr; <code>multi-reviewer</code>; <code>/sdlc-gate</code> &rarr; <code>check_gates.py</code>; <code>/sdlc-phase-report</code> &rarr; <code>generate_phase_report.py</code>; <code>/sdlc-next</code> &rarr; <code>advance_phase.py</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">When the PO can't keep the 2-day clock, escalate to the sponsor by name &mdash; the clock is in the SOW. When elicitation keeps finding new epics past 8, the outcome is too broad: take it to the sponsor as a scope conversation, not a longer phase.</p>
+
+      <h2>The artifacts</h2>
+      <p>All of it lands in the requirements artifacts folder of the delivery repo, committed, by the
+        gate run.</p>
+      <table>
+        <thead><tr><th>Artifact</th><th>Drafted by / Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>Functional requirements</td><td>Claude / Pod Lead (content), PO (acceptance)</td><td>Every requirement: stable ID, testable acceptance criteria that pass the vague-line test, a PO-assigned priority, a source trace, an outcome trace</td></tr>
+          <tr><td>Non-functional requirements (NFRs)</td><td>Claude / Pod Lead + QE</td><td>Every NFR has a number, a measurement method, and a named place it will be read from &mdash; no "the system shall be fast"</td></tr>
+          <tr><td>Epic map</td><td>Claude (candidates) / PO</td><td>4&ndash;8 epics, each traced to an outcome, sequenced by which moves the metric first; instrumentation epic included if the metric needs it</td></tr>
+          <tr><td>User stories</td><td>Claude (drafts) / PO</td><td>Stories under epics with real stakeholder justifications &mdash; no invented personas</td></tr>
+          <tr><td>Error behavior specs (top tiers)</td><td>Claude (drafts) / Pod Lead + QE</td><td>For every top-priority operation: what it accepts, what it returns, what it does on each failure</td></tr>
+          <tr><td>Decision list / decision log</td><td>Claude (generated) / PO (answers) or Pod Lead (proxy, ratified)</td><td>Empty, or every survivor is a numbered open question with an owner</td></tr>
+          <tr><td>Traceability matrix</td><td>Claude / QE</td><td>Requirement &rarr; source and requirement &rarr; outcome both populated for the top tiers</td></tr>
+          <tr><td>Feasibility spike notes</td><td>Orchestrators / Pod Lead</td><td>Each handoff risk verified or converted into a requirement change / design risk</td></tr>
+          <tr><td>Phase 2 handoff</td><td>Claude / Pod Lead</td><td>Summary, decisions with rationale, numbered open questions with owners, design risks, recommended starting point</td></tr>
+          <tr><td>Scope-out record</td><td>Pod Lead / Sponsor (has seen it)</td><td>The explicit not-in-v1 list, shown at the phase review</td></tr>
+          <tr><td>Narrative companion (optional)</td><td>Claude / Pod Lead (edits)</td><td>The requirements retold for stakeholders, human-edited before any client sees it</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: architecture diagrams, technology choices, data
+        models, API designs, story-level estimates, UI mockups. A requirement that names a technology
+        ("the system shall use a message queue") is design leaking upstream &mdash; rewrite it as the
+        behavior it wanted ("intake must accept submissions during downstream outages").</p>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min pod sync</td><td>Whole pod</td><td>Elicitation findings, decision-list status, spike results. Coordination, not ceremony</td></tr>
+          <tr><td>The decision-list clock</td><td>PO + Pod Lead</td><td>Every open decision visible with its age; 2-business-day turnaround per the SOW; breaches escalate to the sponsor by name</td></tr>
+          <tr><td>PO working sessions</td><td>PO + Pod Lead</td><td>2&ndash;3 across the week: elicitation (day 2), priority session (day 4), sign-off (day 5)</td></tr>
+          <tr><td>Anchor events</td><td>Per calendar</td><td>Elicitation day (2), priority session (4), gate and review (5). Move for people, never for polish</td></tr>
+          <tr><td>Biweekly steering begins</td><td>Sponsor + Pod Lead</td><td>First one at the end of this phase; from here through Build it runs every two weeks with a live demo once there's software to show</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The exit gate</h2>
+      <p>Phase 1 closes when all of these are true, verified at the phase review:</p>
+      <ul>
+        <li>The automated gate checks pass &mdash; artifacts exist, are complete, contain no placeholders</li>
+        <li>Every top-priority requirement has testable acceptance criteria, a source trace, and an outcome trace</li>
+        <li>Every non-functional requirement has a measurement basis (number, method, named source)</li>
+        <li>Every top-tier operation has its error behavior spelled out</li>
+        <li><strong>Priorities were assigned by the PO</strong> (or logged and ratified in proxy mode) &mdash; and the top tier respected its budget</li>
+        <li>The decision list is empty, or every survivor is a numbered open question with an owner and a due date</li>
+        <li>The scope-out record exists and the sponsor has seen it</li>
+        <li>The Phase 2 handoff carries the open questions under their original IDs</li>
+        <li>A named human (PO + sponsor side) approved the advance &mdash; gates report, humans decide</li>
+      </ul>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>Everything is P0.</strong> Priority inflation is the default state of nature. The defense is a budget for the top tier, enforced in the priority session &mdash; the PO ranks within it, and the pod refuses to start a phase where the budget is blown.</li>
+        <li><strong>Design wearing a requirements costume.</strong> "Shall use a queue," "shall be microservices." Each forecloses Phase 2 before it starts. Rewrite as the behavior that motivated it.</li>
+        <li><strong>The corpus treated as requirements.</strong> The RFP is evidence, not a baseline. Requirements that only trace to the RFP and were never confirmed by a human are candidates, not commitments.</li>
+        <li><strong>The untestable criterion.</strong> "Intuitive," "robust," "fast." The vague-line test exists for exactly this; the QE's testability pass is the enforcement point, not the build loop three weeks later.</li>
+        <li><strong>NFR theater.</strong> Non-functional requirements with no measurement basis are wishes. If nobody can say where the number will be read, the NFR isn't done.</li>
+        <li><strong>Silent proxy drift.</strong> In proxy mode, the pod starts making product calls without logging them &mdash; each one a liability that surfaces at the worst time. The decision log is cheap; the month-six dispute is not.</li>
+        <li><strong>Elicitation that only hears managers.</strong> The people who live the process know where the bodies are buried. If every attendee has "manager" in their title, the requirements describe the org chart's beliefs, not the work.</li>
+        <li><strong>The decision-list stall.</strong> The PO's clock slips, the pod fills the silence with guesses, and Phase 1 quietly becomes proxy mode without the rider. Escalate the clock breach instead &mdash; it's in the SOW precisely so this moment has teeth.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase 1 · Walkthrough &mdash; a companion to the <a href="../phase-1-requirements.html">Requirements phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

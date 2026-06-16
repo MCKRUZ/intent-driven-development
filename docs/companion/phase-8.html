@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 8 · Walkthrough — Deployment, explained</title>
+<meta name="description" content="An interactive walkthrough of Phase 8 (Deployment): each idea paired with the real Harbor Mutual go-live week, plus a precise reference track for the mechanics.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .viewbar, .tl-rail, .tl-nav { display: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <a href="../journey.html">The Harbor Journey</a>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../phase-8-deployment.html">Phase 8 · Deployment</a> &rsaquo; Walkthrough</p>
+    <p class="eyebrow">Phase 8 · Walkthrough</p>
+    <h1>Deployment, explained
+      <span class="sub">The week the system finally takes real traffic — and why the whole point is to make that day boring. Each idea paired with how it actually played out on a real project.</span>
+    </h1>
+  </div>
+</header>
+
+<div class="viewbar">
+  <div class="wrap">
+    <div class="toggle" role="tablist" aria-label="Choose a view">
+      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+    </div>
+    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+  </div>
+</div>
+
+<!-- ======================================================================= -->
+<!-- LEARN-IT TRACK                                                           -->
+<!-- ======================================================================= -->
+<main id="track-story" class="track active">
+
+  <!-- cold open -->
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">Months of building, and the riskiest day is the one where you change
+        <strong>nothing</strong> — you just point real customers at what you already proved.</p>
+      <p class="big" style="margin-top:18px;">Phase&nbsp;8 isn't where the system gets built.
+        It's where a named human says <strong>go</strong>, out loud, with the rollback plan on the table.</p>
+      <p class="sig">Every idea below is paired with the real thing — examples come from a fictional but fully worked engagement, Harbor Mutual, a regional insurer.</p>
+    </div>
+  </section>
+
+  <!-- 01 nothing new gets built -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Why this phase exists at all</p>
+      <h2>Go-live is a ceremony, not a scramble</h2>
+      <p class="lead">In most projects, deployment is the night everyone holds their breath: untested
+        scripts, a fresh build, surprises at 2&nbsp;a.m. In this method that drama is already spent.
+        The pipeline that will touch production has existed since the foundation was laid, and every
+        merge for months has ridden the very same rails.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Phase&nbsp;8 invents nothing. The deploy pipeline, the test environment, the
+            environment-as-code — all built earlier and exercised hundreds of times. What this week
+            <em>adds</em> is the one part a machine must never own: the decision to ship, the rehearsal
+            of failure, and a person putting their name to <strong>go</strong>.</p>
+          <p>A good Phase&nbsp;8 is boring. If it's exciting, something was skipped — the excitement
+            just means the surprises got saved for the worst possible moment.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>By go-live week, Harbor had 44 feature specs built and verified, and documentation proven
+            by use the week before. Production already existed — as infrastructure code that had simply
+            never taken a real claim.</p>
+          <div class="snippet">
+            <div class="from">Where Harbor stood entering the week</div>
+            <blockquote>"The system runs in dev and test; production exists as Bicep that has never taken a real claim. This week it takes its first."</blockquote>
+          </div>
+          <p style="margin-top:12px;">Nothing new got built to go live. The same proven thing just got
+            pointed at real customers.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Skip the rehearsal and&hellip;</div>
+        <p>The drama you didn't spend in rehearsal — where it costs an afternoon — gets spent during an
+          incident instead, where it costs minutes of downtime with an audience watching.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 the one rule -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs everything</p>
+      <h2>The machine prepares the evidence; a human says go</h2>
+      <p class="lead">This is the least code-writing phase of the whole engagement, on purpose. The AI
+        does the assembling, the running, the watching. People make the one decision that matters here
+        — and carry the accountability for it. A machine reports; a named human signs.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <ul>
+            <li><strong>Claude</strong> drafts the release notes, drafts the deploy checklist and
+              rollback steps, runs the smoke checks, and watches the first real traffic alongside the
+              humans.</li>
+            <li><strong>People</strong> decide go or no-go, pick how traffic arrives, execute the
+              promotion with their own hands, and own every result.</li>
+          </ul>
+          <p style="margin-top:12px;">What the AI <em>never</em> does: deploy to production unattended,
+            decide go or no-go, or mark its own smoke results as the final word. The go/no-go is the
+            mandatory human stop the whole standard bends around.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Through the whole week, the keyboard belonged to Harbor's people. Tom Reilly, their platform
+            engineer, executed every promotion. The production access list never included a single member
+            of the consulting pod.</p>
+          <div class="snippet resolve">
+            <div class="from">What was simply true by go-live week</div>
+            <blockquote>"The pod never touched production. Tom executed every promotion; the secrets rotated to values the pod has never seen."</blockquote>
+          </div>
+          <p style="margin-top:12px;">In a few weeks the pod leaves. So this week, every hand on the
+            keyboard is a hand that stays.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 promote, never rebuild -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">The thing that moves to production</p>
+      <h2>Promote the exact artifact you proved &mdash; never a fresh build</h2>
+      <p class="lead">There's a tempting shortcut at go-live: "let's just do a quick fresh build for
+        production." It feels harmless. It quietly puts something into production that no environment
+        has ever actually verified.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p><strong>Promotion</strong> means moving the <em>same</em> proven thing up the ladder:
+            dev&nbsp;&rarr;&nbsp;test&nbsp;&rarr;&nbsp;production. Same pipeline, same code, a different
+            target. Never a rebuild, never a hand-copy.</p>
+          <p>The moment you rebuild "real quick" for production, you've broken the chain of proof. The
+            thing customers hit is no longer the thing that passed the tests — it's an unverified system
+            wearing a verified one's badge.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The release candidate that passed every smoke check in test on Wednesday was, byte for byte,
+            the thing that took Harbor's first real claim on Thursday.</p>
+          <div class="snippet">
+            <div class="from">From the team's notes on the week</div>
+            <blockquote>"What ran in test on Wednesday is byte-for-byte what took Harbor's first claim on Thursday."</blockquote>
+          </div>
+          <p style="margin-top:12px;">The production environment itself was also promoted, not improvised
+            — provisioned from the same infrastructure code that had built dev and test.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 the rehearsed rollback -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">The plan you must have before you ship</p>
+      <h2>A rollback that has never run is a wish, not a plan</h2>
+      <p class="lead">Everybody writes a rollback procedure. Far fewer ever <em>run</em> it. A documented,
+        reviewed, never-executed rollback gets its real first test during an actual incident — the worst
+        possible time to discover it doesn't work.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Before any production promotion, the path gets rehearsed in test, for real:
+            <strong>deploy&nbsp;&rarr;&nbsp;roll&nbsp;back&nbsp;&rarr;&nbsp;redeploy</strong> — run by
+            the same hands that would run it at 2&nbsp;a.m.</p>
+          <p>And the rollback needs a written <strong>trigger</strong> — "roll back if X" — decided in
+            calm daylight, not invented mid-incident. A rollback that has never executed is a hope;
+            after the rehearsal it's a procedure with evidence.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>On Tuesday, the rehearsal rollback <strong>failed</strong>. The old app revision came back
+            up and crashed on startup — two config keys added since had moved forward independently of
+            the artifact, so the old code didn't know them.</p>
+          <div class="snippet">
+            <div class="from">Tuesday's rehearsal timeline</div>
+            <blockquote>"14:31 Execute RUNBOOK rollback to previous revision — FAIL. Previous revision crash-looped on startup."</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">The fix, then Wednesday's clean re-run</div>
+            <blockquote>"Version app configuration WITH the release artifact. Re-rehearsal: rollback to previous revision + its config — OK (3 min 52 s, old revision Healthy)."</blockquote>
+          </div>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Why Tuesday's failure was the win</div>
+        <p>A rollback that fails in rehearsal, by appointment, costs an afternoon. The same failure on
+          Thursday night is an outage with an audience. The rehearsal exists to buy failures at
+          rehearsal prices.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 the rollout shape -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">How the traffic actually arrives</p>
+      <h2>Decide how real users meet the system &mdash; the client decides, in writing, before the ceremony</h2>
+      <p class="lead">"Go live" isn't one thing. Does <em>everyone</em> switch at once? A small pilot
+        group first? Does the new system run alongside the old one for a while? That's a product and
+        operations decision — and it can't be improvised in the go/no-go meeting.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea &mdash; three shapes</div>
+          <ul>
+            <li><strong>Full cutover</strong> — everyone moves to the new system at once.</li>
+            <li><strong>Pilot cohort</strong> — a small, chosen group goes first.</li>
+            <li><strong>Parallel run</strong> — new and old run side by side for a while.</li>
+          </ul>
+          <p style="margin-top:12px;">Whichever it is, the client's product owner and operations own it,
+            in writing, <em>before</em> the ceremony — including what happens to work already in flight
+            and what the fallback is, with the conditions that trigger it.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Luis Ortega, Harbor's product owner, chose <strong>cutover at intake</strong>: from go-live,
+            every new claim in every channel enters the new system; claims already in flight finish in
+            the old process where they started. No migration — none was scoped, none sneaks in.</p>
+          <div class="decision">
+            Legacy intake stays warm as a fallback for <strong>30 days</strong> · written triggers:
+            intake error rate above 2% for 30 minutes, or verification down with the queue still growing
+          </div>
+          <p style="margin-top:12px;">Owned by a named human, in writing, in the go/no-go packet — not a
+            shrug at the meeting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 the go/no-go ceremony -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">The single most protected stop in the standard</p>
+      <h2>Every named role gets asked &mdash; and a no is cheap</h2>
+      <p class="lead">Before production, the evidence goes on the table and every named role is asked, in
+        turn: go, no, or held. The decision and its reasoning get recorded with names. This is the
+        decision the whole rule about humans deciding exists for — every release, this one and every one
+        after.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Each role answers <strong>go</strong>, <strong>no</strong>, or <strong>held</strong>. A
+            held answer names its condition, and the ceremony waits until it's met or becomes a no.
+            Anyone can say no, and a no today is cheap.</p>
+          <p>The thing to watch for is the opposite: a ceremony where nobody in the room could plausibly
+            say no, because the decision was really made days ago. That's theater — and theater here is
+            how outages get scheduled.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Wednesday, 16:00. Seven people asked by name — release manager, platform, operations,
+            security, product, quality, sponsor. Six immediate goes. Then security:</p>
+          <div class="decision">
+            <strong>Dan Kowalski (security) &mdash; Held</strong><br>
+            until the secrets-rotation record was <em>attached</em> to the packet, not merely referenced
+            &mdash; then go
+          </div>
+          <p style="margin-top:12px;">Five minutes of friction — exactly the kind the ceremony exists to
+            make cheap. A go/no-go where friction is unwelcome is the theater to fear.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The failure mode to watch</div>
+        <p>Go/no-go theater: the meeting exists to nod. The tell is that nobody could plausibly say no.
+          Make the no cheap and the evidence real, or the ceremony protects nothing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 release notes from merged specs -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Telling people what shipped</p>
+      <h2>Release notes assemble themselves from the specs you already merged</h2>
+      <p class="lead">Release notes are usually written from memory at the last minute, and they show it.
+        Here they don't have to be — because every feature shipped this engagement was a written spec
+        with a goal and acceptance checks. The raw material already exists.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>The AI drafts the release notes from the merged specs, then translates them for an audience
+            that never saw a spec: what's new, what's fixed, what's <em>not</em> in this release, and
+            what (if anything) users must do differently.</p>
+          <p>The same applies to the deploy checklist and rollback steps — drafted from the runbook the
+            documentation phase already proved, with every step given an expected outcome and a way to
+            verify it.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The release notes were drafted from the 45 merged specs, then refreshed mid-week after one
+            more spec (the rollback fix) merged. They went to Harbor's stakeholders plainly written:</p>
+          <div class="snippet">
+            <div class="from">What the notes covered</div>
+            <blockquote>"What the new intake does, what changes for the claims office, what is not in this release (auto-insurance, adjuster-initiated merges), and the acknowledgment clock now enforced by the system rather than by vigilance."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 verify production is real -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Proving production is actually healthy</p>
+      <h2>Check it for real &mdash; without the check itself causing the incident</h2>
+      <p class="lead">A deploy that "succeeded" isn't proof the system works. You verify it — but the
+        verification of a day-old production system must never be the thing that corrupts it. So the
+        checks are reads and harmless writes only.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>A <strong>smoke test</strong> is a fast, non-destructive check that the deployed system
+            actually works — one journey per top-priority user story. If it can corrupt real data, it
+            isn't a smoke test.</p>
+          <p>Two more things must be true: monitoring is <em>receiving</em> real data (tuning the alerts
+            comes later, but flying blind is unacceptable), and the very first real transactions get
+            watched end to end by the people who own the outcome.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>Production smoke ran green at 07:25 through test-mode paths — no real letters dispatched, no
+            real records left behind. Then at 08:14 the first real claim arrived, watched end to end:</p>
+          <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">3h&nbsp;6m</span>
+            <small>median days-to-decision baseline &rarr; the first production claim, end to end</small></div>
+          <p style="margin-top:14px;">Steering heard "<em>data point</em>," not "result" — one good day
+            is not a median. The credibility spent overclaiming week one never comes back.</p>
+        </div>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">The trap to avoid</div>
+        <p>A destructive smoke test that writes real records into a day-old production system. Then the
+          verification step is the incident. Reads and harmless writes through the test-mode paths only.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 seeing it happen — the timeline -->
+  <section class="s">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">09</span>
+        <p class="kicker">Now watch the whole thing happen</p>
+        <h2>Go-live week, end to end</h2>
+        <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. Five business days, with
+          go-live deliberately mid-week — never the last day before a weekend, because the day
+          <em>after</em> go-live is a working day for finding what go-live shook loose. Step through it.</p>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 8 timeline" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Mon">
+          <div class="day">Monday <span class="date">· checklist, secrets, rollout shape</span></div>
+          <h3>Set the table before anyone deploys</h3>
+          <p>The deploy checklist gets walked top to bottom and the production access list cut to least
+            privilege. Every secret the pod ever touched gets rotated to values the pod can't read —
+            Harbor's security signs it. And the product owner decides the rollout shape: cutover at
+            intake, with a 30-day warm fallback and written triggers.</p>
+        </div>
+
+        <div class="tl-step" data-day="Tue">
+          <div class="day">Tuesday <span class="date">· promote the env, rehearse the failure</span></div>
+          <h3>The day the rollback failed &mdash; on purpose, in test</h3>
+          <p>Production provisions from the same infrastructure code that built dev and test. Then the
+            rehearsal in test: deploy, roll back, redeploy — by the hands that would run it for real. The
+            rollback failed. That's Tuesday doing its job: the fix rode the loop, the runbook got
+            corrected, and the cause is gone before it could ever reach production.</p>
+        </div>
+
+        <div class="tl-step" data-day="Wed">
+          <div class="day">Wednesday <span class="date">· dress rehearsal &amp; the ceremony</span></div>
+          <h3>A clean run, then seven names on a decision</h3>
+          <p>The candidate promotes to test through the full procedure; the smoke suite runs green, one
+            journey per top-priority story. Then at 16:00 the go/no-go: the evidence packet on screen,
+            seven roles asked in turn. Security held until a record was attached, then go. Seven goes,
+            recorded with names. Window set: Thursday 07:00.</p>
+        </div>
+
+        <div class="tl-step" data-day="Thu">
+          <div class="day">Thursday <span class="date">· go-live</span></div>
+          <h3>The same artifact, now taking real claims</h3>
+          <p>07:00, the promotion runs — Tom executes, the release manager calls each step. The same
+            artifact that passed test goes to production. 07:25, production smoke green through test-mode
+            paths; monitoring confirmed receiving. 08:14, the first real claim: a burst pipe, traced end
+            to end, a coverage recommendation 3 hours 6 minutes after it was reported.</p>
+        </div>
+
+        <div class="tl-step" data-day="Fri">
+          <div class="day">Friday <span class="date">· hypercare day one, then the gate</span></div>
+          <h3>Watch it live, then close the phase</h3>
+          <p>The two-week hypercare window opens — Harbor's operators driving, the pod beside them. Day
+            one surfaces one finding (a retry burst during a vendor blip — no claim affected), logged as
+            a Phase&nbsp;9 alert candidate. Release notes go out. The gate passes; the sponsor signs at
+            steering with the first production numbers and an honest caveat. Billing milestone six.</p>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 how it goes wrong -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">How it goes wrong</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">Every one of these has scheduled an outage somewhere. Knowing them by name is half
+        the defense — and Harbor's structure caught two of them in the act.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor</th></tr></thead>
+        <tbody>
+          <tr><td><strong>The Friday deploy</strong></td><td>Going live the last day before a weekend, so the system's first hard day happens with nobody watching</td><td>Go live mid-week; the day after go-live is a working day on purpose.</td><td>Go-live Thursday, hypercare Friday</td></tr>
+          <tr><td><strong>The rollback only ever written</strong></td><td>Documented, reviewed, never run — then executed for the first time during an incident</td><td>Rehearse it in test, by the client's own hands, before the ceremony.</td><td><strong>Caught</strong> — the Tuesday rehearsal failure</td></tr>
+          <tr><td><strong>Go/no-go theater</strong></td><td>The decision was really made days ago; the meeting exists to nod</td><td>Make the no cheap and the evidence real, or the ceremony protects nothing.</td><td>Security held until a record was attached</td></tr>
+          <tr><td><strong>The rebuilt artifact</strong></td><td>A fresh build "real quick" for prod instead of the promoted one that passed test</td><td>Promote, never rebuild — the same artifact moves up.</td><td>Byte-for-byte the tested candidate</td></tr>
+          <tr><td><strong>Destructive smoke tests</strong></td><td>A verification step that writes real records into a day-old production system</td><td>Reads and harmless writes through the test-mode paths built for this.</td><td>Test-mode paths only, no real records</td></tr>
+          <tr><td><strong>Scope through the deploy door</strong></td><td>"While we're at it, migrate the old claims" — a migration nobody scoped</td><td>If it wasn't scoped, it isn't in this release.</td><td>Cutover at intake; in-flight claims drain in legacy</td></tr>
+          <tr><td><strong>Hypercare as a courtesy</strong></td><td>Treating the post-go-live window as optional goodwill</td><td>It's part of the deployment — the cheapest learning the engagement gets.</td><td>Two-week window, operators driving</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- close -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">When Phase 8 is done</p>
+      <h2>The system is live &mdash; and the clock is finally real</h2>
+      <p class="dim">Deployment ends with the rollback rehearsed, a recorded go, the proven artifact in
+        production, smoke green against live endpoints, and monitoring receiving real data. The success
+        metric stops being instrumentation and starts being traffic — the first true numbers on the
+        clock the client hired you to fix. Where to go next:</p>
+      <div class="next">
+        <a href="phase-9.html"><span class="t">Phase 9 &rarr;</span><span class="d">Monitoring &mdash; alert thresholds from real baselines, the drill, and the retrospective.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 8 &mdash; roles, the five-day calendar, artifacts, the exact gate.</span></a>
+        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- REFERENCE TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reference" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+
+      <p class="kicker">Reference · Phase 8 · Deployment</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, and gate, including the tooling specifics the Learn-it view leaves out. For the full
+        deep-dive see <a href="../phase-8-deployment.html">phase-8-deployment</a>; for the complete
+        worked example with every ID and command, <a href="../phase-8-example.html">phase-8-example</a>.</p>
+
+      <h2>The four questions</h2>
+      <p>Phase 8 answers four questions, and nothing else. New features, alert tuning, and
+        incident-response drills are out of scope; data migration is in scope only if the engagement
+        explicitly scoped it.</p>
+      <ol>
+        <li><strong>Is the path to production proven?</strong> (deploy &rarr; roll back &rarr; redeploy, rehearsed in test &mdash; a rollback that has never run is a wish)</li>
+        <li><strong>Is the rollout shape decided and owned?</strong> (cutover, pilot, or parallel run &mdash; chosen by the client, with trigger conditions written down)</li>
+        <li><strong>Did a named human say go?</strong> (the ceremony: evidence presented, every role asked, the decision recorded)</li>
+        <li><strong>Is production verifiably healthy?</strong> (smoke green against live endpoints, monitoring receiving real data, first real traffic watched end to end)</li>
+      </ol>
+
+      <h2>The human / AI contract for this phase</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>The client's platform engineer executes the promotion and the rehearsal with their own permissions. The release manager owns the checklist; the product owner owns the rollout shape; every named role answers at the go/no-go.</td><td>Drafts release notes from the merged specs; drafts the deploy checklist and rollback procedure from the proven RUNBOOK; runs the smoke suite against test and production and reports per journey; watches the first real traffic alongside the humans.</td><td>The go/no-go decision is human-owned &mdash; always, every release. Claude never deploys to production unattended, decides go/no-go, picks the rollout shape, or marks its own smoke results final. Phase advance.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Who is involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Setup Owner</td><td>80&ndash;100%</td><td>The release manager &mdash; owns the checklist, the rehearsal, the secrets rotation, the promote decision at the ceremony. Pairs with the client's platform engineer who executes</td></tr>
+          <tr><td>Quality Engineer</td><td>60&ndash;80%</td><td>Owns the smoke suite (one journey per top-priority story, non-destructive), the rehearsal evidence, and the production verification after go-live</td></tr>
+          <tr><td>Pod Lead</td><td>40&ndash;60%</td><td>Owns the go/no-go ceremony &mdash; the roles, the evidence packet, the recorded decision. Routes the rollout-shape decision to the client. Runs steering</td></tr>
+          <tr><td>Orchestrators</td><td>20&ndash;40%</td><td>Draft the release notes and checklist; fix anything the rehearsal surfaces &mdash; through the loop, like any change</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Platform / DevOps engineer</td><td>Executes the rehearsal and the production promotion with their own permissions &mdash; the pod beside them, not on the keyboard</td><td>The week, on and off</td></tr>
+          <tr><td>Product Owner</td><td>The rollout shape: who gets the new system, when, and what happens to work in flight. Decided before the ceremony</td><td>2&ndash;3 hours</td></tr>
+          <tr><td>Security</td><td>Signs the secrets rotation and the production access list; sits in the ceremony</td><td>1&ndash;2 hours</td></tr>
+          <tr><td>Operations / on-call</td><td>Walk the rollback themselves in rehearsal week, sit in the ceremony, drive during hypercare</td><td>3&ndash;4 hours</td></tr>
+          <tr><td>Sponsor</td><td>The go/no-go (informed, and asked) and the gate steering</td><td>1&ndash;2 hours</td></tr>
+        </tbody>
+      </table>
+      <p class="note">If the client's operators cannot make rehearsal week, the deployment moves &mdash; not the rehearsal. Going live ahead of the people who will run the system is how a successful deploy becomes next month's incident.</p>
+
+      <h2>The five-day calendar</h2>
+      <p>The default is five business days, with go-live mid-week &mdash; never the last day before a
+        weekend. It stretches when the rehearsal fails (good &mdash; that is its job) or the client's
+        change-control board adds latency.</p>
+      <table>
+        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Checklist, secrets, rollout shape</td><td>Checklist walked; production access list cut to least privilege; secrets rotated to production-only values the pod can't read, signed by client security; rollout-shape session (cutover/pilot/parallel, in-flight answer, fallback + triggers); hypercare window agreed</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>2</td><td>Promote env, rehearse failure</td><td>Production provisioned from infrastructure code (HIGH-risk review, client engineer executes); the rehearsal in test &mdash; deploy &rarr; roll back &rarr; redeploy by the client's own hands; anything broken fixed through the loop and re-rehearsed</td><td>&mdash; (rehearsal is human; fixes ride the loop)</td></tr>
+          <tr><td>3</td><td>Dress rehearsal &amp; ceremony</td><td>Candidate deploys to test through the full procedure; smoke suite runs (one journey per top-priority story, non-destructive); the go/no-go ceremony &mdash; evidence packet on the table, every role asked, decision recorded with names</td><td><code>/e2e</code>, <code>/visual-explainer</code></td></tr>
+          <tr><td>4</td><td>Go-live</td><td>Promotion runs in the agreed window (client engineer executes, release manager calls steps); same artifact promoted, not rebuilt; production smoke green via test-mode paths; monitoring confirmed receiving; first real traffic traced end to end</td><td><code>/e2e</code></td></tr>
+          <tr><td>5</td><td>Hypercare day one, then the gate</td><td>Hypercare window opens (operators driving, pod beside); release notes go out; automated gate check; Phase 9 handoff drafted; steering with the gate sign-off and the first production numbers on the scorecard</td><td><code>/sdlc-gate</code>, <code>/sdlc-phase-report</code>, <code>/sdlc-next</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">When the rehearsal fails, fix it through the loop, re-rehearse, and move the window &mdash; never promote past a failed rehearsal. When change control adds a board, surface the latency at steering; don't absorb it.</p>
+
+      <h2>The artifacts</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Drafted by</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>Release notes</td><td>Claude (from the merged specs)</td><td>Pod Lead</td><td>Readable by people who never saw a spec: features, fixes, limitations, what changes for users</td></tr>
+          <tr><td>Deployment checklist</td><td>Claude (from the proven RUNBOOK)</td><td>Setup Owner</td><td>Every step ordered, observable, and verified in rehearsal; sign-off lines for the ceremony roles</td></tr>
+          <tr><td>Rollback procedure + evidence</td><td>Claude (drafts), client ops (executes)</td><td>Setup Owner</td><td>Executed in test by the client's own operators &mdash; deploy, roll back, redeploy &mdash; with the trigger condition written down</td></tr>
+          <tr><td>Rollout-shape decision</td><td>Product owner + operations</td><td>Product Owner</td><td>Cutover/pilot/parallel chosen; in-flight work answered; fallback and trigger conditions recorded</td></tr>
+          <tr><td>Smoke results (test + prod)</td><td>Claude (runs), QE (owns)</td><td>Quality Engineer</td><td>One non-destructive journey per top-priority story, green in both environments, results recorded per test</td></tr>
+          <tr><td>The go/no-go record</td><td>Pod Lead</td><td>Pod Lead</td><td>Every named role asked and answered, decision and rationale recorded &mdash; the durable proof a human said go</td></tr>
+          <tr><td>Secrets rotation record</td><td>Setup Owner + client security</td><td>Client security</td><td>Production secrets rotated to values the pod never held; signed</td></tr>
+          <tr><td>Phase 9 handoff</td><td>Claude (drafts)</td><td>Pod Lead</td><td>Deployment summary, system state, monitoring requirements, known issues, escalation contacts</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: alert definitions and thresholds (Phase 9 sets them
+        against real baseline data), new features of any kind, and any data migration that was not
+        explicitly scoped &mdash; the deployment door is not where scope arrives.</p>
+
+      <h2>The cadences</h2>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min pod sync</td><td>Whole pod</td><td>Checklist state, rehearsal findings, the window countdown</td></tr>
+          <tr><td>The rehearsal</td><td>Client platform + ops, pod beside them</td><td>Deploy &rarr; roll back &rarr; redeploy in test, by the hands that will own it</td></tr>
+          <tr><td>The go/no-go ceremony</td><td>All named roles</td><td>Evidence presented, every role asked, decision recorded &mdash; the phase's defining event</td></tr>
+          <tr><td>Hypercare</td><td>Client operators driving, pod beside</td><td>The agreed post-go-live window: dashboards open, findings triaged into the loop or Phase 9</td></tr>
+          <tr><td>Steering</td><td>Sponsor + Pod Lead</td><td>Falls at the gate: the deployment record and the first production numbers on the outcome scorecard</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The exit gate</h2>
+      <p>Phase 8 closes when all of these are true:</p>
+      <ul>
+        <li>The rollback was executed in test by the client's own operators &mdash; deploy, roll back, redeploy &mdash; before any production promotion</li>
+        <li>The production environment was provisioned from code and the secrets rotated to values the pod never held, signed by client security</li>
+        <li><strong>The rollout shape is decided, written, and owned by the client</strong> &mdash; including the in-flight-work answer and the fallback trigger</li>
+        <li><strong>A recorded go/no-go happened</strong> &mdash; every named role asked, the decision and rationale on record <em>(the most protected stop)</em></li>
+        <li>Production deployment succeeded through the pipeline &mdash; the same artifact that passed test, promoted, not rebuilt</li>
+        <li>Production smoke tests passed: one non-destructive journey per top-priority story</li>
+        <li>Monitoring is receiving production data (tuning comes in Phase 9; blind does not)</li>
+        <li>The first real traffic was traced end to end and matched expected behavior</li>
+        <li>Hypercare is underway on its agreed window, and release notes went to stakeholders</li>
+        <li>The Phase 9 handoff exists: state, monitoring requirements, known issues, escalation contacts</li>
+        <li>A named human on each side approved the advance &mdash; gates report, humans decide</li>
+      </ul>
+      <p class="note">The go/no-go is the single most protected stop in the standard. A ceremony where nobody could plausibly say no is theater &mdash; and theater here is how outages get scheduled.</p>
+
+      <h2>What goes wrong</h2>
+      <ul>
+        <li><strong>The Friday deploy.</strong> Going live the last day before a weekend, so the system's first hard day happens with nobody watching. Go live mid-week.</li>
+        <li><strong>The rollback that was only ever written.</strong> Documented, reviewed, never run &mdash; then executed for the first time during an incident. Rehearse it in test, by the client's own hands.</li>
+        <li><strong>Go/no-go theater.</strong> The decision was really made days ago; the meeting exists to nod. The tell: nobody could plausibly say no.</li>
+        <li><strong>The rebuilt artifact.</strong> A fresh build "real quick" for prod instead of the promoted artifact that passed test. Promote, never rebuild.</li>
+        <li><strong>Destructive smoke tests.</strong> A verification step that writes real records into a day-old production system. Reads and harmless writes through the test-mode paths only.</li>
+        <li><strong>Deploying ahead of the operators.</strong> The system goes live before the people who run it have rehearsed. The date moves; the rehearsal doesn't.</li>
+        <li><strong>Scope through the deployment door.</strong> "While we're at it, migrate the old claims" &mdash; a migration nobody scoped. If it wasn't scoped, it isn't in this release.</li>
+        <li><strong>Hypercare as a courtesy.</strong> Treating the post-go-live window as optional goodwill. It's the cheapest learning the engagement will ever get.</li>
+      </ul>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    Phase 8 · Walkthrough &mdash; a companion to the <a href="../phase-8-deployment.html">Deployment phase</a> ·
+    Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
