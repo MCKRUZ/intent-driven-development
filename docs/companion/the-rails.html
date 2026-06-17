@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Rails · Walkthrough — CI/CD, explained</title>
-<meta name="description" content="An interactive walkthrough of The Rails (the CI/CD &amp; DevOps pipeline every change rides): each idea paired with the real Harbor Mutual example, plus a precise reference track for the mechanics.">
+<title>The Rails · CI/CD — how it works, worked, and referenced</title>
+<meta name="description" content="The Rails (the CI/CD &amp; DevOps pipeline every change rides) on one page: How it works (the idea beside the real example, expand for the full method), the complete Harbor Mutual worked Example, and a precise Reference.">
 <link rel="stylesheet" href="styles.css">
 <noscript><style>
   .track { display: block !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .viewbar, .tl-rail, .tl-nav { display: none !important; }
+  .deeper { open: true; }
 </style></noscript>
 </head>
 <body>
@@ -42,14 +43,11 @@
     </div>
   </details>
 </div>
+
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="build-loop.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">← Build Loop</a>
+    <a href="build-loop.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; The Build Loop</a>
     <span style="font-weight:700;color:#1a2332;">The Rails · CI/CD</span>
-    <span style="color:#46556b;">View:</span>
-    <a href="the-rails.html" style="color:#1a2332;text-decoration:none;font-weight:800;border-bottom:2px solid #0f5c8c;">Walkthrough</a>
-    <a href="../the-rails.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">Deep-dive</a>
-    <a href="../the-rails-example.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">Example</a>
     <a href="phase-7.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase 7 →</a>
   </div>
 </div>
@@ -58,10 +56,10 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; <a href="../the-rails.html">The Rails · CI/CD</a> &rsaquo; Walkthrough</p>
-    <p class="eyebrow">The Rails · Walkthrough</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; The Rails · CI/CD</p>
+    <p class="eyebrow">The Rails · CI/CD</p>
     <h1>The rails, explained
-      <span class="sub">The pipeline every agent-built change rides — why it exists, what it blocks, and how it lets you move fast without trusting a machine's word for anything.</span>
+      <span class="sub">The pipeline every agent-built change rides — the idea beside the real example (expand any section for the full method), the complete worked example, and a precise reference.</span>
     </h1>
   </div>
 </header>
@@ -69,17 +67,18 @@
 <div class="viewbar">
   <div class="wrap">
     <div class="toggle" role="tablist" aria-label="Choose a view">
-      <button data-view="story" role="tab" aria-selected="true">Learn it</button>
+      <button data-view="glance" role="tab" aria-selected="true">How it works</button>
+      <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>Learn it</strong> = the idea next to the real example. <strong>Reference</strong> = the precise mechanics.</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor episodes · <strong>Reference</strong> the precise mechanics</span>
   </div>
 </div>
 
 <!-- ======================================================================= -->
-<!-- LEARN-IT TRACK                                                           -->
+<!-- HOW-IT-WORKS TRACK                                                       -->
 <!-- ======================================================================= -->
-<main id="track-story" class="track active">
+<main id="track-glance" class="track active">
 
   <!-- cold open -->
   <section class="hook">
@@ -130,6 +129,36 @@
         <p>You're trusting the agent's word that each change is safe. The first time it's confidently
           wrong about something that touches real customer data, you find out in production.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>The rails are not a phase. They get <strong>built</strong> in Phase 3 (the factory), they
+            run under <strong>every</strong> change all through Build, the same artifact gets
+            <strong>promoted</strong> to production in Phase 8, and they get <strong>watched</strong> in
+            Phase 9. The pipeline is a standing standard: the workflows, the merge bar, the
+            deploy-and-promote path, the infrastructure pipeline, the agents that work inside the
+            pipeline &mdash; and the one principle that governs all of it.</p>
+          <p>That principle is the whole reason agent-built software can be trusted to ship at all:
+            <strong>the agent proposes, a gate disposes.</strong> An agent investigates, plans, and
+            produces a change as a reviewable artifact &mdash; a branch and a pull request, an
+            infrastructure plan, a fix suggestion &mdash; but a deterministic policy layer plus a named
+            human decides whether that change ever takes effect. This is not our invention. It is what
+            every mature agentic-DevOps system in the industry converged on, independently, by 2026:
+            none of them lets an agent merge to a protected branch or apply destructive infrastructure
+            unsupervised. The rails are where that rule stops being a good intention and becomes a fact
+            about the world.</p>
+          <div class="aha">
+            <div class="lbl">The gates at a glance</div>
+            <p>Four workflows, plus the branch protection that makes them mandatory. <strong>ci</strong>
+              &mdash; build/test/lint/coverage &mdash; <em>hard block</em>. <strong>grader</strong>
+              &mdash; a fresh agent's check-by-check verdict against the spec &mdash; <em>required to
+              run; advises, never blocks</em>. <strong>security</strong> &mdash; the security-reviewer
+              agent, on a <code>risk:high</code> label or any guarded path &mdash; <em>blocks on
+              HIGH</em>. <strong>deploy-dev</strong> &mdash; ships the merged artifact to dev and rolls
+              back on a failed deploy. All four ride one rule: the agent proposes, a gate disposes.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -177,6 +206,42 @@
           </div>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Strip away the vendor names and every working agentic-DevOps system in 2025&ndash;2026 is the
+            same shape. The agent does the investigating, planning, and producing. It stops at a
+            <strong>reviewable artifact</strong>. A deterministic policy layer plus a human decides
+            whether the artifact takes effect. The agent never has the last word on a protected resource.
+            We did not adopt it because the industry did; we arrived at it for the same reason they did
+            &mdash; it is the only rule that holds when the agent is wrong, and a probabilistic actor is
+            sometimes wrong. This is the same sentence that runs through the whole standard &mdash;
+            <strong>gates report, humans decide</strong> &mdash; mechanically enforced rather than merely
+            intended.</p>
+          <p>Three corollaries fall out of the principle. Each one is a design rule for the rails, not a
+            nicety:</p>
+          <ul>
+            <li><strong>Mechanical self-validation is mandatory.</strong> Before an agent surfaces a
+              change as done, it must re-run the build, the tests, the linters from the environment
+              itself and prove them green &mdash; not assert success, prove it. This is exactly what the
+              Stop hook is: the agent cannot end its turn on a red test or a broken build. An agent's
+              claim that something works is an opinion; the environment's green is ground truth.</li>
+            <li><strong>A bounded tool surface beats raw access.</strong> An agent given named,
+              constrained tools (read a file, write a file, run the tests, run the linter) outperforms
+              &mdash; and is far safer than &mdash; an agent handed the whole filesystem and a shell with
+              "fix it." The constraint is what makes the agent's behavior legible and its blast radius
+              small.</li>
+            <li><strong>Autonomy is graded, and it widens slowly.</strong> A new piece of agent
+              automation starts in a <em>propose-and-approve</em> posture and only graduates to a tighter
+              loop after its behavior has been watched and trusted on real work. The risk of agentic
+              systems is almost never the model being dumb; it is granting too much autonomy too quickly.</li>
+          </ul>
+          <p class="note">Underneath all three: <strong>identity is the real guardrail.</strong> What an
+            agent can do is bounded by the permissions of the credential it runs under, not by the words
+            in its prompt. When a prompt fails &mdash; and prompts fail &mdash; the identity is what is
+            still holding.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -216,6 +281,24 @@
         <p>Every other gate assumes the basics already pass. The self-check is what makes "the tests are
           green" mean something &mdash; the agent couldn't have stopped otherwise.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Mechanical self-validation is the first corollary of <em>agent proposes, gate disposes</em>.
+            Before an agent surfaces a change as done, it re-runs the build, the tests, and the linters
+            from the environment itself and proves them green. This is the <strong>Stop hook</strong>: a
+            script that fires when an agent tries to finish its turn. If tests fail or the build is
+            broken, it refuses to let the agent stop. "Done" stops being the agent's opinion.</p>
+          <p>The same discipline applies to agents working <em>inside</em> the pipeline. A self-healing
+            CI agent does not get to claim the pipeline is fixed &mdash; it re-runs the tests and the
+            lint from the environment and proves green before it surfaces a fix. A proposed fix the agent
+            has not validated against the environment is not a fix; it is a guess wearing a green
+            checkmark.</p>
+          <p>The Stop hook is also the first rail proven by deliberate failure: before Foundation closes,
+            a failing test is planted to confirm the hook actually blocks an agent from finishing. A rail
+            that has only ever seen green has not been tested; it has been assumed.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -262,6 +345,33 @@
           So the grader surfaces the truth and hands it to a person who owns the call. The machine
           informs; it never decides.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>The rails are four workflows in the repo, plus the branch protection that makes them
+            mandatory. Each one is clear about whether it <strong>blocks</strong> (a hard gate, a
+            machine's call) or <strong>advises</strong> (an input to a human's call).</p>
+          <table>
+            <thead><tr><th>Workflow</th><th>Fires on</th><th>Blocks or advises</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><code>ci</code></td><td>every PR</td><td><strong>Blocks</strong> (hard gate)</td><td>Build, tests, lint, 80% coverage on new code. The mechanical floor &mdash; a red CI is a closed door.</td></tr>
+              <tr><td><code>grader</code></td><td>every PR</td><td><strong>Advises</strong> (required to run, can't block)</td><td>A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment. "The grader ran" is required; <em>what</em> it said is the human Checker's input.</td></tr>
+              <tr><td><code>security</code></td><td>the <code>risk:high</code> label <strong>or</strong> any PR touching a registered gated path</td><td><strong>Blocks</strong> on HIGH; advises otherwise</td><td>Runs the security-reviewer agent. Path-triggered: fires on any PR touching a guarded path (auth, migrations, the pipeline, infra), independent of the spec's tier.</td></tr>
+              <tr><td><code>deploy-dev</code></td><td>merge to main</td><td>n/a (it ships)</td><td>Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails.</td></tr>
+            </tbody>
+          </table>
+          <p><strong>The grader advises; it never blocks.</strong> It is tempting to let a confident AI
+            verdict gate the merge. We do not, and the reason is in the threat model: a polished,
+            plausible explanation is exactly how an agent talks a human into approving harm. The grader's
+            job is to surface the check-by-check truth &mdash; including the hole the author was blind to
+            &mdash; and hand it to a person who owns the decision.</p>
+          <p class="note"><strong>The security gate is path-triggered, not just tier-triggered.</strong>
+            A change can be tiered MEDIUM and still touch the auth code, the migration folder, or the
+            pipeline YAML. Registering a guarded path with the security workflow makes it run on
+            <em>any</em> PR touching that path, in addition to firing on the <code>risk:high</code>
+            label. The gate is the workflow plus the path registration.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -308,6 +418,38 @@
           label, and a retro item. Two of those in a month isn't bad luck &mdash; it means the gate or
           the specs are wrong. Fix that; don't normalize the bypass.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Branch protection is what turns four workflows from suggestions into rails. It is repository
+            configuration &mdash; set by the Setup Owner or a named client admin &mdash; and it makes the
+            gates mandatory at the one moment that matters: the merge.</p>
+          <p>Every PR, to merge, must clear:</p>
+          <ul>
+            <li><strong>CI green</strong> &mdash; build, tests, lint, coverage all passing. Hard block.</li>
+            <li><strong>The grader has run</strong> &mdash; the workflow completed and posted. The
+              verdict can say anything; the running is required.</li>
+            <li><strong>A non-author approval</strong> &mdash; someone who did not write the change
+              approved it. The author is never their own only approver; this survives even a two-person
+              pod.</li>
+          </ul>
+          <p>A <code>risk:high</code> change adds two more:</p>
+          <ul>
+            <li><strong>The security workflow passed</strong> &mdash; the security-reviewer agent's pass,
+              blocking on HIGH.</li>
+            <li><strong>A named human sign-off recorded in the PR</strong> &mdash; a person, by name,
+              accepting the risk. A recorded sentence, not a thumbs-up.</li>
+          </ul>
+          <p>Constraints on the agent, enforced by the platform, not by trust: it pushes
+            <strong>only to branches it creates</strong> (<code>spec/NNNN-*</code>), never to main; it
+            <strong>cannot approve or merge its own work</strong>; every commit it makes is
+            <strong>co-authored</strong>, so provenance is in the history.</p>
+          <p class="note">The one escape hatch is deliberately expensive: a true-emergency merge past a
+            gate requires the Pod Lead plus one other human, an exception label, and a Retro+ agenda
+            item. Two exceptions in a month means the gate or the specs are wrong &mdash; fix that, don't
+            normalize the bypass.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -354,6 +496,33 @@
             <small>old baseline &rarr; the first real claim's coverage recommendation after go-live</small></div>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>A merge is not a deploy to production. The rails move a change up through environments, and
+            the gap between "merged" and "in production" is where the most important word lives:
+            <strong>promotion.</strong></p>
+          <ul>
+            <li><strong>Merge &rarr; dev, automatically.</strong> The <code>deploy-dev</code> workflow
+              ships every merged change to dev with no human in the loop &mdash; the merge already
+              cleared the bar, and dev is the safe place for the rails to be exercised constantly.</li>
+            <li><strong>Dev &rarr; test, on demand.</strong> Promoted deliberately, smoke-tested on
+              arrival. The test environment is added at the first hardening pass, not in Phase 3.</li>
+            <li><strong>Test &rarr; prod, by ceremony.</strong> The first promotion is the Phase 8
+              go/no-go: evidence on the table, every named role asked, a human saying <strong>go</strong>
+              out loud, on the record. Every promotion after rides the client's release cadence &mdash;
+              and a human go/no-go <strong>every</strong> time. The single most protected stop in the
+              standard.</li>
+          </ul>
+          <p><strong>Promote the artifact; never rebuild it.</strong> The same build that passed test
+            goes to production &mdash; promoted, not freshly compiled "real quick." A rebuilt artifact is
+            something no environment ever verified, running in the one environment where that matters.</p>
+          <p><strong>A rollback that has never run is a wish.</strong> The deploy pipeline restores the
+            last good version on a failed deploy &mdash; and that path is rehearsed in test
+            (deploy &rarr; roll back &rarr; redeploy) with the trigger condition written down in advance,
+            not invented mid-incident. A rail that has never failed safely has not been proven.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -403,6 +572,32 @@
           with no human reading the dry-run first. Every read-only step exists for exactly this. Never
           auto-apply a destructive change.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Infrastructure is code, it lives in the repo, and it is <strong>HIGH risk every time</strong>
+            &mdash; because it is hard to undo and it runs in production later. The agent-safe IaC
+            pipeline is a read-only-until-the-last-step funnel:</p>
+          <table>
+            <thead><tr><th>Step</th><th>What runs</th><th>Blocks?</th></tr></thead>
+            <tbody>
+              <tr><td>Schema validate</td><td><code>bicep build</code> against the resource schema</td><td>Hard block on a malformed template</td></tr>
+              <tr><td>Policy-as-code</td><td>PSRule for Azure (public access, encryption, tags, region)</td><td>Hard block on a policy violation</td></tr>
+              <tr><td>Dry-run</td><td><code>bicep what-if</code> &mdash; the exact change preview</td><td>Posted to the PR; a human reads it</td></tr>
+              <tr><td>Cost / budget review</td><td>The price of the diff on the PR</td><td>Can block on a budget breach</td></tr>
+              <tr><td>Approval</td><td>A named human approves the what-if and the policy result</td><td>Required to proceed</td></tr>
+              <tr><td>Apply</td><td>Scoped, least-privilege deploy identity</td><td>&mdash; (the only step that changes cloud)</td></tr>
+              <tr><td>Drift assessment</td><td>Scheduled real-infra-vs-code compare</td><td>Opens a remediation PR; never auto-applies</td></tr>
+            </tbody>
+          </table>
+          <p class="note">Every step before the apply is read-only &mdash; the agent and the pipeline can
+            do all the thinking, validating, and previewing they want, and nothing changes until a human
+            has read the dry-run and a least-privilege identity executes a scoped apply. The default
+            profile is .NET/Azure (Bicep); the pattern is stack-independent. A destructive
+            <code>apply</code> an agent runs unattended is the one mistake on this page with no clean
+            undo.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -443,6 +638,32 @@
             with the pod having never known a production secret.</p>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Every actor that touches the rails &mdash; human or agent &mdash; runs under its own
+            credential, scoped to exactly what its job needs. This is the guardrail still standing when a
+            prompt has been talked into something it shouldn't do. <strong>No role grant, no resource
+            access</strong> &mdash; and an agent's instructions cannot grant it a role.</p>
+          <ul>
+            <li><strong>Each agent that acts on infra or the pipeline gets its own least-privilege
+              identity</strong> &mdash; a managed or federated credential (no stored secret, rotated
+              automatically) scoped to the resource or resource group, never the whole subscription.
+              Every action is then attributable to it in the audit log.</li>
+            <li><strong>Secrets live in the client's vault, never in the repo</strong> &mdash; not in
+              code, not in CLAUDE.md, not in a spec. A key in a commit is the one unrecoverable
+              foundation mistake: a rotation event and an audit-log review, not an edit.</li>
+            <li><strong>Secrets rotate before production</strong> &mdash; into production-only values the
+              pod cannot read, signed by the client's security. The engagement should end with the pod
+              having never known a production secret.</li>
+            <li><strong>There is a kill switch</strong> &mdash; conditional-access policy at the class
+              level can disable a whole category of agent identity in one operation.</li>
+          </ul>
+          <p class="note">Treat an agent as a first-class non-human identity with its own lifecycle,
+            owner, and time-bounded access &mdash; not a script running under a human's credentials.
+            Every agent identity has a named owner or it does not exist.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -525,6 +746,25 @@
           <button data-tl-next type="button">Next stage &rarr;</button>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>One spec = one branch = one PR. The journey of spec 0016 is the principle in motion: the
+            agent investigates, plans, and produces the change as a reviewable artifact, then stops. The
+            Stop hook proved the suite green before the agent could finish. On the PR, <code>ci</code>
+            blocks and went green; <code>grader</code> ran and advised, catching the empty-policy-number
+            bug the eleven tests never thought to cover; <code>security</code> fired on the
+            <code>risk:high</code> label and blocked until it passed.</p>
+          <p>A non-author &mdash; Sara &mdash; read the grader's verdict and bounced the change back; the
+            fix landed on the same branch and every gate, including a fresh grader run, re-ran. Wes
+            recorded the HIGH named sign-off. Only with CI green, the grader run, a non-author approval,
+            the security pass, and the recorded sign-off all true did the merge bar clear &mdash; and a
+            non-author merged, because the agent cannot approve or merge its own work. The
+            <code>deploy-dev</code> workflow then shipped the merged artifact to dev automatically, and
+            would have rolled back on a failed deploy. Production is later, by ceremony; dev is where the
+            rails get exercised constantly.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -549,6 +789,43 @@
           <tr><td><strong>Ignoring drift</strong></td><td>Real infra diverges from code and nobody acts</td><td>Drift is a proposed fix waiting for a human, not a notice to dismiss.</td><td>Drift opened a PR; Tom absorbed it into the code</td></tr>
         </tbody>
       </table>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <ul>
+            <li><strong>The pipeline that exists but was never exercised.</strong> CI green because
+              nothing real ever ran through it. The rails are proven by a change breaking and being
+              caught, not by the YAML being present. Force each failure.</li>
+            <li><strong>Auto-merging the agent's fix.</strong> A self-healing pipeline that pushes its
+              own fix to the protected branch has thrown away the only rule that makes it safe. Stopping
+              at the PR is the whole design.</li>
+            <li><strong>The raw-shell agent.</strong> Handing an agent the whole repo and a shell with
+              "fix the build" instead of a bounded, named tool surface. It will touch three things nobody
+              wanted touched, and the log won't tell you why.</li>
+            <li><strong>The rebuilt artifact.</strong> Production gets a fresh build instead of the
+              promoted one that passed test &mdash; now production runs something no environment
+              verified. Promote, never rebuild.</li>
+            <li><strong>The rollback that was only ever written.</strong> Documented, reviewed, never run
+              &mdash; then executed for the first time during an incident. Rehearse it in test.</li>
+            <li><strong>A secret in the repo.</strong> The one unrecoverable foundation mistake. The
+              client's vault from day one.</li>
+            <li><strong>The unattended destructive apply.</strong> An agent runs an infrastructure
+              <code>apply</code> that deletes or replaces, with no human reading the dry-run first. Every
+              step before the apply is read-only for exactly this reason.</li>
+            <li><strong>Autonomy granted too fast.</strong> Wiring a brand-new agent automation straight
+              to closed-loop because it worked twice. Autonomy widens slowly, after behavior is watched.</li>
+            <li><strong>The over-scoped agent identity.</strong> An agent running with subscription-wide
+              rights "to keep it simple." When its prompt is subverted, the blast radius is everything it
+              could reach. Scope to the resource, give it its own identity, keep the kill switch.</li>
+            <li><strong>Approval fatigue.</strong> Gating every trivial step behind a human until they
+              rubber-stamp without reading. Shift oversight from per-step to per-strategy &mdash; approve
+              the plan up front, retain the ability to intervene.</li>
+            <li><strong>Ignoring drift.</strong> The schedule flags that real infrastructure diverged
+              from the code, and nobody acts, so the repo stops being the truth. Drift is a proposed
+              remediation waiting for an operator, not a notification to dismiss.</li>
+          </ul>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -563,9 +840,424 @@
         every place a change could go wrong. Where to go next:</p>
       <div class="next">
         <a href="phase-7.html"><span class="t">Phase 7 &rarr;</span><span class="d">Documentation &mdash; how a finished change gets written down so the next person (or agent) can build on it.</span></a>
+        <a href="#example" data-view-link="example"><span class="t">The Example view &rarr;</span><span class="d">Six episodes of the rails doing their job at Harbor &mdash; the grader catch, self-healing CI, a flaky quarantine, the IaC funnel, the rollback that failed first, and drift.</span></a>
         <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics &mdash; the four workflows, the exact merge bar, deploy &amp; promotion, the IaC funnel, identity.</span></a>
-        <a href="../journey.html"><span class="t">The Harbor Journey &rarr;</span><span class="d">The whole engagement, Phase 0 to close, as one continuous story.</span></a>
       </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- EXAMPLE TRACK                                                            -->
+<!-- ======================================================================= -->
+<main id="track-example" class="track">
+
+  <!-- ===================================================================== -->
+  <!-- 01 — WHY THE RAILS EXIST                                               -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">The scenario, and the rails built before any feature existed</p>
+      <h2>Speed is only safe if something catches the mistakes</h2>
+      <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod
+        to rebuild how property-insurance claims get reported and decided. A claim takes a median of
+        <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target
+        is <strong>5 days or less</strong>. The rails are not a phase, so this example is not a calendar
+        &mdash; it is six episodes, each a real change meeting a real gate.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">What the rails are</div>
+          <p>Built in Phase 3, before any feature existed: four workflows (ci, grader, security,
+            deploy-dev), branch protection on <code>main</code>, a blocking Stop hook, a Bicep dev
+            environment. Proven on the walking skeleton. Everything since has ridden them.</p>
+          <p>These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20), and
+            Phase 9 hypercare (from 07-27). The rails were built once and never stopped running.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">What's real, what's invented</div>
+          <p>Episodes 1 and 5 ran on the rails the plugin ships now. Episodes 2, 3, 4, and 6 use
+            machinery that is <strong>net-new to the kit</strong> &mdash; not commands a pod can type
+            today: self-healing CI, the infrastructure what-if/policy/drift gates, the flaky-test state
+            machine, and per-agent identities.</p>
+          <div class="snippet">
+            <div class="from">The honest framing</div>
+            <blockquote>"These net-new pieces are exactly what a first agentic-ops-heavy engagement would build once and harvest back into the kit — collected in section 03."</blockquote>
+          </div>
+        </div>
+      </div>
+      <p class="note">The IDs you'll see (stable across phases): <strong>REQ-NN</strong> requirement ·
+        <strong>ADR-NN</strong> architecture decision · <strong>D-NN</strong> product decision ·
+        <strong>Q-NN</strong> open question · <strong>NNNN-name.md</strong> a spec file (one feature, one
+        file) · <strong>rc-X.Y.Z</strong> a release candidate artifact.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 02 — THE ONE RULE                                                      -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The agent proposes; a gate disposes</p>
+      <h2>The agent proposes; a gate disposes</h2>
+      <p class="lead">One sentence held six times at Harbor. A green-looking change, a broken pipeline, a
+        flaky test, an infra change, a production promotion, a hand-edited environment &mdash; every one
+        stopped the agent at a reviewable artifact and let a human dispose. The rails are not six
+        mechanisms; they are one principle wired into six places.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">What to notice across all six</div>
+          <ul>
+            <li><strong>The grader advises; it does not gate.</strong> It caught the empty-policy-number
+              bug and handed it to Sara. A blocking AI verdict would have been faster and worse.</li>
+            <li><strong>Nothing an agent did was unbounded.</strong> The self-heal agent had four named
+              tools and its own scoped identity; the deploy identity could touch one resource group.</li>
+            <li><strong>Read-only until the last step.</strong> The infra funnel did all its thinking
+              while the cloud was untouched; the drift check proposed without applying.</li>
+            <li><strong>A rail proven by failing safely.</strong> The rollback rehearsal failing on
+              Tuesday was the rails working &mdash; the expensive version waits for an incident.</li>
+          </ul>
+        </div>
+        <div class="eg">
+          <div class="plabel">When prompts fail, identity holds</div>
+          <p>The self-heal agent had a four-tool surface and its own scoped identity; the secrets the pod
+            could read were never the production ones.</p>
+          <div class="snippet resolve">
+            <div class="from">The wall still standing</div>
+            <blockquote>"When prompts fail, identity is the wall that holds. The fix agent's credential could read the repo and open a PR — nothing more."</blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 03 — SELF-VALIDATION / EPISODE 1 THE GRADER CATCH                      -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">03</span>
+      <p class="kicker">Episode 1 — the merge bar holds</p>
+      <h2>The agent has to prove it works &mdash; not just say so</h2>
+      <p class="lead"><em>Build week four · Thursday 2026-05-07 · spec 0016 (duplicate-claim merge), HIGH
+        risk.</em> The Stop hook held the agent to a green suite &mdash; eleven tests &mdash; before a
+        human ever saw the change. Then the grader caught what eleven green tests missed.</p>
+      <p><strong>Tooling —</strong> No plugin command. Spec 0016 rides the loop; the PR fires ci.yml +
+        grader.yml; <code>risk:high</code> fires security.yml &rarr; the security-reviewer agent; Wes's
+        named sign-off in the PR.</p>
+      <ul>
+        <li>Spec 0016 implements D-07 &mdash; the same loss reported twice becomes one claim, never a
+          rejection. Maya tiered it <strong>HIGH</strong>: merging claim records is hard to undo, and a
+          wrong merge mangles two policyholders' data. The agent built it under tight permissions; the
+          Stop hook held it to a green suite; <strong>eleven tests passed.</strong></li>
+        <li>On the PR, ci.yml went green. Then the <strong>grader</strong> &mdash; a fresh agent that did
+          not write the code &mdash; walked the spec's acceptance checks one by one and flagged the hole
+          the eleven tests never covered: two claims with an <strong>empty policy number</strong> were
+          landing in the same match bucket and merging into one. Real bug, real data, invisible to a
+          green suite that never thought to test the empty-key case.</li>
+        <li>The grader <strong>advised; it did not block.</strong> Its verdict was a PR comment. Sara
+          (not the author) read it, agreed, and bounced the change back to the same Orchestrator, who
+          fixed the keying on the same branch. Every gate &mdash; including a fresh grader run &mdash;
+          ran again on the updated PR.</li>
+        <li>Because HIGH, <code>risk:high</code> fired security.yml and <strong>Wes recorded a named
+          sign-off</strong> in the PR before merge. Then a non-author merged, and deploy-dev shipped it
+          to dev.</li>
+      </ul>
+      <p class="note"><strong>The rail that mattered:</strong> the grader (rung 4 of the checking
+        ladder). An agent produced a confident, green-looking change; a separate gate caught what the
+        author was blind to; a human owned the call. Agent proposes, gate disposes.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 04 — THE FOUR GATES / EPISODE 2 SELF-HEALING CI                        -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">04</span>
+      <p class="kicker">Episode 2 — self-healing CI stops at a PR</p>
+      <h2>Four checks &mdash; and knowing which ones can say "no"</h2>
+      <p class="lead"><em>Build week six · Tuesday 2026-05-19 · <strong>(net-new to the kit)</strong>.</em>
+        A red pipeline got a proposed fix from a bounded agent &mdash; and the merge bar, applied to the
+        pipeline's own repairs, held it at a PR.</p>
+      <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash;
+        self-heal.yml &rarr; a bounded fix agent (read/write/run-tests/run-lint only); emits a
+        <code>fix/</code> PR, never a merge.</p>
+      <ul>
+        <li>A scheduled dependency bump landed a minor version of a JSON serializer that changed a
+          default, and the nightly build on <code>main</code> went red &mdash; three integration tests
+          failing on a serialization edge. Nothing a human had touched.</li>
+        <li>A new kit workflow, <strong>self-heal.yml</strong>, pointed an agent at the failure. It did
+          <strong>not</strong> get the repo and a shell. It got a <strong>bounded tool surface</strong>
+          &mdash; read a file, write a file, run the tests, run the linter &mdash; and the failing job's
+          log. It formed a hypothesis (the changed default), made the two-line fix, and
+          <strong>re-ran the tests from the environment until they went green.</strong> It proved the
+          fix; it did not assert it.</li>
+        <li>Then it stopped. It opened a <code>fix/serializer-default</code> <strong>pull
+          request</strong> with the diff and a one-paragraph explanation, and went no further. It cannot
+          push to <code>main</code>; it cannot approve its own work. <strong>Sara reviewed the proposed
+          fix, agreed, and merged it</strong> through the same merge bar as everything else.</li>
+        <li>The agent ran under <strong>its own least-privilege identity</strong> &mdash; a workload
+          credential scoped to read the repo and open a PR, nothing more. If its prompt had been steered
+          somewhere bad, the identity is the wall that was still standing.</li>
+      </ul>
+      <p class="note"><strong>The rail that mattered:</strong> the merge bar, applied to the pipeline's
+        own repairs. A self-healing pipeline that pushed its own fix would have thrown away the only rule
+        that makes it safe. Stopping at the PR is the whole design.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 05 — THE MERGE BAR / EPISODE 3 FLAKY TEST                              -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">05</span>
+      <p class="kicker">Episode 3 — quarantined, not "fixed"</p>
+      <h2>The merge bar &mdash; what every change must clear to land</h2>
+      <p class="lead"><em>Hardening pass one · Wednesday 2026-05-27 · <strong>(net-new to the
+        kit)</strong>.</em> A flaky test was beginning to block unrelated work. The wrong move would
+        have been "an agent makes it green." Triage and a state machine beat the reflex.</p>
+      <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash; the
+        flaky-test state machine (Active &rarr; Quarantined &rarr; Disabled) moves the test out of the
+        blocking set; the real fix then rides the loop.</p>
+      <ul>
+        <li>The replica refresh-window test &mdash; the one guarding the 02:00&ndash;04:30 staleness
+          degradation from ADR-001 &mdash; started failing intermittently. Same code, different result
+          run to run: roughly one PR in twelve went red on it, on changes that had nothing to do with
+          the replica.</li>
+        <li>A flaky test is not always a bug to fix; sometimes it is a test to <strong>quarantine while a
+          human looks.</strong> The <strong>flaky-test state machine</strong> moved it from
+          <strong>Active</strong> to <strong>Quarantined</strong> only after it cleared eligibility
+          thresholds &mdash; failing above a set rate, failing on the default branch, across more than
+          one pipeline, not on a single unlucky run &mdash; so it stopped gating PRs while staying
+          visible and tracked.</li>
+        <li>Nadia investigated and found the real cause: the test built its boundary timestamps in local
+          time while the service worked in UTC, so runs near midnight Chicago time straddled the window.
+          A genuine clock-boundary race, not noise. The <strong>fix rode the loop</strong> like any
+          change &mdash; a spec, a plan, a non-author Checker &mdash; and the test sat under a
+          <strong>grace period</strong> before rejoining the blocking suite.</li>
+        <li>The pattern &mdash; build time-boundary tests in the service's own clock &mdash; went on the
+          harvest list as the <strong>timezone test pattern.</strong></li>
+      </ul>
+      <p class="note"><strong>The rail that mattered:</strong> triage over reflex. Active &rarr;
+        Quarantined &rarr; Disabled with eligibility gating and a grace period beats "an agent fixes
+        every red test" &mdash; which would have papered over a real race with a flakier assertion.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 06 — DEPLOY & PROMOTION / EPISODE 5 ROLLBACK                           -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">06</span>
+      <p class="kicker">Episode 5 — promotion, and the rollback that failed first</p>
+      <h2>A merge isn't a deploy &mdash; promotion is</h2>
+      <p class="lead"><em>Phase 8 go-live week · 2026-07-20 to 07-23 · rc-1.0.1.</em> The same proven
+        artifact moved up, never rebuilt &mdash; and the rollback was proven by failing safely in test,
+        not assumed.</p>
+      <p><strong>Tooling —</strong> No plugin command &mdash; the rehearsal and the go/no-go are
+        human-run on the rails; spec 0046 rides the loop; <code>/sdlc-gate</code> at the Phase 8
+        boundary.</p>
+      <ul>
+        <li><strong>Tuesday, the rehearsal in test:</strong> deploy &rarr; roll back &rarr; redeploy,
+          run by the hands that would run it at 2 a.m. The deploy went fine. <strong>The rollback
+          failed.</strong> The previous artifact came back, but a configuration key had moved ahead of
+          it in a separate change, so the rolled-back app booted against config it didn't understand. A
+          rollback that had only ever been written would have failed exactly here &mdash; in production,
+          during an incident, instead of in test on a Tuesday.</li>
+        <li>The fix rode the loop as <strong>spec 0046 &mdash; configuration versioned with the release
+          artifact</strong>, so a promoted build always carries the config it was tested with and a
+          rollback restores both together. Re-rehearsed <strong>Wednesday: clean.</strong> The failed
+          first rehearsal went in the go/no-go packet too: found-and-fixed is stronger evidence than
+          never-stressed.</li>
+        <li><strong>Thursday, go-live.</strong> The <strong>same artifact that passed test &mdash;
+          rc-1.0.1 &mdash; was promoted to production, not rebuilt.</strong> Tom executed; the release
+          manager called each step; the pod and Harbor's operators watched the same dashboards. The
+          first real FNOL &mdash; a burst pipe, reported on the portal at 08:14 &mdash; produced a
+          coverage recommendation in <strong>3 hours 6 minutes</strong>, against the 11.4-day
+          baseline.</li>
+        <li><strong>Secrets had rotated before go-live</strong> to production-only values the pod could
+          not read; <strong>Dan held his go</strong> at the ceremony until the rotation record was
+          attached, then gave it. The engagement reached production with the pod having never known a
+          production secret.</li>
+        <li><code>/sdlc-gate</code> passed the Phase 8 gate; billing milestone 6.</li>
+      </ul>
+      <p class="note"><strong>The rails that mattered:</strong> promotion (the proven artifact moved up,
+        never rebuilt) and the rehearsed rollback (proven by failing safely in test, not assumed). Plus
+        identity: secrets the pod never held.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 07 — INFRASTRUCTURE / EPISODE 4 THE FUNNEL                             -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">07</span>
+      <p class="kicker">Episode 4 — a HIGH-risk infra change through the funnel</p>
+      <h2>Infrastructure is HIGH risk every time &mdash; so it's read-only until the last step</h2>
+      <p class="lead"><em>Hardening pass one · Thursday 2026-05-28 · the test environment ·
+        <strong>(net-new gates flagged)</strong>.</em> Adding the test environment was a Bicep change.
+        Everything before the apply was read-only &mdash; and the policy gate caught two violations on
+        the PR.</p>
+      <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash;
+        iac.yml runs the funnel: schema-validate &rarr; PSRule policy gate &rarr; <code>bicep
+        what-if</code> (Tom reads it) &rarr; human approval &rarr; scoped least-privilege apply.</p>
+      <ul>
+        <li>Hardening pass one is where the <strong>test environment</strong> gets added alongside dev.
+          That is a Bicep change, and Bicep is HIGH risk every time. Claude drafted the test-environment
+          Bicep; then it went down the funnel, every step read-only until the last.</li>
+        <li><strong>Schema validation</strong> passed &mdash; the templates compiled against the
+          resource schema. <strong>The policy-as-code gate did not:</strong> PSRule flagged two things
+          &mdash; a storage account that would have defaulted to public network access, and a resource
+          group missing the required cost-center tag. Caught mechanically, on the PR, not by a reviewer
+          remembering to look. The agent fixed both; the gate went green.</li>
+        <li><strong><code>bicep what-if</code> produced the dry-run</strong> &mdash; the exact list of
+          what would be created in the test subscription. <strong>Tom read it</strong> before approving:
+          the app hosting, the buffered queue, the private endpoint to the replica, the Key Vault &mdash;
+          and nothing he didn't expect. An infrastructure change approved without reading its what-if is
+          a change approved blind; this one wasn't.</li>
+        <li>Only then did the <strong>apply</strong> run, under a <strong>deploy identity scoped to the
+          test resource group and nothing else.</strong> The test environment came up from code, the
+          same way dev had &mdash; and the same way prod would in eight weeks.</li>
+      </ul>
+      <p class="note"><strong>The rail that mattered:</strong> the infrastructure funnel. Everything
+        before the apply is read-only &mdash; the policy gate and the what-if did their work while
+        nothing in the cloud had changed yet.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 08 — IDENTITY / EPISODE 6 DRIFT                                        -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">08</span>
+      <p class="kicker">Episode 6 — drift: proposed, never auto-applied</p>
+      <h2>Identity is the real guardrail &mdash; not the instructions</h2>
+      <p class="lead"><em>Phase 9 hypercare · Monday 2026-07-28 · <strong>(net-new to the
+        kit)</strong>.</em> A hand-edited environment was caught by the schedule &mdash; and the agent
+        proposed a remediation rather than silently re-applying the code over a human's deliberate
+        change.</p>
+      <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash;
+        drift-check.yml runs on a schedule, compares real infrastructure to the code, and opens a
+        remediation PR; a human decides.</p>
+      <ul>
+        <li>During a Friday-night hypercare hiccup &mdash; a postal-vendor blip causing an
+          acknowledgment-dispatch retry burst &mdash; an on-call engineer widened a firewall rule on the
+          <strong>test</strong> environment by hand to unblock a verification run. It worked, the night
+          ended, and the change lived only in the cloud, not in the code.</li>
+        <li>Monday morning, the scheduled <strong>drift assessment</strong> caught it: the real test
+          environment no longer matched its Bicep. It did <strong>not</strong> silently re-apply the
+          code over the hand change &mdash; that would have quietly undone something a human did for a
+          reason. It <strong>flagged the drift and opened a remediation PR</strong> describing the
+          difference, leaving the decision to a person.</li>
+        <li><strong>Tom made the call.</strong> The widened rule was legitimate and worth keeping, so he
+          <strong>absorbed it into the Bicep</strong> rather than reverting &mdash; and now the code is
+          the truth again, the proper way. Had the change been a mistake, the same PR would have reverted
+          it. Either way: a human chose; the schedule only proposed.</li>
+      </ul>
+      <p class="note"><strong>The rail that mattered:</strong> drift assessment that proposes, never
+        auto-applies &mdash; the agent-proposes/gate-disposes rule, one more time, on the live
+        environment itself. And underneath it all: identity. Every agent here ran under its own scoped
+        credential, so a subverted prompt could never reach past what its job needed.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 09 — WHAT WAS NET-NEW (the honest part)                                -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">09</span>
+      <p class="kicker">The honest part</p>
+      <h2>A single change, from proposed to deployed</h2>
+      <p class="lead">Episode 1 (the grader catch) is the single change followed end to end: spec 0016
+        rode the loop, the Stop hook proved it green, ci/grader/security fired, Sara bounced the grader's
+        catch back, Wes signed HIGH, a non-author merged, deploy-dev shipped it to dev. Four of the six
+        episodes lean on machinery the <strong>claude-code-sdlc plugin does not ship today</strong>
+        &mdash; collected honestly here.</p>
+      <table style="margin-top:18px;">
+        <thead><tr><th>Piece</th><th>What it is</th><th>In the plugin today?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>self-heal.yml + bounded fix agent</strong></td><td>On a red pipeline, an agent with a four-tool surface diagnoses, fixes, self-validates, and opens a <code>fix/</code> PR — never merges.</td><td><strong>No</strong> — net-new; harvest candidate</td></tr>
+          <tr><td><strong>iac.yml funnel gates</strong></td><td>schema-validate &rarr; policy-as-code (PSRule) &rarr; <code>bicep what-if</code> dry-run &rarr; scoped least-privilege apply.</td><td><strong>Partial</strong> — Phase 3 ships ci/deploy; the policy + what-if gates are net-new</td></tr>
+          <tr><td><strong>drift-check.yml</strong></td><td>Scheduled real-infra-vs-code comparison that <strong>proposes</strong> a remediation PR; never auto-applies.</td><td><strong>No</strong> — net-new</td></tr>
+          <tr><td><strong>The flaky-test state machine</strong></td><td>Active &rarr; Quarantined &rarr; Disabled, with eligibility thresholds and a post-fix grace period.</td><td><strong>No</strong> — net-new</td></tr>
+          <tr><td><strong>Per-agent least-privilege identity</strong></td><td>Each pipeline agent (the fix agent, the deploy identity) runs under its own scoped workload credential.</td><td><strong>No</strong> — net-new; an Entra Agent ID / federated-credential pattern</td></tr>
+        </tbody>
+      </table>
+      <p class="note">This is the develop-<em>with</em>-agents track reaching toward the AI-as-product
+        track. The net-new pieces are where the two tracks first touch &mdash; exactly what a first
+        agentic-ops-heavy engagement would build once and harvest back into the kit.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 10 — THE ARTIFACTS, WHOLE                                              -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">10</span>
+      <p class="kicker">The artifacts, in full</p>
+      <h2>The failure modes, and the defense against each</h2>
+      <p class="lead">The rollback fix (spec 0046) and the infrastructure funnel (iac.yml), reproduced
+        whole &mdash; the two artifacts these episodes turn on, then the per-episode tooling tally.</p>
+
+      <h3 style="margin-top:8px;">Artifact: spec 0046 in full (the rollback fix)</h3>
+      <p><strong>Spec 0046 — Configuration versioned with the release artifact</strong><br>
+        Risk tier: <strong>HIGH</strong> · Authored: Jonah Kim · Checked: Sara Whitfield · Security
+        sign-off: Dan Kowalski · Merged 2026-07-22</p>
+      <p><strong>Goal.</strong> A promoted build carries the exact configuration it was tested with, so
+        that a rollback restores the application <strong>and</strong> its config together, never one
+        without the other.</p>
+      <p><strong>Why.</strong> The Tuesday rehearsal rolled back the artifact but not a config key that
+        had moved ahead of it; the rolled-back app booted against config it didn't understand. Promotion
+        must move one versioned thing, not an artifact plus a separately-drifting config.</p>
+      <p><strong>Scope in.</strong> The release-packaging step, the config bundling, the rollback restore
+        path. <strong>Scope out.</strong> Application config <em>values</em> (those are environment
+        settings, untouched); any change to what the app reads at runtime.</p>
+      <p><strong>Acceptance checks.</strong> A promoted artifact includes its config manifest,
+        content-addressed. Rollback restores artifact + config as one unit. A redeploy after rollback is
+        byte-identical to the prior good state. The Tuesday failure mode (config ahead of artifact)
+        cannot recur — proven by re-running the exact rehearsal.</p>
+      <p><strong>How it rode the loop.</strong> Plan approved by Jonah &rarr; agent implemented under
+        tight permissions &rarr; Stop hook green &rarr; PR fired ci.yml, grader.yml, and (on
+        <code>risk:high</code>) security.yml &rarr; Dan signed off &rarr; Sara merged &rarr; the
+        Wednesday rehearsal proved it clean. It went into the kit harvest as
+        <strong>config-with-artifact.</strong></p>
+
+      <h3 style="margin-top:30px;">Artifact: the infrastructure funnel (iac.yml)</h3>
+      <p class="dim"><em>Net-new to the kit. Drafted by Claude, reviewed by Tom; every step before the
+        apply is read-only.</em></p>
+      <table style="margin-top:12px;">
+        <thead><tr><th>Step</th><th>What runs</th><th>Blocks?</th></tr></thead>
+        <tbody>
+          <tr><td>Schema validate</td><td><code>bicep build</code> against the resource schema</td><td>Hard block on a malformed template</td></tr>
+          <tr><td>Policy-as-code</td><td>PSRule for Azure (public access, encryption, tags, region)</td><td>Hard block on a policy violation</td></tr>
+          <tr><td>Dry-run</td><td><code>bicep what-if</code> — the exact change preview</td><td>Posted to the PR; a human reads it</td></tr>
+          <tr><td>Approval</td><td>A named human approves the what-if</td><td>Required to proceed</td></tr>
+          <tr><td>Apply</td><td>Scoped, least-privilege deploy identity</td><td>— (the only step that changes cloud)</td></tr>
+          <tr><td>Drift assessment (drift-check.yml)</td><td>Scheduled real-infra-vs-code compare</td><td>Opens a remediation PR; never auto-applies</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:30px;">The tooling behind these episodes</h3>
+      <table style="margin-top:12px;">
+        <thead><tr><th>Episode</th><th>How it ran</th></tr></thead>
+        <tbody>
+          <tr><td>1 · Grader catch (0016)</td><td>Spec rides the loop; ci.yml + grader.yml on the PR; security.yml on <code>risk:high</code> &rarr; security-reviewer agent; Wes's sign-off</td></tr>
+          <tr><td>2 · Self-healing CI</td><td><strong>Net-new:</strong> self-heal.yml &rarr; a bounded fix agent; opens a <code>fix/</code> PR; a non-author merges</td></tr>
+          <tr><td>3 · Flaky-test quarantine</td><td><strong>Net-new:</strong> the Active/Quarantined/Disabled state machine; the real fix then rides the loop</td></tr>
+          <tr><td>4 · Infra funnel (test env)</td><td><strong>Net-new gates:</strong> iac.yml schema &rarr; PSRule policy &rarr; <code>bicep what-if</code> (Tom reads) &rarr; scoped apply</td></tr>
+          <tr><td>5 · Promotion + rollback</td><td>Human-run rehearsal and go/no-go on the rails; spec 0046 rides the loop; <code>/sdlc-gate</code> at the Phase 8 boundary</td></tr>
+          <tr><td>6 · Drift proposed</td><td><strong>Net-new:</strong> drift-check.yml on a schedule &rarr; a remediation PR; Tom decides</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -581,9 +1273,9 @@
       <p class="kicker">Reference · The Rails · CI/CD &amp; DevOps</p>
       <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the four workflows, the merge
         bar, deploy and promotion, the infrastructure funnel, identity, and the governing principle,
-        including the tooling specifics the Learn-it view leaves out. For the full deep-dive see
-        <a href="../the-rails.html">the-rails</a>; for the complete worked example with every ID and
-        command, <a href="../the-rails-example.html">the-rails-example</a>.</p>
+        including the tooling specifics the How-it-works view leaves out. The full prose method sits
+        under each section's &ldquo;Go deeper&rdquo; on the <a href="#glance">How it works</a> tab; for the
+        complete Harbor artifacts (every ID and quote), see <a href="#example">Example</a>.</p>
 
       <h2>The governing principle</h2>
       <p><strong>Agent proposes, gate disposes.</strong> An agent may produce any change, but only as a
@@ -764,7 +1456,7 @@
 
 <footer class="foot">
   <div class="wrap">
-    The Rails · Walkthrough &mdash; a companion to <a href="../the-rails.html">The Rails (CI/CD &amp; DevOps)</a> ·
+    The Rails · CI/CD &mdash; a companion to <a href="the-rails.html">The Rails (CI/CD &amp; DevOps)</a> ·
     Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>

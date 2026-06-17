@@ -144,7 +144,7 @@ was made over the alternatives. Claude researches the options and drafts the ADR
 
 <p><strong>Agent.</strong> A run of Claude doing work — reading, planning, writing code, or grading. "One agent
 vs. many" is a real decision in the loop: one agent for tightly coupled code, many only for
-independent read-only exploration (see <a href="build-loop.html">the build loop</a>). See also <strong>subagent</strong>.</p>
+independent read-only exploration (see <a href="companion/build-loop.html">the build loop</a>). See also <strong>subagent</strong>.</p>
 
 <p><strong>The author is never the sole approver.</strong> The rule that whoever produced a change doesn't get to
 be the only one who signs it off — not for code, not for a harness change, not for a spec, not for
@@ -154,7 +154,7 @@ answer to "how do you trust code you didn't write." Survives every team size (se
 
 <p><strong>Bicep.</strong> Microsoft's infrastructure-as-code language for Azure — the cloud environment described
 as files in the repo instead of clicked together by hand. Always HIGH risk; lives in <code>infra/</code>.
-See <strong>IaC</strong> and <a href="the-rails.html">the rails</a>.</p>
+See <strong>IaC</strong> and <a href="companion/the-rails.html">the rails</a>.</p>
 
 <p><strong>Branch protection.</strong> GitHub/ADO settings on <code>main</code> that block a merge until the rules are met:
 CI green, the grader has run, a non-author has approved. It's how the merge bar is enforced by the
@@ -163,7 +163,7 @@ platform rather than by good intentions (standard, section 4).</p>
 <p><strong>Build loop.</strong> The middle of an engagement, and the heart of the method. Instead of separate
 Implementation, Quality, and Testing phases run in a batch, every story runs the same short cycle
 — <strong>Intent → Delegate → Discern</strong> — and ships before the next one starts. Checking happens per
-change, never piled up for later. Deep-dive: <a href="build-loop.html">build-loop.html</a>.</p>
+change, never piled up for later. Deep-dive: <a href="companion/build-loop.html">build-loop.html</a>.</p>
 
 <p><strong>Checker.</strong> The role that owns the verdict on a change: reads the grader's report, grades the
 work against the spec, probes an edge the tests missed, and approves or bounces. Not a separate
@@ -175,7 +175,7 @@ rung harder to skip than the last: (1) a "what done means" rule in CLAUDE.md, (2
 re-runs every turn, (3) a blocking <strong>Stop hook</strong> that won't let the agent finish with red tests,
 (4) a separate <strong>grader</strong> agent that didn't write the code, (5) a human gate for HIGH-risk work
 (with a security-reviewer pass first). It is not "please check your work." Detail in
-<a href="build-loop.html">build-loop.html</a>.</p>
+<a href="companion/build-loop.html">build-loop.html</a>.</p>
 
 <p><strong>CLAUDE.md.</strong> The file every agent session loads first. It holds the project's standards: the
 stack rules, the domain glossary in the client's words, the risk taxonomy, the spec convention,
@@ -254,7 +254,7 @@ highest-value automation the kit ships (standard, section 5.2).</p>
 <p><strong>IaC (Infrastructure as Code).</strong> Defining the cloud environment as files in the repo rather than
 configuring it by hand, so it's reviewable, repeatable, and auditable. Always HIGH risk; runs
 through a generate → validate → policy → what-if → approve → scoped-apply → drift-check funnel.
-See <a href="the-rails.html">the rails</a>.</p>
+See <a href="companion/the-rails.html">the rails</a>.</p>
 
 <p><strong>Intent.</strong> The first beat of the loop, and the one humans own outright. Decide what you want, then
 write it as something you can test ("returns 401 for a bad token," not "make auth good"). Vagueness
@@ -268,7 +268,7 @@ adapting it in the open (standard, section 10).</p>
 
 <p><strong>Mechanical gates.</strong> The hard blocks in CI that no human overrides: build, tests, lint, and 80%
 coverage on new code. Distinct from the grader (required to run, advisory verdict) and the human
-Checker (a hard block of a different kind). See <a href="the-rails.html">the rails</a>.</p>
+Checker (a hard block of a different kind). See <a href="companion/the-rails.html">the rails</a>.</p>
 
 <p><strong>METR.</strong> A 2025 study in which 16 experienced developers ran 246 real tasks on their own mature
 projects. They were about 19% slower with AI while believing they were 20% faster. A small study,
@@ -301,7 +301,7 @@ and (for agentic deliverables) the eval harness. Takes a regular turn as Checker
 <p><strong>The rails.</strong> The agentic CI/CD and DevOps pipeline every change rides — the four workflows (CI,
 grader, security, deploy), the merge bar, deploy and promotion, and the agent-safe IaC funnel. Not
 a numbered phase; a standing standard. Governing principle: <strong>agent proposes, gate disposes.</strong>
-Deep-dive: <a href="the-rails.html">the-rails.html</a>.</p>
+Deep-dive: <a href="companion/the-rails.html">the-rails.html</a>.</p>
 
 <p><strong>Review wait (median).</strong> How long a change sits waiting to be checked. The real bottleneck
 indicator under this model, and the number that caps parallelism — when it grows past the tripwire
