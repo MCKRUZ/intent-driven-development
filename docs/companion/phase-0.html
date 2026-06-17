@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phase 0 · Discovery — at a glance, in depth, and worked</title>
-<meta name="description" content="Phase 0 (Discovery) in one place: At a glance, Reference, Deep-dive, and the complete Harbor Mutual worked example — switch between them on one page.">
+<title>Phase 0 · Discovery — how it works, worked, and referenced</title>
+<meta name="description" content="Phase 0 (Discovery) on one page: How it works (the idea beside the real example, expand for the full method), the complete Harbor Mutual worked Example, and a quick Reference.">
 <link rel="stylesheet" href="styles.css">
 <noscript><style>
   .track { display: block !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .viewbar, .tl-rail, .tl-nav { display: none !important; }
+  .deeper { open: true; }
 </style></noscript>
 </head>
 <body>
@@ -57,7 +58,7 @@
     <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 0 · Discovery</p>
     <p class="eyebrow">Phase 0 · Discovery</p>
     <h1>Discovery, explained
-      <span class="sub">What the first two weeks of an engagement are really for — pick your depth: a quick teach, the precise mechanics, the full method, or the complete worked example.</span>
+      <span class="sub">What the first two weeks of an engagement are really for — the idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference.</span>
     </h1>
   </div>
 </header>
@@ -65,12 +66,11 @@
 <div class="viewbar">
   <div class="wrap">
     <div class="toggle" role="tablist" aria-label="Choose a view">
-      <button data-view="glance" role="tab" aria-selected="true">At a glance</button>
-      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
-      <button data-view="deepdive" role="tab" aria-selected="false">Deep-dive</button>
+      <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>At a glance</strong> the idea beside the real example · <strong>Reference</strong> quick mechanics · <strong>Deep-dive</strong> the full method · <strong>Example</strong> the complete Harbor artifacts</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 <main id="track-glance" class="track active">
@@ -122,6 +122,35 @@
         <p>You build the wrong thing precisely — a polished, well-tested solution to a problem nobody
           actually had.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>An AI coding agent can produce a working feature in an afternoon. That speed is only worth
+            anything if the feature is the right one. Build the wrong thing quickly and you have simply
+            arrived at the wrong place sooner &mdash; and now real code depends on the mistake. Phase 0 is
+            where the engagement makes sure it is solving the right problem before a single line gets
+            written.</p>
+          <p>Phase 0 answers four questions, and nothing else:</p>
+          <ol>
+            <li><strong>What problem are we solving, and how will we know we solved it?</strong> One
+              measurable metric &mdash; not a feature list.</li>
+            <li><strong>Who decides product questions during the build?</strong> The PO decision.</li>
+            <li><strong>Can we legally and technically work?</strong> Tooling, access, the data boundary.</li>
+            <li><strong>What constraints are non-negotiable?</strong> Technical, regulatory, organizational.</li>
+          </ol>
+          <p class="dim">Everything that looks like requirements, design, or planning is deliberately out
+            of scope. That work has its own phases. Pulling it forward before these four answers exist is
+            how engagements end up building the wrong thing precisely &mdash; a polished, well-tested
+            solution to a problem nobody actually had. A wrong assumption caught in week one is a
+            twenty-minute conversation; caught in month three it is a rebuild, because real code now
+            depends on it.</p>
+          <div class="aha warn">
+            <div class="lbl">The expensive mistake</div>
+            <p>Anything built before the four answers exist gets rebuilt once the answers arrive. Pulled-forward
+              work is not a head start &mdash; it is rework with a delay.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -165,6 +194,39 @@
           <p style="margin-top:12px;">The AI produced the draft; a human owned the truth.</p>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>One sentence is the spine of the whole method: <strong>Claude drafts and interrogates;
+            humans decide and own.</strong> The AI does the reading, the summarizing, the questioning, and
+            the first drafts. People make every decision and carry the accountability. A machine reports;
+            a named human signs.</p>
+          <p>Phase 0 is the phase with the strictest human-in-the-loop rule in the whole standard:
+            <strong>the problem statement is human-authored.</strong> Claude never invents the problem.
+            What the project is actually for is written by a human, full stop. What Claude does do, heavily:</p>
+          <ul>
+            <li><strong>Document intake.</strong> The corpus is ingested on day 1&ndash;2: per-document
+              summaries, a registry with DOC-NNN IDs for traceability, and a contradiction list ("the RFP
+              says X, the architecture deck says Y").</li>
+            <li><strong>Interrogation.</strong> Before the workshop, Claude generates the question list
+              from the corpus &mdash; gaps, ambiguities, unstated assumptions. After the workshop, it
+              generates the decision list: every decision the humans have not made yet, named explicitly.</li>
+            <li><strong>Drafting.</strong> Every artifact is drafted by Claude from human-generated raw
+              material (workshop notes, interview notes), then corrected by the Pod Lead and ratified by
+              the sponsor. Drafting is cheap; the humans spend their time on whether it is <em>true</em>.</li>
+          </ul>
+          <p class="dim">What Claude is <em>not</em> in the room for: the workshop itself and the
+            interviews. Those are human conversations. Claude preps the questions going in and structures
+            the notes coming out. The mandatory human stops in this phase are two: <strong>problem framing
+            is human-authored</strong>, and <strong>the phase advance</strong> is a named human sign-off.</p>
+          <div class="aha">
+            <div class="lbl">The division of labor</div>
+            <p><strong>Claude</strong> reads every document, finds the contradictions, lists the open
+              questions, writes the first drafts. <strong>People</strong> decide what the problem is,
+              settle the contradictions, choose the measure of success, and correct &amp; sign the drafts.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -212,6 +274,38 @@
           </ul>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Phase 0 is deliberately thin on our side. Most of the pod is not yet billing; the work is two
+            people running two parallel workstreams, with Claude doing the reading and drafting.</p>
+          <h3>Our side</h3>
+          <table>
+            <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Pod Lead</strong></td><td>60&ndash;80%</td><td><strong>Understanding</strong> &mdash; the workshop, stakeholder interviews, every artifact's content, the decision list, sponsor sign-off</td></tr>
+              <tr><td><strong>Setup Owner</strong></td><td>40&ndash;50%</td><td><strong>Enablement</strong> &mdash; Anthropic procurement, repo and access checklist, the data-flow brief to client security, the empty delivery repo with the engagement structure initialized</td></tr>
+              <tr><td><strong>Quality Engineer</strong></td><td>~10%</td><td>One job: vet the success criteria for measurability ("what query, on what system, produces this number?")</td></tr>
+              <tr><td><strong>Orchestrators</strong></td><td>0&ndash;10%</td><td>Not yet staffed, or assisting document intake; they arrive for real in Phase 1</td></tr>
+            </tbody>
+          </table>
+          <p class="dim">If the engagement is multi-pod from the start, the Engagement Lead runs Phase 0
+            once for the engagement; pods do not run separate discoveries.</p>
+          <h3>Client side</h3>
+          <table>
+            <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Sponsor</strong> (owns budget and outcome)</td><td>The workshop, the PO decision, phase sign-off</td><td>Workshop half-day + two 30-min checkpoints</td></tr>
+              <tr><td><strong>Candidate PO</strong></td><td>The workshop; the PO-mode commitment decision</td><td>Workshop + one conversation</td></tr>
+              <tr><td><strong>Security / IT</strong></td><td>Anthropic procurement, repo access, data-flow brief review</td><td>Hours, but with lead time &mdash; engage day 1</td></tr>
+              <tr><td><strong>Domain experts</strong> (2&ndash;4 who live the problem)</td><td>Interviews in week 1</td><td>45&ndash;60 min each</td></tr>
+              <tr><td><strong>Ops / data owner</strong></td><td>Verifying the success metric is actually readable</td><td>One working session</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The hardest person to get is usually the data owner. Book them early &mdash; an
+            unverifiable success metric is the most common Phase 0 failure.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -254,6 +348,36 @@
           its own phase, and anything built before these four answers exist gets rebuilt once the
           answers arrive.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Everything Phase 0 produces exists to answer exactly four questions. Each is non-negotiable,
+            and each has a specific way of going wrong when it is skipped.</p>
+          <ol>
+            <li><strong>What problem are we solving, and how will we know we solved it?</strong> A problem
+              and one number. The success metric is a single measurable thing, not a deliverables list.
+              If the answer names a system instead of a number, it is a feature list wearing an outcome
+              costume.</li>
+            <li><strong>Who decides product questions during the build?</strong> Once building starts,
+              product questions arrive every day. Someone client-side has to own the daily calls &mdash;
+              a named PO with committed hours, or a signed proxy arrangement. This is the PO decision, and
+              it carries billing teeth.</li>
+            <li><strong>Can we legally and technically work?</strong> The AI needs a contract and keys,
+              and the client's security team needs a written answer to one question: what data does this
+              thing see, and where does it go? Tooling, access, and the data boundary &mdash; settled
+              before anyone opens a terminal.</li>
+            <li><strong>What constraints are non-negotiable?</strong> The technical, regulatory, budget,
+              timeline, and political facts that cannot be designed away. Each gets recorded with a
+              rationale and a fixed-or-negotiable flag.</li>
+          </ol>
+          <div class="aha warn">
+            <div class="lbl">The temptation to resist</div>
+            <p>It feels productive to start sketching requirements or architecture now. Don't. Each has
+              its own phase, and anything built before these four answers exist gets rebuilt once the
+              answers arrive.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -294,6 +418,41 @@
           </div>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>A client hands over a stack of documents written by different people at different times: RFPs,
+            prior vendor docs, API specs, strategy decks. They disagree constantly &mdash; and those
+            disagreements are exactly where the project's biggest risks are hiding. Claude does not just
+            summarize the pile; it reads it <em>against itself</em>.</p>
+          <p>On day 2, the most tool-dense day of the phase, every corpus document is cataloged with a
+            stable ID (DOC-001, DOC-002&hellip;). The Pod Lead reviews the catalog and sets priorities &mdash;
+            which documents matter most, which to skip. Claude then writes a budgeted summary per document
+            (capped by priority so the whole corpus stays loadable in one later session), a human-readable
+            registry, and a condensed index that loads at the start of every later session. The catalog is
+            locked once complete, so document references stay stable all the way into requirements
+            traceability.</p>
+          <p>A fresh analysis agent &mdash; one that has not been part of the conversation so far &mdash;
+            then compares the documents against each other and produces two artifacts:</p>
+          <ul>
+            <li><strong>The contradiction list</strong> (CON-01, CON-02&hellip;) &mdash; every place the
+              documents disagree, each entry carrying two verbatim quotes with their sources, a severity
+              rating, and the question a human must answer to resolve it.</li>
+            <li><strong>The question list</strong> (Q-01, Q-02&hellip;) &mdash; everything no document
+              answers, grouped by workshop agenda block.</li>
+          </ul>
+          <p>Each item is sized two ways. <strong>Severity</strong>: does it block an outcome, or merely
+            shape a design choice? <strong>Routing</strong> sends each question one of three ways &mdash;
+            <em>workshop</em> (only the room can answer it), <em>pre-workshop</em> (answerable by email
+            before day 3, sent the same day so room time is spent only on what the room can uniquely
+            answer), or <em>interview</em> (better asked one-on-one on day 5).</p>
+          <div class="aha">
+            <div class="lbl">Why a contradiction is good news</div>
+            <p>A contradiction is not an embarrassment. It is a decision nobody realized they had to make,
+              surfaced while it is still cheap to make it.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -328,6 +487,27 @@
         <p>Everyone nods along to a goal nobody can measure. Months later there's no way to tell if the
           project worked. That's why proving the metric is a whole day's work.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>"Reduce processing time by 30%" sounds like a goal. It is worthless if nobody can produce
+            <em>today's</em> processing time. A target with no readable baseline is a wish. The success
+            metric must be <strong>read live from a real system</strong>, with the current number written
+            down and its source named. Promised is not good enough; proven is the bar.</p>
+          <p>On day 6 the pod sits with the client's data owner and actually runs the query, opens the
+            dashboard, or pulls the report the metric will be read from &mdash; and records the baseline
+            number in <code>success-criteria.md</code> with its source named. The Quality Engineer then
+            vets every success criterion: baseline, target, measurement method, reading cadence.</p>
+          <p class="dim">If the number cannot be produced, this is a Phase 0 <em>finding</em>, not a
+            footnote. Either the metric changes to something measurable, or "instrument the metric" becomes
+            the first epic of Phase 1 &mdash; decided now, not discovered in week nine.</p>
+          <div class="aha warn">
+            <div class="lbl">The most common way Phase 0 fails</div>
+            <p>Everyone nods along to a goal nobody can measure. Months later there is no way to tell if the
+              project worked. That is why proving the metric is a whole day's work.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -362,6 +542,30 @@
             start until it was settled — no shrugging it down the road.</p>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Once building starts, product questions arrive every day. There are two honest ways to handle
+            who answers them &mdash; and one dishonest way that quietly poisons the engagement. The
+            workshop forces the choice out loud, and the answer is recorded in writing so it is durable.</p>
+          <ul>
+            <li><strong>PO mode.</strong> The client commits a named PO at &ge; 4 hours/week with a
+              2-business-day decision turnaround. Triage invitations go on their calendar and the PO
+              onboarding guide is delivered.</li>
+            <li><strong>Proxy mode.</strong> No owner is available, so the pod answers day-to-day product
+              questions itself under a signed rider, logs every decision, and the client ratifies the log
+              at each steering meeting.</li>
+            <li><strong>&times; "We'll figure it out as we go."</strong> Proxy mode chosen implicitly,
+              without the rider and without the decision log &mdash; the worst of both modes. The workshop
+              agenda exists to prevent exactly this.</li>
+          </ul>
+          <p>The decision is finalized on day 7 as a <strong>PO decision record</strong>: the mode chosen
+            in writing, with the PO named and their calendar commitments captured, or the rider signed and
+            the decision log created with ratification added to the steering agenda. Because this is an SOW
+            precondition with billing teeth, the build clock cannot start until it is settled &mdash; there
+            is no shrugging it down the road.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -402,6 +606,29 @@
         <p>Live access (or a signed fallback) is a condition of closing Phase&nbsp;0. The next phase
           doesn't begin without it.</p>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>The AI needs a contract and keys, and the client's security team needs a clear, written
+            answer to one question: what data does this thing see, and where does it go? The data-flow
+            brief answers it; the access path settles the keys. There are three paths.</p>
+          <table>
+            <thead><tr><th>Path</th><th>When</th><th>How it works</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Default</strong></td><td>Normal case</td><td>The client procures Anthropic access under their own agreement; keys live in their Key Vault; the pod runs on client-issued seats. Their contract, their audit trail.</td></tr>
+              <tr><td><strong>Fallback rider</strong></td><td>Procurement stalled</td><td>The firm's keys under a signed client consent rider, with a named migration date to move to client keys as soon as procurement lands.</td></tr>
+              <tr><td><strong>High-compliance</strong></td><td>Strict tenancy needs</td><td>Claude runs inside the client's own Azure tenant (Foundry). Verify model availability and Claude Code compatibility at Phase 0 before promising it.</td></tr>
+            </tbody>
+          </table>
+          <div class="aha">
+            <div class="lbl">Why this one has teeth</div>
+            <p>Live access under the client's account &mdash; or a signed fallback rider &mdash; is a
+              precondition of closing Phase 0. The next phase does not begin without it, and because
+              billing is gate-based, an unresolved tooling state on day 10 is the client's problem to
+              unblock, not the pod's to absorb.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -506,6 +733,78 @@
           <button data-tl-next type="button">Next day &rarr;</button>
         </div>
       </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>The default calendar is <strong>10 business days</strong>. The constraint is rarely effort
+            &mdash; it is lead time on the client side (procurement, security review, calendars). The two
+            workstreams, <strong>understanding</strong> and <strong>enablement</strong>, run in parallel
+            the whole way so that lead-time waits never idle the phase.</p>
+          <p class="dim"><strong>Before day 1 (no billing):</strong> the SOW is signed with the Phase 0
+            preconditions in it; the workshop is scheduled for day 3&ndash;4 (getting the sponsor, the
+            candidate PO, and the right domain experts in one room is the long pole); and the document
+            corpus is requested &mdash; "everything written about this problem, unsorted is fine."</p>
+
+          <h3>Week 1 &mdash; understand</h3>
+          <ul>
+            <li><strong>Day 1, kickoff.</strong> A 60-minute kickoff: introductions and the how-we-work
+              briefing (the build loop, the gates, what the client sees biweekly, what we need from them
+              and when). The Setup Owner opens the enablement workstream with client IT &mdash; Anthropic
+              procurement started, data-flow brief handed to security, repo/access checklist issued. The
+              corpus is received; intake begins.</li>
+            <li><strong>Day 2, intake and prep.</strong> The most tool-dense day. Claude catalogs every
+              document, then a fresh agent produces the contradiction and question lists. The cheap
+              (pre-workshop) questions go out by email today. The workshop brief is drafted by Claude,
+              curated by the Pod Lead down to one page, and sent personally &mdash; Claude never sends
+              anything to the client.</li>
+            <li><strong>Day 3, the outcome workshop (the anchor event).</strong> Half a day, humans only,
+              run by the Pod Lead: the problem in the sponsor's words (45 min); the three outcomes &mdash;
+              business, software, capability, each one sentence (45 min); the one metric with its baseline
+              and named source system (30 min); constraints (30 min); the PO decision, forced explicitly
+              (20 min); and tooling status with the fallback trigger date agreed (10 min).</li>
+            <li><strong>Day 4, first drafts.</strong> Claude drafts <code>problem-statement.md</code>,
+              <code>success-criteria.md</code>, and <code>constraints.md</code> from the workshop notes;
+              the Pod Lead corrects them the same day, because drafts age badly. Claude generates decision
+              list v1 &mdash; every unmade decision the workshop surfaced or dodged.</li>
+            <li><strong>Day 5, interviews and the first checkpoint.</strong> Stakeholder interviews with
+              the people who live the problem daily, not just the people who fund it; contradictions with
+              the sponsor's framing get flagged, not smoothed over. Then a 30-minute sponsor checkpoint
+              reads the draft problem statement <em>out loud</em> &mdash; the cheap-correction point, where
+              "that's not actually the problem" surfaces on day 5 rather than day 50.</li>
+          </ul>
+
+          <h3>Week 2 &mdash; verify and close</h3>
+          <ul>
+            <li><strong>Day 6, the metric gets proven.</strong> A working session with the data owner runs
+              the query live; the baseline is recorded with its source named. If the number cannot be
+              produced, it becomes a finding. The Quality Engineer vets every criterion.</li>
+            <li><strong>Day 7, constitution and the PO decision land.</strong> Claude drafts
+              <code>constitution.md</code> &mdash; the project's identity document, kept short enough that
+              the sponsor actually reads it. The PO decision is finalized in writing: PO mode or proxy
+              mode.</li>
+            <li><strong>Day 8, enablement converges.</strong> The tooling checkpoint with teeth: Anthropic
+              access goes live, or the fallback rider is invoked today &mdash; not "next week." The
+              delivery repo exists in the client org and all Phase 0 artifacts move into it; from today the
+              repo is the only home. The access checklist is closed out or escalated to the sponsor by name.</li>
+            <li><strong>Day 9, the gate run.</strong> Claude drafts <code>phase1-handoff.md</code>; the
+              automated gate check runs against the artifacts and any placeholder content or missing
+              sections gets fixed today; the narrative companion for the sponsor is generated.</li>
+            <li><strong>Day 10, phase review and sign-off.</strong> A 45-minute review walks the
+              constitution, the metric with its verified baseline, the constraints, the PO decision, and
+              the open questions. The sponsor signs the outcome statement; the human sign-off is recorded;
+              the engagement advances to Phase 1. This is billing milestone 1.</li>
+          </ul>
+
+          <div class="aha warn">
+            <div class="lbl">When the calendar slips</div>
+            <p>Procurement stalls &rarr; invoke the fallback rider on day 8 as planned; don't extend the
+              phase waiting. The workshop can't be scheduled inside week 1 &rarr; move the phase start,
+              don't stretch it, since billing is gate-based. Useful idle time &rarr; deepen intake, draft
+              syntheses, prep the Phase 1 workspace. What the pod never does is start Phase 1 work early
+              "since we're waiting" &mdash; requirements built on an unsigned problem statement get rebuilt.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -549,6 +848,33 @@
         <li><span class="box" aria-hidden="true"></span><span class="txt">Every still-open question is written down, numbered, with an owner</span></li>
         <li><span class="box" aria-hidden="true"></span><span class="txt">A named human has approved the move to the next phase</span></li>
       </ul>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>A phase does not end because two weeks went by. It ends when a specific list is true and a
+            named human signs to advance. Automated checks confirm the mechanical parts; a person owns the
+            judgment. <strong>Gates report; humans decide.</strong> Phase 0 closes when all of these are
+            true, verified at the day-10 review:</p>
+          <ul>
+            <li>The automated gate checks pass: artifacts exist, are complete, contain no placeholders.</li>
+            <li>The sponsor signed the outcome statement (constitution).</li>
+            <li>The success metric was <strong>read from its source system</strong> at least once, baseline
+              recorded.</li>
+            <li><strong>The PO decision is in writing</strong> &mdash; named PO with calendar commitments,
+              or signed proxy rider. <em>(billing teeth)</em></li>
+            <li><strong>Anthropic access is live</strong> under the client's account, or the fallback rider
+              is signed. <em>(billing teeth)</em></li>
+            <li>The repo exists in the client org with artifacts committed; the access checklist is closed.</li>
+            <li>The handoff document carries every open question, numbered, with an owner.</li>
+            <li>A named human (sponsor side) approved the advance.</li>
+          </ul>
+          <p class="dim">These gates are also the billing milestones &mdash; the moment a phase closes is
+            the moment that work is accepted and paid for. Two of the items are SOW preconditions with
+            billing teeth (the PO decision and tooling). If either is unresolved on day 10, the phase does
+            not close, and the SOW's gate-based billing is what makes that the client's problem to unblock
+            rather than ours to absorb.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -571,630 +897,24 @@
           <tr><td><strong>Discovery that won't end</strong></td><td>Week four of "just two more interviews"</td><td>Four questions, not all questions. Open ones get carried forward.</td><td>Two questions handed to Phase 1</td></tr>
         </tbody>
       </table>
-    </div>
-  </section>
-
-</main>
-<main id="track-reference" class="track">
-
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">01</span>
-      <p class="kicker">Reference &middot; Phase 0 &middot; Discovery</p>
-      <h2>Why Phase 0 exists</h2>
-      <p>One job: answer four questions, and nothing else. Requirements, design, and planning
-        are deliberately out of scope &mdash; each has its own phase, and each done early is rework.</p>
-      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
-        artifacts, and gate. For the full prose method switch to <a href="#deepdive">Deep-dive</a>;
-        for the complete Harbor artifacts (every ID and quote) switch to <a href="#example">Example</a>.</p>
-    </div>
-  </section>
-
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">02</span>
-      <p class="kicker">The rule that governs everything</p>
-      <h2>The one rule</h2>
-      <table>
-        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
-        <tbody>
-          <tr><td>Sponsor states the problem and the one success metric. Pod Lead runs the outcome workshop.</td><td>Interrogates: surfaces unmade decisions; drafts constitution, problem statement, constraints from workshop notes; runs document intake on the client's RFPs and specs.</td><td>Problem framing is human-authored &mdash; Claude never invents the problem. Phase advance.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">03</span>
-      <p class="kicker">Who carries the phase</p>
-      <h2>Who's involved</h2>
-      <h3>Our side</h3>
-      <table>
-        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
-        <tbody>
-          <tr><td>Pod Lead</td><td>60&ndash;80%</td><td>Understanding &mdash; workshop, interviews, every artifact's content, the decision list, sponsor sign-off</td></tr>
-          <tr><td>Setup Owner</td><td>40&ndash;50%</td><td>Enablement &mdash; Anthropic procurement, repo &amp; access, the data-flow brief, the initialized delivery repo</td></tr>
-          <tr><td>Quality Engineer</td><td>~10%</td><td>One job: vet the success criteria for measurability</td></tr>
-          <tr><td>Orchestrators</td><td>0&ndash;10%</td><td>Not yet staffed; they arrive in Phase 1</td></tr>
-        </tbody>
-      </table>
-      <h3>Client side</h3>
-      <table>
-        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
-        <tbody>
-          <tr><td>Sponsor</td><td>Workshop, the PO decision, phase sign-off</td><td>Half-day + two 30-min checkpoints</td></tr>
-          <tr><td>Candidate PO</td><td>Workshop; the PO-mode commitment</td><td>Workshop + one conversation</td></tr>
-          <tr><td>Security / IT</td><td>Procurement, repo access, data-flow review</td><td>Hours &mdash; but engage day 1 for lead time</td></tr>
-          <tr><td>Domain experts (2&ndash;4)</td><td>Week-1 interviews</td><td>45&ndash;60 min each</td></tr>
-          <tr><td>Ops / data owner</td><td>Verifying the metric is readable</td><td>One working session</td></tr>
-        </tbody>
-      </table>
-      <p class="note">The hardest person to get is usually the data owner. Book them early &mdash; an unverifiable success metric is the most common Phase 0 failure.</p>
-    </div>
-  </section>
-
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">04</span>
-      <p class="kicker">What the two weeks must answer</p>
-      <h2>The four questions</h2>
-      <ol>
-        <li><strong>What problem are we solving, and how will we know we solved it?</strong> (one measurable metric)</li>
-        <li><strong>Who decides product questions during the build?</strong> (the PO decision)</li>
-        <li><strong>Can we legally and technically work?</strong> (tooling, access, data boundary)</li>
-        <li><strong>What constraints are non-negotiable?</strong> (technical, regulatory, organizational)</li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">05</span>
-      <p class="kicker">The technique that earns the phase</p>
-      <h2>Reading the documents against each other</h2>
-      <p>Intake catalogs every document, then reads them against each other. Each contradiction is
-        sized by severity and routed accordingly &mdash; the cheap ones clear before the workshop,
-        the expensive ones become workshop or handoff material.</p>
-      <table>
-        <thead><tr><th>Severity</th><th>What it is</th><th>Routing</th></tr></thead>
-        <tbody>
-          <tr><td>Cheap</td><td>A fact one party can answer in a sentence</td><td>Emailed day 2; answered before the workshop</td></tr>
-          <tr><td>Material</td><td>Two documents assume different scope, owner, or number</td><td>Surfaced at the day-3 outcome workshop for a human to resolve</td></tr>
-          <tr><td>Unresolvable</td><td>A real decision nobody has made yet</td><td>Named on the decision list; carried to the handoff as a numbered open question</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">06</span>
-      <p class="kicker">The quality target, made real</p>
-      <h2>The success metric</h2>
-      <p>Every criterion in <code>success-criteria.md</code> carries four fields. The baseline is
-        produced on day 6 by running the report live &mdash; not promised, not estimated.</p>
-      <table>
-        <thead><tr><th>Field</th><th>Means</th></tr></thead>
-        <tbody>
-          <tr><td>Baseline</td><td>The current number, read from the source system with the data owner on day 6</td></tr>
-          <tr><td>Target</td><td>The number that means "solved" &mdash; agreed by the sponsor</td></tr>
-          <tr><td>Method</td><td>How the number is computed and re-read later</td></tr>
-          <tr><td>Source</td><td>The system of record the number comes from &mdash; verified readable, not assumed</td></tr>
-        </tbody>
-      </table>
-      <p class="note">QE vets every criterion for measurability on day 6. A criterion without a readable baseline does not pass.</p>
-    </div>
-  </section>
-
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">07</span>
-      <p class="kicker">The decision that can't be dodged</p>
-      <h2>Who decides (the PO)</h2>
-      <p>The PO decision is one of two modes, chosen in writing on day 7. Choosing nothing is
-        proxy mode chosen implicitly &mdash; the worst of both.</p>
-      <table>
-        <thead><tr><th>Mode</th><th>What it is</th><th>What it requires</th></tr></thead>
-        <tbody>
-          <tr><td>PO mode</td><td>The client names a Product Owner who decides product questions during the build</td><td>Named person + written commitment on availability and decision authority</td></tr>
-          <tr><td>Proxy mode</td><td>The pod proxies product decisions under a signed rider</td><td>Signed proxy rider; escalation path and review cadence defined</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">08</span>
-      <p class="kicker">Can we legally and technically work</p>
-      <h2>Tooling &amp; the data boundary</h2>
-      <table>
-        <thead><tr><th>Path</th><th>When</th><th>How it works</th></tr></thead>
-        <tbody>
-          <tr><td>Default</td><td>Normal case</td><td>Client procures Anthropic access under their own agreement; keys in their Key Vault; pod on client-issued seats. Their contract, their audit trail.</td></tr>
-          <tr><td>Fallback rider</td><td>Procurement stalled</td><td>Firm's keys under a signed client consent rider, migrated to client keys as soon as procurement lands.</td></tr>
-          <tr><td>High-compliance</td><td>Strict tenancy needs</td><td>Claude via the client's own Azure tenant (Foundry). Verify model availability and Claude Code compatibility at Phase 0 before promising it.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">09</span>
-      <p class="kicker">The ten days, end to end</p>
-      <h2>How the two weeks unfold</h2>
-      <table>
-        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>Kickoff</td><td>How-we-work briefing; corpus received; enablement workstream opened with client IT</td><td><code>/sdlc-setup</code></td></tr>
-          <tr><td>2</td><td>Intake &amp; prep</td><td>Catalog the corpus; cross-document contradiction &amp; question lists; cheap questions emailed; workshop brief drafted, curated, sent</td><td><code>/sdlc-intake</code>, <code>/sdlc-brief</code></td></tr>
-          <tr><td>3</td><td>Outcome workshop</td><td>The problem, three outcomes, the one metric, constraints, the PO decision, tooling status &mdash; humans only</td><td>&mdash;</td></tr>
-          <tr><td>4</td><td>First drafts</td><td>Problem statement, success criteria, constraints drafted &amp; corrected; decision list v1</td><td><code>/sdlc-coach</code></td></tr>
-          <tr><td>5</td><td>Interviews &amp; checkpoint</td><td>Stakeholder interviews; sponsor checkpoint reads the draft out loud &mdash; the cheap-correction point</td><td>&mdash;</td></tr>
-          <tr><td>6</td><td>Prove the metric</td><td>Run the report live with the data owner; record the baseline with its source; QE vets every criterion</td><td>&mdash;</td></tr>
-          <tr><td>7</td><td>Constitution &amp; PO</td><td>Constitution drafted; PO decision finalized in writing (PO mode or proxy mode)</td><td><code>/sdlc-coach</code></td></tr>
-          <tr><td>8</td><td>Enablement converges</td><td>Anthropic access live (or fallback rider invoked); delivery repo live with artifacts committed</td><td>&mdash;</td></tr>
-          <tr><td>9</td><td>Gate run</td><td>Phase 1 handoff drafted; automated gate check; narrative companion generated</td><td><code>/sdlc-gate</code>, <code>/sdlc-enhance</code></td></tr>
-          <tr><td>10</td><td>Review &amp; sign-off</td><td>45-min phase review; sponsor signs; advance recorded &mdash; billing milestone 1</td><td><code>/sdlc-next</code></td></tr>
-        </tbody>
-      </table>
-      <p class="note">The two-week figure assumes client lead times cooperate. When procurement stalls, invoke the fallback rider on day 8 as planned &mdash; don't stretch the phase. Never start Phase 1 work early "since we're waiting."</p>
-
-      <h3>Cadences</h3>
-      <table>
-        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
-        <tbody>
-          <tr><td>Daily 15-min sync</td><td>Pod Lead + Setup Owner</td><td>The two workstreams trade status &mdash; what's blocked on the client, what lands today</td></tr>
-          <tr><td>Sponsor checkpoints (days 1, 5, 10)</td><td>Pod Lead + Sponsor</td><td>Kickoff, draft review, phase review. The day-5 one is the cheap-correction point</td></tr>
-          <tr><td>Anchor events</td><td>Per calendar</td><td>Workshop (3), metric session (6), gate run (9) &mdash; move only if people can't be gotten</td></tr>
-        </tbody>
-      </table>
-
-      <h3>The artifacts</h3>
-      <table>
-        <thead><tr><th>Artifact</th><th>Owned by</th><th>Done means</th></tr></thead>
-        <tbody>
-          <tr><td>constitution.md</td><td>Sponsor (signs)</td><td>Identity, three outcomes, metric, constraints, principles &mdash; short enough to be read</td></tr>
-          <tr><td>problem-statement.md</td><td>Pod Lead</td><td>Root cause &amp; quantified impact in the sponsor's language; human-authored framing</td></tr>
-          <tr><td>success-criteria.md</td><td>Pod Lead + QE</td><td>Every criterion has baseline, target, method, source &mdash; baseline produced on day 6, not promised</td></tr>
-          <tr><td>constraints.md</td><td>Pod Lead</td><td>Each constraint has a rationale and a fixed/negotiable flag</td></tr>
-          <tr><td>Decision list</td><td>Pod Lead</td><td>Every unmade decision named; answered, or carried to the handoff as a numbered question</td></tr>
-          <tr><td>Document registry</td><td>Setup Owner</td><td>Every document has a DOC ID and summary; contradictions listed</td></tr>
-          <tr><td>PO decision record</td><td>Sponsor</td><td>Mode chosen in writing; PO named with commitments, or rider signed</td></tr>
-          <tr><td>Tooling record</td><td>Setup Owner</td><td>Anthropic access live under client account, or fallback rider signed with a date</td></tr>
-          <tr><td>phase1-handoff.md</td><td>Pod Lead</td><td>Summary, decisions, numbered open questions, risks, recommended starting point</td></tr>
-        </tbody>
-      </table>
-      <p>Deliberately <strong>not</strong> produced: requirements, user stories, architecture options, technology selections, or any code beyond the empty repo scaffold. Each has its own phase; each done early is rework.</p>
-    </div>
-  </section>
-
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">10</span>
-      <p class="kicker">What "done" actually requires</p>
-      <h2>The gate</h2>
-      <p>Phase 0 closes when all of these are true, verified at the day-10 review:</p>
-      <ul>
-        <li>Automated gate checks pass &mdash; artifacts complete, no placeholders</li>
-        <li>Sponsor signed the outcome statement (constitution)</li>
-        <li>Success metric read from its source system, baseline recorded</li>
-        <li><strong>The PO decision in writing</strong> &mdash; named PO with commitments, or signed proxy rider <em>(billing teeth)</em></li>
-        <li><strong>Anthropic access live</strong> under the client's account, or fallback rider signed <em>(billing teeth)</em></li>
-        <li>Repo exists in the client org with artifacts committed; access checklist closed</li>
-        <li>Handoff carries every open question, numbered, with an owner</li>
-        <li>A named human approved the advance</li>
-      </ul>
-      <p class="note">Two of these are contract preconditions with billing teeth (the PO decision and tooling). If either is unresolved on day 10, the phase does not close &mdash; and gate-based billing makes that the client's problem to unblock rather than the pod's to absorb.</p>
-    </div>
-  </section>
-
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">11</span>
-      <p class="kicker">The failure modes to watch</p>
-      <h2>How it goes wrong</h2>
-      <ul>
-        <li><strong>The deliverables list in an outcome costume.</strong> "Build an API, a portal, a dashboard" instead of an outcome. Test: an outcome survives the deliverable changing.</li>
-        <li><strong>The unreadable metric.</strong> Everyone agrees to "reduce processing time 30%" and nobody can produce the current number. Day 6 exists for this.</li>
-        <li><strong>The dodged PO decision.</strong> "We'll figure out ownership as we go" is proxy mode chosen implicitly &mdash; the worst of both modes.</li>
-        <li><strong>Procurement drift.</strong> "Tooling will sort itself out in Phase 1." Day 8 is the hard checkpoint.</li>
-        <li><strong>The sponsor who nods.</strong> A beautiful draft, skimmed and approved, wrong on day 50. The defense is the day-5 read-aloud and the interviews.</li>
-        <li><strong>Discovery that won't end.</strong> Week 4 of "just two more interviews." Open questions go in the handoff, numbered &mdash; that's what the list is for.</li>
-      </ul>
-    </div>
-  </section>
-
-</main>
-<main id="track-deepdive" class="track">
-
-  <!-- 01 why phase 0 exists -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">01</span>
-      <p class="kicker">Why this phase exists at all</p>
-      <h2>Why Phase 0 exists</h2>
-      <p>An AI coding agent can produce a working feature in an afternoon. That speed is only worth
-        anything if the feature is the right one. Build the wrong thing quickly and you have simply
-        arrived at the wrong place sooner &mdash; and now real code depends on the mistake. Phase 0 is
-        where the engagement makes sure it is solving the right problem before a single line gets
-        written.</p>
-      <p>Phase 0 answers four questions, and nothing else:</p>
-      <ol>
-        <li><strong>What problem are we solving, and how will we know we solved it?</strong> One
-          measurable metric &mdash; not a feature list.</li>
-        <li><strong>Who decides product questions during the build?</strong> The PO decision.</li>
-        <li><strong>Can we legally and technically work?</strong> Tooling, access, the data boundary.</li>
-        <li><strong>What constraints are non-negotiable?</strong> Technical, regulatory, organizational.</li>
-      </ol>
-      <p class="dim">Everything that looks like requirements, design, or planning is deliberately out
-        of scope. That work has its own phases. Pulling it forward before these four answers exist is
-        how engagements end up building the wrong thing precisely &mdash; a polished, well-tested
-        solution to a problem nobody actually had. A wrong assumption caught in week one is a
-        twenty-minute conversation; caught in month three it is a rebuild, because real code now
-        depends on it.</p>
-      <div class="aha warn">
-        <div class="lbl">The expensive mistake</div>
-        <p>Anything built before the four answers exist gets rebuilt once the answers arrive. Pulled-forward
-          work is not a head start &mdash; it is rework with a delay.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 02 the one rule -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">The rule that governs everything</p>
-      <h2>The one rule</h2>
-      <p>One sentence is the spine of the whole method: <strong>Claude drafts and interrogates;
-        humans decide and own.</strong> The AI does the reading, the summarizing, the questioning, and
-        the first drafts. People make every decision and carry the accountability. A machine reports;
-        a named human signs.</p>
-      <p>Phase 0 is the phase with the strictest human-in-the-loop rule in the whole standard:
-        <strong>the problem statement is human-authored.</strong> Claude never invents the problem.
-        What the project is actually for is written by a human, full stop. What Claude does do, heavily:</p>
-      <ul>
-        <li><strong>Document intake.</strong> The corpus is ingested on day 1&ndash;2: per-document
-          summaries, a registry with DOC-NNN IDs for traceability, and a contradiction list ("the RFP
-          says X, the architecture deck says Y").</li>
-        <li><strong>Interrogation.</strong> Before the workshop, Claude generates the question list
-          from the corpus &mdash; gaps, ambiguities, unstated assumptions. After the workshop, it
-          generates the decision list: every decision the humans have not made yet, named explicitly.</li>
-        <li><strong>Drafting.</strong> Every artifact is drafted by Claude from human-generated raw
-          material (workshop notes, interview notes), then corrected by the Pod Lead and ratified by
-          the sponsor. Drafting is cheap; the humans spend their time on whether it is <em>true</em>.</li>
-      </ul>
-      <p class="dim">What Claude is <em>not</em> in the room for: the workshop itself and the
-        interviews. Those are human conversations. Claude preps the questions going in and structures
-        the notes coming out. The mandatory human stops in this phase are two: <strong>problem framing
-        is human-authored</strong>, and <strong>the phase advance</strong> is a named human sign-off.</p>
-      <div class="aha">
-        <div class="lbl">The division of labor</div>
-        <p><strong>Claude</strong> reads every document, finds the contradictions, lists the open
-          questions, writes the first drafts. <strong>People</strong> decide what the problem is,
-          settle the contradictions, choose the measure of success, and correct &amp; sign the drafts.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03 who's involved -->
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">03</span>
-      <p class="kicker">Who is in the room</p>
-      <h2>Who's involved</h2>
-      <p>Phase 0 is deliberately thin on our side. Most of the pod is not yet billing; the work is two
-        people running two parallel workstreams, with Claude doing the reading and drafting.</p>
-      <h3>Our side</h3>
-      <table>
-        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Pod Lead</strong></td><td>60&ndash;80%</td><td><strong>Understanding</strong> &mdash; the workshop, stakeholder interviews, every artifact's content, the decision list, sponsor sign-off</td></tr>
-          <tr><td><strong>Setup Owner</strong></td><td>40&ndash;50%</td><td><strong>Enablement</strong> &mdash; Anthropic procurement, repo and access checklist, the data-flow brief to client security, the empty delivery repo with the engagement structure initialized</td></tr>
-          <tr><td><strong>Quality Engineer</strong></td><td>~10%</td><td>One job: vet the success criteria for measurability ("what query, on what system, produces this number?")</td></tr>
-          <tr><td><strong>Orchestrators</strong></td><td>0&ndash;10%</td><td>Not yet staffed, or assisting document intake; they arrive for real in Phase 1</td></tr>
-        </tbody>
-      </table>
-      <p class="dim">If the engagement is multi-pod from the start, the Engagement Lead runs Phase 0
-        once for the engagement; pods do not run separate discoveries.</p>
-      <h3>Client side</h3>
-      <table>
-        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Sponsor</strong> (owns budget and outcome)</td><td>The workshop, the PO decision, phase sign-off</td><td>Workshop half-day + two 30-min checkpoints</td></tr>
-          <tr><td><strong>Candidate PO</strong></td><td>The workshop; the PO-mode commitment decision</td><td>Workshop + one conversation</td></tr>
-          <tr><td><strong>Security / IT</strong></td><td>Anthropic procurement, repo access, data-flow brief review</td><td>Hours, but with lead time &mdash; engage day 1</td></tr>
-          <tr><td><strong>Domain experts</strong> (2&ndash;4 who live the problem)</td><td>Interviews in week 1</td><td>45&ndash;60 min each</td></tr>
-          <tr><td><strong>Ops / data owner</strong></td><td>Verifying the success metric is actually readable</td><td>One working session</td></tr>
-        </tbody>
-      </table>
-      <p class="note">The hardest person to get is usually the data owner. Book them early &mdash; an
-        unverifiable success metric is the most common Phase 0 failure.</p>
-    </div>
-  </section>
-
-  <!-- 04 the four questions -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">04</span>
-      <p class="kicker">What the two weeks must answer</p>
-      <h2>The four questions</h2>
-      <p>Everything Phase 0 produces exists to answer exactly four questions. Each is non-negotiable,
-        and each has a specific way of going wrong when it is skipped.</p>
-      <ol>
-        <li><strong>What problem are we solving, and how will we know we solved it?</strong> A problem
-          and one number. The success metric is a single measurable thing, not a deliverables list.
-          If the answer names a system instead of a number, it is a feature list wearing an outcome
-          costume.</li>
-        <li><strong>Who decides product questions during the build?</strong> Once building starts,
-          product questions arrive every day. Someone client-side has to own the daily calls &mdash;
-          a named PO with committed hours, or a signed proxy arrangement. This is the PO decision, and
-          it carries billing teeth.</li>
-        <li><strong>Can we legally and technically work?</strong> The AI needs a contract and keys,
-          and the client's security team needs a written answer to one question: what data does this
-          thing see, and where does it go? Tooling, access, and the data boundary &mdash; settled
-          before anyone opens a terminal.</li>
-        <li><strong>What constraints are non-negotiable?</strong> The technical, regulatory, budget,
-          timeline, and political facts that cannot be designed away. Each gets recorded with a
-          rationale and a fixed-or-negotiable flag.</li>
-      </ol>
-      <div class="aha warn">
-        <div class="lbl">The temptation to resist</div>
-        <p>It feels productive to start sketching requirements or architecture now. Don't. Each has
-          its own phase, and anything built before these four answers exist gets rebuilt once the
-          answers arrive.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05 reading documents against each other -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">05</span>
-      <p class="kicker">The technique that earns the phase</p>
-      <h2>Reading the documents against each other</h2>
-      <p>A client hands over a stack of documents written by different people at different times: RFPs,
-        prior vendor docs, API specs, strategy decks. They disagree constantly &mdash; and those
-        disagreements are exactly where the project's biggest risks are hiding. Claude does not just
-        summarize the pile; it reads it <em>against itself</em>.</p>
-      <p>On day 2, the most tool-dense day of the phase, every corpus document is cataloged with a
-        stable ID (DOC-001, DOC-002&hellip;). The Pod Lead reviews the catalog and sets priorities &mdash;
-        which documents matter most, which to skip. Claude then writes a budgeted summary per document
-        (capped by priority so the whole corpus stays loadable in one later session), a human-readable
-        registry, and a condensed index that loads at the start of every later session. The catalog is
-        locked once complete, so document references stay stable all the way into requirements
-        traceability.</p>
-      <p>A fresh analysis agent &mdash; one that has not been part of the conversation so far &mdash;
-        then compares the documents against each other and produces two artifacts:</p>
-      <ul>
-        <li><strong>The contradiction list</strong> (CON-01, CON-02&hellip;) &mdash; every place the
-          documents disagree, each entry carrying two verbatim quotes with their sources, a severity
-          rating, and the question a human must answer to resolve it.</li>
-        <li><strong>The question list</strong> (Q-01, Q-02&hellip;) &mdash; everything no document
-          answers, grouped by workshop agenda block.</li>
-      </ul>
-      <p>Each item is sized two ways. <strong>Severity</strong>: does it block an outcome, or merely
-        shape a design choice? <strong>Routing</strong> sends each question one of three ways &mdash;
-        <em>workshop</em> (only the room can answer it), <em>pre-workshop</em> (answerable by email
-        before day 3, sent the same day so room time is spent only on what the room can uniquely
-        answer), or <em>interview</em> (better asked one-on-one on day 5).</p>
-      <div class="aha">
-        <div class="lbl">Why a contradiction is good news</div>
-        <p>A contradiction is not an embarrassment. It is a decision nobody realized they had to make,
-          surfaced while it is still cheap to make it.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 06 the success metric -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">06</span>
-      <p class="kicker">The one measure of success</p>
-      <h2>The success metric</h2>
-      <p>"Reduce processing time by 30%" sounds like a goal. It is worthless if nobody can produce
-        <em>today's</em> processing time. A target with no readable baseline is a wish. The success
-        metric must be <strong>read live from a real system</strong>, with the current number written
-        down and its source named. Promised is not good enough; proven is the bar.</p>
-      <p>On day 6 the pod sits with the client's data owner and actually runs the query, opens the
-        dashboard, or pulls the report the metric will be read from &mdash; and records the baseline
-        number in <code>success-criteria.md</code> with its source named. The Quality Engineer then
-        vets every success criterion: baseline, target, measurement method, reading cadence.</p>
-      <p class="dim">If the number cannot be produced, this is a Phase 0 <em>finding</em>, not a
-        footnote. Either the metric changes to something measurable, or "instrument the metric" becomes
-        the first epic of Phase 1 &mdash; decided now, not discovered in week nine.</p>
-      <div class="aha warn">
-        <div class="lbl">The most common way Phase 0 fails</div>
-        <p>Everyone nods along to a goal nobody can measure. Months later there is no way to tell if the
-          project worked. That is why proving the metric is a whole day's work.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 07 who decides (the PO) -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
-      <p class="kicker">Who answers the daily questions</p>
-      <h2>Who decides (the PO)</h2>
-      <p>Once building starts, product questions arrive every day. There are two honest ways to handle
-        who answers them &mdash; and one dishonest way that quietly poisons the engagement. The
-        workshop forces the choice out loud, and the answer is recorded in writing so it is durable.</p>
-      <ul>
-        <li><strong>PO mode.</strong> The client commits a named PO at &ge; 4 hours/week with a
-          2-business-day decision turnaround. Triage invitations go on their calendar and the PO
-          onboarding guide is delivered.</li>
-        <li><strong>Proxy mode.</strong> No owner is available, so the pod answers day-to-day product
-          questions itself under a signed rider, logs every decision, and the client ratifies the log
-          at each steering meeting.</li>
-        <li><strong>&times; "We'll figure it out as we go."</strong> Proxy mode chosen implicitly,
-          without the rider and without the decision log &mdash; the worst of both modes. The workshop
-          agenda exists to prevent exactly this.</li>
-      </ul>
-      <p>The decision is finalized on day 7 as a <strong>PO decision record</strong>: the mode chosen
-        in writing, with the PO named and their calendar commitments captured, or the rider signed and
-        the decision log created with ratification added to the steering agenda. Because this is an SOW
-        precondition with billing teeth, the build clock cannot start until it is settled &mdash; there
-        is no shrugging it down the road.</p>
-    </div>
-  </section>
-
-  <!-- 08 tooling & the data boundary -->
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">08</span>
-      <p class="kicker">Can we even work here?</p>
-      <h2>Tooling &amp; the data boundary</h2>
-      <p>The AI needs a contract and keys, and the client's security team needs a clear, written
-        answer to one question: what data does this thing see, and where does it go? The data-flow
-        brief answers it; the access path settles the keys. There are three paths.</p>
-      <table>
-        <thead><tr><th>Path</th><th>When</th><th>How it works</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Default</strong></td><td>Normal case</td><td>The client procures Anthropic access under their own agreement; keys live in their Key Vault; the pod runs on client-issued seats. Their contract, their audit trail.</td></tr>
-          <tr><td><strong>Fallback rider</strong></td><td>Procurement stalled</td><td>The firm's keys under a signed client consent rider, with a named migration date to move to client keys as soon as procurement lands.</td></tr>
-          <tr><td><strong>High-compliance</strong></td><td>Strict tenancy needs</td><td>Claude runs inside the client's own Azure tenant (Foundry). Verify model availability and Claude Code compatibility at Phase 0 before promising it.</td></tr>
-        </tbody>
-      </table>
-      <div class="aha">
-        <div class="lbl">Why this one has teeth</div>
-        <p>Live access under the client's account &mdash; or a signed fallback rider &mdash; is a
-          precondition of closing Phase 0. The next phase does not begin without it, and because
-          billing is gate-based, an unresolved tooling state on day 10 is the client's problem to
-          unblock, not the pod's to absorb.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 09 how the two weeks unfold -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">The two weeks, end to end</p>
-      <h2>How the two weeks unfold</h2>
-      <p>The default calendar is <strong>10 business days</strong>. The constraint is rarely effort
-        &mdash; it is lead time on the client side (procurement, security review, calendars). The two
-        workstreams, <strong>understanding</strong> and <strong>enablement</strong>, run in parallel
-        the whole way so that lead-time waits never idle the phase.</p>
-      <p class="dim"><strong>Before day 1 (no billing):</strong> the SOW is signed with the Phase 0
-        preconditions in it; the workshop is scheduled for day 3&ndash;4 (getting the sponsor, the
-        candidate PO, and the right domain experts in one room is the long pole); and the document
-        corpus is requested &mdash; "everything written about this problem, unsorted is fine."</p>
-
-      <h3>Week 1 &mdash; understand</h3>
-      <ul>
-        <li><strong>Day 1, kickoff.</strong> A 60-minute kickoff: introductions and the how-we-work
-          briefing (the build loop, the gates, what the client sees biweekly, what we need from them
-          and when). The Setup Owner opens the enablement workstream with client IT &mdash; Anthropic
-          procurement started, data-flow brief handed to security, repo/access checklist issued. The
-          corpus is received; intake begins.</li>
-        <li><strong>Day 2, intake and prep.</strong> The most tool-dense day. Claude catalogs every
-          document, then a fresh agent produces the contradiction and question lists. The cheap
-          (pre-workshop) questions go out by email today. The workshop brief is drafted by Claude,
-          curated by the Pod Lead down to one page, and sent personally &mdash; Claude never sends
-          anything to the client.</li>
-        <li><strong>Day 3, the outcome workshop (the anchor event).</strong> Half a day, humans only,
-          run by the Pod Lead: the problem in the sponsor's words (45 min); the three outcomes &mdash;
-          business, software, capability, each one sentence (45 min); the one metric with its baseline
-          and named source system (30 min); constraints (30 min); the PO decision, forced explicitly
-          (20 min); and tooling status with the fallback trigger date agreed (10 min).</li>
-        <li><strong>Day 4, first drafts.</strong> Claude drafts <code>problem-statement.md</code>,
-          <code>success-criteria.md</code>, and <code>constraints.md</code> from the workshop notes;
-          the Pod Lead corrects them the same day, because drafts age badly. Claude generates decision
-          list v1 &mdash; every unmade decision the workshop surfaced or dodged.</li>
-        <li><strong>Day 5, interviews and the first checkpoint.</strong> Stakeholder interviews with
-          the people who live the problem daily, not just the people who fund it; contradictions with
-          the sponsor's framing get flagged, not smoothed over. Then a 30-minute sponsor checkpoint
-          reads the draft problem statement <em>out loud</em> &mdash; the cheap-correction point, where
-          "that's not actually the problem" surfaces on day 5 rather than day 50.</li>
-      </ul>
-
-      <h3>Week 2 &mdash; verify and close</h3>
-      <ul>
-        <li><strong>Day 6, the metric gets proven.</strong> A working session with the data owner runs
-          the query live; the baseline is recorded with its source named. If the number cannot be
-          produced, it becomes a finding. The Quality Engineer vets every criterion.</li>
-        <li><strong>Day 7, constitution and the PO decision land.</strong> Claude drafts
-          <code>constitution.md</code> &mdash; the project's identity document, kept short enough that
-          the sponsor actually reads it. The PO decision is finalized in writing: PO mode or proxy
-          mode.</li>
-        <li><strong>Day 8, enablement converges.</strong> The tooling checkpoint with teeth: Anthropic
-          access goes live, or the fallback rider is invoked today &mdash; not "next week." The
-          delivery repo exists in the client org and all Phase 0 artifacts move into it; from today the
-          repo is the only home. The access checklist is closed out or escalated to the sponsor by name.</li>
-        <li><strong>Day 9, the gate run.</strong> Claude drafts <code>phase1-handoff.md</code>; the
-          automated gate check runs against the artifacts and any placeholder content or missing
-          sections gets fixed today; the narrative companion for the sponsor is generated.</li>
-        <li><strong>Day 10, phase review and sign-off.</strong> A 45-minute review walks the
-          constitution, the metric with its verified baseline, the constraints, the PO decision, and
-          the open questions. The sponsor signs the outcome statement; the human sign-off is recorded;
-          the engagement advances to Phase 1. This is billing milestone 1.</li>
-      </ul>
-
-      <div class="aha warn">
-        <div class="lbl">When the calendar slips</div>
-        <p>Procurement stalls &rarr; invoke the fallback rider on day 8 as planned; don't extend the
-          phase waiting. The workshop can't be scheduled inside week 1 &rarr; move the phase start,
-          don't stretch it, since billing is gate-based. Useful idle time &rarr; deepen intake, draft
-          syntheses, prep the Phase 1 workspace. What the pod never does is start Phase 1 work early
-          "since we're waiting" &mdash; requirements built on an unsigned problem statement get rebuilt.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10 the gate -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
-      <p class="kicker">How a phase actually ends</p>
-      <h2>The gate</h2>
-      <p>A phase does not end because two weeks went by. It ends when a specific list is true and a
-        named human signs to advance. Automated checks confirm the mechanical parts; a person owns the
-        judgment. <strong>Gates report; humans decide.</strong> Phase 0 closes when all of these are
-        true, verified at the day-10 review:</p>
-      <ul>
-        <li>The automated gate checks pass: artifacts exist, are complete, contain no placeholders.</li>
-        <li>The sponsor signed the outcome statement (constitution).</li>
-        <li>The success metric was <strong>read from its source system</strong> at least once, baseline
-          recorded.</li>
-        <li><strong>The PO decision is in writing</strong> &mdash; named PO with calendar commitments,
-          or signed proxy rider. <em>(billing teeth)</em></li>
-        <li><strong>Anthropic access is live</strong> under the client's account, or the fallback rider
-          is signed. <em>(billing teeth)</em></li>
-        <li>The repo exists in the client org with artifacts committed; the access checklist is closed.</li>
-        <li>The handoff document carries every open question, numbered, with an owner.</li>
-        <li>A named human (sponsor side) approved the advance.</li>
-      </ul>
-      <p class="dim">These gates are also the billing milestones &mdash; the moment a phase closes is
-        the moment that work is accepted and paid for. Two of the items are SOW preconditions with
-        billing teeth (the PO decision and tooling). If either is unresolved on day 10, the phase does
-        not close, and the SOW's gate-based billing is what makes that the client's problem to unblock
-        rather than ours to absorb.</p>
-    </div>
-  </section>
-
-  <!-- 11 how it goes wrong -->
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">11</span>
-      <p class="kicker">How it goes wrong</p>
-      <h2>How it goes wrong</h2>
-      <p>Named failure modes, because every one of these has happened to somebody. Knowing them by
-        name is half the defense.</p>
-      <table>
-        <thead><tr><th>The failure mode</th><th>What it looks like</th><th>The defense</th></tr></thead>
-        <tbody>
-          <tr><td><strong>The deliverables list wearing an outcome costume</strong></td><td>The workshop produces "build an API, a portal, and a dashboard" instead of an outcome.</td><td>An outcome survives the deliverable changing. If the sentence names a system, keep asking why.</td></tr>
-          <tr><td><strong>The unreadable metric</strong></td><td>Everyone agrees on "reduce processing time 30%" and nobody can say what query produces the current number.</td><td>Day 6 exists for this. Produce it live, or change it; if the baseline can't be read, instrumenting it is Phase 1's first epic &mdash; decided now, not discovered in week 9.</td></tr>
-          <tr><td><strong>The dodged PO decision</strong></td><td>"We'll figure out product ownership as we go" &mdash; proxy mode chosen implicitly, without the rider, without the log.</td><td>The workshop agenda forces the question; the decision record makes the answer durable.</td></tr>
-          <tr><td><strong>Procurement drift</strong></td><td>"Tooling will sort itself out during Phase 1" &mdash; and the pod is three weeks in under our keys with no rider.</td><td>Day 8 is the hard checkpoint, with the fallback rider ready.</td></tr>
-          <tr><td><strong>The sponsor who nods</strong></td><td>Claude drafts a beautiful problem statement, the sponsor skims and nods, and on day 50 the problem turns out to be something else.</td><td>The day-5 checkpoint read <em>out loud</em>, plus interviews with people who live the problem &mdash; their disagreements are the most valuable finding Phase 0 produces.</td></tr>
-          <tr><td><strong>Discovery that won't end</strong></td><td>Week 4 of "just two more interviews."</td><td>Phase 0 answers four questions; it does not achieve certainty. Open questions go in the handoff, numbered, with owners &mdash; that's what the list is for.</td></tr>
-        </tbody>
-      </table>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p>Named failure modes, because every one of these has happened to somebody. Knowing them by
+            name is half the defense.</p>
+          <table>
+            <thead><tr><th>The failure mode</th><th>What it looks like</th><th>The defense</th></tr></thead>
+            <tbody>
+              <tr><td><strong>The deliverables list wearing an outcome costume</strong></td><td>The workshop produces "build an API, a portal, and a dashboard" instead of an outcome.</td><td>An outcome survives the deliverable changing. If the sentence names a system, keep asking why.</td></tr>
+              <tr><td><strong>The unreadable metric</strong></td><td>Everyone agrees on "reduce processing time 30%" and nobody can say what query produces the current number.</td><td>Day 6 exists for this. Produce it live, or change it; if the baseline can't be read, instrumenting it is Phase 1's first epic &mdash; decided now, not discovered in week 9.</td></tr>
+              <tr><td><strong>The dodged PO decision</strong></td><td>"We'll figure out product ownership as we go" &mdash; proxy mode chosen implicitly, without the rider, without the log.</td><td>The workshop agenda forces the question; the decision record makes the answer durable.</td></tr>
+              <tr><td><strong>Procurement drift</strong></td><td>"Tooling will sort itself out during Phase 1" &mdash; and the pod is three weeks in under our keys with no rider.</td><td>Day 8 is the hard checkpoint, with the fallback rider ready.</td></tr>
+              <tr><td><strong>The sponsor who nods</strong></td><td>Claude drafts a beautiful problem statement, the sponsor skims and nods, and on day 50 the problem turns out to be something else.</td><td>The day-5 checkpoint read <em>out loud</em>, plus interviews with people who live the problem &mdash; their disagreements are the most valuable finding Phase 0 produces.</td></tr>
+              <tr><td><strong>Discovery that won't end</strong></td><td>Week 4 of "just two more interviews."</td><td>Phase 0 answers four questions; it does not achieve certainty. Open questions go in the handoff, numbered, with owners &mdash; that's what the list is for.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -1871,6 +1591,240 @@
       <p class="note">All names, numbers, and documents are invented but internally consistent &mdash;
         the 11.4-day baseline, the CR-204 report, and the open question IDs trace through every
         artifact on this page.</p>
+    </div>
+  </section>
+
+</main>
+<main id="track-reference" class="track">
+
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">01</span>
+      <p class="kicker">Reference &middot; Phase 0 &middot; Discovery</p>
+      <h2>Why Phase 0 exists</h2>
+      <p>One job: answer four questions, and nothing else. Requirements, design, and planning
+        are deliberately out of scope &mdash; each has its own phase, and each done early is rework.</p>
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the exact roles, calendar,
+        artifacts, and gate. The full prose method sits under each section's &ldquo;Go deeper&rdquo; on the
+        <a href="#glance">How it works</a> tab; for the complete Harbor artifacts (every ID and quote), see
+        <a href="#example">Example</a>.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">02</span>
+      <p class="kicker">The rule that governs everything</p>
+      <h2>The one rule</h2>
+      <table>
+        <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
+        <tbody>
+          <tr><td>Sponsor states the problem and the one success metric. Pod Lead runs the outcome workshop.</td><td>Interrogates: surfaces unmade decisions; drafts constitution, problem statement, constraints from workshop notes; runs document intake on the client's RFPs and specs.</td><td>Problem framing is human-authored &mdash; Claude never invents the problem. Phase advance.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">03</span>
+      <p class="kicker">Who carries the phase</p>
+      <h2>Who's involved</h2>
+      <h3>Our side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Load</th><th>Workstream</th></tr></thead>
+        <tbody>
+          <tr><td>Pod Lead</td><td>60&ndash;80%</td><td>Understanding &mdash; workshop, interviews, every artifact's content, the decision list, sponsor sign-off</td></tr>
+          <tr><td>Setup Owner</td><td>40&ndash;50%</td><td>Enablement &mdash; Anthropic procurement, repo &amp; access, the data-flow brief, the initialized delivery repo</td></tr>
+          <tr><td>Quality Engineer</td><td>~10%</td><td>One job: vet the success criteria for measurability</td></tr>
+          <tr><td>Orchestrators</td><td>0&ndash;10%</td><td>Not yet staffed; they arrive in Phase 1</td></tr>
+        </tbody>
+      </table>
+      <h3>Client side</h3>
+      <table>
+        <thead><tr><th>Person</th><th>Needed for</th><th>How much</th></tr></thead>
+        <tbody>
+          <tr><td>Sponsor</td><td>Workshop, the PO decision, phase sign-off</td><td>Half-day + two 30-min checkpoints</td></tr>
+          <tr><td>Candidate PO</td><td>Workshop; the PO-mode commitment</td><td>Workshop + one conversation</td></tr>
+          <tr><td>Security / IT</td><td>Procurement, repo access, data-flow review</td><td>Hours &mdash; but engage day 1 for lead time</td></tr>
+          <tr><td>Domain experts (2&ndash;4)</td><td>Week-1 interviews</td><td>45&ndash;60 min each</td></tr>
+          <tr><td>Ops / data owner</td><td>Verifying the metric is readable</td><td>One working session</td></tr>
+        </tbody>
+      </table>
+      <p class="note">The hardest person to get is usually the data owner. Book them early &mdash; an unverifiable success metric is the most common Phase 0 failure.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">04</span>
+      <p class="kicker">What the two weeks must answer</p>
+      <h2>The four questions</h2>
+      <ol>
+        <li><strong>What problem are we solving, and how will we know we solved it?</strong> (one measurable metric)</li>
+        <li><strong>Who decides product questions during the build?</strong> (the PO decision)</li>
+        <li><strong>Can we legally and technically work?</strong> (tooling, access, data boundary)</li>
+        <li><strong>What constraints are non-negotiable?</strong> (technical, regulatory, organizational)</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">05</span>
+      <p class="kicker">The technique that earns the phase</p>
+      <h2>Reading the documents against each other</h2>
+      <p>Intake catalogs every document, then reads them against each other. Each contradiction is
+        sized by severity and routed accordingly &mdash; the cheap ones clear before the workshop,
+        the expensive ones become workshop or handoff material.</p>
+      <table>
+        <thead><tr><th>Severity</th><th>What it is</th><th>Routing</th></tr></thead>
+        <tbody>
+          <tr><td>Cheap</td><td>A fact one party can answer in a sentence</td><td>Emailed day 2; answered before the workshop</td></tr>
+          <tr><td>Material</td><td>Two documents assume different scope, owner, or number</td><td>Surfaced at the day-3 outcome workshop for a human to resolve</td></tr>
+          <tr><td>Unresolvable</td><td>A real decision nobody has made yet</td><td>Named on the decision list; carried to the handoff as a numbered open question</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">06</span>
+      <p class="kicker">The quality target, made real</p>
+      <h2>The success metric</h2>
+      <p>Every criterion in <code>success-criteria.md</code> carries four fields. The baseline is
+        produced on day 6 by running the report live &mdash; not promised, not estimated.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Means</th></tr></thead>
+        <tbody>
+          <tr><td>Baseline</td><td>The current number, read from the source system with the data owner on day 6</td></tr>
+          <tr><td>Target</td><td>The number that means "solved" &mdash; agreed by the sponsor</td></tr>
+          <tr><td>Method</td><td>How the number is computed and re-read later</td></tr>
+          <tr><td>Source</td><td>The system of record the number comes from &mdash; verified readable, not assumed</td></tr>
+        </tbody>
+      </table>
+      <p class="note">QE vets every criterion for measurability on day 6. A criterion without a readable baseline does not pass.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">07</span>
+      <p class="kicker">The decision that can't be dodged</p>
+      <h2>Who decides (the PO)</h2>
+      <p>The PO decision is one of two modes, chosen in writing on day 7. Choosing nothing is
+        proxy mode chosen implicitly &mdash; the worst of both.</p>
+      <table>
+        <thead><tr><th>Mode</th><th>What it is</th><th>What it requires</th></tr></thead>
+        <tbody>
+          <tr><td>PO mode</td><td>The client names a Product Owner who decides product questions during the build</td><td>Named person + written commitment on availability and decision authority</td></tr>
+          <tr><td>Proxy mode</td><td>The pod proxies product decisions under a signed rider</td><td>Signed proxy rider; escalation path and review cadence defined</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">08</span>
+      <p class="kicker">Can we legally and technically work</p>
+      <h2>Tooling &amp; the data boundary</h2>
+      <table>
+        <thead><tr><th>Path</th><th>When</th><th>How it works</th></tr></thead>
+        <tbody>
+          <tr><td>Default</td><td>Normal case</td><td>Client procures Anthropic access under their own agreement; keys in their Key Vault; pod on client-issued seats. Their contract, their audit trail.</td></tr>
+          <tr><td>Fallback rider</td><td>Procurement stalled</td><td>Firm's keys under a signed client consent rider, migrated to client keys as soon as procurement lands.</td></tr>
+          <tr><td>High-compliance</td><td>Strict tenancy needs</td><td>Claude via the client's own Azure tenant (Foundry). Verify model availability and Claude Code compatibility at Phase 0 before promising it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">09</span>
+      <p class="kicker">The ten days, end to end</p>
+      <h2>How the two weeks unfold</h2>
+      <table>
+        <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Kickoff</td><td>How-we-work briefing; corpus received; enablement workstream opened with client IT</td><td><code>/sdlc-setup</code></td></tr>
+          <tr><td>2</td><td>Intake &amp; prep</td><td>Catalog the corpus; cross-document contradiction &amp; question lists; cheap questions emailed; workshop brief drafted, curated, sent</td><td><code>/sdlc-intake</code>, <code>/sdlc-brief</code></td></tr>
+          <tr><td>3</td><td>Outcome workshop</td><td>The problem, three outcomes, the one metric, constraints, the PO decision, tooling status &mdash; humans only</td><td>&mdash;</td></tr>
+          <tr><td>4</td><td>First drafts</td><td>Problem statement, success criteria, constraints drafted &amp; corrected; decision list v1</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>5</td><td>Interviews &amp; checkpoint</td><td>Stakeholder interviews; sponsor checkpoint reads the draft out loud &mdash; the cheap-correction point</td><td>&mdash;</td></tr>
+          <tr><td>6</td><td>Prove the metric</td><td>Run the report live with the data owner; record the baseline with its source; QE vets every criterion</td><td>&mdash;</td></tr>
+          <tr><td>7</td><td>Constitution &amp; PO</td><td>Constitution drafted; PO decision finalized in writing (PO mode or proxy mode)</td><td><code>/sdlc-coach</code></td></tr>
+          <tr><td>8</td><td>Enablement converges</td><td>Anthropic access live (or fallback rider invoked); delivery repo live with artifacts committed</td><td>&mdash;</td></tr>
+          <tr><td>9</td><td>Gate run</td><td>Phase 1 handoff drafted; automated gate check; narrative companion generated</td><td><code>/sdlc-gate</code>, <code>/sdlc-enhance</code></td></tr>
+          <tr><td>10</td><td>Review &amp; sign-off</td><td>45-min phase review; sponsor signs; advance recorded &mdash; billing milestone 1</td><td><code>/sdlc-next</code></td></tr>
+        </tbody>
+      </table>
+      <p class="note">The two-week figure assumes client lead times cooperate. When procurement stalls, invoke the fallback rider on day 8 as planned &mdash; don't stretch the phase. Never start Phase 1 work early "since we're waiting."</p>
+
+      <h3>Cadences</h3>
+      <table>
+        <thead><tr><th>Rhythm</th><th>Who</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Daily 15-min sync</td><td>Pod Lead + Setup Owner</td><td>The two workstreams trade status &mdash; what's blocked on the client, what lands today</td></tr>
+          <tr><td>Sponsor checkpoints (days 1, 5, 10)</td><td>Pod Lead + Sponsor</td><td>Kickoff, draft review, phase review. The day-5 one is the cheap-correction point</td></tr>
+          <tr><td>Anchor events</td><td>Per calendar</td><td>Workshop (3), metric session (6), gate run (9) &mdash; move only if people can't be gotten</td></tr>
+        </tbody>
+      </table>
+
+      <h3>The artifacts</h3>
+      <table>
+        <thead><tr><th>Artifact</th><th>Owned by</th><th>Done means</th></tr></thead>
+        <tbody>
+          <tr><td>constitution.md</td><td>Sponsor (signs)</td><td>Identity, three outcomes, metric, constraints, principles &mdash; short enough to be read</td></tr>
+          <tr><td>problem-statement.md</td><td>Pod Lead</td><td>Root cause &amp; quantified impact in the sponsor's language; human-authored framing</td></tr>
+          <tr><td>success-criteria.md</td><td>Pod Lead + QE</td><td>Every criterion has baseline, target, method, source &mdash; baseline produced on day 6, not promised</td></tr>
+          <tr><td>constraints.md</td><td>Pod Lead</td><td>Each constraint has a rationale and a fixed/negotiable flag</td></tr>
+          <tr><td>Decision list</td><td>Pod Lead</td><td>Every unmade decision named; answered, or carried to the handoff as a numbered question</td></tr>
+          <tr><td>Document registry</td><td>Setup Owner</td><td>Every document has a DOC ID and summary; contradictions listed</td></tr>
+          <tr><td>PO decision record</td><td>Sponsor</td><td>Mode chosen in writing; PO named with commitments, or rider signed</td></tr>
+          <tr><td>Tooling record</td><td>Setup Owner</td><td>Anthropic access live under client account, or fallback rider signed with a date</td></tr>
+          <tr><td>phase1-handoff.md</td><td>Pod Lead</td><td>Summary, decisions, numbered open questions, risks, recommended starting point</td></tr>
+        </tbody>
+      </table>
+      <p>Deliberately <strong>not</strong> produced: requirements, user stories, architecture options, technology selections, or any code beyond the empty repo scaffold. Each has its own phase; each done early is rework.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">10</span>
+      <p class="kicker">What "done" actually requires</p>
+      <h2>The gate</h2>
+      <p>Phase 0 closes when all of these are true, verified at the day-10 review:</p>
+      <ul>
+        <li>Automated gate checks pass &mdash; artifacts complete, no placeholders</li>
+        <li>Sponsor signed the outcome statement (constitution)</li>
+        <li>Success metric read from its source system, baseline recorded</li>
+        <li><strong>The PO decision in writing</strong> &mdash; named PO with commitments, or signed proxy rider <em>(billing teeth)</em></li>
+        <li><strong>Anthropic access live</strong> under the client's account, or fallback rider signed <em>(billing teeth)</em></li>
+        <li>Repo exists in the client org with artifacts committed; access checklist closed</li>
+        <li>Handoff carries every open question, numbered, with an owner</li>
+        <li>A named human approved the advance</li>
+      </ul>
+      <p class="note">Two of these are contract preconditions with billing teeth (the PO decision and tooling). If either is unresolved on day 10, the phase does not close &mdash; and gate-based billing makes that the client's problem to unblock rather than the pod's to absorb.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">11</span>
+      <p class="kicker">The failure modes to watch</p>
+      <h2>How it goes wrong</h2>
+      <ul>
+        <li><strong>The deliverables list in an outcome costume.</strong> "Build an API, a portal, a dashboard" instead of an outcome. Test: an outcome survives the deliverable changing.</li>
+        <li><strong>The unreadable metric.</strong> Everyone agrees to "reduce processing time 30%" and nobody can produce the current number. Day 6 exists for this.</li>
+        <li><strong>The dodged PO decision.</strong> "We'll figure out ownership as we go" is proxy mode chosen implicitly &mdash; the worst of both modes.</li>
+        <li><strong>Procurement drift.</strong> "Tooling will sort itself out in Phase 1." Day 8 is the hard checkpoint.</li>
+        <li><strong>The sponsor who nods.</strong> A beautiful draft, skimmed and approved, wrong on day 50. The defense is the day-5 read-aloud and the interviews.</li>
+        <li><strong>Discovery that won't end.</strong> Week 4 of "just two more interviews." Open questions go in the handoff, numbered &mdash; that's what the list is for.</li>
+      </ul>
     </div>
   </section>
 

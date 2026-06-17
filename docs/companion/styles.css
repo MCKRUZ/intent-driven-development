@@ -246,6 +246,19 @@ a { color: var(--accent); }
 
 @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
 
+/* ---- "go deeper" progressive disclosure (the full method, on demand) ------ */
+.deeper { margin-top: 20px; border-top: 1px dashed var(--rule); }
+.deeper > summary { cursor: pointer; list-style: none; padding: 13px 0 3px; font-size: 14px; font-weight: 700; letter-spacing: .3px; color: var(--accent); display: flex; align-items: center; gap: 9px; }
+.deeper > summary::-webkit-details-marker { display: none; }
+.deeper > summary::before { content: "\25B8"; font-size: 12px; transition: transform .15s ease; }
+.deeper[open] > summary::before { transform: rotate(90deg); }
+.deeper > summary:hover { color: var(--accent-deep); }
+.deeper .deeper-body { padding: 10px 0 4px; }
+.deeper .deeper-body > :first-child { margin-top: 0; }
+.deeper .deeper-body p { font-size: 15.5px; max-width: 72ch; }
+.deeper .deeper-body h3 { font-size: 17px; margin: 18px 0 8px; }
+@media (prefers-reduced-motion: reduce) { .deeper > summary::before { transition: none; } }
+
 /* ---- exit gate checklist -------------------------------------------------- */
 .gate { list-style: none; margin: 0; padding: 0; }
 .gate li { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer; transition: border-color .15s, background .15s; }
