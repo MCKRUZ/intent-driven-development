@@ -76,14 +76,16 @@ a { color: var(--accent); }
 /* ---- view toggle (Story | Reference) -------------------------------------- */
 .viewbar { background: var(--card); border-bottom: 1px solid var(--rule); position: sticky; top: 3px; z-index: 40; }
 .viewbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; }
-.toggle { display: inline-flex; background: #eef2f7; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; }
+.toggle { display: inline-flex; gap: 2px; background: transparent; border: 0; border-bottom: 1px solid var(--rule); padding: 0; }
 .toggle button {
   appearance: none; border: 0; background: transparent; cursor: pointer;
   font: inherit; font-size: 14px; font-weight: 600; color: var(--ink-soft);
-  padding: 7px 18px; border-radius: 999px; transition: background .15s, color .15s;
+  padding: 6px 14px; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  white-space: nowrap; transition: color .15s, border-color .15s;
 }
-.toggle button[aria-selected="true"] { background: var(--accent); color: #fff; }
-.toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.toggle button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.toggle button:hover { color: var(--ink); }
+.toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
 .viewbar .hint { font-size: 13px; color: var(--ink-faint); }
 .viewbar .hint kbd { font: inherit; font-size: 12px; background: #eef2f7; border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; }
 
