@@ -15,19 +15,24 @@
   /* ---- view toggle (Story | Reference) ----------------------------------- */
   function initToggle() {
     var buttons = Array.prototype.slice.call(document.querySelectorAll(".toggle button[data-view]"));
-    var tracks = {
-      story: document.getElementById("track-story"),
-      reference: document.getElementById("track-reference")
-    };
-    if (!buttons.length || !tracks.story || !tracks.reference) return;
+    if (!buttons.length) return;
+    // Generic over any number of segments: each button's data-view maps to a
+    // track element with id "track-<view>". Works for 2-way and 4-way pills.
+    var views = buttons.map(function (b) { return b.dataset.view; });
+    var tracks = {};
+    for (var i = 0; i < views.length; i++) {
+      tracks[views[i]] = document.getElementById("track-" + views[i]);
+      if (!tracks[views[i]]) return;   // every segment needs a matching track
+    }
+    var def = views[0];
 
     function show(view) {
-      if (view !== "story" && view !== "reference") view = "story";
+      if (views.indexOf(view) < 0) view = def;
       buttons.forEach(function (b) {
         b.setAttribute("aria-selected", String(b.dataset.view === view));
       });
-      Object.keys(tracks).forEach(function (k) {
-        tracks[k].classList.toggle("active", k === view);
+      views.forEach(function (v) {
+        tracks[v].classList.toggle("active", v === view);
       });
       try { localStorage.setItem("phase-view", view); } catch (e) {}
       if (("#" + view) !== location.hash) {
@@ -43,15 +48,16 @@
     });
 
     var initial = (location.hash || "").replace("#", "");
-    if (initial !== "story" && initial !== "reference") {
-      try { initial = localStorage.getItem("phase-view") || "story"; } catch (e) { initial = "story"; }
+    if (views.indexOf(initial) < 0) {
+      try { initial = localStorage.getItem("phase-view"); } catch (e) { initial = null; }
     }
+    if (views.indexOf(initial) < 0) initial = def;
     show(initial);
 
     // in-page links and browser back/forward that change the hash switch views
     window.addEventListener("hashchange", function () {
       var h = (location.hash || "").replace("#", "");
-      if (h === "story" || h === "reference") show(h);
+      if (views.indexOf(h) >= 0) show(h);
     });
   }
 
