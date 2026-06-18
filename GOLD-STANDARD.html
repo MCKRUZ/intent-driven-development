@@ -18,6 +18,11 @@
         --high: #b3372f;
         --med: #b07a1e;
         --low: #2e7d4f;
+        --ink-faint: #7a8699;
+        --accent-deep: #11314e;
+        --paper: #fbfaf7;
+        --rule-soft: #e7ebf1;
+        --shadow: 0 1px 3px rgba(16, 40, 64, 0.06);
       }
       * {
         box-sizing: border-box;
@@ -250,7 +255,52 @@
       .topbar .ref .menu a { display: block; padding: 9px 16px; }
       nav .nav-home { color: var(--accent); font-weight: 600; margin-bottom: 10px; }
       nav .nav-start { color: var(--accent); font-weight: 600; margin-top: 16px; border-top: 1px solid var(--rule); padding-top: 12px; }
+
+      /* ---- readability layer (ported from the phase companions) ---- */
+      /* scroll progress bar */
+      .progress { position: sticky; top: 0; z-index: 50; height: 3px; background: transparent; }
+      .progress .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #5ea9d6); transition: width .1s linear; }
+
+      /* one-line section signposts */
+      .kicker { font-size: 12px; letter-spacing: 1.1px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 6px; }
+      p.lead { font-size: 17px; line-height: 1.5; color: var(--ink); font-weight: 500; max-width: 74ch; margin: 0 0 14px; }
+
+      /* alternating warmth so sections read as distinct beats */
+      section.paper { background: var(--paper); }
+
+      /* surfaced-rule callout, warn variant of the existing .callout */
+      .callout.warn { border-left-color: var(--high); background: #fbeeec; }
+      .callout .lbl { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+      .callout.warn .lbl { color: var(--high); }
+
+      /* progressive disclosure — the full rationale, folded away by default */
+      .deeper { margin-top: 18px; border-top: 1px dashed var(--rule); }
+      .deeper > summary { cursor: pointer; list-style: none; padding: 12px 0 2px; font-size: 13.5px; font-weight: 700; letter-spacing: .3px; color: var(--accent); display: flex; align-items: center; gap: 9px; }
+      .deeper > summary::-webkit-details-marker { display: none; }
+      .deeper > summary::before { content: "\25B8"; font-size: 11px; transition: transform .15s ease; }
+      .deeper[open] > summary::before { transform: rotate(90deg); }
+      .deeper > summary:hover { color: var(--accent-deep); }
+      .deeper .deeper-body { padding: 8px 0 2px; }
+      .deeper .deeper-body > :first-child { margin-top: 0; }
+      .deeper .deeper-body p { font-size: 14.5px; color: var(--ink-soft); }
+
+      /* scroll reveal — no-ops without JS or with reduced motion */
+      .reveal { transition: opacity .5s ease, transform .5s ease; }
+      .js-anim .reveal { opacity: 0; transform: translateY(14px); }
+      .js-anim .reveal.in { opacity: 1; transform: none; }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+      }
+      @media print {
+        .progress { display: none; }
+        .deeper[open] > summary::before, .deeper > summary { color: #000; }
+        .deeper .deeper-body { display: block !important; }
+        .reveal { opacity: 1 !important; transform: none !important; }
+      }
     </style>
+    <noscript><style>
+      .reveal { opacity: 1 !important; transform: none !important; }
+    </style></noscript>
   </head>
   <body>
     <div class="topbar" role="navigation" aria-label="Site">
@@ -281,6 +331,7 @@
         </div>
       </details>
     </div>
+    <div class="progress"><div class="bar"></div></div>
     <div class="layout">
       <nav>
         <div class="brand">The Delivery Standard</div>
@@ -301,7 +352,6 @@
         <a href="#s13">13 · Close &amp; Transfer</a>
         <a href="#s14">14 · Defaults you can veto</a>
         <a class="nav-start" href="docs/companion/phase-0.html">Begin the walkthrough · Phase 0 →</a>
-        <a href="docs/journey.html" style="color:var(--accent);">Or watch it run · the Harbor journey →</a>
       </nav>
       <main>
         <header class="doc">
@@ -323,7 +373,7 @@
           </div>
         </header>
 
-        <section>
+        <section class="reveal">
           <p>
             This standard describes the <strong>method as a concept</strong>,
             kept independent of any one tool. Where it names a specific tool —
@@ -365,8 +415,15 @@
           the on-ramp.
         </div>
 
-        <section id="s1">
+        <section id="s1" class="reveal">
+          <p class="kicker">How an engagement is structured</p>
           <h2>1. The shape of an engagement</h2>
+          <p class="lead">
+            Three parts, in order: a gated <strong>opening</strong> that builds
+            the factory, a continuous <strong>build loop</strong> in the middle,
+            and a gated <strong>close</strong> that ships the system and hands it
+            over.
+          </p>
           <p>
             An engagement has three parts, in order. An <strong>opening</strong>
             frames the problem and builds the "factory" — the code repository,
@@ -384,23 +441,28 @@
             a continuous <strong>build loop</strong>, repeating the same short
             cycle for every piece of work.
           </p>
-          <p>
-            A traditional software lifecycle phases the middle too: separate
-            Implementation, Quality, and Testing stages, each finishing before
-            the next starts. We deliberately don't. Checking a large batch of
-            work only after it has all been built is the failure mode the
-            delivery research warns about — when AI agents write the code, the
-            volume of code and pull requests can balloon while delivery gets no
-            faster, because the checking piles up unreviewed. So checking happens
-            <strong>per change, inside the loop</strong>, never as a later phase.
-          </p>
-          <p>
-            We run the phased opening and close with an example orchestration
-            tool (the <code>claude-code-sdlc</code> plugin), and only for its
-            phase structure — deliberately with less automation than it offers.
-            Nothing about the shape below depends on that tool; any phase-gating
-            mechanism that keeps a human in the loop would do.
-          </p>
+          <details class="deeper">
+            <summary>Go deeper — why the middle isn't phased, and the tool we run it with</summary>
+            <div class="deeper-body">
+              <p>
+                A traditional software lifecycle phases the middle too: separate
+                Implementation, Quality, and Testing stages, each finishing before
+                the next starts. We deliberately don't. Checking a large batch of
+                work only after it has all been built is the failure mode the
+                delivery research warns about — when AI agents write the code, the
+                volume of code and pull requests can balloon while delivery gets no
+                faster, because the checking piles up unreviewed. So checking happens
+                <strong>per change, inside the loop</strong>, never as a later phase.
+              </p>
+              <p>
+                We run the phased opening and close with an example orchestration
+                tool (the <code>claude-code-sdlc</code> plugin), and only for its
+                phase structure — deliberately with less automation than it offers.
+                Nothing about the shape below depends on that tool; any phase-gating
+                mechanism that keeps a human in the loop would do.
+              </p>
+            </div>
+          </details>
           <pre><code>OPEN (gated phases — automated checks, then a human signs to advance)
   Phase 0  Discovery        problem, outcomes, constraints, tooling approval, PO decision
   Phase 1  Requirements     epics, stories, NFRs (drafted by Claude, owned by humans)
@@ -491,18 +553,18 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </p>
         </section>
 
-        <section id="s2">
+        <section id="s2" class="reveal paper">
+          <p class="kicker">Who decides, who drafts</p>
           <h2>2. The human/AI collaboration model, phase by phase</h2>
+          <p class="lead">
+            One contract across every phase:
+            <strong>Claude drafts and interrogates; humans decide and own.</strong>
+            The table reads left to right — what the human drives, what Claude
+            does, and the mandatory human stops you can't skip.
+          </p>
           <p>
-            The single most important rule:
-            <strong
-              >Claude drafts and interrogates; humans decide and own.</strong
-            >
             Our orchestration tooling can automate much of this; we deliberately
-            run it with less automation than it offers. The table below is the
-            contract
-            for every phase: what the human drives, what Claude does, and where
-            the mandatory stops are.
+            run it with less automation than it offers.
           </p>
           <table>
             <tr>
@@ -631,8 +693,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </table>
         </section>
 
-        <section id="s3">
+        <section id="s3" class="reveal">
+          <p class="kicker">The pod and its roles</p>
           <h2>3. The team</h2>
+          <p class="lead">
+            A 4–6 person pod running 2–3 parallel streams. The limit on
+            parallelism is <strong>checking capacity, not headcount</strong> —
+            and the author of a change is never its sole approver.
+          </p>
           <div class="callout">
             <strong>Deep-dive:</strong> <a href="docs/team.html">The Team</a> —
             the old-role-to-new-role mapping (PM, Architect, 2 devs, QA), the
@@ -731,8 +799,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </p>
         </section>
 
-        <section id="s4">
+        <section id="s4" class="reveal paper">
+          <p class="kicker">Where the code and harness live</p>
           <h2>4. Source control and repository topology</h2>
+          <p class="lead">
+            Everything lives in the client's org from day one — product code and
+            harness versioned together. Trunk-based, with
+            <strong>one spec = one branch = one PR</strong>.
+          </p>
           <h3>Where everything lives</h3>
           <ul>
             <li>
@@ -812,8 +886,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </ul>
         </section>
 
-        <section id="s5">
+        <section id="s5" class="reveal">
+          <p class="kicker">The continuous middle</p>
           <h2>5. The build loop</h2>
+          <p class="lead">
+            The middle of the engagement, run as one repeating cycle per story —
+            <strong>Intent → Delegate → Discern</strong> — with checking
+            <strong>inside the loop</strong>, never as a later phase.
+          </p>
           <div class="callout">
             <strong>Deep-dive:</strong>
             <a href="docs/companion/build-loop.html">The Build Loop</a> — the loop end to
@@ -1011,12 +1091,13 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </p>
         </section>
 
-        <section id="s6">
+        <section id="s6" class="reveal paper">
+          <p class="kicker">What every client repo contains</p>
           <h2>6. The harness standard</h2>
-          <p>
-            What every client delivery repo contains after kit install (Phase
-            3). The harness is a product: versioned, owned by the Setup Owner,
-            changed only by reviewed PR.
+          <p class="lead">
+            What every client delivery repo contains after kit install (Phase 3).
+            The harness is <strong>a product</strong>: versioned, owned by the
+            Setup Owner, changed only by reviewed PR.
           </p>
           <pre><code>client-repo/
 ├── CLAUDE.md                  # from kit template: stack standards, domain glossary, risk
@@ -1038,20 +1119,31 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 │   └── deploy-dev.yml         # merge to main -&gt; client dev environment
 ├── infra/                     # Bicep: dev environment first, test/prod added at hardening
 └── .sdlc/                     # orchestration-tool state, artifacts, phase reports (committed)</code></pre>
-          <p>
-            CLAUDE.md contents (the kit template, adapted per client in week
-            one): what the project is, the domain glossary in the client's
-            words, the .NET/Angular/Azure standards (from the
-            microsoft-enterprise profile and our global coding rules), the spec
-            convention, the risk taxonomy, what requires plan approval, what
-            paths are gated, and the Definition of Checked. An empty or stale
-            CLAUDE.md means agents guess, and guesses differ per run — keeping
-            it current is Setup Owner work, reviewed at setup review.
-          </p>
+          <details class="deeper">
+            <summary>Go deeper — what goes in CLAUDE.md</summary>
+            <div class="deeper-body">
+              <p>
+                CLAUDE.md contents (the kit template, adapted per client in week
+                one): what the project is, the domain glossary in the client's
+                words, the .NET/Angular/Azure standards (from the
+                microsoft-enterprise profile and our global coding rules), the spec
+                convention, the risk taxonomy, what requires plan approval, what
+                paths are gated, and the Definition of Checked. An empty or stale
+                CLAUDE.md means agents guess, and guesses differ per run — keeping
+                it current is Setup Owner work, reviewed at setup review.
+              </p>
+            </div>
+          </details>
         </section>
 
-        <section id="s7">
+        <section id="s7" class="reveal">
+          <p class="kicker">The pipeline every change rides</p>
           <h2>7. DevOps</h2>
+          <p class="lead">
+            .NET / Azure / GitHub Actions by default, IaC in-repo at HIGH risk,
+            secrets in the client's vault — and a
+            <strong>human go/no-go on every promotion to prod</strong>.
+          </p>
           <div class="callout">
             <strong>Deep-dive:</strong>
             <a href="docs/companion/the-rails.html">The Rails</a> — the CI/CD and DevOps
@@ -1091,8 +1183,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </ul>
         </section>
 
-        <section id="s8">
+        <section id="s8" class="reveal paper">
+          <p class="kicker">The contract, the keys, the data</p>
           <h2>8. Claude access and the data boundary</h2>
+          <p class="lead">
+            Settled in Phase 0 before anyone opens a terminal: by default the
+            client procures access under their own agreement —
+            <strong>their keys, their audit trail</strong>.
+          </p>
           <p>Resolved in Phase 0, before anyone opens a terminal:</p>
           <ol>
             <li>
@@ -1118,17 +1216,28 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               promising it.
             </li>
           </ol>
-          <p>
-            Model policy default: plan mode and design work on the strongest
-            available model; implementation on the standard model; the CI grader
-            on the standard model. Token spend is a client-visible cost once
-            they hold the keys — the Setup Owner watches it and it appears in
-            the internal dashboard, never as a client-facing productivity claim.
-          </p>
+          <details class="deeper">
+            <summary>Go deeper — model policy and token spend</summary>
+            <div class="deeper-body">
+              <p>
+                Model policy default: plan mode and design work on the strongest
+                available model; implementation on the standard model; the CI grader
+                on the standard model. Token spend is a client-visible cost once
+                they hold the keys — the Setup Owner watches it and it appears in
+                the internal dashboard, never as a client-facing productivity claim.
+              </p>
+            </div>
+          </details>
         </section>
 
-        <section id="s9">
+        <section id="s9" class="reveal">
+          <p class="kicker">What blocks, what steers</p>
           <h2>9. Gates and metrics</h2>
+          <p class="lead">
+            Machines gate the mechanical; a named human advances every phase.
+            Metrics are baseline-and-trend —
+            <strong>never velocity, story points, PR count, or lines of code</strong>.
+          </p>
           <h3>Phase gates</h3>
           <p>
             At every phase boundary an automated gate check runs a fixed battery
@@ -1188,8 +1297,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </p>
         </section>
 
-        <section id="s10">
+        <section id="s10" class="reveal paper">
+          <p class="kicker">The engagement starter</p>
           <h2>10. The kit (what's in this repo)</h2>
+          <p class="lead">
+            What Phase 3 installs into the client repo — plus the
+            <strong>harvest loop</strong> that makes each engagement start where
+            the last one finished.
+          </p>
           <p>
             The engagement starter. Phase 3 of every engagement begins by
             installing this into the client repo and adapting it in the open
@@ -1224,13 +1339,15 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </p>
         </section>
 
-        <section id="s11">
+        <section id="s11" class="reveal">
+          <p class="kicker">When the deliverable includes agents</p>
           <h2>
             11. The AI-engineering module (when the deliverable includes agents)
           </h2>
-          <p>
-            Activates whenever a spec's deliverable is LLM-powered. Same rigor
-            as the core, because "tests pass" is not sufficient verification for
+          <p class="lead">
+            Activates whenever a spec ships LLM-powered behavior.
+            <strong>Evals are acceptance criteria</strong>; prompts, models, and
+            tool definitions are HIGH risk — because "tests pass" doesn't verify
             probabilistic behavior.
           </p>
           <ul>
@@ -1276,8 +1393,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </ul>
         </section>
 
-        <section id="s12">
+        <section id="s12" class="reveal paper">
+          <p class="kicker">What the SOW must contain</p>
           <h2>12. The commercial chapter (thin, deliberately)</h2>
+          <p class="lead">
+            Six things the contract needs for this method to survive contact —
+            chief among them: <strong>billing milestones map to phase gates, not
+            dates</strong>.
+          </p>
           <p>
             What the SOW must contain for this methodology to survive contact:
           </p>
@@ -1322,17 +1445,27 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               trustworthy enough to price against — not before.
             </li>
           </ol>
-          <p>
-            The Phase 0 outcome workshop agenda (in
-            <code>docs/commercial.md</code>): the three outcomes (business,
-            software, capability), the one measurable success metric and where
-            it will be read from, the PO decision, the tooling decision,
-            constraints, and pod introductions.
-          </p>
+          <details class="deeper">
+            <summary>Go deeper — the Phase 0 outcome workshop agenda</summary>
+            <div class="deeper-body">
+              <p>
+                The Phase 0 outcome workshop agenda (in
+                <code>docs/commercial.md</code>): the three outcomes (business,
+                software, capability), the one measurable success metric and where
+                it will be read from, the PO decision, the tooling decision,
+                constraints, and pod introductions.
+              </p>
+            </div>
+          </details>
         </section>
 
-        <section id="s13">
+        <section id="s13" class="reveal">
+          <p class="kicker">How the engagement ends</p>
           <h2>13. Close &amp; Transfer (Phase C)</h2>
+          <p class="lead">
+            It ends when the client can run the loop without us — proven by them
+            taking <strong>one real spec end-to-end, unaided</strong>.
+          </p>
           <div class="callout">
             <strong>Deep-dive:</strong>
             <a href="docs/companion/phase-c.html">Phase C: Close &amp; Transfer</a>
@@ -1368,8 +1501,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </ul>
         </section>
 
-        <section id="s14">
+        <section id="s14" class="reveal paper">
+          <p class="kicker">Decisions made for you, made visible</p>
           <h2>14. Defaults you can veto</h2>
+          <p class="lead">
+            Choices the author made without a dedicated discussion, listed so you
+            can <strong>override any of them on purpose</strong> rather than by
+            accident.
+          </p>
           <p>
             Decisions made by the standard's author without a dedicated
             discussion, listed so they're visible:
@@ -1408,5 +1547,6 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
         </footer>
       </main>
     </div>
+    <script src="docs/companion/main.js"></script>
   </body>
 </html>
