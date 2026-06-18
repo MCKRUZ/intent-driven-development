@@ -174,8 +174,8 @@ checks every change: the grader definition, the Stop hook, the CI test gates, te
 and (for agentic deliverables) the eval harness. Takes a regular turn as Checker. See
 [the team](team.md).
 
-**The rails.** The agentic CI/CD and DevOps pipeline every change rides — the four workflows (CI,
-grader, security, deploy), the merge bar, deploy and promotion, and the agent-safe IaC funnel. Not
+**The rails.** The agentic CI/CD and DevOps pipeline every change rides — the five workflows (CI,
+grader, correctness, security, deploy), the merge bar, deploy and promotion, and the agent-safe IaC funnel. Not
 a numbered phase; a standing standard. Governing principle: **agent proposes, gate disposes.**
 Deep-dive: [the-rails.md](the-rails.md).
 

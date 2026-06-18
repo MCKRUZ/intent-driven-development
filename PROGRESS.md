@@ -77,7 +77,7 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
 - `the-rails.md/.html` — **(2026-06-12)** cross-cutting deep-dive on the agentic CI/CD & DevOps
   pipeline ("the rails"), NOT a numbered phase (sits alongside build-loop). Tool-generic, 10
   sections: the one principle (agent proposes, gate disposes) + 3 corollaries, who's involved,
-  the four workflows (ci/grader/security/deploy-dev, block-vs-advise), the merge bar, deploy &
+  the five workflows (ci/grader/correctness/security/deploy-dev, block-vs-advise), the merge bar, deploy &
   promotion, the agent-safe IaC pipeline (generate→validate→policy→what-if→approve→scoped
   apply→drift), agents working INSIDE the pipeline (self-healing CI fix-PRs, bounded tools,
   flaky-test Active/Quarantined/Disabled state machine, containment), identity/secrets/blast
@@ -135,7 +135,7 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
 - `docs/profile-swap.md`, `docs/commercial.md`, `docs/data-flow-brief.md`, `docs/po-onboarding.md`
 - `kit/` — the entire installable engagement starter (CLAUDE.md.template, spec-template,
   settings.json, skills/, agents/ grader+security-reviewer, hooks/ stop-gate, workflows/
-  ci+grader+security+deploy-dev, infra/ Bicep, profile/). NONE built yet.
+  ci+grader+correctness+security+deploy-dev, infra/ Bicep, profile/). NONE built yet.
 - `retros/` — empty.
 
 ---
@@ -314,8 +314,8 @@ Phase 3 HTML. Remaining work, in likely order:
 
 1. **Build the `kit/`** — the installable artifacts GOLD-STANDARD section 10 describes and the
    examples show in use: CLAUDE.md.template, spec-template, settings.json, skills/, agents/
-   (grader, security-reviewer), hooks/ (stop-gate), workflows/ (ci, grader, security,
-   deploy-dev), infra/ Bicep starters, profile/. Keep consistent with what the examples
+   (grader, security-reviewer), hooks/ (stop-gate), workflows/ (ci, grader, correctness,
+   security, deploy-dev), infra/ Bicep starters, profile/. Keep consistent with what the examples
    show running — including the four harvest items (config-with-artifact, timezone tests,
    suppression-window alerts, vendor-blip split), which per the story are already IN the kit.
 2. **The four `docs/` support files:** profile-swap, commercial, data-flow-brief,

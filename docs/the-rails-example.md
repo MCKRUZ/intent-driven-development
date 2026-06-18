@@ -23,7 +23,7 @@ harvest back into the kit, not commands you can type today.
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **The client**   | Harbor Mutual — a fictional regional insurer. A five-person consulting pod is rebuilding how property-insurance claims get reported and decided.                                                                       |
 | **The problem**  | A claim takes a median of **11.4 days** from FNOL (first notice of loss — the policyholder reporting the damage) to a coverage decision. Target: **5 days or less.**                                                   |
-| **The rails**    | Built in Phase 3: four workflows (ci, grader, security, deploy-dev), branch protection on `main`, a blocking Stop hook, a Bicep dev environment. Proven on the walking skeleton. Everything since has ridden them.    |
+| **The rails**    | Built in Phase 3: five workflows (ci, grader, correctness, security, deploy-dev), branch protection on `main`, a blocking Stop hook, a Bicep dev environment. Proven on the walking skeleton. Everything since has ridden them.    |
 | **Where we are** | These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20), and Phase 9 hypercare (from 07-27). The rails were built once and never stopped running.                                          |
 | **Our pod**      | Maya Chen (Pod Lead) · Rob Feld (Setup Owner — owns the rails) · Jonah Kim (Orchestrator, Rob's named deputy) · Sara Whitfield (Orchestrator/Checker) · Nadia Brooks (Quality Engineer).                              |
 | **Harbor's cast**| Karen Voss (VP Claims Ops — sponsor) · Luis Ortega (product owner) · Wes Carter (lead engineer, signs HIGH changes) · Tom Reilly (platform engineer — owns branch protection, runners, secrets, the pipeline) · Dan Kowalski (IT security) · Priti Shah (data lead). |
@@ -32,7 +32,7 @@ harvest back into the kit, not commands you can type today.
 
 | Term                            | What it means                                                                                                                                          |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **The rails**                   | The enforcement taken together: the four CI workflows, branch protection, the deploy pipeline, the infrastructure pipeline. Every change runs on them. |
+| **The rails**                   | The enforcement taken together: the five CI workflows, branch protection, the deploy pipeline, the infrastructure pipeline. Every change runs on them. |
 | **The grader**                  | A fresh AI agent that did **not** write the code; reads the spec and the diff and posts a check-by-check verdict on the PR. Required to run; advises.   |
 | **The Stop hook**               | A script that refuses to let an agent finish its turn with a failing build or a red test. Done stops being the agent's opinion.                        |
 | **The merge bar**               | What branch protection requires before a PR can merge: CI green, the grader ran, a non-author approval; HIGH adds the security pass + a named sign-off. |
@@ -253,7 +253,7 @@ compares real infrastructure to the code, and opens a remediation PR; a human de
 ## 3. What was net-new to the kit (the honest part)
 
 Four of these episodes lean on machinery the **claude-code-sdlc plugin does not ship today.** The
-plugin's rails are the four workflows (ci, grader, security, deploy-dev), the grader and
+plugin's rails are the five workflows (ci, grader, correctness, security, deploy-dev), the grader and
 security-reviewer agents, the blocking Stop hook, and branch protection — everything Phase 3
 installs and proves. The agentic-pipeline pieces below were invented for this example to show the
 rails deep-dive in action. None of them is a command a pod can type now; each is the kind of thing
@@ -326,6 +326,6 @@ _Net-new to the kit. Drafted by Claude, reviewed by Tom; every step before the a
 
 ---
 
-Back: [The Rails](the-rails.md) — the deep-dive these episodes illustrate: the four workflows, the
+Back: [The Rails](the-rails.md) — the deep-dive these episodes illustrate: the five workflows, the
 merge bar, deploy and promotion, the infrastructure funnel, and the principle that governs all of
 it.

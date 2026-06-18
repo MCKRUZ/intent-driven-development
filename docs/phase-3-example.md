@@ -115,12 +115,14 @@ data-flow brief goes to Dan.
   out, where the keys live, who can see usage.
 
 **Day 4 (Thu 4/2) — the pipeline.**
-**Tooling —** No plugin command. Claude drafts the ci/grader/security/deploy-dev YAML; Tom
+**Tooling —** No plugin command. Claude drafts the ci/grader/correctness/security/deploy-dev YAML; Tom
 reviews and enables branch protection.
 
-- The four workflows get built and reviewed by Tom: **ci.yml** (build, test, lint, 80% coverage —
+- The five workflows get built and reviewed by Tom: **ci.yml** (build, test, lint, 80% coverage —
   hard gates), **grader.yml** (claude-code-action: a fresh agent reads the spec in the diff and
-  posts a check-by-check verdict; required to run, advisory verdict), **security.yml** (fires on
+  posts a check-by-check verdict; required to run, advisory verdict), **correctness.yml** (a fresh
+  agent hunts the changed lines for plain logic defects; blocks on a high-confidence defect, with a
+  named-human override on the record), **security.yml** (fires on
   the `risk:high` label, runs the security-reviewer agent), **deploy-dev.yml** (merge to main
   ships to Harbor's dev environment).
 - Rob turns on branch protection: CI green, grader-ran, and a non-author approval are required;
@@ -265,12 +267,13 @@ shape._
 
 ## 4. Artifact: the pipeline
 
-_The four workflows, all reviewed by Tom, branch protection enforcing them._
+_The five workflows, all reviewed by Tom, branch protection enforcing them._
 
 | Workflow         | Trigger           | What it does                                                                                 | Blocks?                                 |
 | ---------------- | ----------------- | -------------------------------------------------------------------------------------------- | --------------------------------------- |
 | `ci.yml`         | Every PR          | Build, test, lint, 80% coverage on new code                                                  | Hard block                              |
 | `grader.yml`     | Every PR          | claude-code-action: a fresh agent reads the spec in the diff, posts a check-by-check verdict | Required to run; verdict advisory       |
+| `correctness.yml`| Every PR          | A fresh agent hunts the changed lines for plain logic defects                                | Blocks on a high-confidence defect (named-human override on the record) |
 | `security.yml`   | `risk:high` label | Runs the security-reviewer agent over the diff                                               | Pass + named sign-off required to merge |
 | `deploy-dev.yml` | Merge to `main`   | Ships to Harbor's dev environment                                                            | — (deploy step)                         |
 
@@ -350,7 +353,7 @@ _The two gates from the Phase 2 threat review, now enforced and each fired on a 
 
 ## 9. Artifact: the Build handoff (summary)
 
-- **The factory:** the adapted harness, the four-workflow pipeline, branch protection, and the
+- **The factory:** the adapted harness, the five-workflow pipeline, branch protection, and the
   Bicep dev environment — all owned by Rob, reviewed by Jonah and Tom.
 - **The proof:** the walking skeleton running in Harbor's dev environment, verified against the
   Phase 2 definition, with the FNOL→coverage clock ticking on the scorecard.
@@ -383,7 +386,7 @@ it was the plugin, which is itself the point:
 | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Repo scaffold + CLAUDE.md adaptation     | Claude scaffolds from the delivery-standard kit; adapted in PRs Wes reviewed; no plugin command — Foundation is hands-on                                    |
 | Bicep dev environment                    | Claude drafts; HIGH risk, Rob + Tom review every change; secrets in Harbor's Key Vault                                                                      |
-| Pipeline (ci/grader/security/deploy-dev) | Claude drafts the YAML against the kit workflow starters; Tom reviews; Rob enables branch protection                                                        |
+| Pipeline (ci/grader/correctness/security/deploy-dev) | Claude drafts the YAML against the kit workflow starters; Tom reviews; Rob enables branch protection                                                        |
 | Walking-skeleton specs (0001-0004)       | Orchestrators author from the kit spec-template; each rides the full loop — plan mode, Stop hook, ci.yml + grader.yml, a non-author Checker, deploy-dev.yml |
 | The HIGH-risk path (0002)                | `risk:high` label → security.yml → the security-reviewer agent; Dan's named sign-off in the PR                                                              |
 | Skeleton smoke journey                   | `/e2e` → a Playwright journey across the FNOL→metric path                                                                                                   |

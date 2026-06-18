@@ -44,9 +44,9 @@ Phase 3 answers four questions, and nothing else:
 
 1. **Is the harness real and adapted?** (the kit installed into the client repo, CLAUDE.md
    rewritten in the client's own domain, owned by the Setup Owner and reviewed by a deputy)
-2. **Are the rails real and enforced?** (CI hard gates, the grader workflow, the security
-   workflow, the deploy pipeline, branch protection, the Bicep dev environment, secrets in the
-   client's vault)
+2. **Are the rails real and enforced?** (CI hard gates, the grader workflow, the correctness
+   workflow, the security workflow, the deploy pipeline, branch protection, the Bicep dev
+   environment, secrets in the client's vault)
 3. **Does the loop actually run?** (the first specs go Intent → Delegate → Discern → merged →
    deployed — including at least one HIGH-risk spec — so the loop is proven before Build scales
    it)
@@ -158,9 +158,11 @@ slices riding the loop, the architecture proven end-to-end, the rails shaken dow
 
 **Day 4 — the pipeline.**
 
-- The four workflows get built and reviewed by the client's DevOps: CI (build, test, lint,
+- The five workflows get built and reviewed by the client's DevOps: CI (build, test, lint,
   coverage — hard gates), the grader (required to run on every PR; its verdict advises, the
-  human decides), the security workflow (fires on the `risk:high` label), and deploy-dev (merge
+  human decides), correctness (a fresh agent hunts the changed lines for plain logic defects;
+  blocks on a high-confidence defect, with a named-human override on the record), the security
+  workflow (fires on the `risk:high` label), and deploy-dev (merge
   to main ships to the client dev environment, and restores the last good version when a deploy
   fails — the rollback Day 9 will prove).
 - Branch protection turns on: CI green, the grader has run, and a non-author approval are
@@ -253,7 +255,7 @@ slices riding the loop, the architecture proven end-to-end, the rails shaken dow
 ## 3. The artifacts
 
 > Worked example: [`phase-3-example.md`](phase-3-example.md) — Harbor Mutual's foundation: the
-> adapted CLAUDE.md, the four pipeline workflows, the four skeleton specs (one HIGH-risk spec in
+> adapted CLAUDE.md, the five pipeline workflows, the four skeleton specs (one HIGH-risk spec in
 > full), the Bicep dev environment, the wired security gates, and the skeleton running in Harbor's
 > dev environment with the FNOL→coverage clock already ticking.
 
@@ -261,7 +263,7 @@ slices riding the loop, the architecture proven end-to-end, the rails shaken dow
 | ------------------------------------------------------------- | ------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Installed harness (CLAUDE.md, `.claude/`, `specs/`, settings) | Claude (scaffolds from kit), Setup Owner (adapts) | Setup Owner                   | Adapted to the client's domain, stack, and risk taxonomy; committed; reviewed by the deputy                                                |
 | Bicep dev environment                                         | Claude (drafts)                                   | Setup Owner                   | Provisioned from code; HIGH-risk human review on every change; secrets in the client's vault                                               |
-| Pipeline workflows (ci, grader, security, deploy-dev)         | Claude (drafts)                                   | Setup Owner                   | CI hard-gates; grader required to run; security fires on `risk:high`; deploy-dev on merge — all running, all reviewed by client DevOps     |
+| Pipeline workflows (ci, grader, correctness, security, deploy-dev)         | Claude (drafts)                                   | Setup Owner                   | CI hard-gates; grader required to run; correctness blocks on a high-confidence defect; security fires on `risk:high`; deploy-dev on merge — all running, all reviewed by client DevOps     |
 | Branch protection                                             | Setup Owner (or named client admin)               | Setup Owner                   | Enforces CI green + grader-ran + non-author approval; `risk:high` adds the security workflow + a named sign-off                            |
 | Walking-skeleton specs                                        | Orchestrators (from the Phase 2 slices)           | Pod Lead                      | Each rides the full build loop; together they prove the architecture in running software                                                   |
 | The walking skeleton (deployed)                               | The build loop                                    | Setup Owner + QE              | End-to-end in the client's dev environment through the real pipeline; verified against the Phase 2 definition                              |
@@ -294,10 +296,11 @@ Phase 3 closes — and the engagement enters the Build loop — when all of thes
 
 - [ ] The harness is installed, adapted to the client, committed, and reviewed by the Setup
       Owner's deputy (the Setup Owner is never the sole approver of their own foundation)
-- [ ] The pipeline runs: CI hard gates, the grader required to run, the security workflow on
-      `risk:high`, deploy-dev on merge — all reviewed by the client's DevOps
-- [ ] Branch protection enforces CI green + grader-ran + non-author approval; `risk:high` adds
-      the security workflow and a named sign-off
+- [ ] The pipeline runs: CI hard gates, the grader required to run, correctness blocking on a
+      high-confidence defect, the security workflow on `risk:high`, deploy-dev on merge — all
+      reviewed by the client's DevOps
+- [ ] Branch protection enforces CI green + grader-ran + correctness-passed + non-author approval;
+      `risk:high` adds the security workflow and a named sign-off
 - [ ] The Bicep dev environment is provisioned from code; secrets live in the client's vault,
       never in code
 - [ ] The build-time security gates from Phase 2 are wired, and each has fired on a real PR

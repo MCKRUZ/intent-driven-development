@@ -16,11 +16,13 @@ independently, by 2026: none of them lets an agent merge to a protected branch o
 destructive infrastructure unsupervised. The rails are where that rule stops being a good
 intention and becomes a fact about the world.
 
-> **The gates at a glance.** Four workflows, plus the branch protection that makes them
+> **The gates at a glance.** Five workflows, plus the branch protection that makes them
 > mandatory. **ci** — build/test/lint/coverage — *hard block*. **grader** — a fresh agent's
-> check-by-check verdict against the spec — *required to run; advises, never blocks*. **security**
+> check-by-check verdict against the spec, pinned to the exact changed lines — *required to run;
+> advises, never blocks*. **correctness** — a fresh agent hunts the changed lines for plain logic
+> defects, the bug class the other gates miss — *blocks on a high-confidence defect*. **security**
 > — the security-reviewer agent, on a `risk:high` label or any guarded path — *blocks on HIGH*.
-> **deploy-dev** — ships the merged artifact to dev and rolls back on a failed deploy. All four
+> **deploy-dev** — ships the merged artifact to dev and rolls back on a failed deploy. All five
 > ride one rule: the agent proposes, a gate disposes. The detail is in section 3–section 5.
 
 **If you're starting here:**
@@ -38,9 +40,11 @@ intention and becomes a fact about the world.
 | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **The rails**                     | The enforcement, taken together: CI gates, the grader, branch protection, the deploy pipeline, and the infrastructure pipeline. Called rails because nobody has to remember them — every change runs on them. |
 | **CI**                            | Continuous integration — the automated checks (build, tests, lint, test coverage) that run on every proposed change before it can merge.                                                       |
-| **A workflow**                    | One automation file in the repo (a GitHub Actions YAML) that runs on a trigger — a push, a PR, a label, a merge. The rails are four of them.                                                   |
+| **A workflow**                    | One automation file in the repo (a GitHub Actions YAML) that runs on a trigger — a push, a PR, a label, a merge. The rails are five of them.                                                   |
 | **PR**                            | Pull request — the proposed change under review. One spec = one branch = one PR.                                                                                                               |
 | **The grader**                    | A fresh AI agent that did **not** write the code. It reads the spec and the change and posts a check-by-check verdict on the PR. Required to run; its verdict advises — the human Checker decides. |
+| **The correctness gate**          | A fresh AI agent, separate from the grader, that hunts the changed lines for plain logic defects — off-by-ones, null paths, inverted conditions — the bug class the spec-match and security checks both miss. Blocks on a high-confidence defect; a named human can override on the record. |
+| **Line anchors**                  | The deterministic, machine-generated list of exactly-which-lines-changed in a PR, handed to an AI reviewer as the canonical scope. Forces every finding to pin to a real changed line and stops the reviewer skimming a big diff. The scaffolding that makes an AI verdict reproducible instead of free-form. |
 | **The Stop hook**                 | A script that fires when an agent tries to finish its turn. If tests fail or the build is broken, it refuses to let the agent stop. "Done" stops being the agent's opinion.                     |
 | **Branch protection**             | Repository settings that make the gates mandatory: no change merges without CI green, the grader having run, and an approval from someone who didn't write it.                                  |
 | **The deploy pipeline**           | The workflow that ships a merged change to an environment. Merge to main deploys to dev automatically; promotion up to test and prod is deliberate and gated.                                   |
@@ -57,7 +61,7 @@ This page answers five questions, and nothing else:
 
 1. **What is the one rule the rails enforce, and why does everything hang off it?** (agent
    proposes, gate disposes — and its three corollaries)
-2. **What are the gates, concretely?** (the four workflows, the merge bar, what blocks and what
+2. **What are the gates, concretely?** (the five workflows, the merge bar, what blocks and what
    advises)
 3. **How does a change reach production safely?** (deploy, promotion, the rehearsed rollback)
 4. **How is infrastructure changed without a 2 a.m. incident?** (the agent-safe IaC pipeline:
@@ -137,7 +141,7 @@ both-eyes rule applies hardest to the code that *is* the factory.
 
 | Person                   | In the rails                                                                                                                                                                  |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Setup Owner**          | Owns the rails as a product: the four workflows, branch protection, the infrastructure pipeline, secrets handling, the agent identities. Drafts with Claude; reviews everything; merges none of it alone. |
+| **Setup Owner**          | Owns the rails as a product: the five workflows, branch protection, the infrastructure pipeline, secrets handling, the agent identities. Drafts with Claude; reviews everything; merges none of it alone. |
 | **Setup Owner's deputy** | Named on day one (the senior Orchestrator in a 4-6 pod). Reviews every rails change — workflow YAML, IaC, identity scope. The both-eyes rule applied to the foundation.       |
 | **Quality Engineer**     | Wires the mechanical gates (coverage, the eval gate on agentic specs) and — the part most teams skip — **proves the rails fail safely**: that the Stop hook actually blocks, the grader actually posts, the deploy actually rolls back. |
 | **Orchestrators**        | Run changes through the rails all day. When the pipeline itself needs a fix, it rides the loop like any change — a spec, a plan, a bounded agent, a non-author Checker.       |
@@ -172,9 +176,9 @@ real software went *through* them, not around them.
 
 ---
 
-## 3. The gates: the four workflows
+## 3. The gates: the five workflows
 
-The rails are four workflows in the repo, plus the branch protection that makes them mandatory
+The rails are five workflows in the repo, plus the branch protection that makes them mandatory
 (section 4). Each one has a job, and each one is clear about whether it **blocks** (a hard gate, a
 machine's call) or **advises** (an input to a human's call). Confusing the two is how teams either
 ship unreviewed agent code or drown every typo in ceremony.
@@ -182,11 +186,12 @@ ship unreviewed agent code or drown every typo in ceremony.
 | Workflow         | Fires on                                            | Blocks or advises                        | What it does                                                                                                                                          |
 | ---------------- | --------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **ci**           | every PR                                            | **Blocks** (hard gate)                   | Build, tests, lint, 80% coverage on new code. The mechanical floor. A red CI is a closed door — no human can wave it through without an exception.    |
-| **grader**       | every PR                                            | **Advises** (required to run, can't block) | A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment. "The grader ran" is a required check; *what* it said is the human Checker's input, not a gate. |
+| **grader**       | every PR                                            | **Advises** (required to run, can't block) | A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment, each check pinned to an exact changed line (the line-anchor scaffolding below). "The grader ran" is a required check; *what* it said is the human Checker's input, not a gate. |
+| **correctness**  | every PR that changes source                        | **Blocks** on a high-confidence defect    | A fresh AI agent — not the one that wrote the code, and separate from the grader — hunts the changed lines for plain logic defects (off-by-ones, null paths, inverted conditions). The bug class ci can't see (it compiles, the tests pass) and security doesn't look for (it's not exploitable, just wrong). Trivially passes when no source changed. A named human can override on the record. |
 | **security**     | the `risk:high` label **or** any PR touching a registered gated path | **Blocks** on HIGH; **advises** otherwise | Runs the security-reviewer agent. Path-triggered: it fires on any PR that touches a guarded path (auth, migrations, the pipeline, infra) independent of the spec's tier. |
 | **deploy-dev**   | merge to main                                       | n/a (it ships)                           | Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails — the rollback the rails rehearse. |
 
-Two things about this table carry more weight than they look:
+Five things about this table carry more weight than they look:
 
 **The grader advises; it never blocks.** It is tempting to let a confident AI verdict gate the
 merge. We do not, and the reason is in the threat model: a polished, plausible explanation is
@@ -195,6 +200,35 @@ check-by-check truth — including the hole the author was blind to — and hand
 owns the decision. Machines gate the mechanical (does it build, do the tests pass); humans own the
 judgment (is this the right change, is this risk acceptable). The grader sits on the seam and
 informs the human side without ever becoming it.
+
+**An agent gate may block on a defect, never on a judgment — and that line is the whole design.**
+Two of the agent gates *do* block: security on a HIGH vulnerability, correctness on a
+high-confidence logic defect. The grader does not. The difference is not how much we trust the
+agent; it is *what is being decided*. "There is an off-by-one on this line" and "this input is
+unsanitized" are concrete, checkable defects — an agent that is confident and specific about one
+can hold the door. "Is this the right change for the spec" is a judgment, and a polished agent
+verdict is exactly the thing that should never be allowed to settle a judgment on its own. So the
+blocking agent gates fire only on concrete, high-confidence findings, and each one carries a
+named-human override recorded on the PR — a false positive informs, it never traps a good change
+behind a machine's mistake. Block on the defect, advise on the judgment.
+
+**The reviewers are scaffolded so their verdicts are reproducible, not free-form.** An AI reviewer
+told to "inspect the diff" drifts: it invents line numbers, wanders outside the change, and quietly
+skims a large one. Both the grader and the correctness gate are instead handed a deterministic,
+machine-generated list of exactly which lines changed — the same list, computed once — as their
+canonical scope. Every finding must pin to a real changed line, and no changed line goes
+unreviewed. This line-anchor scaffolding is what turns a plausible-sounding AI verdict into a
+checkable one: same diff in, same anchors out, findings you can verify against the code rather than
+take on faith. The technique is borrowed from deterministic code-review tooling; only the
+technique, not the tool.
+
+**The correctness gate runs server-side because the local check can't bind a human.** Mechanical
+self-validation (section 1) ideally fires the instant code is written — and it does: a pre-push
+check on the agent's own machine refuses to let it push until its self-review is run and recorded.
+But that local gate binds only the *agent*; a human pushing from their own terminal sails straight
+past it. So the correctness review runs again, server-side, on every PR — the local check is
+fast-feedback courtesy, the server gate is the universal backstop that does not care who pushed or
+how. A rail that only holds when the well-behaved actor cooperates is not a rail.
 
 **The security gate is path-triggered, not just tier-triggered.** A change can be tiered MEDIUM and
 still touch the auth code, the migration folder, or the pipeline YAML. Wiring a security gate means
@@ -207,7 +241,7 @@ its tier: the path catches it regardless.
 
 ## 4. The merge bar
 
-Branch protection is what turns four workflows from suggestions into rails. It is repository
+Branch protection is what turns five workflows from suggestions into rails. It is repository
 configuration — set by the Setup Owner or a named client admin applying our policy — and it makes
 the gates mandatory at the one moment that matters: the merge.
 
@@ -216,6 +250,11 @@ Every PR, to merge, must clear:
 - **CI green** — build, tests, lint, coverage, all passing. Hard block.
 - **The grader has run** — the workflow completed and posted its verdict. The verdict can say
   anything; the *running* is required.
+- **Correctness review passed** — no high-confidence defect on the changed lines, *or* a named
+  human recorded the override. The override is a label applied on the PR and audited in its
+  timeline; the guarantee that the person clearing the defect is not the author comes from the
+  non-author approval below, not from the label itself — a gate should never claim an enforcement
+  it cannot actually check.
 - **A non-author approval** — someone who did not write the change approved it. The author of a
   change is never its only approver. This is the rule that survives every collapse of pod size:
   even a two-person pod holds it.
@@ -414,6 +453,10 @@ deliberately and caught:
 
 - A failing test proves the **Stop hook** actually blocks an agent from finishing.
 - A PR with a planted spec mismatch proves the **grader** actually posts the miss.
+- A PR with a planted logic defect — an off-by-one, a flipped condition — proves the **correctness
+  gate** blocks *and* that the override clears it: open it, watch the gate go red anchored to the
+  exact line, record the override label, watch it go green, close it unmerged. A blocking gate is
+  only proven when both its block and its escape have been seen to work.
 - A known-bad deploy proves the **pipeline restores** the last good version.
 - A probe PR touching a guarded path proves the **security gate** fires — a throwaway change opened
   solely to confirm the gate triggers, then closed unmerged.

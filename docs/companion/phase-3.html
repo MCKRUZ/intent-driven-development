@@ -136,7 +136,7 @@
               CLAUDE.md rewritten in the client's own domain, owned by the Setup Owner and reviewed by a
               deputy.</li>
             <li><strong>Are the rails real and enforced?</strong> CI hard gates, the grader workflow, the
-              security workflow, the deploy pipeline, branch protection, the Bicep dev environment, secrets
+              correctness workflow, the security workflow, the deploy pipeline, branch protection, the Bicep dev environment, secrets
               in the client's vault.</li>
             <li><strong>Does the loop actually run?</strong> The first specs go Intent &rarr; Delegate
               &rarr; Discern &rarr; merged &rarr; deployed — including at least one HIGH-risk spec — so the
@@ -250,7 +250,7 @@
         </div>
         <div class="eg">
           <div class="plabel">At Harbor Mutual</div>
-          <p>Tom Reilly, Harbor's platform engineer, reviewed the four pipeline pieces — the ones he'd
+          <p>Tom Reilly, Harbor's platform engineer, reviewed the five pipeline pieces — the ones he'd
             operate after the pod left — then locked merging down:</p>
           <div class="decision">
             No change merges to the main branch without: the automated checks green, the reviewer agent
@@ -563,8 +563,8 @@
         <div class="tl-step" data-day="Day 4">
           <div class="day">Day 4 <span class="date">· the pipeline</span></div>
           <h3>Build the rails and lock them on</h3>
-          <p>Four workflows get built and reviewed by the client's platform engineer: the automated
-            checks, the reviewer agent, the security review, and the deploy. Then merging gets locked
+          <p>Five workflows get built and reviewed by the client's platform engineer: the automated
+            checks, the reviewer agent, the correctness review, the security review, and the deploy. Then merging gets locked
             down — checks green, reviewer ran, non-author approval; risky changes add security plus a
             named sign-off. The Phase&nbsp;2 security gates get wired in.</p>
         </div>
@@ -652,8 +652,8 @@
             <li><strong>Day 3, the dev environment.</strong> Claude drafts the Bicep; HIGH risk,
               human-reviewed on every change; provisions from code. Secrets land in the client's vault; the
               data-flow brief goes to security.</li>
-            <li><strong>Day 4, the pipeline.</strong> The four workflows get built and reviewed by client
-              DevOps (CI, grader, security, deploy-dev). Branch protection turns on. The build-time security
+            <li><strong>Day 4, the pipeline.</strong> The five workflows get built and reviewed by client
+              DevOps (CI, grader, correctness, security, deploy-dev). Branch protection turns on. The build-time security
               gates from the Phase 2 threat review get wired into the security workflow.</li>
             <li><strong>Day 5, the first slice through the loop.</strong> The first skeleton spec runs the
               full build loop: Intent, Delegate (plan mode, bounded, the Stop hook), Discern (CI + grader, a
@@ -868,15 +868,16 @@
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">The four workflows, branch protection enforcing them</p>
+      <p class="kicker">The five workflows, branch protection enforcing them</p>
       <h2>Build rails, so nobody has to remember the rules</h2>
-      <p class="lead">On day 4, four workflows got built and reviewed by Tom &mdash; the ones he'd
+      <p class="lead">On day 4, five workflows got built and reviewed by Tom &mdash; the ones he'd
         operate after the pod left. Then Rob turned on branch protection.</p>
       <table class="ref-doc" style="margin-top:18px;">
         <thead><tr><th>Workflow</th><th>Trigger</th><th>What it does</th><th>Blocks?</th></tr></thead>
         <tbody>
           <tr><td><code>ci.yml</code></td><td>Every PR</td><td>Build, test, lint, 80% coverage on new code</td><td>Hard block</td></tr>
           <tr><td><code>grader.yml</code></td><td>Every PR</td><td>claude-code-action: a fresh agent reads the spec in the diff, posts a check-by-check verdict</td><td>Required to run; verdict advisory</td></tr>
+          <tr><td><code>correctness.yml</code></td><td>Every PR</td><td>A fresh agent hunts for defects in the diff, posts any high-confidence findings</td><td>Blocks on a high-confidence defect</td></tr>
           <tr><td><code>security.yml</code></td><td><code>risk:high</code> label</td><td>Runs the security-reviewer agent over the diff</td><td>Pass + named sign-off required to merge</td></tr>
           <tr><td><code>deploy-dev.yml</code></td><td>Merge to <code>main</code></td><td>Ships to Harbor's dev environment</td><td>&mdash; (deploy step)</td></tr>
         </tbody>
@@ -1075,7 +1076,7 @@
           <tr><td>1 &middot; Mon 3/30</td><td>Kickoff &amp; access</td><td>Access checklist closes: pod contributor access, Rob gets branch-protection admin, Tom enables Actions and agrees Harbor-hosted runners, secrets provisioning starts in Harbor's Key Vault. Live smoke test of Claude Code on Harbor's seats/keys &mdash; works, fallback rider never needed. Q-17 and Q-18 re-confirmed.</td><td>&mdash; (access, smoke test)</td></tr>
           <tr><td>2 &middot; Tue 3/31</td><td>Kit install, in the open</td><td>Claude scaffolds the repo from the kit; CLAUDE.md adapted to Harbor's domain, stack, risk taxonomy, Definition of Checked &mdash; as PRs Wes reviews. Harbor's first concrete look at how the pod works.</td><td>&mdash; (Claude scaffolds; PRs)</td></tr>
           <tr><td>3 &middot; Wed 4/1</td><td>The dev environment</td><td>Claude drafts the Bicep (HIGH risk, Rob + Tom review every change); provisions app hosting, the buffered queue (ADR-003), and the private endpoint to the replica under Q-15. Secrets land in Key Vault. Data-flow brief to Dan.</td><td>&mdash; (Claude drafts Bicep)</td></tr>
-          <tr><td>4 &middot; Thu 4/2</td><td>The pipeline</td><td>Four workflows built &amp; reviewed by Tom (ci, grader, security, deploy-dev); Rob turns on branch protection; the two Phase 2 security gates wired.</td><td>&mdash; (Claude drafts YAML)</td></tr>
+          <tr><td>4 &middot; Thu 4/2</td><td>The pipeline</td><td>Five workflows built &amp; reviewed by Tom (ci, grader, correctness, security, deploy-dev); Rob turns on branch protection; the two Phase 2 security gates wired.</td><td>&mdash; (Claude drafts YAML)</td></tr>
           <tr><td>5 &middot; Fri 4/3</td><td>First slice through the loop</td><td>Spec 0001 rides the full loop: Sara authors from the kit template, the agent codes in plan mode under bounds, the Stop hook refuses on a failing build, the PR fires ci.yml + grader.yml, Jonah (non-author) approves and merges, deploy-dev ships to dev. The coverage gate miscounts generated files &mdash; fixed here, cheap. One slice live in dev.</td><td>&mdash; (spec rides the loop)</td></tr>
           <tr><td>6 &middot; Mon 4/6</td><td>First HIGH-risk slice</td><td>Spec 0002 (replica verification read) rides the loop at HIGH risk: tight permissions, the <code>risk:high</code> label fires security.yml &rarr; the security-reviewer agent, Dan records a named sign-off. Q-15 controls verified live; ADR-001 staleness contract goes in as real behavior.</td><td>&mdash; (HIGH-risk loop)</td></tr>
           <tr><td>7 &middot; Tue 4/7</td><td>The remaining slices</td><td>Spec 0003 (test-mode acknowledgment) &mdash; its PR is the first to touch acknowledgment templates, so the PII template-review gate fires, proven not just configured. Spec 0004 (metric event) emits the FNOL&rarr;coverage clock; Harbor's metric becomes measurable from Build day one.</td><td>&mdash; (specs ride the loop)</td></tr>
@@ -1091,7 +1092,7 @@
       <h2 style="margin-top:34px;">Artifact: the Build handoff</h2>
       <p class="dim">Drafted day 10; phase closed day 10 (billing milestone 4).</p>
       <ul>
-        <li><strong>The factory:</strong> the adapted harness, the four-workflow pipeline, branch
+        <li><strong>The factory:</strong> the adapted harness, the five-workflow pipeline, branch
           protection, and the Bicep dev environment &mdash; all owned by Rob, reviewed by Jonah and Tom.</li>
         <li><strong>The proof:</strong> the walking skeleton running in Harbor's dev environment,
           verified against the Phase 2 definition, with the FNOL&rarr;coverage clock ticking on the
@@ -1183,7 +1184,7 @@
         they belong to the Build loop and the hardening passes.</p>
       <ol>
         <li><strong>Is the harness real and adapted?</strong> (the kit installed into the client repo, CLAUDE.md rewritten in the client's own domain, owned by the Setup Owner and reviewed by a deputy)</li>
-        <li><strong>Are the rails real and enforced?</strong> (CI hard gates, the grader workflow, the security workflow, the deploy pipeline, branch protection, the Bicep dev environment, secrets in the client's vault)</li>
+        <li><strong>Are the rails real and enforced?</strong> (CI hard gates, the grader workflow, the correctness workflow, the security workflow, the deploy pipeline, branch protection, the Bicep dev environment, secrets in the client's vault)</li>
         <li><strong>Does the loop actually run?</strong> (the first specs go Intent &rarr; Delegate &rarr; Discern &rarr; merged &rarr; deployed &mdash; including at least one HIGH-risk spec &mdash; so the loop is proven before Build scales it)</li>
         <li><strong>Is the architecture real?</strong> (the walking skeleton from Phase 2, running end-to-end in the client's dev environment through the real pipeline &mdash; proven by software, not by documents)</li>
       </ol>
@@ -1230,7 +1231,7 @@
           <tr><td>1</td><td>Kickoff &amp; access</td><td>Access checklist closed; contributor access, branch-protection admin, Actions, runner policy, secrets provisioning started; live smoke test of Claude Code on client seats/keys; Phase 2 open questions re-confirmed</td><td>&mdash; (access, smoke test)</td></tr>
           <tr><td>2</td><td>Kit install, in the open</td><td>Repo scaffolded from the kit; CLAUDE.md adapted to the client's domain, stack, risk taxonomy, Definition of Checked &mdash; as reviewed PRs the client's lead engineer reads</td><td>&mdash; (Claude scaffolds; PRs)</td></tr>
           <tr><td>3</td><td>The dev environment</td><td>Bicep drafted (HIGH risk, reviewed every change); environment provisions from code; secrets land in the client's vault; data-flow brief to security</td><td>&mdash; (Claude drafts Bicep)</td></tr>
-          <tr><td>4</td><td>The pipeline</td><td>Four workflows built &amp; reviewed by client DevOps (ci, grader, security, deploy-dev); branch protection on; Phase 2 security gates wired</td><td>&mdash; (Claude drafts YAML)</td></tr>
+          <tr><td>4</td><td>The pipeline</td><td>Five workflows built &amp; reviewed by client DevOps (ci, grader, correctness, security, deploy-dev); branch protection on; Phase 2 security gates wired</td><td>&mdash; (Claude drafts YAML)</td></tr>
           <tr><td>5</td><td>First slice through the loop</td><td>First skeleton spec rides the full loop (Intent &rarr; Delegate &rarr; Discern &rarr; deploy); rails exercised by real software; defects found &amp; fixed cheap. One slice live in dev</td><td>&mdash; (spec rides the loop)</td></tr>
           <tr><td>6</td><td>First HIGH-risk slice</td><td>The slice touching the riskiest seam runs the loop at HIGH risk: tight permissions, security workflow on <code>risk:high</code>, security-reviewer agent, named sign-off in the PR</td><td>&mdash; (HIGH-risk loop)</td></tr>
           <tr><td>7</td><td>The remaining slices</td><td>The rest ride the loop; the metric-emitting slice gets special attention; build-time security gates fire on their first qualifying PR (or a probe PR proves them)</td><td>&mdash; (specs ride the loop)</td></tr>
@@ -1255,7 +1256,7 @@
         <tbody>
           <tr><td>Installed harness (CLAUDE.md, <code>.claude/</code>, <code>specs/</code>, settings)</td><td>Setup Owner</td><td>Adapted to the client's domain, stack, and risk taxonomy; committed; reviewed by the deputy</td></tr>
           <tr><td>Bicep dev environment</td><td>Setup Owner</td><td>Provisioned from code; HIGH-risk human review on every change; secrets in the client's vault</td></tr>
-          <tr><td>Pipeline workflows (ci, grader, security, deploy-dev)</td><td>Setup Owner</td><td>CI hard-gates; grader required to run; security fires on <code>risk:high</code>; deploy-dev on merge &mdash; all running, all reviewed by client DevOps</td></tr>
+          <tr><td>Pipeline workflows (ci, grader, correctness, security, deploy-dev)</td><td>Setup Owner</td><td>CI hard-gates; grader required to run; correctness blocks on a high-confidence defect; security fires on <code>risk:high</code>; deploy-dev on merge &mdash; all running, all reviewed by client DevOps</td></tr>
           <tr><td>Branch protection</td><td>Setup Owner</td><td>Enforces CI green + grader-ran + non-author approval; <code>risk:high</code> adds the security workflow + a named sign-off</td></tr>
           <tr><td>Walking-skeleton specs</td><td>Pod Lead</td><td>Each rides the full build loop; together they prove the architecture in running software</td></tr>
           <tr><td>The walking skeleton (deployed)</td><td>Setup Owner + QE</td><td>End-to-end in the client's dev environment through the real pipeline; verified against the Phase 2 definition</td></tr>
@@ -1267,12 +1268,13 @@
       </table>
       <p>Deliberately <strong>not</strong> produced: the full feature backlog (Build triage owns it), the test and production environments (the first hardening pass and Phase 8 add them), and any feature breadth beyond the thinnest skeleton.</p>
 
-      <h2>The pipeline &mdash; four workflows</h2>
+      <h2>The pipeline &mdash; five workflows</h2>
       <table>
         <thead><tr><th>Workflow</th><th>Trigger</th><th>What it does</th><th>Blocks?</th></tr></thead>
         <tbody>
           <tr><td><code>ci.yml</code></td><td>Every PR</td><td>Build, test, lint, 80% coverage on new code</td><td>Hard block</td></tr>
           <tr><td><code>grader.yml</code></td><td>Every PR</td><td>A fresh agent reads the spec in the diff, posts a check-by-check verdict</td><td>Required to run; verdict advisory</td></tr>
+          <tr><td><code>correctness.yml</code></td><td>Every PR</td><td>A fresh agent hunts for defects in the diff, posts any high-confidence findings</td><td>Blocks on a high-confidence defect</td></tr>
           <tr><td><code>security.yml</code></td><td><code>risk:high</code> label</td><td>Runs the security-reviewer agent over the diff</td><td>Pass + named sign-off required to merge</td></tr>
           <tr><td><code>deploy-dev.yml</code></td><td>Merge to <code>main</code></td><td>Ships to the client dev environment; restores the last good version when a deploy fails</td><td>&mdash; (deploy step)</td></tr>
         </tbody>
@@ -1295,7 +1297,7 @@
       <p>Phase 3 closes &mdash; and the engagement enters the Build loop &mdash; when all of these are true:</p>
       <ul>
         <li>The harness is installed, adapted to the client, committed, and reviewed by the Setup Owner's deputy (the Setup Owner is never the sole approver of their own foundation)</li>
-        <li>The pipeline runs: CI hard gates, the grader required to run, the security workflow on <code>risk:high</code>, deploy-dev on merge &mdash; all reviewed by the client's DevOps</li>
+        <li>The pipeline runs: CI hard gates, the grader required to run, the correctness workflow blocking on a high-confidence defect, the security workflow on <code>risk:high</code>, deploy-dev on merge &mdash; all reviewed by the client's DevOps</li>
         <li>Branch protection enforces CI green + grader-ran + non-author approval; <code>risk:high</code> adds the security workflow and a named sign-off</li>
         <li>The Bicep dev environment is provisioned from code; secrets live in the client's vault, never in code</li>
         <li>The build-time security gates from Phase 2 are wired, and each has fired on a real PR</li>

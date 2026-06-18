@@ -113,12 +113,12 @@
         </div>
         <div class="eg">
           <div class="plabel">At Harbor Mutual</div>
-          <p>Harbor's pod built the rails before a single feature existed &mdash; four automatic
+          <p>Harbor's pod built the rails before a single feature existed &mdash; five automatic
             checks, a locked main branch, and a dev environment defined in code. Then everything they
             built afterward rode through them.</p>
           <div class="snippet">
             <div class="from">The rails, built once</div>
-            <blockquote>"Four workflows, branch protection on main, a blocking Stop hook, a Bicep dev environment. Proven on the walking skeleton. Everything since has ridden them."</blockquote>
+            <blockquote>"Five workflows, branch protection on main, a blocking Stop hook, a Bicep dev environment. Proven on the walking skeleton. Everything since has ridden them."</blockquote>
           </div>
           <p style="margin-top:12px;">The rails were built once and never stopped running &mdash; under
             every change, from the first one to go-live.</p>
@@ -149,13 +149,16 @@
             about the world.</p>
           <div class="aha">
             <div class="lbl">The gates at a glance</div>
-            <p>Four workflows, plus the branch protection that makes them mandatory. <strong>ci</strong>
+            <p>Five workflows, plus the branch protection that makes them mandatory. <strong>ci</strong>
               &mdash; build/test/lint/coverage &mdash; <em>hard block</em>. <strong>grader</strong>
-              &mdash; a fresh agent's check-by-check verdict against the spec &mdash; <em>required to
-              run; advises, never blocks</em>. <strong>security</strong> &mdash; the security-reviewer
-              agent, on a <code>risk:high</code> label or any guarded path &mdash; <em>blocks on
-              HIGH</em>. <strong>deploy-dev</strong> &mdash; ships the merged artifact to dev and rolls
-              back on a failed deploy. All four ride one rule: the agent proposes, a gate disposes.</p>
+              &mdash; a fresh agent's check-by-check verdict against the spec, pinned to the exact
+              changed lines &mdash; <em>required to run; advises, never blocks</em>.
+              <strong>correctness</strong> &mdash; a fresh agent hunts the changed lines for plain logic
+              defects &mdash; <em>blocks on a high-confidence defect</em>. <strong>security</strong>
+              &mdash; the security-reviewer agent, on a <code>risk:high</code> label or any guarded path
+              &mdash; <em>blocks on HIGH</em>. <strong>deploy-dev</strong> &mdash; ships the merged
+              artifact to dev and rolls back on a failed deploy. All five ride one rule: the agent
+              proposes, a gate disposes.</p>
           </div>
         </div>
       </details>
@@ -302,24 +305,28 @@
     </div>
   </section>
 
-  <!-- 04 the four gates -->
+  <!-- 04 the five gates -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">04</span>
       <p class="kicker">What actually stands at the gate</p>
-      <h2>Four checks &mdash; and knowing which ones can say "no"</h2>
-      <p class="lead">The rails are four automatic checks that run on every proposed change. The thing
+      <h2>Five checks &mdash; and knowing which ones can say "no"</h2>
+      <p class="lead">The rails are five automatic checks that run on every proposed change. The thing
         that matters most about them is which ones <strong>block</strong> (a hard stop, the machine's
         call) and which only <strong>advise</strong> (an input to a human's call). Confusing the two is
         how teams either ship unreviewed agent code or drown every typo in ceremony.</p>
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The idea &mdash; the four checks</div>
+          <div class="plabel">The idea &mdash; the five checks</div>
           <ol>
             <li><strong>The build-and-test check</strong> &mdash; does it compile, do the tests pass,
               is enough of the new code covered? <em>Blocks.</em> A red one is a closed door.</li>
             <li><strong>The grader</strong> &mdash; a fresh agent reads the spec and the change and
               posts a verdict. <em>Required to run, but only advises.</em></li>
+            <li><strong>The correctness check</strong> &mdash; a fresh agent, separate from the grader,
+              hunts the changed lines for plain logic bugs: the off-by-one a green test suite never
+              exercises. <em>Blocks on a high-confidence defect; a named human can override on the
+              record.</em></li>
             <li><strong>The security check</strong> &mdash; a reviewer agent runs on high-risk changes
               and anything touching a dangerous file. <em>Blocks on high risk.</em></li>
             <li><strong>The deploy</strong> &mdash; once merged, ships the change to dev and rolls back
@@ -348,14 +355,15 @@
       <details class="deeper">
         <summary>Go deeper — the full method</summary>
         <div class="deeper-body">
-          <p>The rails are four workflows in the repo, plus the branch protection that makes them
+          <p>The rails are five workflows in the repo, plus the branch protection that makes them
             mandatory. Each one is clear about whether it <strong>blocks</strong> (a hard gate, a
             machine's call) or <strong>advises</strong> (an input to a human's call).</p>
           <table>
             <thead><tr><th>Workflow</th><th>Fires on</th><th>Blocks or advises</th><th>What it does</th></tr></thead>
             <tbody>
               <tr><td><code>ci</code></td><td>every PR</td><td><strong>Blocks</strong> (hard gate)</td><td>Build, tests, lint, 80% coverage on new code. The mechanical floor &mdash; a red CI is a closed door.</td></tr>
-              <tr><td><code>grader</code></td><td>every PR</td><td><strong>Advises</strong> (required to run, can't block)</td><td>A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment. "The grader ran" is required; <em>what</em> it said is the human Checker's input.</td></tr>
+              <tr><td><code>grader</code></td><td>every PR</td><td><strong>Advises</strong> (required to run, can't block)</td><td>A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment, each check pinned to an exact changed line. "The grader ran" is required; <em>what</em> it said is the human Checker's input.</td></tr>
+              <tr><td><code>correctness</code></td><td>every PR that changes source</td><td><strong>Blocks</strong> on a high-confidence defect</td><td>A fresh AI agent &mdash; separate from the grader &mdash; hunts the changed lines for plain logic defects: the bug class ci can't see (it compiles, the tests pass) and security doesn't look for (it's not exploitable, just wrong). Passes trivially when no source changed; a named human can override on the record.</td></tr>
               <tr><td><code>security</code></td><td>the <code>risk:high</code> label <strong>or</strong> any PR touching a registered gated path</td><td><strong>Blocks</strong> on HIGH; advises otherwise</td><td>Runs the security-reviewer agent. Path-triggered: fires on any PR touching a guarded path (auth, migrations, the pipeline, infra), independent of the spec's tier.</td></tr>
               <tr><td><code>deploy-dev</code></td><td>merge to main</td><td>n/a (it ships)</td><td>Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails.</td></tr>
             </tbody>
@@ -365,6 +373,24 @@
             plausible explanation is exactly how an agent talks a human into approving harm. The grader's
             job is to surface the check-by-check truth &mdash; including the hole the author was blind to
             &mdash; and hand it to a person who owns the decision.</p>
+          <p><strong>An agent gate may block on a defect, never on a judgment.</strong> Security blocks
+            on a HIGH vulnerability and correctness blocks on a high-confidence logic defect; the grader
+            does not. The line is not how much we trust the agent &mdash; it is <em>what is being
+            decided</em>. "There is an off-by-one on this line" is a concrete, checkable defect an agent
+            can hold the door on; "is this the right change for the spec" is a judgment a polished verdict
+            should never settle alone. Both blocking agent gates carry a named-human override on the
+            record, so a false positive informs without trapping a good change behind a machine's mistake.</p>
+          <p><strong>The reviewers are scaffolded, so their verdicts are reproducible.</strong> An AI
+            reviewer told to "inspect the diff" invents line numbers, wanders outside the change, and
+            skims a large one. The grader and the correctness gate are instead handed a deterministic,
+            machine-generated list of exactly which lines changed as their scope &mdash; so every finding
+            pins to a real changed line and none is skipped. Same diff in, same anchors out.</p>
+          <p><strong>The correctness gate runs on the server because the local check can't bind a
+            human.</strong> A pre-push check on the agent's own machine refuses to let it push until its
+            self-review is recorded &mdash; but that binds only the agent; a human pushing from their
+            terminal sails past it. So the review runs again on every PR: the local check is
+            fast-feedback courtesy, the server gate is the universal backstop that does not care who
+            pushed or how.</p>
           <p class="note"><strong>The security gate is path-triggered, not just tier-triggered.</strong>
             A change can be tiered MEDIUM and still touch the auth code, the migration folder, or the
             pipeline YAML. Registering a guarded path with the security workflow makes it run on
@@ -381,7 +407,7 @@
       <span class="modnum">05</span>
       <p class="kicker">The one moment that matters</p>
       <h2>The merge bar &mdash; what every change must clear to land</h2>
-      <p class="lead">Four checks are just suggestions until something makes them mandatory at the
+      <p class="lead">Five checks are just suggestions until something makes them mandatory at the
         moment a change merges into the main branch. That's the merge bar: settings on the repository
         that turn the rails from a good habit into a law.</p>
       <div class="pair">
@@ -391,6 +417,8 @@
             <li><strong>The checks are green</strong> &mdash; build, tests, coverage all passing.</li>
             <li><strong>The grader has run</strong> &mdash; it can say anything, but it must have run
               and posted.</li>
+            <li><strong>The correctness check passed</strong> &mdash; no high-confidence defect, or a
+              named human recorded the override.</li>
             <li><strong>Someone who didn't write it approved it</strong> &mdash; the author is never
               their own only approver. This rule survives even a two-person pod.</li>
           </ul>
@@ -421,7 +449,7 @@
       <details class="deeper">
         <summary>Go deeper — the full method</summary>
         <div class="deeper-body">
-          <p>Branch protection is what turns four workflows from suggestions into rails. It is repository
+          <p>Branch protection is what turns five workflows from suggestions into rails. It is repository
             configuration &mdash; set by the Setup Owner or a named client admin &mdash; and it makes the
             gates mandatory at the one moment that matters: the merge.</p>
           <p>Every PR, to merge, must clear:</p>
@@ -429,6 +457,11 @@
             <li><strong>CI green</strong> &mdash; build, tests, lint, coverage all passing. Hard block.</li>
             <li><strong>The grader has run</strong> &mdash; the workflow completed and posted. The
               verdict can say anything; the running is required.</li>
+            <li><strong>Correctness review passed</strong> &mdash; no high-confidence defect on the
+              changed lines, or a named human recorded the override. The override is a label, audited in
+              the PR timeline; the guarantee that the person clearing it is not the author comes from the
+              non-author approval below, not the label &mdash; a gate should never claim an enforcement it
+              cannot check.</li>
             <li><strong>A non-author approval</strong> &mdash; someone who did not write the change
               approved it. The author is never their own only approver; this survives even a two-person
               pod.</li>
@@ -841,7 +874,7 @@
       <div class="next">
         <a href="phase-7.html"><span class="t">Phase 7 &rarr;</span><span class="d">Documentation &mdash; how a finished change gets written down so the next person (or agent) can build on it.</span></a>
         <a href="#example" data-view-link="example"><span class="t">The Example view &rarr;</span><span class="d">Six episodes of the rails doing their job at Harbor &mdash; the grader catch, self-healing CI, a flaky quarantine, the IaC funnel, the rollback that failed first, and drift.</span></a>
-        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics &mdash; the four workflows, the exact merge bar, deploy &amp; promotion, the IaC funnel, identity.</span></a>
+        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics &mdash; the five workflows, the exact merge bar, deploy &amp; promotion, the IaC funnel, identity.</span></a>
       </div>
     </div>
   </section>
@@ -869,9 +902,9 @@
       <div class="pair">
         <div class="idea">
           <div class="plabel">What the rails are</div>
-          <p>Built in Phase 3, before any feature existed: four workflows (ci, grader, security,
-            deploy-dev), branch protection on <code>main</code>, a blocking Stop hook, a Bicep dev
-            environment. Proven on the walking skeleton. Everything since has ridden them.</p>
+          <p>Built in Phase 3, before any feature existed: five workflows (ci, grader, correctness,
+            security, deploy-dev), branch protection on <code>main</code>, a blocking Stop hook, a Bicep
+            dev environment. Proven on the walking skeleton. Everything since has ridden them.</p>
           <p>These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20), and
             Phase 9 hypercare (from 07-27). The rails were built once and never stopped running.</p>
         </div>
@@ -972,13 +1005,13 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 04 — THE FOUR GATES / EPISODE 2 SELF-HEALING CI                        -->
+  <!-- 04 — THE FIVE GATES / EPISODE 2 SELF-HEALING CI                        -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal ref-doc">
       <span class="modnum">04</span>
       <p class="kicker">Episode 2 — self-healing CI stops at a PR</p>
-      <h2>Four checks &mdash; and knowing which ones can say "no"</h2>
+      <h2>Five checks &mdash; and knowing which ones can say "no"</h2>
       <p class="lead"><em>Build week six · Tuesday 2026-05-19 · <strong>(net-new to the kit)</strong>.</em>
         A red pipeline got a proposed fix from a bounded agent &mdash; and the merge bar, applied to the
         pipeline's own repairs, held it at a PR.</p>
@@ -1177,8 +1210,8 @@
       <p class="kicker">The honest part</p>
       <h2>A single change, from proposed to deployed</h2>
       <p class="lead">Episode 1 (the grader catch) is the single change followed end to end: spec 0016
-        rode the loop, the Stop hook proved it green, ci/grader/security fired, Sara bounced the grader's
-        catch back, Wes signed HIGH, a non-author merged, deploy-dev shipped it to dev. Four of the six
+        rode the loop, the Stop hook proved it green, ci/grader/correctness/security fired, Sara bounced
+        the grader's catch back, Wes signed HIGH, a non-author merged, deploy-dev shipped it to dev. Four of the six
         episodes lean on machinery the <strong>claude-code-sdlc plugin does not ship today</strong>
         &mdash; collected honestly here.</p>
       <table style="margin-top:18px;">
@@ -1271,7 +1304,7 @@
     <div class="wrap ref-doc reveal">
 
       <p class="kicker">Reference · The Rails · CI/CD &amp; DevOps</p>
-      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the four workflows, the merge
+      <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the five workflows, the merge
         bar, deploy and promotion, the infrastructure funnel, identity, and the governing principle,
         including the tooling specifics the How-it-works view leaves out. The full prose method sits
         under each section's &ldquo;Go deeper&rdquo; on the <a href="#glance">How it works</a> tab; for the
@@ -1298,29 +1331,36 @@
         agent can do is bounded by the permissions of the credential it runs under, not by the words in
         its prompt.</p>
 
-      <h2>The four workflows</h2>
+      <h2>The five workflows</h2>
       <table>
         <thead><tr><th>Workflow</th><th>Fires on</th><th>Blocks or advises</th><th>What it does</th></tr></thead>
         <tbody>
           <tr><td><code>ci</code></td><td>every PR</td><td><strong>Blocks</strong> (hard gate)</td><td>Build, tests, lint, 80% coverage on new code. The mechanical floor &mdash; a red CI is a closed door.</td></tr>
-          <tr><td><code>grader</code></td><td>every PR</td><td><strong>Advises</strong> (required to run, can't block)</td><td>A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment. "The grader ran" is a required check; <em>what</em> it said is the human Checker's input.</td></tr>
+          <tr><td><code>grader</code></td><td>every PR</td><td><strong>Advises</strong> (required to run, can't block)</td><td>A fresh AI agent reads the spec in the diff and posts a check-by-check verdict as a PR comment, each check pinned to an exact changed line. "The grader ran" is a required check; <em>what</em> it said is the human Checker's input.</td></tr>
+          <tr><td><code>correctness</code></td><td>every PR that changes source</td><td><strong>Blocks</strong> on a high-confidence defect</td><td>A fresh AI agent, separate from the grader, hunts the changed lines for plain logic defects &mdash; the bug class ci can't see (it compiles, the tests pass) and security doesn't look for (just wrong, not exploitable). Trivial pass when no source changed; named-human override on the record.</td></tr>
           <tr><td><code>security</code></td><td>the <code>risk:high</code> label <strong>or</strong> any PR touching a registered gated path</td><td><strong>Blocks</strong> on HIGH; advises otherwise</td><td>Runs the security-reviewer agent. Path-triggered: fires on any PR touching a guarded path (auth, migrations, the pipeline, infra), independent of the spec's tier.</td></tr>
           <tr><td><code>deploy-dev</code></td><td>merge to main</td><td>n/a (it ships)</td><td>Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails.</td></tr>
         </tbody>
       </table>
       <p class="note">The grader <strong>advises; it never blocks</strong> &mdash; a polished, plausible
-        AI verdict is exactly how an agent talks a human into approving harm. The security gate is
-        <strong>path-triggered, not just tier-triggered</strong>: a MEDIUM change touching the auth code
-        or the migration folder still fires it. The gate is the workflow plus the path registration.</p>
+        AI verdict is exactly how an agent talks a human into approving harm. An agent gate may block on a
+        <strong>defect</strong> (security on a HIGH vulnerability, correctness on a high-confidence logic
+        bug) but never on a <strong>judgment</strong> &mdash; both blocking agent gates carry a
+        named-human override. Both AI reviewers are fed a deterministic changed-line set so every finding
+        pins to a real line. The security gate is <strong>path-triggered, not just tier-triggered</strong>:
+        a MEDIUM change touching the auth code or the migration folder still fires it.</p>
 
       <h2>The merge bar</h2>
-      <p>Branch protection turns four workflows into rails. It is repository configuration &mdash; set
+      <p>Branch protection turns five workflows into rails. It is repository configuration &mdash; set
         by the Setup Owner or a named client admin &mdash; making the gates mandatory at the merge.</p>
       <p>Every PR, to merge, must clear:</p>
       <ul>
         <li><strong>CI green</strong> &mdash; build, tests, lint, coverage all passing. Hard block.</li>
         <li><strong>The grader has run</strong> &mdash; the workflow completed and posted. The verdict
           can say anything; the running is required.</li>
+        <li><strong>Correctness review passed</strong> &mdash; no high-confidence defect, or a named
+          human recorded the override (audited in the PR timeline; the non-author guarantee comes from
+          the approval below, not the label).</li>
         <li><strong>A non-author approval</strong> &mdash; someone who did not write the change approved
           it. The author is never their own only approver; this survives even a two-person pod.</li>
       </ul>
@@ -1432,7 +1472,7 @@
       <table>
         <thead><tr><th>Person</th><th>In the rails</th></tr></thead>
         <tbody>
-          <tr><td>Setup Owner</td><td>Owns the rails as a product: the four workflows, branch protection, the IaC pipeline, secrets, agent identities. Drafts with Claude; reviews everything; merges none of it alone.</td></tr>
+          <tr><td>Setup Owner</td><td>Owns the rails as a product: the five workflows, branch protection, the IaC pipeline, secrets, agent identities. Drafts with Claude; reviews everything; merges none of it alone.</td></tr>
           <tr><td>Setup Owner's deputy</td><td>Named on day one. Reviews every rails change &mdash; workflow YAML, IaC, identity scope. The both-eyes rule applied to the foundation.</td></tr>
           <tr><td>Quality Engineer</td><td>Wires the mechanical gates and proves the rails fail safely &mdash; the Stop hook blocks, the grader posts, the deploy rolls back.</td></tr>
           <tr><td>Orchestrators</td><td>Run changes through the rails all day. When the pipeline needs a fix, it rides the loop like any change.</td></tr>
