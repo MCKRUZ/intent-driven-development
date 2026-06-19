@@ -1,20 +1,22 @@
 # The Rails Worked Example: Harbor Mutual
 
 Companion to [the rails deep-dive](the-rails.md). The rails are not a phase, so this example is
-not a calendar. It is **six episodes** from Harbor Mutual's engagement — each one a real change
-meeting a real gate — ordered as they happened, from Build through go-live to hypercare. Together
-they show the one principle doing its job six different ways: the agent proposes, a gate disposes.
+not a calendar. It is **seven episodes** from Harbor Mutual's engagement — each one a real change
+meeting a real gate — ordered as they happened, from Build through go-live and hypercare into close.
+Together they show the one principle doing its job seven different ways: the agent proposes, a gate
+disposes.
 
-**A note on what's real and what's invented.** Two of these episodes — the grader catch (spec
-0016) and the rollback that failed in rehearsal (spec 0046) — are drawn straight from the Build
-and Phase 8 examples. The rest exercise pipeline machinery that **is not in our plugin today**:
-self-healing CI, the infrastructure what-if/policy/drift gates, the flaky-test state machine, and
-per-agent identities. Those are flagged inline as **(net-new to the kit)** and collected honestly
-in section 3 — they are exactly what a first agentic-ops-heavy engagement would build once and
-harvest back into the kit, not commands you can type today.
+**A note on what's real and what's invented.** Three of these episodes run on rails the plugin
+ships today: the grader catch (spec 0016) and the rollback that failed in rehearsal (spec 0046) are
+drawn straight from the Build and Phase 8 examples, and the correctness-rail refactor (spec 0051) is
+new here but rides the plugin's own fifth workflow. The rest exercise pipeline machinery that **is
+not in our plugin today**: self-healing CI, the infrastructure what-if/policy/drift gates, the
+flaky-test state machine, and per-agent identities. Those are flagged inline as **(net-new to the
+kit)** and collected honestly in section 3 — they are exactly what a first agentic-ops-heavy
+engagement would build once and harvest back into the kit, not commands you can type today.
 
-> **What's real today.** Episodes 1 and 5 ran on the rails the plugin ships now. Episodes 2, 3, 4,
-> and 6 use machinery that is **net-new to the kit** — not commands a pod can type today. The
+> **What's real today.** Episodes 1, 5, and 7 ran on the rails the plugin ships now. Episodes 2, 3,
+> 4, and 6 use machinery that is **net-new to the kit** — not commands a pod can type today. The
 > honest tally of what's plugin vs. invented is section 3.
 
 **The story so far (you can start here):**
@@ -24,9 +26,9 @@ harvest back into the kit, not commands you can type today.
 | **The client**   | Harbor Mutual — a fictional regional insurer. A five-person consulting pod is rebuilding how property-insurance claims get reported and decided.                                                                       |
 | **The problem**  | A claim takes a median of **11.4 days** from FNOL (first notice of loss — the policyholder reporting the damage) to a coverage decision. Target: **5 days or less.**                                                   |
 | **The rails**    | Built in Phase 3: five workflows (ci, grader, correctness, security, deploy-dev), branch protection on `main`, a blocking Stop hook, a Bicep dev environment. Proven on the walking skeleton. Everything since has ridden them.    |
-| **Where we are** | These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20), and Phase 9 hypercare (from 07-27). The rails were built once and never stopped running.                                          |
+| **Where we are** | These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20), Phase 9 hypercare (from 07-27), and into Phase C close (08-17). The rails were built once and never stopped running.                  |
 | **Our pod**      | Maya Chen (Pod Lead) · Rob Feld (Setup Owner — owns the rails) · Jonah Kim (Orchestrator, Rob's named deputy) · Sara Whitfield (Orchestrator/Checker) · Nadia Brooks (Quality Engineer).                              |
-| **Harbor's cast**| Karen Voss (VP Claims Ops — sponsor) · Luis Ortega (product owner) · Wes Carter (lead engineer, signs HIGH changes) · Tom Reilly (platform engineer — owns branch protection, runners, secrets, the pipeline) · Dan Kowalski (IT security) · Priti Shah (data lead). |
+| **Harbor's cast**| Karen Voss (VP Claims Ops — sponsor) · Luis Ortega (product owner) · Wes Carter (lead engineer, signs HIGH changes) · Tom Reilly (platform engineer — owns branch protection, runners, secrets, the pipeline) · Dan Kowalski (IT security) · Priti Shah (data lead) · Ines Roy (Harbor engineer onboarding into the codebase). |
 
 **Words this page leans on** (everything else is explained where it first appears):
 
@@ -50,7 +52,7 @@ feature, one file in the repo) · **rc-X.Y.Z** a release candidate artifact.
 
 ---
 
-## 1. Six episodes on the rails
+## 1. Seven episodes on the rails
 
 > **Reading the Tooling lines.** **You run it** — a slash command you type (e.g. `/sdlc-gate`,
 > `/e2e`). **It triggers** — an agent or workflow that runs under the hood, shown after a `→`.
@@ -225,15 +227,47 @@ compares real infrastructure to the code, and opens a remediation PR; a human de
 > **The rail that mattered:** drift assessment that proposes, never auto-applies — the
 > agent-proposes/gate-disposes rule, one more time, on the live environment itself.
 
+### Episode 7 — The correctness rail clears a refactor that changed no behavior
+
+_Phase C close & transfer · Monday 2026-08-17 · spec 0051 (extract the replica-staleness guard), MEDIUM risk_
+
+**Tooling —** No plugin command — spec 0051 rides the loop; the PR fires ci.yml + grader.yml +
+**correctness.yml**; Wes's non-author check at the merge bar.
+
+- Close-and-transfer is when the codebase gets tidied for the people inheriting it. The **replica-
+  staleness guard** — the 02:00–04:30 degradation rule from ADR-001 — lived in two copies: one on
+  the intake path, one on the verification path. Ines, now driving on Harbor's side, had an agent
+  **extract it into one shared check** so the client team inherits one hardened copy, not two that
+  can drift apart. Same behavior, less surface.
+- That is exactly the change a green suite can't vouch for. The tests passed — they always had —
+  and the **grader was nearly silent**: there was no new behavior to check against the spec, because
+  the spec promised none. A refactor is invisible to "does it meet the spec," and that is precisely
+  where a silent regression hides.
+- The **correctness rail** did the work. A fresh agent whose one job is _did this diff change
+  behavior it shouldn't_ read the extraction against both originals and confirmed the invariant
+  survived: the boundary still fired at 02:00 and cleared at 04:30, the degraded-response path was
+  byte-for-byte the prior behavior, the check still ran before the call and not after. No drift —
+  and it said so on the PR, the verdict that lets a refactor of a correctness-critical guard merge
+  with confidence instead of crossed fingers.
+- Because the diff was proven equivalent, not assumed so, **Wes (not the author) signed at the merge
+  bar** on the strength of the correctness verdict, and every gate re-ran on the final commit before
+  merge. The client team inherited one guard instead of two — and the proof that the one still
+  behaves like the two it replaced.
+
+> **The rail that mattered:** the correctness review — the no-regression twin of the grader. The
+> grader asks _does this meet the spec_; correctness asks _did this break something it shouldn't_.
+> On a refactor the spec hasn't moved, so the grader goes quiet and the correctness rail carries the
+> load. The agent proposes a "safe" cleanup; the gate proves it is one.
+
 ---
 
 ## 2. What to notice
 
-- **One sentence held six times.** A green-looking change (the grader), a broken pipeline (self-
+- **One sentence held seven times.** A green-looking change (the grader), a broken pipeline (self-
   heal), a flaky test (quarantine), an infra change (the funnel), a production promotion (the
-  rollback), a hand-edited environment (drift) — every one stopped the agent at a reviewable
-  artifact and let a human dispose. The rails are not six mechanisms; they are one principle wired
-  into six places.
+  rollback), a hand-edited environment (drift), a behavior-preserving refactor (the correctness
+  rail) — every one stopped the agent at a reviewable artifact and let a human dispose. The rails
+  are not seven mechanisms; they are one principle wired into seven places.
 - **The grader advises; it does not gate.** It caught the empty-policy-number bug and handed it to
   Sara. A blocking AI verdict would have been faster and worse — a polished, confident explanation
   is exactly how an agent talks a human into the wrong call. Machines gate the mechanical; humans
@@ -323,6 +357,7 @@ _Net-new to the kit. Drafted by Claude, reviewed by Tom; every step before the a
 | 4 · Infra funnel (test env)      | **Net-new gates:** iac.yml schema → PSRule policy → `bicep what-if` (Tom reads) → scoped apply                  |
 | 5 · Promotion + rollback         | Human-run rehearsal and go/no-go on the rails; spec 0046 rides the loop; `/sdlc-gate` at the Phase 8 boundary    |
 | 6 · Drift proposed               | **Net-new:** drift-check.yml on a schedule → a remediation PR; Tom decides                                       |
+| 7 · Correctness-rail refactor (0051) | Spec rides the loop; ci.yml + grader.yml + **correctness.yml** on the PR; Wes's non-author sign-off at the merge bar |
 
 ---
 

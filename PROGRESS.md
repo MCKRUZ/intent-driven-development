@@ -109,6 +109,18 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
   Magentic orchestration, Azure SRE Agent two-tier Review/Autonomous autonomy, agentic incident
   response/RCA, observability via OTel GenAI conventions) — overlaps Phase 9, keep distinct.
 
+- **(2026-06-19) Seventh rails episode added** — `the-rails-example.md` + the example track in
+  `docs/companion/the-rails.html` now carry **Episode 7: the correctness rail clears a refactor
+  that changed no behavior** (Phase C, spec 0051 — extract the replica-staleness guard; Ines
+  authors, Wes signs). It's the no-regression twin of the grader (Episode 1): on a refactor the
+  spec hasn't moved, so the grader goes quiet and the **correctness rail** — the plugin's REAL
+  fifth workflow — does the work. Flagged **real today** (joins Episodes 1 + 5, not net-new).
+  Coordinated updates: six→seven throughout (intro, "what's real" callout, story-so-far span,
+  what-to-notice, tooling table row 7), Ines added to Harbor's cast, example-track modnums
+  re-sequenced 01–11 (net-new→10, artifacts→11, striping preserved). Modeled on a real
+  microsoft-agentic-harness build (a JudgeCallCore extraction whose injection defense the
+  correctness review verified preserved). Committed to `main`; HTML not yet reviewed by Matt.
+
 - **(2026-06-12) Skills run on the rails pages, then a standard-wide surfacing pass.**
   - **humanizer** on the-rails.md + the-rails-example.md: verdict = the "AI tells" it flags
     (em-dashes, rule-of-three, "not X; Y" cadence, bold lead-ins) ARE the deliberate house voice

@@ -873,7 +873,7 @@
         every place a change could go wrong. Where to go next:</p>
       <div class="next">
         <a href="phase-7.html"><span class="t">Phase 7 &rarr;</span><span class="d">Documentation &mdash; how a finished change gets written down so the next person (or agent) can build on it.</span></a>
-        <a href="#example" data-view-link="example"><span class="t">The Example view &rarr;</span><span class="d">Six episodes of the rails doing their job at Harbor &mdash; the grader catch, self-healing CI, a flaky quarantine, the IaC funnel, the rollback that failed first, and drift.</span></a>
+        <a href="#example" data-view-link="example"><span class="t">The Example view &rarr;</span><span class="d">Seven episodes of the rails doing their job at Harbor &mdash; the grader catch, self-healing CI, a flaky quarantine, the IaC funnel, the rollback that failed first, drift, and a refactor cleared by the correctness rail.</span></a>
         <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics &mdash; the five workflows, the exact merge bar, deploy &amp; promotion, the IaC funnel, identity.</span></a>
       </div>
     </div>
@@ -898,19 +898,20 @@
         to rebuild how property-insurance claims get reported and decided. A claim takes a median of
         <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target
         is <strong>5 days or less</strong>. The rails are not a phase, so this example is not a calendar
-        &mdash; it is six episodes, each a real change meeting a real gate.</p>
+        &mdash; it is seven episodes, each a real change meeting a real gate.</p>
       <div class="pair">
         <div class="idea">
           <div class="plabel">What the rails are</div>
           <p>Built in Phase 3, before any feature existed: five workflows (ci, grader, correctness,
             security, deploy-dev), branch protection on <code>main</code>, a blocking Stop hook, a Bicep
             dev environment. Proven on the walking skeleton. Everything since has ridden them.</p>
-          <p>These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20), and
-            Phase 9 hypercare (from 07-27). The rails were built once and never stopped running.</p>
+          <p>These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20),
+            Phase 9 hypercare (from 07-27), and into Phase C close (08-17). The rails were built once
+            and never stopped running.</p>
         </div>
         <div class="eg">
           <div class="plabel">What's real, what's invented</div>
-          <p>Episodes 1 and 5 ran on the rails the plugin ships now. Episodes 2, 3, 4, and 6 use
+          <p>Episodes 1, 5, and 7 ran on the rails the plugin ships now. Episodes 2, 3, 4, and 6 use
             machinery that is <strong>net-new to the kit</strong> &mdash; not commands a pod can type
             today: self-healing CI, the infrastructure what-if/policy/drift gates, the flaky-test state
             machine, and per-agent identities.</p>
@@ -935,13 +936,14 @@
       <span class="modnum">02</span>
       <p class="kicker">The agent proposes; a gate disposes</p>
       <h2>The agent proposes; a gate disposes</h2>
-      <p class="lead">One sentence held six times at Harbor. A green-looking change, a broken pipeline, a
-        flaky test, an infra change, a production promotion, a hand-edited environment &mdash; every one
-        stopped the agent at a reviewable artifact and let a human dispose. The rails are not six
-        mechanisms; they are one principle wired into six places.</p>
+      <p class="lead">One sentence held seven times at Harbor. A green-looking change, a broken pipeline, a
+        flaky test, an infra change, a production promotion, a hand-edited environment, a
+        behavior-preserving refactor &mdash; every one stopped the agent at a reviewable artifact and let
+        a human dispose. The rails are not seven mechanisms; they are one principle wired into seven
+        places.</p>
       <div class="pair">
         <div class="idea">
-          <div class="plabel">What to notice across all six</div>
+          <div class="plabel">What to notice across all seven</div>
           <ul>
             <li><strong>The grader advises; it does not gate.</strong> It caught the empty-policy-number
               bug and handed it to Sara. A blocking AI verdict would have been faster and worse.</li>
@@ -1202,16 +1204,61 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 09 — WHAT WAS NET-NEW (the honest part)                                -->
+  <!-- 09 — CORRECTNESS / EPISODE 7 THE REFACTOR                              -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal ref-doc">
       <span class="modnum">09</span>
+      <p class="kicker">Episode 7 — the correctness rail clears a refactor</p>
+      <h2>A refactor changes no behavior &mdash; so the rail that proves that is the one that matters</h2>
+      <p class="lead"><em>Phase C close &amp; transfer · Monday 2026-08-17 · spec 0051 (extract the
+        replica-staleness guard), MEDIUM risk.</em> A handoff cleanup merged two copies of a
+        correctness-critical guard into one &mdash; and the correctness rail proved the one still behaves
+        like the two.</p>
+      <p><strong>Tooling —</strong> No plugin command &mdash; spec 0051 rides the loop; the PR fires
+        ci.yml + grader.yml + <strong>correctness.yml</strong>; Wes's non-author check at the merge
+        bar.</p>
+      <ul>
+        <li>Close-and-transfer is when the codebase gets tidied for the people inheriting it. The
+          <strong>replica-staleness guard</strong> &mdash; the 02:00&ndash;04:30 degradation rule from
+          ADR-001 &mdash; lived in two copies: one on the intake path, one on the verification path.
+          Ines, now driving on Harbor's side, had an agent <strong>extract it into one shared
+          check</strong> so the client team inherits one hardened copy, not two that can drift apart.
+          Same behavior, less surface.</li>
+        <li>That is exactly the change a green suite can't vouch for. The tests passed &mdash; they
+          always had &mdash; and the <strong>grader was nearly silent</strong>: there was no new
+          behavior to check against the spec, because the spec promised none. A refactor is invisible to
+          "does it meet the spec," and that is precisely where a silent regression hides.</li>
+        <li>The <strong>correctness rail</strong> did the work. A fresh agent whose one job is
+          <em>did this diff change behavior it shouldn't</em> read the extraction against both originals
+          and confirmed the invariant survived: the boundary still fired at 02:00 and cleared at 04:30,
+          the degraded-response path was byte-for-byte the prior behavior, the check still ran before the
+          call and not after. No drift &mdash; and it said so on the PR, the verdict that lets a refactor
+          of a correctness-critical guard merge with confidence instead of crossed fingers.</li>
+        <li>Because the diff was proven equivalent, not assumed so, <strong>Wes (not the author) signed
+          at the merge bar</strong> on the strength of the correctness verdict, and every gate re-ran on
+          the final commit before merge. The client team inherited one guard instead of two &mdash; and
+          the proof that the one still behaves like the two it replaced.</li>
+      </ul>
+      <p class="note"><strong>The rail that mattered:</strong> the correctness review &mdash; the
+        no-regression twin of the grader. The grader asks <em>does this meet the spec</em>; correctness
+        asks <em>did this break something it shouldn't</em>. On a refactor the spec hasn't moved, so the
+        grader goes quiet and the correctness rail carries the load. The agent proposes a "safe" cleanup;
+        the gate proves it is one.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 10 — WHAT WAS NET-NEW (the honest part)                                -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">10</span>
       <p class="kicker">The honest part</p>
       <h2>A single change, from proposed to deployed</h2>
       <p class="lead">Episode 1 (the grader catch) is the single change followed end to end: spec 0016
         rode the loop, the Stop hook proved it green, ci/grader/correctness/security fired, Sara bounced
-        the grader's catch back, Wes signed HIGH, a non-author merged, deploy-dev shipped it to dev. Four of the six
+        the grader's catch back, Wes signed HIGH, a non-author merged, deploy-dev shipped it to dev. Four of the seven
         episodes lean on machinery the <strong>claude-code-sdlc plugin does not ship today</strong>
         &mdash; collected honestly here.</p>
       <table style="margin-top:18px;">
@@ -1231,11 +1278,11 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 10 — THE ARTIFACTS, WHOLE                                              -->
+  <!-- 11 — THE ARTIFACTS, WHOLE                                              -->
   <!-- ===================================================================== -->
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">10</span>
+      <span class="modnum">11</span>
       <p class="kicker">The artifacts, in full</p>
       <h2>The failure modes, and the defense against each</h2>
       <p class="lead">The rollback fix (spec 0046) and the infrastructure funnel (iac.yml), reproduced
@@ -1289,6 +1336,7 @@
           <tr><td>4 · Infra funnel (test env)</td><td><strong>Net-new gates:</strong> iac.yml schema &rarr; PSRule policy &rarr; <code>bicep what-if</code> (Tom reads) &rarr; scoped apply</td></tr>
           <tr><td>5 · Promotion + rollback</td><td>Human-run rehearsal and go/no-go on the rails; spec 0046 rides the loop; <code>/sdlc-gate</code> at the Phase 8 boundary</td></tr>
           <tr><td>6 · Drift proposed</td><td><strong>Net-new:</strong> drift-check.yml on a schedule &rarr; a remediation PR; Tom decides</td></tr>
+          <tr><td>7 · Correctness-rail refactor (0051)</td><td>Spec rides the loop; ci.yml + grader.yml + <strong>correctness.yml</strong> on the PR; Wes's non-author sign-off at the merge bar</td></tr>
         </tbody>
       </table>
     </div>
