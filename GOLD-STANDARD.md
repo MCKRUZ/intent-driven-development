@@ -391,6 +391,10 @@ Internal dashboard (baseline-and-trend, no vanity targets):
 - **DORA four** — deploy frequency, lead time, change-fail rate, time-to-recover.
 - **Security-review wait** — tracked separately; it clears slower and would hide in an average.
 
+When a metric has no data yet, report **"no data"** — never a fabricated zero. A zero reads as a
+measured result (zero escaped bugs, zero review wait) and steers the room wrong; "no data" tells
+the truth, that nothing has been recorded to read.
+
 Never tracked, never reported: velocity, story points, PR count, lines of code. Agents inflate
 all of them, and the published delivery research shows PR volume can double while delivery stays
 flat.
