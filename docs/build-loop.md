@@ -304,6 +304,9 @@ Internal dashboard, baseline-and-trend, no vanity targets:
   industry-standard delivery health measures, watched as trends.
 - **Security-review wait** — on its own line, always.
 
+A metric with nothing recorded reads **"no data"**, not zero — a fabricated zero looks like a
+measured result and steers the room wrong.
+
 Never tracked, never reported: velocity, story points, PR count, lines of code. Agents
 inflate all of them, and the published research backs the caution — measured teams have
 doubled PR volume while actual delivery stayed flat.
