@@ -306,8 +306,11 @@ client-repo/
 │       └── stop-gate.ps1      # blocking Stop hook: tests pass + build green or no finish
 ├── .github/workflows/
 │   ├── ci.yml                 # build, test, lint, coverage — hard gates
-│   ├── grader.yml             # claude-code-action grader, posts PR comment, required check
-│   ├── security.yml           # security-reviewer on risk:high label
+│   ├── grader.yml             # claude-code-action grader, posts PR comment; required to RUN,
+│   │                          # verdict advisory (never blocks)
+│   ├── correctness.yml        # fresh agent (≠ grader, ≠ author) hunts changed lines for logic
+│   │                          # defects; blocks on a high-confidence defect, named override on record
+│   ├── security.yml           # security-reviewer on gated paths or risk:high label; blocks on HIGH
 │   └── deploy-dev.yml         # merge to main -> client dev environment
 ├── infra/                     # Bicep: dev environment first, test/prod added at hardening
 └── .sdlc/                     # orchestration-tool state, artifacts, phase reports (committed)
@@ -425,11 +428,17 @@ delivery-standard/
 │   ├── skills/                # generalized skills harvested from engagements
 │   ├── agents/                # grader.md, security-reviewer.md
 │   ├── hooks/                 # stop-gate.ps1 (+ bash variant)
-│   ├── workflows/             # ci.yml, grader.yml, security.yml, deploy-dev.yml
+│   ├── workflows/             # ci.yml, grader.yml, correctness.yml, security.yml, deploy-dev.yml
+│   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
 │   ├── infra/                 # Bicep starters
 │   └── profile/               # microsoft-enterprise profile + SOC 2 gates
 └── retros/                    # one file per engagement: what we changed and why
 ```
+
+**Delivery mechanism:** `kit/` is the canonical source, but the team installs it via the
+`claude-code-sdlc` plugin — `/plugin install claude-code-sdlc@mckruz` then `/sdlc-setup` lays the
+kit into the client repo (or `/sdlc-harness` to (re)install just the harness). The plugin bundles a
+copy of `kit/` regenerated via its `sync_kit` script, so there is one source of truth.
 
 **The harvest loop:** after every engagement, a mandatory retro PR against this repo — skills
 generalized (client specifics stripped), hooks improved, templates corrected, a retro file added.

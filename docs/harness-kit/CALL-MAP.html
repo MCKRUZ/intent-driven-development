@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What fires when · The Harness Call-Map</title>
+<style>
+  :root{
+    --ink:#1a2332;--ink-soft:#46556b;--accent:#0f5c8c;--accent-soft:#e8f1f7;
+    --rule:#d8dee8;--bg:#f7f8fa;--card:#fff;
+    --high:#b3372f;--med:#b07a1e;--low:#2e7d4f;
+    --skill:#2e7d4f;--agent:#6b3fa0;--hook:#b07a1e;--flow:#0f5c8c;--cmd:#46556b;--human:#b3372f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);
+    background:var(--bg);line-height:1.5;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px 70px;}
+  header.hero{background:linear-gradient(135deg,#11314e,#0f5c8c);color:#fff;}
+  header.hero .wrap{padding:44px 22px 36px;}
+  .eyebrow{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#9fc3dd;margin:0 0 10px;}
+  header.hero h1{margin:0;font-size:30px;}
+  header.hero p{color:#cfe1ee;margin:12px 0 0;max-width:74ch;font-size:15px;}
+  main{background:var(--card);margin-top:-22px;border-radius:12px 12px 0 0;
+    box-shadow:0 -2px 24px rgba(16,40,64,.08);}
+  main .wrap{padding-top:30px;}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:6px 0 26px;
+    padding:14px 16px;background:var(--accent-soft);border-radius:9px;font-size:13px;}
+  .legend b{font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-soft);margin-right:4px;}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:12.5px;
+    padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap;}
+  .chip.skill{background:var(--skill);}.chip.agent{background:var(--agent);}
+  .chip.hook{background:var(--hook);}.chip.flow{background:var(--flow);}
+  .chip.cmd{background:var(--cmd);}.chip.human{background:var(--human);}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;
+    padding:2px 7px;border-radius:5px;vertical-align:middle;}
+  .badge.block{background:#fbe9e7;color:var(--high);border:1px solid #f0b7b1;}
+  .badge.advise{background:#eef1f5;color:var(--ink-soft);border:1px solid var(--rule);}
+  .badge.auto{background:#fff3df;color:#8a5d12;border:1px solid #e8cfa0;}
+
+  /* beat lane */
+  .beat{position:relative;border:1px solid var(--rule);border-radius:11px;margin:0 0 8px;
+    padding:16px 18px 18px;}
+  .beat.intent{border-left:6px solid #5b7fa6;}
+  .beat.delegate{border-left:6px solid var(--agent);}
+  .beat.discern-l{border-left:6px solid var(--hook);}
+  .beat.discern-ci{border-left:6px solid var(--flow);}
+  .beat.merge{border-left:6px solid var(--low);}
+  .beat h2{margin:0 0 3px;font-size:19px;}
+  .beat .sub{color:var(--ink-soft);font-size:13px;margin:0 0 14px;}
+  .beat .loop-tag{position:absolute;top:14px;right:16px;font-size:11px;font-weight:700;
+    letter-spacing:.6px;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
+  .loop-local{background:#efe7f6;color:#5a2f8c;}
+  .loop-ci{background:#e3eef6;color:#0d4a72;}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:10px;}
+  .pc{border:1px solid var(--rule);border-left:4px solid var(--cmd);border-radius:8px;
+    padding:9px 11px;background:#fcfdfe;}
+  .pc.skill{border-left-color:var(--skill);}.pc.agent{border-left-color:var(--agent);}
+  .pc.hook{border-left-color:var(--hook);}.pc.flow{border-left-color:var(--flow);}
+  .pc.cmd{border-left-color:var(--cmd);}.pc.human{border-left-color:var(--human);}
+  .pc .nm{font-weight:700;font-family:"Cascadia Code",Consolas,monospace;font-size:13.5px;}
+  .pc .meta{font-size:11.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.3px;
+    margin:2px 0 5px;}
+  .pc .d{font-size:12.5px;color:var(--ink);}
+  .pc .badge{margin-top:6px;}
+
+  .gate{margin-top:12px;padding:9px 13px;border-radius:7px;background:#faf6ee;
+    border:1px dashed var(--med);font-size:13px;}
+  .gate b{color:#7a5410;}
+
+  .arrow{text-align:center;color:var(--ink-soft);font-size:22px;line-height:1;margin:2px 0;}
+  .innerloop{margin-top:12px;padding:10px 14px;border-radius:8px;background:#f4eefb;
+    border:1px solid #ddc9ef;font-size:13px;color:#4a2a72;}
+  .innerloop b{color:#3a1f5e;}
+
+  h3.section{margin:34px 0 12px;font-size:16px;color:#13354f;
+    border-bottom:2px solid var(--rule);padding-bottom:5px;}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;}
+  th,td{border:1px solid var(--rule);padding:8px 11px;text-align:left;vertical-align:top;}
+  th{background:var(--accent-soft);color:#0b3e5e;}
+  .rung td:first-child{font-weight:700;text-align:center;width:44px;background:#f4f7fa;}
+  .tier-high{color:var(--high);font-weight:700;}.tier-med{color:var(--med);font-weight:700;}
+  .tier-low{color:var(--low);font-weight:700;}
+  footer{color:var(--ink-soft);font-size:12.5px;padding:26px 22px;text-align:center;}
+  @media print{body{background:#fff;}main{box-shadow:none;margin-top:0;}.beat{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+<p class="eyebrow">The Delivery Standard · Harness Kit</p>
+<h1>What fires when — the harness call-map</h1>
+<p>Every skill, agent, hook, CI workflow, and built-in command in the kit, mapped onto the
+Intent-Driven build loop. Two loops run: a <b>local/inner loop</b> on the developer's machine
+(skills + agents + hooks) and a <b>CI/outer loop</b> on the PR (workflows). Hooks sit on the seam.</p>
+</div></header>
+
+<main><div class="wrap">
+
+<div class="legend">
+  <b>Type</b>
+  <span class="chip skill">skill</span>
+  <span class="chip agent">agent</span>
+  <span class="chip hook">hook</span>
+  <span class="chip flow">CI workflow</span>
+  <span class="chip cmd">built-in cmd</span>
+  <span class="chip human">human gate</span>
+  &nbsp;·&nbsp; <b>Trigger/effect</b>
+  <span class="badge auto">AUTO</span>
+  <span class="badge block">BLOCKS</span>
+  <span class="badge advise">ADVISES</span>
+</div>
+
+<!-- ① INTENT -->
+<section class="beat intent">
+  <span class="loop-tag loop-local">local</span>
+  <h2>① Intent</h2>
+  <p class="sub">A human turns a story into a testable spec. <em>No spec, no build.</em></p>
+  <div class="cards">
+    <div class="pc skill"><div class="nm">spec-writer</div><div class="meta">skill · invoked</div>
+      <div class="d">Writes <code>specs/NNNN-name.md</code>; runs the vague-line test; assigns the risk tier.</div></div>
+    <div class="pc agent"><div class="nm">architect</div><div class="meta">agent · opus · invoked (HIGH)</div>
+      <div class="d">System-design decisions that <em>feed</em> a HIGH spec — run before the build, not during.</div></div>
+    <div class="pc skill"><div class="nm">eval-builder</div><div class="meta">skill · invoked (agentic)</div>
+      <div class="d">Builds the versioned golden set next to the spec (§11).</div></div>
+  </div>
+  <div class="gate"><b>Gate → Definition of Ready</b> (human triage): acceptance checks pass the
+    vague-line test, scope stated, risk tier set.</div>
+</section>
+<div class="arrow">↓</div>
+
+<!-- ② DELEGATE -->
+<section class="beat delegate">
+  <span class="loop-tag loop-local">local · inner loop</span>
+  <h2>② Delegate</h2>
+  <p class="sub">An agent plans, then builds inside the spec's bounds.</p>
+  <div class="cards">
+    <div class="pc agent"><div class="nm">planner</div><div class="meta">agent · opus · suggested (M/HIGH)</div>
+      <div class="d">Sequenced plan, human-approved <em>before any code</em>.</div></div>
+    <div class="pc skill"><div class="nm">api-pattern</div><div class="meta">skill · invoked</div>
+      <div class="d">Make the new surface match the codebase's canonical example.</div></div>
+    <div class="pc skill"><div class="nm">test-writer</div><div class="meta">skill · invoked</div>
+      <div class="d">Tests mapped to each acceptance check.</div></div>
+    <div class="pc skill"><div class="nm">diagnose</div><div class="meta">skill · bug-fix specs</div>
+      <div class="d">Reproduce with a failing test <em>first</em>, then fix, then prove.</div></div>
+    <div class="pc agent"><div class="nm">debugger</div><div class="meta">agent · sonnet · invoked</div>
+      <div class="d">Isolated root-cause; returns a distilled diagnosis + repro.</div></div>
+    <div class="pc agent"><div class="nm">security-reviewer</div><div class="meta">agent · opus</div>
+      <div class="d">Inline security pass as sensitive code is written.<span class="badge auto">AUTO</span></div></div>
+    <div class="pc agent"><div class="nm">build-error-resolver</div><div class="meta">agent · sonnet</div>
+      <div class="d">Clears red builds with a minimal diff.<span class="badge auto">AUTO on build fail</span></div></div>
+    <div class="pc hook"><div class="nm">stop-gate</div><div class="meta">hook · every turn-end</div>
+      <div class="d">Won't let the agent "finish" unless build + tests are green.
+      <span class="badge auto">AUTO</span> <span class="badge block">BLOCKS</span></div></div>
+  </div>
+  <div class="innerloop"><b>Inner loop:</b> build → <b>stop-gate</b> blocks on red →
+    <b>build-error-resolver</b> fixes → green → stop-gate lets go. "Done means the hook lets you stop."</div>
+</section>
+<div class="arrow">↓</div>
+
+<!-- ③ DISCERN LOCAL -->
+<section class="beat discern-l">
+  <span class="loop-tag loop-local">local</span>
+  <h2>③ Discern — local (pre-push)</h2>
+  <p class="sub">Prove it on the machine before it becomes a PR.</p>
+  <div class="cards">
+    <div class="pc cmd"><div class="nm">/code-review</div><div class="meta">built-in cmd · invoked</div>
+      <div class="d">Diff-aware review; leaves a receipt.</div></div>
+    <div class="pc cmd"><div class="nm">/simplify</div><div class="meta">built-in cmd · invoked</div>
+      <div class="d">Quality-only cleanup pass; leaves a receipt.</div></div>
+    <div class="pc hook"><div class="nm">save-review-receipt</div><div class="meta">hook · auto</div>
+      <div class="d">Records commit-bound review receipts.</div></div>
+    <div class="pc hook"><div class="nm">review-gate</div><div class="meta">hook · on push / pr-create</div>
+      <div class="d">No push until both receipts exist for HEAD.
+      <span class="badge auto">AUTO</span> <span class="badge block">BLOCKS</span></div></div>
+    <div class="pc skill"><div class="nm">pr-writer</div><div class="meta">skill · invoked</div>
+      <div class="d">Branch → conventional commit → PR body mapping checks→evidence; spec in the diff; sets <code>risk:high</code>.</div></div>
+  </div>
+</section>
+<div class="arrow">↓</div>
+
+<!-- ③ DISCERN CI -->
+<section class="beat discern-ci">
+  <span class="loop-tag loop-ci">CI · outer loop</span>
+  <h2>③ Discern — CI (on the PR)</h2>
+  <p class="sub">A fresh context re-checks the PR. Author ≠ grader is enforced by the clean checkout.</p>
+  <div class="cards">
+    <div class="pc flow"><div class="nm">ci.yml</div><div class="meta">workflow · build-and-test</div>
+      <div class="d">Build + test + coverage floor.<span class="badge block">BLOCKS</span></div></div>
+    <div class="pc flow"><div class="nm">grader.yml</div><div class="meta">workflow · calls grader agent</div>
+      <div class="d">Grades the spec <em>file in the diff</em>, line-anchored.
+      <span class="badge advise">ADVISES (required to run)</span></div></div>
+    <div class="pc flow"><div class="nm">correctness.yml</div><div class="meta">workflow · fresh agent ≠ grader/author</div>
+      <div class="d">Hunts changed lines for logic defects; <code>accepted-risk:correctness</code> overrides.
+      <span class="badge block">BLOCKS on defect</span></div></div>
+    <div class="pc flow"><div class="nm">security.yml</div><div class="meta">workflow · calls security-reviewer</div>
+      <div class="d">Fires on gated paths or <code>risk:high</code>.<span class="badge block">BLOCKS on HIGH</span></div></div>
+    <div class="pc flow"><div class="nm">eval-regression.yml</div><div class="meta">workflow · agentic changes only</div>
+      <div class="d">When prompts/models/tools/behavior change (§11).<span class="badge block">BLOCKS on drop</span></div></div>
+    <div class="pc human"><div class="nm">Human Checker</div><div class="meta">human · non-author</div>
+      <div class="d">Non-author approval; HIGH adds a named sign-off in the PR.<span class="badge block">BLOCKS</span></div></div>
+  </div>
+</section>
+<div class="arrow">↓</div>
+
+<!-- ④ MERGE / DEPLOY -->
+<section class="beat merge">
+  <span class="loop-tag loop-ci">CI</span>
+  <h2>④ Merge → Deploy</h2>
+  <p class="sub">The merge bar clears; the proven artifact ships to dev.</p>
+  <div class="cards">
+    <div class="pc human"><div class="nm">merge bar</div><div class="meta">branch-protection · platform</div>
+      <div class="d">CI green + grader ran + correctness passed + non-author approval (+ security + sign-off if HIGH).
+      <span class="badge block">BLOCKS</span></div></div>
+    <div class="pc flow"><div class="nm">deploy-dev.yml</div><div class="meta">workflow · on merge</div>
+      <div class="d">Deploy the <em>same artifact</em> to dev; restore last good on failure.</div></div>
+    <div class="pc cmd"><div class="nm">/update-docs</div><div class="meta">built-in cmd · invoked</div>
+      <div class="d">Sync docs to the shipped change. (No docs-drift <em>workflow</em> ships — this is a command, not a gate.)</div></div>
+    <div class="pc flow"><div class="nm">eval-suite.yml</div><div class="meta">workflow · scheduled/manual</div>
+      <div class="d">Periodic full benchmark — not per-PR.</div></div>
+  </div>
+</section>
+
+<!-- LADDER -->
+<h3 class="section">The checking ladder = the spine (which piece attaches to each rung)</h3>
+<table>
+  <thead><tr><th>Rung</th><th>Check</th><th>What attaches here</th></tr></thead>
+  <tbody>
+    <tr class="rung"><td>1</td><td>Done-rule</td><td><code>CLAUDE.md</code> — "done means the hook lets you stop" (persuasion only)</td></tr>
+    <tr class="rung"><td>2</td><td>Agent re-checks each turn</td><td>Intrinsic agent behavior</td></tr>
+    <tr class="rung"><td>3</td><td>Blocking Stop hook</td><td><code>stop-gate</code> + <code>build-error-resolver</code> <em>(local)</em></td></tr>
+    <tr class="rung"><td>4</td><td>Separate grader</td><td><code>/code-review</code> locally → <code>grader.yml</code> in CI <em>(advisory)</em></td></tr>
+    <tr class="rung"><td>5</td><td>Human / security gate</td><td><code>correctness.yml</code> + <code>security.yml</code> + the human Checker <em>(blocking)</em></td></tr>
+  </tbody>
+</table>
+
+<!-- RISK TIER CLIMB -->
+<h3 class="section">Risk tier sets how far up you climb</h3>
+<table>
+  <thead><tr><th>Tier</th><th>What runs</th></tr></thead>
+  <tbody>
+    <tr><td class="tier-low">LOW</td><td>Mechanical CI gates + grader advisory + a light human look. Ladder stops at rung 4.</td></tr>
+    <tr><td class="tier-med">MEDIUM</td><td><code>planner</code> plan + grader + a non-author Checker. Rungs 1–5, standard permissions.</td></tr>
+    <tr><td class="tier-high">HIGH</td><td>All of it: <code>architect</code> at Intent, full ladder, <code>security.yml</code> pass, a <b>named human sign-off</b>, and <code>eval-regression.yml</code> if it's an agentic change. Tight agent permissions.</td></tr>
+  </tbody>
+</table>
+
+</div></main>
+<footer>Companion to <code>docs/harness-kit/RESEARCH.md</code> and <code>kit/</code>. Auto-spawn agents:
+<code>security-reviewer</code> (sensitive code), <code>build-error-resolver</code> (build failure). All other agents/skills are invoked or suggested.</footer>
+</body></html>

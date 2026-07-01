@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Harness Kit — Research &amp; Design · The Delivery Standard</title>
+<style>
+:root{--ink:#1a2332;--ink-soft:#46556b;--accent:#0f5c8c;--accent-soft:#e8f1f7;
+--rule:#d8dee8;--bg:#f7f8fa;--card:#fff;--mono-bg:#0f1722;--mono-ink:#d6e2f0;
+--high:#b3372f;--med:#b07a1e;--low:#2e7d4f;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);
+background:var(--bg);line-height:1.65;}
+.wrap{max-width:1000px;margin:0 auto;padding:0 26px 80px;}
+header.hero{background:linear-gradient(135deg,#11314e,#0f5c8c);color:#fff;}
+header.hero .wrap{padding:54px 26px 44px;}
+.eyebrow{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#9fc3dd;margin:0 0 12px;}
+header.hero h1{margin:0;font-size:33px;line-height:1.18;}
+header.hero p{color:#cfe1ee;margin:14px 0 0;font-size:16px;max-width:70ch;}
+main{background:var(--card);margin-top:-26px;border-radius:12px 12px 0 0;
+box-shadow:0 -2px 24px rgba(16,40,64,.08);}
+main .wrap{padding-top:40px;}
+h1,h2,h3,h4{line-height:1.25;color:var(--ink);}
+h2{margin-top:2.4em;padding-bottom:.3em;border-bottom:2px solid var(--rule);font-size:24px;}
+h3{margin-top:1.8em;font-size:19px;color:#13354f;}
+hr{border:0;border-top:1px solid var(--rule);margin:2.6em 0;}
+a{color:var(--accent);text-decoration:none;}a:hover{text-decoration:underline;}
+code{background:var(--accent-soft);color:#0b3e5e;padding:.12em .42em;border-radius:5px;
+font-family:"Cascadia Code",Consolas,monospace;font-size:.88em;}
+pre{background:var(--mono-bg);color:var(--mono-ink);padding:18px 20px;border-radius:9px;
+overflow:auto;font-size:13.5px;line-height:1.55;}
+pre code{background:none;color:inherit;padding:0;}
+table{border-collapse:collapse;width:100%;margin:1.4em 0;font-size:14.5px;}
+th,td{border:1px solid var(--rule);padding:9px 12px;text-align:left;vertical-align:top;}
+th{background:var(--accent-soft);color:#0b3e5e;font-weight:600;}
+tr:nth-child(even) td{background:#fafbfc;}
+blockquote{margin:1.4em 0;padding:.6em 1.1em;border-left:4px solid var(--med);
+background:#fdf8ef;color:#5a4a2a;border-radius:0 6px 6px 0;}
+blockquote p{margin:.4em 0;}
+ul,ol{padding-left:1.4em;}li{margin:.3em 0;}
+.tag{font-weight:600;}
+footer{color:var(--ink-soft);font-size:13px;padding:30px 26px;text-align:center;}
+</style></head>
+<body>
+<header class="hero"><div class="wrap">
+<p class="eyebrow">The Delivery Standard · Harness Kit</p>
+<h1>The Harness Kit — Research &amp; Design</h1>
+<p>How to build the best possible Claude Code harness for a team delivering under this
+standard, worked against the <code>microsoft-agentic-harness</code> codebase. The buildable
+result is <code>kit/</code>.</p>
+</div></header>
+<main><div class="wrap">
+<h1 id="the-harness-kit-research-design">The Harness Kit — Research &amp; Design</h1>
+<p><em>How to build the best possible Claude Code harness for a team delivering under this standard,
+worked against the <code>microsoft-agentic-harness</code> codebase. Research synthesized mid-2026; the
+buildable result is <code>kit/</code>.</em></p>
+<hr />
+<h2 id="0-what-this-is-and-how-to-read-it">0. What this is and how to read it</h2>
+<p>The Delivery Standard's <strong>§6 (the harness standard)</strong> and <strong>§10 (the kit)</strong> describe what every
+client repo contains after kit install — but the <code>kit/</code> directory did not exist yet (PROGRESS:
+"NONE built yet"). This document is the research behind, and the design of, the first build of
+that kit. The kit itself ships as drop-in files under <code>kit/</code>; this report explains <em>why each
+choice was made</em>, flags every feature by <strong>maturity tier</strong>, and records the drifts a maintainer
+should reconcile.</p>
+<p>It was produced from four parallel research streams:
+1. <strong>Requirements</strong> — every harness obligation extracted from the standard.
+2. <strong>Capability map</strong> — current Claude Code feature surface, maturity-tiered.
+3. <strong>Gating/grader/eval patterns</strong> — citation-verified against Anthropic's own docs.
+4. <strong>Audit</strong> — the existing harness in <code>microsoft-agentic-harness</code>, judged against §6.</p>
+<h3 id="maturity-legend-used-throughout-and-in-the-kit-files">Maturity legend (used throughout and in the kit files)</h3>
+<ul>
+<li>🟢 <strong>STABLE</strong> — GA since early 2025, schema unchanged, safe to depend on.</li>
+<li>🟡 <strong>NEWER</strong> — GA but still evolving; adopt deliberately, expect minor churn.</li>
+<li>🔴 <strong>BLEEDING-EDGE</strong> — emerging; pin versions, isolate, treat as opt-in.</li>
+</ul>
+<hr />
+<h2 id="1-the-decision-frame">1. The decision frame</h2>
+<p>Eight choices set the shape of this build (all confirmed with the requester):</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Decision</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Role of <code>microsoft-agentic-harness</code></td>
+<td><strong>Worked example → reusable kit.</strong> The kit is generic; that repo is the realistic test case.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>The repo already has a <code>.claude/</code></td>
+<td><strong>Audit, then evolve</strong> — lift what's strong, replace what's weak.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Harness scope</td>
+<td><strong>Full §6 stack</strong> — CLAUDE.md + <code>.claude/</code> + workflows + infra gates + eval module.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Deliverable</td>
+<td><strong>Report + drop-in template</strong> (this file + <code>kit/</code>).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Feature currency</td>
+<td><strong>Newest, flagged by maturity</strong> — use the current surface, tier every piece.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Template stack shape</td>
+<td><strong>Neutral skeleton + a worked .NET-10 / agentic profile.</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>§11 eval module</td>
+<td><strong>Build it</strong> — the target is itself an agent; evals are the differentiator.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Research method</td>
+<td><strong>Hybrid</strong> — parallel doc-verified streams + direct repo audit.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-what-the-standard-requires-of-a-harness">2. What the standard requires of a harness</h2>
+<p>The standard is unusually specific. The harness must encode the <strong>build loop</strong> (Intent → Delegate
+→ Discern), a <strong>Definition of Ready</strong> (the vague-line test), a <strong>Definition of Checked</strong> ("proven
+against its spec by something other than its author"), a <strong>risk taxonomy</strong> (HIGH/MEDIUM/LOW), the
+<strong>five-rung checking ladder</strong>, and a set of <strong>gates with teeth</strong>. The load-bearing obligations:</p>
+<ul>
+<li><strong>The Stop hook</strong> is "the single highest-value automation we keep" — it refuses to let the agent
+  finish on a red test or broken build. CLAUDE.md states the rule as <em>"done means the hook lets
+  you stop."</em></li>
+<li><strong>Five CI workflows, not four.</strong> <code>ci</code> (blocks), <code>grader</code> (advises — required to run, verdict
+  never blocks), <code>correctness</code> (blocks on a high-confidence logic defect), <code>security</code> (blocks on
+  HIGH, path- or label-triggered), <code>deploy-dev</code> (ships to dev, restores on failure).<blockquote>
+<p><strong>Drift flag #1:</strong> GOLD-STANDARD §6's tree lists only four (<code>ci/grader/security/deploy</code>).
+<code>docs/the-rails.md</code>, PROGRESS, and the 2026-06-19 retro all say <strong>five</strong> — <code>correctness</code> is
+the fifth. Five is authoritative; §6's tree was stale. The kit ships five.
+<strong>Resolved 2026-06-30:</strong> the §6 and §10 trees (in <code>GOLD-STANDARD.md</code> and <code>.html</code>) were updated
+to list five.</p>
+</blockquote>
+</li>
+<li><strong>The merge bar:</strong> CI green + grader-has-run + correctness-passed (or recorded named override) +
+  <strong>a non-author approval</strong>; HIGH adds security pass + a named sign-off recorded in the PR. The
+  agent pushes only to <code>spec/NNNN-*</code>, can't self-merge, commits co-authored.</li>
+<li><strong>An agent gate may block on a defect, never on a judgment.</strong> That single line explains the whole
+  split: <code>ci</code>/<code>correctness</code>/<code>security</code> block (mechanical or concrete-defect); the grader advises
+  (spec-match is a judgment a human must own). <em>"A polished, plausible explanation is exactly how
+  an agent talks a human into approving harm."</em></li>
+<li><strong>Prove the rails before trusting them.</strong> Before Foundation closes, each rail is forced to fail:
+  a failing test trips the Stop hook, a planted spec-mismatch makes the grader post the miss, a
+  planted logic defect blocks correctness <em>and</em> the override clears it, a known-bad deploy
+  restores, a probe PR on a guarded path fires security. <em>"A rail that has only ever seen green has
+  not been tested; it has been assumed."</em></li>
+<li><strong>Metrics that don't lie:</strong> report <strong>"no data," never a fabricated zero</strong> (the change the
+  2026-06-24 retro made to the standard); <strong>never track</strong> velocity, story points, PR count, or LOC.</li>
+<li><strong>§11 (when the deliverable is an agent):</strong> evals are acceptance criteria (golden set versioned
+  next to the spec, a threshold, CI runs them like tests); prompts/models/tool-definitions are HIGH
+  risk and gated by an <strong>eval-regression</strong> check; observability (tracing, token cost, failure-mode
+  logging) is required, not optional.</li>
+<li><strong>Constraints:</strong> secrets in the client's Key Vault — never in code, CLAUDE.md, or specs; the LLM
+  key is client-procured; <code>.sdlc/</code> state committed to the client repo; the delivery repo lives in
+  the client's org from day one ("guests in their org").</li>
+</ul>
+<hr />
+<h2 id="3-claude-code-capability-map-maturity-tiered">3. Claude Code capability map (maturity-tiered)</h2>
+<p>Verified against <code>code.claude.com/docs</code> and the Anthropic engineering posts. Where the first-pass
+research returned plausible-but-unverifiable specifics (hallucinated skill frontmatter fields,
+non-existent hook handler types, a stale model id), those were <strong>discarded</strong> and the canonical
+schema used instead.</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Tier</th>
+<th>Harness use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLAUDE.md / memory, <code>@imports</code>, precedence</td>
+<td>🟢 STABLE</td>
+<td>The governance contract. Keep lean; <code>@import</code> depth.</td>
+</tr>
+<tr>
+<td><code>settings.json</code> permissions / hooks / env</td>
+<td>🟢 STABLE</td>
+<td>Permission rails + hook registration.</td>
+</tr>
+<tr>
+<td>Hooks (<code>PreToolUse</code>, <code>PostToolUse</code>, <code>Stop</code>, <code>SubagentStop</code>, <code>SessionStart/End</code>, <code>UserPromptSubmit</code>, <code>PreCompact</code>)</td>
+<td>🟢 STABLE</td>
+<td>Stop-gate, review-gate.</td>
+</tr>
+<tr>
+<td>Subagents (<code>.claude/agents/*.md</code>)</td>
+<td>🟢 STABLE</td>
+<td>grader, security-reviewer.</td>
+</tr>
+<tr>
+<td>Subagent auto-spawn triggers</td>
+<td>🟡 NEWER</td>
+<td>security-reviewer "use proactively".</td>
+</tr>
+<tr>
+<td>Skills (<code>.claude/skills/*/SKILL.md</code>, progressive disclosure)</td>
+<td>🟡 NEWER</td>
+<td>spec-writer, test-writer.</td>
+</tr>
+<tr>
+<td>Slash commands (legacy)</td>
+<td>🟢 STABLE (superseded by skills)</td>
+<td>Prefer skills.</td>
+</tr>
+<tr>
+<td>Plugins + marketplaces</td>
+<td>🟡 NEWER</td>
+<td>Optional packaging of the kit (see §6).</td>
+</tr>
+<tr>
+<td>Output styles</td>
+<td>🟡 NEWER</td>
+<td>Optional team voice; not load-bearing.</td>
+</tr>
+<tr>
+<td>Background tasks / <code>/bg</code></td>
+<td>🟡 NEWER</td>
+<td>Long builds; not in the gate path.</td>
+</tr>
+<tr>
+<td>Workflows / Tasks API</td>
+<td>🔴 BLEEDING-EDGE</td>
+<td>Multi-agent orchestration; opt-in.</td>
+</tr>
+<tr>
+<td>MCP — stdio</td>
+<td>🟢 STABLE</td>
+<td>Local tools.</td>
+</tr>
+<tr>
+<td>MCP — HTTP / OAuth / remote</td>
+<td>🟡 NEWER → 🔴</td>
+<td>Team/prod tool servers.</td>
+</tr>
+<tr>
+<td><code>claude-code-action@v1</code> (CI)</td>
+<td>🟡 NEWER</td>
+<td>grader/security/correctness/eval workflows.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verified hook contract (the part that's easy to get wrong):</strong>
+- A <code>Stop</code> hook <strong>blocks</strong> by writing top-level JSON <code>{"decision":"block","reason":"…"}</code> to stdout
+  <strong>and</strong> <code>exit 2</code>. <strong><code>exit 1</code> is silently ignored</strong> (treated as a non-blocking error).
+  <code>hookSpecificOutput</code> is <strong>invalid on Stop</strong> and silently drops the block — put everything in
+  <code>reason</code>, which is the only channel surfaced back to the model.
+- <code>stop_hook_active</code> is the <strong>loop guard</strong> — <code>exit 0</code> when true, so the gate pushes back exactly
+  once per stretch. Claude force-ends after <strong>8 consecutive blocks</strong> (a backstop, not a substitute
+  for the guard).
+- <code>PreToolUse</code> is different: it <em>does</em> use <code>hookSpecificOutput.permissionDecision: "deny"</code>.</p>
+<p><strong>Verified permission model:</strong> evaluation order is <strong><code>deny → ask → allow</code></strong>, and <strong>deny cannot
+carry exceptions</strong>. A user's local <code>settings.json</code> can loosen <code>allow</code> but must not be able to undo
+a team prohibition — therefore the <strong>shared</strong> <code>settings.json</code> leans on <code>deny</code> for hard stops; <code>.env</code>
+and <code>secrets/**</code> belong in <code>deny</code>, not <code>ask</code> (there's no safe reason for the agent to read raw
+secrets).</p>
+<p><strong>Packaging the kit across many repos</strong> (for the harvest loop):</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Template repo / kit install</strong> (current §10 model)</td>
+<td>✅ Default. Full control, adapted-in-the-open per client (the adaptation PRs are the client's first look at how we work).</td>
+</tr>
+<tr>
+<td><strong>Plugin + marketplace</strong></td>
+<td>✅ <strong>Built (2026-07-01).</strong> The kit ships via the <code>claude-code-sdlc</code> plugin (<code>/plugin install claude-code-sdlc@mckruz</code> → <code>/sdlc-setup</code>), which scaffolds it into the client repo. Gives one-command install + <code>/plugin update</code> across repos.</td>
+</tr>
+<tr>
+<td><strong>Git submodule</strong></td>
+<td>❌ Not recommended — workflow friction, breaks often.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-verified-gating-grader-and-eval-patterns">4. Verified gating, grader, and eval patterns</h2>
+<p>These are the citation-verified foundations the kit's gates implement.</p>
+<ul>
+<li><strong>Stop-hook gating</strong> — the only hook that decides whether the agent is <em>allowed to be finished</em>.
+  Reference design ships as <code>kit/hooks/stop-gate.{ps1,sh}</code>: loop-guard on <code>stop_hook_active</code>, run
+  build/tests/format, <code>block()</code> = print <code>{"decision":"block","reason":…}</code> then <code>exit 2</code>,
+  <code>timeout</code>-wrap every check. <strong>Test it three ways before trusting it</strong> — a passing case (stays
+  quiet), a failing case (blocks), and a turn it shouldn't apply to (steps aside). "Until you have
+  seen the gate do all three with your own eyes, you do not have a gate."</li>
+<li><strong>Grader ≠ author, structurally.</strong> The grader runs in a fresh context / clean checkout and sees
+  only the diff and the spec, not the reasoning that produced the change. Reliability levers that
+  separate a real grader from theater: a structured rubric (not vibes), anchor to the spec/
+  reference, <strong>grade the product not the path</strong>, report gaps not style, and — critically — the
+  verdict must be able to fail the build to matter. The standard's resolution: the <strong>grader
+  advises</strong> (spec-match is judgment), the <strong>correctness gate blocks</strong> (a concrete logic defect is
+  checkable). Both run in CI in a clean checkout, so author≠grader is enforced by construction.</li>
+<li><strong>Agent evals</strong> (Anthropic, <em>Demystifying evals for AI agents</em>): start with <strong>20–50 tasks from
+  real failures</strong>; <strong>deterministic graders first</strong>, LLM graders only where needed; <strong>grade the
+  output, not the trajectory</strong> (exact tool-call sequences are too brittle); <strong>isolated clean env
+  per trial</strong> (shared state both correlates failures and lets the agent cheat — Anthropic caught
+  Claude reading prior-trial git history); <strong>run multiple trials, track variance</strong>; combine
+  state-check + transcript-constraint + llm-rubric graders. Gate PRs on a <strong>small fast (~30-case,
+  &lt;5 min) regression suite</strong> with a regression trip-wire.<blockquote>
+<p><strong>Calibration note:</strong> the ~±3% trip-wire, ~30 cases, &lt;5 min, and 85–90% judge-vs-human
+agreement are <strong>practitioner conventions</strong> from the field sources, <strong>not</strong> Anthropic-published
+constants. The kit ships them as defaults to calibrate against your own measured variance.</p>
+</blockquote>
+</li>
+</ul>
+<hr />
+<h2 id="5-the-audit-two-harnesses-and-where-the-gaps-are">5. The audit — two harnesses, and where the gaps are</h2>
+<p>The decisive finding: <code>microsoft-agentic-harness</code> contains <strong>two</strong> things that both speak
+Claude-ish vocabulary, and only one is the §6 harness.</p>
+<ol>
+<li><strong>The delivery harness</strong> — <code>.claude/</code>, hooks, and <code>.github/</code> rails that govern <em>how agents build
+   the repo</em>. <strong>This is §6's subject.</strong></li>
+<li><strong>The product's own agentic harness</strong> — top-level <code>agents/</code>, <code>skills/</code>, <code>plugins/</code>, MCP, RAG.
+   These are <strong>Microsoft Agent Framework runtime artifacts</strong> (the application), not Claude Code
+   config. <code>skill_type</code>, <code>model_override</code>, <code>AGENT.md</code> are <em>product</em> fields, not Claude Code ones.</li>
+</ol>
+<p>Conflating them would have produced a broken kit. The kit generalizes only layer (1).</p>
+<p><strong>What's strong (lifted into the kit, generalized):</strong> the <code>.github/</code> rails <em>exceed</em> §6 — a
+fail-soft advisory <code>grader.yml</code>, a fail-closed anti-tamper <code>security-review.yml</code> (verdict written
+outside the worktree so the agent can't edit its own grade), a <code>correctness-review.yml</code>, the
+rubric-as-separate-file pattern, an <code>eval-bypasses.md</code> override ledger, branch-protection-as-code
+with an idempotent applier, deterministic line-anchors, and an exemplary <code>RAILS.md</code> with a
+<strong>shakedown-drill</strong> section that is exactly §9's "prove the rails" discipline written down. The
+<code>stop-build-gate.ps1</code> is best-in-repo: fail-closed, loop-guarded, dirty-source-scoped. The
+<code>settings.json</code> allow/ask/deny split is a near-perfect §6 reference.</p>
+<p><strong>What was missing (authored fresh — the "intent spine"):</strong>
+- <strong><code>specs/</code> + a governance CLAUDE.md.</strong> The existing CLAUDE.md is an <em>architecture</em> doc — no
+  domain glossary, no risk taxonomy, no DoR/DoC, no gated-paths list, no "done means the hook lets
+  you stop." Specs were deferred entirely; the grader graded against the <strong>PR description</strong>, not a
+  committed spec file in the diff.
+- <strong>Local <code>.claude/agents/</code></strong> — grader/security existed only as CI prompts; the §6 subagent form
+  (and "the grader never grades its own work" as an agent definition) was absent.
+- <strong><code>infra/</code> + <code>deploy-dev.yml</code> + <code>.sdlc/</code></strong> — deliberately deferred (no cloud yet).
+- <strong>A rules-loading bug worth flagging:</strong> <code>.claude/rules/*.md</code> carry Cursor-style <code>paths:</code>
+  frontmatter, which <strong>Claude Code does not natively honor</strong>, and CLAUDE.md doesn't <code>@import</code> them
+  — so that governance may never reach the agent. The kit's CLAUDE.md keeps stack standards inline
+  / <code>@import</code>-ed instead.</p>
+<hr />
+<h2 id="6-the-kit-file-by-file">6. The kit, file by file</h2>
+<p>The build pairs the repo's strong enforcement machinery with the freshly-authored intent spine.
+<strong>L</strong> = lifted &amp; generalized from the source repo · <strong>N</strong> = newly authored · <strong>F</strong> = built fresh
+(the source deferred it).</p>
+<pre><code>kit/
+├── CLAUDE.md.template        N  governance: build loop, DoR/DoC, risk taxonomy, ladder,
+│                                gated paths, metrics discipline, agentic-work rules, profile
+├── spec-template.md          N  the 7-part spec; one spec = one branch = one PR
+├── settings.json             L  allow/ask/deny (deny-leaning shared file) + Stop/PreToolUse hooks
+├── hooks/
+│   ├── stop-gate.ps1/.sh     L+F  blocking Stop hook (verified contract) + bash twin
+│   ├── review-gate.ps1/.sh   L+F  PreToolUse: no push without /code-review + /simplify receipts
+│   └── save-review-receipt.* L+F  commit-bound review receipts
+├── agents/                   N  6 agents, model-tiered (see §6a); README = catalog + on-demand menu
+│   ├── planner.md            N  opus — Delegate: plan before code (MEDIUM/HIGH, 5+ files)
+│   ├── architect.md          N  opus — HIGH-risk design decisions feeding a spec
+│   ├── grader.md             N  sonnet — advisory, spec-by-spec, line-anchored, never grades own work
+│   ├── security-reviewer.md  N  opus — auto-spawn; blocks on HIGH, gated-path/label-triggered
+│   ├── build-error-resolver.md N sonnet — auto-spawn; clears the Stop hook's block, minimal diff
+│   └── debugger.md           N  sonnet — isolated root-cause; returns a distilled diagnosis
+├── skills/                   N  6 team-practice skills
+│   ├── spec-writer/          N  story → Definition-of-Ready spec (vague-line test)
+│   ├── test-writer/          N  tests that encode WHY; failing-test-first for bugs
+│   ├── api-pattern/          N  add a surface the way the codebase already does it (§6-named)
+│   ├── pr-writer/            N  branch → conventional commit → spec-mapped PR + test plan
+│   ├── eval-builder/         N  build a versioned golden set for an agentic spec (§11)
+│   └── diagnose/             N  bug-fix procedure: failing test first, then fix, then prove
+├── workflows/
+│   ├── ci.yml                L  build + test + coverage (hard block)
+│   ├── grader.yml            L  advisory; grades the spec FILE in the diff (reconciled)
+│   ├── correctness.yml       L  blocks on high-confidence logic defect; named override
+│   ├── security.yml          L  fail-closed, anti-tamper; blocks on HIGH
+│   ├── deploy-dev.yml        F  merge → dev; restore last good on failure; promote, don't rebuild
+│   ├── eval-regression.yml   F  per-PR eval gate for prompt/model/tool/agent changes
+│   ├── eval-suite.yml        L  large periodic benchmark suite
+│   └── RAILS.md              L  operator's guide + the shakedown drills
+├── profile/                  L  rubrics/, eval-bypasses.md, CODEOWNERS, rulesets/, scripts/
+├── eval-datasets/            L+N golden-set template + how-to (20–50 real-failure tasks)
+├── prompts/                  L  versioned judge-prompt convention (HIGH risk, no drive-by edits)
+└── infra/                    F  minimal Bicep dev-env starter + agent-safe IaC pipeline note
+</code></pre>
+<p><strong>One reconciliation baked into the build:</strong> the lifted <code>grader.yml</code> + grader rubric grade against
+<strong><code>specs/NNNN-name.md</code> in the diff</strong> (falling back to the PR description with a warning when no
+spec file is present), closing the gap the audit found.</p>
+<hr />
+<h2 id="6a-agent-skill-surface-the-breadth-decision">6a. Agent &amp; skill surface — the breadth decision</h2>
+<p>The first build shipped only the two agents and two skills §6 <em>names</em>. That's a defensible floor
+but under the loop's real needs, so the surface was benchmarked against the best public collections
+and the team's own trusted set.</p>
+<p><strong>What's out there.</strong> The leaders are large: <code>wshobson/agents</code> (194 agents / 88 plugins,
+model-tiered opus/sonnet/haiku, eval-backed — the highest-engineered), <code>VoltAgent/awesome-claude-code-subagents</code>
+(154 / 10 categories), Anthropic's official marketplace (243 plugins, mostly vendor), <code>anthropics/skills</code>
+(17 first-party), and <code>obra/superpowers</code> (the dominant SDLC <em>skill framework</em>). The kitchen-sink
+catalogs (davila7/aitmpl, rohitg00) advertise their size as the feature — the tell, not the strength.</p>
+<p><strong>Why lean is correct, from Anthropic's own guidance.</strong> Context is a finite attention budget;
+every installed skill's name+description sits in the system prompt <em>whether or not it fires</em>, so a
+bloated set has a standing cost and worse selection. "Find the smallest high-signal surface."
+Subagents earn their place by working in an <em>isolated</em> context and returning a distilled result —
+which argues for single-responsibility agents, against general-purpose ones. The team's own
+<code>agents.md</code> already lives this (4 agents; the rest retired to commands/skills; only 2 auto-spawn).</p>
+<p><strong>The decision: lean-but-complete, model-tiered, deterministic-work-as-commands.</strong> Ship one agent
+per consensus role the <em>delivery loop</em> needs, tier the models, keep deterministic workflows as
+commands, and push the long tail to a curated install-on-demand menu (so the close-gate — "nothing
+the team doesn't understand" — stays satisfiable). Final shipped surface: <strong>6 agents</strong> (planner,
+architect, grader, security-reviewer, build-error-resolver, debugger) + <strong>6 skills</strong> (spec-writer,
+test-writer, api-pattern, pr-writer, eval-builder, diagnose), plus three <strong>built-in command
+dependencies</strong> the kit relies on rather than duplicates: <code>/code-review</code> + <code>/simplify</code> (the
+<code>review-gate</code> hook blocks a push until both run) and <code>/update-docs</code>. The catalog, model tiers, and
+the on-demand menu live in <code>kit/agents/README.md</code>.</p>
+<p><strong>Personal-toolkit skills were deliberately excluded</strong> from a <em>client</em> kit (e.g. communication-style,
+humanizer, deep-research-plus, executive-eye) — a delivery harness ships only what serves the loop
+and the gates.</p>
+<hr />
+<h2 id="7-drift-flags-for-the-standards-owner">7. Drift flags for the standard's owner</h2>
+<p>The kit is correct; these are inconsistencies in the <em>standard's prose</em> that the harvest-loop
+deputy should fix:</p>
+<ol>
+<li><strong>Four vs five workflows.</strong> ✅ <em>Resolved 2026-06-30</em> — §6's tree now lists <code>correctness.yml</code>
+   (with grader marked advisory and security as gated-path/label-triggered).</li>
+<li><strong>§10's kit tree</strong> ✅ <em>Resolved 2026-06-30</em> — now lists five workflows plus a note pointing to
+   <code>eval-regression.yml</code> / <code>eval-suite.yml</code> for §11 agentic specs.</li>
+<li><strong>Rules loading.</strong> If the standard intends <code>.claude/rules/</code>, it must specify <code>@import</code> from
+   CLAUDE.md (Claude Code does not auto-attach by <code>paths:</code> frontmatter).</li>
+<li><strong><code>docs/agentic-spec-example.md</code></strong> is forward-referenced in §11 but unwritten — the kit's
+   <code>eval-datasets/README.md</code> + <code>golden-set.template.yaml</code> give it a concrete starting point.</li>
+</ol>
+<hr />
+<h2 id="8-what-to-verify-at-install-and-open-items">8. What to verify at install, and open items</h2>
+<ul>
+<li><strong>Hook registration form.</strong> The source <code>settings.json</code> uses <code>{"command":"pwsh","args":[…]}</code>,
+  valid only on CLI <strong>v2.1.139+</strong>. The kit uses the single-string <code>"command":"pwsh -NoProfile
+  -File …"</code> form for maximum compatibility — confirm against the client's installed CLI.</li>
+<li><strong>Prove every rail</strong> on install (the §9 shakedown), don't assume them. <code>RAILS.md</code> lists the drills.</li>
+<li><strong>Calibrate eval thresholds</strong> to measured variance before trusting the trip-wire.</li>
+<li><strong>Plugin packaging</strong> is done — delivered via the <code>claude-code-sdlc</code> plugin (<code>/sdlc-setup</code>).</li>
+<li><strong><code>infra/</code> and <code>deploy-dev.yml</code> are starters</strong>, not turn-key — adapt to the client's Azure
+  landing zone; IaC is HIGH risk every time.</li>
+</ul>
+<hr />
+<h2 id="9-sources">9. Sources</h2>
+<p>Anthropic / official:
+- Best practices for Claude Code — https://www.anthropic.com/engineering/claude-code-best-practices
+- Hooks reference — https://code.claude.com/docs/en/hooks
+- Configure permissions — https://code.claude.com/docs/en/permissions
+- Subagents — https://code.claude.com/docs/en/sub-agents
+- Agent Skills overview — https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview
+- Plugin marketplaces — https://code.claude.com/docs/en/plugin-marketplaces
+- MCP — https://code.claude.com/docs/en/mcp
+- GitHub Actions / claude-code-action — https://code.claude.com/docs/en/github-actions · https://github.com/anthropics/claude-code-action
+- Demystifying evals for AI agents — https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
+- A statistical approach to model evaluations — https://www.anthropic.com/research/statistical-approach-to-model-evals
+- Effective context engineering for AI agents — https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+- Equipping agents for the real world with Agent Skills — https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
+- Building effective agents — https://www.anthropic.com/research/building-effective-agents</p>
+<p>Agent/skill collections (benchmarked for §6a):
+- wshobson/agents — https://github.com/wshobson/agents
+- VoltAgent/awesome-claude-code-subagents — https://github.com/VoltAgent/awesome-claude-code-subagents
+- awesome-claude-code — https://github.com/hesreallyhim/awesome-claude-code
+- claude-code-templates / aitmpl — https://github.com/davila7/claude-code-templates
+- Anthropic official plugins — https://github.com/anthropics/claude-plugins-official
+- anthropics/skills — https://github.com/anthropics/skills
+- obra/superpowers — https://github.com/obra/superpowers</p>
+<p>Practitioner / community (treated as conventions to calibrate, not constants):
+- How Claude Code stop hooks work — https://amitkoth.com/claude-code-stop-hooks/
+- Claude Code permissions guide — https://www.developersdigest.tech/blog/claude-code-permissions-settings-guide
+- LLM-as-a-judge — https://www.evidentlyai.com/llm-guide/llm-as-a-judge · https://www.comet.com/site/blog/llm-as-a-judge/
+- Are LLMs Reliable Code Reviewers? — https://arxiv.org/html/2603.00539v1</p>
+<p>Internal:
+- <code>GOLD-STANDARD.md</code> §4–§11, §14 · <code>docs/the-rails.md</code> · <code>retros/</code> (2026-06-19, 2026-06-24) · PROGRESS.md
+- <code>microsoft-agentic-harness</code> <code>.claude/</code> + <code>.github/</code> (audited, not modified)</p>
+</div></main>
+<footer>Generated companion to <code>docs/harness-kit/RESEARCH.md</code> — the markdown is the source of truth.</footer>
+</body></html>
