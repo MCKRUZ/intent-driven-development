@@ -30,7 +30,7 @@ coding — the loop closes it.** That's what makes the speed safe to put in fron
   engagement, start to finish, as a continuous worked example.
 - **A pod member joining an engagement?** [The Delivery Standard](GOLD-STANDARD.html) front to
   back, then [The Team](docs/team.html) for your role, then the
-  [build loop](docs/build-loop.html). Keep the [glossary](docs/glossary.html) and
+  [build loop](docs/companion/build-loop.html). Keep the [glossary](docs/glossary.html) and
   [anti-pattern field guide](docs/anti-patterns.html) open.
 - **A client stakeholder or sponsor?** Read [In 30 seconds](#in-30-seconds) above, then the
   [FAQ](docs/faq.html) — it answers the questions you're about to ask (data, decisions, what you'll
@@ -50,16 +50,16 @@ The standard is published at **https://mckruz.github.io/intent-driven-developmen
 | [The Delivery Standard](https://mckruz.github.io/intent-driven-development/GOLD-STANDARD.html)             | The master document — the whole method in 14 sections                                |
 | [The Harbor Journey](https://mckruz.github.io/intent-driven-development/docs/journey.html)                 | The whole worked example as one continuous story — 10 stops, start to finish         |
 | [The Team](https://mckruz.github.io/intent-driven-development/docs/team.html)                              | Old roles to new roles, the concrete job of each, scaling from one pod to many       |
-| [Phase 0: Discovery](https://mckruz.github.io/intent-driven-development/docs/phase-0-discovery.html)       | Fixing the problem · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-0-example.html) |
-| [Phase 1: Requirements](https://mckruz.github.io/intent-driven-development/docs/phase-1-requirements.html) | The signed baseline · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-1-example.html) |
-| [Phase 2: Design](https://mckruz.github.io/intent-driven-development/docs/phase-2-design.html)             | Options into signed decisions · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-2-example.html) |
-| [Phase 3: Foundation](https://mckruz.github.io/intent-driven-development/docs/phase-3-foundation.html)     | The factory gets built · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-3-example.html) |
-| [The Build Loop](https://mckruz.github.io/intent-driven-development/docs/build-loop.html)                  | The heart of the method · [worked example](https://mckruz.github.io/intent-driven-development/docs/build-loop-example.html) |
-| [The Rails](https://mckruz.github.io/intent-driven-development/docs/the-rails.html)                        | The agentic CI/CD & DevOps pipeline — the gates every change rides · [worked example](https://mckruz.github.io/intent-driven-development/docs/the-rails-example.html) |
-| [Phase 7: Documentation](https://mckruz.github.io/intent-driven-development/docs/phase-7-documentation.html) | Proving a stranger can run it · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-7-example.html) |
-| [Phase 8: Deployment](https://mckruz.github.io/intent-driven-development/docs/phase-8-deployment.html)     | The rehearsal, the ceremony, go-live · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-8-example.html) |
-| [Phase 9: Monitoring](https://mckruz.github.io/intent-driven-development/docs/phase-9-monitoring.html)     | Alerts from real baselines, the drill, the retro · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-9-example.html) |
-| [Phase C: Close & Transfer](https://mckruz.github.io/intent-driven-development/docs/phase-c-close.html)    | The close gate, the clean exit, the harvest · [worked example](https://mckruz.github.io/intent-driven-development/docs/phase-c-example.html) |
+| [Phase 0: Discovery](https://mckruz.github.io/intent-driven-development/docs/companion/phase-0.html)       | Fixing the problem · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-0.html#example) |
+| [Phase 1: Requirements](https://mckruz.github.io/intent-driven-development/docs/companion/phase-1.html) | The signed baseline · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-1.html#example) |
+| [Phase 2: Design](https://mckruz.github.io/intent-driven-development/docs/companion/phase-2.html)             | Options into signed decisions · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-2.html#example) |
+| [Phase 3: Foundation](https://mckruz.github.io/intent-driven-development/docs/companion/phase-3.html)     | The factory gets built · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-3.html#example) |
+| [The Build Loop](https://mckruz.github.io/intent-driven-development/docs/companion/build-loop.html)                  | The heart of the method · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/build-loop.html#example) |
+| [The Rails](https://mckruz.github.io/intent-driven-development/docs/companion/the-rails.html)                        | The agentic CI/CD & DevOps pipeline — the gates every change rides · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/the-rails.html#example) |
+| [Phase 7: Documentation](https://mckruz.github.io/intent-driven-development/docs/companion/phase-7.html) | Proving a stranger can run it · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-7.html#example) |
+| [Phase 8: Deployment](https://mckruz.github.io/intent-driven-development/docs/companion/phase-8.html)     | The rehearsal, the ceremony, go-live · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-8.html#example) |
+| [Phase 9: Monitoring](https://mckruz.github.io/intent-driven-development/docs/companion/phase-9.html)     | Alerts from real baselines, the drill, the retro · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-9.html#example) |
+| [Phase C: Close & Transfer](https://mckruz.github.io/intent-driven-development/docs/companion/phase-c.html)    | The close gate, the clean exit, the harvest · [worked example](https://mckruz.github.io/intent-driven-development/docs/companion/phase-c.html#example) |
 
 ### Reference & on-ramp
 
@@ -72,10 +72,36 @@ Plain-language pages for getting in the door fast. No engagement context require
 | [FAQ](https://mckruz.github.io/intent-driven-development/docs/faq.html)                             | Honest answers to what clients and new pod members actually ask               |
 | [Anti-pattern field guide](https://mckruz.github.io/intent-driven-development/docs/anti-patterns.html) | The nine ways this goes wrong — symptom, cause, fix, prevent                |
 
+### The harness kit
+
+The standard ships as a working **Claude Code harness** — the engagement starter that Phase 3
+installs into a client repo (GOLD-STANDARD §6 *the harness standard*, §10 *the kit*). It's the
+method made executable: a governance `CLAUDE.md`, the spec template, permission settings, blocking
+Stop/review hooks, six model-tiered subagents, six team-practice skills, the five CI rails, profile
+rubrics/rulesets, an eval module, and infra starters. Teams install it via the **`claude-code-sdlc`
+plugin** (`/sdlc-setup`); `kit/` in this repo is the canonical source.
+
+| Page                                                                                                    | What it covers                                                                          |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [The Kit — install & map](kit/README.md)                                                                | What's in the harness, where each file installs, the adapt order, and the shakedown drills |
+| [Harness research](https://mckruz.github.io/intent-driven-development/docs/harness-kit/RESEARCH.html)    | The cited rationale behind every choice, plus the STABLE / NEWER / BLEEDING-EDGE maturity tiers |
+| [Call map](https://mckruz.github.io/intent-driven-development/docs/harness-kit/CALL-MAP.html)            | How the pieces wire together — hooks, agents, and the five rails, visualized             |
+
 ## Repo layout
 
-Every page exists twice: a markdown source (the file of record) and a paired HTML render
-(the published page). `GOLD-STANDARD.md` is the master document; `docs/` holds the
-deep-dives, the four plain-language reference pages (glossary, FAQ, cheat-sheet, anti-patterns),
-and the Harbor Mutual examples; `PROGRESS.md` is the working notes for where the standard goes
-next.
+- **`GOLD-STANDARD.md`** — the master document (14 sections); `GOLD-STANDARD.html` is its render.
+- **`index.html`** — the published landing page and site navigation.
+- **`docs/`** — the deep-dive markdown sources of record (`phase-*`, `build-loop`, `the-rails`, and
+  their `*-example` worked examples), the four plain-language reference pages (glossary, FAQ,
+  cheat-sheet, anti-patterns — each with a paired HTML render), and `journey` / `team`.
+- **`docs/companion/`** — the interactive per-phase walkthroughs. These are the published HTML pages
+  the site links for each phase (the idea, the mechanics, and the worked example on one page).
+- **`docs/harness-kit/`** — the harness research (`RESEARCH`) and call-map (`CALL-MAP`).
+- **`kit/`** — the installable Claude Code harness; the source of truth (the `claude-code-sdlc`
+  plugin bundles a synced copy).
+- **`retros/`** — one file per engagement: what the harvest loop changed and why.
+- **`PROGRESS.md`** — working notes for where the standard goes next.
+
+> The site is served with `.nojekyll`, so only committed `.html` files render — the phase deep-dives
+> exist as markdown sources, and their published form is the companion walkthrough. Link the
+> companion pages (not `docs/<page>.html`) when pointing at a phase online.
