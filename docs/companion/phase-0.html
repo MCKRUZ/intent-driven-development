@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -922,199 +923,504 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — WHY PHASE 0 EXISTS                                                -->
+  <!-- 01 — WHAT PHASE 0 RECEIVED                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and the attempt that failed before this one</p>
-      <h2>Why Phase 0 exists</h2>
-      <p class="lead">Harbor Mutual Insurance Group &mdash; a regional property and auto insurer of
-        roughly 400 employees &mdash; hired the pod to modernize property-claims intake. Today a
-        claim takes a median of 11.4 days from first notice of loss (FNOL) to a coverage decision,
-        and policyholders who wait more than seven days renew measurably less often. Claims live in
-        "PolicyOne," a mainframe-era core with a nightly batch window: policy data syncs to other
-        systems only once a night.</p>
+      <p class="kicker">No prior phase &mdash; only the client's own documents, and they disagree</p>
+      <h2>What Phase 0 received</h2>
+      <p class="lead">Harbor Mutual &mdash; a fictional regional property insurer of roughly 400
+        employees &mdash; hired a two-person pod to rebuild how property-claims intake works. A claim
+        takes a median of <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage
+        decision, and policyholders who wait more than seven days renew measurably less often. Claims
+        live in "PolicyOne," a mainframe-era core with a nightly batch window. Phase 0 has no phase
+        before it. It does not inherit a handoff; it inherits a <em>corpus</em> &mdash; eight documents
+        written by different people at different times, plus the SOW (statement of work). Design does
+        not start from requirements. It starts from <strong>contradictions</strong>.</p>
+
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Taken in at intake &mdash; cataloged by <code>intake_documents.py</code> into <code>.sdlc/context/intake/</code></span>
+        <span class="tag">claims-modernization-rfp.pdf</span>
+        <span class="tag">policyone-architecture-overview.pdf</span>
+        <span class="tag">fnol-intake-process-flows.docx</span>
+        <span class="tag">2024-modernization-postmortem.pdf</span>
+        <span class="tag">claims-ops-q4-2025-report.pdf</span>
+        <span class="tag">it-security-standards.md</span>
+        <span class="tag">integration-api-inventory.md</span>
+        <span class="tag">claims-2027-strategy-deck.pdf</span>
+        <span class="tag">the SOW</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">What Phase 0 is</div>
-          <p>The two-week opening that pins down the problem, one measurable success metric, who
-            decides product questions, and the constraints &mdash; before any requirements or code.
-            Claude (the AI coding agent) drafts the documents and writes most of the code later;
-            humans own every decision and verify every result.</p>
-          <p>Engagement start: Monday 2026-03-02. Every artifact on this page shows its
-            end-of-phase state &mdash; the 11.4-day baseline, the CR-204 report, and the open
+          <div class="plabel">The four questions the two weeks must answer</div>
+          <p>Nothing else. Requirements, design, and code each have their own phase; pulled forward,
+            they get rebuilt. Phase 0 answers four:</p>
+          <ol>
+            <li><strong>What problem, and how will we know we solved it?</strong> One measurable
+              number, not a feature list.</li>
+            <li><strong>Who decides product questions during the build?</strong> A named PO, in writing.</li>
+            <li><strong>Can we legally and technically work?</strong> Tooling, access, the data boundary.</li>
+            <li><strong>What is non-negotiable?</strong> The constraints that can't be designed away.</li>
+          </ol>
+          <p style="margin-top:12px;">Engagement start: Monday 2026-03-02. Every artifact on this page
+            shows its end-of-phase state &mdash; the 11.4-day baseline, the CR-204 report, and the open
             question IDs trace through all of them.</p>
         </div>
         <div class="eg">
-          <div class="plabel">Harbor's failed 2024 attempt</div>
-          <p>Harbor had already lived this. An earlier attempt to modernize the same system was
+          <div class="plabel">Why Harbor is watching this one</div>
+          <p>Harbor had already lived the failure. An earlier attempt to modernize the same system was
             cancelled in its sixth month.</p>
           <div class="snippet">
             <div class="from">From Harbor's own post-mortem (DOC-004)</div>
             <blockquote>"Cancelled in month six. No single internal owner; integration scope only
               surfaced in month five."</blockquote>
           </div>
-          <p style="margin-top:12px;">Phase 0 is the countermeasure: surface that scope in week
-            one, not month five.</p>
+          <p style="margin-top:12px;"><strong>Karen Voss is the one to watch.</strong> Harbor's VP of
+            Claims Operations owns the budget and the outcome, and signs the phase. Phase 0 is the
+            countermeasure to 2024: surface the scope in week one, and name an owner before a line ships.</p>
         </div>
       </div>
-      <div class="aha warn">
-        <div class="lbl">Skip this phase and&hellip;</div>
-        <p>You build the wrong thing precisely &mdash; a polished, well-tested solution to a problem
-          nobody actually had. Exactly the 2024 failure, replayed.</p>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead &mdash; runs the workshop and interviews, owns every artifact, gets the sponsor's signature</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; chases access, the repo, and the data-flow brief</span></div>
+          <div class="person"><span class="nm">Quality Engineer</span><span class="rl">~10% &mdash; one job: vet that every success criterion is actually readable (Nadia Brooks, from Phase 1)</span></div>
+          <div class="person"><span class="nm">Claude</span><span class="rl">Reads the corpus, surfaces contradictions, drafts &mdash; never decides</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">VP Claims Operations &mdash; sponsor; owns budget and outcome; signs the phase</span></div>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Claims Product Manager &mdash; candidate, and eventual, PO</span></div>
+          <div class="person"><span class="nm">Priti Shah</span><span class="rl">BI lead &mdash; data owner for claims metrics; runs CR-204 live</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT Security &mdash; procurement, the data boundary, access</span></div>
+          <div class="person"><span class="nm">Gail Tran, Marcus Webb</span><span class="rl">Senior adjusters &mdash; domain experts</span></div>
+          <div class="person"><span class="nm">Dee Alvarez</span><span class="rl">Intake supervisor &mdash; domain expert</span></div>
+        </div>
       </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every artifact in this engagement carries a stable identifier, so a decision made in week
+            one can still be traced in month nine. Phase 0 mints most of them. You'll see these
+            throughout:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Prefix</th><th>Means</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>DOC-NNN</code></td><td>A client document taken in at intake</td><td>Phase 0, day 2</td><td>DOC-004 the 2024 post-mortem &middot; DOC-007 the 2023 API inventory</td></tr>
+              <tr><td><code>CON-NN</code></td><td>A contradiction &mdash; two documents that disagree</td><td>Phase 0, day 2</td><td>CON-01 real-time vs. the nightly batch</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with an owner and a route</td><td>Phase 0, day 2</td><td>Q-13, Q-14 &mdash; still open at exit, carried to Phase 1</td></tr>
+              <tr><td><code>C-NN</code></td><td>A constraint &mdash; a hard limit the build must honor</td><td>Phase 0</td><td>C-02 nightly sync &middot; C-03 auto-proof</td></tr>
+              <tr><td><code>CR-NNN</code></td><td>A client BI report the metric is read from</td><td>client system</td><td>CR-204, the 11.4-day baseline</td></tr>
+              <tr><td><code>S-N</code></td><td>A secondary success metric</td><td>Phase 0, day 6</td><td>S1 ack compliance &middot; S2 adjuster touches</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The plugin's Phase 0 opens by asking a human, not by reading. Its first act
+            (Step 0) is a blocking gate: the sponsor answers five scoping questions before Claude drafts
+            anything &mdash; and the plugin twice repeats <em>never fabricate a stakeholder persona</em>.
+            The corpus anchors the questions; a human anchors the answers.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 02 — THE ONE RULE                                                      -->
+  <!-- 02 — THE PROCEDURE                                                     -->
   <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">Claude drafts and interrogates; humans decide and own</p>
-      <h2>The one rule</h2>
-      <p class="lead">Phase 0 applies the rule at its strictest: the AI never invents the problem.
-        What the project is actually for is written by a human, full stop. At Harbor, that rule paid
-        for itself on day 5 &mdash; the single most valuable correction of the phase.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The day-5 reframe</div>
-          <p>Claude drafted Harbor's problem statement from the workshop notes and framed it as a
-            <em>claims-team efficiency</em> problem &mdash; because that is what the documents
-            emphasized. The corpus led the draft astray.</p>
-          <p>At the day-5 sponsor checkpoint, Maya read the draft problem statement to Karen Voss
-            out loud. Karen stopped her: the real pain is renewal churn, not adjuster overtime. The
-            problem statement was reframed the same afternoon.</p>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">The machine's numbered steps, the humans' ten days, braided</p>
+        <h2>The procedure, step by step</h2>
+        <p class="lead">Phase 0 is a numbered sequence of steps in <code>claude-code-sdlc</code> and ten
+          working days in this standard &mdash; the same two weeks seen twice. Below, they're braided:
+          what the tool runs, what the humans do that the tool cannot, and the file each day leaves
+          behind. Two streams run in parallel the whole time &mdash; <strong>understanding</strong> (the
+          workshop, the metric, the artifacts) and <strong>enablement</strong> (access, the repo, the
+          data boundary) &mdash; so lead-time waits never idle the phase. <strong>Step through it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
         </div>
-        <div class="eg">
-          <div class="plabel">Efficiency &rarr; renewal churn</div>
-          <div class="snippet">
-            <div class="from">The AI's draft, from the documents</div>
-            <blockquote>"Adjusters are overloaded; the goal is to make the claims team more
-              efficient."</blockquote>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 0 procedure, day by day" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 &mdash; Mon 3/2 <span class="date">· plugin Step 0 opens</span></div>
+          <h3>Frame the problem with a human, not the corpus &mdash; and start the slow clock</h3>
+          <p>Before Claude reads a single document, the plugin opens with a <strong>blocking human
+            gate</strong>. Step 0 asks the sponsor five scoping questions with <code>AskUserQuestion</code>
+            and records the system type in <code>state.yaml</code>; nothing is drafted until a person
+            answers. In parallel, the enablement work that waits on other people &mdash; procurement,
+            access, the data-flow brief &mdash; starts <em>today</em>. Step 0b (a brownfield code scan) is
+            conditional and skipped here: Harbor's rebuild has no existing codebase to analyze.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-setup <span class="arrow">&rarr;</span> <span class="script">init_project.py</span></span>
+            <span class="cmd">Step 0 HITL gate</span>
+            <span class="tag green">human decision</span>
           </div>
-          <div class="snippet resolve">
-            <div class="from">The sponsor's correction &mdash; the real problem</div>
-            <blockquote>"Customers leave when claims drag. This is about renewals &mdash; roughly
-              $3.4M a year in property premium."</blockquote>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">project_type &rarr; state.yaml</span>
+            <span class="tag green">the sponsor's five answers, held in the session</span>
           </div>
-          <p style="margin-top:12px;">The AI produced the draft; a human owned the truth. That one
-            correction changed the primary metric's "why" &mdash; efficiency now improves as a
-            consequence, not as the goal.</p>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>60-minute kickoff with Karen, Luis, and Dan: the loop, the gates, the demo cadence. Eight
+              documents arrive. Rob hands Dan the data-flow brief, opens Anthropic procurement (~2-week
+              lead, Q-10), and issues the access checklist. Karen answers Step 0's five questions;
+              <code>project_type = service</code>.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The HITL the plugin says twice</div>
+            <p><em>Never fabricate stakeholder personas.</em> The plugin repeats it in Step 0 and again in
+              its artifact rules: Claude records only the people Karen actually names &mdash; no
+              hypothetical reviewers, no invented end users. The problem framing is anchored to human
+              answers, not synthesized from the corpus.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 &mdash; Tue 3/3 <span class="date">· plugin Steps 0c&ndash;0d · the most tool-dense day</span></div>
+          <h3>The AI reads everything &mdash; then reads it against itself</h3>
+          <p>Document intake (Step 0c, <code>/sdlc-intake</code>) catalogs every document: a stable
+            <code>DOC-NNN</code> id, a token-budgeted summary, and a locked index, all under
+            <code>.sdlc/context/intake/</code>. A human prioritizes the catalog at the intake HITL gate.
+            Then a fresh <code>discovery-analyst</code> agent (Step 0d) reads the documents
+            <em>against each other</em> and emits the contradiction list and the question list. The
+            workshop brief is drafted by <code>/sdlc-brief</code> &mdash; but a HITL gate governs it.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-intake <span class="arrow">&rarr;</span> <span class="script">intake_documents.py</span></span>
+            <span class="cmd">/sdlc-brief <span class="arrow">&rarr;</span> discovery-analyst</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">.sdlc/context/intake/ &mdash; catalog.json, index.md, DOC summaries</span>
+            <span class="tag">contradiction-list.md</span>
+            <span class="tag">question-list.md</span>
+            <span class="tag amber">the workshop brief &mdash; curated &amp; sent by a human; never committed</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Intake catalogs DOC-001&hellip;008 (~96,000 estimated tokens); Maya prioritizes at the HITL
+              gate; the catalog locks 3/3. <code>discovery-analyst</code> produces CON-01&hellip;04 and
+              Q-01&hellip;14. Three pre-workshop questions go out by email &mdash; all three answered the
+              same day (Q-05, Q-07, Q-12). Maya curates the brief to one page and sends it herself.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The HITL: the brief is curated, not generated</div>
+            <p>The plugin forbids drafting outcomes, metrics, or solutions into the workshop brief &mdash;
+              <em>questions only</em>. The human chooses its contents, edits the draft, and distributes it;
+              Claude never sends anything to the client. It is a real artifact the method leans on, and it
+              leaves no committed file behind.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 &mdash; Wed 3/4 <span class="date">· no command runs &mdash; humans in a room</span></div>
+          <h3>The one meeting that must happen in a room</h3>
+          <p>Half a day, the right people, no AI in the room. The contradictions get settled, the real
+            problem gets named in the sponsor's own words, the single success metric gets chosen, and the
+            PO decision is forced explicitly rather than left to drift.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; humans in a room, Maya facilitating</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">four contradictions resolved &amp; the PO decision &mdash; in workshop notes, not yet on disk</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Three hours, room 4B, six attendees. All four contradictions resolved: CON-01
+              same-business-day for v1 (real-time deferred); CON-02 property-only, auto-proof; CON-03
+              40,000/yr design target; CON-04 the metric is FNOL-to-coverage-decision. Six questions
+              answered. The PO decision lands: <strong>Luis Ortega, 6 hrs/week</strong> (Q-09).</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 &mdash; Thu 3/5 <span class="date">· plugin Steps 1&ndash;4</span></div>
+          <h3>Drafted by the AI, corrected by a human the same day</h3>
+          <p>With workshop notes in hand, the tool is finally allowed to write. Four steps fire: identify
+            the problem and its root cause (Step 1, Five Whys), analyze the current state (Step 2), define
+            success with baselines and targets (Step 3), and set the scope and constraints (Step 4). The
+            Pod Lead corrects each the same day &mdash; drafts age badly.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> drafts the artifacts</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out &mdash; all under <code>.sdlc/artifacts/00-discovery/</code></span>
+            <span class="tag">problem-statement.md</span>
+            <span class="tag">success-criteria.md</span>
+            <span class="tag">constraints.md</span>
+            <span class="tag">question-list.md &mdash; regenerated as decision list v1</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Claude drafts the problem statement, success criteria, and constraints from Maya's notes;
+              Maya corrects all three the same day. The corpus framed this as an
+              <em>adjuster-efficiency</em> problem, so the first draft inherits that framing &mdash; the
+              error corrected tomorrow.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 &mdash; Fri 3/6 <span class="date">· no command runs</span></div>
+          <h3>The cheap-correction point</h3>
+          <p>Interviews with the people who live the problem daily, then the draft problem statement read
+            <em>aloud</em> to the sponsor. This is where &ldquo;that's not actually the problem&rdquo;
+            surfaces &mdash; on day 5 rather than day 50.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; human interviews, then the sponsor checkpoint</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">the reframed problem statement &mdash; corrected in place</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Interviews with Gail, Marcus, Dee, and compliance close Q-08 (15-business-day
+              acknowledgment in two states; 96.2% compliance today) and Q-11 (email FNOL lands in a shared
+              Outlook inbox, triaged twice daily, no SLA). Then Maya reads the draft aloud; Karen reframes
+              it: <strong>efficiency &rarr; renewal churn</strong>, roughly <strong>$3.4M/yr</strong> in
+              property premium. The single most valuable correction of the phase &mdash; the corpus framed
+              this as adjuster overtime; the sponsor owned the truth.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 6">
+          <div class="day">Day 6 &mdash; Mon 3/9 <span class="date">· no command runs &mdash; the client's own system</span></div>
+          <h3>Produce the number, live</h3>
+          <p>Sit with the data owner and actually run the report on the real system. Read the baseline off
+            the screen and record it with its source named. A promised metric isn't good enough; a proven
+            one is the bar. The baseline lands in <code>success-criteria.md</code> &mdash; its home.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; the report runs on the client's BI system, with the data owner</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">success-criteria.md &mdash; baseline field, now filled from a live read</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>A session with Priti: report <strong>CR-204</strong> is run live, and the
+              <strong>11.4-day</strong> baseline is read off the screen and recorded with its source. The
+              report's caption said &ldquo;to first payment,&rdquo; but the underlying query measured to
+              coverage decision &mdash; caption wrong, query right, flagged to BI. The Quality Engineer
+              vets all three criteria.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">Work the gate can't see</div>
+            <p>The live read is exactly the human work the automated gate cannot verify. <code>check_gates.py</code>
+              confirms <code>success-criteria.md</code> exists and has a baseline field; it cannot tell whether
+              the number was read from a live system or typed from memory. The receipt is a human's word.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 7">
+          <div class="day">Day 7 &mdash; Tue 3/10 <span class="date">· plugin Step 5</span></div>
+          <h3>Write the thing the sponsor will sign; put ownership in writing</h3>
+          <p>Step 5 drafts the <strong>constitution</strong> &mdash; the project's short identity document:
+            what it is, what &ldquo;done&rdquo; means, the metric, the principles, who decides. The PO
+            decision is finalized in writing, and the tooling status is checked against the fallback
+            trigger date.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> constitution.md</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">constitution.md</span>
+            <span class="tag amber">PO decision record &mdash; method requires it; no command writes it</span>
+            <span class="tag amber">tooling record &mdash; method requires it; no command writes it</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Claude drafts the constitution; Maya keeps it short. The PO decision is recorded in writing:
+              Luis Ortega, 6 hrs/week, 2-business-day turnaround, triage on his calendar.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">Two signed records with no home</div>
+            <p>The standard wants a <strong>PO decision record</strong> signed by the sponsor and a
+              <strong>tooling record</strong> owned by the Setup Owner. The plugin emits neither file. At
+              Harbor these facts survive only folded into the constitution's decision authority and
+              constraint C-06 &mdash; the standard's two signed records leave no dedicated artifact.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 8">
+          <div class="day">Day 8 &mdash; Wed 3/11 <span class="date">· no command runs &mdash; the checkpoint with teeth</span></div>
+          <h3>Access goes live; the repo becomes the only home</h3>
+          <p>The enablement stream converges on a hard checkpoint: access goes live under the client's own
+            account, or the fallback rider is invoked <em>today</em> &mdash; not &ldquo;next week.&rdquo;
+            Every artifact produced so far moves into the client-org repository and is committed. From here,
+            the repo is the only home.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; procurement lands, the repo goes live, artifacts are committed</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">every 00-discovery artifact &mdash; committed to the client-org repo</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Harbor's Anthropic agreement is signed <strong>two days ahead</strong> of the fallback-rider
+              trigger. Keys land in Harbor's Key Vault; pod seats issue under Harbor's account; Azure-only,
+              PII inside the Harbor tenant (Q-07, Q-12). The delivery repo goes live in Harbor's GitHub org
+              and every Phase 0 artifact is committed. The access checklist closes.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 9">
+          <div class="day">Day 9 &mdash; Thu 3/12 <span class="date">· plugin Steps 6&ndash;8</span></div>
+          <h3>Package the handoff; the machine checks the work</h3>
+          <p>Step 6 packages the Phase 1 handoff. Steps 7&ndash;8 render the sponsor's narrative companion
+            and the gate report. <code>/sdlc-gate</code> runs <code>check_gates.py</code> over the
+            artifacts; anything incomplete gets fixed today, and any still-open question is written down to
+            carry forward under its original ID.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+            <span class="cmd">/sdlc-enhance</span>
+            <span class="cmd">/sdlc-phase-report <span class="arrow">&rarr;</span> <span class="script">generate_phase_report.py</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">phase1-handoff.md</span>
+            <span class="tag">.sdlc/reports/phase00-report.html</span>
+            <span class="tag">.sdlc/reports/phase00-visual.html</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Claude drafts the handoff; Q-13 and Q-14 carry forward under the same IDs. The gate finds one
+              completeness failure &mdash; a leftover placeholder in the constraints file &mdash; which the
+              <code>gate-repair</code> agent fixes; the check re-runs clean. The narrative companion is
+              generated and the HTML report rendered.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">What the gate actually checks</div>
+            <p><code>check_gates.py</code> verifies that five files exist, are non-empty, and contain no
+              placeholder text. This standard's exit gate has <strong>eight</strong> bullets &mdash; the
+              sponsor's signature, the metric read from a live source, the PO decision in writing, access
+              live under the client's account &mdash; and the script reads none of them. It confirms the
+              files are present; a human confirms they are true. <em>The gate is real. What it checks is a
+              fraction of what must be signed.</em></p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 10">
+          <div class="day">Day 10 &mdash; Fri 3/13 <span class="date">· plugin advance</span></div>
+          <h3>A signature, and the meter starts</h3>
+          <p>A 45-minute review walks the constitution, the metric with its verified baseline, the
+            constraints, the PO decision, and the open questions. The sponsor signs.
+            <code>advance_phase.py</code> will not move the engagement forward without
+            <code>--confirmed</code> &mdash; a named human's sign-off.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py --confirmed</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">the sponsor's signature &mdash; billing milestone 1</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>45 minutes with Karen: the constitution page by page, the metric with its verified baseline,
+              the constraints, the PO record, the two open questions. Karen signs the outcome statement.
+              The advance is approved and recorded; state moves to Phase 1. <strong>Billing milestone 1.</strong></p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 10</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — WHO'S INVOLVED                                                    -->
+  <!-- 03 — THE ARTIFACT LEDGER                                               -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">The full Harbor cast</p>
-      <h2>Who's involved</h2>
-      <p class="lead">Phase 0 is mostly two people on the pod side &mdash; the Pod Lead and the
-        Setup Owner, running the understanding and enablement workstreams in parallel. On the client
-        side, the sponsor, the candidate PO, security, the data owner, and the domain experts.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>Side</th><th>Person</th><th>Role</th></tr></thead>
+      <p class="kicker">Everything that exists on day 10 and didn't on day 1</p>
+      <h2>What Phase 0 produced</h2>
+      <p class="lead">The whole output of the opening two weeks, named. Blue rows are written by a command
+        and checked by the gate. <strong>Amber rows are the method's human work</strong> &mdash; required
+        by this standard, produced by no tool, and today leaving no file behind. Those are the rows to
+        argue about.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
         <tbody>
-          <tr><td>Harbor</td><td><strong>Karen Voss</strong></td><td>VP Claims Operations &mdash; sponsor, owns budget and outcome</td></tr>
-          <tr><td>Harbor</td><td><strong>Luis Ortega</strong></td><td>Claims Product Manager &mdash; candidate (and eventual) PO</td></tr>
-          <tr><td>Harbor</td><td><strong>Priti Shah</strong></td><td>BI (business intelligence) lead &mdash; data owner for claims metrics</td></tr>
-          <tr><td>Harbor</td><td><strong>Dan Kowalski</strong></td><td>IT Security &mdash; procurement, data boundary, access</td></tr>
-          <tr><td>Harbor</td><td><strong>Gail Tran, Marcus Webb</strong></td><td>Senior adjusters &mdash; domain experts</td></tr>
-          <tr><td>Harbor</td><td><strong>Dee Alvarez</strong></td><td>Intake supervisor &mdash; domain expert</td></tr>
-          <tr><td>Pod</td><td><strong>Maya Chen</strong></td><td>Pod Lead</td></tr>
-          <tr><td>Pod</td><td><strong>Rob Feld</strong></td><td>Setup Owner</td></tr>
+          <tr><td><span class="tag">constitution.md</span></td><td>The project's identity: mission, three outcomes, the one metric, principles, decision authority &mdash; short enough that the sponsor actually reads it</td><td><code>/sdlc-coach</code> drafts (Step 5)</td><td><strong>Sponsor</strong></td><td><code>.sdlc/artifacts/00-discovery/</code></td><td>Every later phase; the auto-proof rule gates Phase 2</td></tr>
+          <tr><td><span class="tag">problem-statement.md</span></td><td>Root cause and quantified impact in the sponsor's language &mdash; human-authored framing, never invented by Claude</td><td>Claude drafts from human notes; Pod Lead owns</td><td>Pod Lead</td><td><code>.sdlc/artifacts/00-discovery/</code></td><td>Phase 1 requirements</td></tr>
+          <tr><td><span class="tag">success-criteria.md</span></td><td>Every criterion with baseline, target, method, source; the baseline read live on day 6, not promised</td><td>Claude drafts (Step 3); QE vets</td><td>Pod Lead + QE</td><td><code>.sdlc/artifacts/00-discovery/</code></td><td>Phase 1; Phase 9 monitoring</td></tr>
+          <tr><td><span class="tag">constraints.md</span></td><td>Each constraint with a rationale and a fixed/negotiable flag (C-01&hellip;C-09)</td><td>Claude drafts (Step 4); Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/00-discovery/</code></td><td>Phase 2 design</td></tr>
+          <tr><td><span class="tag">phase1-handoff.md</span></td><td>Summary, decisions, numbered open questions with owners, risks, recommended starting point</td><td>Claude drafts (Step 6); Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/00-discovery/</code></td><td>Phase 1, directly</td></tr>
+          <tr><td><span class="tag">contradiction-list.md</span><br><span class="tag">question-list.md</span></td><td>Every place the documents disagree (CON-NN) and every unanswered question (Q-NN), each with a severity, a route, and a resolution log</td><td><code>discovery-analyst</code> (Step 0d)</td><td>Pod Lead</td><td><code>.sdlc/artifacts/00-discovery/</code></td><td>The workshop; open Q-NN into Phase 1</td></tr>
+          <tr><td><span class="tag">intake catalog</span></td><td>Every client document with a stable DOC-NNN id, a token-budgeted summary, and a locked index</td><td><code>intake_documents.py</code> (Step 0c) + Claude</td><td>Setup Owner</td><td><code>.sdlc/context/intake/</code></td><td>Requirements traceability (DOC-NNN)</td></tr>
+          <tr><td><span class="tag">phase00-report.html</span><br><span class="tag">phase00-visual.html</span></td><td>The gate result and inventory, and the sponsor's narrative companion &mdash; self-contained HTML</td><td><code>generate_phase_report.py</code> / <code>/sdlc-enhance</code> (Steps 7&ndash;8)</td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The day-10 sign-off</td></tr>
+
+          <tr><td><span class="tag amber">PO decision record</span></td><td>The PO mode chosen in writing: a named PO with committed hours, or a signed proxy rider. An SOW precondition with billing teeth</td><td><strong>A human; the sponsor</strong></td><td>Sponsor</td><td class="dim">no path &mdash; folded into the constitution, no file</td><td>Phase 1's decision-list clock</td></tr>
+          <tr><td><span class="tag amber">tooling record</span></td><td>Access live under the client's account, or a fallback rider signed with a date. The other precondition with billing teeth</td><td><strong>Setup Owner</strong></td><td>Setup Owner</td><td class="dim">no path &mdash; folded into constraint C-06</td><td>The exit gate</td></tr>
+          <tr><td><span class="tag amber">workshop brief</span></td><td>Questions only &mdash; curated by a human, edited, and distributed by a human; never drafts outcomes, metrics, or solutions</td><td><strong>A human, from Claude's draft</strong></td><td>Pod Lead</td><td class="dim">no path &mdash; curated &amp; sent, never committed</td><td>The day-3 workshop</td></tr>
         </tbody>
       </table>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Three of the eleven things Phase 0 is meant to produce have nowhere to live. The workshop brief
+          &mdash; the artifact the plugin itself calls <em>curated, not generated</em> &mdash; is sent to
+          the client and never committed. The two records this standard asks a human to sign, the PO
+          decision and the tooling status, survive only folded into other files. <strong>Human work is not
+          the problem. Human work without a receipt is.</strong></p>
+      </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase 0: requirements, user
+        stories, architecture options, technology selections, or any code beyond the empty repo scaffold.
+        Each has its own phase; each done early is rework.</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 04 — THE FOUR QUESTIONS                                                -->
+  <!-- 04 — READING THE DOCUMENTS AGAINST EACH OTHER                          -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">04</span>
-      <p class="kicker">Harbor's four answers &mdash; and the full open-question list behind them</p>
-      <h2>The four questions</h2>
-      <p class="lead">Everything Phase 0 produces exists to answer exactly four questions. Harbor's
-        answers, then the complete fourteen-question list the <code>discovery-analyst</code> agent
-        produced on day 2 &mdash; every question that was routed, emailed, interviewed, or carried
-        forward.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The four questions</div>
-          <ol>
-            <li><strong>What problem, and how will we know we solved it?</strong></li>
-            <li><strong>Who decides product questions during the build?</strong></li>
-            <li><strong>Can we legally and technically work?</strong></li>
-            <li><strong>What's non-negotiable?</strong></li>
-          </ol>
-        </div>
-        <div class="eg">
-          <div class="plabel">Harbor's four answers</div>
-          <ol>
-            <li>Customers leaving at renewal; success = median days from FNOL to coverage decision
-              (<strong>11.4 today</strong>).</li>
-            <li><strong>Luis Ortega</strong>, the Claims Product Manager &mdash; 6 hours a week.</li>
-            <li>Cloud is Azure-only; PII stays inside Harbor's own tenant; AI access under Harbor's
-              account.</li>
-            <li>The once-a-night core system stays; two states mandate a 15-business-day
-              acknowledgment clock.</li>
-          </ol>
-        </div>
-      </div>
-
-      <p class="dim" style="margin-top:24px;">The full question list &mdash; produced day 2; 6 routed
-        to the workshop, 3 emailed pre-workshop, 3 to the day-5 interviews, 2 still open at phase
-        exit:</p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>ID</th><th>Block</th><th>Question</th><th>Route</th><th>Answer</th></tr></thead>
-        <tbody>
-          <tr><td>Q-01</td><td>Problem</td><td>Who is hurt most by the 11.4 days &mdash; policyholders or the claims team?</td><td>workshop</td><td>Renewal churn is the frame: claimants waiting &gt;7 days renew 2.1 points lower (Karen, 3/4)</td></tr>
-          <tr><td>Q-02</td><td>Problem</td><td>What actually killed the 2024 attempt?</td><td>workshop</td><td>No named internal owner; integration scope found in month five (Karen, 3/4)</td></tr>
-          <tr><td>Q-03</td><td>Outcomes</td><td>Should Harbor's engineers run this delivery model after handoff?</td><td>workshop</td><td>Yes &mdash; four engineers trained into the loop (Karen, 3/4)</td></tr>
-          <tr><td>Q-04</td><td>Metric</td><td>What exact report produces the 11.4-day figure; can it run on demand?</td><td>interview</td><td>CR-204, ClaimsCenter BI, weekly, on-demand capable; run live 3/9 (Priti)</td></tr>
-          <tr><td>Q-05</td><td>Metric</td><td>Does the figure include reopened claims?</td><td>pre-workshop</td><td>No &mdash; tracked separately (Priti, email 3/3)</td></tr>
-          <tr><td>Q-06</td><td>Constraints</td><td>Is the PolicyOne retirement date funded and fixed, or aspirational?</td><td>workshop</td><td>Aspirational, unfunded &mdash; treat PolicyOne as permanent for v1 (Karen, 3/4)</td></tr>
-          <tr><td>Q-07</td><td>Constraints</td><td>Azure-only, or is anything on AWS?</td><td>pre-workshop</td><td>Azure only; the AWS reference was the failed vendor's proposal (Dan, email 3/3)</td></tr>
-          <tr><td>Q-08</td><td>Constraints</td><td>Do state regulations bound acknowledgment or decision timelines?</td><td>interview</td><td>15-business-day acknowledgment in two states; 96.2% compliance today (compliance, 3/6)</td></tr>
-          <tr><td>Q-09</td><td>PO</td><td>Can Harbor commit a named PO at the agreed hours with 2-day turnaround?</td><td>workshop</td><td>Luis Ortega, 6 hrs/week, triage on his calendar (Karen, 3/4)</td></tr>
-          <tr><td>Q-10</td><td>Tooling</td><td>Who owns Anthropic vendor onboarding; what lead time?</td><td>workshop</td><td>Dan owns it; ~2 weeks; started day 1, signed 3/11 &mdash; fallback rider not needed</td></tr>
-          <tr><td>Q-11</td><td>Other</td><td>Where does FNOL email volume land; who triages it?</td><td>interview</td><td>Shared Outlook inbox, manual triage twice daily, no SLA (Dee, 3/6)</td></tr>
-          <tr><td>Q-12</td><td>Other</td><td>Can claim documents (PII) appear in agent context?</td><td>pre-workshop</td><td>PII stays in Harbor tenant; intake corpus was redacted (Dan, email 3/3)</td></tr>
-          <tr><td>Q-13</td><td>Other</td><td>Do the two states' acknowledgment rules apply differently to the portal channel?</td><td>interview</td><td><strong>OPEN</strong> &mdash; carried to handoff (owner Luis, due Phase 1 wk 1)</td></tr>
-          <tr><td>Q-14</td><td>Other</td><td>What share of property claims is "simple" (single dwelling, no injury, &lt;$25k) and fast-path eligible?</td><td>interview</td><td><strong>OPEN</strong> &mdash; carried to handoff (owner Priti, due Phase 1 wk 1)</td></tr>
-        </tbody>
-      </table>
-      <p class="note">The three pre-workshop questions went out by email day 2 &mdash; and all three
-        came back the same day (Q-05, Q-07, Q-12).</p>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 05 — READING THE DOCUMENTS AGAINST EACH OTHER                          -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">05</span>
-      <p class="kicker">The document registry, and the four contradictions it surfaced</p>
+      <p class="kicker">The document registry, the four contradictions, and the full question list</p>
       <h2>Reading the documents against each other</h2>
-      <p class="lead">Harbor handed over eight documents, written by different people at different
-        times. The <code>discovery-analyst</code> agent read them <em>against each other</em> and
-        found four contradictions &mdash; each a decision nobody realized they had to make, surfaced
-        while it was still cheap.</p>
+      <p class="lead">This is the signature work of Phase 0: not summarizing the pile, but reading it
+        <em>against itself</em>. Harbor handed over eight documents, written by different people at
+        different times. The <code>discovery-analyst</code> agent found four contradictions &mdash; each
+        a decision nobody realized they had to make, surfaced while it was still cheap. Harbor's four
+        answers to the phase's four questions: renewal churn, measured as FNOL-to-coverage-decision
+        (11.4 today); Luis Ortega, 6 hrs/week; Azure-only with PII in Harbor's tenant; and a once-a-night
+        core that stays, with a 15-business-day acknowledgment clock in two states.</p>
 
       <p class="dim" style="margin-top:8px;">The document registry &mdash; produced day 2 by document
-        intake (Step 0c: <code>intake_documents.py</code> + Claude summarization). Registry locked
-        2026-03-03: 8 documents, ~96,000 estimated tokens, file types pdf&nbsp;(5), docx&nbsp;(1),
-        md&nbsp;(2).</p>
+        intake. Locked 2026-03-03: 8 documents, ~96,000 estimated tokens; file types pdf&nbsp;(5),
+        docx&nbsp;(1), md&nbsp;(2).</p>
       <table class="ref-doc" style="margin-top:12px;">
         <thead><tr><th>ID</th><th>Filename</th><th>Est. Tokens</th><th>Key Topics</th></tr></thead>
         <tbody>
@@ -1133,8 +1439,8 @@
         <strong>History</strong> (DOC-004).</p>
 
       <h2 style="margin-top:34px;">The four contradictions</h2>
-      <p class="dim">Produced day 2 by the <code>discovery-analyst</code> agent (Step 0d);
-        resolutions recorded at the day-3 workshop.</p>
+      <p class="dim">Produced day 2 by the <code>discovery-analyst</code> agent; resolutions recorded at
+        the day-3 workshop.</p>
 
       <!-- CON-01 -->
       <h3 style="margin-top:22px;">CON-01 &mdash; Real-time adjudication vs. the nightly batch window</h3>
@@ -1225,15 +1531,40 @@
           FNOL-to-decision in the underlying CR-204 query despite the DOC-005 caption (caption error
           flagged to BI).</blockquote>
       </div>
+
+      <h2 style="margin-top:34px;">The full question list</h2>
+      <p class="dim">Produced day 2; 6 routed to the workshop, 3 emailed pre-workshop, 3 to the day-5
+        interviews, 2 still open at phase exit and carried to Phase 1.</p>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>ID</th><th>Block</th><th>Question</th><th>Route</th><th>Answer</th></tr></thead>
+        <tbody>
+          <tr><td>Q-01</td><td>Problem</td><td>Who is hurt most by the 11.4 days &mdash; policyholders or the claims team?</td><td>workshop</td><td>Renewal churn is the frame: claimants waiting &gt;7 days renew 2.1 points lower (Karen, 3/4)</td></tr>
+          <tr><td>Q-02</td><td>Problem</td><td>What actually killed the 2024 attempt?</td><td>workshop</td><td>No named internal owner; integration scope found in month five (Karen, 3/4)</td></tr>
+          <tr><td>Q-03</td><td>Outcomes</td><td>Should Harbor's engineers run this delivery model after handoff?</td><td>workshop</td><td>Yes &mdash; four engineers trained into the loop (Karen, 3/4)</td></tr>
+          <tr><td>Q-04</td><td>Metric</td><td>What exact report produces the 11.4-day figure; can it run on demand?</td><td>interview</td><td>CR-204, ClaimsCenter BI, weekly, on-demand capable; run live 3/9 (Priti)</td></tr>
+          <tr><td>Q-05</td><td>Metric</td><td>Does the figure include reopened claims?</td><td>pre-workshop</td><td>No &mdash; tracked separately (Priti, email 3/3)</td></tr>
+          <tr><td>Q-06</td><td>Constraints</td><td>Is the PolicyOne retirement date funded and fixed, or aspirational?</td><td>workshop</td><td>Aspirational, unfunded &mdash; treat PolicyOne as permanent for v1 (Karen, 3/4)</td></tr>
+          <tr><td>Q-07</td><td>Constraints</td><td>Azure-only, or is anything on AWS?</td><td>pre-workshop</td><td>Azure only; the AWS reference was the failed vendor's proposal (Dan, email 3/3)</td></tr>
+          <tr><td>Q-08</td><td>Constraints</td><td>Do state regulations bound acknowledgment or decision timelines?</td><td>interview</td><td>15-business-day acknowledgment in two states; 96.2% compliance today (compliance, 3/6)</td></tr>
+          <tr><td>Q-09</td><td>PO</td><td>Can Harbor commit a named PO at the agreed hours with 2-day turnaround?</td><td>workshop</td><td>Luis Ortega, 6 hrs/week, triage on his calendar (Karen, 3/4)</td></tr>
+          <tr><td>Q-10</td><td>Tooling</td><td>Who owns Anthropic vendor onboarding; what lead time?</td><td>workshop</td><td>Dan owns it; ~2 weeks; started day 1, signed 3/11 &mdash; fallback rider not needed</td></tr>
+          <tr><td>Q-11</td><td>Other</td><td>Where does FNOL email volume land; who triages it?</td><td>interview</td><td>Shared Outlook inbox, manual triage twice daily, no SLA (Dee, 3/6)</td></tr>
+          <tr><td>Q-12</td><td>Other</td><td>Can claim documents (PII) appear in agent context?</td><td>pre-workshop</td><td>PII stays in Harbor tenant; intake corpus was redacted (Dan, email 3/3)</td></tr>
+          <tr><td>Q-13</td><td>Other</td><td>Do the two states' acknowledgment rules apply differently to the portal channel?</td><td>interview</td><td><strong>OPEN</strong> &mdash; carried to handoff (owner Luis, due Phase 1 wk 1)</td></tr>
+          <tr><td>Q-14</td><td>Other</td><td>What share of property claims is "simple" (single dwelling, no injury, &lt;$25k) and fast-path eligible?</td><td>interview</td><td><strong>OPEN</strong> &mdash; carried to handoff (owner Priti, due Phase 1 wk 1)</td></tr>
+        </tbody>
+      </table>
+      <p class="note">The three pre-workshop questions went out by email day 2 &mdash; and all three
+        came back the same day (Q-05, Q-07, Q-12).</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 06 — THE SUCCESS METRIC                                                -->
+  <!-- 05 — THE SUCCESS METRIC                                                -->
   <!-- ===================================================================== -->
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">06</span>
+      <span class="modnum">05</span>
       <p class="kicker">One number, read live from the real system</p>
       <h2>The success metric</h2>
       <p class="lead">A target with no readable baseline is a wish. On day 6 the pod sat with Priti
@@ -1273,105 +1604,20 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 07 — WHO DECIDES (THE PO)                                              -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
-      <p class="kicker">The product-owner decision, in writing</p>
-      <h2>Who decides (the PO)</h2>
-      <p class="lead">Once building starts, product questions arrive every day. Harbor committed a
-        named owner &mdash; not "we'll figure it out as we go." The decision landed in the day-3
-        workshop and was recorded in writing on day 7.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The idea</div>
-          <p>Named-owner mode means the client commits a person, with hours, who answers within a
-            couple of business days. Because the PO commitment is a contract precondition, the build
-            clock couldn't start until it was settled.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The PO decision record (recorded day 7)</div>
-          <div class="decision">
-            <strong>Luis Ortega</strong> &mdash; Claims Product Manager<br>
-            PO mode &middot; 6 hours per week &middot; product decisions answered within two business
-            days &middot; triage on his calendar
-          </div>
-          <p style="margin-top:12px;">Answers Q-09: Harbor can commit a named PO at the agreed hours
-            with a 2-business-day turnaround.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 08 — TOOLING & THE DATA BOUNDARY                                       -->
+  <!-- 06 — THE DOCUMENTS A HUMAN OWNS                                        -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
-      <p class="kicker">Can we even work here?</p>
-      <h2>Tooling &amp; the data boundary</h2>
-      <p class="lead">The AI needs a contract and keys, and the client's security team needs a clear
-        written answer to one question: what data does this thing see, and where does it go? Harbor
-        took the default path &mdash; access under its own agreement.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The tooling record</div>
-          <p>Rob handed Dan the data-flow brief on day 1 and opened the Anthropic procurement
-            conversation; Dan owns vendor onboarding and quoted a typical two-week lead time. The
-            fallback rider sat ready the whole time in case procurement slipped.</p>
-          <p>Answers Q-07 (Azure only; the AWS reference was the failed vendor's proposal) and Q-12
-            (PII stays inside Harbor's tenant; the intake corpus was redacted).</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">At Harbor &mdash; default path</div>
-          <div class="decision">
-            Harbor's Anthropic agreement <strong>signed on day 8</strong> &mdash; two days ahead of
-            the fallback-rider trigger. Keys went into Harbor's Key Vault; pod seats issued under
-            Harbor's account. Azure-only cloud; PII stays in the Harbor tenant.
-          </div>
-          <p style="margin-top:12px;">The fallback rider was never needed (Q-10). The access
-            checklist closed the same day.</p>
-        </div>
-      </div>
-      <div class="aha">
-        <div class="lbl">Why this one has teeth</div>
-        <p>Live access (or a signed fallback) is a condition of closing Phase 0. The next phase does
-          not begin without it.</p>
-      </div>
-    </div>
-  </section>
+      <span class="modnum">06</span>
+      <p class="kicker">Two artifacts the standard insists a human owns &mdash; reproduced whole</p>
+      <h2>The documents a human authored</h2>
+      <p class="lead">Two Phase 0 artifacts are never Claude's to own. The <strong>workshop brief</strong>
+        is curated by a human and carries questions only &mdash; the plugin forbids drafting an outcome
+        into it. The <strong>problem statement</strong> is human-authored framing: Claude drafts from
+        human notes, but what the project is <em>for</em> is a human's to write. Both are reproduced in
+        full below.</p>
 
-  <!-- ===================================================================== -->
-  <!-- 09 — HOW THE TWO WEEKS UNFOLD                                          -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">The ten days, end to end &mdash; and the two artifacts the room produced</p>
-      <h2>How the two weeks unfold</h2>
-      <p class="lead">Two streams ran in parallel the whole time &mdash; one chasing understanding
-        (the workshop, the metric, the artifacts), another chasing enablement (access, the repo, the
-        data boundary). Engagement start Monday 2026-03-02.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>Day</th><th>Focus</th><th>What happened</th><th>Tooling</th></tr></thead>
-        <tbody>
-          <tr><td>1 &middot; Mon 3/2</td><td>Kickoff</td><td>60-min kickoff with Karen, Luis, Dan: the loop, gates, demo cadence. 8 documents arrive. Rob hands Dan the data-flow brief, opens Anthropic procurement, issues the access checklist, and initializes the engagement scaffold.</td><td><code>/sdlc-setup</code> &rarr; <code>init_project.py</code></td></tr>
-          <tr><td>2 &middot; Tue 3/3</td><td>Intake &amp; prep</td><td>Intake catalogs DOC-001..008; Maya prioritizes at the HITL gate; catalog locked. <code>discovery-analyst</code> produces CON-01..04 and Q-01..14. Three pre-workshop questions emailed &mdash; all answered same day. Workshop brief drafted, curated, sent by Maya.</td><td><code>/sdlc-intake</code> &rarr; <code>intake_documents.py</code>; <code>/sdlc-brief</code></td></tr>
-          <tr><td>3 &middot; Wed 3/4</td><td>The outcome workshop</td><td>3 hours, room 4B, six attendees, Maya facilitating, humans only. All four contradictions resolved; six questions answered; the PO decision lands (Luis).</td><td>&mdash; (humans in a room)</td></tr>
-          <tr><td>4 &middot; Thu 3/5</td><td>First drafts</td><td>Claude drafts problem statement, success criteria, constraints from Maya's notes. Maya corrects all three the same day.</td><td><code>/sdlc-coach</code></td></tr>
-          <tr><td>5 &middot; Fri 3/6</td><td>Interviews &amp; checkpoint</td><td>Interviews with Gail, Marcus, Dee, and compliance close Q-08 and Q-11. The sponsor checkpoint: Maya reads the draft aloud; Karen reframes efficiency &rarr; renewal churn. The single most valuable correction of the phase.</td><td>&mdash;</td></tr>
-          <tr><td>6 &middot; Mon 3/9</td><td>Prove the metric</td><td>Session with Priti: CR-204 run live, 11.4-day baseline recorded with its source. Caption-vs-query error caught and flagged. QE vets all three criteria.</td><td>&mdash; (client system)</td></tr>
-          <tr><td>7 &middot; Tue 3/10</td><td>Constitution &amp; PO</td><td>Claude drafts the constitution; Maya keeps it short. The PO decision recorded in writing (Luis, 6 hrs/wk, 2-business-day turnaround).</td><td><code>/sdlc-coach</code></td></tr>
-          <tr><td>8 &middot; Wed 3/11</td><td>Enablement converges</td><td>Anthropic agreement signed (2 days ahead of the rider). Keys in Key Vault, seats under Harbor's account. Delivery repo live in Harbor's GitHub org; every Phase 0 artifact moves in and is committed. Access checklist closes.</td><td>&mdash;</td></tr>
-          <tr><td>9 &middot; Thu 3/12</td><td>Gate run</td><td>Claude drafts the Phase 1 handoff (Q-13, Q-14 carry forward). Gate check finds one completeness failure &mdash; a constraints placeholder &mdash; fixed by <code>gate-repair</code>; re-runs clean. Narrative companion generated; HTML report rendered.</td><td><code>/sdlc-gate</code> &rarr; <code>check_gates.py</code>; <code>/sdlc-enhance</code>; <code>/sdlc-phase-report</code></td></tr>
-          <tr><td>10 &middot; Fri 3/13</td><td>Review &amp; sign-off</td><td>45 min with Karen: constitution page by page, metric with verified baseline, constraints, PO record, two open questions. Karen signs. Advance approved and recorded; state moves to Phase 1. Billing milestone 1.</td><td><code>/sdlc-next</code> &rarr; <code>check_gates.py</code>, <code>advance_phase.py</code></td></tr>
-        </tbody>
-      </table>
-
-      <!-- workshop brief artifact -->
-      <h2 style="margin-top:34px;">Artifact: the workshop brief</h2>
+      <h2 style="margin-top:26px;">The workshop brief, in full</h2>
       <p class="dim">Drafted day 2 via <code>/sdlc-brief</code>, curated by Maya at its HITL gate,
         sent by Maya. The one page, as sent:</p>
       <div class="snippet">
@@ -1415,9 +1661,10 @@
           &middot; tooling status (10).
         </blockquote>
       </div>
+      <p class="note">Questions only &mdash; the brief never proposes an outcome. Every framing appears
+        as an attributed claim with a DOC reference. That is the plugin's HITL rule made visible.</p>
 
-      <!-- problem statement artifact -->
-      <h2 style="margin-top:34px;">Artifact: the problem statement</h2>
+      <h2 style="margin-top:34px;">The problem statement, in full</h2>
       <p class="dim">Drafted day 4 from workshop notes; reframed day 5 at the sponsor checkpoint;
         signed day 10.</p>
       <p><strong>The problem.</strong> Property policyholders wait a median of 11.4 days from first
@@ -1442,41 +1689,23 @@
         changing) converges on two causes: (1) no single queue &mdash; three FNOL channels with three
         intake mechanics and no shared prioritization; (2) coverage verification blocked on a nightly
         batch. Everything else is downstream of those two.</p>
-
-      <h2 style="margin-top:34px;">Artifact: the constraints</h2>
-      <p class="dim">Drafted day 4; signed day 10.</p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>#</th><th>Constraint</th><th>Fixed / Negotiable</th><th>Source</th></tr></thead>
-        <tbody>
-          <tr><td>C-01</td><td>Azure is the only approved cloud</td><td>Fixed</td><td>DOC-006 section 2; Q-07</td></tr>
-          <tr><td>C-02</td><td>PolicyOne stays; the nightly batch window is a hard integration boundary for v1</td><td>Fixed</td><td>Q-06; CON-01</td></tr>
-          <tr><td>C-03</td><td>v1 property-only; design must not preclude the auto book</td><td>Fixed</td><td>CON-02; gated at Phase 2</td></tr>
-          <tr><td>C-04</td><td>15-business-day acknowledgment in two regulated states</td><td>Fixed</td><td>Q-08 &mdash; becomes acceptance criteria and test cases</td></tr>
-          <tr><td>C-05</td><td>Claim documents and PII stay in the Harbor tenant; no PII in model context outside the approved Azure path</td><td>Fixed</td><td>Q-12</td></tr>
-          <tr><td>C-06</td><td>Anthropic access under Harbor's agreement; keys in Harbor Key Vault</td><td>Fixed</td><td>Signed 3/11</td></tr>
-          <tr><td>C-07</td><td>Fixed fee per phase; gates are the billing milestones</td><td>Fixed</td><td>SOW (statement of work)</td></tr>
-          <tr><td>C-08</td><td>Go-live before the Q4 2026 renewal season (Oct 1)</td><td>Negotiable</td><td>Karen prefers scope cuts over date slips, in that order</td></tr>
-          <tr><td>C-09</td><td>Design target 40,000 property claims/yr including headroom</td><td>Negotiable</td><td>CON-03; revisit after Q-14</td></tr>
-        </tbody>
-      </table>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 10 — THE GATE                                                          -->
+  <!-- 07 — THE CONSTITUTION AND THE CONSTRAINTS                              -->
   <!-- ===================================================================== -->
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
-      <p class="kicker">The constitution, the handoff, and the signature that closes the phase</p>
-      <h2>The gate</h2>
-      <p class="lead">A phase doesn't end because two weeks went by. It ends when a specific list is
-        true and a named human signs. Gates report; humans decide &mdash; and the gate is the billing
-        milestone.</p>
-
-      <!-- constitution artifact -->
-      <h2 style="margin-top:8px;">Artifact: the constitution</h2>
-      <p class="dim">Drafted day 7; signed by the sponsor at the day-10 phase review.</p>
+      <span class="modnum">07</span>
+      <p class="kicker">The document the sponsor signs &mdash; and the limits it commits to</p>
+      <h2>The constitution the sponsor signs</h2>
+      <p class="lead">The constitution is the project's identity in one short document: what it is, what
+        &ldquo;done&rdquo; means, the metric, the principles, and who decides &mdash; kept short enough
+        that the sponsor actually reads it. The PO decision (Luis Ortega, 6 hrs/week, 2-business-day
+        turnaround) and the tooling status live inside it, since the plugin gives them no file of their
+        own.</p>
+      <p class="dim" style="margin-top:8px;">Drafted day 7; signed by the sponsor at the day-10 phase review.</p>
       <p><strong>Identity.</strong> Harbor Claims Intake &mdash; a unified property-claims intake and
         triage system replacing three disconnected FNOL channels with one queue and
         same-business-day coverage decisions, integrated with PolicyOne. Project type: service.</p>
@@ -1498,9 +1727,53 @@
         Phase 2. Security and data boundary: Dan Kowalski. Scope changes: Karen, on Luis's
         recommendation.</p>
 
-      <!-- handoff artifact -->
-      <h2 style="margin-top:34px;">Artifact: the Phase 1 handoff</h2>
-      <p class="dim">Drafted day 9; phase closed day 10 (billing milestone 1).</p>
+      <h2 style="margin-top:34px;">The constraints</h2>
+      <p class="dim">Drafted day 4; signed day 10. C-06 is where the tooling record lives; C-06 and the
+        decision authority above are where the standard's two signed records survive.</p>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>#</th><th>Constraint</th><th>Fixed / Negotiable</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>C-01</td><td>Azure is the only approved cloud</td><td>Fixed</td><td>DOC-006 section 2; Q-07</td></tr>
+          <tr><td>C-02</td><td>PolicyOne stays; the nightly batch window is a hard integration boundary for v1</td><td>Fixed</td><td>Q-06; CON-01</td></tr>
+          <tr><td>C-03</td><td>v1 property-only; design must not preclude the auto book</td><td>Fixed</td><td>CON-02; gated at Phase 2</td></tr>
+          <tr><td>C-04</td><td>15-business-day acknowledgment in two regulated states</td><td>Fixed</td><td>Q-08 &mdash; becomes acceptance criteria and test cases</td></tr>
+          <tr><td>C-05</td><td>Claim documents and PII stay in the Harbor tenant; no PII in model context outside the approved Azure path</td><td>Fixed</td><td>Q-12</td></tr>
+          <tr><td>C-06</td><td>Anthropic access under Harbor's agreement; keys in Harbor Key Vault</td><td>Fixed</td><td>Signed 3/11</td></tr>
+          <tr><td>C-07</td><td>Fixed fee per phase; gates are the billing milestones</td><td>Fixed</td><td>SOW (statement of work)</td></tr>
+          <tr><td>C-08</td><td>Go-live before the Q4 2026 renewal season (Oct 1)</td><td>Negotiable</td><td>Karen prefers scope cuts over date slips, in that order</td></tr>
+          <tr><td>C-09</td><td>Design target 40,000 property claims/yr including headroom</td><td>Negotiable</td><td>CON-03; revisit after Q-14</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 08 — WHAT PHASE 1 RECEIVES                                             -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">The handoff &mdash; and the two questions that travel with it</p>
+      <h2>What Phase 1 receives</h2>
+      <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below
+        crosses the boundary into Requirements: the signed identity and constraints, the proven metric,
+        and the two questions still open &mdash; carried forward under their original IDs, never
+        silently dropped. Drafted day 9; the phase closed day 10 (billing milestone 1).</p>
+
+      <div class="artifacts" style="margin:22px 0 8px;">
+        <span class="lbl">Crosses into Phase 1</span>
+        <span class="tag">constitution.md</span>
+        <span class="tag">problem-statement.md</span>
+        <span class="tag">success-criteria.md</span>
+        <span class="tag">constraints.md</span>
+        <span class="tag">phase1-handoff.md</span>
+        <span class="tag">contradiction-list.md + question-list.md</span>
+        <span class="tag">intake catalog (DOC-NNN)</span>
+        <span class="tag amber">PO decision record</span>
+        <span class="tag amber">tooling record</span>
+      </div>
+
+      <h2 style="margin-top:30px;">The Phase 1 handoff (summary)</h2>
       <p><strong>Key findings.</strong> The business problem is renewal churn, not adjuster overtime.
         Two root causes: no single queue, and verification blocked on the nightly batch. v1
         property-only (40k/yr target), auto-proof. Same-business-day accepted; real-time deferred.
@@ -1529,16 +1802,15 @@
         prerequisite for everything, and the email channel is the least understood. Fast-path
         requirements wait on Q-14's segmentation.</p>
 
-      <!-- the gate run -->
-      <h2 style="margin-top:34px;">The gate run and the sign-off</h2>
+      <h2 style="margin-top:30px;">The gate run and the sign-off</h2>
       <div class="pair">
         <div class="idea">
           <div class="plabel">Day 9 &mdash; the check</div>
-          <p><code>/sdlc-gate</code> ran the six-gate check: one completeness failure &mdash; a
-            leftover placeholder in the constraints file &mdash; which the <code>gate-repair</code>
-            agent fixed (structural repair only), and the gate re-ran clean. <code>/sdlc-enhance</code>
-            generated the narrative companion for Karen; <code>/sdlc-phase-report</code> rendered the
-            stakeholder HTML report.</p>
+          <p><code>/sdlc-gate</code> ran the completeness check: one failure &mdash; a leftover
+            placeholder in the constraints file &mdash; which the <code>gate-repair</code> agent fixed
+            (structural repair only), and the gate re-ran clean. <code>/sdlc-enhance</code> generated
+            the narrative companion for Karen; <code>/sdlc-phase-report</code> rendered the stakeholder
+            HTML report.</p>
         </div>
         <div class="eg">
           <div class="plabel">Day 10 &mdash; sign-off</div>
@@ -1549,45 +1821,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 11 — HOW IT GOES WRONG                                                 -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">11</span>
-      <p class="kicker">What to notice in the worked example</p>
-      <h2>How it goes wrong</h2>
-      <p class="lead">Knowing the failure modes by name is half the defense &mdash; and Harbor's
-        structure caught the big ones in the act. Five things in this example are worth reading
-        twice.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>What to notice</th><th>Why it matters</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>The contradiction that paid for the phase</strong></td>
-            <td>CON-01 &mdash; the RFP demands real-time adjudication; the architecture doc makes it impossible. Resolved in 20 minutes in a room; it would otherwise have been weeks of rework discovered mid-build.</td>
-          </tr>
-          <tr>
-            <td><strong>The metric-definition fight</strong></td>
-            <td>CON-04 &mdash; two Harbor documents measured "cycle time" differently. The success metric is worthless until the room picks one. They picked FNOL-to-coverage-decision.</td>
-          </tr>
-          <tr>
-            <td><strong>The reframe on day 5</strong></td>
-            <td>The corpus framed the problem as adjuster efficiency; the sponsor, hearing the draft read aloud, corrected it to renewal churn. That one correction changed the primary metric's "why" &mdash; exactly what the day-5 checkpoint exists to catch.</td>
-          </tr>
-          <tr>
-            <td><strong>Questions only</strong></td>
-            <td>The brief never proposes an outcome. Every framing appears as an attributed claim with a DOC reference.</td>
-          </tr>
-          <tr>
-            <td><strong>Q-NN continuity</strong></td>
-            <td>Q-13 and Q-14 are still open at phase exit and appear in the handoff under the same IDs &mdash; a question raised on day 2 is traceable through every later phase.</td>
-          </tr>
-        </tbody>
-      </table>
       <p class="note">All names, numbers, and documents are invented but internally consistent &mdash;
         the 11.4-day baseline, the CR-204 report, and the open question IDs trace through every
         artifact on this page.</p>

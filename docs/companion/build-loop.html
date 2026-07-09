@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -817,315 +818,332 @@
 <!-- ======================================================================= -->
 <main id="track-example" class="track">
 
-  <!-- 01 -->
+  <!-- ===================================================================== -->
+  <!-- 01 — WHAT THE LOOP RECEIVES                                            -->
+  <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and the ordinary week this page watches</p>
-      <h2>If checking waits, it piles up &mdash; and a pile never gets checked</h2>
-      <p class="lead">The Foundation gate closed Friday 2026-04-10 with the walking skeleton live in
-        Harbor's dev environment and the rails proven. Build began the following Monday. This page is
-        <strong>week four of Build</strong> (Mon 2026-05-04 to Fri 2026-05-08) &mdash; picked because it
-        is deliberately ordinary. Ten specs merged in the first three weeks; nothing on this week's board
-        is special. What the week shows is the loop itself.</p>
+      <p class="kicker">Not a phase with a stack of inputs &mdash; one spec, and the factory Phase 3 built</p>
+      <h2>What the loop receives</h2>
+      <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod to
+        rebuild how property-insurance claims get reported and decided. A claim takes a median of
+        <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target is
+        <strong>5 days or less</strong>. Foundation closed Friday 2026-04-10 with the walking skeleton live in
+        Harbor's dev environment and the rails proven; Build began the following Monday. Unlike a gated phase,
+        the loop does not swallow a folder of handoff files once and transform it. <strong>It takes in one
+        thing, over and over: a single ready spec.</strong></p>
+
+      <div class="artifacts" style="margin-bottom:20px;">
+        <span class="lbl">Received once, at Build's start &mdash; the factory Foundation built, then left running</span>
+        <span class="tag">CLAUDE.md &mdash; the adapted rulebook</span>
+        <span class="tag">.claude/ &mdash; Stop hook, settings, skills, grader agent</span>
+        <span class="tag">the five rails &mdash; ci · grader · correctness · security · deploy-dev</span>
+        <span class="tag">risk-tier-map.md</span>
+        <span class="tag">build-handoff.md &mdash; the ordered spec backlog</span>
+      </div>
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Received again on every trip round the loop &mdash; the real, repeating input</span>
+        <span class="tag">specs/NNNN-name.md &mdash; one ready spec</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The story so far</div>
-          <p>Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person consulting pod
-            to rebuild how property-insurance claims get reported and decided. A claim takes a median of
-            <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target
-            is <strong>5 days or less</strong>.</p>
-          <p>Phases 0&ndash;3 fixed the problem, signed the requirements, chose the architecture, and built
-            the factory. The walking skeleton runs in dev. Build is the continuous loop that now grows it
-            into the product, spec by spec &mdash; every change riding the same Phase 3 rails: CI hard
-            gates, the grader, branch protection, and automatic deploy to dev on merge.</p>
+          <div class="plabel">Why the input is a spec, not a handoff</div>
+          <p>A gated phase eats the previous phase's whole output, transforms it, and hands the next phase a
+            bundle at a gate. The Build loop has no such shape. The factory built in Phase 3 &mdash; the
+            rulebook, the Stop hook, the grader, the five rails &mdash; sits still and runs. What moves is one
+            spec at a time: a story that cleared the <strong>Definition of Ready</strong> at triage, written to
+            <code>specs/NNNN-name.md</code>, durable across sessions.</p>
+          <p style="margin-top:12px;">The spec outlives the chat that produced it. The agent re-reads it every
+            session; the grader grades against it; when behavior changes later, the spec changes in the same
+            PR. Everything this page shows happens to one spec &mdash; then repeats.</p>
         </div>
         <div class="eg">
-          <div class="plabel">The cast this week</div>
-          <p><strong>Pod</strong></p>
-          <ul>
-            <li><strong>Maya Chen</strong> — Pod Lead</li>
-            <li><strong>Rob Feld</strong> — Setup Owner</li>
-            <li><strong>Jonah Kim</strong> — Orchestrator (Rob's deputy)</li>
-            <li><strong>Sara Whitfield</strong> — Orchestrator / Checker</li>
-            <li><strong>Nadia Brooks</strong> — Quality Engineer</li>
-          </ul>
-          <p style="margin-top:12px;"><strong>Harbor</strong></p>
-          <ul>
-            <li><strong>Luis Ortega</strong> — product owner, on the 2-business-day decision clock</li>
-            <li><strong>Wes Carter</strong> — lead engineer · <strong>Dan Kowalski</strong> — IT security</li>
-            <li><strong>Dee Alvarez</strong> — intake supervisor · <strong>Gail Tran, Marcus Webb</strong> — senior adjusters</li>
-            <li><strong>Karen Voss</strong> — VP Claims Ops, sponsor · <strong>Priti Shah</strong> — data lead</li>
-          </ul>
+          <div class="plabel">The week this page watches</div>
+          <p>This is <strong>week four of Build</strong> (Mon 2026-05-04 to Fri 2026-05-08), picked because it
+            is deliberately ordinary. Ten specs merged in the first three weeks; nothing on this week's board
+            is special. Two stories clear triage into ready specs &mdash; <strong>0015</strong> (fast-path
+            queue, MEDIUM) and <strong>0016</strong> (duplicate-claim merge, HIGH) &mdash; and a third bounces
+            for vagueness. We follow <strong>0016</strong>, the HIGH one, all the way round, because it
+            exercises every beat and every rail.</p>
+          <div class="snippet">
+            <div class="from">The spec that rides the loop this week</div>
+            <blockquote>0016 &mdash; duplicate-claim merge (D-07) · Risk: HIGH. The same loss reported twice
+              becomes one claim &mdash; never a rejection, never two claims adjusted in parallel.</blockquote>
+          </div>
         </div>
       </div>
-      <p class="note">The IDs on this page: <strong>NNNN</strong> a spec &middot; <strong>D-NN</strong> a
-        logged product decision &middot; <strong>C-NN</strong> a Phase 0 constraint &middot;
-        <strong>REQ-NN / NFR-NN</strong> Phase 1 baseline items &middot; <strong>Q-NN</strong> an open
-        question with an owner and a due date.</p>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead &mdash; owns the risk tiers and the cadences</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; owns the harness; runs setup review</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Orchestrator / Checker &mdash; Rob's deputy</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator / Checker &mdash; delegates and checks 0016</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; runs the hardening passes</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Product owner &mdash; answers silent decisions on a 2-day clock</span></div>
+          <div class="person"><span class="nm">Wes Carter</span><span class="rl">Lead engineer &mdash; the named HIGH-risk sign-off</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT security &mdash; owns the security queue</span></div>
+          <div class="person"><span class="nm">Dee Alvarez</span><span class="rl">Intake supervisor &mdash; the source of check 3's realism</span></div>
+          <div class="person"><span class="nm">Gail Tran, Marcus Webb</span><span class="rl">Senior adjusters &mdash; drive the demo</span></div>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">VP Claims Ops &mdash; sponsor; sees outcomes at steering</span></div>
+        </div>
+      </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every object in this engagement carries a stable identifier, so a decision made in week two can
+            still be traced in month nine. On this page you'll see:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Prefix</th><th>Means</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>NNNN</code></td><td>A spec &mdash; one change, one branch, one PR</td><td>Build (triage)</td><td>0015 fast-path queue · 0016 duplicate merge</td></tr>
+              <tr><td><code>D-NN</code></td><td>A logged product decision the PO owns</td><td>Phase 0/1</td><td>D-07 merge rule · D-09 the fast path</td></tr>
+              <tr><td><code>C-NN</code></td><td>A constraint &mdash; a hard limit the build honors</td><td>Phase 0</td><td>C-04 the 15-business-day regulatory clock</td></tr>
+              <tr><td><code>REQ-NNN</code> / <code>NFR-NN</code></td><td>A functional / non-functional requirement</td><td>Phase 1</td><td>NFR-07 audit-logged claim actions</td></tr>
+              <tr><td><code>ADR-NNN</code></td><td>An architecture decision record &mdash; a signed choice</td><td>Phase 2</td><td>ADR-001 the replica-staleness contract</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with an owner and a due date</td><td>any</td><td>carried on the decision list into Build</td></tr>
+              <tr><td><code>risk:high</code></td><td>A PR label &mdash; not an ID, but it fires the security rail and forces a named sign-off</td><td>Build</td><td>0016 wears it</td></tr>
+            </tbody>
+          </table>
+          <p class="note">Unlike the numbered phases, the loop mints only one new ID kind of its own &mdash; the
+            spec <code>NNNN</code>. Everything else it inherits and honors: a Build spec traces back to a D-,
+            a C-, a REQ-, or an ADR- from an earlier phase, or it is scope that crept in.</p>
+        </div>
+      </details>
     </div>
   </section>
 
-  <!-- 02 -->
+  <!-- ===================================================================== -->
+  <!-- 02 — THE LOOP, BEAT BY BEAT                                            -->
+  <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">How the week played out, beat by beat</p>
-      <h2>Three beats, every time: Intent &rarr; Delegate &rarr; Discern</h2>
-      <p class="lead">Build is the least plugin-driven stretch of the engagement: the loop runs on the
-        rails, not on commands, so most days carry no slash command at all. Here is the whole week.</p>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">Three beats, every change, every time &mdash; the heart of the whole method</p>
+        <h2>The loop, beat by beat</h2>
+        <p class="lead">This is not a calendar of days &mdash; it is the same three beats every change runs:
+          <strong>Intent</strong> (decide and write), <strong>Delegate</strong> (bound and build),
+          <strong>Discern</strong> (prove, then merge). Below, each beat is braided four ways: what the human
+          does, what the agent does, what the harness enforces, and what lands on disk. Follow spec 0016 &mdash;
+          the HIGH-risk one &mdash; through all three. <strong>Step through it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
+        </div>
+      </div>
 
-      <h3 style="margin-top:8px;">Monday 5/4 &mdash; flow check, then intent triage</h3>
-      <p class="dim">Tooling: <code>/sdlc-status</code> &rarr; the queue and wait numbers at the flow
-        check; the triage itself is humans deciding, Claude drafting candidate specs from the kit
-        spec-template in-session.</p>
-      <ul>
-        <li><strong>The flow check, 10 minutes, queue number first.</strong> Four changes waiting to be
-          checked, oldest 1.2 days &mdash; spec 0012 (document upload, HIGH), sitting in the security
-          queue, which is read separately because it clears slower. Maya takes chasing Dan as her
-          commitment. The WIP cap (6) holds; one Checker assignment moves so nothing waits on Sara alone.
-          Nobody reports what an agent did yesterday &mdash; the meeting walks the work, not the people.</li>
-        <li><strong>Intent triage, 60 minutes.</strong> Three stories on the table:
-          <ul>
-            <li><em>"Show adjusters similar past claims"</em> fails the vague-line test &mdash; nobody can
-              write an acceptance check for "similar," so nobody can build it. Back for sharpening with
-              Luis; agents never see it. A bounce at triage costs a conversation; the same vagueness
-              discovered mid-build costs a redo.</li>
-            <li><em>The fast-path work queue</em> (from Gail and Marcus's feedback on the skeleton demo)
-              sharpens cleanly into <strong>spec 0015</strong>: fast-path claims (D-09's simple 61%)
-              surface first in the adjuster queue. MEDIUM &mdash; new business logic, nothing hard to
-              undo.</li>
-            <li><em>Duplicate-claim merge</em> (D-07) becomes <strong>spec 0016</strong>. Maya tiers it
-              <strong>HIGH</strong> &mdash; merging claim records is hard to undo, and a wrong merge mangles
-              two policyholders' data. Triage surfaces a silent decision: <em>what does the second reporter
-              see when their claim joins an existing one?</em> Nobody answers it in the room; it goes on the
-              decision list with Luis's 2-day clock.</li>
-          </ul>
-        </li>
-      </ul>
+      <div class="tl" data-timeline tabindex="0" aria-label="The Build loop, beat by beat" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a beat"></div>
 
-      <h3 style="margin-top:18px;">Tuesday 5/5 &mdash; 0015 rides the loop, clean</h3>
-      <p class="dim">Tooling: no plugin command. Spec 0015 rides the loop &mdash; authored from the kit
-        spec-template, plan mode under bounds, ci.yml + grader.yml on the PR, a non-author Checker,
-        deploy-dev.yml on merge.</p>
-      <ul>
-        <li>Jonah authors the spec &mdash; five acceptance checks, each one testable ("a fast-path claim
-          created after a standard claim still sorts above it; ties break by FNOL timestamp, oldest
-          first").</li>
-        <li>He sets the bounds: scope is the work-queue service and its tests, nothing else; context is the
-          existing queue read model ("reuse it &mdash; do not invent a second one"); permissions are the
-          standard set. The agent's plan glosses sort stability; Jonah makes it explicit and approves.
-          Total human time before code: about forty minutes.</li>
-        <li>The agent builds. The Stop hook holds it to a green suite; the PR fires CI and the grader; the
-          grader walks all five checks and reports clean; Sara &mdash; who didn't write it &mdash; checks
-          and merges. Deploy-dev ships it. Gail has the new queue in dev before the end of the day.
-          Accepted as-is: no rework, no drama. <strong>Most specs should look like this one.</strong></li>
-      </ul>
+        <div class="tl-step" data-day="Intent">
+          <div class="day">Beat 1 &mdash; Intent <span class="date">· decide, tier, and write &mdash; nothing enters the loop as a conversation</span></div>
+          <h3>Turn a story into a checkable spec &mdash; or bounce it</h3>
+          <p>A story becomes buildable only by clearing the <strong>Definition of Ready</strong> at weekly
+            intent triage. <strong>The human</strong> checks that every acceptance criterion passes the
+            vague-line test ("could two people build different things from this line?"), states scope in
+            <em>and</em> scope out, surfaces every silent product decision onto the decision list with an owner
+            and an answer clock, and &mdash; the Pod Lead's call, never the agent's &mdash; assigns a risk
+            tier. <strong>The agent</strong> drafts candidate specs from the kit template in-session and
+            proposes a tier for a human to confirm. <strong>The harness</strong> runs
+            <code>check_spec.py</code>: the mechanical floor (required sections, a valid tier, scope both ways,
+            no placeholders) plus a vague-line lint, and it checks that the Checking Plan's ladder depth equals
+            the risk tier. A spec it reports NOT READY does not enter the loop.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-spec <span class="arrow">&rarr;</span> <span class="script">new_spec.py</span> allocates the next NNNN</span>
+            <span class="cmd"><span class="script">check_spec.py</span> <span class="arrow">&rarr;</span> the Definition of Ready</span>
+            <span class="tag green">the risk tier &mdash; a human call</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">On disk</span>
+            <span class="tag">specs/0016-duplicate-claim-merge.md</span>
+            <span class="tag">.sdlc/metrics/spec-log.jsonl &mdash; +1 line, the DoR result</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor &mdash; three stories, three fates</div>
+            <p><em>"Show adjusters similar past claims"</em> fails the vague-line test &mdash; nobody can write
+              a check for "similar," so it bounces back to Luis and the agents never see it. <em>The fast-path
+              work queue</em> (Gail and Marcus's demo feedback) sharpens into <strong>spec 0015</strong>,
+              MEDIUM. <em>Duplicate-claim merge</em> (D-07) becomes <strong>spec 0016</strong>; Maya tiers it
+              <strong>HIGH</strong> &mdash; a wrong merge mangles two policyholders' data. Triage surfaces the
+              silent decision &mdash; <em>what does the second reporter see?</em> &mdash; and routes it to Luis
+              on his 2-day clock rather than letting the agent quietly decide it.</p>
+          </div>
+        </div>
 
-      <h3 style="margin-top:18px;">Wednesday 5/6 &mdash; 0016: intent sharpened, then delegated tight</h3>
-      <p class="dim">Tooling: no plugin command. Luis's decision lands inside his clock; spec 0016 enters
-        the loop at HIGH.</p>
-      <ul>
-        <li>Luis answers the decision-list item within his clock: the second reporter sees <em>"your report
-          has been added to an existing claim for this loss"</em> &mdash; a confirmation, never a
-          rejection, honoring D-07's spirit. The answer goes in the spec, not in anyone's memory.</li>
-        <li>Sara finalizes the spec. The check that matters most is written from Dee Alvarez's intake
-          reality &mdash; phone reporters often don't have their policy number (check 3, below).</li>
-        <li>She delegates with two leashes: tight on the matching keys and merge write path ("follow the
-          plan exactly; deviate only by asking"), loose on the merge-audit log formatting ("your call"). In
-          plan mode she pushes on the one thing the plan glosses &mdash; <em>what exactly is the match key
-          when the policy number is absent?</em> &mdash; and the agent's answer is vague, which is a tell.
-          The plan gets the explicit route-to-manual-review path before she approves it.</li>
-      </ul>
+        <div class="tl-step" data-day="Delegate">
+          <div class="day">Delegate <span class="date">· Beat 2 · draw the box, approve the plan &mdash; then let it build</span></div>
+          <h3>An agent builds inside bounds a human set, from a plan a human approved</h3>
+          <p>Delegating is not "go build it." <strong>The human</strong> (the Orchestrator) makes the agent
+            start in <strong>plan mode</strong> &mdash; it proposes which files it will touch and how it meets
+            each check before writing a line &mdash; then corrects or approves, hunting the one decision the
+            plan glosses. They draw three bounds: <strong>Scope</strong> (the file patterns it may touch),
+            <strong>Context</strong> (the one existing pattern to reuse, named), <strong>Permissions</strong>
+            (what it may run without asking). Freedom scales with risk: a loose leash on what's cheap to undo, a
+            tight one on what's expensive to get wrong. <strong>The agent</strong> builds from the approved
+            plan, writing the failing test first when TDD applies. <strong>The harness</strong> enforces the
+            box: the <strong>blocking Stop hook</strong> refuses to let the agent finish with red tests or a
+            broken build &mdash; "the tests must pass" becomes a fact about the world, not a request it can
+            rationalize past.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; the loop runs on the rails, not commands: plan mode, then the blocking Stop hook</span>
+            <span class="tag green">the approved plan &mdash; a human call in the session</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">On disk</span>
+            <span class="tag">a branch + draft PR &mdash; the code and its tests</span>
+            <span class="tag green">the approved plan &mdash; corrected in the session, held in the PR, not a standalone file</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The one thing here that leaves no receipt</div>
+            <p>Plan approval is the highest-leverage moment in the loop &mdash; it is where the dangerous
+              decision nobody noticed being made gets noticed and corrected. Yet the approved plan is not
+              written to a durable artifact of its own; it lives in the PR thread and the session. The spec and
+              the grader's verdict get files; the plan correction that prevented the bug does not.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Sara finalizes 0016. The check that matters most is written from Dee Alvarez's intake reality
+              &mdash; phone reporters often don't have their policy number. She delegates with <strong>two
+              leashes</strong>: tight on the matching keys and merge write path ("follow the plan exactly;
+              deviate only by asking"), loose on the audit-log formatting ("your call"). In plan mode she
+              pushes on the one thing the plan glosses &mdash; <em>what exactly is the match key when the policy
+              number is absent?</em> &mdash; the agent's answer is vague, which is a tell, and the plan gets the
+              explicit route-to-manual-review path before she approves it. Both of the week's specs get one
+              agent each: they write into shared code, so fanning out would only clobber files. Spread out to
+              explore; line up to commit.</p>
+          </div>
+        </div>
 
-      <h3 style="margin-top:18px;">Thursday 5/7 &mdash; 0016: the grader catches what green tests missed</h3>
-      <p class="dim">Tooling: no plugin command. The <code>risk:high</code> label fires security.yml &rarr;
-        the security-reviewer agent; grader.yml posts the verdict; Wes's named sign-off lands in the PR.
-        The setup review (Rob + Jonah) merges the week's harness changes.</p>
-      <ul>
-        <li>The agent finishes. Its own tests pass &mdash; eleven of them, all green. The Stop hook lets it
-          stop. The PR opens; CI goes green. On an unchecked team, this is where it ships.</li>
-        <li>The grader &mdash; a fresh agent, told plainly it did not write this code &mdash; walks the
-          acceptance checks and fails it on check 3. Despite the approved plan, the built code normalizes a
-          missing policy number to an empty string <em>before</em> the matcher runs, so every no-policy
-          phone claim inside a 7-day window shares one match bucket. Two unrelated phone reporters in the
-          same storm week would have been merged into one claim. The author's eleven tests only cover
-          claims that <em>have</em> a policy number &mdash; the suite is green and the bug is live.</li>
-        <li>The fix goes back through the same loop: no-policy claims route to manual review before the
-          matcher, plus a test for the no-policy path. Re-graded clean. The security-reviewer agent passes
-          the data-handling. <strong>Wes signs off by name</strong> &mdash; the named human sign-off HIGH
-          risk requires &mdash; and Jonah, not Sara, checks and merges. Deploy-dev ships it.</li>
-        <li>At the setup review, Rob and Jonah merge the week's harness changes &mdash; including last
-          week's Retro+ item: an escaped bug (acknowledgment timestamps rendered in UTC, showing the wrong
-          day against the 15-business-day regulatory clock, C-04) was answered with "which check should
-          have caught it?" &mdash; so the test-writer skill now drafts timezone-boundary cases into every
-          suite that touches a date the business reads.</li>
-      </ul>
+        <div class="tl-step" data-day="Discern">
+          <div class="day">Discern <span class="date">· Beat 3 · prove it against the spec by someone other than the author, then merge</span></div>
+          <h3>Written is cheap now; checked is the bar</h3>
+          <p>A change is done when it has been proven against its spec by something other than its author. The
+            proving climbs a <strong>five-rung checking ladder</strong>, and in the rails it lands as three
+            layers on the PR. <strong>The harness</strong> runs the mechanical gates in CI (build, tests, lint,
+            80% coverage &mdash; a hard block) and the <strong>grader</strong> &mdash; a fresh agent, told
+            plainly it did not write the code, that walks the acceptance checks and posts a check-by-check
+            verdict as a PR comment. It is required to run but only advises. <strong>The human</strong> Checker
+            reads that verdict and makes the call &mdash; a non-author approval on every PR, because
+            <strong>the author never approves their own work</strong>. A <code>risk:high</code> change adds the
+            security rail and a named human sign-off. Merge deploys to dev automatically. <strong>What lands on
+            disk:</strong> the grader's finding gets memory and a disposition in
+            <code>findings-log.jsonl</code>; the merge gets a <code>spec_merged</code> line in
+            <code>loop-events.jsonl</code>.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd"><span class="script">record_findings.py</span> <span class="arrow">&rarr;</span> findings-log.jsonl</span>
+            <span class="cmd"><span class="script">scorecard.py record</span> <span class="arrow">&rarr;</span> loop-events.jsonl</span>
+            <span class="none">the Checker's judgment &mdash; a human call at the merge bar</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">On disk</span>
+            <span class="tag">the grader's verdict &mdash; a PR comment</span>
+            <span class="tag">.sdlc/metrics/findings-log.jsonl &mdash; +1 line</span>
+            <span class="tag">.sdlc/metrics/loop-events.jsonl &mdash; +1 line, spec_merged</span>
+            <span class="tag amber">the non-author approval + named sign-off &mdash; required, no engagement file</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">Green tests are not done</div>
+            <p>The agent finishes 0016 with <strong>eleven green tests</strong> and a clean build; the Stop hook
+              lets it stop; CI goes green. On an unchecked team, this is where it ships. The grader fails it on
+              <strong>check 3</strong>: the code normalizes a missing policy number to an empty string
+              <em>before</em> the matcher runs, so every no-policy phone claim in a 7-day window shares one
+              bucket &mdash; two unrelated storm-week reporters would be merged into one claim. The eleven tests
+              only cover claims that <em>have</em> a policy number. Rung 4 is where the bug the author's own
+              suite hid goes to die &mdash; and it only works because Intent wrote a checkable criterion for it
+              to grade against.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor &mdash; the fix, and the merge bar cleared</div>
+            <p>The fix routes no-policy claims to manual review before the matcher and adds a test for that
+              path; re-graded clean. The security-reviewer agent passes the data-handling.
+              <strong>Wes signs off by name</strong> &mdash; the HIGH-risk requirement &mdash; and
+              <strong>Jonah, not Sara,</strong> checks and merges; deploy-dev ships it. The bug existed for
+              roughly four hours, all of them on a branch. At the setup review, last week's Retro+ item lands:
+              a UTC-timestamp escaped bug (C-04's regulatory clock) was answered with "which check should have
+              caught it?", so the test-writer skill now drafts timezone-boundary cases into every suite that
+              touches a business-read date.</p>
+          </div>
+        </div>
 
-      <h3 style="margin-top:18px;">Friday 5/8 &mdash; Retro+, then the biweekly steering</h3>
-      <p class="dim">Tooling: <code>/visual-explainer</code> &rarr; the steering demo narrative and
-        scorecard visuals; the weekly five-bullet summary drafted by Claude, corrected by Maya. The retro
-        is humans.</p>
-      <ul>
-        <li><strong>Retro+.</strong> Zero escaped bugs this week. The 0016 catch is read out loud &mdash;
-          not as a near-failure but as the system working: the check existed because intent was sharp, the
-          grader caught it because the check gave it something to grade, and it never reached dev. The
-          "similar claims" bounce gets the same framing: the cheap place caught it. One trend flagged: the
-          security queue's wait (2.1 days median) is drifting up; Maya takes it to Dan outside the room.</li>
-        <li><strong>Steering, 45 minutes.</strong> Gail drives the demo herself &mdash; the fast-path queue
-          and the duplicate-merge flow, live in Harbor's dev environment. The scorecard: 11 of 14 Build
-          specs merged accepted-as-is (79%); median review wait 0.9 days (under the one-working-day
-          tripwire); the FNOL&rarr;decision clock is instrumented and ticking in dev &mdash; Karen is told
-          plainly that the production needle moves at rollout, not before. The decision list carries one
-          new item for Luis. No PR counts, no "AI productivity" numbers &mdash; demos and outcomes only.</li>
-      </ul>
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 3</span>
+          <button data-tl-next type="button">Next beat &rarr;</button>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 03 -->
+  <!-- ===================================================================== -->
+  <!-- 03 — WHAT ONE TRIP ROUND THE LOOP PRODUCES                             -->
+  <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">The story that bounced for vagueness</p>
-      <h2>Nothing enters the loop as a conversation</h2>
-      <p class="lead">"Show adjusters similar past claims" never reached an agent. The vague-line test at
-        intent costs a conversation; the same gap found at the PR costs a build.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">Why it bounced</div>
-          <p>Nobody can write an acceptance check for "similar" &mdash; so nobody can build it. It went back
-            for sharpening with Luis; the agents never saw it. The catch happened at the cheap place: a
-            conversation at triage, not a redo discovered mid-build.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The two ready specs that cleared</div>
-          <div class="decision">
-            <strong>Spec 0015</strong> &mdash; fast-path queue &mdash; MEDIUM<br>
-            Five testable checks; nothing hard to undo.
-          </div>
-          <div class="decision" style="margin-top:10px;">
-            <strong>Spec 0016</strong> &mdash; duplicate-claim merge &mdash; HIGH<br>
-            Plus one silent decision routed to Luis on the 2-day clock: what the second reporter sees.
-          </div>
-        </div>
+      <p class="kicker">Everything spec 0016 left behind &mdash; the receipts of one merge</p>
+      <h2>What one trip round the loop produces</h2>
+      <p class="lead">A gated phase's ledger is the pile of artifacts it produces once. The loop's ledger is
+        smaller and it repeats: this is what a <em>single</em> spec's journey leaves on disk. Blue rows are
+        written by a command or the rails, at a real path. <strong>Amber rows are the merge bar's human
+        judgments</strong> &mdash; required on every change, recorded only in the PR's own state, with no file
+        in the engagement's record.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">specs/0016-&hellip;.md</span></td><td>The change itself, as intent: goal, scope in/out, five testable checks, risk tier, delegation plan, checking plan. Durable across sessions &mdash; the agent's brief and the grader's rubric</td><td><code>/sdlc-spec</code> scaffolds; the Orchestrator writes</td><td>Orchestrator (Sara)</td><td><code>specs/</code></td><td>The agent every session; the grader</td></tr>
+          <tr><td><span class="tag">the merged change</span></td><td>The code on the main branch, deployed to Harbor's dev environment through the real pipeline</td><td><code>deploy-dev.yml</code> on merge</td><td>&mdash;</td><td>main branch + Harbor dev env</td><td>The running product; the outcome clock</td></tr>
+          <tr><td><span class="tag">the grader verdict</span></td><td>A check-by-check pass/fail against the spec, pinned to the changed lines. The verdict that caught check 3</td><td><code>grader.yml</code> &mdash; a fresh agent</td><td>&mdash;</td><td>the PR (durable copy &rarr; findings-log)</td><td>The human Checker's call</td></tr>
+          <tr><td><span class="tag">spec-log.jsonl</span></td><td>One appended line: this spec's Definition-of-Ready result at Intent &mdash; tier, author, checker</td><td><code>check_spec.py</code></td><td>&mdash;</td><td><code>.sdlc/metrics/spec-log.jsonl</code></td><td>Harness calibration (never client-facing)</td></tr>
+          <tr><td><span class="tag">findings-log.jsonl</span></td><td>One appended line per grader finding, with its severity and disposition &mdash; giving the verdict memory across re-grades</td><td><code>record_findings.py</code></td><td>&mdash;</td><td><code>.sdlc/metrics/findings-log.jsonl</code></td><td>Open-HIGH-debt count at the merge bar</td></tr>
+          <tr><td><span class="tag">loop-events.jsonl</span></td><td>One appended <code>spec_merged</code> event &mdash; the raw material the biweekly scorecard is computed from</td><td><code>scorecard.py record</code></td><td>&mdash;</td><td><code>.sdlc/metrics/loop-events.jsonl</code></td><td>The steering scorecard trend</td></tr>
+
+          <tr><td><span class="tag amber">the non-author approval</span></td><td>The core merge-bar rule: a human who did not write the code approved it. The author never approves their own work</td><td><strong>A human Checker (Jonah)</strong></td><td>Checker</td><td class="dim">no path &mdash; nothing writes it</td><td>The merge</td></tr>
+          <tr><td><span class="tag amber">the named HIGH-risk sign-off</span></td><td>The risk:high requirement: a named human accepted the risk of merging this change</td><td><strong>A named human (Wes Carter)</strong></td><td>Wes Carter</td><td class="dim">no path &mdash; nothing writes it</td><td>The merge, HIGH tier</td></tr>
+        </tbody>
+      </table>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Only two amber rows &mdash; and that is the point</div>
+        <p>Compare this with the design phase, where six of thirteen outputs had nowhere to live. The Build loop
+          is the best-instrumented stretch of the engagement: the spec, the verdict, and three metrics lines
+          all land at real paths, automatically. The only human work without a file is the pair of merge-bar
+          judgments &mdash; the non-author approval and the named sign-off &mdash; and even those live in the
+          PR's own approval state. <strong>Human work is not the problem; human work without a receipt is
+          &mdash; and here there is almost none.</strong></p>
       </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced on a trip round the loop: a batch
+        design document, a separate test plan, a "specification document" duplicating the spec library, and
+        &mdash; above all &mdash; any exit-gate artifact bundle. There is no batch to gate, because the checking
+        already happened, per change, inside the loop.</p>
     </div>
   </section>
 
-  <!-- 04 -->
+  <!-- ===================================================================== -->
+  <!-- 04 — SPEC 0016, AS MERGED                                              -->
+  <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">04</span>
-      <p class="kicker">The tier decided the rigor, not the mood</p>
-      <h2>Not every change deserves the same scrutiny</h2>
-      <p class="lead">The two ready stories landed on different tiers, and that decided everything that
-        followed. Neither was over- or under-checked.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">Why 0016 is HIGH</div>
-          <p>Merging claim records is hard to undo and touches policyholder data &mdash; the full ladder:
-            tight permissions, the security-reviewer pass, a named human sign-off (Wes). Spec 0015 (MEDIUM)
-            cleared with the grader plus one Checker in a day.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The depth that matched the risk</div>
-          <p>0015 (MEDIUM): grader + one Checker, in a day. 0016 (HIGH): tight bounds, the security agent,
-            and a named sign-off. The tier decided, not the mood.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05 -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">05</span>
-      <p class="kicker">Two leashes and a plan corrected in plan mode</p>
-      <h2>Draw the box, approve the plan &mdash; then let it build</h2>
-      <p class="lead">Sara delegated spec 0016 with two leashes &mdash; tight on the matching keys and the
-        merge write path, loose on the merge-audit log formatting &mdash; and corrected the plan before a
-        line was written.</p>
-      <div class="snippet">
-        <div class="from">The decision the plan glossed over</div>
-        <blockquote>"What exactly is the match key when the policy number is absent?"</blockquote>
-      </div>
-      <div class="snippet resolve">
-        <div class="from">The tell, and the fix</div>
-        <blockquote>The agent's answer was vague &mdash; which is a tell. The plan got the explicit
-          route-to-manual-review path before she approved it. Correcting a plan costs a sentence; correcting
-          a finished build costs a redo.</blockquote>
-      </div>
-    </div>
-  </section>
-
-  <!-- 06 -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">06</span>
-      <p class="kicker">Both specs wrote into shared code</p>
-      <h2>Spread out to explore; line up to commit</h2>
-      <p class="lead">Both of the week's specs were features writing into shared code paths &mdash; the
-        work-queue service, the intake matching service. So each got exactly one agent, start to finish.</p>
-      <div class="decision">
-        Spec 0015 and spec 0016: one agent each. No fan-out &mdash; nothing here was independent enough to
-        parallelize without two agents stepping on the same files. Fanning out would have been faster to
-        start and slower to finish, once the conflicts surfaced.
-      </div>
-    </div>
-  </section>
-
-  <!-- 07 -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
-      <p class="kicker">The grader's verdict that mattered</p>
-      <h2>The author never checks their own work</h2>
-      <p class="lead">On spec 0016's first build, the agent finished with eleven green tests and a clean
-        build. The grader &mdash; a fresh agent, told plainly it did not write the code &mdash; failed it
-        on check 3. The full PR comment, posted by the rails (grader.yml), verbatim:</p>
-<pre><code>VERDICT: FAIL
-
-Check 1 (same policy + 7-day window joins the claim): MET — covered by
-  tests/merge.candidate.test (4 cases, including window boundaries).
-Check 2 (second reporter sees confirmation, never rejection): MET.
-Check 3 (per-policy independence; no-policy-number claims never auto-merge):
-  NOT MET. intake/matching.service normalizes a missing policy number to ""
-  before keying candidate matches. Every claim without a policy number
-  therefore shares one match bucket: two unrelated phone reporters with loss
-  dates in the same 7-day window WILL be auto-merged into one claim. The
-  test suite only exercises claims that have a policy number, so all 11
-  tests pass with this bug live.
-  Fix: route claims with no policy number to the manual-review queue before
-  the matcher runs (the spec's stated path), and add a no-policy-number test.
-Check 4 (append-only audit of merges): MET.
-Check 5 (no deletion; conservative auto-merge): AT RISK via check 3 — the
-  empty-string bucket makes auto-merge aggressive for exactly the claims the
-  spec says to treat conservatively.
-
-The tests prove what they test. They do not test the spec's claim of
-per-policy independence for the no-policy path.</code></pre>
-      <p style="margin-top:14px;">The trail after the fix, recorded in the PR: re-grade PASS (all five
-        checks, including the new no-policy-path test) · security-reviewer agent pass on the data path ·
-        <strong>signed off: Wes Carter</strong> (named HIGH-risk sign-off) · checked and merged by Jonah
-        Kim (non-author) · deploy-dev green. The bug existed for roughly four hours, all of them on a
-        branch.</p>
-      <div class="aha warn">
-        <div class="lbl">Green tests are not done</div>
-        <p>Eleven passing tests, a green build, a satisfied Stop hook &mdash; and a live data-mangling bug.
-          The author's tests prove what the author thought to test. That is why the author is never the only
-          approver, human or agent.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 08 -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
-      <p class="kicker">The artifact the agent built from, as merged</p>
-      <h2>Spec 0016, beat by beat</h2>
-      <p class="lead">Spec 0016 as merged &mdash; one file in the repo, the thing the agent read and the
-        grader graded against:</p>
+      <p class="kicker">The input reproduced whole &mdash; one file in the repo</p>
+      <h2>Spec 0016, as merged</h2>
+      <p class="lead">This is the whole of what the loop received for this trip: the thing the agent read, the
+        Orchestrator bounded, and the grader graded against, line by line. Everything in Beat 3 traces back to
+        a numbered check below &mdash; check&nbsp;3 is the one the green tests hid and the grader caught.</p>
 <pre><code># 0016 — Duplicate-claim detection and merge
 
 ## Goal
@@ -1172,16 +1190,112 @@ contract. Reuse the existing event-log writer — do not invent a second one.
 ## Checking plan
 All five rungs. Grader against every check; security-reviewer on the data
 path; Wes's named sign-off before merge.</code></pre>
+      <p class="note">One file, seven headings, five checks &mdash; and it is simultaneously the agent's brief,
+        the grader's rubric, the Checker's yardstick, and the durable record after the chat is gone. A stale
+        spec is a lie to the next reader, so it changes in the same PR as the behavior.</p>
     </div>
   </section>
 
-  <!-- 09 -->
+  <!-- ===================================================================== -->
+  <!-- 05 — THE GRADER'S VERDICT, IN FULL                                     -->
+  <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">The numbers that ran the week</p>
-      <h2>Four short meetings &mdash; and two numbers that run the week</h2>
-      <p class="lead">What the pod's internal dashboard showed Friday (baseline-and-trend, no targets):</p>
+      <span class="modnum">05</span>
+      <p class="kicker">Rung 4, verbatim &mdash; the fresh agent that grades against the spec, not the tests</p>
+      <h2>The grader's verdict, in full</h2>
+      <p class="lead">On 0016's first build the agent finished with eleven green tests and a clean build. The
+        grader &mdash; a fresh agent, told plainly it did not write the code &mdash; walked the five checks and
+        failed it on check 3. The full PR comment, posted by the rails (<code>grader.yml</code>), verbatim:</p>
+<pre><code>VERDICT: FAIL
+
+Check 1 (same policy + 7-day window joins the claim): MET — covered by
+  tests/merge.candidate.test (4 cases, including window boundaries).
+Check 2 (second reporter sees confirmation, never rejection): MET.
+Check 3 (per-policy independence; no-policy-number claims never auto-merge):
+  NOT MET. intake/matching.service normalizes a missing policy number to ""
+  before keying candidate matches. Every claim without a policy number
+  therefore shares one match bucket: two unrelated phone reporters with loss
+  dates in the same 7-day window WILL be auto-merged into one claim. The
+  test suite only exercises claims that have a policy number, so all 11
+  tests pass with this bug live.
+  Fix: route claims with no policy number to the manual-review queue before
+  the matcher runs (the spec's stated path), and add a no-policy-number test.
+Check 4 (append-only audit of merges): MET.
+Check 5 (no deletion; conservative auto-merge): AT RISK via check 3 — the
+  empty-string bucket makes auto-merge aggressive for exactly the claims the
+  spec says to treat conservatively.
+
+The tests prove what they test. They do not test the spec's claim of
+per-policy independence for the no-policy path.</code></pre>
+      <p style="margin-top:14px;">The trail after the fix, recorded in the PR: re-grade PASS (all five
+        checks, including the new no-policy-path test) · security-reviewer agent pass on the data path ·
+        <strong>signed off: Wes Carter</strong> (named HIGH-risk sign-off) · checked and merged by Jonah
+        Kim (non-author) · deploy-dev green. <code>record_findings.py</code> appended the finding and its
+        FIXED disposition to <code>findings-log.jsonl</code>, so the catch survives past this PR. The bug
+        existed for roughly four hours, all of them on a branch.</p>
+      <div class="aha warn">
+        <div class="lbl">Green tests are not done</div>
+        <p>Eleven passing tests, a green build, a satisfied Stop hook &mdash; and a live data-mangling bug.
+          The author's tests prove what the author thought to test. That is why the author is never the only
+          approver, human or agent, and why the grader reads the spec rather than the test suite.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 06 — THE TIER SETS THE CLIMB                                           -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Three stories, three fates &mdash; decided by tier and clarity, not mood</p>
+      <h2>The tier sets the climb, not the mood</h2>
+      <p class="lead">The same triage produced a bounce, a MEDIUM, and a HIGH &mdash; and each fate was decided
+        mechanically. Neither ready spec was over- or under-checked; the tier on the spec set the climb, and
+        the vague-line test decided whether a story became a spec at all.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The one that bounced</div>
+          <p><em>"Show adjusters similar past claims"</em> never reached an agent. Nobody can write an
+            acceptance check for "similar," so nobody can build it. It went back to Luis for sharpening; the
+            agents never saw it. A bounce at triage costs a conversation; the same vagueness found at the PR
+            costs a redo.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">The two that cleared, at different depths</div>
+          <div class="decision">
+            <strong>Spec 0015</strong> &mdash; fast-path queue &mdash; <strong>MEDIUM</strong><br>
+            New business logic, nothing hard to undo. The climb: grader plus one non-author Checker, cleared in
+            a day. Jonah authored it, Sara checked it, deploy-dev shipped it. Accepted as-is.
+          </div>
+          <div class="decision" style="margin-top:10px;">
+            <strong>Spec 0016</strong> &mdash; duplicate-claim merge &mdash; <strong>HIGH</strong><br>
+            Merging claim records is hard to undo and touches policyholder data. The full ladder: tight
+            permissions, the security-reviewer pass, and Wes's named sign-off.
+          </div>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="lbl">Why both specs got one agent, not many</div>
+        <p>Each of the week's specs wrote into shared code &mdash; the work-queue service, the intake matching
+          service &mdash; so each got exactly one agent, start to finish. Nothing here was independent enough to
+          fan out; parallel agents in the same files clobber each other. Fanning out would have been faster to
+          start and slower to finish, once the conflicts surfaced. Spread out to explore; line up to commit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 07 — THE NUMBERS, AND WHAT THE CLIENT SAW                              -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">What the pod read Friday &mdash; and what the client saw instead</p>
+      <h2>One change, and the client sees outcomes &mdash; never activity</h2>
+      <p class="lead">The loop's numbers are baseline-and-trend, no vanity targets. What the pod's internal
+        dashboard showed Friday:</p>
       <table class="ref-doc" style="margin-top:12px;">
         <thead><tr><th>Number</th><th>This week</th><th>Read as</th></tr></thead>
         <tbody>
@@ -1193,36 +1307,99 @@ path; Wes's named sign-off before merge.</code></pre>
           <tr><td>WIP</td><td>5 of 6 cap</td><td>Headroom held all week</td></tr>
         </tbody>
       </table>
-      <p class="note">What steering saw instead: the live demo, the outcome clock (instrumented, moves at
-        rollout), the stability trend, the accepted-as-is trend, and the decision list. What steering never
-        sees: PR counts, lines of code, story points, "AI productivity."</p>
-    </div>
-  </section>
+      <p class="note">Every number here is computed from <code>loop-events.jsonl</code> by
+        <code>scorecard.py</code>, which <strong>refuses</strong> to record velocity, story points, PR count,
+        or lines of code, and reads "no data" rather than a fabricated zero. What steering saw instead: the
+        live demo, the outcome clock (instrumented, moves at rollout), the stability and accepted-as-is trends,
+        and the decision list. What steering never sees: PR counts, lines of code, story points, "AI
+        productivity."</p>
 
-  <!-- 10 -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
-      <p class="kicker">What the client saw &mdash; and the tooling behind the week</p>
-      <h2>One spec, one change &mdash; and the client sees outcomes, never activity</h2>
-      <p class="lead">Gail demoed software she uses; Karen saw the scorecard and an honest statement about
-        when the metric moves. Nobody saw a PR count. What actually ran, on the
-        <strong>claude-code-sdlc</strong> plugin, the kit's rails, and the paired skills:</p>
+      <h2 style="margin-top:32px;">The tooling behind the week</h2>
+      <p class="dim">Build is the least plugin-driven stretch of the engagement &mdash; most days carry no
+        slash command at all. What actually ran, on the <strong>claude-code-sdlc</strong> plugin, the kit's
+        rails, and the paired skills:</p>
       <table class="ref-doc" style="margin-top:12px;">
         <thead><tr><th>What got produced</th><th>How</th></tr></thead>
         <tbody>
           <tr><td>Flow-check queue numbers</td><td><code>/sdlc-status</code> at the daily flow check; the security queue read on its own line</td></tr>
-          <tr><td>Ready specs (0015, 0016)</td><td>Triage is humans; Claude drafts candidate specs from the kit spec-template in-session; the Pod Lead tiers them</td></tr>
+          <tr><td>Ready specs (0015, 0016)</td><td>Triage is humans; <code>/sdlc-spec</code> scaffolds from the kit template (<code>new_spec.py</code> allocates NNNN); the Pod Lead tiers them</td></tr>
+          <tr><td>Definition-of-Ready check per spec</td><td><code>check_spec.py</code> &mdash; mechanical floor + vague-line lint; appends the result to <code>.sdlc/metrics/spec-log.jsonl</code></td></tr>
           <tr><td>Spec 0015 (MEDIUM), end to end</td><td>Rides the loop: plan mode under bounds, Stop hook, ci.yml + grader.yml on the PR, non-author Checker, deploy-dev.yml on merge</td></tr>
           <tr><td>Spec 0016 (HIGH), end to end</td><td>Same loop plus the HIGH path: <code>risk:high</code> label &rarr; security.yml &rarr; the security-reviewer agent; Wes's named sign-off in the PR</td></tr>
-          <tr><td>The 0016 catch</td><td>grader.yml &mdash; a fresh agent grading check-by-check against the spec in the diff; verdict posted as a PR comment, read by the human Checker</td></tr>
+          <tr><td>The 0016 catch, given memory</td><td>grader.yml posts the check-by-check verdict as a PR comment; <code>record_findings.py</code> appends it (with disposition) to <code>.sdlc/metrics/findings-log.jsonl</code></td></tr>
+          <tr><td>The merge event + scorecard</td><td><code>scorecard.py record</code> logs <code>spec_merged</code> to <code>.sdlc/metrics/loop-events.jsonl</code>; the biweekly scorecard is computed from it</td></tr>
           <tr><td>Harness improvement (timezone checks)</td><td>Last week's Retro+ answer; the test-writer skill updated by reviewed PR, merged at the setup review (Rob + Jonah)</td></tr>
-          <tr><td>Steering demo narrative + scorecard</td><td><code>/visual-explainer</code> &rarr; the demo walkthrough and scorecard visuals; Gail drives the live demo herself</td></tr>
-          <tr><td>Weekly five-bullet client summary</td><td>Claude drafts from the week's merged specs; Maya corrects and sends</td></tr>
+          <tr><td>Steering demo narrative + scorecard visuals</td><td><code>/visual-explainer</code>; Gail drives the live demo herself</td></tr>
         </tbody>
       </table>
-      <p class="note">All names, numbers, and IDs are invented but internally consistent &mdash; the 11.4-day
-        baseline, the spec sequence, and the D-/Q-/C- IDs trace back through every earlier phase example.</p>
+      <p class="note">Those three <code>.sdlc/metrics/*.jsonl</code> receipts are real files this loop writes on
+        every trip &mdash; and the narrative docs never name them. All names, numbers, and IDs are invented but
+        internally consistent: the 11.4-day baseline, the spec sequence, and the D-/Q-/C-/ADR- IDs trace back
+        through every earlier phase example.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 08 — THE MERGE BAR                                                     -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">There is no gate &mdash; there is a bar every change clears</p>
+      <h2>The merge bar</h2>
+      <p class="lead">The other phases on this site end at a gate: a batch of artifacts, checked once, a human
+        sign-off, advance. <strong>The Build loop has no gate.</strong> It has a merge bar &mdash; the same
+        short list every single change clears to land &mdash; and it is left not when a checker passes but when
+        a <strong>human declares the backlog feature-complete</strong>.</p>
+
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The bar every change clears</div>
+          <ul>
+            <li>CI green &mdash; build, tests, lint, 80% coverage on new code</li>
+            <li>The grader has run &mdash; required to run, its verdict advisory</li>
+            <li>Correctness passed, or a named-human override recorded</li>
+            <li>A non-author approval &mdash; <strong>the author never approves their own work</strong>, no
+              exceptions; this rule survives every collapse of pod size</li>
+          </ul>
+          <p style="margin-top:10px;">A <code>risk:high</code> change adds two more: the security workflow
+            passes, and a named human signs off in the PR. That is the whole of it &mdash; there is nothing
+            further to clear at the end of a loop pass, because every pass already cleared this.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">How the loop is left</div>
+          <p>The loop ends when a human declares the backlog feature-complete &mdash; every story the
+            engagement committed to has ridden the loop and merged. That declaration is the only thing that
+            produces the loop's one required output:</p>
+          <div class="artifacts" style="margin:12px 0;">
+            <span class="lbl">The single required output &mdash; produced by a declaration, not a gate</span>
+            <span class="tag">phase7-handoff.md</span>
+          </div>
+          <p><code>phase7-handoff.md</code> names what was built, the state of the system in dev, the open
+            questions carried under their original IDs, the deferred items with rationale, and what
+            Documentation must cover. It is the entry package for Phase 7 &mdash; not a gate receipt.</p>
+        </div>
+      </div>
+
+      <div class="aha warn" style="margin-top:24px;">
+        <div class="lbl">How the plugin models this &mdash; and why it reads wrong</div>
+        <p>The plugin's <code>phase-registry.yaml</code> lists <code>build</code> as a phase (order 4) with
+          <code>exit_gate.approval: manual</code> and <code>artifacts.required: [phase7-handoff.md]</code>
+          &mdash; the same shape it gives a genuinely gated phase. Taken at face value, that frames the Build
+          loop as ending at an artifact exit gate, which the standard is firm it does not. Read it accurately:
+          the loop's <em>only</em> required output is <code>phase7-handoff.md</code>, and it is produced when a
+          human declares feature-complete, not by a gate run. The gate script itself agrees &mdash; for this
+          phase <code>check_gates.py</code> reports the spec backlog as information and states plainly that
+          <em>"Build is feature-complete by human declaration, not by this count,"</em> verifying only that
+          <code>phase7-handoff.md</code> exists and is complete. The registry's framing is the thing to fix,
+          not the loop's behavior.</p>
+      </div>
+
+      <p style="margin-top:22px;">Why no gate at all? Because a gate batches checking &mdash; write everything,
+        then review everything &mdash; and batched checking is the exact failure mode this loop exists to kill.
+        When an agent can produce code in minutes, the constraint is never building; it is proving. So the
+        proving moves to per-change, inside the loop, on the bar above &mdash; and the moment the pod starts
+        skipping the loop for a "small" change is the moment unchecked work creeps back in.</p>
     </div>
   </section>
 

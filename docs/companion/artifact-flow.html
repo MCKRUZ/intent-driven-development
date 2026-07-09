@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The artifact flow — what each phase hands the next</title>
+<meta name="description" content="Every artifact the engagement produces, where it lives on disk, and which phase consumes it. The handoff chain, end to end, plus the work the method requires that no tool records.">
+<link rel="stylesheet" href="styles.css">
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <details class="ref">
+    <summary class="active">Phases &#9662;</summary>
+    <div class="menu">
+      <a href="phase-0.html">0 · Discovery</a>
+      <a href="phase-1.html">1 · Requirements</a>
+      <a href="phase-2.html">2 · Design</a>
+      <a href="phase-3.html">3 · Foundation</a>
+      <a href="build-loop.html">The Build Loop</a>
+      <a href="the-rails.html">The Rails</a>
+      <a href="phase-7.html">7 · Documentation</a>
+      <a href="phase-8.html">8 · Deployment</a>
+      <a href="phase-9.html">9 · Monitoring</a>
+      <a href="phase-c.html">C · Close &amp; Transfer</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; The artifact flow</p>
+    <p class="eyebrow">Reference · across all phases</p>
+    <h1>The artifact flow
+      <span class="sub">What each phase receives, what it produces, where the file actually lives, and which phase consumes it next &mdash; the whole engagement as a chain of documents.</span>
+    </h1>
+  </div>
+</header>
+
+<main class="track active">
+
+  <!-- ===================================================================== -->
+  <!-- 01 — THE SPINE                                                         -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Nine documents, one unbroken chain</p>
+      <h2>Every phase's last artifact is the next phase's name</h2>
+      <p class="lead">A phase does not end with a feeling that the work is done. It ends by writing a
+        <strong>handoff</strong> &mdash; a named file that the next phase's first step opens and reads. Follow
+        the chain and you have followed the engagement.</p>
+
+      <div class="chain">
+        <div class="link"><div class="ph">Phase 0 writes</div><div class="doc">phase1-handoff.md</div></div>
+        <div class="link"><div class="ph">Phase 1 writes</div><div class="doc">phase2-handoff.md</div></div>
+        <div class="link"><div class="ph">Phase 2 writes</div><div class="doc">phase3-handoff.md</div></div>
+        <div class="link"><div class="ph">Phase 3 writes</div><div class="doc">build-handoff.md</div></div>
+        <div class="link"><div class="ph">Build loop writes</div><div class="doc">phase7-handoff.md</div></div>
+      </div>
+      <div class="chain">
+        <div class="link"><div class="ph">Phase 7 writes</div><div class="doc">phase8-handoff.md</div></div>
+        <div class="link"><div class="ph">Phase 8 writes</div><div class="doc">phase9-handoff.md</div></div>
+        <div class="link"><div class="ph">Phase 9 writes</div><div class="doc">close-handoff.md</div></div>
+        <div class="link terminal"><div class="ph">Close writes</div><div class="doc">final-handoff-report.md</div><div class="ph" style="margin-top:6px;color:var(--low);">terminal &mdash; the client keeps everything</div></div>
+      </div>
+
+      <div class="aha">
+        <div class="lbl">Why this matters more than it looks</div>
+        <p>The chain is what makes a phase gate meaningful. Phase 2 cannot start by guessing what Design should
+          address &mdash; its very first step opens <code>phase2-handoff.md</code> and pulls out every
+          architectural question Phase 1 left behind. An unanswered question at the end of the week is a gate
+          failure, not an oversight. <strong>The handoff is the contract between two phases.</strong></p>
+      </div>
+
+      <p>Every one of these files lives under <code>.sdlc/artifacts/&lt;slug&gt;/</code> in the client's own
+        repository, committed alongside their code. Their visibility, their record &mdash; not a deck on our
+        laptops.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 02 — THE FULL LEDGER                                                   -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Every artifact the gate requires, by phase</p>
+      <h2>What each phase must produce before it can close</h2>
+      <p class="lead">These are the files <code>check_gates.py</code> actually verifies: they must exist, be
+        non-empty, and contain no placeholder text. Anything not on this list can be missing and the automated
+        gate will still report green.</p>
+
+      <div class="tooling" style="margin-top:20px;">
+        <span class="label">Every artifact in this standard is one of three things</span>
+        <span class="tag">a command does it &mdash; and writes the file</span>
+        <span class="tag green">a person does it &mdash; and it is recorded</span>
+        <span class="tag amber">a person does it &mdash; and nothing records it</span>
+      </div>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Phase</th><th>Directory</th><th>Required artifacts</th><th>Hands forward</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><a href="phase-0.html#example"><strong>0 · Discovery</strong></a></td>
+            <td><code>.sdlc/artifacts/00-discovery/</code></td>
+            <td><span class="tag">constitution.md</span> <span class="tag">problem-statement.md</span> <span class="tag">success-criteria.md</span> <span class="tag">constraints.md</span></td>
+            <td><code>phase1-handoff.md</code></td>
+          </tr>
+          <tr>
+            <td><a href="phase-1.html#example"><strong>1 · Requirements</strong></a></td>
+            <td><code>.sdlc/artifacts/01-requirements/</code></td>
+            <td><span class="tag">requirements.md</span> <span class="tag">non-functional-requirements.md</span> <span class="tag">epics.md</span></td>
+            <td><code>phase2-handoff.md</code> &mdash; carries the <strong>AQ-NN</strong> architectural questions</td>
+          </tr>
+          <tr>
+            <td><a href="phase-2.html#example"><strong>2 · Design</strong></a></td>
+            <td><code>.sdlc/artifacts/02-design/</code></td>
+            <td><span class="tag">design-doc.md</span> <span class="tag">api-contracts.md</span> <span class="tag">adrs/</span> <span class="tag">adr-registry.md</span></td>
+            <td><code>phase3-handoff.md</code></td>
+          </tr>
+          <tr>
+            <td><a href="phase-3.html#example"><strong>3 · Foundation</strong></a></td>
+            <td><code>.sdlc/artifacts/03-foundation/</code></td>
+            <td><span class="tag">foundation-report.md</span> <span class="tag">risk-tier-map.md</span> <span class="tag">cadence-plan.md</span></td>
+            <td><code>build-handoff.md</code></td>
+          </tr>
+          <tr>
+            <td><a href="build-loop.html#example"><strong>The Build loop</strong></a></td>
+            <td><code>.sdlc/artifacts/build/</code></td>
+            <td class="dim">none &mdash; the loop has no artifact gate. It ends when a <strong>human declares feature-complete</strong>, not when a check passes.</td>
+            <td><code>phase7-handoff.md</code></td>
+          </tr>
+          <tr>
+            <td><a href="phase-7.html#example"><strong>7 · Documentation</strong></a></td>
+            <td><code>.sdlc/artifacts/07-documentation/</code></td>
+            <td><span class="tag">README.md</span> <span class="tag">api-docs.md</span> <span class="tag">RUNBOOK.md</span></td>
+            <td><code>phase8-handoff.md</code></td>
+          </tr>
+          <tr>
+            <td><a href="phase-8.html#example"><strong>8 · Deployment</strong></a></td>
+            <td><code>.sdlc/artifacts/08-deployment/</code></td>
+            <td><span class="tag">release-notes.md</span> <span class="tag">deployment-checklist.md</span> <span class="tag">smoke-test-results.md</span></td>
+            <td><code>phase9-handoff.md</code></td>
+          </tr>
+          <tr>
+            <td><a href="phase-9.html#example"><strong>9 · Monitoring</strong></a></td>
+            <td><code>.sdlc/artifacts/09-monitoring/</code></td>
+            <td><span class="tag">monitoring-config.md</span> <span class="tag">alert-definitions.md</span> <span class="tag">incident-response.md</span> <span class="tag">project-retrospective.md</span></td>
+            <td><code>close-handoff.md</code></td>
+          </tr>
+          <tr>
+            <td><a href="phase-c.html#example"><strong>C · Close &amp; Transfer</strong></a></td>
+            <td><code>.sdlc/artifacts/close/</code></td>
+            <td><span class="tag">final-handoff-report.md</span> <span class="tag green">harness-audit.md</span> <span class="tag green">close-gate-evidence.md</span> <span class="tag green">access-revocation-checklist.md</span></td>
+            <td class="dim">terminal &mdash; nothing follows</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="note">Three of Phase C's four artifacts are highlighted for a reason. They are
+        <strong>receipts for human rituals</strong> &mdash; the client's own engineer shipping one real change
+        alone with the pod silent in the room; the audit of everything still living in our heads; the proof
+        that our access was actually revoked. No command can perform any of them. A person does the work, a
+        file records that it happened, and the gate checks the file. <strong>Phase C is the only phase that
+        does this.</strong> Hold that pattern in mind for the next two sections.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 03 — THE RECEIPTS NOBODY DOCUMENTS                                     -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Real files, produced on every engagement, mentioned in no phase document</p>
+      <h2>The other half of <code>.sdlc/</code></h2>
+      <p class="lead">The phase artifacts are what people talk about. Alongside them, the harness writes a
+        running record of its own behavior &mdash; the state of the engagement, the result of every gate, the
+        life of every spec. It is the most honest description of what actually happened, and no page in this
+        standard has ever named it.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Path</th><th>What it holds</th><th>Written when</th></tr></thead>
+        <tbody>
+          <tr><td><code>.sdlc/state.yaml</code></td><td>Which phase the engagement is in. The single source of truth that <code>advance_phase.py</code> moves &mdash; and only ever with <code>--confirmed</code></td><td>Every phase advance</td></tr>
+          <tr><td><code>.sdlc/constitution.md</code></td><td>The principles and protected futures agreed in Phase 0. The forward-compatibility check reads this</td><td>Phase 0, then amended by ADR</td></tr>
+          <tr><td><code>.sdlc/profile.yaml</code></td><td>The client's compliance profile &mdash; which extra gates apply, and how changes must be approved</td><td>Phase 3 setup</td></tr>
+          <tr><td><code>.sdlc/context/intake/</code></td><td>Every client document taken in at Phase 0, catalogued as <code>DOC-NNN</code>, with the contradictions between them</td><td>Phase 0 intake</td></tr>
+          <tr><td><code>.sdlc/reports/phaseNN-report.html</code></td><td>The self-contained gate report. <strong>This is the document a sponsor reads before signing</strong></td><td>Every gate run</td></tr>
+          <tr><td><code>.sdlc/metrics/gate-log.jsonl</code></td><td>One line per gate check: what passed, what failed, when</td><td>Every gate run</td></tr>
+          <tr><td><code>.sdlc/metrics/spec-log.jsonl</code></td><td>One line per spec through the Build loop &mdash; its risk tier, its author, its checker</td><td>Every merge</td></tr>
+          <tr><td><code>.sdlc/metrics/loop-events.jsonl</code></td><td>The Build loop's own telemetry: how long Intent, Delegate and Discern each took</td><td>Every loop iteration</td></tr>
+          <tr><td><code>.sdlc/metrics/findings-log.jsonl</code></td><td>Every review finding, its severity, and whether it was fixed or accepted by a named human</td><td>Every review</td></tr>
+        </tbody>
+      </table>
+
+      <div class="aha">
+        <div class="lbl">Why a consulting pod should care</div>
+        <p>These files are the engagement's evidence. When a client asks in month nine why a decision was made,
+          <code>adr-registry.md</code> answers it. When they ask whether the process was actually followed,
+          <code>gate-log.jsonl</code> and <code>findings-log.jsonl</code> answer that &mdash; with dates and
+          names, not assurances. They are committed to the client's repository and they leave with the client.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 04 — WHERE THE HUMAN WORK DISAPPEARS                                   -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">The gap between what the method demands and what the harness records</p>
+      <h2>The work that leaves no receipt</h2>
+      <p class="lead">This standard asks a pod to do a great deal that no command performs: spike an
+        integration against the live system, walk the attack surface with the client's security lead, trace
+        requirements against design in both directions, hand a stranger the README and watch them fail. That
+        human work is the point &mdash; it is what separates this from generated code with a plausible shape.</p>
+
+      <p style="margin-top:14px;">But most of it currently ends when the meeting ends. On each phase's
+        <strong>Example</strong> tab, those artifacts are marked in amber: <span class="tag amber">the method
+        requires it &mdash; no command writes it</span>. The automated gate cannot see them, the phase report
+        does not list them, and a year later nobody can prove they happened.</p>
+
+      <div class="aha warn">
+        <div class="lbl">The distinction worth being precise about</div>
+        <p>The human gate itself is <em>real and enforced</em>: <code>advance_phase.py</code> will not move an
+          engagement forward without <code>--confirmed</code>, a named person's sign-off. The problem is not
+          that humans are trusted. The problem is <strong>what they are asked to vouch for</strong>. Each
+          phase's exit-gate checklist is declared in <code>phase-registry.yaml</code>, and no code opens it.
+          The human is stopped at the gate, shown a list of files that exist and do not contain the word
+          "TODO", and asked to sign.</p>
+      </div>
+
+      <p>The fix is not to automate judgment. A spike cannot be run by a machine &mdash; the whole point is a
+        person touching a live system. A threat review is an argument in a room. The fix is the pattern Phase C
+        already demonstrates three times over: <strong>the human does the work, and the work leaves a
+        file.</strong> Then the gate can see it, the phase report can list it, and the client can audit it in
+        month nine.</p>
+
+      <p style="margin-top:14px;">That is the difference between the green chips and the amber ones above. Not
+        <em>who does the work</em> &mdash; a person does it either way. Only <em>whether anything is left
+        behind</em>.</p>
+
+      <div class="next" style="margin-top:30px;">
+        <a href="phase-2.html#example"><span class="t">See it on a real phase &rarr;</span><span class="d">Phase 2's Example tab &mdash; the procedure braided step by step, and a ledger where six of fourteen artifacts are amber.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    The artifact flow — Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    Artifact names and paths are taken from <code>claude-code-sdlc</code>'s <code>phases/phase-registry.yaml</code> and phase definitions — the mechanism this standard documents.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

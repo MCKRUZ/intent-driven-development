@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -763,118 +764,360 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — GO-LIVE IS A CEREMONY, NOT A SCRAMBLE                             -->
+  <!-- 01 — WHAT PHASE 8 RECEIVED                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and where Harbor stood entering the week</p>
-      <h2>Go-live is a ceremony, not a scramble</h2>
-      <p class="lead">Phase 7 closed Friday 2026-07-17 with the documentation cold-verified by Harbor's
-        own people. The system runs in dev and test; production exists as Bicep that has never taken a
-        real claim. This week it takes its first — and the 11.4-day clock Harbor hired the pod to fix
-        meets production traffic for the first time.</p>
+      <p class="kicker">Before anything ships, one handoff and one proven artifact arrive</p>
+      <h2>What Phase 8 received</h2>
+      <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod to
+        rebuild how property-insurance claims get reported and decided. A claim takes a median of
+        <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target is
+        <strong>5 days or less</strong>. Phase 7 closed Friday 2026-07-17 with the documentation cold-verified
+        by Harbor's own people. Deployment builds nothing new &mdash; it starts from what Build proved and what
+        Phase 7 wrote down.</p>
+
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Inherited from Phase 7 &mdash; the deployment starts from these, on disk</span>
+        <span class="tag">phase8-handoff.md</span>
+        <span class="tag">RUNBOOK.md</span>
+        <span class="tag">README.md</span>
+        <span class="tag">api-docs.md</span>
+        <span class="tag">rc-1.0.0 &mdash; the release candidate, already proven in test</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The story so far</div>
-          <p>Harbor Mutual — a fictional regional insurer — hired a five-person consulting pod to rebuild
-            how property-insurance claims get reported and decided. A claim takes a median of
-            <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target
-            is <strong>5 days or less</strong>.</p>
-          <p>44 feature specs built and verified; documentation proven by use in Phase 7. Production has
-            never seen real traffic. This week: rehearse the failure, hold the ceremony, go live. Nobody
-            new joins the story — that is the point of the week: every hand on the keyboard is a hand that
-            stays after the pod leaves.</p>
+          <div class="plabel">The four things that shape the week</div>
+          <p>Nothing about deployment is invented this week. Four rules from the standard decide how it goes,
+            and not one of them is a machine's to make.</p>
+          <ul>
+            <li><strong>Promote, never rebuild.</strong> The exact artifact that passed test is the artifact
+              that takes real traffic &mdash; <code>rc-1.0.0</code>, byte for byte, never a fresh build for
+              production.</li>
+            <li><strong>Rehearse the rollback.</strong> Deploy &rarr; roll back &rarr; redeploy, run in test by
+              the client's own hands before any production promotion. A rollback that has never run is a wish.</li>
+            <li><strong>The client owns the rollout shape.</strong> Cutover, pilot, or parallel run &mdash;
+              decided by Harbor in writing, with triggers, before the ceremony.</li>
+            <li><strong>Rotate the secrets.</strong> Everything the pod ever touched moves to production-only
+              values the pod cannot read &mdash; the handoff made literal.</li>
+          </ul>
         </div>
         <div class="eg">
-          <div class="plabel">The system, and the cast</div>
-          <p><strong>The system:</strong> portal/phone/email FNOL intake &rarr; a buffered claim queue
-            &rarr; coverage verification against PolicyOne's nightly snapshot replica &rarr; fast-path
-            recommendations for simple claims &rarr; acknowledgment dispatch (test-mode capable, built in
-            Foundation as spec 0003).</p>
-          <p><strong>The pod:</strong> Maya Chen (Pod Lead) · Rob Feld (Setup Owner — the release manager
-            this week) · Jonah Kim and Sara Whitfield (Orchestrators) · Nadia Brooks (Quality Engineer).</p>
-          <p><strong>Harbor's cast:</strong> Tom Reilly (platform engineer — executes every promotion) ·
-            Dan Kowalski (IT security) · Luis Ortega (product owner — owns the rollout shape) · Dee Alvarez
-            (intake supervisor) · Wes Carter (lead engineer) · Karen Voss (sponsor) · Harbor's on-call lead
-            (operations).</p>
+          <div class="plabel">Where the week is headed</div>
+          <p>Five business days, go-live deliberately mid-week &mdash; never the last day before a weekend,
+            because the day <em>after</em> go-live is a working day for finding what go-live shook loose.</p>
+          <p style="margin-top:12px;"><strong>Nobody new joins the story.</strong> That is the point of the
+            week: every hand on the keyboard is a hand that stays after the pod leaves. Tom Reilly executes
+            every promotion; the production access list never includes a pod member.</p>
+          <div class="snippet">
+            <div class="from">Where Harbor stood entering the week</div>
+            <blockquote>"The system runs in dev and test; production exists as Bicep that has never taken a
+              real claim. This week it takes its first."</blockquote>
+          </div>
         </div>
       </div>
-      <p class="dim" style="margin-top:24px;">The IDs you'll see on this page:</p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>ID</th><th>What it is</th></tr></thead>
-        <tbody>
-          <tr><td><strong>NNNN</strong></td><td>A spec — one feature in one file, <code>specs/NNNN-name.md</code>. Build closed at 0044; Phase 7's defect fix was 0045.</td></tr>
-          <tr><td><strong>C-NN</strong></td><td>A constraint from Phase 0 (C-04: two states require claim acknowledgment within 15 business days).</td></tr>
-          <tr><td><strong>Q-NN</strong></td><td>An open question with a named owner (Q-17 was the postal dispatch vendor, resolved in Foundation).</td></tr>
-        </tbody>
-      </table>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead &mdash; owns the go/no-go ceremony</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; the release manager this week; owns the checklist</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Orchestrator &mdash; ships the rollback fix, spec 0046</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator &mdash; checks the rollback fix</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; owns the smoke suite and the production verification</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">Tom Reilly</span><span class="rl">Platform engineer &mdash; executes every promotion and both rehearsals</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT security &mdash; rotates the secrets; holds at the ceremony</span></div>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Product owner &mdash; owns the rollout shape</span></div>
+          <div class="person"><span class="nm">Dee Alvarez</span><span class="rl">Intake supervisor &mdash; runs intake on the new system, go-live day</span></div>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">Sponsor &mdash; signs the gate at steering</span></div>
+          <div class="person"><span class="nm">Harbor on-call lead</span><span class="rl">Operations &mdash; walks the rollback, drives hypercare</span></div>
+        </div>
+      </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every artifact in this engagement carries a stable identifier, so a decision made in week two can
+            still be traced in month nine. On this page you'll see four:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Code</th><th>What it is</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>NNNN</code></td><td>A spec &mdash; one feature in one file, <code>specs/NNNN-name.md</code></td><td>Build</td><td>Build closed at 0044; 0045 was Phase 7's defect fix; <strong>0046</strong> is this week's config-versioning fix</td></tr>
+              <tr><td><code>rc-X.Y.Z</code></td><td>A release candidate &mdash; the exact built artifact, promoted up the environments unchanged</td><td>Build / Deploy</td><td><strong>rc-1.0.0</strong> (Tuesday's rehearsal), <strong>rc-1.0.1</strong> (promoted to production Thursday)</td></tr>
+              <tr><td><code>C-NN</code></td><td>A constraint from Phase 0 &mdash; a hard limit the system must honor</td><td>Phase 0</td><td><strong>C-04</strong>: two states require claim acknowledgment within 15 business days &mdash; now enforced by the system, not by vigilance</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with a named owner</td><td>any</td><td><strong>Q-17</strong>: the postal dispatch vendor, live for the first time this week</td></tr>
+            </tbody>
+          </table>
+          <p class="note">Build closed at spec 0044; the backlog is feature-complete. The only new code this
+            week is spec 0046 &mdash; the fix the rollback rehearsal forced. Everything else is promotion, not
+            construction.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 02 — THE MACHINE PREPARES; A HUMAN SAYS GO                             -->
+  <!-- 02 — THE PROCEDURE                                                     -->
   <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">The pod never touched production</p>
-      <h2>The machine prepares the evidence; a human says go</h2>
-      <p class="lead">Deployment is the most human phase in the standard: the plugin prepares evidence;
-        people promote. At Harbor, the keyboard belonged to Harbor's people all week — and the handoff
-        wasn't a future phase, it had been happening since Foundation, and this week it was simply true.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The division of labor at Harbor</div>
-          <p>The plugin drafted the deployment checklist and release notes; ran the smoke journeys;
-            rendered the go/no-go evidence packet. Tom Reilly executed every promotion and both rehearsals.
-            Dan Kowalski and Tom rotated the secrets. Luis Ortega owned the rollout shape. The named roles
-            answered at the ceremony.</p>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">The machine's steps, the humans' five days, braided</p>
+        <h2>The procedure, step by step</h2>
+        <p class="lead">Phase 8 is the least code-writing phase in the standard. The plugin runs a short,
+          mostly agent-driven sequence; the standard wraps it in the human work a real deployment needs
+          &mdash; the rehearsal, the rollout decision, the secrets rotation, and the one ceremony the whole
+          method bends around. Below, they're braided: what the tool runs, what the humans do that the tool
+          cannot, and the file each step leaves behind. <strong>Step through it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
         </div>
-        <div class="eg">
-          <div class="plabel">What was simply true by go-live week</div>
-          <div class="snippet resolve">
-            <div class="from">From the team's notes on the week</div>
-            <blockquote>"Tom executed every promotion; the access list never included a pod member; the
-              secrets rotated to values the pod has never seen."</blockquote>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 8 procedure, day by day" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Mon">
+          <div class="day">Day 1 &mdash; Mon 7/20 <span class="date">· plugin Step 0 opens · Step 1</span></div>
+          <h3>Set the table: the checklist, the secrets, the rollout shape</h3>
+          <p>Advancing into Phase 8 fires the plugin's first move: a <strong>go/no-go HITL gate</strong>
+            (Step 0) that asks the human the deployment target, the rollback plan, who to notify, staging-only
+            or production, and the window. Then Step 1 &mdash; Claude drafts the pre-deployment checklist from
+            the proven RUNBOOK, and the release notes from the merged specs.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> Step 0 HITL go/no-go</span>
+            <span class="tag">Step 1 drafts checklist + release notes</span>
           </div>
-          <p style="margin-top:12px;">The handoff isn't a future phase — it has been happening since
-            Foundation, and this week it was simply true. In a few weeks the pod leaves; every hand on the
-            keyboard is a hand that stays.</p>
+          <div class="artifacts">
+            <span class="lbl">Out &mdash; under <code>.sdlc/artifacts/08-deployment/</code></span>
+            <span class="tag">deployment-checklist.md</span>
+            <span class="tag">release-notes.md</span>
+            <span class="tag amber">secrets rotation record &mdash; method requires it; no command writes it</span>
+            <span class="tag amber">rollout-shape decision &mdash; method requires it; no command writes it</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>The plugin fires its <em>only</em> go/no-go here &mdash; a single <code>AskUserQuestion</code>,
+              up front, before any rehearsal or smoke evidence exists. The standard's recorded ceremony
+              (seven roles, evidence on the table) is Wednesday, after the dress rehearsal. And two of this
+              day's biggest jobs &mdash; rotating every secret the pod touched, and deciding the rollout shape
+              &mdash; are neither plugin steps nor plugin artifacts. Human work that today leaves no receipt.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The checklist gets walked top to bottom; the production access list is cut to least privilege
+              &mdash; two Harbor operators, Tom, the pipeline identity, no pod member. Dan and Tom rotate every
+              credential the pod touched to production-only values in Harbor's Key Vault, and Dan signs. Luis,
+              Dee, and Harbor's ops decide the rollout shape: <strong>cutover at intake</strong>, a 30-day warm
+              fallback, written triggers.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Tue">
+          <div class="day">Day 2 &mdash; Tue 7/21 <span class="date">· plugin Step 1 verify · Step 2</span></div>
+          <h3>Promote the environment, then rehearse the failure &mdash; on purpose</h3>
+          <p>The production environment provisions from the same infrastructure code that built dev and test
+            &mdash; a HIGH-risk change, reviewed line by line. Then the rehearsal the standard demands, run in
+            test by the hands that would run it at 2&nbsp;a.m.: <strong>deploy &rarr; roll back &rarr;
+            redeploy</strong>. The plugin's Step 2 spawns <code>devops-automator</code> to deploy against the
+            RUNBOOK; on a build failure it spawns <code>build-error-resolver</code>.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">Step 2 <span class="arrow">&rarr;</span> <span class="script">devops-automator</span> (uses RUNBOOK.md)</span>
+            <span class="none">the rehearsal &mdash; the client's own hands; no command runs it</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag amber">rollback rehearsal evidence &mdash; the timestamped timeline; no command writes it</span>
+            <span class="tag green">the go decision to promote the env &mdash; a human review</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">Does the plugin rehearse the rollback? No.</div>
+            <p>Step 1's checklist carries a "Rollback verification (deploy &rarr; roll back &rarr; redeploy)"
+              line, and <code>rollback-procedure.md</code> exists as an <em>optional</em> artifact. But nothing
+              writes the timestamped rehearsal evidence, and nothing requires the client's operators to be the
+              ones who run it. The registry's exit gate says the rollback must be "rehearsed in test by the
+              client's operators" &mdash; an exit criterion for evidence no command produces and no required
+              file holds.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The rollback <strong>failed</strong>. The previous app revision crash-looped on startup: two
+              config keys added since had moved forward independently of the artifact, so the old code didn't
+              know them. That is Tuesday doing its job. Jonah opens <strong>spec 0046</strong> &mdash; version
+              the app configuration <em>with</em> the release artifact &mdash; and it rides the full loop: plan
+              approved, built, graded, checked by Sara (non-author), merged. The RUNBOOK is corrected the same
+              afternoon.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Wed">
+          <div class="day">Day 3 &mdash; Wed 7/22 <span class="date">· plugin Step 3 · Step 6 · the ceremony</span></div>
+          <h3>A clean re-run, the smoke suite, then seven names on a decision</h3>
+          <p>The re-rehearsal runs clean &mdash; the old revision healthy in under four minutes. The candidate
+            promotes to test through the full written procedure, and the plugin's Step 3 spawns
+            <code>e2e-runner</code> to run the smoke suite: one non-destructive journey per top-priority story.
+            Then the human work the plugin does not perform: the <strong>go/no-go ceremony</strong>, evidence
+            packet on screen, every named role asked in turn.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/e2e <span class="arrow">&rarr;</span> <span class="script">e2e-runner</span> (test)</span>
+            <span class="cmd">/visual-explainer <span class="arrow">&rarr;</span> the evidence packet</span>
+            <span class="none">the ceremony &mdash; humans in a room; no command runs it</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">smoke-test-results.md &mdash; test</span>
+            <span class="tag">.sdlc/reports/phase08-visual.html</span>
+            <span class="tag amber">the go/no-go record &mdash; the seven-role table; no command writes it</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The most protected stop has no required home</div>
+            <p>The go/no-go is the single most protected stop in the standard &mdash; yet the plugin's only
+              form for it is <code>go-no-go-record.md</code>, marked <em>optional</em>. The registry's exit
+              gate requires "a recorded go/no-go with every named role asked and answered," but the artifact
+              that would hold that record is optional and nothing writes it. The seven-role table you'll see in
+              &sect;05 is hand-authored.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>16:00. Seven roles asked by name &mdash; release manager, platform, operations, security,
+              product, quality, sponsor. Six immediate goes. Then Dan Kowalski, security: <strong>held</strong>
+              until the secrets-rotation record was <em>attached</em> to the packet, not merely referenced
+              &mdash; then go. Five minutes of friction, which is exactly what a real human stop looks like.
+              Decision: GO. Window Thursday 07:00.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Thu">
+          <div class="day">Day 4 &mdash; Thu 7/23 <span class="date">· plugin Step 4 · go-live</span></div>
+          <h3>The same artifact, now taking real claims</h3>
+          <p>07:00: the promotion runs in the agreed window. The client's platform engineer executes; the
+            release manager calls each checklist step. The plugin's Step 4 re-spawns <code>e2e-runner</code>
+            against the production target &mdash; but the promotion itself is a human's hands, never the AI
+            unattended. The same artifact that passed test goes to production: <strong>promoted, not
+            rebuilt.</strong></p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/e2e <span class="arrow">&rarr;</span> <span class="script">e2e-runner</span> (production, test-mode paths)</span>
+            <span class="none">the promotion &mdash; Tom executes, Rob calls the steps</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">smoke-test-results.md &mdash; production appended</span>
+            <span class="tag green">the first real traffic, watched end to end</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>07:25 production smoke green through the test-mode paths &mdash; no real letters dispatched, no
+              real records left behind. Monitoring confirmed receiving. 08:14 the first real FNOL: a burst
+              pipe, reported through the portal, traced end to end &mdash; queue entry, replica verification
+              (140&nbsp;ms), fast-path recommendation (single dwelling, no injury, under $25k, the 61% case),
+              acknowledgment through the postal vendor (Q-17, live for the first time), landing in Gail Tran's
+              queue with a coverage recommendation <strong>3 hours 6 minutes</strong> after FNOL. 27 claims by
+              close; the legacy fallback warm and untouched.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Fri">
+          <div class="day">Day 5 &mdash; Fri 7/24 <span class="date">· plugin Steps 5&ndash;7 · the gate</span></div>
+          <h3>Watch it live, draft the handoff, then the gate reports and a human signs</h3>
+          <p>The two-week hypercare window opens &mdash; Harbor's operators driving, the pod beside them. Step
+            5 drafts the Phase 9 handoff; Step 6 renders the visual report; Step 7 runs the gate. The gate
+            checks the files and stops; <code>advance_phase.py</code> will not move the engagement forward
+            without a named human's sign-off.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+            <span class="cmd">/sdlc-phase-report <span class="arrow">&rarr;</span> <span class="script">generate_phase_report.py</span></span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py --confirmed</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">phase9-handoff.md</span>
+            <span class="tag">.sdlc/reports/phase08-report.html</span>
+            <span class="tag green">the sponsor's signature &mdash; billing milestone 6</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">What the gate actually checks</div>
+            <p><code>check_gates.py</code> verifies that four files &mdash; <code>release-notes.md</code>,
+              <code>deployment-checklist.md</code>, <code>smoke-test-results.md</code>,
+              <code>phase9-handoff.md</code> &mdash; exist, are non-empty, and contain no placeholder text. It
+              never enforces the registry's real conditions: <em>rollback rehearsed by the client's operators,
+              a recorded go/no-go, production smoke passing.</em> Those are surfaced as manual review items and
+              never block the exit code. The human is stopped and asked to sign; the checklist they should be
+              signing against is never put in front of them.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Day one of hypercare surfaces one finding &mdash; an acknowledgment-dispatch retry burst during
+              a postal-vendor blip, no claim affected &mdash; logged as a Phase&nbsp;9 alert candidate, not a
+              defect. The release notes go out. The gate passes; Karen signs at steering with the first
+              production numbers and the honest caveat. Billing milestone 6.</p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — PROMOTE, NEVER REBUILD                                            -->
+  <!-- 03 — THE ARTIFACT LEDGER                                               -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">The same artifact moved up</p>
-      <h2>Promote the exact artifact you proved &mdash; never a fresh build</h2>
-      <p class="lead">What ran in test on Wednesday is byte-for-byte what took Harbor's first claim on
-        Thursday. The production environment itself was promoted too — provisioned from the same Bicep
-        that built dev and test, not improvised.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The promotion at Harbor</div>
-          <p>The release candidate rc-1.0.1 that passed every smoke journey in test on Wednesday was the
-            same artifact promoted to production on Thursday — promoted, not rebuilt. The production
-            environment provisioned from the same Bicep that built dev and test, reviewed as the HIGH-risk
-            change it is (Rob and Wes on the PR), executed by Tom.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">Why the rebuild is forbidden</div>
-          <div class="snippet">
-            <div class="from">From the team's notes on the week</div>
-            <blockquote>"What ran in test on Wednesday is byte-for-byte what took Harbor's first claim on
-              Thursday. Every 'quick rebuild for prod' is an unverified system wearing a verified one's
-              badge."</blockquote>
-          </div>
-        </div>
+      <p class="kicker">Everything that exists on Friday and didn't on Monday</p>
+      <h2>What Phase 8 produced</h2>
+      <p class="lead">The deployment's whole output, named. Blue rows are written by a command and checked by
+        the gate. <strong>Amber rows are the method's human work</strong> &mdash; required by this standard,
+        produced by no tool, and today leaving no file behind. For a phase whose signature moves are a
+        rehearsal, a rotation, and a ceremony, the amber rows are most of what matters.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">release-notes.md</span></td><td>What this release delivers, written for people who never saw a spec: features, fixes, limitations, what changes for users</td><td>Claude, from the 45 merged specs (Step 1)</td><td>Pod Lead</td><td><code>.sdlc/artifacts/08-deployment/</code></td><td>Harbor's stakeholders; go-live</td></tr>
+          <tr><td><span class="tag">deployment-checklist.md</span></td><td>Every step ordered and observable, with an expected outcome and a verification; the rollback procedure lives here as a checklist line</td><td>Claude, from the proven RUNBOOK (Step 1)</td><td>Setup Owner</td><td><code>.sdlc/artifacts/08-deployment/</code></td><td>The promotion; the rollback</td></tr>
+          <tr><td><span class="tag">smoke-test-results.md</span></td><td>One non-destructive journey per top-priority story, run in test then production, pass/fail per journey with evidence</td><td><code>/e2e</code> &rarr; <code>e2e-runner</code> (Steps 3&ndash;4)</td><td>Quality Engineer</td><td><code>.sdlc/artifacts/08-deployment/</code></td><td>The go/no-go packet; Phase 9</td></tr>
+          <tr><td><span class="tag">phase9-handoff.md</span></td><td>Deployment summary, current system state, monitoring requirements, known issues in production, escalation contacts</td><td>Step 5 drafts; Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/08-deployment/</code></td><td>Phase 9, directly</td></tr>
+          <tr><td><span class="tag">phase08-report.html</span><br><span class="tag">phase08-visual.html</span></td><td>The gate result and artifact inventory, and the rendered go/no-go evidence packet &mdash; self-contained HTML</td><td><code>generate_phase_report.py</code>; <code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate; the ceremony</td></tr>
+
+          <tr><td><span class="tag amber">rollback rehearsal evidence</span></td><td>The timestamped deploy &rarr; roll back &rarr; redeploy timeline, run in test by the client's operators, with time-back-to-healthy &mdash; the proof the rollback is a procedure, not a wish</td><td><strong>The client's operators, by hand</strong></td><td>Setup Owner</td><td class="dim">no path &mdash; <code>rollback-procedure.md</code> is optional; nothing writes the evidence</td><td>The go/no-go packet</td></tr>
+          <tr><td><span class="tag amber">rollout-shape decision</span></td><td>Cutover / pilot / parallel chosen; the in-flight-work answer; the fallback and its trigger conditions &mdash; owned by the client, in writing, before the ceremony</td><td><strong>Product Owner + operations</strong></td><td>Product Owner</td><td class="dim">no path &mdash; nothing writes it</td><td>The go/no-go packet; hypercare</td></tr>
+          <tr><td><span class="tag amber">the go/no-go record</span></td><td>Every named role asked and answered, the decision and its rationale recorded with names &mdash; the durable proof a human said go</td><td><strong>Pod Lead, by hand</strong></td><td>Pod Lead</td><td class="dim">no path &mdash; <code>go-no-go-record.md</code> is optional; nothing writes it</td><td>The exit gate; the audit trail</td></tr>
+          <tr><td><span class="tag amber">secrets rotation record</span></td><td>Production secrets rotated to values the pod never held, signed by the client's security &mdash; the handoff made literal</td><td><strong>Setup Owner + client security</strong></td><td>Client security</td><td class="dim">no path &mdash; nothing writes it</td><td>The go/no-go packet; Phase C access revocation</td></tr>
+        </tbody>
+      </table>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Four of the eight things Phase 8 is supposed to produce have nowhere to live &mdash; and they are
+          the four that <em>are</em> this phase: the rehearsal that found Harbor's crash-loop, the rollout
+          decision Luis owns, the ceremony seven people stood in, and the rotation that made the handoff real.
+          The plugin marks the go/no-go record and the rollback procedure <strong>optional</strong> while its
+          own registry demands both at the exit gate. <strong>Human work is not the problem. Human work
+          without a receipt is.</strong></p>
       </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase 8: alert definitions and
+        thresholds (Phase 9 sets them against real baseline data), new features of any kind, and any data
+        migration that was not explicitly scoped &mdash; the deployment door is not where scope arrives.</p>
     </div>
   </section>
 
@@ -884,13 +1127,13 @@
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">04</span>
-      <p class="kicker">Tuesday's failure was the week's most valuable event</p>
+      <p class="kicker">The week's most valuable event, reproduced whole</p>
       <h2>A rollback that has never run is a wish, not a plan</h2>
-      <p class="lead">On Tuesday the rehearsal rollback failed — the previous app revision crash-looped on
-        startup because two config keys added since had moved forward independently of the artifact. The
-        fix rode the loop as spec 0046; Wednesday's re-rehearsal ran clean.</p>
-      <p class="dim" style="margin-top:8px;">The rollback rehearsal evidence (timeline) — attached to the
-        go/no-go packet, both runs:</p>
+      <p class="lead">On Tuesday the rehearsal rollback failed &mdash; the previous app revision crash-looped
+        on startup because two config keys added since had moved forward independently of the artifact. The
+        fix rode the loop as spec 0046; Wednesday's re-rehearsal ran clean. This is the evidence timeline,
+        both runs, exactly as it was attached to the go/no-go packet &mdash; the artifact the plugin never
+        writes.</p>
 <pre class="snippet" style="white-space:pre;overflow-x:auto;font-family:monospace;font-size:13px;padding:18px;">Tue 7/21  14:02  Test env: deploy release candidate rc-1.0.0      OK (9 min)
           14:31  Execute RUNBOOK rollback to previous revision    FAIL
                  Previous revision crash-looped on startup: required
@@ -910,68 +1153,36 @@ Wed 7/22  08:05  Re-rehearsal: deploy rc-1.0.1                    OK (8 min)
                  (logs + timings) attached to the go/no-go packet.</pre>
       <div class="aha warn">
         <div class="lbl">Why Tuesday's failure was the win</div>
-        <p>A rollback that fails in rehearsal, by appointment, cost an afternoon and produced spec 0046.
-          The same failure during a Thursday-night incident would have been an outage. Both rehearsals went
-          in the evidence packet — the failed one and the clean one, because "we found the hole and closed
-          it" is stronger evidence than an unblemished record nobody stress-tested.</p>
+        <p>A rollback that fails in rehearsal, by appointment, cost an afternoon and produced spec 0046. The
+          same failure during a Thursday-night incident would have been an outage with an audience. Both
+          rehearsals went in the evidence packet &mdash; the failed one and the clean one &mdash; because "we
+          found the hole and closed it" is stronger evidence than an unblemished record nobody stress-tested.
+          Never promote past a failed rehearsal: fix it, re-rehearse, and move the window if you must.</p>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 05 — THE ROLLOUT SHAPE                                                 -->
+  <!-- 05 — THE GO/NO-GO RECORD                                               -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">05</span>
-      <p class="kicker">Cutover at intake, owned in writing</p>
-      <h2>Decide how real users meet the system &mdash; the client decides, in writing, before the ceremony</h2>
-      <p class="lead">The rollout shape was decided Monday in a two-hour session with Luis, Dee, and
-        Harbor's ops — written down, with triggers, before any ceremony. Luis owns the decision; it goes
-        in the go/no-go packet in writing.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">Cutover at intake</div>
-          <p>From go-live, every <em>new</em> FNOL in every channel enters the new system; claims already
-            in flight finish in the legacy process and drain where they started. No migration — none was
-            scoped, none sneaks in.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The fallback, with written triggers</div>
-          <div class="decision">
-            Legacy intake stays warm as a fallback for <strong>30 days</strong> · written triggers:
-            sustained intake error rate above 2% for 30 minutes, or verification down outside the replica
-            window with the queue still growing
-          </div>
-          <p style="margin-top:12px;">Decided Monday with Luis, Dee, and Harbor's ops — owned by a named
-            human, in writing, in the packet. Not a shrug at the meeting.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 06 — THE GO/NO-GO CEREMONY                                             -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">06</span>
       <p class="kicker">Seven names on a decision &mdash; and one held answer</p>
-      <h2>Every named role gets asked &mdash; and a no is cheap</h2>
-      <p class="lead">Wednesday 16:00: the evidence packet on screen — Tuesday's failed rehearsal and
+      <h2>Artifact: the go/no-go record</h2>
+      <p class="lead">Wednesday 16:00. The evidence packet on screen &mdash; Tuesday's failed rehearsal and
         Wednesday's clean one (both), the smoke results, the rotation record, the rollout shape with its
-        triggers, the notification list, the window. Seven people asked in turn, by name.</p>
-
-      <h2 style="margin-top:8px;">Artifact: the go/no-go record</h2>
+        triggers, the notification list, the window. Seven people asked in turn, by name. This is the record
+        Maya kept &mdash; hand-authored, because the plugin marks it optional and nothing writes it.</p>
       <table class="ref-doc" style="margin-top:12px;">
         <thead><tr><th>Role</th><th>Name</th><th>Asked</th><th>Answer</th></tr></thead>
         <tbody>
-          <tr><td>Release manager</td><td>Rob Feld</td><td>16:09</td><td>Go — rehearsal evidence attached (Tue fail + Wed clean), checklist ready</td></tr>
-          <tr><td>Platform</td><td>Tom Reilly</td><td>16:10</td><td>Go — I executed both rehearsals; the procedure is mine</td></tr>
-          <tr><td>Operations</td><td>Harbor on-call lead</td><td>16:11</td><td>Go — rollback walked by my team, triggers understood</td></tr>
-          <tr><td>Security</td><td>Dan Kowalski</td><td>16:18</td><td><strong>Held</strong> until the rotation record was attached to the packet — then go</td></tr>
-          <tr><td>Product</td><td>Luis Ortega</td><td>16:19</td><td>Go — rollout shape and in-flight answer are mine, in writing</td></tr>
-          <tr><td>Quality</td><td>Nadia Brooks</td><td>16:20</td><td>Go — smoke green per journey in test; production plan is test-mode only</td></tr>
+          <tr><td>Release manager</td><td>Rob Feld</td><td>16:09</td><td>Go &mdash; rehearsal evidence attached (Tue fail + Wed clean), checklist ready</td></tr>
+          <tr><td>Platform</td><td>Tom Reilly</td><td>16:10</td><td>Go &mdash; I executed both rehearsals; the procedure is mine</td></tr>
+          <tr><td>Operations</td><td>Harbor on-call lead</td><td>16:11</td><td>Go &mdash; rollback walked by my team, triggers understood</td></tr>
+          <tr><td>Security</td><td>Dan Kowalski</td><td>16:18</td><td><strong>Held</strong> until the rotation record was attached to the packet &mdash; then go</td></tr>
+          <tr><td>Product</td><td>Luis Ortega</td><td>16:19</td><td>Go &mdash; rollout shape and in-flight answer are mine, in writing</td></tr>
+          <tr><td>Quality</td><td>Nadia Brooks</td><td>16:20</td><td>Go &mdash; smoke green per journey in test; production plan is test-mode only</td></tr>
           <tr><td>Sponsor</td><td>Karen Voss</td><td>16:21</td><td>Go</td></tr>
         </tbody>
       </table>
@@ -981,174 +1192,109 @@ Wed 7/22  08:05  Re-rehearsal: deploy rc-1.0.1                    OK (8 min)
       </div>
       <div class="aha warn">
         <div class="lbl">Dan's held answer is the ceremony working</div>
-        <p>A go/no-go where friction is unwelcome is theater. Five minutes of "attach the record, don't
-          reference it" is what a real human stop looks like.</p>
+        <p>A go/no-go where friction is unwelcome is theater &mdash; and theater here is how outages get
+          scheduled. Five minutes of "attach the record, don't reference it" is what a real human stop looks
+          like. Anyone could have said no, and a no today is cheap.</p>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 07 — RELEASE NOTES FROM MERGED SPECS                                   -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
-      <p class="kicker">Drafted from the merged specs, refreshed mid-week</p>
-      <h2>Release notes assemble themselves from the specs you already merged</h2>
-      <p class="lead">The release notes were drafted Monday from the 45 merged specs and refreshed after
-        spec 0046 merged mid-week — written for people who never saw a spec.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">How they were produced</div>
-          <p><code>/sdlc-coach</code> drafted the deployment checklist (from the cold-verified RUNBOOK) and
-            the release notes (from the 45 merged specs) against the phase templates. They went to Harbor's
-            stakeholders plainly written.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">What the notes covered</div>
-          <div class="snippet">
-            <div class="from">Release notes — Harbor Claims Intake go-live</div>
-            <blockquote>"What the new intake does, what changes for the claims office, what is not in this
-              release (auto-insurance, adjuster-initiated merges), and the C-04 acknowledgment clock now
-              enforced by the system rather than by vigilance."</blockquote>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 08 — VERIFY PRODUCTION IS REAL                                         -->
+  <!-- 06 — VERIFIED IN PRODUCTION                                            -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
-      <p class="kicker">The first real FNOL, traced end to end</p>
+      <span class="modnum">06</span>
+      <p class="kicker">An exhibit from <code>smoke-test-results.md</code> &mdash; and the first real FNOL</p>
       <h2>Check it for real &mdash; without the check itself causing the incident</h2>
-      <p class="lead">07:25, production smoke green — every journey through the test-mode paths, no real
+      <p class="lead">07:25, production smoke green &mdash; every journey through the test-mode paths, no real
         letters dispatched, no real records left behind beyond flagged test rows. Monitoring confirmed
-        receiving. Then at 08:14 the first real claim arrived.</p>
+        receiving. Then at 08:14 the first real claim arrived, and the room watched it end to end.</p>
       <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">3h&nbsp;6m</span>
         <small>median days-to-decision baseline &rarr; the first production claim, end to end</small></div>
       <div class="pair" style="margin-top:20px;">
         <div class="idea">
-          <div class="plabel">The first FNOL, traced</div>
-          <p>A policyholder reported a burst pipe through the portal. The room watched it end to end: queue
-            entry, replica verification (140 ms), fast-path recommendation (single dwelling, no injury,
-            under $25k — the 61% case), acknowledgment dispatched through the postal vendor (Q-17's
-            integration, live for the first time), and the claim landed in Gail Tran's queue with a coverage
-            recommendation <strong>3 hours and 6 minutes</strong> after FNOL.</p>
-          <p style="margin-top:12px;">Dee's team ran intake all day on the new system; 27 claims arrived by
-            close of business. The legacy fallback stayed warm and untouched.</p>
+          <div class="plabel">The smoke suite (test, then production)</div>
+          <p>One non-destructive journey per top-priority story, test-mode paths only:</p>
+          <ul>
+            <li>Portal FNOL to acknowledgment (test mode)</li>
+            <li>Phone intake with no policy number routing to manual review</li>
+            <li>The fast-path recommendation surfacing to an adjuster queue</li>
+            <li>A duplicate report joining its existing claim</li>
+            <li>A replica-window degradation showing "pending verification" with its staleness timestamp</li>
+          </ul>
+          <p style="margin-top:12px;">All green; results recorded per journey. Monitoring confirmed receiving
+            &mdash; the dashboards Phase 3 wired show production telemetry. Tuning the alerts is Phase 9's job;
+            today the requirement is simply not flying blind.</p>
         </div>
         <div class="eg">
-          <div class="plabel">The smoke suite (test, then production)</div>
-          <p>One non-destructive journey per top-priority story, test-mode paths only: portal FNOL to
-            acknowledgment (test mode), phone intake with no policy number routing to manual review, the
-            fast-path recommendation surfacing to an adjuster queue, a duplicate report joining its claim, a
-            replica-window degradation showing "pending verification" with its staleness timestamp. All
-            green; results recorded per journey.</p>
-          <p style="margin-top:12px;">Monitoring confirmed receiving — the dashboards Phase 3 wired show
-            production telemetry. Tuning the alerts is Phase 9's job; today the requirement is simply not
-            flying blind.</p>
+          <div class="plabel">The first FNOL, traced</div>
+          <p>A policyholder reported a burst pipe through the portal. Queue entry, replica verification
+            (140&nbsp;ms), fast-path recommendation (single dwelling, no injury, under $25k &mdash; the 61%
+            case), acknowledgment dispatched through the postal vendor (Q-17's integration, live for the first
+            time), and the claim landed in Gail Tran's queue with a coverage recommendation <strong>3 hours
+            and 6 minutes</strong> after FNOL.</p>
+          <p style="margin-top:12px;">Dee's team ran intake all day on the new system; 27 claims arrived by
+            close of business. The legacy fallback stayed warm and untouched.</p>
         </div>
       </div>
       <div class="aha warn">
         <div class="lbl">The first number was reported with its caveat</div>
-        <p>3.1 hours against an 11.4-day baseline is a thrilling data point — and steering heard "data
+        <p>3.1 hours against an 11.4-day baseline is a thrilling data point &mdash; and steering heard "data
           point," not "result." One good day is a data point, not a median; the 5-day target gets judged on
-          the median, in Phase 9 and beyond. The credibility spent overclaiming week one is never recovered
-          at close.</p>
+          the median, in Phase 9 and beyond. The credibility spent overclaiming week one is never recovered at
+          close.</p>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 09 — GO-LIVE WEEK, END TO END                                          -->
+  <!-- 07 — WHAT PHASE 9 RECEIVES                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">The five days, end to end &mdash; and the Phase 9 handoff</p>
-      <h2>Go-live week, end to end</h2>
-      <p class="lead">Five business days, with go-live deliberately mid-week. Reading the Tooling lines:
-        <strong>you run it</strong> — a slash command you type; <strong>it triggers</strong> — an agent or
-        script that command runs, shown after a <code>&rarr;</code>; <strong>no plugin command</strong> — a
-        human ceremony, a rehearsal, or work by Harbor's own hands.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>Day</th><th>Focus</th><th>What happened</th><th>Tooling</th></tr></thead>
-        <tbody>
-          <tr><td>Mon 7/20</td><td>Checklist, secrets, rollout shape</td><td>Phase 7 handoff's checklist walked top to bottom; production access list cut to least privilege (two Harbor operators, Tom, the pipeline identity — no pod member). Secrets rotate: every credential the pod touched moves to production-only values in Harbor's Key Vault, Dan executes with Tom and signs. Rollout shape decided with Luis, Dee, ops: cutover at intake, 30-day warm fallback, written triggers.</td><td><code>/sdlc-coach</code> &rarr; drafts checklist + release notes; rotation &amp; rollout session are no plugin command</td></tr>
-          <tr><td>Tue 7/21</td><td>Promote env, rehearse failure</td><td>Production provisions from the same Bicep that built dev and test (HIGH-risk PR: Rob + Wes; Tom executes). The rehearsal in test: deploy &rarr; roll back &rarr; redeploy. <strong>The rollback fails</strong> — old revision crash-loops, config had moved forward independently of the artifact. Spec 0046 (version config WITH the artifact) rides the loop; RUNBOOK corrected same day.</td><td>No plugin command — Tom's hands; the fix rides the loop as spec 0046</td></tr>
-          <tr><td>Wed 7/22</td><td>Dress rehearsal &amp; ceremony</td><td>Re-rehearsal runs clean (old revision healthy in under four minutes). Candidate promotes to test through the full written procedure; smoke suite runs green, one journey per top-priority story. 16:00 go/no-go: evidence packet on screen, seven roles asked by name; Dan holds until the rotation record is attached, then go. Seven goes recorded. Window: Thursday 07:00.</td><td><code>/e2e</code> &rarr; Playwright smoke journeys · <code>/visual-explainer</code> &rarr; the evidence packet; the ceremony is no plugin command, deliberately</td></tr>
-          <tr><td>Thu 7/23</td><td>Go-live</td><td>07:00 promotion runs — same artifact promoted, not rebuilt; Tom executes, Rob calls each step. Services healthy, replica connection live, queue draining synthetic warm-up messages. 07:25 production smoke green via test-mode paths; monitoring confirmed receiving. 08:14 the first real FNOL (burst pipe) traced end to end — coverage recommendation 3h 6m after FNOL. 27 claims by close; legacy fallback warm and untouched.</td><td>No plugin command for the promotion — Tom executes, Rob calls steps · <code>/e2e</code> &rarr; production smoke (test-mode paths only)</td></tr>
-          <tr><td>Fri 7/24</td><td>Hypercare day one, then the gate</td><td>Two-week hypercare opens, Harbor's operators driving. Day one finding: acknowledgment-dispatch retry burst during a postal-vendor blip — no claim affected — logged as a Phase 9 alert candidate, not a defect. Release notes go out. Gate passes; Karen signs at steering with the first production numbers and the honest caveat (a data point, not a median). <strong>Billing milestone 6.</strong></td><td><code>/sdlc-gate</code> &rarr; <code>check_gates.py</code> · <code>/sdlc-phase-report</code> · <code>/sdlc-next</code>; hypercare is no plugin command</td></tr>
-        </tbody>
-      </table>
-
-      <h2 style="margin-top:34px;">Artifact: the Phase 9 handoff (summary)</h2>
-      <p class="dim">Drafted Friday by Claude; carried into Monitoring.</p>
+      <span class="modnum">07</span>
+      <p class="kicker">The handoff &mdash; and what crosses into Monitoring</p>
+      <h2>Artifact: the Phase 9 handoff (summary)</h2>
+      <p class="dim">Drafted Friday by Claude (Step 5), carried into Monitoring.</p>
       <ul>
-        <li><strong>Deployed:</strong> rc-1.0.1 to production, Thursday 2026-07-23 07:00-07:25, by Harbor's
-          platform engineer through the pipeline. Rollout: cutover at intake; legacy fallback warm for 30
-          days with written triggers.</li>
+        <li><strong>Deployed:</strong> rc-1.0.1 to production, Thursday 2026-07-23 07:00&ndash;07:25, by
+          Harbor's platform engineer through the pipeline. Rollout: cutover at intake; legacy fallback warm
+          for 30 days with written triggers.</li>
         <li><strong>System state:</strong> all services healthy; replica verification live; acknowledgment
           dispatch live through the postal vendor; test-mode paths available for ongoing smoke.</li>
         <li><strong>Monitoring must cover:</strong> the RUNBOOK's five failure scenarios (each names its
-          alert), plus one new candidate from hypercare day one — acknowledgment-dispatch retry bursts
+          alert), plus one new candidate from hypercare day one &mdash; acknowledgment-dispatch retry bursts
           during vendor blips. Thresholds to be set against real baseline data, not guesses.</li>
-        <li><strong>Known issues:</strong> none open; spec 0046 (config versioned with artifact) merged
-          during rehearsal week.</li>
-        <li><strong>Escalation:</strong> Harbor on-call first; Tom for platform; the pod during the
-          two-week hypercare window; contacts listed with hours.</li>
+        <li><strong>Known issues:</strong> none open; spec 0046 (config versioned with artifact) merged during
+          rehearsal week.</li>
+        <li><strong>Escalation:</strong> Harbor on-call first; Tom for platform; the pod during the two-week
+          hypercare window; contacts listed with hours.</li>
       </ul>
+
+      <h2 style="margin-top:34px;">What Phase 9 receives</h2>
+      <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses
+        the boundary into Monitoring: the live system, the deployment record, the verification evidence, and
+        the one finding hypercare has already surfaced. The Build backlog closed at 0044 &mdash; no numbered
+        open question travels with this handoff; the questions now are thresholds, and those come from
+        measured reality in Phase 9.</p>
+      <div class="artifacts" style="margin:22px 0 8px;">
+        <span class="lbl">Crosses into Phase 9</span>
+        <span class="tag">phase9-handoff.md</span>
+        <span class="tag">release-notes.md</span>
+        <span class="tag">deployment-checklist.md</span>
+        <span class="tag">smoke-test-results.md</span>
+        <span class="tag">RUNBOOK.md &mdash; the five failure scenarios</span>
+        <span class="tag amber">the go/no-go record + rehearsal evidence</span>
+        <span class="tag green">the first production baseline &mdash; a data point, not a median</span>
+      </div>
+      <p class="note">All names, numbers, and documents are invented but internally consistent &mdash; the
+        11.4-day baseline, the spec IDs, and the constraint and question IDs trace through every artifact on
+        this page.</p>
     </div>
   </section>
 
-  <!-- ===================================================================== -->
-  <!-- 10 — HOW IT GOES WRONG                                                 -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
-      <p class="kicker">What to notice in the worked example</p>
-      <h2>The failure modes, and the defense against each</h2>
-      <p class="lead">Knowing the failure modes by name is half the defense — and Harbor's structure caught
-        two of them in the act. Six things in this week are worth reading twice.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>What to notice</th><th>Why it matters</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>Tuesday's failure was the week's most valuable event</strong></td>
-            <td>The rollback failing in rehearsal, by appointment, cost an afternoon and produced spec 0046. The same failure during a Thursday-night incident would have been an outage. The rehearsal exists to buy failures at rehearsal prices.</td>
-          </tr>
-          <tr>
-            <td><strong>Both rehearsals went in the evidence packet</strong></td>
-            <td>The failed one and the clean one — because "we found the hole and closed it" is stronger evidence than an unblemished record nobody stress-tested.</td>
-          </tr>
-          <tr>
-            <td><strong>Dan's held answer is the ceremony working</strong></td>
-            <td>A go/no-go where friction is unwelcome is theater. Five minutes of "attach the record, don't reference it" is what a real human stop looks like.</td>
-          </tr>
-          <tr>
-            <td><strong>The pod never touched production</strong></td>
-            <td>Tom executed every promotion; the access list never included a pod member; the secrets rotated to values the pod has never seen. The handoff has been happening since Foundation.</td>
-          </tr>
-          <tr>
-            <td><strong>The same artifact moved up</strong></td>
-            <td>What ran in test on Wednesday is byte-for-byte what took Harbor's first claim on Thursday. Every "quick rebuild for prod" is an unverified system wearing a verified one's badge.</td>
-          </tr>
-          <tr>
-            <td><strong>The first number was reported with its caveat</strong></td>
-            <td>3.1 hours against an 11.4-day baseline is a thrilling data point — and steering heard "data point," not "result." The credibility spent overclaiming week one is never recovered at close.</td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="note">All names, numbers, and documents are invented but internally consistent — the
-        11.4-day baseline, the spec IDs, and the constraint and question IDs trace through every artifact
-        on this page.</p>
-    </div>
-  </section>
+
 
 </main>
 

@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -768,399 +769,763 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — WHY THIS PHASE EXISTS                                             -->
+  <!-- 01 — WHAT PHASE 3 RECEIVED                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and the four signed phases behind it</p>
-      <h2>You don't build features yet — you build the factory that builds them</h2>
-      <p class="lead">Phase 2 closed Friday 2026-03-27 with four signed ADRs, the contracts carrying
-        REQ-014's error spec, two build-time security gates, and a walking-skeleton definition sliced
-        into four specs. Harbor had a signed problem, signed requirements, and a chosen architecture
-        &mdash; and not one line of it running anywhere. Phase 3 turns that into running software.</p>
+      <p class="kicker">Five files land on disk, three things arrive only as knowledge, and two questions are still open</p>
+      <h2>What Phase 3 received</h2>
+      <p class="lead">Phase 2 closed Friday 2026-03-27 with four signed ADRs, contracts carrying REQ-014's
+        error spec, two build-time security gates named, and a walking skeleton sliced into four specs. Harbor
+        Mutual &mdash; a fictional regional insurer rebuilding how property-insurance claims get reported and
+        decided, cutting an <strong>11.4-day</strong> median from FNOL (first notice of loss) to a coverage
+        decision down to <strong>5 days or less</strong> &mdash; had a signed problem, signed requirements, and
+        a chosen architecture, and <strong>not one line of it running anywhere</strong>. Foundation turns that
+        into running software.</p>
+
+      <div class="artifacts" style="margin-bottom:18px;">
+        <span class="lbl">Inherited from Phase 2 &mdash; on disk under <code>.sdlc/artifacts/02-design/</code></span>
+        <span class="tag">phase3-handoff.md</span>
+        <span class="tag">design-doc.md</span>
+        <span class="tag">api-contracts.md</span>
+        <span class="tag">adrs/ + adr-registry.md</span>
+        <span class="tag">deep-plan-checkpoint.yaml</span>
+      </div>
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Also inherited &mdash; but as knowledge in a head, because Phase 2 wrote no file for any of them</span>
+        <span class="tag amber">the walking-skeleton definition</span>
+        <span class="tag amber">the threat mitigation map &mdash; becomes the risk-tier map</span>
+        <span class="tag amber">the NFR proving plan</span>
+      </div>
+      <p>Read that second row twice. Three of the things Phase 3 builds directly on never became files. The
+        method required each of them; no command in <code>claude-code-sdlc</code> wrote any of them. They cross
+        the boundary as what Nadia and Rob remember from Phase 2's Thursday &mdash; which is exactly why the
+        people who were in that room are the people who build the foundation.</p>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The story so far</div>
-          <p>Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person consulting
-            pod to rebuild how property-insurance claims get reported and decided. A claim takes a
-            median of <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage
-            decision; the target is <strong>5 days or less</strong>.</p>
-          <p>Coverage checks read the nightly snapshot replica of PolicyOne directly (ADR-001), behind
-            a verification service that owns a staleness contract. Claims live in a relational model
-            plus an append-only event log (ADR-002). Surge is absorbed by a buffered queue (ADR-003).</p>
+          <div class="plabel">What crossed on disk, and what didn't</div>
+          <p>The signed decisions, the contracts, and the planner's session state are files Phase 3 can open.
+            The three things it most needs to <em>act on</em> &mdash; the exact slice to build, the two gates
+            to wire, the numbers to prove &mdash; are not.</p>
+          <ul>
+            <li><strong>The walking-skeleton definition.</strong> Four slices, portal FNOL to metric event.
+              Nadia carries it; on day 8 she verifies the running skeleton against it.</li>
+            <li><strong>The threat mitigation map.</strong> Nine threats, seven mitigated in the design, two
+              handed forward as build-time security gates. It becomes <code>risk-tier-map.md</code> this phase.</li>
+            <li><strong>The NFR proving plan.</strong> Per quality target, the method and the place its number
+              is read &mdash; the input to how the metric slice gets built.</li>
+          </ul>
         </div>
         <div class="eg">
-          <div class="plabel">What Foundation produced for Harbor</div>
+          <div class="plabel">Where the two weeks are headed</div>
+          <p>Week one builds the factory: access, the kit, the environment, the pipeline. Week two proves it,
+            by pushing the thinnest real software all the way through &mdash; including one HIGH-risk slice
+            &mdash; and then breaking the rails on purpose to prove they catch.</p>
+          <p style="margin-top:12px;"><strong>Two people to watch.</strong> Wes Carter, Harbor's lead engineer,
+            reviews the harness adaptation &mdash; the first real handoff, months before the close. Tom Reilly,
+            Harbor's platform engineer, joins this phase: he holds branch-protection admin, the runners, and
+            the secrets, and reviews the pipeline he will operate after the pod leaves.</p>
           <div class="snippet">
-            <div class="from">The product of the phase</div>
-            <blockquote>"A working factory with one part already moving through it: a portal claim
-              flows end-to-end in Harbor's own dev environment, through the real pipeline, with the
-              FNOL&rarr;coverage clock ticking."</blockquote>
+            <div class="from">Carried in from Phase 2, still open on Monday</div>
+            <blockquote>Q-17 &mdash; postal dispatch vendor and who provisions its credentials (Dan + Harbor
+              ops) · Q-18 &mdash; the surge load-test dataset from the 2024 CAT event (Priti + Nadia)</blockquote>
           </div>
-          <p style="margin-top:12px;">Two roles shift this phase. <strong>Wes Carter</strong>,
-            Harbor's lead engineer, becomes the Setup Owner counterpart &mdash; he pairs into the
-            harness build and reviews the adaptation PRs. And <strong>Tom Reilly</strong>, Harbor's
-            platform engineer, joins: he owns branch protection, the runners, and the secrets, and
-            reviews the pipeline he will operate after the pod leaves.</p>
         </div>
       </div>
-      <p class="dim" style="margin-top:24px;">The four walking-skeleton specs:</p>
-      <table class="ref-doc" style="margin-top:8px;">
-        <thead><tr><th>Spec</th><th>What it is</th></tr></thead>
-        <tbody>
-          <tr><td><strong>0001</strong></td><td>Queue entry from a portal FNOL</td></tr>
-          <tr><td><strong>0002</strong></td><td>Replica verification read</td></tr>
-          <tr><td><strong>0003</strong></td><td>Test-mode acknowledgment</td></tr>
-          <tr><td><strong>0004</strong></td><td>Metric event</td></tr>
-        </tbody>
-      </table>
-      <div class="aha warn">
-        <div class="lbl">Skip the "prove it" half and&hellip;</div>
-        <p>You ship a pipeline that's green because nothing real ever ran through it. The defects stay
-          hidden until Build, when every change trips over them.</p>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead &mdash; triages the skeleton into specs, runs the exit demo, owns the Build handoff</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; the harness as a product; owns branch protection and secrets; never sole approver</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Orchestrator / Checker &mdash; Setup Owner's deputy; authors spec 0002; reviews every harness change</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator / Checker &mdash; authors the first slice; Checks and merges spec 0002</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; wires the gates, verifies the running skeleton against the Phase 2 definition</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">VP Claims Operations &mdash; sponsor; watches the exit demo, approves the advance</span></div>
+          <div class="person"><span class="nm">Wes Carter</span><span class="rl">Lead engineer &mdash; Setup Owner counterpart; reviews the CLAUDE.md adaptation PRs</span></div>
+          <div class="person"><span class="nm">Tom Reilly</span><span class="rl">Platform engineer &mdash; branch-protection admin, runners, secrets; reviews the pipeline</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT security &mdash; signs the data-flow brief; named sign-off on spec 0002; confirms the gates</span></div>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Product owner &mdash; confirms the skeleton is the right thinnest slice; light touch</span></div>
+        </div>
       </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every artifact in this engagement carries a stable identifier, so a decision made in design week
+            can still be traced in month nine. The ones Foundation leans on:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Prefix</th><th>Means</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>ADR-NNN</code></td><td>An architecture decision record &mdash; a signed choice</td><td>Phase 2</td><td>ADR-001 replica read · ADR-003 buffered queue</td></tr>
+              <tr><td><code>REQ-NNN</code></td><td>A functional requirement</td><td>Phase 1</td><td>REQ-014 same-business-day coverage · REQ-019 fast path</td></tr>
+              <tr><td><code>C-NN</code> / <code>D-NN</code></td><td>A constraint, or a product decision</td><td>Phase 0/1</td><td>C-04 regulatory clock · D-07 merge · D-09 fast path</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with an owner and a due date</td><td>any</td><td>Q-15 replica controls · Q-17, Q-18, Q-19</td></tr>
+              <tr><td><code>NFR-NN</code></td><td>A non-functional requirement &mdash; a quality target</td><td>Phase 1</td><td>NFR-02 the 10x surge</td></tr>
+              <tr><td><code>NNNN</code></td><td>A build spec &mdash; one feature in one file, <code>specs/NNNN-name.md</code></td><td>Phase 3 on</td><td>0001&ndash;0004, the walking-skeleton slices</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The spec ID is new this phase. From here to close, no code changes without a
+            <code>specs/NNNN-name.md</code> in front of it &mdash; the unit the whole Build loop turns on.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 02 — THE HARNESS                                                       -->
+  <!-- 02 — THE PROCEDURE                                                     -->
   <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">The adapted CLAUDE.md, rewritten in Harbor's words</p>
-      <h2>Install the rulebook &mdash; then rewrite it in the client's own words</h2>
-      <p class="lead">On day 2, Claude scaffolded Harbor's repo from the delivery-standard kit, then
-        adapted CLAUDE.md to Harbor in the open. <strong>Wes reviewed the adaptation PRs</strong>
-        &mdash; Harbor's first concrete look at how the pod works.</p>
-      <p class="dim" style="margin-top:8px;">The kit template, adapted to Harbor in PRs Wes reviewed.
-        The full file is longer; this is the shape:</p>
-      <ul style="margin-top:12px;">
-        <li><strong>What this project is</strong> &mdash; Harbor Mutual's property-claims intake
-          rebuild; the FNOL&rarr;coverage median target of &le;5 days, and where that number is read
-          from.</li>
-        <li><strong>Domain glossary (Harbor's words)</strong> &mdash; FNOL, PolicyOne, the snapshot
-          replica, the fast-path (61% of claims, D-09), the duplicate-merge rule (D-07), the
-          regulatory clock (C-04: 15 business days in two states).</li>
-        <li><strong>Stack standards</strong> &mdash; .NET 8 / Angular / SQL Server / Azure / GitHub
-          Actions, immutability defaults, Result&lt;T&gt; for expected failures, FluentValidation at
-          the boundary.</li>
-        <li><strong>Risk taxonomy</strong> &mdash; HIGH (the replica adapter, <code>infra/</code>,
-          migrations, auth, acknowledgment-letter templates, public API contracts); MEDIUM (new
-          business logic, integrations); LOW (UI in existing patterns, copy, additive CRUD).</li>
-        <li><strong>Gated paths</strong> &mdash; <code>infra/</code>, the replica adapter,
-          <code>migrations/</code>, acknowledgment templates: the agent asks before touching these.</li>
-        <li><strong>Definition of Checked</strong> &mdash; the spec's acceptance checks pass; the Stop
-          hook is green; the grader has run; a non-author approved; HIGH risk carries a named sign-off.</li>
-      </ul>
-      <div class="aha warn">
-        <div class="lbl">The trap to resist</div>
-        <p>The kit installed but not adapted. A generic CLAUDE.md means agents guess Harbor's domain,
-          and guesses differ per run. The adaptation in the open is the point of the phase.</p>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">The machine's eleven steps, the humans' ten days, braided</p>
+        <h2>The procedure, step by step</h2>
+        <p class="lead">Foundation is the <strong>least plugin-driven phase of the opening</strong>. Most days
+          are code and rails, not drafts, so most carry no plugin command &mdash; the machine goes quiet and
+          the humans build. Below, the two weeks are braided: what the tool does when it does anything, what
+          the humans do that no command performs, and the file each day leaves behind. <strong>Step through
+          it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
+        </div>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 3 procedure, day by day" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 &mdash; Mon 3/30 <span class="date">· plugin Step 0 HITL gate</span></div>
+          <h3>Get the keys, prove they work, and confirm the plan before installing anything</h3>
+          <p>Before the harness touches the repo, the plugin opens a blocking human gate: confirm which single
+            skeleton slice carries the highest risk, confirm where the dev environment lives and who holds
+            branch-protection admin, Actions, runner policy, and the secrets vault, and name the Setup Owner's
+            deputy. Then the access checklist closes and the AI access procured in Phase 0 gets a live smoke
+            test &mdash; does Claude Code actually run on the client's own seats and keys, before anyone
+            depends on it?</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> Step 0 HITL gate</span>
+            <span class="tag green">human decision</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">the rails plan and the deputy, confirmed &mdash; not yet on disk</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Pod contributor access granted; <strong>Rob</strong> gets branch-protection admin;
+              <strong>Tom</strong> enables Actions and agrees Harbor-hosted runners; secrets provisioning
+              starts in Harbor's Key Vault. Jonah is named Setup Owner's deputy. The smoke test passes &mdash;
+              Claude Code runs on Harbor's seats and keys, the Phase 0 fallback rider never needed. Q-17 and
+              Q-18 get their owners and due dates re-confirmed.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 &mdash; Tue 3/31 <span class="date">· plugin Step 1</span></div>
+          <h3>Install the rulebook, then rewrite it in the client's own words</h3>
+          <p>Claude scaffolds the repo from the firm's kit &mdash; the CLAUDE.md template, the spec template,
+            settings, skills, the grader and security-reviewer agents, the Stop hook, the workflow YAML, the
+            Bicep starters. A working starting point, not a blank page, built and improved between engagements
+            so the client never pays to build it. Then the real work: adapting CLAUDE.md to the client's own
+            domain, stack, risk taxonomy, and Definition of Checked &mdash; as reviewed PRs the client's lead
+            engineer reads.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; Claude scaffolds from the kit; the adaptation lands as reviewed PRs</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out &mdash; committed at the repo root, not under <code>.sdlc/</code></span>
+            <span class="tag">CLAUDE.md</span>
+            <span class="tag">specs/</span>
+            <span class="tag">.claude/settings.json</span>
+            <span class="tag">.claude/hooks/stop-gate.ps1</span>
+            <span class="tag">.claude/agents/grader.md</span>
+            <span class="tag">harness-inventory.md</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>CLAUDE.md rewritten in Harbor's language, reviewed by <strong>Wes</strong>: the domain glossary
+              (FNOL, PolicyOne, the snapshot replica, the fast path at 61%, D-07 merge, the C-04 regulatory
+              clock), the .NET&nbsp;8 / Angular / SQL&nbsp;Server / Azure standards, the risk tiers, and the
+              Definition of Checked. Wes reviewing those PRs <em>was</em> the engagement's first real handoff
+              &mdash; rehearsed months before the close.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 &mdash; Wed 4/1 <span class="date">· plugin Step 4</span></div>
+          <h3>Provision the environment from code, never from clicks</h3>
+          <p>Claude drafts the dev environment as version-controlled Bicep &mdash; rated HIGH risk on purpose,
+            so a human reads every line. The environment provisions from code, not from a portal, so it can be
+            rebuilt and reasoned about. Secrets land in the client's vault. A data-flow brief goes to security:
+            what reaches the API, what doesn't, where the keys live, who can see usage.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; Claude drafts the Bicep against the kit starters; two humans review every change</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">infra/ &mdash; the Bicep dev environment</span>
+            <span class="tag amber">data-flow brief &mdash; the standard requires it; the plugin emits no file</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Rob and Tom review every Bicep change. It provisions app hosting for the intake service and the
+              Angular portal, the buffered ingestion queue (ADR-003) sized for dev, and a private, read-only,
+              fully-audited endpoint to the snapshot replica under the Q-15 controls. Key Vault references hold
+              the Anthropic key, the Azure credentials, and the replica service account &mdash; no secret in
+              code, in CLAUDE.md, or in any spec. Dan gets the data-flow brief.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>The standard lists a <strong>data-flow brief</strong> as a Phase 3 artifact &mdash; client
+              security has, in writing, what goes to the API and where the keys live. The plugin's registry
+              lists no such file. Dan gets the briefing; nothing on disk records that he did. Human work,
+              no receipt.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 &mdash; Thu 4/2 <span class="date">· plugin Steps 2&ndash;3</span></div>
+          <h3>Build the rails, lock them on, and confirm the Phase 2 gates got wired</h3>
+          <p>Five workflows get built and reviewed by the client's platform engineer &mdash; the CI checks, the
+            grader, the correctness review, the security review, and the deploy. Then branch protection turns
+            on: nothing merges without CI green, the grader having run, and a non-author approval;
+            <code>risk:high</code> adds the security workflow and a named sign-off. The risk-tier map gets
+            written from Phase 2's threat mitigation map &mdash; and this is the <strong>confirmation pass</strong>
+            on the threat review: are the two build-time security gates from Phase 2 actually wired into the
+            risk-tier map and the security workflow?</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; Claude drafts the workflow YAML and the risk-tier map; client DevOps reviews</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">.github/workflows/{ci,grader,correctness,security,deploy-dev}.yml</span>
+            <span class="tag">risk-tier-map.md</span>
+            <span class="tag amber">branch protection &mdash; a GitHub setting, not a committed file</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Tom reviews the five workflows he will operate after the pod leaves; Rob turns on branch
+              protection. The two Phase 2 gates get wired into <code>security.yml</code>: the document-upload
+              malware scan (HIGH tier) and the acknowledgment-letter PII template-review gate, each registered
+              against the path it guards so it fires independent of a spec's risk label.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The threat review is a live method question</div>
+            <p>The standard runs a design-level threat review in <strong>Phase 2</strong>, producing the
+              mitigation map. The plugin mentions threat modeling in <strong>only one place</strong> &mdash;
+              <code>phases/03-foundation.md</code>. The resolution taken here: it is genuinely both. Phase 2
+              is the design-level review; this is the <em>foundation-level confirmation pass</em> that the two
+              gates it named actually got wired. Two passes, two phases, one map &mdash; logged as drift so the
+              plugin repo can put the design-level step back where it belongs.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 &mdash; Fri 4/3 <span class="date">· plugin Step 5a</span></div>
+          <h3>Real software hits the rails for the first time</h3>
+          <p>The first skeleton spec rides the full Build loop end to end: authored from the kit template
+            (Intent), built by a bounded agent in plan mode with the Stop hook refusing to finish on a broken
+            build (Delegate), then CI and the grader on the PR and a non-author on the merge (Discern), then
+            the automatic deploy to dev. Whatever is broken in the rails surfaces here, on cheap software,
+            while it costs an hour.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-spec <span class="arrow">&rarr;</span> <span class="script">new_spec.py</span></span>
+            <span class="none">then the spec rides the loop &mdash; agent, hooks, gates, human Checker</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">specs/0001-queue-entry.md</span>
+            <span class="tag">one slice live in dev via deploy-dev.yml</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Spec 0001 (queue entry from a portal FNOL, MEDIUM): Sara authors it, the agent codes in plan
+              mode under bounds, the Stop hook refuses on a failing build, the PR fires <code>ci.yml</code> and
+              <code>grader.yml</code>, Jonah (non-author) approves and merges, <code>deploy-dev.yml</code>
+              ships to dev. The coverage gate miscounts generated files on this very first run &mdash; found
+              and fixed for an hour, not in Build week three when it would have blocked every PR.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 6">
+          <div class="day">Day 6 &mdash; Mon 4/6 <span class="date">· plugin Step 5b &mdash; a hard exit condition</span></div>
+          <h3>Prove the riskiest path before Build ever depends on it</h3>
+          <p>At least one slice must run the HIGH-risk path &mdash; tightest agent permissions, the security
+            workflow firing, the security-reviewer agent reading the change, a named human sign-off recorded
+            in the PR. The plugin marks this a hard exit condition: the HIGH path of the loop gets proven on
+            cheap software, before any real feature relies on it working.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; the HIGH-risk spec rides the loop; <code>risk:high</code> fires security.yml</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">specs/0002-replica-read.md</span>
+            <span class="tag">Dan's named security sign-off in the PR</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Spec 0002 (replica verification read) touched the regulated integration, so it ran HIGH:
+              tight permissions, the <code>risk:high</code> label firing <code>security.yml</code> and the
+              security-reviewer agent, Dan's named sign-off. The Q-15 controls were verified live against dev
+              the same afternoon; ADR-001's staleness contract went in as real behavior. Reproduced in full in
+              section 05.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 7">
+          <div class="day">Day 7 &mdash; Tue 4/7 <span class="date">· plugin Step 5c</span></div>
+          <h3>Finish the skeleton &mdash; including the slice that emits the metric</h3>
+          <p>The remaining slices ride the loop. The slice that emits the outcome metric gets special
+            attention: it makes the engagement's number measurable from day one of Build, not retrofitted at
+            the end. Any build-time security gate these slices touch fires on its first qualifying PR &mdash;
+            proven, not just configured; if none touch a gate, a throwaway probe PR proves it fires anyway.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; the specs ride the loop</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">specs/0003-ack-testmode.md</span>
+            <span class="tag">specs/0004-metric-event.md</span>
+            <span class="tag amber">the outcome metric measurable in dev &mdash; a property, not a file</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Spec 0003 (test-mode acknowledgment, MEDIUM) is the first PR to touch acknowledgment templates,
+              so the PII template-review gate fires live &mdash; proven, not just wired. Spec 0004 (metric
+              event, LOW) emits the FNOL&rarr;coverage clock as a structured event; Harbor's headline number
+              becomes measurable from Build day one. The document-upload malware gate had no qualifying PR yet,
+              so a probe PR proved it fires, then closed unmerged.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 8">
+          <div class="day">Day 8 &mdash; Wed 4/8 <span class="date">· plugin Step 5d</span></div>
+          <h3>Connect the bones and walk them</h3>
+          <p>The slices connect into a running skeleton in dev: portal FNOL &rarr; queue entry &rarr; replica
+            coverage check &rarr; test-mode acknowledgment &rarr; metric event. The Quality Engineer verifies
+            it against the Phase 2 walking-skeleton definition &mdash; the one that never became a file. A first
+            automated smoke journey walks the whole thread, the thinnest proof it holds together end to end.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/e2e <span class="arrow">&rarr;</span> smoke journey</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">walking-skeleton-spec.md &mdash; per-slice loop evidence</span>
+            <span class="tag amber">the deployed skeleton, verified &mdash; running software, not a file</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Nadia walks the four slices against what she carried out of Phase 2's Thursday and confirms the
+              architecture is proven in running software, not on paper. The E2E smoke journey follows the same
+              path a claimant would. The verification has no artifact of its own &mdash; it is Nadia's judgment
+              against a definition that only ever lived in her notes.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 9">
+          <div class="day">Day 9 &mdash; Thu 4/9 <span class="date">· plugin Steps 6&ndash;7</span></div>
+          <h3>Break the rails on purpose &mdash; before they break by accident</h3>
+          <p>A pipeline that is green because nothing real ever stressed it has proven nothing. So each rail
+            gets forced to fail and watched to catch it: a deliberately failing build, a planted spec
+            mismatch, a known-bad deploy. Then the cadence plan gets set &mdash; the flow check, intent triage,
+            retro+, and setup review scheduled, and two flow limits agreed. This is human work end to end; the
+            plugin prompts none of it and checks none of it.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; a deliberate manual shakedown, then the humans set the cadences</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">pipeline-proof.md</span>
+            <span class="tag">cadence-plan.md</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The failing build proves the Stop hook <strong>blocks</strong>; the planted mismatch proves the
+              grader <strong>posts</strong>; the bad deploy proves <code>deploy-dev.yml</code>
+              <strong>rolls back</strong> to the last good version. The setup review (Rob + Jonah) merges the
+              week's harness corrections. WIP cap set at two streams per Orchestrator; the review-wait tripwire
+              at a one-working-day median. Q-17 lands (the postal vendor); Q-19 surfaces (its sandbox
+              credentials, owner Tom + Harbor ops).</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The shakedown has no automated witness</div>
+            <p>&ldquo;The rails are proven, not just present&rdquo; is one of the plugin's exit conditions
+              &mdash; but <code>check_gates.py</code> can only confirm that <code>pipeline-proof.md</code>
+              exists and is non-empty. It cannot know whether the Stop hook truly blocked or whether a human
+              simply wrote that it did. The most important verification of the phase rests entirely on a
+              human's word.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 10">
+          <div class="day">Day 10 &mdash; Fri 4/10 <span class="date">· plugin Steps 8&ndash;10 · the gate</span></div>
+          <h3>Working software in the client's environment, then the gate</h3>
+          <p>The machine returns for the finish. The gate check runs, the phase report renders, the sponsor
+            watches the walking skeleton run in their own dev environment through the real pipeline with the
+            outcome metric ticking &mdash; working software, not slides &mdash; and a named human on each side
+            signs the advance. <code>advance_phase.py</code> will not move the engagement into Build without
+            <code>--confirmed</code>.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+            <span class="cmd">/sdlc-phase-report <span class="arrow">&rarr;</span> <span class="script">generate_phase_report.py</span></span>
+            <span class="cmd">/visual-explainer</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py --confirmed</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">build-handoff.md</span>
+            <span class="tag">foundation-report.md</span>
+            <span class="tag">.sdlc/reports/phase03-report.html</span>
+            <span class="tag green">the sponsor's signature &mdash; billing milestone 4</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The gate passes; the report renders. Karen watches a portal FNOL flow end to end in Harbor's dev
+              environment with the clock ticking on the scorecard. Rob and Wes walk the harness, Tom confirms
+              the pipeline, Dan confirms the gates, Karen approves. <code>/sdlc-next</code> advances into the
+              Build loop. The four gated phases are done.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">What the gate actually checks</div>
+            <p>The plugin's registry lists eleven exit conditions &mdash; branch protection enforced, each
+              security gate fired on a real PR, the outcome metric measurable, the rails proven. But
+              <code>check_gates.py</code> verifies only that four files exist and are placeholder-free, and
+              renders the rest as manual REVIEW items it never blocks on. <strong>The human gate is real. Most
+              of what it should be signing against, no code puts in front of them.</strong></p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 10</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — THE RAILS                                                         -->
+  <!-- 03 — THE ARTIFACT LEDGER                                               -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">The five workflows, branch protection enforcing them</p>
-      <h2>Build rails, so nobody has to remember the rules</h2>
-      <p class="lead">On day 4, five workflows got built and reviewed by Tom &mdash; the ones he'd
-        operate after the pod left. Then Rob turned on branch protection.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>Workflow</th><th>Trigger</th><th>What it does</th><th>Blocks?</th></tr></thead>
+      <p class="kicker">Everything that exists on Friday and didn't two weeks earlier</p>
+      <h2>What Phase 3 produced</h2>
+      <p class="lead">Foundation's output is a working factory, not a document set &mdash; which is why the
+        ledger reads differently here. Blue rows are files committed to the repo and checked by the gate.
+        <strong>Amber rows are the phase's real product that no file captures</strong>: running software, a
+        GitHub setting, a briefing, an event that ticks. Those are the rows to argue about &mdash; because the
+        gate's own exit conditions turn on them, and the gate cannot see them.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
         <tbody>
-          <tr><td><code>ci.yml</code></td><td>Every PR</td><td>Build, test, lint, 80% coverage on new code</td><td>Hard block</td></tr>
-          <tr><td><code>grader.yml</code></td><td>Every PR</td><td>claude-code-action: a fresh agent reads the spec in the diff, posts a check-by-check verdict</td><td>Required to run; verdict advisory</td></tr>
-          <tr><td><code>correctness.yml</code></td><td>Every PR</td><td>A fresh agent hunts for defects in the diff, posts any high-confidence findings</td><td>Blocks on a high-confidence defect</td></tr>
-          <tr><td><code>security.yml</code></td><td><code>risk:high</code> label</td><td>Runs the security-reviewer agent over the diff</td><td>Pass + named sign-off required to merge</td></tr>
-          <tr><td><code>deploy-dev.yml</code></td><td>Merge to <code>main</code></td><td>Ships to Harbor's dev environment</td><td>&mdash; (deploy step)</td></tr>
+          <tr><td><span class="tag">CLAUDE.md + .claude/ + specs/</span></td><td>The installed, adapted harness &mdash; the rulebook, templates, skills, the grader and security-reviewer agents, the Stop hook. The rules every agent loads before it works</td><td>Claude scaffolds from the kit; Setup Owner adapts</td><td>Setup Owner + deputy</td><td><code>CLAUDE.md</code>, <code>.claude/</code>, <code>specs/</code></td><td>Every Build spec, forever</td></tr>
+          <tr><td><span class="tag">workflows (&times;5)</span></td><td>ci, grader, correctness, security, deploy-dev &mdash; the rails as code: hard checks, a fresh-agent verdict, defect-hunt, security pass, the deploy</td><td>Claude drafts the YAML</td><td>Setup Owner + client DevOps</td><td><code>.github/workflows/</code></td><td>Every PR in Build</td></tr>
+          <tr><td><span class="tag">infra/ (Bicep)</span></td><td>The dev environment as version-controlled code: app hosting, the buffered queue, the private replica endpoint. Provisioned, not clicked</td><td>Claude drafts; Setup Owner + platform engineer review every change</td><td>Setup Owner</td><td><code>infra/</code></td><td>deploy-dev; Phase 8</td></tr>
+          <tr><td><span class="tag">specs/0001&ndash;0004.md</span></td><td>The four walking-skeleton slices, each authored from the kit template and ridden through the full loop</td><td>Orchestrators, from the kit spec-template</td><td>Pod Lead (triage)</td><td><code>specs/</code></td><td>The running skeleton</td></tr>
+          <tr><td><span class="tag">risk-tier-map.md</span></td><td>HIGH/MEDIUM/LOW taxonomy mirroring CLAUDE.md, with the two Phase 2 security gates registered against the paths they guard</td><td>Setup Owner, from the Phase 2 mitigation map</td><td>Setup Owner + client security</td><td><code>.sdlc/artifacts/03-foundation/</code></td><td>The Build loop's tier&rarr;ladder rule</td></tr>
+          <tr><td><span class="tag">cadence-plan.md</span></td><td>The Build calendar &mdash; flow check, intent triage, retro+, setup review &mdash; plus the WIP cap and review-wait tripwire; bans activity metrics</td><td>Pod Lead</td><td>Pod Lead</td><td><code>.sdlc/artifacts/03-foundation/</code></td><td>Every Build week</td></tr>
+          <tr><td><span class="tag">pipeline-proof.md</span></td><td>The forced-failure evidence: each rail broken on purpose and shown to catch it</td><td>Setup Owner + deputy</td><td>Setup Owner</td><td><code>.sdlc/artifacts/03-foundation/</code></td><td>foundation-report.md; the gate</td></tr>
+          <tr><td><span class="tag">harness-inventory.md</span><br><span class="tag">walking-skeleton-spec.md</span></td><td>The record of what got installed, and the per-slice loop evidence for the skeleton</td><td>Setup Owner / QE</td><td>Setup Owner</td><td><code>.sdlc/artifacts/03-foundation/</code></td><td>Close harness audit; QE verification</td></tr>
+          <tr><td><span class="tag">build-handoff.md</span><br><span class="tag">foundation-report.md</span></td><td>The ordered spec backlog, risk-tier map, cadences, and open questions &mdash; plus the phase's own summary and forced-failure cross-reference</td><td>Pod Lead / Setup Owner</td><td>Pod Lead</td><td><code>.sdlc/artifacts/03-foundation/</code></td><td>The Build loop, directly</td></tr>
+          <tr><td><span class="tag">phase03-report.html</span></td><td>The gate result and artifact inventory, self-contained &mdash; what the sponsor reads before signing</td><td><code>generate_phase_report.py</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate</td></tr>
+
+          <tr><td><span class="tag amber">the deployed walking skeleton</span></td><td>The four slices running end-to-end in the client's dev environment, verified against the Phase 2 definition. The phase's whole point &mdash; and running software, not a file</td><td><strong>The loop; QE verifies</strong></td><td>Setup Owner + QE</td><td class="dim">no path &mdash; running software, not a file</td><td>The Build loop; Phase 8</td></tr>
+          <tr><td><span class="tag amber">branch protection</span></td><td>The rule that makes the rails mandatory: CI green + grader-ran + non-author approval; <code>risk:high</code> adds security + a named sign-off</td><td><strong>Setup Owner, in GitHub</strong></td><td>Setup Owner</td><td class="dim">no path &mdash; a GitHub setting, not a file</td><td>Every merge, forever</td></tr>
+          <tr><td><span class="tag amber">data-flow brief</span></td><td>What goes to the API, what doesn't, where the keys live, who sees usage &mdash; in security's hands, in writing</td><td><strong>Setup Owner</strong></td><td>Client security</td><td class="dim">no path &mdash; the plugin emits no file</td><td>Security sign-off</td></tr>
+          <tr><td><span class="tag amber">the security gates, fired</span></td><td>Proof that each build-time gate actually fired on a real (or probe) PR &mdash; not just that it is configured</td><td><strong>The security workflow, on a PR</strong></td><td>Client security</td><td class="dim">no path &mdash; PR history, not a committed file</td><td>The gate's &ldquo;each has fired&rdquo; check</td></tr>
+          <tr><td><span class="tag amber">the outcome metric, ticking</span></td><td>The FNOL&rarr;coverage clock, measurable in dev from the metric slice &mdash; the scorecard has real data before feature two</td><td><strong>Spec 0004, running</strong></td><td>QE</td><td class="dim">no path &mdash; a measured property, not a file</td><td>The scorecard; Phase 9</td></tr>
         </tbody>
       </table>
-      <p class="note"><strong>Branch protection on <code>main</code>:</strong> CI green + grader-ran +
-        one non-author approval. <code>risk:high</code> adds security.yml passing and a named human
-        sign-off recorded in the PR. The two Phase 2 security gates got wired &mdash; the upload
-        malware scan and the acknowledgment-letter PII template-review gate.</p>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Five of the things Foundation is judged on have nowhere to live. Four of the plugin's eleven exit
+          conditions &mdash; the skeleton deployed and verified, the rails proven, each security gate fired,
+          the metric measurable &mdash; describe running software and GitHub state, and
+          <code>check_gates.py</code> can confirm none of them. The factory is real; the receipt that it works
+          is a human's word. <strong>Human work is not the problem. Human work without a receipt is.</strong></p>
+      </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase 3: the full feature
+        backlog (Build triage owns it), the test and production environments (the first hardening pass and
+        Phase 8 add them), and any feature breadth beyond the thinnest skeleton.</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 04 — HIGH-RISK PLUMBING                                                -->
+  <!-- 04 — THE FACTORY, AS INSTALLED                                         -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">04</span>
-      <p class="kicker">The Bicep dev environment and the wired security gates</p>
-      <h2>The environment and the pipeline are the riskiest code &mdash; so a human reads every line</h2>
-      <p class="lead">On day 3, Claude drafted the Bicep for Harbor's dev environment; Rob and Tom
-        reviewed every change. The environment provisions from code, secrets land in Harbor's Key
-        Vault, and the data-flow brief goes to Dan.</p>
-      <p class="dim" style="margin-top:8px;">The Bicep dev environment, drafted by Claude, reviewed
-        every change by Rob and Tom, provisioned from code:</p>
+      <p class="kicker">The adapted rulebook, the five workflows, and the environment &mdash; as shipped</p>
+      <h2>Install the rulebook, then rewrite it in the client's own words</h2>
+      <p class="lead">The factory is three things committed to Harbor's repo: a rulebook rewritten in Harbor's
+        language, five workflows that enforce the discipline so nobody has to remember it, and a dev
+        environment defined in code. Each is reviewed by the Harbor engineer who will own it after the pod
+        leaves.</p>
+
+      <h2 style="margin-top:10px;">The adapted CLAUDE.md (the shape)</h2>
+      <p class="dim" style="margin-top:8px;">Scaffolded from the kit, adapted to Harbor in PRs Wes reviewed.
+        The full file is longer; this is the shape:</p>
       <ul style="margin-top:12px;">
-        <li><strong>Resource group + app hosting</strong> for the intake service and the Angular
-          portal.</li>
-        <li><strong>The buffered ingestion queue</strong> (ADR-003), sized for dev; the surge profile
-          load test waits on Q-18 and a test environment at hardening pass 1.</li>
-        <li><strong>The private endpoint to the snapshot replica</strong> under the Q-15 controls
-          &mdash; read-only service account, no public path, every access audited.</li>
-        <li><strong>Key Vault references</strong> for the Anthropic key, Azure credentials, and the
-          replica service account. No secret in code, CLAUDE.md, or any spec.</li>
-        <li><strong>The deploy-dev target</strong> &mdash; what <code>deploy-dev.yml</code> ships to on
-          merge.</li>
+        <li><strong>What this project is</strong> &mdash; Harbor's property-claims intake rebuild; the
+          FNOL&rarr;coverage median target of &le;5 days, and where that number is read from.</li>
+        <li><strong>Domain glossary (Harbor's words)</strong> &mdash; FNOL, PolicyOne, the snapshot replica,
+          the fast path (61% of claims, D-09), the duplicate-merge rule (D-07), the regulatory clock (C-04:
+          15 business days in two states).</li>
+        <li><strong>Stack standards</strong> &mdash; .NET&nbsp;8 / Angular / SQL&nbsp;Server / Azure / GitHub
+          Actions, immutability defaults, Result&lt;T&gt; for expected failures, FluentValidation at the
+          boundary.</li>
+        <li><strong>Risk taxonomy</strong> &mdash; HIGH (the replica adapter, <code>infra/</code>,
+          <code>migrations/</code>, auth, acknowledgment-letter templates, public API contracts); MEDIUM (new
+          business logic, integrations); LOW (UI in existing patterns, copy, additive CRUD).</li>
+        <li><strong>Gated paths</strong> &mdash; <code>infra/</code>, the replica adapter,
+          <code>migrations/</code>, acknowledgment templates: the agent asks before touching these.</li>
+        <li><strong>Definition of Checked</strong> &mdash; the spec's acceptance checks pass; the Stop hook is
+          green; the grader has run; a non-author approved; HIGH risk carries a named sign-off.</li>
       </ul>
 
-      <h2 style="margin-top:34px;">The build-time security gates, wired</h2>
-      <p class="dim">The two gates from the Phase 2 threat review, now enforced and each fired on a
-        real PR:</p>
-      <ul style="margin-top:12px;">
-        <li><strong>Document-upload malware scan</strong> &mdash; HIGH tier; security.yml runs on every
-          PR touching the upload path. The upload path itself is a Build spec; the gate is wired and
-          tested with a probe PR &mdash; a throwaway change to the upload path opened solely to confirm
-          the gate fires, then closed unmerged.</li>
-        <li><strong>Acknowledgment-letter PII template-review gate</strong> &mdash; fired live on spec
-          0003's PR, the first to touch acknowledgment templates. The template-review gate triggers on
-          the templates path itself, independent of the risk label &mdash; which is why it fired on
-          0003's MEDIUM PR. PII leaves the system on paper, so a human reviews any template change.</li>
-      </ul>
+      <h2 style="margin-top:34px;">The pipeline &mdash; five workflows</h2>
+      <p class="dim">Built and reviewed by Tom; branch protection enforcing them:</p>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>Workflow</th><th>Trigger</th><th>What it does</th><th>Blocks?</th></tr></thead>
+        <tbody>
+          <tr><td><code>ci.yml</code></td><td>Every PR</td><td>Build, test, lint, 80% coverage on new code</td><td>Hard block</td></tr>
+          <tr><td><code>grader.yml</code></td><td>Every PR</td><td>A fresh agent reads the spec in the diff, posts a check-by-check verdict</td><td>Required to run; verdict advisory</td></tr>
+          <tr><td><code>correctness.yml</code></td><td>Every PR</td><td>A fresh agent hunts for defects in the diff, posts high-confidence findings</td><td>Blocks on a high-confidence defect</td></tr>
+          <tr><td><code>security.yml</code></td><td><code>risk:high</code> label or a gated path</td><td>Runs the security-reviewer agent over the diff</td><td>Pass + named sign-off required to merge</td></tr>
+          <tr><td><code>deploy-dev.yml</code></td><td>Merge to <code>main</code></td><td>Ships to Harbor's dev environment; restores the last good version on a failed deploy</td><td>&mdash; (deploy step)</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><strong>Branch protection on <code>main</code>:</strong> CI green + grader-ran + one
+        non-author approval. <code>risk:high</code> adds <code>security.yml</code> passing and a named human
+        sign-off recorded in the PR.</p>
+
+      <h2 style="margin-top:34px;">The Bicep dev environment, and the wired security gates</h2>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">infra/ &mdash; provisioned from code</div>
+          <ul>
+            <li><strong>Resource group + app hosting</strong> for the intake service and the Angular portal.</li>
+            <li><strong>The buffered ingestion queue</strong> (ADR-003), sized for dev; the surge load test
+              waits on Q-18 and a test environment at hardening pass 1.</li>
+            <li><strong>The private endpoint to the snapshot replica</strong> under the Q-15 controls &mdash;
+              read-only service account, no public path, every access audited.</li>
+            <li><strong>Key Vault references</strong> for the Anthropic key, the Azure credentials, and the
+              replica service account. No secret in code, CLAUDE.md, or any spec.</li>
+          </ul>
+        </div>
+        <div class="eg">
+          <div class="plabel">The two build-time security gates, wired</div>
+          <p>The two gates Phase 2's threat review handed forward, now enforced in <code>security.yml</code>
+            and each fired on a real (or probe) PR:</p>
+          <div class="snippet">
+            <div class="from">Document-upload malware scan &mdash; HIGH tier</div>
+            <blockquote>Runs on every PR touching the upload path. The upload path itself is a Build spec, so a
+              throwaway probe PR proved the gate fires, then closed unmerged.</blockquote>
+          </div>
+          <div class="snippet resolve">
+            <div class="from">Acknowledgment-letter PII template-review &mdash; fired live on 0003</div>
+            <blockquote>Triggers on the templates path itself, independent of the risk label &mdash; which is
+              why it fired on spec 0003's MEDIUM PR. PII leaves the system on paper, so a human reviews any
+              template change.</blockquote>
+          </div>
+        </div>
+      </div>
       <div class="aha warn">
         <div class="lbl">The one unrecoverable mistake</div>
-        <p>A secret in the repo. Harbor's Key Vault held the Anthropic key, the Azure credentials, and
-          the replica service-account reference from day one. The data-flow brief gave Dan what he
-          needed to sign off without a single secret in a commit.</p>
+        <p>A secret in the repo. A key in a commit is a rotation event and an audit-log review, not an edit.
+          Harbor's Key Vault held the Anthropic key, the Azure credentials, and the replica service-account
+          reference from day one &mdash; the data-flow brief gave Dan what he needed to sign off without a
+          single secret in a commit.</p>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 05 — THE SKELETON                                                      -->
+  <!-- 05 — SPEC 0002 IN FULL                                                 -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">05</span>
-      <p class="kicker">The four walking-skeleton specs, and what each proved</p>
-      <h2>Build a walking skeleton, not a feature</h2>
-      <p class="lead">Harbor's skeleton was four slices &mdash; and deliberately nothing more. A portal
-        claim creates a queue entry &rarr; a coverage check reads the replica &rarr; a test-mode
-        acknowledgment &rarr; a metric event. End to end, no width.</p>
-      <p class="dim" style="margin-top:8px;">Four specs, authored from the kit spec-template, each
-        riding the full loop:</p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>Spec</th><th>Slice</th><th>Risk</th><th>What it proved</th></tr></thead>
-        <tbody>
-          <tr><td>0001</td><td>Queue entry from a portal FNOL</td><td>MEDIUM</td><td>The ingestion path and the buffered queue (ADR-003); the rails caught a coverage-gate defect on first run</td></tr>
-          <tr><td>0002</td><td>Replica verification read</td><td><strong>HIGH</strong></td><td>The replica integration and the Q-15 controls live; the staleness/refresh-window degradation (ADR-001); the HIGH path of the loop</td></tr>
-          <tr><td>0003</td><td>Test-mode acknowledgment</td><td>MEDIUM</td><td>The acknowledgment path in test mode; fired the PII template-review security gate</td></tr>
-          <tr><td>0004</td><td>Metric event</td><td>LOW</td><td>The FNOL&rarr;coverage clock as a structured event; the outcome scorecard measurable from Build day one</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:14px;">Spec 0004 means the FNOL&rarr;coverage clock ticks in dev from the
-        first slice &mdash; the scorecard has real data before the second feature merges. The metric is
-        not a Phase 9 retrofit.</p>
-      <div class="aha warn">
-        <div class="lbl">The trap to resist</div>
-        <p>"While we're here, add&hellip;" Every slice beyond the thinnest path is Build scope. Harbor
-          held to four bones-only slices and let the backlog carry the rest.</p>
+      <p class="kicker">The HIGH-risk slice, reproduced whole &mdash; the loop's dress rehearsal</p>
+      <h2>The skeleton is the loop's dress rehearsal &mdash; nothing gets skipped</h2>
+      <p class="lead">Harbor's skeleton was four slices and deliberately nothing more: a portal claim creates a
+        queue entry &rarr; a coverage check reads the replica &rarr; a test-mode acknowledgment &rarr; a metric
+        event. End to end, no width. Spec 0002 (replica verification read) was the HIGH-risk one &mdash; it
+        touched the regulated integration and the Q-15 controls, and it ran the loop at HIGH risk on day 6, on
+        cheap software, before any real feature relied on it. This is one <code>specs/NNNN-name.md</code> in
+        full.</p>
+      <div class="snippet">
+        <div class="from">Spec 0002 &mdash; Replica verification read</div>
+        <blockquote>Risk tier: <strong>HIGH</strong> &middot; Authored: Jonah Kim &middot; Checked: Sara
+          Whitfield &middot; Security sign-off: Dan Kowalski &middot; Merged 2026-04-06</blockquote>
       </div>
+      <p style="margin-top:14px;"><strong>Goal.</strong> A coverage-verification service reads the PolicyOne
+        snapshot replica directly (ADR-001) and returns coverage status with an as-of timestamp, honoring the
+        staleness contract.</p>
+      <p><strong>Why.</strong> REQ-014 promises same-business-day coverage status; ADR-001 chose the replica
+        read as the source. This slice proves the integration and its degradation behavior in running
+        software.</p>
+      <p><strong>Scope in.</strong> The replica adapter, the verification service, the staleness contract
+        (as-of timestamp; &gt;36h escalates; refresh-window 02:00&ndash;04:30 degrades to
+        <code>pending-verification</code>). <strong>Scope out.</strong> The fast-path escalation logic
+        (REQ-019, a Build spec); real acknowledgment dispatch (0003 is test-mode).</p>
+      <p><strong>Acceptance checks.</strong> Fresh data &rarr; status + as-of timestamp. Policy not found
+        &rarr; <code>needs-review</code> with a reason code, never a silent &ldquo;verified&rdquo;. Refresh
+        window or unreachable &rarr; <code>pending-verification</code>, intake never blocked. Snapshot &gt;36h
+        &rarr; staleness warning, written-acknowledgment-state claims escalate.</p>
+      <p><strong>Delegation plan.</strong> The agent may touch the replica adapter and the verification
+        service. <strong>Gated:</strong> the Q-15 service-account configuration and the private-endpoint
+        settings (the agent proposes; a human applies). Plan-mode approval before any code.</p>
+      <p><strong>Checking plan.</strong> Full ladder: CI hard gates, the grader, a non-author Checker (Sara).
+        Because HIGH: the <code>security.yml</code> security-reviewer pass and Dan's named sign-off in the PR.</p>
+      <div class="decision" style="margin-top:14px;">
+        <strong>How it rode the loop.</strong> Plan approved by Jonah &rarr; agent implemented under tight
+        permissions &rarr; Stop hook green &rarr; PR fired <code>ci.yml</code>, <code>grader.yml</code>, and
+        (on the <code>risk:high</code> label) <code>security.yml</code> &rarr; Dan signed off &rarr; Sara
+        merged &rarr; <code>deploy-dev</code> shipped it. The Q-15 controls were verified live against the dev
+        environment the same afternoon.
+      </div>
+      <p class="note">Spec 0002 is the hard exit condition made concrete: at least one HIGH-risk slice runs the
+        full loop, so the riskiest path is proven before Build ever depends on it. The other three slices
+        &mdash; 0001 (MEDIUM), 0003 (MEDIUM, fired the PII gate), 0004 (LOW, emitted the metric) &mdash; rode
+        the same loop; nothing was hand-built off the rails to save a day.</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 06 — RUN THE LOOP ON THE SKELETON                                      -->
+  <!-- 06 — THE RAILS, PROVEN BY BREAKING THEM                                -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">06</span>
-      <p class="kicker">Spec 0002 in full &mdash; the HIGH-risk one</p>
-      <h2>The skeleton is the loop's dress rehearsal &mdash; nothing gets skipped</h2>
-      <p class="lead">Spec 0002 (replica verification read) was HIGH risk &mdash; it touched the
-        regulated integration and the Q-15 controls. It ran the loop at HIGH risk on day 6, on cheap
-        software, before any real feature relied on it.</p>
-      <div class="snippet">
-        <div class="from">Spec 0002 &mdash; Replica verification read</div>
-        <blockquote>Risk tier: <strong>HIGH</strong> &middot; Authored: Jonah Kim &middot; Checked:
-          Sara Whitfield &middot; Security sign-off: Dan Kowalski &middot; Merged 2026-04-06</blockquote>
-      </div>
-      <p style="margin-top:14px;"><strong>Goal.</strong> A coverage-verification service reads the
-        PolicyOne snapshot replica directly (ADR-001) and returns coverage status with an as-of
-        timestamp, honoring the staleness contract.</p>
-      <p><strong>Why.</strong> REQ-014 promises same-business-day coverage status; ADR-001 chose the
-        replica read as the source. This slice proves the integration and its degradation behavior in
-        running software.</p>
-      <p><strong>Scope in.</strong> The replica adapter, the verification service, the staleness
-        contract (as-of timestamp; &gt;36h escalates; refresh-window 02:00-04:30 degrades to
-        <code>pending-verification</code>). <strong>Scope out.</strong> The fast-path escalation logic
-        (REQ-019, a Build spec); real acknowledgment dispatch (0003 is test-mode).</p>
-      <p><strong>Acceptance checks.</strong> Fresh data &rarr; status + as-of timestamp. Policy not
-        found &rarr; <code>needs-review</code> with a reason code, never a silent "verified". Refresh
-        window or unreachable &rarr; <code>pending-verification</code>, intake never blocked. Snapshot
-        &gt;36h &rarr; staleness warning, written-acknowledgment-state claims escalate.</p>
-      <p><strong>Delegation plan.</strong> The agent may touch the replica adapter and the verification
-        service. <strong>Gated:</strong> the Q-15 service-account configuration and the private-endpoint
-        settings (the agent proposes; a human applies). Plan-mode approval before any code.</p>
-      <p><strong>Checking plan.</strong> Full ladder: CI hard gates, the grader, a non-author Checker
-        (Sara). Because HIGH: the security.yml security-reviewer pass and Dan's named sign-off in the PR.</p>
-      <div class="decision" style="margin-top:14px;">
-        <strong>How it rode the loop.</strong> Plan approved by Jonah &rarr; agent implemented under
-        tight permissions &rarr; Stop hook green &rarr; PR fired ci.yml, grader.yml, and (on the
-        <code>risk:high</code> label) security.yml &rarr; Dan signed off &rarr; Sara merged &rarr;
-        deploy-dev shipped it. The Q-15 controls were verified live against the dev environment the same
-        afternoon.
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 07 — PROVE THE RAILS FAIL SAFELY                                       -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
       <p class="kicker">The day-9 shakedown, and the rail that broke first</p>
       <h2>Break the rails on purpose &mdash; before they break by accident</h2>
-      <p class="lead">On day 9 the rails got shaken down on purpose &mdash; and one defect surfaced
-        early, for cheap. A rail that has never failed safely has not been proven.</p>
+      <p class="lead">On day 9 the rails got shaken down on purpose &mdash; and one defect had already
+        surfaced early, for cheap, on day 5. A pipeline that is green because nothing real ever stressed it
+        has proven nothing. A rail that has never failed safely has not been proven.</p>
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The shakedown</div>
-          <p>The rails got forced to fail and proven to catch it:</p>
+          <div class="plabel">The shakedown &mdash; recorded in pipeline-proof.md</div>
+          <p>Each rail forced to fail and proven to catch it:</p>
           <ul>
             <li>A deliberately failing build proves the Stop hook <strong>blocks</strong>.</li>
             <li>A PR with a planted spec mismatch proves the grader <strong>posts</strong> the miss.</li>
-            <li>A bad deploy proves deploy-dev <strong>rolls back</strong> cleanly &mdash; the
-              environment returns itself to the last good version.</li>
+            <li>A known-bad deploy proves <code>deploy-dev</code> <strong>rolls back</strong> cleanly &mdash;
+              the environment returns itself to the last good version.</li>
           </ul>
-          <p style="margin-top:12px;">The setup review (Rob + Jonah, his deputy) merged the week's
-            harness corrections &mdash; the coverage-gate fix, two CLAUDE.md glossary additions the
-            agents kept missing.</p>
+          <p style="margin-top:12px;">The setup review (Rob + Jonah, his deputy) merged the week's harness
+            corrections &mdash; the coverage-gate fix, two CLAUDE.md glossary additions the agents kept
+            missing. The Build cadences got scheduled, and two flow limits set: WIP cap at two streams per
+            Orchestrator, and no new streams once the median review wait passes one working day.</p>
         </div>
         <div class="eg">
           <div class="plabel">The rail that broke first, day five</div>
           <div class="snippet">
             <div class="from">The coverage-gate defect</div>
-            <blockquote>"The coverage gate miscounted generated files on the very first real slice
-              &mdash; found and fixed while it cost an hour, not in Build week three when it would have
-              blocked every PR."</blockquote>
+            <blockquote>"The coverage gate miscounted generated files on the very first real slice &mdash;
+              found and fixed while it cost an hour, not in Build week three when it would have blocked every
+              PR."</blockquote>
           </div>
-          <p style="margin-top:12px;">The Build cadences got scheduled &mdash; flow check (daily),
-            intent triage (weekly), retro+, setup review &mdash; and two flow limits set: WIP cap (at
-            most 2 streams per Orchestrator) and the review-wait tripwire (no new streams once the
-            median review wait passes one working day).</p>
           <p style="margin-top:12px;"><strong>Q-17 lands:</strong> Dan and Harbor ops choose the postal
             dispatch vendor; it surfaces <strong>Q-19</strong> (vendor sandbox credentials), owner Tom +
             Harbor ops, due before the first acknowledgment-delivery spec in Build.</p>
+          <div class="aha warn" style="margin-top:14px;">
+            <div class="lbl">The receipt the gate can't read</div>
+            <p>pipeline-proof.md records that each rail caught its planted failure. But the gate only checks
+              the file exists and is placeholder-free &mdash; not that the shakedown truly happened. The proof
+              is a human's word, written down.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 08 — SEEING IT HAPPEN — THE TIMELINE                                   -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
-      <p class="kicker">The ten days, end to end &mdash; and the gate, demo, and handoff</p>
-      <h2>The two weeks, end to end</h2>
-      <p class="lead">Two weeks split cleanly: week one is the rails (access, the kit, the environment,
-        the pipeline); week two is the skeleton (the four slices riding the loop, the architecture
-        proven, the rails shaken down, the gate). Phase 2 closed Friday 2026-03-27.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>Day</th><th>Focus</th><th>What happened</th><th>Tooling</th></tr></thead>
-        <tbody>
-          <tr><td>1 &middot; Mon 3/30</td><td>Kickoff &amp; access</td><td>Access checklist closes: pod contributor access, Rob gets branch-protection admin, Tom enables Actions and agrees Harbor-hosted runners, secrets provisioning starts in Harbor's Key Vault. Live smoke test of Claude Code on Harbor's seats/keys &mdash; works, fallback rider never needed. Q-17 and Q-18 re-confirmed.</td><td>&mdash; (access, smoke test)</td></tr>
-          <tr><td>2 &middot; Tue 3/31</td><td>Kit install, in the open</td><td>Claude scaffolds the repo from the kit; CLAUDE.md adapted to Harbor's domain, stack, risk taxonomy, Definition of Checked &mdash; as PRs Wes reviews. Harbor's first concrete look at how the pod works.</td><td>&mdash; (Claude scaffolds; PRs)</td></tr>
-          <tr><td>3 &middot; Wed 4/1</td><td>The dev environment</td><td>Claude drafts the Bicep (HIGH risk, Rob + Tom review every change); provisions app hosting, the buffered queue (ADR-003), and the private endpoint to the replica under Q-15. Secrets land in Key Vault. Data-flow brief to Dan.</td><td>&mdash; (Claude drafts Bicep)</td></tr>
-          <tr><td>4 &middot; Thu 4/2</td><td>The pipeline</td><td>Five workflows built &amp; reviewed by Tom (ci, grader, correctness, security, deploy-dev); Rob turns on branch protection; the two Phase 2 security gates wired.</td><td>&mdash; (Claude drafts YAML)</td></tr>
-          <tr><td>5 &middot; Fri 4/3</td><td>First slice through the loop</td><td>Spec 0001 rides the full loop: Sara authors from the kit template, the agent codes in plan mode under bounds, the Stop hook refuses on a failing build, the PR fires ci.yml + grader.yml, Jonah (non-author) approves and merges, deploy-dev ships to dev. The coverage gate miscounts generated files &mdash; fixed here, cheap. One slice live in dev.</td><td>&mdash; (spec rides the loop)</td></tr>
-          <tr><td>6 &middot; Mon 4/6</td><td>First HIGH-risk slice</td><td>Spec 0002 (replica verification read) rides the loop at HIGH risk: tight permissions, the <code>risk:high</code> label fires security.yml &rarr; the security-reviewer agent, Dan records a named sign-off. Q-15 controls verified live; ADR-001 staleness contract goes in as real behavior.</td><td>&mdash; (HIGH-risk loop)</td></tr>
-          <tr><td>7 &middot; Tue 4/7</td><td>The remaining slices</td><td>Spec 0003 (test-mode acknowledgment) &mdash; its PR is the first to touch acknowledgment templates, so the PII template-review gate fires, proven not just configured. Spec 0004 (metric event) emits the FNOL&rarr;coverage clock; Harbor's metric becomes measurable from Build day one.</td><td>&mdash; (specs ride the loop)</td></tr>
-          <tr><td>8 &middot; Wed 4/8</td><td>Skeleton, end-to-end</td><td>The four slices connect in dev: portal FNOL &rarr; queue entry &rarr; replica coverage check &rarr; test-mode acknowledgment &rarr; metric event. Nadia verifies against the Phase 2 walking-skeleton definition. A first E2E smoke journey walks the whole thread.</td><td><code>/e2e</code></td></tr>
-          <tr><td>9 &middot; Thu 4/9</td><td>Harden the rails</td><td>Deliberate shakedown: failing build proves the Stop hook blocks, planted spec mismatch proves the grader posts, bad deploy proves deploy-dev rolls back. Setup review (Rob + Jonah) merges harness corrections. Build cadences scheduled; WIP cap and review-wait tripwire set. Q-17 lands; Q-19 surfaces.</td><td>&mdash; (manual shakedown)</td></tr>
-          <tr><td>10 &middot; Fri 4/10</td><td>Gate, demo, handoff</td><td><code>/sdlc-gate</code> passes; <code>/sdlc-phase-report</code> renders the gate packet. Karen watches a portal FNOL flow end to end in Harbor's dev environment with the clock ticking on the scorecard &mdash; rendered with <code>/visual-explainer</code>, not slides. Rob + Wes walk the harness, Tom confirms the pipeline, Dan confirms the gates, Karen approves. <code>/sdlc-next</code> advances into the Build loop. Billing milestone 4.</td><td><code>/sdlc-gate</code>, <code>/sdlc-phase-report</code>, <code>/visual-explainer</code>, <code>/sdlc-next</code></td></tr>
-        </tbody>
-      </table>
-      <p class="note">Foundation is the least plugin-driven phase of the opening &mdash; most days are
-        code and rails, not drafts, so most carry no plugin command. The plugin returns at the gate.</p>
-
-      <!-- the Build handoff artifact -->
-      <h2 style="margin-top:34px;">Artifact: the Build handoff</h2>
-      <p class="dim">Drafted day 10; phase closed day 10 (billing milestone 4).</p>
-      <ul>
-        <li><strong>The factory:</strong> the adapted harness, the five-workflow pipeline, branch
-          protection, and the Bicep dev environment &mdash; all owned by Rob, reviewed by Jonah and Tom.</li>
-        <li><strong>The proof:</strong> the walking skeleton running in Harbor's dev environment,
-          verified against the Phase 2 definition, with the FNOL&rarr;coverage clock ticking on the
-          scorecard.</li>
-        <li><strong>The risk-tier map:</strong> the HIGH/MEDIUM/LOW taxonomy in CLAUDE.md, plus the two
-          build-time security gates registered against the paths they guard.</li>
-        <li><strong>The cadences:</strong> flow check (daily), intent triage (weekly), retro+, setup
-          review; WIP cap 2 streams per Orchestrator; halt new streams past one working-day median
-          review wait.</li>
-      </ul>
-      <p style="margin-top:12px;"><strong>Open questions into Build:</strong></p>
-      <table class="ref-doc" style="margin-top:8px;">
-        <thead><tr><th>ID</th><th>Question</th><th>Owner</th><th>Due</th></tr></thead>
-        <tbody>
-          <tr><td>Q-18</td><td>Construction of the surge load-test dataset from the 2024 CAT (catastrophe) event (volume curve + channel mix)</td><td>Priti Shah + Nadia Brooks</td><td>Before hardening pass 1</td></tr>
-          <tr><td>Q-19</td><td>Postal vendor sandbox credentials for the acknowledgment-delivery spec (follows Q-17's vendor choice)</td><td>Tom Reilly + Harbor ops</td><td>Before the first acknowledgment-delivery spec</td></tr>
-        </tbody>
-      </table>
-      <p class="note">Recommended first Build specs: the fast-path escalation (REQ-019, builds on
-        0002), the document-upload path (triggers the malware-scan gate), and the email FNOL extraction
-        (ADR-004 &mdash; the engagement's first agentic spec, where the feature itself runs on an AI
-        model: a golden set as acceptance criteria, the eval gate in CI, prompt/model changes tiered
-        HIGH).</p>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 09 — WHAT TO NOTICE                                                    -->
+  <!-- 07 — WHAT THE BUILD LOOP RECEIVES                                      -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">What to notice in the worked example</p>
-      <h2>The failure modes, and the defense against each</h2>
-      <p class="lead">Knowing the failure modes by name is half the defense &mdash; and Harbor's
-        structure caught the big ones in the act. Six things in this example are worth reading twice.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>What to notice</th><th>Why it matters</th></tr></thead>
+      <span class="modnum">07</span>
+      <p class="kicker">The Build handoff &mdash; and the questions that travel with it</p>
+      <h2>What the Build loop receives</h2>
+      <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses
+        the boundary out of the gated opening and into the continuous Build loop: the factory, the proof it
+        runs, the ordered backlog, and the questions still open &mdash; carried forward under their original
+        IDs, never silently dropped.</p>
+
+      <div class="artifacts" style="margin:22px 0 8px;">
+        <span class="lbl">Crosses into the Build loop</span>
+        <span class="tag">build-handoff.md</span>
+        <span class="tag">risk-tier-map.md</span>
+        <span class="tag">cadence-plan.md</span>
+        <span class="tag">foundation-report.md</span>
+        <span class="tag">CLAUDE.md + .claude/ + specs/</span>
+        <span class="tag amber">the deployed skeleton, running in dev</span>
+        <span class="tag amber">the outcome metric, ticking</span>
+      </div>
+
+      <h2 style="margin-top:30px;">The Build handoff (summary)</h2>
+      <p class="dim">Drafted day 10; the phase closed day 10 &mdash; billing milestone 4.</p>
+      <ul>
+        <li><strong>The factory:</strong> the adapted harness, the five-workflow pipeline, branch protection,
+          and the Bicep dev environment &mdash; all owned by Rob, reviewed by Jonah and Tom.</li>
+        <li><strong>The proof:</strong> the walking skeleton running in Harbor's dev environment, verified
+          against the Phase 2 definition, with the FNOL&rarr;coverage clock ticking on the scorecard.</li>
+        <li><strong>The risk-tier map:</strong> the HIGH/MEDIUM/LOW taxonomy in CLAUDE.md, plus the two
+          build-time security gates registered against the paths they guard.</li>
+        <li><strong>The cadences:</strong> flow check (daily), intent triage (weekly), retro+, setup review;
+          WIP cap two streams per Orchestrator; halt new streams past a one-working-day median review wait.</li>
+      </ul>
+
+      <h2 style="margin-top:30px;">Recommended first Build specs</h2>
+      <p class="dim">The skeleton proved the architecture; these are the first features to ride the proven
+        loop.</p>
+      <ul>
+        <li><strong>Fast-path escalation (REQ-019)</strong> &mdash; builds directly on spec 0002's replica read.</li>
+        <li><strong>The document-upload path</strong> &mdash; the first PR to trigger the malware-scan gate for real.</li>
+        <li><strong>Email FNOL extraction (ADR-004)</strong> &mdash; the engagement's first agentic spec, where
+          the feature itself runs on an AI model: a 200-email golden set as acceptance criteria, the eval gate
+          in CI, prompt and model changes tiered HIGH.</li>
+      </ul>
+
+      <h2 style="margin-top:30px;">Open questions into Build</h2>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>ID</th><th>Open question</th><th>Owner</th><th>Due</th></tr></thead>
         <tbody>
-          <tr><td><strong>Foundation is the least plugin-driven phase</strong></td><td>The plugin drives the document phases; Foundation is hands building the factory and the first real specs riding the loop. The Tooling bars go quiet because the work is code and rails, not drafts. The plugin returns only at the gate.</td></tr>
-          <tr><td><strong>The skeleton ran the full loop, including a HIGH-risk spec</strong></td><td>Spec 0002 exercised the <code>risk:high</code> path &mdash; tight permissions, the security workflow, Dan's named sign-off &mdash; on software that was cheap to get wrong. The dress rehearsal happened before Build depended on the HIGH path working.</td></tr>
-          <tr><td><strong>The metric event made the outcome measurable on day one of Build</strong></td><td>Spec 0004 means the FNOL&rarr;coverage clock ticks in dev from the first slice. The scorecard has real data before the second feature merges &mdash; the metric is not a Phase 9 retrofit.</td></tr>
-          <tr><td><strong>The adaptation happened in the open</strong></td><td>Wes reviewed the CLAUDE.md adaptation PRs and Tom reviewed the pipeline YAML &mdash; Harbor's first concrete look at how the pod works, the transfer rehearsed months before the close.</td></tr>
-          <tr><td><strong>Secrets never touched the repo</strong></td><td>Harbor's Key Vault held the Anthropic key, the Azure credentials, and the replica service-account reference from day one. The data-flow brief gave Dan what he needed to sign off without a single secret in a commit.</td></tr>
-          <tr><td><strong>A rail broke on day five</strong></td><td>The coverage gate miscounted generated files on the very first real spec &mdash; found and fixed while it cost an hour, not in Build week three when it would have blocked every PR.</td></tr>
+          <tr><td>Q-18</td><td>Construction of the surge load-test dataset from the 2024 CAT (catastrophe) event &mdash; volume curve + channel mix</td><td>Priti Shah + Nadia Brooks</td><td>Before hardening pass 1</td></tr>
+          <tr><td>Q-19</td><td>Postal vendor sandbox credentials for the acknowledgment-delivery spec (follows Q-17's vendor choice)</td><td>Tom Reilly + Harbor ops</td><td>Before the first acknowledgment-delivery spec</td></tr>
         </tbody>
       </table>
-      <p class="note">All names, numbers, and documents are invented but internally consistent &mdash;
-        the 11.4-day baseline, the four specs, and the open question IDs trace through every artifact on
-        this page.</p>
+      <p class="note">The engagement crosses here from the gated opening into the continuous Build loop. There
+        is no next gate &mdash; only the merge bar every change clears, and the cadences that keep it honest.</p>
     </div>
   </section>
 
-  <!-- close -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <p class="kicker">When Phase 3 is done</p>
-      <h2>The opening ends, and the factory takes over</h2>
-      <p class="dim">Foundation closes with a working factory and one part already moving through it:
-        the rails proven by failing safely, the skeleton running in Harbor's own environment, the
-        FNOL&rarr;coverage clock already ticking. The four gated phases are done; from here, every
-        change rides the continuous Build loop. Where to go next:</p>
-      <div class="next">
-        <a href="build-loop.html"><span class="t">The Build Loop &rarr;</span><span class="d">What the factory was built for &mdash; how every change from here gets specified, bounded, built, and proven.</span></a>
-        <a href="#reference" data-view-link="reference"><span class="t">The Reference view &rarr;</span><span class="d">The precise mechanics of Phase 3 &mdash; roles, calendar, artifacts, the exact gate.</span></a>
-      </div>
-    </div>
-  </section>
 
 </main>
 

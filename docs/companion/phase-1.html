@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -778,88 +779,376 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — WHY THIS PHASE EXISTS                                             -->
+  <!-- 01 — WHAT PHASE 1 RECEIVED                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The week that follows a signed problem</p>
-      <h2>An AI builds the instructions, not the intent</h2>
-      <p class="lead">Phase 0 closed Friday 2026-03-13 with a signed outcome statement, a verified
-        11.4-day baseline, and two open questions. Harbor Mutual &mdash; a fictional regional insurer
-        &mdash; hired the pod to rebuild how property-insurance claims get reported and decided. The
-        whole engagement turns on one number, and Phase&nbsp;1's requirements are what have to move it.</p>
+      <p class="kicker">Before a single requirement is written, five files arrive and two questions are still open</p>
+      <h2>What Phase 1 received</h2>
+      <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod to
+        rebuild how property-insurance claims get reported and decided. A claim takes a median of
+        <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target is
+        <strong>5 days or less</strong>. Phase 0 closed Friday 2026-03-13 with a signed problem, a verified
+        baseline, and two open questions. Requirements does not start from a blank page &mdash; it starts from
+        these five files, on disk, in Harbor's own repository.</p>
+
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Inherited from Phase 0 &mdash; the signed problem baseline; the plugin's Step 0 reads <code>phase1-handoff.md</code></span>
+        <span class="tag">phase1-handoff.md</span>
+        <span class="tag">constitution.md</span>
+        <span class="tag">problem-statement.md</span>
+        <span class="tag">success-criteria.md</span>
+        <span class="tag">constraints.md</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The number Phase 1 must move</div>
-          <p>A claim takes a median of 11.4 days from FNOL (first notice of loss &mdash; the
-            policyholder reporting the damage) to a coverage decision. Customers who wait renew less.
-            The target is a median of 5 days or less.</p>
+          <div class="plabel">The number, and the two unknowns that come due this week</div>
+          <p>The whole engagement turns on one number, and Phase&nbsp;1's requirements are what have to move
+            it. Two questions Phase&nbsp;0 could not close came forward &mdash; and their answers shape the
+            requirements, so they are due Monday.</p>
           <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">&le; 5.0</span>
-            <small>days from claim to decision today &rarr; the target the requirements have to move</small></div>
+            <small>days from claim to decision today &rarr; the target the requirements must actually move</small></div>
+          <ul style="margin-top:14px;">
+            <li><strong>Q-13</strong> (Luis) &mdash; do state claim-acknowledgment rules differ per intake
+              channel?</li>
+            <li><strong>Q-14</strong> (Priti) &mdash; what share of claims is simple enough to fast-track?</li>
+          </ul>
         </div>
         <div class="eg">
-          <div class="plabel">The pod, and what Phase 0 carried forward</div>
-          <p>Maya Chen (Pod Lead) and Rob Feld (Setup Owner) are joined for Phase&nbsp;1 by
-            <strong>Jonah Kim</strong> and <strong>Sara Whitfield</strong> (Orchestrator/Checkers) and
-            <strong>Nadia Brooks</strong> (Quality Engineer). Luis Ortega's 6 hours a week now start
-            getting spent.</p>
-          <p style="margin-top:12px;">Two open questions came forward from Phase 0:
-            <strong>Q-13</strong> (do state claim-acknowledgment rules differ per intake channel?) and
-            <strong>Q-14</strong> (what share of claims is simple enough to fast-track?).</p>
+          <div class="plabel">Where the week is headed</div>
+          <p>Phase&nbsp;1 turns the signed problem into a list of exactly what the system must do, written so
+            precisely that two people could not build two different things from it. Everything this week is
+            either a behavior the system must have, a number it must hit, or a decision a named human still
+            owes.</p>
+          <p style="margin-top:12px;"><strong>Luis Ortega is the one to watch.</strong> Harbor's product owner
+            spends his first real hours here: he assigns every priority, answers every product decision on a
+            two-business-day clock, and does the cutting when the top tier is over budget. The pod advises; Luis
+            owns.</p>
+          <div class="snippet">
+            <div class="from">Carried in from Phase 0, still open on Monday</div>
+            <blockquote>Q-13 &mdash; per-channel acknowledgment rules? (Luis) · Q-14 &mdash; how many claims
+              are simple enough to fast-track? (Priti)</blockquote>
+          </div>
         </div>
       </div>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead &mdash; runs elicitation, owns requirement quality and the handoff</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; enablement runs ahead; answers feasibility questions</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Orchestrator / Checker &mdash; runs the feasibility spikes</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator / Checker &mdash; runs the feasibility spikes</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; the testability conscience; owns traceability</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">VP Claims Operations &mdash; sponsor; sees the scope-out list, approves the advance</span></div>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Product owner &mdash; assigns priorities, answers decisions on a 2-day clock</span></div>
+          <div class="person"><span class="nm">Priti Shah</span><span class="rl">Data &amp; reporting &mdash; the storm data, the instrumentation, Q-14</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT security &mdash; the replica-access question (Q-15) the requirements raise</span></div>
+          <div class="person"><span class="nm">Domain experts</span><span class="rl">Gail Tran, Marcus Webb (adjusters), Dee Alvarez (intake), compliance</span></div>
+        </div>
+      </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every artifact in this engagement carries a stable identifier, so a requirement written in week two
+            can still be traced in month nine. You'll see these throughout:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Prefix</th><th>Means</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>DOC-NNN</code></td><td>A client document taken in at intake</td><td>Phase 0</td><td>DOC-003 FNOL channels · DOC-007 the stale 2023 API inventory</td></tr>
+              <tr><td><code>C-NN</code></td><td>A constraint &mdash; a hard limit the requirements must honor</td><td>Phase 0</td><td>C-03 auto-proof · C-04 15-day clock · C-05 PII-in-tenant</td></tr>
+              <tr><td><code>CON-NN</code></td><td>A Phase 0 contradiction, resolved</td><td>Phase 0</td><td>CON-01 real-time vs nightly batch</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with an owner and a due date</td><td>any</td><td>Q-13, Q-14 due this week; Q-15, Q-16 born here</td></tr>
+              <tr><td><code>D-NN</code></td><td>A product decision the PO owes us</td><td>Phase 0/1</td><td>D-07 duplicate merge · D-09 fast-path recommends</td></tr>
+              <tr><td><code>REQ-NNN</code></td><td>A functional requirement</td><td>Phase 1</td><td>REQ-014 same-business-day coverage</td></tr>
+              <tr><td><code>NFR-NN</code></td><td>A non-functional requirement &mdash; a quality target</td><td>Phase 1</td><td>NFR-02 the 10x storm surge</td></tr>
+              <tr><td><code>E-NN</code></td><td>An epic &mdash; a slice of the work, traced to an outcome</td><td>Phase 1</td><td>E-01&hellip;E-06</td></tr>
+              <tr><td><code>AQ-NN</code></td><td>An architectural question Design must answer</td><td>Phase 1 handoff</td><td>The four that become Phase 2's ADR-001&ndash;004</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The last row is the thread out of this phase. Phase&nbsp;1's handoff records the
+            <code>AQ-NN</code> &mdash; the architectural questions the requirements raise but must not answer.
+            Phase&nbsp;2's very first step reads exactly those out of <code>phase2-handoff.md</code> and turns
+            each into a signed ADR. An <code>AQ</code> with no ADR at the end of design week is a gate failure.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 02 — THE ONE RULE                                                      -->
+  <!-- 02 — THE PROCEDURE                                                     -->
   <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">Claude drafts and interrogates; humans decide and own</p>
-      <h2>Claude drafts and interrogates; humans decide and own</h2>
-      <p class="lead">The drafting-heaviest week of the engagement, and the rule binds hardest. The
-        clearest case at Harbor: should the fast-path <em>decide</em> a simple claim, or only
-        <em>recommend</em> one for an adjuster to confirm? The AI surfaced the question; only a named
-        human could answer it.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The decision the AI surfaced &mdash; D-09</div>
-          <div class="snippet">
-            <div class="from">Generated to the decision list, not answered</div>
-            <blockquote>"Does the fast-path decide a claim, or recommend one for a human to confirm?"</blockquote>
-          </div>
-          <p style="margin-top:12px;">Unanswered, this is exactly the kind of call an agent resolves
-            silently at 2&nbsp;a.m. in week 7. Here it got a named human, a deadline, and a recorded
-            rationale.</p>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">The plugin's eight steps, the standard's five days, braided</p>
+        <h2>The procedure, step by step</h2>
+        <p class="lead">Phase&nbsp;1 is eight numbered steps in <code>claude-code-sdlc</code> and five working
+          days in this standard &mdash; the same week seen twice. Below they're braided: what the tool runs,
+          what the humans do that the tool cannot, and the file each day leaves behind. This is the
+          drafting-heaviest week of the engagement, and also the one where the most human work leaves no
+          receipt. <strong>Step through it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
         </div>
-        <div class="eg">
-          <div class="plabel">Luis Ortega ruled &mdash; using the full 2-day clock</div>
-          <div class="snippet resolve">
-            <div class="from">D-09, answer recorded with its reason</div>
-            <blockquote>"v1 recommends; an adjuster confirms with one click. Revisit after a year of
-              override data &mdash; regulatory caution until 'simple' is proven."</blockquote>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 1 procedure, day by day" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 &mdash; Mon 3/16 <span class="date">· plugin Step 0 opens</span></div>
+          <h3>Confirm the scope, then draw the map of the work</h3>
+          <p>Before any requirement is written, the plugin stops for a human. Claude reads
+            <code>phase1-handoff.md</code> and confirms scope: are Phase&nbsp;0's open questions answered, is the
+            prioritization clear, is anything expected that Discovery missed? Only then does drafting begin. The
+            pod's own day-1 craft &mdash; which no command performs &mdash; is drawing the candidate epic map and
+            planning one elicitation session per slice.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> Step 0 HITL gate</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> <span class="script">requirements-analyst</span></span>
+            <span class="tag green">human decision</span>
           </div>
-          <p style="margin-top:12px;">What Claude never did in this phase: set a priority, accept a
-            criterion, or make a scope call. Those stayed Luis's.</p>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">Q-13 &amp; Q-14 answered &mdash; decisions, not yet on disk</span>
+            <span class="tag green">candidate epic map (draft)</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p><strong>Q-13</strong> (Luis): the 15-day acknowledgment clock applies to every channel, and one
+              regulated state requires a <em>written</em> acknowledgment &mdash; a portal screen alone does not
+              count. <strong>Q-14</strong> (Priti): the segmentation query says <strong>61%</strong> of claims
+              are single-dwelling, no-injury, under $25k. The <code>requirements-analyst</code> agent drafts the
+              six-epic map; Maya corrects one boundary (email is its own beast, not part of the queue epic).
+              Jonah and Sara start the feasibility spikes.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 &mdash; Tue 3/17 <span class="date">· elicitation · no command runs</span></div>
+          <h3>Draw the requirements out of the people who do the work</h3>
+          <p>The requirements come from humans in rooms, not from the tool. Five working sessions, 60 to 90
+            minutes each, one per epic area, the right person in every room &mdash; and crucially not just the
+            managers. By evening Claude has structured the notes into candidate functional requirements, each
+            carrying a source trace back to the document or session it came from.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; human elicitation sessions; Claude preps question lists and structures the notes after</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">31 candidate requirements, each source-traced (draft)</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Sessions: queue/assignment (Dee <strong>plus two intake clerks</strong>), coverage (Gail,
+              Marcus), fast-path (Luis, Marcus), acknowledgments (compliance), instrumentation (Priti). The
+              clerks &mdash; not their supervisor &mdash; reveal the <strong>duplicate-FNOL workaround</strong>:
+              the same loss reported by phone and portal gets two claim numbers today. That one finding becomes
+              REQ-004 and D-07. Talk only to managers and it never surfaces.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 &mdash; Wed 3/18 <span class="date">· plugin Steps 1&ndash;2</span></div>
+          <h3>The full draft &mdash; and what it exposes</h3>
+          <p>Now the tool writes. Step&nbsp;1 turns the notes into functional requirements &mdash; "the system
+            shall&hellip;", each with a priority, a source trace, and (for the top tiers) an explicit error
+            specification: what it accepts, what it returns, what it does on each failure. Step&nbsp;2 writes the
+            non-functional requirements, every number carrying a measurement basis. The decision list
+            regenerates and the testability pass runs.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> <span class="script">requirements-analyst</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out &mdash; under <code>.sdlc/artifacts/01-requirements/</code></span>
+            <span class="tag">requirements.md</span>
+            <span class="tag">non-functional-requirements.md</span>
+            <span class="tag amber">the decision list &mdash; regenerated in the session; no file holds it</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>The standard's decision list is the PO's work queue &mdash; every unmade product call, visible,
+              on a two-business-day clock. In <code>claude-code-sdlc</code> Phase&nbsp;1, <strong>no file holds
+              it.</strong> The plugin's Step&nbsp;0 asks the human about open questions once, in conversation;
+              nothing writes them down, ages them, or checks at the gate that they were answered. The clock the
+              SOW bills against has no artifact behind it.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>31 functional requirements and 7 NFRs land. <strong>NFR-02 exposes the storm-surge gap</strong>
+              nobody had named &mdash; Phase&nbsp;0 sized annual volume only. The decision list regenerates to
+              nine open items for Luis; D-07 is answered same day, D-09 takes the full two days. Nadia's
+              testability pass sends <strong>5 of 31</strong> acceptance criteria back for being untestable. A
+              30-minute sponsor checkpoint keeps the day-5 review free of surprises.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 &mdash; Thu 3/19 <span class="date">· plugin Step 3 · the priority session</span></div>
+          <h3>The product owner does the cutting</h3>
+          <p>Step&nbsp;3 writes the epics &mdash; user stories in "as a / I want / so that" form with
+            Given/When/Then acceptance criteria &mdash; into <code>epics.md</code>. But the day's real work is
+            human and has no command: the priority session, where the PO ranks within a hard top-tier budget the
+            pod announced, and cuts whatever doesn't fit. Feasibility spike results land and get reconciled.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> stories + P0 error specs</span>
+            <span class="none">the priority session &mdash; the PO's room; no command sets an order</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">epics.md</span>
+            <span class="tag amber">the P0 budget &amp; the cut list &mdash; a decision, no file</span>
+            <span class="tag amber">feasibility spike findings &mdash; no command writes them</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>The word "spike" appears in no file in <code>claude-code-sdlc</code>'s Phase&nbsp;1. Nothing
+              prompts a feasibility check against the live system, and nothing records what it found. At Harbor
+              the spikes were the most valuable hour of the week &mdash; and they leave no receipt.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The 90-minute priority session: a <strong>12-slot</strong> budget, <strong>19</strong> candidates,
+              Luis cuts <strong>7</strong> &mdash; including, painfully, the adjuster-dashboard rebuild. Epics get
+              sequenced by what moves the metric. Error behavior is written for all 12 P0 requirements. The
+              spikes land: DOC-007 (the 2023 API inventory) is stale in a useful direction &mdash; PolicyOne now
+              exposes a read-only <strong>nightly snapshot replica</strong> (becomes <strong>Q-15</strong>), and
+              the FNOL inbox is readable programmatically.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 &mdash; Fri 3/20 <span class="date">· plugin Steps 4&ndash;7 · the gate</span></div>
+          <h3>Break it, check it, sign it</h3>
+          <p>Fresh reviewers that did not write the draft attack the set from product, quality, and security
+            angles. The traceability check runs. Then the tool writes the handoff, renders the stakeholder
+            report, and the gate runs and stops for a human. <code>advance_phase.py</code> will not move the
+            engagement forward without a named sign-off.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-review --adversarial <span class="arrow">&rarr;</span> <span class="script">multi-reviewer</span></span>
+            <span class="cmd">/visual-explainer <span class="arrow">&rarr;</span> .sdlc/reports/phase01-visual.html</span>
+            <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">phase2-handoff.md</span>
+            <span class="tag">phase01-visual.html</span>
+            <span class="tag">phase01-report.html</span>
+            <span class="tag amber">the adversarial-review record</span>
+            <span class="tag amber">the traceability check</span>
+            <span class="tag amber">the scope-out record</span>
+            <span class="tag green">the PO's + sponsor's sign-off &mdash; billing milestone 2</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">What the gate actually checks</div>
+            <p><code>check_gates.py</code> verifies that four files exist, are non-empty, and contain no
+              placeholder text: <code>requirements.md</code>, <code>non-functional-requirements.md</code>,
+              <code>epics.md</code>, <code>phase2-handoff.md</code>. It never reads the nine-bullet exit
+              checklist this standard specifies &mdash; priorities assigned by the PO, the scope-out seen by the
+              sponsor, error specs for every top-tier operation, traceability traced both ways. That list lives
+              in <code>phase-registry.yaml</code>, and no code opens it. <em>The human gate is real. What it asks
+              is not.</em></p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The traceability check cuts the untraced SMS requirement (it traced only to RFP boilerplate). The
+              <code>multi-reviewer</code> pass plus Nadia produce two catches: <strong>REQ-022</strong>
+              (bounce-to-postal fallback for a bounced acknowledgment) and the fast-path/regulatory-clock
+              conflict. The gate passes clean; Claude drafts the Phase&nbsp;2 handoff. Luis confirms the
+              requirements say what he meant; Karen sees the scope-out list. Sign-off; the engagement advances.
+              First biweekly steering booked for Thursday 3/26.</p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — THE FOUR QUESTIONS                                                -->
+  <!-- 03 — THE ARTIFACT LEDGER                                               -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">The four answers, and the epic map they produced</p>
+      <p class="kicker">Everything that exists on Friday and didn't on Monday</p>
+      <h2>What Phase 1 produced</h2>
+      <p class="lead">The requirements phase's whole output, named. Blue rows are written by a command and
+        checked by the gate. <strong>Amber rows are the method's human work</strong> &mdash; required by this
+        standard, produced by no tool, and today leaving no file of their own behind. Those are the rows to
+        argue about.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">requirements.md</span></td><td>The functional requirements: each a "shall", with a priority, a source trace, testable acceptance criteria, the error spec for the top tiers, and the traceability matrix &mdash; all in one file</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code></td><td>Pod Lead; PO accepts</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 2 spec synthesis</td></tr>
+          <tr><td><span class="tag">non-functional-requirements.md</span></td><td>The quality targets &mdash; speed, capacity, uptime &mdash; each with a number, a test method, and a measurement basis naming where the number is read</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code></td><td>Pod Lead + QE</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 2 design drivers (the AQ-NN)</td></tr>
+          <tr><td><span class="tag">epics.md</span></td><td>Epics <em>and</em> the user stories under them &mdash; "as a / I want / so that" with Given/When/Then acceptance criteria, each linked to a requirement ID</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code></td><td>PO</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 3 spec backlog</td></tr>
+          <tr><td><span class="tag">phase2-handoff.md</span></td><td>Requirements summary, the architectural implications the NFRs raise (the AQ-NN), decisions with rationale, open questions under their original IDs, risks, recommended starting point</td><td><code>/sdlc-coach</code> drafts; Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 2 Step 0, directly</td></tr>
+          <tr><td><span class="tag">phase01-visual.html</span></td><td>The requirements retold as a stakeholder-facing visual &mdash; the standard's "narrative companion", rendered</td><td><code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The stakeholder review</td></tr>
+          <tr><td><span class="tag">phase01-report.html</span></td><td>The gate result and artifact inventory, self-contained. This is the document a sponsor actually reads before signing</td><td><code>generate_phase_report.py</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate</td></tr>
+
+          <tr><td><span class="tag amber">error-behavior specs</span></td><td>For every top-tier operation: what it accepts, what it returns, what it does on each failure mode</td><td>Plugin Step 1 &mdash; but <em>into</em> <code>requirements.md</code>, not its own file</td><td>Pod Lead + QE</td><td class="dim">folded into requirements.md</td><td>Phase 2 contract error semantics</td></tr>
+          <tr><td><span class="tag amber">traceability matrix</span></td><td>Every top-tier requirement traced to a source and forward to an outcome, both directions</td><td>Plugin Step 1 &mdash; but <em>into</em> <code>requirements.md</code>, not its own file</td><td>QE</td><td class="dim">folded into requirements.md</td><td>The exit gate</td></tr>
+          <tr><td><span class="tag amber">user stories</span></td><td>The stakeholder justification under each requirement &mdash; real people, no invented personas</td><td>Plugin Step 3 &mdash; but <em>into</em> <code>epics.md</code>, not their own file</td><td>PO</td><td class="dim">folded into epics.md</td><td>Phase 3 specs</td></tr>
+          <tr><td><span class="tag amber">the decision list / log</span></td><td>Every unmade product call, numbered, owned, aged on the 2-business-day clock &mdash; empty or fully-owned at the gate</td><td><strong>PO answers; nothing writes it</strong></td><td>PO</td><td class="dim">no path &mdash; nothing writes it</td><td>The exit gate; Phase 2 open questions</td></tr>
+          <tr><td><span class="tag amber">feasibility spike notes</span></td><td>Each handoff risk verified against the live system, or converted into a requirement change &mdash; the spike code deleted, the finding kept</td><td><strong>Orchestrators, on a throwaway branch</strong></td><td>Pod Lead</td><td class="dim">no path &mdash; nothing writes it</td><td>Phase 2 design risks</td></tr>
+          <tr><td><span class="tag amber">scope-out record</span></td><td>The explicit not-in-v1 list, shown to the sponsor at the review so no one assumes a cut item into the build</td><td><strong>Pod Lead</strong></td><td>Sponsor has seen it</td><td class="dim">no path &mdash; nothing writes it</td><td>Phase 2 scope inputs</td></tr>
+          <tr><td><span class="tag amber">adversarial review record</span></td><td>Fresh reviewers who did not write the draft, attacking it from product, quality, and security angles; the catches recorded</td><td><strong><code>multi-reviewer</code> + QE</strong></td><td>Pod Lead</td><td class="dim">no path &mdash; nothing writes it</td><td>The fixes it forces (REQ-022, the clock conflict)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Seven of the thirteen things Phase&nbsp;1 is supposed to produce have no home of their own. Three are
+          <em>folded</em> into a bigger file &mdash; error specs and traceability into
+          <code>requirements.md</code>, stories into <code>epics.md</code> &mdash; so they exist but can't be
+          checked or cited on their own. Four leave <strong>no receipt at all</strong>: the decision list the
+          SOW clock bills against, the spike that found Harbor's snapshot replica, the scope-out list the sponsor
+          signs off, and the adversarial review that caught REQ-022. <strong>Human work is not the problem.
+          Human work without a receipt is.</strong></p>
+      </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase&nbsp;1: architecture
+        diagrams, technology choices, data models, API designs, story-level estimates, UI mockups. A requirement
+        that names a technology ("the system shall use a message queue") is design leaking upstream &mdash;
+        rewrite it as the behavior it wanted, and let Phase&nbsp;2 choose the how.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 04 — THE FOUR ANSWERS / THE EPIC MAP                                   -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">An exhibit from <code>epics.md</code> &mdash; the four answers, and the epics they produced</p>
       <h2>Four questions &mdash; and deliberately nothing else</h2>
       <p class="lead">Phase&nbsp;1's four answers at Harbor became six epics, each traced to an outcome
         and sequenced by which moves the metric first. The map was drafted day&nbsp;1 by the
-        <code>requirements-analyst</code> agent, corrected by Maya, and sequenced by Luis on day&nbsp;4.</p>
+        <code>requirements-analyst</code> agent into <code>epics.md</code>, corrected by Maya, and sequenced by
+        Luis on day&nbsp;4.</p>
       <table class="ref-doc" style="margin-top:18px;">
         <thead><tr><th>ID</th><th>Epic</th><th>Outcome it serves</th><th>Sequence rationale</th></tr></thead>
         <tbody>
@@ -880,16 +1169,17 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 04 — THE VAGUE-LINE TEST                                               -->
+  <!-- 05 — THE REQUIREMENTS, SHARPENED                                       -->
   <!-- ===================================================================== -->
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">04</span>
-      <p class="kicker">Day 3 &mdash; the testability pass</p>
+      <span class="modnum">05</span>
+      <p class="kicker">An exhibit from <code>requirements.md</code> &mdash; day 3's testability pass, and one error spec whole</p>
       <h2>The vague-line test: could two people build two different things?</h2>
       <p class="lead">On day&nbsp;3, Nadia Brooks ran the testability pass over all 31 acceptance
         criteria. Five failed the vague-line test &mdash; lines like "promptly" and "clearly visible"
-        &mdash; and went back to Maya for sharpening the same day, not quietly into the pile.</p>
+        &mdash; and went back to Maya for sharpening the same day, not quietly into the pile. An AI handed
+        "respond promptly" picks a number for you, and it will not be the one you would have picked.</p>
       <div class="pair">
         <div class="idea">
           <div class="plabel">A line that failed</div>
@@ -922,8 +1212,8 @@
           <tr><td>REQ-027</td><td>The acknowledgment-compliance figure (S1) is computed continuously and readable on demand</td><td>P1</td><td>E-06</td><td>Success criteria S1; Priti session</td><td>The figure matches the manual quarterly calculation within 0.5 points on the validation sample</td></tr>
         </tbody>
       </table>
-      <p class="dim" style="margin-top:22px;">Every P0 requirement carries an error-behavior structure.
-        REQ-014's, abridged:</p>
+      <p class="dim" style="margin-top:22px;">Every P0 requirement carries an error-behavior structure &mdash;
+        the specs the plugin folds into <code>requirements.md</code>. REQ-014's, abridged:</p>
       <div class="snippet">
         <div class="from">REQ-014 &mdash; error behavior</div>
         <blockquote>
@@ -942,12 +1232,12 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 05 — NFRs / MEASUREMENT BASIS                                          -->
+  <!-- 06 — NFRs / MEASUREMENT BASIS                                          -->
   <!-- ===================================================================== -->
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">05</span>
-      <p class="kicker">Seven NFRs, each with a measurement basis</p>
+      <span class="modnum">06</span>
+      <p class="kicker">An exhibit from <code>non-functional-requirements.md</code> &mdash; seven targets, each with a measurement basis</p>
       <h2>"Fast" is an opinion &mdash; until you say where the number is read</h2>
       <p class="lead">Writing the quality targets surfaced a gap nobody had named: <strong>storm
         season</strong>. The Phase&nbsp;0 sizing constraint was annual volume only &mdash; it said
@@ -986,168 +1276,110 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 06 — THE P0 BUDGET                                                     -->
+  <!-- 07 — THE PRIORITY CUT, THE DECISIONS, THE SCOPE-OUT                    -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">06</span>
-      <p class="kicker">Day 4 &mdash; the priority session</p>
+      <span class="modnum">07</span>
+      <p class="kicker">Day 4 &mdash; the priority session · Day 5 &mdash; the decisions and the scope-out</p>
       <h2>If everything is top priority, nothing is</h2>
-      <p class="lead">The priority session, Luis driving, 90 minutes. The P0 budget &mdash; a hard cap
-        on how many requirements may sit in the top tier &mdash; was set at <strong>12</strong>; the
-        room had <strong>19</strong> candidates. Luis cut seven. The budget held.</p>
+      <p class="lead">The priority session, Luis driving, 90 minutes. The P0 budget &mdash; a hard cap on how
+        many requirements may sit in the top tier &mdash; was set at <strong>12</strong>; the room had
+        <strong>19</strong> candidates. Luis cut seven. The budget held. None of this &mdash; the cap, the cut,
+        the reasons &mdash; is written to any plugin file; it survives only in the priorities column and the
+        scope-out list.</p>
       <div class="pair">
         <div class="idea">
           <div class="plabel">The cut, and how the epics sequenced</div>
-          <p>The pod set the budget before the session and announced it when the room opened; Luis ranked
-            within it. Epics got sequenced by what moves the metric: queue first (everything depends on
-            it), then coverage verification (kills the batch-window day), then fast-path (the 61% lever),
-            then acknowledgments, with instrumentation running throughout.</p>
-          <p style="margin-top:12px;">Stories were drafted with real stakeholders &mdash; Dee's intake
-            team, Gail's adjusters, the compliance officer by name. No invented personas.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The painful one</div>
-          <div class="decision">
+          <p>The pod set the budget before the session and announced it when the room opened; Luis ranked within
+            it. Epics got sequenced by what moves the metric: queue first (everything depends on it), then
+            coverage verification (kills the batch-window day), then fast-path (the 61% lever), then
+            acknowledgments, with instrumentation running throughout. Stories were drafted with real
+            stakeholders &mdash; Dee's intake team, Gail's adjusters, the compliance officer by name.</p>
+          <div class="decision" style="margin-top:12px;">
             Seven requirements cut to fit the 12-slot budget &mdash; including the
             <strong>adjuster dashboard rebuild</strong>.<br>
             "We survive with the current screens one more quarter."
           </div>
-          <p style="margin-top:12px;">Error behavior was then written for all 12 P0 requirements &mdash;
-            the duplicate-merge rule from D-07 alone became three explicit failure-path behaviors.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 07 — TRACEABILITY                                                      -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
-      <p class="kicker">Day 5 &mdash; the traceability check</p>
-      <h2>Where did this come from, and what does it serve?</h2>
-      <p class="lead">The traceability check passed after one casualty: a candidate requirement for SMS
-        notifications that traced to nothing &mdash; no document, no session, no stakeholder.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">Where it actually came from</div>
-          <div class="snippet">
-            <div class="from">The untraced SMS requirement</div>
-            <blockquote>"It came from the boilerplate appendix of the RFP &mdash; the document Harbor
-              issued to hire the pod &mdash; and no human ever confirmed it."</blockquote>
-          </div>
         </div>
         <div class="eg">
-          <div class="plabel">What happened to it</div>
-          <div class="snippet resolve">
-            <div class="from">Recorded in the scope-out list</div>
-            <blockquote>"Cut on day 5; recorded in scope-out so the choice is visible, not silent."</blockquote>
-          </div>
+          <div class="plabel">The decision log &mdash; nine surfaced, the two that mattered</div>
+          <p>All nine decisions surfaced this phase were answered inside it. The two with teeth:</p>
+          <table class="ref-doc" style="margin-top:12px;">
+            <thead><tr><th>ID</th><th>Decision</th><th>Answer</th><th>Who</th><th>Days</th></tr></thead>
+            <tbody>
+              <tr><td>D-07</td><td>Duplicate FNOL (same policy + loss date): reject, queue separately, or merge?</td><td>Flag and merge; never reject; submitter gets the existing claim number</td><td>Luis</td><td>0</td></tr>
+              <tr><td>D-09</td><td>Does the fast-path decide, or recommend?</td><td>v1 recommends; an adjuster confirms with one click; revisit after a year of override data</td><td>Luis</td><td>2</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <p class="dim" style="margin-top:22px;">The scope-out record, shown to Karen Voss at the phase
-        review, in writing:</p>
+      <p class="dim" style="margin-top:22px;">Day&nbsp;5's traceability check claimed one casualty &mdash; a
+        candidate SMS-notification requirement that traced to nothing but RFP boilerplate, confirmed by no
+        human. It was cut and recorded in the scope-out list Karen saw at the review:</p>
       <ul style="margin-top:8px;">
-        <li>Auto claims (the data model must not preclude them &mdash; C-03 &mdash; but nothing ships
-          for them in v1)</li>
+        <li>Auto claims (the data model must not preclude them &mdash; C-03 &mdash; but nothing ships for them
+          in v1)</li>
         <li>SMS notifications (the RFP boilerplate requirement that traced to nothing &mdash; cut on day 5)</li>
         <li>Fraud scoring and ML-based triage (fast-path uses explicit rules, not a model)</li>
         <li>Payment disbursement changes (intake through decision only; payment flows untouched)</li>
         <li>The adjuster dashboard rebuild (cut in the priority session; current screens survive v1)</li>
       </ul>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 08 — THE ADVERSARIAL REVIEW                                            -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
-      <p class="kicker">Day 5 &mdash; fresh eyes, on purpose</p>
-      <h2>Have someone who didn't write it try to break it</h2>
-      <p class="lead"><code>/sdlc-review --adversarial</code> spawned the <code>multi-reviewer</code>
-        agent &mdash; reviewers that didn't write the draft &mdash; against the full requirements set.
-        Its findings, plus Nadia's pass, produced two real catches the authors couldn't see.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">Catch one &mdash; a missing failure path</div>
-          <div class="snippet">
-            <div class="from">Against the written-acknowledgment rule</div>
-            <blockquote>"The acknowledgment requirement had no failure path for bounced email. REQ-022
-              &mdash; a bounce-to-postal fallback &mdash; was added."</blockquote>
-          </div>
-        </div>
-        <div class="eg">
-          <div class="plabel">Catch two &mdash; a hidden conflict</div>
-          <div class="snippet">
-            <div class="from">The fast-path vs the regulatory clock</div>
-            <blockquote>"A 'recommend' fast-path (D-09) could let a claim sit unconfirmed past the
-              regulatory clock. Resolved by adding the clock to the fast-path queue's escalation rule."</blockquote>
-          </div>
-        </div>
+      <div class="aha warn">
+        <div class="lbl">Two catches the authors couldn't see</div>
+        <p>The day-5 adversarial review &mdash; reviewers who wrote none of the draft &mdash; found a missing
+          failure path (a bounced acknowledgment against a written-acknowledgment state rule &rarr; REQ-022,
+          bounce-to-postal) and a hidden conflict (a "recommend" fast-path could let a claim sit past the
+          regulatory clock &rarr; the clock added to the fast-path escalation rule). Both were caught here, for
+          the price of an afternoon, instead of in the build.</p>
       </div>
-      <p class="dim" style="margin-top:22px;">The decision log &mdash; nine decisions surfaced, all nine
-        answered inside the phase. The two that mattered:</p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>ID</th><th>Decision</th><th>Answer</th><th>Who</th><th>Days open</th></tr></thead>
-        <tbody>
-          <tr><td>D-07</td><td>Duplicate FNOL for the same policy + loss date: reject, queue separately, or merge?</td><td>Flag and merge; never reject; submitter gets the existing claim number</td><td>Luis</td><td>0 (same day)</td></tr>
-          <tr><td>D-09</td><td>Does fast-path decide or recommend?</td><td>v1 recommends, adjuster confirms with one click; revisit after a year of override data</td><td>Luis</td><td>2 (used the full clock)</td></tr>
-        </tbody>
-      </table>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 09 — HOW THE FIVE DAYS PLAYED OUT                                      -->
+  <!-- 08 — WHAT PHASE 2 RECEIVES                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">The week, end to end</p>
-      <h2>The week, end to end</h2>
-      <p class="lead">Five business days, Monday 3/16 to Friday 3/20. Front-loaded with conversation,
-        back-loaded with verification. The tooling line under each day names the slash command and the
-        agent or script it triggers.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>Day</th><th>What happened</th><th>Tooling</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Day 1</strong><br>Mon 3/16<br>handoff &amp; plan</td><td>Q-13 (Luis): the 15-day acknowledgment clock applies to every channel, and one regulated state requires a <em>written</em> acknowledgment &mdash; a portal screen alone does not count. Q-14 (Priti): the segmentation query says <strong>61%</strong> of claims are single-dwelling, no-injury, under $25k. The <code>requirements-analyst</code> agent drafts the six-epic map; Maya corrects one boundary (email is its own beast, not part of the queue epic). Jonah and Sara start the feasibility spikes.</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code> agent</td></tr>
-          <tr><td><strong>Day 2</strong><br>Tue 3/17<br>elicitation</td><td>Five sessions, 60&ndash;90 min, Maya facilitating: queue/assignment (Dee + two clerks, who reveal the duplicate-FNOL workaround), coverage (Gail, Marcus), fast-path (Luis, Marcus), acknowledgments (compliance), instrumentation (Priti). By evening Claude has structured the notes into 31 candidate requirements, each with a source trace.</td><td>No plugin command (human sessions)</td></tr>
-          <tr><td><strong>Day 3</strong><br>Wed 3/18<br>full draft &amp; decisions</td><td>31 functional requirements and 7 NFRs land; NFR-02 exposes the storm-surge gap. The decision list regenerates to 9 open items for Luis &mdash; D-07 answered same day, D-09 takes the full two days. Nadia's testability pass sends 5 of 31 acceptance criteria back. 30-min sponsor checkpoint.</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code> agent</td></tr>
-          <tr><td><strong>Day 4</strong><br>Thu 3/19<br>priorities &amp; stories</td><td>The 90-min priority session: 12-slot budget, 19 candidates, Luis cuts 7 (including the adjuster dashboard). Epics sequenced by what moves the metric. Stories drafted with real stakeholders; error specs for all 12 P0 requirements. Spikes land: DOC-007 is stale in a useful direction &mdash; PolicyOne now exposes a read-only nightly snapshot replica (becomes Q-15); the FNOL inbox is readable programmatically.</td><td><code>/sdlc-coach</code> (stories + P0 error specs); priority session is the PO's room</td></tr>
-          <tr><td><strong>Day 5</strong><br>Fri 3/20<br>verify, review, gate</td><td>Traceability check cuts the untraced SMS requirement. <code>multi-reviewer</code> plus Nadia's pass produce two catches (REQ-022 bounce-to-postal; the fast-path/regulatory-clock conflict). The gate passes clean; Claude drafts the Phase 2 handoff. Luis confirms the requirements; Karen sees the scope-out list. Sign-off; the engagement advances. First biweekly steering booked for Thursday 3/26. Billing milestone 2.</td><td><code>/sdlc-review --adversarial</code> &rarr; <code>multi-reviewer</code> · <code>/sdlc-gate</code> &rarr; <code>check_gates.py</code> · <code>/sdlc-phase-report</code> &rarr; <code>generate_phase_report.py</code> · <code>/sdlc-next</code> &rarr; <code>advance_phase.py</code></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+      <span class="modnum">08</span>
+      <p class="kicker">The handoff &mdash; and the architectural questions that travel with it</p>
+      <h2>What Phase 2 receives</h2>
+      <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses the
+        boundary into Design: the signed requirements, the quality targets, the epics &mdash; and, carried in
+        <code>phase2-handoff.md</code>, the questions the requirements <em>raise</em> but must not answer,
+        because answering them is Design's job.</p>
 
-  <!-- ===================================================================== -->
-  <!-- 10 — WHAT TO NOTICE / THE HANDOFF                                      -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
-      <p class="kicker">What earned its slot &mdash; and the handoff to design</p>
-      <h2>The failure modes, and the defense against each</h2>
-      <p class="lead">Several of Phase&nbsp;1's classic traps showed up at Harbor and got caught in the
-        act &mdash; because the structure was built to catch them.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>The trap</th><th>At Harbor</th></tr></thead>
+      <div class="artifacts" style="margin:22px 0 8px;">
+        <span class="lbl">Crosses into Phase 2</span>
+        <span class="tag">phase2-handoff.md</span>
+        <span class="tag">requirements.md</span>
+        <span class="tag">non-functional-requirements.md</span>
+        <span class="tag">epics.md</span>
+        <span class="tag amber">the decision log &rarr; open questions Q-15, Q-16</span>
+        <span class="tag amber">the scope-out record</span>
+      </div>
+
+      <p class="kicker" style="margin-top:30px;">The architectural questions Design must answer</p>
+      <p class="dim">This is the thread that ties the two phases together, and the one place a name in this
+        handoff reaches directly into the next phase's first command. The requirements raise four questions they
+        deliberately do not answer &mdash; each recorded as an <code>AQ-NN</code> in
+        <code>phase2-handoff.md</code>, under its &ldquo;What Design Must Address&rdquo; section.
+        Phase&nbsp;2's <strong>Step&nbsp;0</strong> reads <em>exactly these</em> out of the handoff and turns
+        each into a signed ADR before it may write anything else.</p>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>AQ</th><th>The question the requirements raise</th><th>Raised by</th><th>Becomes</th></tr></thead>
         <tbody>
-          <tr><td><strong>Everything is top priority</strong></td><td><strong>Held</strong> &mdash; 19 candidates, 12 slots, 7 cut; the PO did the cutting, not the pod</td></tr>
-          <tr><td><strong>The hiring doc as gospel</strong></td><td><strong>Caught</strong> &mdash; the SMS line traced only to the RFP boilerplate; cut on day 5</td></tr>
-          <tr><td><strong>The untestable line</strong></td><td><strong>Caught</strong> &mdash; 5 of 31 acceptance criteria sent back by the testability pass</td></tr>
-          <tr><td><strong>Quality-target theater</strong></td><td>All 7 NFRs carry a measurement basis; NFR-02 surfaced the storm surge nobody had named</td></tr>
-          <tr><td><strong>Only hearing managers</strong></td><td><strong>Caught</strong> &mdash; the intake clerks, not Dee, found the duplicate-FNOL workaround</td></tr>
-          <tr><td><strong>The spike beat the document</strong></td><td>DOC-007 was stale in a useful direction; only running the check live found the snapshot replica</td></tr>
+          <tr><td>AQ-01</td><td>Where does a coverage check get its answer, given the once-a-night PolicyOne sync?</td><td>REQ-014 (same-day) vs C-02/CON-01 (nightly batch)</td><td>ADR-001</td></tr>
+          <tr><td>AQ-02</td><td>What shape is the claim store, so duplicate-merge and auto-proof are both honored?</td><td>REQ-004/D-07, C-03, NFR-07</td><td>ADR-002</td></tr>
+          <tr><td>AQ-03</td><td>How does intake absorb a 10x storm surge without dropping claims?</td><td>NFR-02</td><td>ADR-003</td></tr>
+          <tr><td>AQ-04</td><td>How is a free-text email FNOL turned into a structured queue entry?</td><td>REQ-009</td><td>ADR-004</td></tr>
         </tbody>
       </table>
-      <p class="dim" style="margin-top:24px;">The Phase 2 handoff carried two open questions forward
-        under their original IDs:</p>
+      <p class="note">An <code>AQ</code> that reaches the end of design week with no ADR is a gate failure. That
+        is how Phase&nbsp;1's homework becomes Phase&nbsp;2's output &mdash; and until this page said so, no
+        companion page named the connection.</p>
+
+      <p class="kicker" style="margin-top:30px;">The open questions, carried under their original IDs</p>
       <table class="ref-doc" style="margin-top:12px;">
         <thead><tr><th>ID</th><th>Question</th><th>Owner</th><th>Due</th></tr></thead>
         <tbody>

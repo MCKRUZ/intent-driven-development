@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -863,225 +864,434 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — WHY THIS PHASE EXISTS                                             -->
+  <!-- 01 — WHAT PHASE 9 RECEIVED                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and where Phase 9 starts</p>
-      <h2>Live is not the same as watched</h2>
+      <p class="kicker">Before a single alarm is wired, three things arrive &mdash; and the promises Phase 2 made come due</p>
+      <h2>What Phase 9 received</h2>
       <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; rebuilt how
-        property-insurance claims get reported and decided. Production went live Thursday 2026-07-23;
-        hypercare is running on its two-week window. Phase 9 runs inside it on purpose: the system is
-        finally producing real baseline data, and the pod is still beside Harbor's operators while they
-        take the watch. Two weeks &mdash; Monday 2026-07-27 to Friday 2026-08-07 &mdash; and the gate
-        falls the day hypercare ends.</p>
+        property-insurance claims get reported and decided. A claim took a median of <strong>11.4 days</strong>
+        from FNOL (first notice of loss) to a coverage decision; the target is <strong>5 days or less</strong>.
+        Production went live Thursday <strong>2026-07-23</strong>; hypercare is running on its two-week window.
+        Phase 9 does not start from a blank page &mdash; it starts from a live system, a handoff on disk, and a
+        plan written months ago about where every number would be read.</p>
+
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Inherited &mdash; the three inputs Phase 9 is built on</span>
+        <span class="tag">phase9-handoff.md</span>
+        <span class="tag">RUNBOOK.md &mdash; the failure scenarios</span>
+        <span class="tag amber">nfr-proving-plan.md &mdash; from Phase 2; the promises now due</span>
+        <span class="tag green">the live system &mdash; producing real numbers, not a document</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The story so far</div>
-          <p>A claim took a median of <strong>11.4 days</strong> from FNOL (first notice of loss &mdash;
-            the policyholder reporting the damage) to a coverage decision. Target: <strong>5 days or
-            less</strong>. The system: portal/phone/email FNOL intake &rarr; buffered claim queue &rarr;
-            coverage verification against PolicyOne's nightly <strong>snapshot replica</strong> (unavailable
-            02:00&ndash;04:30 during refresh) &rarr; fast-path recommendations &rarr; acknowledgment dispatch
-            via the postal vendor.</p>
-          <p>Nobody new joins the story this phase: the people who answer Harbor's pager are the people in
-            every session.</p>
+          <div class="plabel">The through-line: Phase 2 said where each number would be read</div>
+          <p>Back in design week, the quality engineer wrote an <strong>NFR proving plan</strong> &mdash; for
+            every quality target, the method that would prove it and <em>the named place its number would be
+            read</em>. Phase 9 is where those promises come due.</p>
+          <ul>
+            <li><strong>NFR-01</strong> (ingestion p95 &lt; 5s) &mdash; "read from the monitoring dashboard."
+              That dashboard gets built this week.</li>
+            <li><strong>NFR-02</strong> (the 10x surge) &mdash; "read from the load-test report." Late July gave
+              Harbor no storm, so this one stays modeled.</li>
+            <li><strong>ADR-004</strong> eval gate (&ge;95% email-extraction accuracy) &mdash; "read from the
+              eval suite in CI." Phase 9 turns that into a live production watch.</li>
+          </ul>
+          <p style="margin-top:12px;">A proving plan that named the reading spot but never got read would be a
+            promise quietly broken. This is the week it gets kept.</p>
         </div>
         <div class="eg">
           <div class="plabel">Where Phase 9 starts</div>
+          <p>The system: portal / phone / email FNOL intake &rarr; a buffered claim queue &rarr; coverage
+            verification against PolicyOne's nightly <strong>snapshot replica</strong> (unavailable
+            02:00&ndash;04:30 during refresh) &rarr; fast-path recommendations &rarr; acknowledgment dispatch
+            through the postal vendor.</p>
           <div class="snippet">
-            <div class="from">Where we are (the close)</div>
+            <div class="from">From phase9-handoff.md &mdash; where we are</div>
             <blockquote>"Live since 7/23 (cutover at intake; legacy fallback warm). Hypercare running. The
-              first real numbers exist; nothing pages anyone yet. This phase: dashboards, alerts derived
-              from real baselines, a drilled response, and the engagement retrospective."</blockquote>
+              first real numbers exist; nothing pages anyone yet."</blockquote>
           </div>
-          <p style="margin-top:12px;"><strong>The pod:</strong> Maya Chen (Pod Lead &mdash; this phase is
-            hers, jointly with Harbor's ops), Rob Feld (Setup Owner), Jonah Kim and Sara Whitfield
-            (Orchestrators), Nadia Brooks (Quality Engineer &mdash; owns the drill).</p>
+          <p style="margin-top:12px;"><strong>Nobody new joins the story.</strong> The people who will answer
+            Harbor's pager are the people who sat in every session &mdash; which is the whole point of the two
+            weeks.</p>
         </div>
       </div>
-      <div class="aha warn">
-        <div class="lbl">Skip this phase and&hellip;</div>
-        <p>The first time you learn the system is broken is when a customer calls &mdash; and by then it's
-          been broken for hours, with no record of how to fix it.</p>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead &mdash; this phase is hers, jointly with Harbor's operations</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; designs and owns the alert drill</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; wires monitoring into Harbor's own stack</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Orchestrator &mdash; drafts alert and dashboard config; fixes through the loop</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator &mdash; drives the playbook draft; fixes through the loop</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">On-call lead &amp; operators</span><span class="rl">Own everything this phase produces; answer the drill from the playbook</span></div>
+          <div class="person"><span class="nm">Tom Reilly</span><span class="rl">Platform engineer &mdash; wires channels and paging; agrees the synthetic triggers</span></div>
+          <div class="person"><span class="nm">Priti Shah</span><span class="rl">Data &amp; reporting &mdash; the business dashboards; named on the surge-threshold revisit</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT security &mdash; the security alert lane</span></div>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Product owner &mdash; confirms the business metrics measure what the business means</span></div>
+          <div class="person"><span class="nm">Dee Alvarez</span><span class="rl">Intake supervisor &mdash; the intake-degraded communication path</span></div>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">VP Claims Operations &mdash; sponsor; hears the first honest metric read</span></div>
+        </div>
       </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every artifact in this engagement carries a stable identifier, so a promise made in design week can
+            still be traced when its number comes due in production. The prefixes Phase 9 touches:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Prefix</th><th>Means</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>NFR-NN</code></td><td>A non-functional requirement &mdash; a quality target with a number</td><td>Phase 1</td><td>NFR-01 ingestion p95 · NFR-02 the 10x surge</td></tr>
+              <tr><td><code>REQ-NNN</code></td><td>A functional requirement</td><td>Phase 1</td><td>REQ-014 same-business-day coverage status</td></tr>
+              <tr><td><code>ADR-NNN</code></td><td>An architecture decision record &mdash; a signed choice</td><td>Phase 2</td><td>ADR-004 email-extraction eval gate</td></tr>
+              <tr><td><code>C-NN</code></td><td>A constraint &mdash; a hard limit the system must honor</td><td>Phase 0</td><td>C-04 the acknowledgment regulatory clock</td></tr>
+              <tr><td><code>D-NN</code></td><td>A product decision</td><td>Phase 0/1</td><td>D-09 the fast path (61% of claims)</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with an owner and a due date</td><td>any</td><td>Q-18 the surge load-test dataset</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The thread tying design to production: Phase 2's proving plan named, per NFR, the place
+            its number would be read. Phase 9 either reads it &mdash; on a dashboard, in an alert, on the
+            scorecard &mdash; or flags it modeled with a revisit date. A proving plan whose numbers never got
+            read is homework nobody graded.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 02 — WHAT DOES HEALTHY MEAN                                            -->
+  <!-- 02 — THE PROCEDURE                                                     -->
   <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">Days 1-2 — what does healthy mean?</p>
-      <h2>Decide what "healthy" means &mdash; together</h2>
-      <p class="lead">No plugin command &mdash; the session is the pod and Harbor's operations in a room
-        with the RUNBOOK's five failure scenarios on the wall. For each failure scenario and each
-        top-priority journey: what does healthy look like, what does degraded look like, who gets woken,
-        who merely gets told in the morning. Harbor's on-call lead's answers win ties &mdash; it is their
-        3 a.m.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The deepest decision of the phase</div>
-          <p>The 02:00&ndash;04:30 replica unavailability is designed behavior (REQ-014 degrades to "pending
-            verification"); an alert that fires every night at 02:00 trains the on-call to ignore the one
-            that matters. The verification alert gets an explicit suppression window &mdash; and a companion
-            check that the system <em>recovered</em> after 04:30, which is the part actually worth waking
-            for.</p>
-          <p>And: vendor blips are warnings; sustained bursts are critical. Hypercare day one already showed
-            the acknowledgment dispatcher retrying hard through a brief postal-vendor blip and delivering on
-            retry. The system behaving well shouldn't page; the same pattern sustained for an hour should.</p>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">The plugin's seven steps, the pod's ten days, braided</p>
+        <h2>The procedure, step by step</h2>
+        <p class="lead">Phase 9 is seven numbered steps in <code>claude-code-sdlc</code> and ten working days in
+          this standard, run inside the hypercare window. Below, they're braided: what the tool runs, what the
+          humans do that the tool cannot, and the file each beat leaves behind. Two of the most important beats
+          &mdash; the drill and the what-healthy session &mdash; have no command at all. <strong>Step through
+          it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
         </div>
-        <div class="eg">
-          <div class="plabel">The suppression-window decision</div>
-          <div class="snippet">
-            <div class="from">The trap</div>
-            <blockquote>"An alert that fires every night at 02:00 trains the on-call to ignore the one that matters."</blockquote>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 9 procedure, day by day" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Days 1-2">
+          <div class="day">Days 1&ndash;2 &mdash; Mon&ndash;Tue 7/27&ndash;28 <span class="date">· plugin Step 0 opens</span></div>
+          <h3>Agree what "healthy" means, together, before anything is wired</h3>
+          <p>The plugin's Step 0 is a <strong>blocking human gate</strong>: before configuring any monitoring,
+            Claude asks the client, via <code>AskUserQuestion</code>, the top failure modes, who gets paged and
+            at what threshold, and which stack the alerts live in. But those four questions are the thin version.
+            The phase's defining session is deeper and has no command: the pod and Harbor's operations walk every
+            RUNBOOK failure scenario and every top-priority journey and answer, for each, what healthy looks
+            like, what degraded looks like, and who gets woken versus who's told in the morning.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> Step 0 HITL gate</span>
+            <span class="none">the what-healthy session &mdash; humans in a room, no command</span>
           </div>
-          <div class="snippet resolve">
-            <div class="from">What they decided</div>
-            <blockquote>"Suppress during the refresh window — but add a check that the system recovered after
-              04:30. That's the part actually worth waking for."</blockquote>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">the healthy / degraded / who-is-woken table &mdash; decided in the room, not yet on disk</span>
           </div>
-          <p style="margin-top:12px;">Scope lands in writing: everything wires into <strong>Harbor's Azure
-            Monitor workspace</strong> &mdash; where Tom's team already lives &mdash; with paging through
-            their existing rotation. No pod-owned stack.</p>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The deepest decision of the phase came from Harbor's side of the table. The replica is unavailable
+              02:00&ndash;04:30 nightly by design (REQ-014 degrades to "pending verification") &mdash; so an
+              alert that fires every night at 02:00 would train the on-call to ignore the one that matters. They
+              chose a <strong>suppression window plus a post-04:30 recovery check</strong>: don't page for the
+              expected outage; do page if it fails to come back. Scope landed in writing &mdash; everything wires
+              into <strong>Harbor's Azure Monitor workspace</strong>, where Tom's team already lives, paging
+              through their existing rotation.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>The session that shapes the whole phase &mdash; the healthy/degraded/who-is-woken table &mdash; is
+              the standard's core human work, and <strong>no command captures it</strong>. The plugin's
+              <code>doc-updater</code> later writes <code>monitoring-config.md</code> from the measured baseline,
+              not from this session's transcript. The table only reaches disk if a human types it there. The
+              phase's most important input has no receipt of its own.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Days 3-4">
+          <div class="day">Days 3&ndash;4 &mdash; Wed&ndash;Thu 7/29&ndash;30 <span class="date">· plugin Step 1</span></div>
+          <h3>Measure what normal actually is; make it visible</h3>
+          <p>Now the machine runs. Claude spawns the <code>performance-benchmarker</code> agent to establish the
+            production baseline against the Phase 1 NFR targets, then the <code>doc-updater</code> agent to write
+            it up as the monitoring configuration. Every number is recorded with the period it was measured over.
+            Dashboards go live in Harbor's own workspace: system health, application health, and &mdash; built
+            with Priti in Harbor's reporting language &mdash; the business layer.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">Agent <span class="arrow">&rarr;</span> <span class="script">performance-benchmarker</span></span>
+            <span class="cmd">Agent <span class="arrow">&rarr;</span> <span class="script">doc-updater</span> <span class="arrow">&rarr;</span> monitoring-config.md</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out &mdash; under <code>.sdlc/artifacts/09-monitoring/</code></span>
+            <span class="tag">monitoring-config.md</span>
+            <span class="tag">baseline measurements (folded in)</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The measured baseline caught that production ran slightly <em>better</em> than the design-phase
+              estimate: replica verification p95 came in at <strong>165ms</strong> against Phase 2's ~180ms spike
+              number. Portal submit p95 410ms, intake error rate 0.3%, queue depth steady under 40. One honest
+              gap, written down not papered over: <strong>the surge path has no baseline</strong> &mdash; late
+              July gave Harbor no storm &mdash; so its thresholds derive from Q-18's modeled 2024 CAT dataset,
+              flagged modeled with Priti named on the revisit.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 &mdash; Fri 7/31 <span class="date">· plugin Step 2</span></div>
+          <h3>Turn each failure mode into an alert &mdash; and cut the ones nobody would act on</h3>
+          <p>Claude drafts the alert table against the phase template &mdash; every critical failure mode gets a
+            condition derived from the baseline, a severity, a named recipient, and a playbook link, with the
+            derivation written next to the number. Then two pieces of human work the plugin does not perform: the
+            operators <strong>confirm every threshold</strong> (the named human stop of the phase), and the
+            <strong>alert-fatigue review</strong> replays each proposed condition over the hypercare history and
+            cuts anything that would fire weekly without demanding action.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> alert-definitions.md</span>
+            <span class="none">threshold confirmation &amp; fatigue review &mdash; human work, no command</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">alert-definitions.md</span>
+            <span class="tag green">operations' confirmation on every threshold</span>
+            <span class="tag amber">the fatigue-review record &mdash; the method requires it; nothing writes it</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Six alerts shipped; the fatigue review cut two before they went live &mdash; a per-instance CPU
+              alert (not actionable; the platform autoscales) and a portal-latency warning (it duplicated the
+              intake error-rate signal). "2x the measured p95 over 10 minutes" survives an argument in six
+              months; "500ms" would not. Six actionable alerts beat eight the on-call learns to swipe away.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Days 6-7">
+          <div class="day">Days 6&ndash;7 &mdash; Mon&ndash;Tue 8/3&ndash;4 <span class="date">· plugin Step 3</span></div>
+          <h3>Write down what to do when it fires</h3>
+          <p>Claude drafts the incident playbook against the alert table and the Phase 7 RUNBOOK: per alert, what
+            it means, the first three diagnosis steps, the P1/P2/P3 classification, the escalation names, and the
+            communication templates &mdash; what users and leadership hear while it's happening, and who says it.
+            It cross-references the RUNBOOK for resolution rather than repeating it. Harbor's on-call lead
+            corrects it line by line.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> incident-response.md</span>
+            <span class="none">the on-call lead's line-by-line correction &mdash; human</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">incident-response.md</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Every escalation name in the playbook was Harbor's own; the pod appears once, at the bottom of the
+              chain &mdash; "escalation of last resort until Close." The playbook spelled out exactly what the
+              claims office hears from Dee's intake team when intake degrades, and what leadership hears on a P1.
+              One source of truth per failure, two lenses on it: the playbook detects and communicates, the
+              RUNBOOK resolves.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 8">
+          <div class="day">Day 8 &mdash; Wed 8/5 <span class="date">· no plugin step exists</span></div>
+          <h3>Fire every critical alert on purpose &mdash; and watch the client answer it</h3>
+          <p>Each critical alert is triggered for real, one at a time, through a synthetic trigger agreed with
+            Tom in advance &mdash; replica reads blocked outside the window, a retry storm on the dispatch test
+            lane, flagged test messages pushed past the queue threshold, a staleness clock wound forward.
+            Harbor's on-call responds from the playbook while Nadia observes in silence. What breaks gets fixed
+            through the loop and re-drilled until clean.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; the drill is human work; no command, and no step in the plugin runs it</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag amber">drill-record.md &mdash; the registry marks it optional; nothing writes it</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap that should alarm you most</div>
+            <p>The exit gate has a <strong>teeth</strong> condition: <em>"Alert drill executed: every critical
+              alert fired and answered from the playbook."</em> Yet there is <strong>no drill step in the
+              plugin</strong> &mdash; the workflow runs Step 0 through Step 6 and never mentions one &mdash;
+              <strong>no command</strong> triggers it, and <code>drill-record.md</code> is listed <em>optional</em>.
+              The single most valuable act of the phase, the one that separates a procedure from a wish, is
+              required by the gate and produced by nothing. This is exactly the work that caught Harbor's
+              silent-night bug.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The drill earned its keep. VERIFY-DEGRADED routed to the general ops channel instead of the pager
+              rotation &mdash; a routing-key typo that would have meant a silent night during a real incident.
+              Fixed by reviewed PR, re-fired 11:05, paged in 38 seconds, closed clean. A second finding &mdash; a
+              playbook step that opened a dashboard needing pod permissions &mdash; was caught and re-drilled
+              clean the same day. Both fixes rode the full loop: specs, the grader, a non-author Checker, in a
+              monitoring week.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 9">
+          <div class="day">Day 9 &mdash; Thu 8/6 <span class="date">· plugin Step 4</span></div>
+          <h3>Ask the cumulative question: what did the whole engagement learn?</h3>
+          <p>Claude spawns the <code>feedback-synthesizer</code> agent in the background to assemble the
+            hypercare findings and intake-team feedback, and <code>/visual-explainer</code> renders the evidence
+            pack the room argues from. Then the half-day itself, which no command can do: the pod plus Harbor's
+            core people argue from receipts &mdash; the metrics history, the Retro+ log, every escaped bug with
+            its "which check should have caught it?" answer, the gate records. The AI assembles the evidence; the
+            humans own the candor.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">Agent <span class="arrow">&rarr;</span> <span class="script">feedback-synthesizer</span></span>
+            <span class="cmd">/visual-explainer <span class="arrow">&rarr;</span> the evidence pack</span>
+            <span class="none">the candor &mdash; human; a flattering drafter produces a worthless retro</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">project-retrospective.md</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The retro argued from receipts, not adjectives. Not "security review was slow" but
+              <strong>2.1-day median against a 0.9-day general queue</strong> &mdash; and a structural fix, a
+              twice-weekly committed slot in Dan's calendar, not an exhortation. Three concrete outputs: the
+              technical debt log, the client-facing improvements, and a four-item harvest list &mdash; among them
+              the suppression-window-plus-recovery-check pattern born this very week.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 10">
+          <div class="day">Day 10 &mdash; Fri 8/7 <span class="date">· plugin Steps 5&ndash;6 · the gate</span></div>
+          <h3>Hand over the watch, run the gate, read the metric honestly</h3>
+          <p>The machine renders the visual report and runs the gate. <code>check_gates.py</code> reports;
+            <code>advance_phase.py</code> will not move the engagement to Close without <code>--confirmed</code>
+            &mdash; a named human's sign-off. Because the gate falls at hypercare's end, signing it is also the
+            moment the pod formally hands over the watch: the dashboards, the pager rotation, and the playbook
+            become Harbor's, with the pod one escalation away until Close.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/visual-explainer <span class="arrow">&rarr;</span> .sdlc/reports/phase09-visual.html</span>
+            <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+            <span class="cmd">/sdlc-phase-report <span class="arrow">&rarr;</span> <span class="script">generate_phase_report.py</span></span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py --confirmed</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">.sdlc/reports/phase09-report.html</span>
+            <span class="tag amber">close-handoff.md &mdash; the registry requires it; the phase body never says what it is</span>
+            <span class="tag green">the sponsor's signature &mdash; billing milestone 7</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">What the gate actually checks</div>
+            <p><code>check_gates.py</code> verifies that five files exist, are non-empty, and contain no
+              placeholder text. The two conditions with real teeth &mdash; <em>every threshold derived from a
+              measured baseline</em> and <em>the drill executed</em> &mdash; are free-text <code>check:</code>
+              lines the script never evaluates. And one of the five required files, <code>close-handoff.md</code>,
+              has <strong>no Artifact Specification anywhere in the phase body</strong> &mdash; the registry
+              demands a file the instructions never describe. The human gate is real; what it verifies is thinner
+              than what the standard asks.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The outcome metric read spectacularly &mdash; and was deliberately underclaimed.</p>
+            <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">1.9</span>
+              <small>days, all-claims baseline &rarr; fast-path claims (61% of volume) over the two live weeks</small></div>
+            <p style="margin-top:12px;">Steering heard it with the caveat welded on: complex claims are mostly
+              still in flight, so the <em>overall</em> median can't be read fairly until a full quarter. C-04
+              acknowledgment compliance: 100%, system-enforced. Karen signed &mdash; billing milestone 7. The
+              watch became Harbor's.</p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 7</span>
+          <button data-tl-next type="button">Next &rarr;</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — THE FOUR QUESTIONS                                                -->
+  <!-- 03 — THE ARTIFACT LEDGER                                               -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">Harbor's four answers — and the cast that owns them</p>
-      <h2>Four questions &mdash; and deliberately nothing else</h2>
-      <p class="lead">Everything Phase 9 produces serves one of four questions. Harbor's answers, then the
-        full cast &mdash; the people who answer the pager are the people in every session.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The four questions</div>
-          <ol>
-            <li><strong>Can the client see the system?</strong></li>
-            <li><strong>Will the right person find out, at the right urgency?</strong></li>
-            <li><strong>Does the response actually work?</strong></li>
-            <li><strong>What did the engagement learn?</strong></li>
-          </ol>
-        </div>
-        <div class="eg">
-          <div class="plabel">Harbor's four answers</div>
-          <ol>
-            <li>Three dashboards in Harbor's Azure Monitor workspace &mdash; system, application, business
-              &mdash; each with a named owner.</li>
-            <li>Six alerts (section below), each routed to Harbor's on-call rotation, each tied to a real
-              failure mode.</li>
-            <li>A day-8 drill where every critical alert fired and Harbor's own on-call answered it.</li>
-            <li>A retrospective that sent four patterns home for the next project's kit.</li>
-          </ol>
-        </div>
-      </div>
-      <p class="dim" style="margin-top:24px;">Harbor's cast for this phase &mdash; everyone here owns
-        something Phase 9 produces:</p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>Side</th><th>Person</th><th>Role this phase</th></tr></thead>
+      <p class="kicker">Everything that exists on Friday and didn't two weeks earlier</p>
+      <h2>What Phase 9 produced</h2>
+      <p class="lead">The monitoring phase's whole output, named. Blue rows are written by a command and checked
+        by the gate. <strong>Amber rows are the method's human work</strong> &mdash; required by this standard
+        (and in one case by the plugin's own gate), produced by no tool, and today leaving no file behind. Those
+        are the rows to argue about.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
         <tbody>
-          <tr><td>Harbor</td><td><strong>On-call lead &amp; operators</strong></td><td>Own everything this phase produces; respond to the drill from the playbook</td></tr>
-          <tr><td>Harbor</td><td><strong>Tom Reilly</strong></td><td>Platform engineer &mdash; wires channels/paging; agrees the synthetic triggers</td></tr>
-          <tr><td>Harbor</td><td><strong>Priti Shah</strong></td><td>Data &amp; reporting lead &mdash; the business dashboards; named on the surge-threshold revisit</td></tr>
-          <tr><td>Harbor</td><td><strong>Dan Kowalski</strong></td><td>IT security &mdash; the security alert lane</td></tr>
-          <tr><td>Harbor</td><td><strong>Luis Ortega</strong></td><td>Product Owner &mdash; confirms the business metrics measure what the business means</td></tr>
-          <tr><td>Harbor</td><td><strong>Dee Alvarez</strong></td><td>Intake supervisor &mdash; the intake-degraded communication path</td></tr>
-          <tr><td>Harbor</td><td><strong>Karen Voss</strong></td><td>Sponsor &mdash; the gate steering, the first honest metric read</td></tr>
-          <tr><td>Pod</td><td><strong>Maya Chen</strong></td><td>Pod Lead &mdash; this phase is hers, jointly with Harbor's ops</td></tr>
-          <tr><td>Pod</td><td><strong>Nadia Brooks</strong></td><td>Quality Engineer &mdash; owns the drill</td></tr>
-          <tr><td>Pod</td><td><strong>Rob Feld</strong></td><td>Setup Owner &mdash; wires monitoring into Harbor's stack</td></tr>
+          <tr><td><span class="tag">monitoring-config.md</span></td><td>Dashboard inventory, metrics catalog, P0 coverage assessment, and the measured baseline &mdash; each number with its measurement period</td><td><code>performance-benchmarker</code> measures; <code>doc-updater</code> writes</td><td>Quality Engineer</td><td><code>.sdlc/artifacts/09-monitoring/</code></td><td>Close &mdash; the monitoring inventory Harbor inherits</td></tr>
+          <tr><td><span class="tag">alert-definitions.md</span></td><td>The six alerts: condition and derivation, severity, recipient, playbook link; per-critical detail; the alert philosophy</td><td>Claude drafts; operations confirm every threshold</td><td><strong>Client operations</strong></td><td><code>.sdlc/artifacts/09-monitoring/</code></td><td>The playbook; the drill</td></tr>
+          <tr><td><span class="tag">incident-response.md</span></td><td>Per alert: meaning, first diagnosis steps, P1/P2/P3, escalation names, communication templates; cross-references the RUNBOOK</td><td>Claude drafts; on-call lead corrects</td><td>Client operations</td><td><code>.sdlc/artifacts/09-monitoring/</code></td><td>The drill; Close</td></tr>
+          <tr><td><span class="tag">project-retrospective.md</span></td><td>What worked and didn't with receipts, the SDLC review, the technical debt log, and the harvest list &mdash; "the most important Phase 9 artifact"</td><td><code>feedback-synthesizer</code> assembles; the humans own the candor</td><td>Pod Lead</td><td><code>.sdlc/artifacts/09-monitoring/</code></td><td>The harvest PR (Phase C)</td></tr>
+          <tr><td><span class="tag">phase09-report.html</span><br><span class="tag">phase09-visual.html</span></td><td>The gate result and artifact inventory, self-contained &mdash; the document a sponsor actually reads before signing</td><td><code>generate_phase_report.py</code> · <code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate</td></tr>
+
+          <tr><td><span class="tag amber">drill-record.md</span></td><td>Per critical alert: the trigger, detection time, where it routed, who responded, the outcome &mdash; pass, or the finding and its fix. The one proof the pager works</td><td><strong>Quality Engineer, by hand</strong></td><td>QE</td><td class="dim">optional in the registry &mdash; no step runs the drill</td><td>The gate packet; Close</td></tr>
+          <tr><td><span class="tag amber">the what-healthy table</span></td><td>Per failure scenario and journey: healthy, degraded, who is woken, who is told in the morning. The session's entire output</td><td><strong>Pod + client operations</strong></td><td>On-call lead + Pod Lead</td><td class="dim">no path &mdash; folded into monitoring-config only if a human types it</td><td>Every alert definition</td></tr>
+          <tr><td><span class="tag amber">the fatigue-review record</span></td><td>Each proposed alert replayed over hypercare history; anything firing weekly without action raised or cut, with the count</td><td><strong>Quality Engineer</strong></td><td>QE</td><td class="dim">no path &mdash; nothing writes it</td><td>The shipped alert set</td></tr>
+          <tr><td><span class="tag amber">the outcome-metric first read</span></td><td>The engagement's headline number, read honestly for the first time in production, caveats attached</td><td><strong>Pod Lead + sponsor</strong></td><td>Sponsor</td><td class="dim">no path &mdash; on the business dashboard and spoken at steering</td><td>Close &mdash; the final scorecard</td></tr>
+          <tr><td><span class="tag amber">close-handoff.md</span></td><td>Monitoring inventory, drill record, debt log, open items with owners &mdash; the package Phase C opens on</td><td><strong>Claude drafts &mdash; but the phase body never says how</strong></td><td>Pod Lead</td><td class="dim">gate demands the path; no step writes it</td><td>Phase C, directly</td></tr>
         </tbody>
       </table>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Five of the eleven things Phase 9 is supposed to produce have nowhere the tooling puts them &mdash; and
+          two of them are the phase's whole reason to exist. The drill that caught Harbor's silent-night routing
+          typo is <em>required by the plugin's own exit gate</em> and produced by no step and no command. The
+          what-healthy session that shapes every alert reaches disk only if someone types it up. <strong>Human
+          work is not the problem. Human work without a receipt is.</strong></p>
+      </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase 9: new features, a parallel
+        monitoring stack of the pod's own (we wire into Harbor's), an alert-tooling migration, and the formal
+        harness handover &mdash; that is Close's job. The backlog stays closed; hypercare defects ride the loop,
+        as ever.</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 04 — THE BASELINE                                                      -->
+  <!-- 04 — THE ALERT TABLE, AS SHIPPED                                       -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">04</span>
-      <p class="kicker">Days 3-4 — the baseline and the dashboards</p>
-      <h2>Thresholds come from measured reality &mdash; not from a number that "felt right"</h2>
-      <p class="lead"><code>/sdlc</code> &rarr; the performance-benchmarker agent measures the production
-        baseline against the NFR targets; the doc-updater agent writes it up as the monitoring
-        configuration. The baseline comes from the first hypercare week of real traffic, each number with
-        its measurement period.</p>
-      <div class="bigstat"><span class="b">~180ms</span> &rarr; <span class="t">165ms</span>
-        <small>the Phase 2 design-phase estimate &rarr; the measured production p95 for replica verification</small></div>
-      <p style="margin-top:20px;"><strong>The measured baseline, as recorded:</strong></p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>Metric</th><th>Measured normal</th><th>Period</th></tr></thead>
-        <tbody>
-          <tr><td>Portal FNOL submit p95</td><td>410 ms</td><td>First hypercare week</td></tr>
-          <tr><td>Replica verification p95</td><td>165 ms (Phase 2 spike said ~180 &mdash; production runs slightly better)</td><td>First hypercare week</td></tr>
-          <tr><td>Intake error rate</td><td>0.3%</td><td>First hypercare week</td></tr>
-          <tr><td>Claim-queue depth</td><td>steady under 40</td><td>First hypercare week</td></tr>
-          <tr><td>Acknowledgment dispatch median</td><td>22 min from decision (every one inside the C-04 clock)</td><td>First hypercare week</td></tr>
-        </tbody>
-      </table>
-      <p class="note" style="margin-top:14px;">One honest gap, written down rather than papered over:
-        <strong>the surge path has no baseline</strong> &mdash; late July gave Harbor no storm. Surge
-        thresholds derive from Q-18's modeled dataset (the 2024 CAT event: peak 1,710 claims/day, nine
-        elevated days) and are <strong>flagged modeled, revisit at first real CAT event</strong>, with
-        Priti named on the revisit.</p>
-      <p style="margin-top:14px;">Dashboards go live in Harbor's workspace, each with a named owner: system
-        health (Tom), application health (on-call lead), and the business layer built with Priti in Harbor's
-        own reporting language &mdash; the FNOL&rarr;decision clock, fast-path share, and the C-04
-        acknowledgment compliance, which the system now enforces rather than vigilance.</p>
-      <div class="aha warn">
-        <div class="lbl">The headline failure mode of Phase 9</div>
-        <p>Thresholds set by intuition. No number in Harbor's table "felt right" &mdash; every one can
-          explain itself, and the one set from modeled data says so on its face, with a named revisit.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 05 — ALERT FATIGUE                                                     -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">05</span>
-      <p class="kicker">Day 5 — the alert definitions, and the fatigue review</p>
+      <p class="kicker">An exhibit from <code>alert-definitions.md</code> &mdash; the six that shipped</p>
       <h2>An alert nobody acts on is noise wearing a badge</h2>
-      <p class="lead"><code>/sdlc-coach</code> &rarr; drafts the alert table against the phase template;
-        Harbor's operations confirm every threshold &mdash; the named human stop of this phase. Six alerts
-        ship, every threshold derived from the baseline or explicitly modeled, every one with a named
-        recipient and a playbook link.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The fatigue review</div>
-          <p>The derivation is written beside each number: "2x baseline p95 sustained 10 minutes" survives
-            an argument later; "500 ms" would not.</p>
-          <p>The fatigue review cuts two proposals before they ship: a per-instance CPU alert (not
-            actionable &mdash; the platform autoscales; Tom watches capacity on the dashboard) and a portal
-            latency warning that duplicated the intake error-rate signal. Six actionable beats eight
-            ignorable.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">Cut at the fatigue review</div>
-          <div class="decision">
-            <strong>Per-instance CPU alert</strong> &mdash; cut. Not actionable under autoscale; capacity
-            already on Tom's dashboard.<br><br>
-            <strong>Portal latency warning</strong> &mdash; cut. Duplicated INTAKE-ERROR-RATE's signal.
-          </div>
-          <p style="margin-top:12px;">Six actionable alerts beat eight ignorable ones.</p>
-        </div>
-      </div>
-
-      <h2 style="margin-top:34px;">Artifact: the alert table (as shipped)</h2>
-      <table class="ref-doc" style="margin-top:12px;">
+      <p class="lead">Every row derives its threshold from the measured baseline or says on its face that it's
+        modeled. Every row pages a named recipient and links a playbook step. The measured baseline itself
+        caught that production ran slightly <em>better</em> than the design-phase estimate &mdash; replica
+        verification came in at 165ms against Phase 2's ~180ms spike. The two proposals that couldn't survive
+        the fatigue review aren't here; that's the point.</p>
+      <table class="ref-doc" style="margin-top:18px;">
         <thead><tr><th>Alert</th><th>Condition (derivation)</th><th>Severity</th><th>Pages</th></tr></thead>
         <tbody>
           <tr><td>VERIFY-DEGRADED</td><td>Replica read failures sustained 5 min <strong>outside 02:00-04:30</strong> (suppression window + post-window recovery check)</td><td>Critical</td><td>On-call rotation</td></tr>
@@ -1089,87 +1299,57 @@
           <tr><td>QUEUE-DEPTH</td><td>Claim queue &gt; 400 sustained 15 min (10x measured normal of ~40; <strong>modeled</strong> vs Q-18 surge curve &mdash; revisit at first CAT event)</td><td>Warning &rarr; critical at 1,200</td><td>On-call rotation</td></tr>
           <tr><td>INTAKE-ERROR-RATE</td><td>&gt; 2% sustained 30 min (matches the Phase 8 fallback trigger &mdash; one number, two documents)</td><td>Critical</td><td>On-call + Dee notified</td></tr>
           <tr><td>ACK-RETRY-BURST</td><td>Dispatch retries &gt; 3x baseline per 10 min: warning; sustained 60 min: critical (hypercare day-one finding)</td><td>Warning &rarr; critical</td><td>On-call; vendor escalation path</td></tr>
-          <tr><td>EVAL-GATE-DRIFT</td><td>Email extraction accuracy &lt; 95% on the golden set (the ADR-004 gate, now watched in production)</td><td>Warning</td><td>Quality owner (Harbor &mdash; the role assigned at the what-healthy-means session for the ADR-004 eval gate)</td></tr>
+          <tr><td>EVAL-GATE-DRIFT</td><td>Email extraction accuracy &lt; 95% on the golden set (the ADR-004 gate, now watched in production)</td><td>Warning</td><td>Quality owner (Harbor)</td></tr>
         </tbody>
       </table>
-      <p class="note">Cut at the fatigue review: per-instance CPU (not actionable under autoscale), portal
-        latency warning (duplicated INTAKE-ERROR-RATE's signal).</p>
+      <p class="note">Cut at the fatigue review: a per-instance CPU alert (not actionable under autoscale;
+        capacity already on Tom's dashboard) and a portal-latency warning (it duplicated INTAKE-ERROR-RATE's
+        signal). Six actionable alerts beat eight the on-call trains itself to ignore. No number here "felt
+        right" &mdash; every one can explain itself, and the one set from modeled data says so on its face, with
+        a named revisit.</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 06 — THE PLAYBOOK                                                      -->
+  <!-- 05 — THE PROVING PLAN, COME DUE                                        -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">The promises from design week, cashed &mdash; reading <code>nfr-proving-plan.md</code> against production</p>
+      <h2>Every number the design promised now has a place it's actually read</h2>
+      <p class="lead">Phase 2's proving plan named, per quality target, the method and the exact place its number
+        would be read. This is the column that came due. Some numbers are now live on a dashboard; one is still
+        modeled and honestly flagged; one became a standing production watch.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>NFR / gate</th><th>Phase 2 said it would be read&hellip;</th><th>&hellip;and in Phase 9 it is</th></tr></thead>
+        <tbody>
+          <tr><td>NFR-01 (ingestion p95 &lt; 5s)</td><td>The monitoring dashboard</td><td>Live on the application dashboard &mdash; portal submit p95 <strong>410 ms</strong>, comfortably under the 5s target</td></tr>
+          <tr><td>NFR-02 (10x surge)</td><td>The load-test report; hardening pass 1</td><td>No real storm yet &mdash; QUEUE-DEPTH ships <strong>modeled</strong> from Q-18, revisit at the first CAT event (Priti)</td></tr>
+          <tr><td>NFR-03 (99.5% business hours)</td><td>The ops dashboard, monthly</td><td>Uptime monitor on the intake endpoints, on Tom's system-health dashboard, read monthly</td></tr>
+          <tr><td>NFR-05 (PII boundary)</td><td>PR security-gate records</td><td>Carried by Dan's security alert lane &mdash; what pages security directly, bypassing the general queue</td></tr>
+          <tr><td>NFR-07 (audit completeness)</td><td>Test results; quarterly compliance sample</td><td>The event-log completeness suite stays in CI; the first compliance sample is on the quarter-read calendar</td></tr>
+          <tr><td>ADR-004 eval gate (&ge;95% accuracy)</td><td>The eval suite in CI; regression blocks changes</td><td>Extended into production as <strong>EVAL-GATE-DRIFT</strong> &mdash; the CI gate now has a live counterpart watching real extractions</td></tr>
+        </tbody>
+      </table>
+      <p class="note">This is the through-line of the whole standard in one table: a number named in design week,
+        with the place it would be read written down, is either read here or flagged modeled with a date &mdash;
+        never quietly dropped. The one still modeled says so on its face and carries a named owner. That is the
+        difference between a proving plan and a wish list.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 06 — THE DRILL RECORD                                                  -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">06</span>
-      <p class="kicker">Days 6-7 — the incident playbook</p>
-      <h2>An alert tells you something's wrong; the playbook tells you what to do about it</h2>
-      <p class="lead"><code>/sdlc-coach</code> &rarr; drafts the playbook against the phase template, from
-        the alert table and the RUNBOOK; Harbor's on-call lead corrects it line by line.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">What the playbook spells out</div>
-          <p>Per alert: what it means, the first three diagnosis steps, P1/P2/P3 classification, the
-            escalation names (Harbor names &mdash; the pod appears only as "escalation of last resort until
-            Close"), and the communication templates: what the claims office hears from Dee's team when
-            intake degrades, what leadership hears at P1, who says it.</p>
-          <p>The playbook detects and communicates; for resolution it points into the cold-verified RUNBOOK
-            rather than duplicating it &mdash; one source of truth per failure, two lenses on it.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">Where the pod sits</div>
-          <div class="snippet">
-            <div class="from">The escalation chain, in Harbor's words</div>
-            <blockquote>"Escalation of last resort until Close."</blockquote>
-          </div>
-          <p style="margin-top:12px;">Every escalation name was Harbor's. The pod is the bottom of the
-            chain, not the top.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 07 — THE DRILL                                                         -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
-      <p class="kicker">Day 8 — the drill</p>
+      <p class="kicker">An exhibit &mdash; the artifact the plugin doesn't require but the phase can't do without</p>
       <h2>An alert that has never fired is a wish</h2>
-      <p class="lead">No plugin command, deliberately. Synthetic triggers agreed with Tom; Harbor's on-call
-        responds from the playbook; Nadia observes, silent. Every critical alert fires for real, one at a
-        time, through controlled synthetic triggers &mdash; replica reads blocked outside the window
-        (VERIFY-DEGRADED), a synthetic retry storm against the dispatch queue's test lane (ACK-RETRY-BURST),
-        queue depth pushed past threshold with flagged test messages (QUEUE-DEPTH), a staleness clock wound
-        forward in the test toggle (SYNC-MISSED).</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">Two findings, both the drill's job to find</div>
-          <p>VERIFY-DEGRADED routed to the general ops channel instead of the pager rotation &mdash; a
-            routing-key typo that would have meant a silent night during a real incident. And one playbook
-            diagnosis step opened a dashboard link that assumed pod permissions &mdash; the same class of gap
-            Tom caught in the Phase 7 RUNBOOK walk, caught again by the same method.</p>
-          <p>Both fixed; both re-drilled clean by end of day. The drill record &mdash; every alert, trigger
-            time, detection time, responder, outcome &mdash; goes in the gate packet.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The silent-night bug, caught at drill prices</div>
-          <div class="snippet">
-            <div class="from">The finding</div>
-            <blockquote>"VERIFY-DEGRADED routed to #harbor-ops channel, not the pager rotation (routing-key
-              typo). On a real night: nobody woken."</blockquote>
-          </div>
-          <div class="snippet resolve">
-            <div class="from">Fixed and re-fired</div>
-            <blockquote>"Routing key corrected via reviewed PR, re-fired 11:05: paged in 38 s, responder
-              followed playbook to RUNBOOK scenario 1, closed clean."</blockquote>
-          </div>
-        </div>
-      </div>
-
-      <h2 style="margin-top:34px;">Artifact: the drill record (excerpt)</h2>
+      <p class="lead">The drill record is the receipt the registry marks optional and the gate's teeth depend on.
+        Nadia kept it by hand. Every critical alert, its synthetic trigger, when it fired, where it routed, who
+        answered, and the outcome &mdash; pass, or the finding and its fix. It went into the gate packet.</p>
       <div class="snippet">
         <div class="from">Drill record &mdash; Wed 8/5, observed N. Brooks; attached to the gate packet</div>
         <blockquote style="white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;">Wed 8/5   09:12  VERIFY-DEGRADED   synthetic replica block (outside window)
@@ -1191,86 +1371,65 @@
 All critical alerts fired and answered by Harbor's on-call from the
 playbook. Two findings, both fixed and re-drilled same day.</blockquote>
       </div>
+      <p class="note">The playbook the on-call answered from was Harbor's own &mdash; every escalation name
+        theirs, the pod appearing once as "escalation of last resort until Close." Both drill fixes went through
+        the full loop &mdash; specs, the grader, a non-author Checker &mdash; in a monitoring week. The loop is
+        simply how changes happen now, which is exactly what Harbor inherits.</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 08 — THE RETROSPECTIVE                                                 -->
+  <!-- 07 — THE THREE OUTPUTS                                                 -->
   <!-- ===================================================================== -->
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
-      <p class="kicker">Day 9 — the retrospective</p>
-      <h2>The honest retrospective &mdash; argued from receipts, not vibes</h2>
-      <p class="lead"><code>/sdlc</code> &rarr; the feedback-synthesizer agent assembles the hypercare
-        findings and intake-team feedback; <code>/visual-explainer</code> &rarr; the evidence pack the room
-        argues from. The candor is no plugin command. Half a day, the pod plus Harbor's core people,
-        arguing from receipts: the metrics history, the Retro+ log, every escaped bug with its "which check
-        should have caught it?" answer, the gate records.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The findings, with evidence</div>
-          <p><strong>What worked:</strong> the grader's 0016 catch (the bug eleven green tests hid, dead on
-            a branch); Tuesday's failed rollback rehearsal (an outage bought at rehearsal prices, and spec
-            0046 out of it); the decision-list clock (Luis answered 31 of 34 items inside two days);
-            accepted-as-is ending at <strong>84%</strong> and rising.</p>
-          <p><strong>What didn't:</strong> the security-review queue drifted all engagement &mdash; the
-            concrete fix is structural, not exhortative.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">Receipts, not adjectives</div>
-          <div class="snippet">
-            <div class="from">The finding, with its evidence</div>
-            <blockquote>"The security-review queue drifted all engagement — 2.1-day median in Build against
-              a 0.9-day general queue."</blockquote>
-          </div>
-          <div class="snippet resolve">
-            <div class="from">The concrete fix</div>
-            <blockquote>"A twice-weekly committed security-review slot in Dan's calendar, written into the
-              Close handoff."</blockquote>
-          </div>
-        </div>
-      </div>
-
-      <h2 style="margin-top:34px;">Artifact: the three outputs</h2>
-      <p class="dim">All concrete &mdash; priorities and timing attached, not platitudes.</p>
+      <span class="modnum">07</span>
+      <p class="kicker">An exhibit from <code>project-retrospective.md</code> &mdash; the honest cumulative look</p>
+      <h2>Argued from receipts, not vibes</h2>
+      <p class="lead">The retro argued from evidence, not adjectives &mdash; not "the grader was valuable" but
+        <em>spec 0016, the bug eleven green tests hid, dead on a branch</em>; not "security review was slow" but
+        <em>2.1 days against 0.9</em>. Accepted-as-is ended the engagement at 84% and rising. Three concrete
+        outputs, priorities and timing attached, feed straight into Close.</p>
       <table class="ref-doc" style="margin-top:12px;">
         <thead><tr><th>Output</th><th>Items</th></tr></thead>
         <tbody>
           <tr><td><strong>Technical debt log</strong></td><td>No un-merge path for a wrong claim merge (accepted in spec 0016 by design; revisit Q4 2026) · legacy intake fallback decommission at day 30 (owner: Tom) · modeled surge thresholds (revisit at first CAT event, Priti)</td></tr>
-          <tr><td><strong>Client-facing improvements</strong></td><td>The twice-weekly security-review slot in Dan's calendar, written into the Close handoff (structural fix for the 2.1-day drift)</td></tr>
+          <tr><td><strong>Client-facing improvements</strong></td><td>A twice-weekly committed security-review slot in Dan's calendar, written into the Close handoff &mdash; the structural fix for the 2.1-day drift</td></tr>
           <tr><td><strong>The harvest list</strong> (4 items for the kit PR)</td><td>Config versioned with the release artifact (spec 0046 &rarr; kit pipeline starters) · the timezone-boundary test pattern (Build's escaped-bug answer &rarr; kit test-writer skill) · the suppression-window-plus-recovery-check alert pattern (this week's replica decision &rarr; kit alert template) · the vendor-blip warning/sustained-critical split. Phase C opens the PR.</td></tr>
         </tbody>
       </table>
+      <p class="note">The harvest list closes the loop on the standard itself: the suppression-window pattern that
+        came from Harbor's what-healthy session becomes a kit alert template the next engagement inherits. A
+        lesson learned once, paid forward.</p>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 09 — THE TWO WEEKS, END TO END                                         -->
+  <!-- 08 — WHAT PHASE C RECEIVES                                             -->
   <!-- ===================================================================== -->
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">The ten days, end to end — and the handoff the close produced</p>
-      <h2>The two weeks, end to end</h2>
-      <p class="lead">Two streams ran the whole time: week one made the system <strong>visible</strong>;
-        week two <strong>proved the response and learned</strong>. Production live 2026-07-23; Phase 9 ran
-        Monday 2026-07-27 to Friday 2026-08-07, inside hypercare.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>Days</th><th>Focus</th><th>What happened</th><th>Tooling</th></tr></thead>
-        <tbody>
-          <tr><td>1&ndash;2 &middot; Mon&ndash;Tue 7/27&ndash;28</td><td>What does healthy mean?</td><td>Pod + Harbor's ops, RUNBOOK's five failure scenarios on the wall. Two decisions shape everything: the replica refresh window must not page (suppression + post-window recovery check); vendor blips are warnings, sustained bursts critical. Everything wires into Harbor's Azure Monitor workspace.</td><td>No plugin command (human session)</td></tr>
-          <tr><td>3&ndash;4 &middot; Wed&ndash;Thu 7/29&ndash;30</td><td>The baseline &amp; dashboards</td><td>Baseline from the first hypercare week, each number with its period; surge path has no baseline &mdash; modeled from Q-18, flagged revisit (Priti). Three dashboards live in Harbor's workspace, each named-owned.</td><td><code>/sdlc</code> &rarr; performance-benchmarker, doc-updater</td></tr>
-          <tr><td>5 &middot; Fri 7/31</td><td>The alert definitions</td><td>Six alerts ship, every threshold derived or explicitly modeled, named recipient + playbook link. Fatigue review cuts two proposals (per-instance CPU, portal latency warning).</td><td><code>/sdlc-coach</code></td></tr>
-          <tr><td>6&ndash;7 &middot; Mon&ndash;Tue 8/3&ndash;4</td><td>The incident playbook</td><td>Per alert: meaning, first three diagnosis steps, P1/P2/P3, escalation names (Harbor's; pod last resort), communication templates. Harbor's on-call lead corrects it line by line.</td><td><code>/sdlc-coach</code></td></tr>
-          <tr><td>8 &middot; Wed 8/5</td><td>The drill</td><td>Every critical alert fired via controlled synthetic triggers agreed with Tom; Harbor's on-call responds, Nadia silent. Two findings (routing-key typo; pod-permission dashboard link), both fixed and re-drilled clean. Record to the gate packet.</td><td>No plugin command (the drill)</td></tr>
-          <tr><td>9 &middot; Thu 8/6</td><td>The retrospective</td><td>Half a day, arguing from receipts. Three outputs: debt log, client-facing improvements, four-item harvest list.</td><td><code>/sdlc</code> &rarr; feedback-synthesizer, <code>/visual-explainer</code></td></tr>
-          <tr><td>10 &middot; Fri 8/7</td><td>Hypercare ends, the gate</td><td>Watch handed over: dashboards, pager, playbook formally Harbor's; pod one escalation away until Close. Gate passes; Karen signs. Outcome metric's first honest read, caveats welded on. Billing milestone 7.</td><td><code>/sdlc-gate</code> &rarr; <code>check_gates.py</code> · <code>/sdlc-phase-report</code> · <code>/sdlc-next</code></td></tr>
-        </tbody>
-      </table>
+      <span class="modnum">08</span>
+      <p class="kicker">The handoff &mdash; and the open items that travel with it under their original IDs</p>
+      <h2>What Phase C receives</h2>
+      <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses the
+        boundary into Close &amp; Transfer: the watched system now formally Harbor's, the drilled response, the
+        honest retrospective, and the questions still open &mdash; carried forward under their original IDs,
+        never silently dropped.</p>
 
-      <h2 style="margin-top:34px;">Artifact: the Close &amp; Transfer handoff (summary)</h2>
-      <p class="dim">Drafted day 10 by Claude for the Pod Lead to own.</p>
+      <div class="artifacts" style="margin:22px 0 8px;">
+        <span class="lbl">Crosses into Phase C</span>
+        <span class="tag">monitoring-config.md</span>
+        <span class="tag">alert-definitions.md</span>
+        <span class="tag">incident-response.md</span>
+        <span class="tag">project-retrospective.md</span>
+        <span class="tag amber">drill-record.md</span>
+        <span class="tag amber">close-handoff.md &mdash; required, unspecified</span>
+        <span class="tag amber">the harvest list &rarr; the Phase C PR</span>
+      </div>
+
+      <h2 style="margin-top:30px;">The Close &amp; Transfer handoff (summary)</h2>
+      <p class="dim">Drafted day 10 by Claude for the Pod Lead to own &mdash; against no template the plugin provides.</p>
       <table class="ref-doc" style="margin-top:12px;">
         <thead><tr><th>Section</th><th>Contents</th></tr></thead>
         <tbody>
@@ -1281,71 +1440,26 @@ playbook. Two findings, both fixed and re-drilled same day.</blockquote>
           <tr><td><strong>Harvest list</strong></td><td>Four items for the kit PR (config-with-artifact, timezone test pattern, suppression-window alert pattern, vendor-blip severity split) &mdash; Phase C opens it</td></tr>
         </tbody>
       </table>
-    </div>
-  </section>
 
-  <!-- ===================================================================== -->
-  <!-- 10 — THE GATE                                                          -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
-      <p class="kicker">Day 10 — hypercare ends, the gate, the first honest metric read</p>
-      <h2>A gate, not a calendar &mdash; and it closes the watch with it</h2>
-      <p class="lead"><code>/sdlc-gate</code> &rarr; <code>check_gates.py</code>; <code>/sdlc-phase-report</code>
-        &rarr; the phase record; <code>/sdlc-next</code> after sign-off. The watch hands over deliberately:
-        dashboards, the pager rotation, and the playbook are formally Harbor's; the pod stands one escalation
-        away until Close. Hypercare closes on its agreed date &mdash; two weeks, as written, not a quiet
-        forever.</p>
-      <div class="bigstat"><span class="b">11.4</span> &rarr; <span class="t">1.9</span>
-        <small>days, all-claims baseline &rarr; fast-path claims (61% of volume) decided, over the two live weeks</small></div>
-      <div class="pair" style="margin-top:20px;">
-        <div class="idea">
-          <div class="plabel">The first metric read, underclaimed on purpose</div>
-          <p>1.9 days on fast-path is a spectacular number, and steering heard it with the overall-median
-            caveat welded on: complex claims opened since go-live are mostly still in flight, so the
-            <em>overall</em> median cannot be read yet and gets its first fair reading after a full quarter.</p>
-          <p>C-04 acknowledgment compliance: 100%, system-enforced. The pod banks credibility here that
-            Phase C spends.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">Day 10 &mdash; sign-off</div>
-          <div class="decision">
-            The gate passes; Karen signs at steering. The outcome metric gets its first honest production
-            read with caveats stated in writing. <strong>Billing milestone 7.</strong> The engagement
-            advances to Close &amp; Transfer.
-          </div>
-          <p style="margin-top:12px;">The watch became Harbor's.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 11 — WHAT TO NOTICE                                                    -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">11</span>
-      <p class="kicker">What to notice in the worked example</p>
-      <h2>The failure modes, and where Harbor caught them</h2>
-      <p class="lead">Knowing the failure modes by name is half the defense &mdash; and Harbor's structure
-        caught the big ones in the act. Six things in this example are worth reading twice.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>What to notice</th><th>Why it matters</th></tr></thead>
+      <h2 style="margin-top:30px;">The questions that travel with it</h2>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>ID</th><th>Open question</th><th>Owner</th><th>Due</th></tr></thead>
         <tbody>
-          <tr><td><strong>The suppression window is the deepest decision of the phase</strong></td><td>An alert firing every night at 02:00 trains Harbor's on-call to ignore the alert that matters. Knowing what must <em>not</em> page is the operations knowledge the session existed to capture &mdash; and it came from Harbor's side of the table.</td></tr>
-          <tr><td><strong>Every threshold can explain itself</strong></td><td>"2x measured p95 over 10 minutes" survives the argument in six months when someone wants to change it. The one set from modeled data says so on its face, with a named revisit. No number "felt right."</td></tr>
-          <tr><td><strong>The drill caught the silent-night bug</strong></td><td>A routing-key typo is invisible in review and catastrophic at 3 a.m. It cost ten minutes at drill prices &mdash; the same economics as the rollback rehearsal and the cold runs, applied to the pager.</td></tr>
-          <tr><td><strong>The retro argued from receipts</strong></td><td>Not "the grader was valuable" but <em>0016, eleven green tests, dead on a branch</em>. Not "security review was slow" but <em>2.1 days against 0.9</em>. The evidence pack keeps a retrospective from being a feelings meeting.</td></tr>
-          <tr><td><strong>The first metric read was underclaimed on purpose</strong></td><td>1.9 days on fast-path is spectacular, and steering heard it with the overall-median caveat welded on. The pod banks credibility here that Phase C spends.</td></tr>
-          <tr><td><strong>The fixes rode the loop to the end</strong></td><td>The routing fix and the playbook correction went through specs, the grader, and a non-author Checker in a monitoring week &mdash; the loop is simply how changes happen now, which is exactly what Harbor inherits.</td></tr>
+          <tr><td>Q-18</td><td>Surge thresholds are modeled from the 2024 CAT dataset &mdash; revalidate against the first real catastrophe event</td><td>Priti Shah</td><td>First real CAT event</td></tr>
+          <tr><td>&mdash;</td><td>The overall (all-claims) median can't be read fairly until complex claims clear &mdash; the first honest reading</td><td>Karen Voss + Pod Lead</td><td>End of first full quarter</td></tr>
+          <tr><td>&mdash;</td><td>Legacy intake fallback still warm &mdash; decommission once production is proven stable</td><td>Tom Reilly</td><td>Day 30 post-go-live</td></tr>
         </tbody>
       </table>
-      <p class="note">All names, numbers, and documents are invented but internally consistent &mdash; the
-        11.4-day baseline, the six alerts, and the drill record trace through every artifact on this page.</p>
+      <p class="note">The engagement's credibility was banked, not spent: 1.9 days on fast-path stated with the
+        overall-median caveat welded on. Phase C is where the client proves it can run all of this without the
+        pod &mdash; the last thing to transfer is the watch itself.</p>
     </div>
   </section>
+
+  <p class="dim" style="max-width:1000px;margin:40px auto 0;padding:0 24px;text-align:center;font-size:15px;">
+    All names, numbers, and documents are invented but internally consistent &mdash; the 11.4-day baseline, the
+    six alerts, the drill record, and the Phase 2 proving-plan promises trace through every artifact on this
+    page.</p>
 
 </main>
 

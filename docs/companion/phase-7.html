@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -814,138 +815,355 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — WHY THIS PHASE EXISTS                                             -->
+  <!-- 01 — WHAT PHASE 7 RECEIVED                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and the one question the week had to answer</p>
-      <h2>In a consulting engagement, the documentation <em>is</em> the handoff</h2>
-      <p class="lead">Build closed Friday 2026-07-10, feature-complete: 44 specs merged since
-        Foundation, both hardening passes done, the system running in Harbor's dev and test
-        environments. The engagement enters the close. This week answers one question: can Harbor
-        understand, run, and operate this system without us in the room?</p>
+      <p class="kicker">Before a word is written, the Build loop hands over a running system and one file</p>
+      <h2>What Phase 7 received</h2>
+      <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod to
+        rebuild how property-insurance claims get reported and decided. A claim takes a median of
+        <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target is
+        <strong>5 days or less</strong>. The Build loop is not a gated phase &mdash; it ends when a human
+        <em>declares the backlog feature-complete</em>. That declaration came Friday 2026-07-10:
+        <strong>44 specs</strong> merged since Foundation, both hardening passes done, the system running in
+        Harbor's dev and test environments. Documentation does not start from a blank page &mdash; it starts
+        from the system as built and the record already on disk.</p>
+
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Inherited from the Build loop &mdash; the feature-complete declaration's package</span>
+        <span class="tag">phase7-handoff.md</span>
+        <span class="tag">specs/ &mdash; 44 merged</span>
+        <span class="tag">api-contracts.md &mdash; Phase 2</span>
+        <span class="tag">adr-registry.md &mdash; ADR-001&hellip;011</span>
+        <span class="tag">the running dev &amp; test system</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">Where the engagement is</div>
-          <p>Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person consulting
-            pod to rebuild how property-insurance claims get reported and decided. A claim takes a
-            median of <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage
-            decision; target is <strong>5 days or less</strong>.</p>
-          <p>Build is feature-complete: 44 specs merged through the loop since Foundation. The
-            FNOL&rarr;decision clock is instrumented; the production needle moves after Phase 8. This
-            week: prove the documentation by use.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The one new face &mdash; and why she matters</div>
-          <p>One person joins the story: <strong>Ines Roy</strong>, a Harbor engineer hired three weeks
-            ago, who has never opened the repo. That is exactly why she was asked &mdash; she is this
-            week's most valuable contributor, because the README is for her.</p>
+          <div class="plabel">The one question &mdash; and what is already true by construction</div>
+          <p>Everything this week produces is what Harbor lives with after the pod leaves. So the week has
+            exactly one question: <strong>can Harbor understand, run, and operate this system without us in
+            the room?</strong></p>
+          <p>Most of the record already exists. Specs stayed current in the same PR as the behavior; ADRs
+            were signed when the decisions were made; the harness is versioned in the repo. Phase&nbsp;7 is
+            not "write the docs at the end" &mdash; it is consolidate, diff against the system <em>as
+            built</em>, close the decision debt, write the operations manual, and then <strong>prove all of
+            it by use</strong>.</p>
           <div class="snippet">
             <div class="from">The only thing Phase 7 had to answer</div>
             <blockquote>"Can Harbor understand, run, and operate this system without us in the room?"</blockquote>
           </div>
         </div>
+        <div class="eg">
+          <div class="plabel">The one new face &mdash; and why she matters</div>
+          <p>One person joins the story: <strong>Ines Roy</strong>, a Harbor engineer hired three weeks ago,
+            who has never opened the repo. That is exactly why she was asked &mdash; she is this week's most
+            valuable contributor, because the README is for her.</p>
+          <p style="margin-top:12px;">This is <strong>Nadia Brooks's</strong> phase. The Quality Engineer
+            owns what "verified" means here, and makes sure the people doing the verifying are
+            <em>not the pod</em>.</p>
+          <p class="dim" style="margin-top:12px;">The system, in one line: portal/phone/email FNOL intake
+            &rarr; a buffered claim queue &rarr; coverage verification against PolicyOne's nightly
+            <strong>snapshot replica</strong> &rarr; fast-path recommendations for simple claims &rarr;
+            acknowledgment dispatch. Claims live in a relational model plus an append-only event log.</p>
+        </div>
       </div>
-      <p class="dim" style="margin-top:24px;">The system, in one line: portal/phone/email FNOL intake
-        &rarr; a buffered claim queue &rarr; coverage verification against PolicyOne's nightly
-        <strong>snapshot replica</strong> &rarr; fast-path recommendations for simple claims &rarr;
-        acknowledgment dispatch. Claims live in a relational model plus an append-only event log.</p>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead &mdash; owns the drift triage and the Phase 8 handoff</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; owns the RUNBOOK's truth; co-signs the swept ADRs</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Orchestrator / Checker &mdash; drives the drafting agents; fixes doc defects through the loop</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator / Checker &mdash; runs the contract diff</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; this is her phase; owns what "verified" means</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">VP Claims Operations &mdash; sponsor; approves the advance</span></div>
+          <div class="person"><span class="nm">Wes Carter</span><span class="rl">Lead engineer &mdash; reviews the drift catalog, co-signs the ADRs; inherits the decision record</span></div>
+          <div class="person"><span class="nm">Tom Reilly</span><span class="rl">Platform engineer &mdash; runs the RUNBOOK cold walk-through; inherits operations</span></div>
+          <div class="person"><span class="nm">Ines Roy</span><span class="rl">New engineer &mdash; the cold README verifier, three weeks in</span></div>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Product owner &mdash; confirms the user-facing docs</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT security &mdash; the access boundary behind the cold checkout's step 4</span></div>
+        </div>
+      </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every artifact in this engagement carries a stable identifier, so a decision made in week two can
+            still be traced in month nine. The ones that surface this week:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Prefix</th><th>Means</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>ADR-NNN</code></td><td>An architecture decision record &mdash; a signed choice</td><td>Phase 2, or swept here</td><td>ADR-001&ndash;011 (current); ADR-012, ADR-013 (found by the sweep)</td></tr>
+              <tr><td><code>REQ-NNN</code></td><td>A functional requirement</td><td>Phase 1</td><td>REQ-014 same-business-day coverage status</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with an owner and a due date</td><td>any</td><td>Q-18 the 2024 surge load-test dataset (feeds the RUNBOOK scale steps)</td></tr>
+              <tr><td><code>NNNN</code> spec</td><td>A Build-loop spec &mdash; one change, ridden through the loop</td><td>Build</td><td>0045, the drift-defect fix that ran the loop this week</td></tr>
+              <tr><td><code>DOC-NNN</code></td><td>A client document taken in at intake</td><td>Phase 0</td><td>the source corpus the specs still trace back to</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The plugin's Phase 7 begins by reading <code>phase7-handoff.md</code> and diffing
+            every endpoint against Phase 2's <code>api-contracts.md</code>. A drift with no label at the end of
+            the week is a gate failure &mdash; that is the thread tying the Build loop's output to Phase 7's.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 02 — THE ONE RULE                                                      -->
+  <!-- 02 — THE PROCEDURE                                                      -->
   <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">Claude drafts from the code; humans verify by use</p>
-      <h2>Claude drafts from the code; humans verify by use</h2>
-      <p class="lead">The verifiers were the least qualified people available &mdash; on purpose. Ines
-        had never opened the repo; Tom ran procedures he didn't write with permissions the pod doesn't
-        have. A README verified by its author's teammate has not been verified.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The cast that carried it</div>
-          <p>This is Nadia Brooks's phase &mdash; the Quality Engineer owns what "verified" means and
-            makes sure the verifying is done by people who must not be us.</p>
-          <ul>
-            <li><strong>Maya Chen</strong> &mdash; Pod Lead</li>
-            <li><strong>Rob Feld</strong> &mdash; Setup Owner (owns the RUNBOOK's truth)</li>
-            <li><strong>Jonah Kim &amp; Sara Whitfield</strong> &mdash; Orchestrators</li>
-            <li><strong>Nadia Brooks</strong> &mdash; Quality Engineer (this is her phase)</li>
-          </ul>
-          <p style="margin-top:12px;">Harbor's cast: <strong>Wes Carter</strong> (lead engineer &mdash;
-            inherits the decision record), <strong>Tom Reilly</strong> (platform engineer &mdash;
-            inherits the operations), <strong>Ines Roy</strong> (new engineer &mdash; the cold
-            verifier), Luis Ortega (PO), Dan Kowalski (IT security), Karen Voss (sponsor).</p>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">The machine's steps, the humans' five days, braided</p>
+        <h2>The procedure, step by step</h2>
+        <p class="lead">Phase 7 is a short workflow in <code>claude-code-sdlc</code> and five working days in
+          this standard. The first half <strong>drafts and diffs</strong>; the second half <strong>verifies
+          by use</strong> and fixes what the verification finds. Below, they're braided: what the tool runs,
+          what the humans do that the tool cannot, and the file each day leaves behind. <strong>Step through
+          it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
         </div>
-        <div class="eg">
-          <div class="plabel">The fix rode the loop &mdash; even in a docs week</div>
-          <p>Even in a documentation week, spec 0045 went through intent, bounds, the grader, and a
-            non-author Checker. The loop didn't pause because Build ended; it's how changes happen now,
-            including ours.</p>
-          <div class="snippet">
-            <div class="from">The human rule of the phase</div>
-            <blockquote>"Claude drafts from the code and the specs; humans verify by use."</blockquote>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 7 procedure, day by day" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 &mdash; Mon 7/13 <span class="date">· plugin Step 0 opens</span></div>
+          <h3>Scope the docs with the client; then trust-but-verify the specs</h3>
+          <p>The plugin's Step 0 is a <strong>blocking human gate</strong>: before writing anything, Claude
+            asks who reads each document, what already exists, what must be created, and which client standards
+            apply. Then the human work no command performs &mdash; the Quality Engineer samples specs and
+            executes their acceptance checks by hand against dev, the pass that proves the specs really did
+            stay current all through Build.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc <span class="arrow">&rarr;</span> the Phase 7 scoping HITL gate</span>
+            <span class="tag green">human decision</span>
           </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">documentation scope, decided with the client &mdash; not yet on disk</span>
+            <span class="tag amber">spec-library sample audit &mdash; no plugin step runs it; no file records it</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>The standard makes the spec-library sample audit a Phase 7 deliverable and a gate line
+              (<em>"the spec library sample audit passed"</em>). No step in <code>claude-code-sdlc</code>
+              performs it, and no artifact records it. It happens because the QE runs it &mdash; and its
+              receipt is a memory.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Scope session with Wes and Tom: <strong>three audiences</strong> (Harbor engineers, ops,
+              adjusters' supervisors), <strong>four documents</strong> to create (README, API docs, RUNBOOK,
+              intake-supervisor user guide), and one decision &mdash; Harbor has no documentation standard, so
+              ours becomes theirs. Current by construction: 44 specs, ADR-001&ndash;011, the harness docs.
+              Nadia samples <strong>eight specs</strong> against live behavior in dev &mdash; eight match.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 &mdash; Tue 7/14 <span class="date">· plugin Steps 1&ndash;2 · two streams at once</span></div>
+          <h3>The README and the contract diff, in parallel</h3>
+          <p>Two drafting agents spawn in a single message because they share nothing: one drafts the README
+            and user-facing docs from the repo as it actually is; the other reads every endpoint and
+            <strong>diffs</strong> it against the Phase 2 contracts. The diff &mdash; never a transcription
+            &mdash; produces the drift catalog, reviewed with the client's lead engineer, because the contracts
+            are theirs after close.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc <span class="arrow">&rarr;</span> <span class="script">doc-updater</span> + <span class="script">backend-architect</span> (parallel)</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">README.md</span>
+            <span class="tag">api-docs.md</span>
+            <span class="tag">drift-catalog.md &mdash; optional in the registry; the gate never checks it</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>README drafted from the repo &mdash; prerequisites, local setup, run modes, the loop in one page.
+              The intake-supervisor user guide drafted alongside, reviewed by Luis and Dee Alvarez. The diff
+              against the Phase 2 contracts produces a <strong>two-entry drift catalog</strong> &mdash; two
+              differences after fourteen weeks of Build; Wes reviews it with Maya. One documented <em>why</em>,
+              one defect. The full catalog is section&nbsp;04.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 &mdash; Wed 7/15 <span class="date">· plugin Step 3</span></div>
+          <h3>Write the operations manual for 3 a.m.</h3>
+          <p>The RUNBOOK is drafted from the real pipeline and infrastructure for one reader: someone
+            exhausted, stressed, and seeing the system for the first time, mid-incident. Every procedure is
+            numbered steps, exact copy-pasteable commands, an observable check after each, and a recovery path.
+            The failure scenarios come from what the engagement actually learned, not a template's imagination.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> RUNBOOK template, from the real pipeline &amp; Bicep</span>
+            <span class="none">Rob corrects &mdash; the Setup Owner owns the RUNBOOK's truth</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">RUNBOOK.md</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Five failure scenarios, every one earned: the replica's 02:00&ndash;04:30 refresh window (a
+              Phase 2 spike finding), a failed PolicyOne nightly sync, storm-surge queue depth (scale steps
+              sized from the 2024 CAT profile, Q-18's dataset), an email-extraction accuracy regression, and a
+              bad deploy. Each scenario names its Phase 9 alert. <strong>"See the wiki" and "ask the team"
+              appear zero times.</strong> Scenario 1, verbatim, is section&nbsp;06.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 &mdash; Thu 7/16 <span class="date">· plugin Step 4 · plus the defect fix</span></div>
+          <h3>Sweep the build history for decisions nobody wrote down</h3>
+          <p>A read-only Explore sweep reads the Build-era merge history and spec library for hard-to-undo
+            choices that never got a written record. Each candidate becomes a drafted ADR &mdash; context,
+            options, decision, consequences &mdash; for humans to sign or strike. Any defect the documenting
+            surfaced rides the loop like any change, even in a docs week.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc <span class="arrow">&rarr;</span> <span class="script">Explore</span> sweep</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> ADR template</span>
+            <span class="none">spec 0045 &mdash; no plugin command; it rides the Build loop</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out &mdash; the new ADRs land under <code>.sdlc/artifacts/02-design/adrs/</code></span>
+            <span class="tag">adrs/ADR-012, ADR-013</span>
+            <span class="tag">adr-registry.md &mdash; updated</span>
+            <span class="tag">spec 0045 &mdash; through the loop</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">A stale reference to log</div>
+            <p>The plugin's sweep prompt tells Explore to "search the git history <em>from Phase 4 onward</em>."
+              There is no Phase 4 &mdash; Implementation, Quality, and Testing collapsed into the continuous
+              Build loop. The sweep should read the whole Build history; the prompt names a phase that does not
+              exist. It's a drift, logged, not repeated here.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The sweep surfaces <strong>four candidates</strong>; Wes and Rob triage to two real ones.
+              <strong>ADR-012</strong> (surge queue retry and backoff, lived in a PR thread since a week-9
+              near-miss) and <strong>ADR-013</strong> (claim-document retention tiering, made with Priti Shah
+              in a Build review, irreversible after go-live, written down nowhere), both co-signed by Rob and
+              Wes. The other two struck as implementation detail, recorded as struck. The drift defect &mdash;
+              spec <strong>0045</strong>, claims-search returning a bare 500 &mdash; rides the loop: graded,
+              non-author checked, merged, deployed to dev.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 &mdash; Fri 7/17 <span class="date">· plugin Steps 5&ndash;7 · the gate</span></div>
+          <h3>Verify by use, then the gate reports and a human decides</h3>
+          <p>The teeth of the week. A client engineer who has never opened the repo follows the README on a
+            clean machine while the pod stays silent; the ops engineer walks real RUNBOOK procedures in dev
+            with their own permissions. Defects fixed and re-run clean. Then the automated gate runs, generates
+            the report, and stops &mdash; <code>advance_phase.py</code> will not move the engagement without a
+            named human's sign-off.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">the cold runs &mdash; no plugin command; that is the point</span>
+            <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+            <span class="cmd">/visual-explainer</span>
+            <span class="cmd">/sdlc-phase-report</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py --confirmed</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">phase8-handoff.md</span>
+            <span class="tag">.sdlc/reports/phase07-report.html</span>
+            <span class="tag amber">README cold-checkout record &mdash; the doc-defect log</span>
+            <span class="tag amber">RUNBOOK cold walk-through record</span>
+            <span class="tag green">the sponsor's signature &mdash; billing milestone 5</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">What the gate actually checks</div>
+            <p><code>check_gates.py</code> verifies that four files &mdash; <code>README.md</code>,
+              <code>api-docs.md</code>, <code>RUNBOOK.md</code>, <code>phase8-handoff.md</code> &mdash; exist,
+              are non-empty, and contain no placeholder text. The two <em>cold-run</em> conditions the registry
+              lists as verification teeth are prose <code>check:</code> strings the script never executes.
+              <strong>The human gate is real. The cold runs it should demand, the code cannot see.</strong></p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p><strong>9:00 cold checkout:</strong> Ines on a clean machine, pod silent; she stalls at step 4
+              (the local-secrets bootstrap assumed a Key Vault read permission new hires lack). Fix merges
+              before lunch; the 11:30 re-run is clean, end-to-end, forty minutes. <strong>13:00 cold
+              walk-through:</strong> Tom executes a deploy, a rollback, and the simulated replica-window
+              incident with his own permissions; one gap (a scale-up step named a subscription role the pod
+              holds and Harbor doesn't), rewritten and re-walked clean. Gate passes; Karen signs at steering.
+              Billing milestone 5; advance to Deployment.</p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — THE FOUR QUESTIONS                                                -->
+  <!-- 03 — THE ARTIFACT LEDGER                                                -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">Harbor's four answers in motion &mdash; and the five days that produced them</p>
-      <h2>Four questions &mdash; and deliberately nothing else</h2>
-      <p class="lead">Everything the week produced exists to answer exactly four questions. Harbor's
-        answers, then the full five-day calendar that delivered them.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The four questions</div>
-          <ol>
-            <li><strong>Is the written system the built system?</strong></li>
-            <li><strong>Can a stranger run it?</strong></li>
-            <li><strong>Can a stranger operate it at 3 a.m.?</strong></li>
-            <li><strong>Is the decision record complete?</strong></li>
-          </ol>
-        </div>
-        <div class="eg">
-          <div class="plabel">Harbor's four answers</div>
-          <ol>
-            <li>The endpoint diff produced a catalog of exactly <strong>two</strong> differences &mdash;
-              one intentional, one a defect (both resolved in-week).</li>
-            <li><strong>Ines Roy</strong> ran the README cold; it failed on step 4, was fixed, re-ran
-              clean in forty minutes.</li>
-            <li><strong>Tom Reilly</strong> executed a deploy, a rollback, and the simulated
-              replica-window incident from the RUNBOOK with his own permissions.</li>
-            <li>The sweep found four candidates; two became signed ADRs (ADR-012, ADR-013), two were
-              struck. No open ADRs.</li>
-          </ol>
-        </div>
-      </div>
+      <p class="kicker">Everything that exists on Friday and didn't on Monday</p>
+      <h2>What Phase 7 produced</h2>
+      <p class="lead">The documentation week's whole output, named. Blue rows are written by a command or agent
+        and checked by the gate. <strong>Amber rows are the method's human work</strong> &mdash; required by
+        this standard, produced by no tool, and today leaving no file behind. The amber rows here are the
+        phase's own teeth: the cold runs that <em>are</em> the verification.</p>
 
-      <p class="dim" style="margin-top:24px;">The five days &mdash; with the tooling that actually ran.
-        <strong>You run it</strong> = a slash command you type; <strong>it triggers</strong> = an agent
-        or script that command runs (shown after &rarr;); <strong>no plugin command</strong> = a human
-        meeting, a cold run, or a spec riding the build loop.</p>
-      <table class="ref-doc" style="margin-top:12px;">
-        <thead><tr><th>Day</th><th>Focus</th><th>What happened</th><th>Tooling</th></tr></thead>
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
         <tbody>
-          <tr><td>Mon 7/13</td><td>Scope, audiences, spec audit</td><td>Scope session with Wes and Tom: three audiences (Harbor engineers, ops, adjusters' supervisors), four documents to create (README, API docs, RUNBOOK, intake-supervisor user guide), and one decision &mdash; Harbor has no documentation standard, so ours becomes theirs. What's current by construction: 44 specs, ADR-001..011, harness docs. Nadia samples eight specs against live behavior in dev &mdash; eight match.</td><td><code>/sdlc</code> &rarr; the Phase 7 workflow's scoping gate</td></tr>
-          <tr><td>Tue 7/14</td><td>README &amp; contract diff, in parallel</td><td>README drafted from the repo as it is (prerequisites, local setup, run modes, the loop in one page); intake-supervisor user guide drafted, reviewed by Luis and Dee Alvarez. The diff against the Phase 2 contracts produces the two-entry drift catalog; Wes reviews it with Maya &mdash; one documented why, one defect spec.</td><td><code>/sdlc</code> &rarr; doc-updater agent + backend-architect agent (parallel)</td></tr>
-          <tr><td>Wed 7/15</td><td>The RUNBOOK, written for 3 a.m.</td><td>Five failure scenarios, every one earned during the engagement: the replica's 02:00&ndash;04:30 refresh window, a failed PolicyOne nightly sync, storm-surge queue depth (scale steps sized from the 2024 CAT profile, Q-18's dataset), an email-extraction accuracy regression, a bad deploy. Numbered steps, exact commands, an observable check, a recovery path. Each scenario names its Phase 9 alert. "See the wiki" / "ask the team" appear zero times.</td><td><code>/sdlc-coach</code> &rarr; RUNBOOK template, from the real pipeline &amp; Bicep; Rob corrects</td></tr>
-          <tr><td>Thu 7/16</td><td>Decision sweep &amp; the defect fix</td><td>The Explore sweep surfaces four candidates; Wes and Rob triage to two real ones. ADR-012 (surge queue retry/backoff, lived in a PR thread) and ADR-013 (claim-document retention tiering, lived in two people's memory) drafted, co-signed by Rob and Wes. The other two struck as implementation detail. Drift defect spec 0045 rides the loop &mdash; graded, non-author checked, merged, deployed to dev.</td><td><code>/sdlc</code> &rarr; Explore agent; <code>/sdlc-coach</code> &rarr; ADR template; spec 0045 = no plugin command (the loop)</td></tr>
-          <tr><td>Fri 7/17</td><td>The cold runs, then the gate</td><td>9:00 cold checkout: Ines on a clean machine, pod silent; stalls at step 4 (local-secrets bootstrap assumed a Key Vault read permission new hires lack); fix merges before lunch; 11:30 re-run clean, end-to-end, forty minutes. 13:00 cold walk-through: Tom executes a deploy, a rollback, and the replica-window incident in dev with his own permissions; one gap (scale-up named a subscription role the pod holds, Harbor doesn't), rewritten and re-walked clean. Gate passes; Karen signs at steering. Billing milestone 5; advance to Deployment.</td><td>cold runs = no plugin command (the point); then <code>/sdlc-gate</code> &rarr; <code>check_gates.py</code> · <code>/visual-explainer</code> · <code>/sdlc-phase-report</code> · <code>/sdlc-next</code></td></tr>
+          <tr><td><span class="tag">README.md</span></td><td>The setup manual, proven against a fresh checkout: prerequisites, local setup, run modes, how to contribute. Not done until a stranger ran it</td><td><code>doc-updater</code> agent, from the repo</td><td>Quality Engineer</td><td>repo root &mdash; <code>README.md</code></td><td>The cold checkout; Harbor's next hire</td></tr>
+          <tr><td><span class="tag">api-docs.md</span></td><td>Every current endpoint: request/response shapes, auth, the error catalog, and the changelog of drift from the Phase 2 contracts. Diffed, never transcribed</td><td><code>backend-architect</code> agent</td><td>Setup Owner</td><td><code>.sdlc/artifacts/07-documentation/</code></td><td>Phase 8; the client's engineers</td></tr>
+          <tr><td><span class="tag">drift-catalog.md</span></td><td>Every difference between the signed contracts and the built system, each human-labeled intentional (with its why) or defect. One row per drift</td><td><code>backend-architect</code> diff; humans label</td><td>Pod Lead (with client lead engineer)</td><td><code>.sdlc/artifacts/07-documentation/</code></td><td>The API-doc corrections; Phase 8 blockers</td></tr>
+          <tr><td><span class="tag">RUNBOOK.md</span></td><td>The 3 a.m. operations manual: deployment, configuration reference, common operations, the top failure scenarios, and each one's Phase 9 alert. Proven by a cold walk-through</td><td><code>/sdlc-coach</code> drafts; Setup Owner corrects</td><td>Setup Owner</td><td>repo root &mdash; <code>RUNBOOK.md</code></td><td>Phase 8 checklist; Phase 9 alerts</td></tr>
+          <tr><td><span class="tag">adrs/ADR-012, ADR-013</span><br><span class="tag">adr-registry.md</span></td><td>The Build-era decisions the sweep found, now written down and co-signed; the registry closed with no open ADRs</td><td>Claude drafts from the Explore sweep</td><td><strong>Setup Owner + client counterpart &mdash; both</strong></td><td><code>.sdlc/artifacts/02-design/adrs/</code></td><td>Close &mdash; the decision history Harbor inherits</td></tr>
+          <tr><td><span class="tag">phase8-handoff.md</span></td><td>Documentation inventory, the honest gaps, the deployment checklist, and ADR status &mdash; the package Phase 8 opens</td><td>Claude drafts; Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/07-documentation/</code></td><td>Phase 8, directly</td></tr>
+          <tr><td><span class="tag">phase07-report.html</span><br><span class="tag">phase07-visual.html</span></td><td>The gate packet and the documentation-completeness audit, self-contained. This is the document the sponsor reads before signing</td><td><code>generate_phase_report.py</code> · <code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate</td></tr>
+
+          <tr><td><span class="tag amber">README cold-checkout record</span></td><td>The doc-defect log: each stall a cold verifier hit &mdash; the step, what was missing, what they did instead &mdash; logged as it happened. "A little help" is a fail</td><td><strong>Quality Engineer, observing</strong></td><td>QE</td><td class="dim">no path &mdash; nothing writes it</td><td>The same-day fixes; the gate's teeth</td></tr>
+          <tr><td><span class="tag amber">RUNBOOK cold walk-through record</span></td><td>A deploy, a rollback, and one failure scenario, executed cold by the client's ops engineer with their own permissions &mdash; the gaps found and rewritten</td><td><strong>Client ops engineer + QE</strong></td><td>QE</td><td class="dim">no path &mdash; nothing writes it</td><td>The RUNBOOK rewrite; the gate's teeth</td></tr>
+          <tr><td><span class="tag amber">spec-library sample audit</span></td><td>Five to ten specs, weighted to HIGH-risk and recently changed, their acceptance checks executed by hand against dev &mdash; the trust-but-verify pass that proves the construction held</td><td><strong>Quality Engineer</strong></td><td>QE</td><td class="dim">no path &mdash; no plugin step performs it</td><td>The exit gate ("spec library audit passed")</td></tr>
         </tbody>
       </table>
-      <p class="note">Production topology and alert thresholds were documented as Phase 8 and Phase 9
-        pointers, not as content &mdash; they don't exist yet, and the docs say so rather than pretend.</p>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Three of the phase's deliverables have nowhere to live &mdash; and they are the <em>teeth</em>. The
+          two cold runs are the standard's verification teeth, and the plugin registry lists them as gate
+          conditions, yet <code>check_gates.py</code> never executes those <code>check:</code> strings and no
+          file records what the runs found. The spec-library audit has no plugin step at all. <strong>Human
+          work is not the problem. Human work without a receipt is</strong> &mdash; and here the receipt-less
+          work is exactly what decides whether the phase passed.</p>
+      </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase 7: documentation for
+        things that don't exist yet (production topology is Phase 8, alert thresholds are Phase 9 &mdash; the
+        RUNBOOK <em>points</em> at them, it doesn't invent them), new features of any kind (the Build loop is
+        closed), and a separate "system specification" duplicating the spec library &mdash; two sources of
+        truth means one starts lying.</p>
     </div>
   </section>
 
@@ -1125,131 +1343,59 @@ read failures outside the refresh window (configured in Phase 9).</blockquote>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 08 — THE GATE (the Phase 8 handoff)                                    -->
+  <!-- 08 — WHAT PHASE 8 RECEIVES                                    -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">08</span>
-      <p class="kicker">The cold runs passed; the sponsor signed; the handoff that goes forward</p>
-      <h2>A gate, not a calendar &mdash; and the verification <em>is</em> the gate</h2>
-      <p class="lead">Both cold runs passed &mdash; Ines on the README after her clean re-run, Tom on the
-        RUNBOOK after one rewrite. The gate passed; Karen signed at steering with the documentation audit
-        on screen and one honest line in the record.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">13:00 &mdash; the cold walk-through</div>
-          <p>Tom executed from the RUNBOOK in dev, with his own permissions, the pod silent: a deploy, a
-            rollback, and the simulated replica-window incident. One gap &mdash; the scale-up procedure
-            named a subscription role the pod holds and Harbor doesn't; rewritten with Harbor's actual
-            role names, re-walked clean.</p>
-          <div class="decision">
-            Production topology and alert thresholds are documented as Phase 8 and Phase 9 pointers, not
-            as content &mdash; they don't exist yet, and the docs say so rather than pretend.
-            <strong>Billing milestone 5.</strong> The engagement advances to Deployment.
-          </div>
-        </div>
-        <div class="eg">
-          <div class="plabel">Artifact: the Phase 8 handoff (summary)</div>
-          <ul>
-            <li><strong>Inventory:</strong> README (created, cold-verified), API docs (created, diffed,
-              one defect fixed), RUNBOOK (created, cold-walked), user guide for intake supervisors
-              (created, reviewed by Luis and Dee Alvarez), ADR registry complete through ADR-013, spec
-              library current (audited sample 8/8).</li>
-            <li><strong>Honest gaps:</strong> production topology and alert thresholds are pointers to
-              Phases 8 and 9, not content; the RUNBOOK's scale procedures are dev/test-proven and get
-              their production rehearsal in Phase 8.</li>
-            <li><strong>Deployment checklist:</strong> carried into Phase 8 &mdash; secrets rotation
-              before go-live, the production Bicep promotion, the go/no-go ceremony roles.</li>
-            <li><strong>ADR status:</strong> none open; ADR-012 and ADR-013 signed this week.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+      <p class="kicker">The handoff &mdash; and the honest gaps that travel with it</p>
+      <h2>What Phase 8 receives</h2>
+      <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses
+        the boundary into Deployment: the docs a stranger proved, the decision record closed and co-signed, and
+        the gaps named honestly &mdash; the things Phase 7 could not document because they do not exist yet,
+        carried forward as pointers, never invented.</p>
 
-  <!-- ===================================================================== -->
-  <!-- 09 — THE WEEK, END TO END (what to notice)                             -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">What to notice across the five days</p>
-      <h2>The week, end to end</h2>
-      <p class="lead">The full five-day calendar lives in section 03's table. Here is what the week
-        proves, read back &mdash; the six things worth reading twice.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>What to notice</th><th>Why it matters</th></tr></thead>
+      <div class="artifacts" style="margin:22px 0 8px;">
+        <span class="lbl">Crosses into Phase 8</span>
+        <span class="tag">README.md &mdash; cold-verified</span>
+        <span class="tag">api-docs.md &mdash; diffed, one defect fixed</span>
+        <span class="tag">RUNBOOK.md &mdash; cold-walked</span>
+        <span class="tag">phase8-handoff.md</span>
+        <span class="tag">drift-catalog.md &mdash; empty at the gate</span>
+        <span class="tag">adr-registry.md &mdash; through ADR-013, none open</span>
+        <span class="tag amber">the two cold-run records &mdash; no receipt on disk</span>
+      </div>
+
+      <p style="margin-top:30px;"><strong>The Phase 8 handoff (summary).</strong> Maya's, drafted Friday,
+        completed at the gate.</p>
+      <ul>
+        <li><strong>Inventory:</strong> README (created, cold-verified), API docs (created, diffed, one defect
+          fixed), RUNBOOK (created, cold-walked), user guide for intake supervisors (created, reviewed by Luis
+          and Dee Alvarez), ADR registry complete through ADR-013, spec library current (audited sample
+          8/8).</li>
+        <li><strong>Honest gaps:</strong> production topology and alert thresholds are pointers to Phases 8 and
+          9, not content &mdash; they don't exist yet, and the docs say so rather than pretend; the RUNBOOK's
+          scale procedures are dev/test-proven and get their production rehearsal in Phase 8.</li>
+        <li><strong>Deployment checklist:</strong> carried into Phase 8 &mdash; secrets rotation before
+          go-live, the production Bicep promotion, the go/no-go ceremony roles.</li>
+        <li><strong>ADR status:</strong> none open; ADR-012 and ADR-013 signed this week.</li>
+      </ul>
+
+      <p style="margin-top:30px;"><strong>The open threads, carried forward under their original IDs.</strong>
+        No numbered question is dropped; each crosses the boundary with an owner.</p>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>Thread</th><th>Carried as</th><th>Owner</th><th>Lands in</th></tr></thead>
         <tbody>
-          <tr>
-            <td><strong>The verifiers were the least qualified people available &mdash; on purpose</strong></td>
-            <td>Ines had never opened the repo; Tom ran procedures he didn't write with permissions the pod doesn't have. A README verified by its author's teammate has not been verified.</td>
-          </tr>
-          <tr>
-            <td><strong>The stall was a success, not an embarrassment</strong></td>
-            <td>Step 4 failing under observation cost an hour. The same gap discovered by Harbor's next hire, alone, after close, costs a support escalation and a dent in trust. The cold run exists to buy failures early.</td>
-          </tr>
-          <tr>
-            <td><strong>Two drifts after fourteen weeks is the loop's receipt</strong></td>
-            <td>Specs changed in the same PR as behavior all through Build, so the contract diff found almost nothing &mdash; and what it found, it found before deployment instead of after.</td>
-          </tr>
-          <tr>
-            <td><strong>The runbook documents what the engagement learned</strong></td>
-            <td>The refresh window came from a Phase 2 spike; the surge numbers from Q-18's dataset; the rollback from rails proven since Foundation. Failure scenarios you've actually rehearsed read differently from ones you've guessed.</td>
-          </tr>
-          <tr>
-            <td><strong>Decision debt got collected while the debtors were in the room</strong></td>
-            <td>ADR-012 lived in a PR thread; ADR-013 lived in two people's memory. Both now have signatures from the people who'll live with them.</td>
-          </tr>
-          <tr>
-            <td><strong>The fix rode the loop</strong></td>
-            <td>Even in a documentation week, spec 0045 went through intent, bounds, the grader, and a non-author Checker. The loop didn't pause because Build ended; it's how changes happen now, including ours.</td>
-          </tr>
+          <tr><td>Production topology</td><td>A pointer in the RUNBOOK and handoff &mdash; documented as "provisioned in Phase 8", not invented now</td><td>Rob Feld + Tom Reilly</td><td>Phase 8</td></tr>
+          <tr><td>Alert thresholds</td><td>Each RUNBOOK failure scenario names the alert that should catch it; the thresholds themselves are set against real baseline data</td><td>Nadia Brooks + Harbor ops</td><td>Phase 9</td></tr>
+          <tr><td>RUNBOOK scale procedures</td><td>Sized from Q-18's 2024 CAT dataset and proven in dev/test; the production rehearsal is Phase 8's</td><td>Tom Reilly</td><td>Phase 8</td></tr>
         </tbody>
       </table>
-    </div>
-  </section>
 
-  <!-- ===================================================================== -->
-  <!-- 10 — HOW IT GOES WRONG                                                 -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
-      <p class="kicker">The traps &mdash; and where Harbor's structure caught them</p>
-      <h2>The failure modes, and the defense against each</h2>
-      <p class="lead">Knowing the failure modes by name is half the defense &mdash; and Harbor's
-        structure caught them in the act. Each row is anchored to the real moment in this week's story.</p>
-      <table class="ref-doc" style="margin-top:18px;">
-        <thead><tr><th>The trap</th><th>What it looks like</th><th>The defense</th><th>At Harbor this week</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Verified by reading</strong></td><td>Someone senior reads the README, nods, approves it</td><td>Reading checks prose; only use checks truth. The cold run is the phase &mdash; protect it.</td><td>Ines ran it cold; step 4 failed under observation</td></tr>
-          <tr><td><strong>The helpful cold run</strong></td><td>"Oh, you just need to&hellip;" leaned over the verifier's shoulder</td><td>Stalls are the data; helping erases the data. The pod stays silent.</td><td>Pod silent; the step-4 stall was logged, not solved</td></tr>
-          <tr><td><strong>Documenting the plan</strong></td><td>API docs transcribed from the old contracts, never checked against the code</td><td>Diff, never transcribe. The contract diff is what finds drift.</td><td>Diff caught both drifts before deployment</td></tr>
-          <tr><td><strong>Transcribing the code</strong></td><td>Docs generated from the implementation, bugs documented as features</td><td>Diff against the signed contracts; that's what makes a defect visible.</td><td>The bare-500 defect (spec 0045) surfaced and got fixed</td></tr>
-          <tr><td><strong>"See the wiki"</strong></td><td>Pointers to knowledge that lives outside the repo</td><td>The 3 a.m. reader has nobody to ask. Write it down or it doesn't exist.</td><td>Banned strings appeared zero times in the RUNBOOK</td></tr>
-          <tr><td><strong>Decision debt walking out</strong></td><td>Build-era choices that live only in PR threads and memory</td><td>The sweep plus signatures is the collection mechanism &mdash; do it while they're here.</td><td>ADR-012 &amp; ADR-013 signed; two struck on purpose</td></tr>
-          <tr><td><strong>The documentation fork</strong></td><td>A shiny new "system specification" duplicating the specs</td><td>Two sources of truth means one starts lying. Consolidate and point.</td><td>No fork &mdash; the spec library stayed the truth</td></tr>
-        </tbody>
-      </table>
-      <p class="note">All names, numbers, and documents are invented but internally consistent &mdash; the
-        11.4-day baseline, the CR-204 report, the ADR IDs, and the open question IDs trace through every
-        artifact across the engagement.</p>
-    </div>
-  </section>
-
-  <!-- close -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <p class="kicker">When Phase 7 is done</p>
-      <h2>The proof is the deliverable</h2>
-      <p class="dim">Harbor's documentation week closed not because the documents read well, but because
-        a stranger ran the system from them &mdash; Ines set it up cold, Tom operated it cold, both drifts
-        were resolved, and every decision was written down and signed. Billing milestone 5; the engagement
-        advanced to Deployment. Where to go next:</p>
-      <div class="next">
-        <a href="phase-8.html"><span class="t">Phase 8 &rarr;</span><span class="d">Deployment &mdash; go-live week: the rollback rehearsal that fails on Tuesday, seven names on the go/no-go, the first real FNOL through production.</span></a>
-        <a href="#glance" data-view-link="glance"><span class="t">The How-it-works view &rarr;</span><span class="d">The ideas behind the week &mdash; verify by use, diff never transcribe, write for 3 a.m. &mdash; each with the full method under "Go deeper".</span></a>
-      </div>
+      <p class="note" style="margin-top:22px;">One honest line went on the record at steering: production
+        topology and alert thresholds are documented as pointers to the next phases &mdash; not as content,
+        because they don't exist yet. <strong>Billing milestone 5.</strong> The engagement advanced to
+        Deployment.</p>
     </div>
   </section>
 

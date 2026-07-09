@@ -36,6 +36,7 @@
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
       <a href="../cheatsheet.html">Loop cheat-sheet</a>
       <a href="../glossary.html">Glossary</a>
       <a href="../faq.html">FAQ</a>
@@ -887,98 +888,404 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — WHY THE RAILS EXIST                                               -->
+  <!-- 01 — WHAT RIDES THE RAILS                                              -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and the rails built before any feature existed</p>
-      <h2>Speed is only safe if something catches the mistakes</h2>
-      <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod
-        to rebuild how property-insurance claims get reported and decided. A claim takes a median of
-        <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target
-        is <strong>5 days or less</strong>. The rails are not a phase, so this example is not a calendar
-        &mdash; it is seven episodes, each a real change meeting a real gate.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">What the rails are</div>
-          <p>Built in Phase 3, before any feature existed: five workflows (ci, grader, correctness,
-            security, deploy-dev), branch protection on <code>main</code>, a blocking Stop hook, a Bicep
-            dev environment. Proven on the walking skeleton. Everything since has ridden them.</p>
-          <p>These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of 07-20),
-            Phase 9 hypercare (from 07-27), and into Phase C close (08-17). The rails were built once
-            and never stopped running.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">What's real, what's invented</div>
-          <p>Episodes 1, 5, and 7 ran on the rails the plugin ships now. Episodes 2, 3, 4, and 6 use
-            machinery that is <strong>net-new to the kit</strong> &mdash; not commands a pod can type
-            today: self-healing CI, the infrastructure what-if/policy/drift gates, the flaky-test state
-            machine, and per-agent identities.</p>
-          <div class="snippet">
-            <div class="from">The honest framing</div>
-            <blockquote>"These net-new pieces are exactly what a first agentic-ops-heavy engagement would build once and harvest back into the kit — collected in section 03."</blockquote>
-          </div>
-        </div>
-      </div>
-      <p class="note">The IDs you'll see (stable across phases): <strong>REQ-NN</strong> requirement ·
-        <strong>ADR-NN</strong> architecture decision · <strong>D-NN</strong> product decision ·
-        <strong>Q-NN</strong> open question · <strong>NNNN-name.md</strong> a spec file (one feature, one
-        file) · <strong>rc-X.Y.Z</strong> a release candidate artifact.</p>
-    </div>
-  </section>
+      <p class="kicker">The rails are not a phase &mdash; they are the standing pipeline every change rides</p>
+      <h2>What rides the rails</h2>
+      <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod to
+        rebuild how property-insurance claims get reported and decided. A claim takes a median of
+        <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target is
+        <strong>5 days or less</strong>. The rails have no calendar and no exit gate. They have a
+        <strong>merge bar</strong>, and one thing arrives at it: a <strong>pull request from one
+        spec</strong>. One spec = one branch = one PR. This page walks what that PR carries in, the five
+        rails it rides, and what it leaves behind when it clears.</p>
 
-  <!-- ===================================================================== -->
-  <!-- 02 — THE ONE RULE                                                      -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">The agent proposes; a gate disposes</p>
-      <h2>The agent proposes; a gate disposes</h2>
-      <p class="lead">One sentence held seven times at Harbor. A green-looking change, a broken pipeline, a
-        flaky test, an infra change, a production promotion, a hand-edited environment, a
-        behavior-preserving refactor &mdash; every one stopped the agent at a reviewable artifact and let
-        a human dispose. The rails are not seven mechanisms; they are one principle wired into seven
-        places.</p>
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">What arrives at the bar &mdash; the reviewable artifact and its context</span>
+        <span class="tag">specs/NNNN-name.md</span>
+        <span class="tag">the diff (base &hellip; HEAD)</span>
+        <span class="tag">risk tier &mdash; from risk-tier-map.md</span>
+        <span class="tag green">the co-authored commits (who, or what, wrote each line)</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">What to notice across all seven</div>
+          <div class="plabel">The spec, the diff, the tier</div>
+          <p>Three things define a change before a single rail fires.</p>
           <ul>
-            <li><strong>The grader advises; it does not gate.</strong> It caught the empty-policy-number
-              bug and handed it to Sara. A blocking AI verdict would have been faster and worse.</li>
-            <li><strong>Nothing an agent did was unbounded.</strong> The self-heal agent had four named
-              tools and its own scoped identity; the deploy identity could touch one resource group.</li>
-            <li><strong>Read-only until the last step.</strong> The infra funnel did all its thinking
-              while the cloud was untouched; the drift check proposed without applying.</li>
-            <li><strong>A rail proven by failing safely.</strong> The rollback rehearsal failing on
-              Tuesday was the rails working &mdash; the expensive version waits for an incident.</li>
+            <li><strong>The spec.</strong> A committed file, <code>specs/NNNN-name.md</code>, that rides
+              in the PR's own diff &mdash; so intent and implementation sit in one view. The grader reads
+              <em>this file</em>, not the PR description, as the authority on what the change was for.</li>
+            <li><strong>The diff.</strong> Everything the branch changed against <code>main</code>. A
+              deterministic helper (<code>diff-anchors.sh</code>) turns it into a changed-line set the AI
+              reviewers must anchor every finding to &mdash; no drifting, no skimming.</li>
+            <li><strong>The risk tier.</strong> HIGH / MEDIUM / LOW, assigned from the Phase-3
+              <code>risk-tier-map.md</code>. A HIGH change (or one touching a gated path) pulls in the
+              security rail and a named sign-off; the tier is what decides how hard the change is gated.</li>
           </ul>
         </div>
         <div class="eg">
-          <div class="plabel">When prompts fail, identity holds</div>
-          <p>The self-heal agent had a four-tool surface and its own scoped identity; the secrets the pod
-            could read were never the production ones.</p>
-          <div class="snippet resolve">
-            <div class="from">The wall still standing</div>
-            <blockquote>"When prompts fail, identity is the wall that holds. The fix agent's credential could read the repo and open a PR — nothing more."</blockquote>
+          <div class="plabel">Before the rails: the local hooks</div>
+          <p>The rails are server-side, on the PR. But two gates fire earlier, on the agent's own
+            machine, and they are part of the story: <strong>done means the hook lets you stop.</strong></p>
+          <ul>
+            <li><strong>The Stop hook</strong> (<code>stop-gate.ps1</code>) refuses to let the agent end
+              its turn on a red build &mdash; the environment's green, not the agent's opinion.</li>
+            <li><strong>The review gate</strong> (<code>review-gate.ps1</code>) refuses a push until
+              <code>/code-review</code> and <code>/simplify</code> receipts exist for the exact commit.</li>
+          </ul>
+          <div class="snippet">
+            <div class="from">The coverage boundary the hooks admit</div>
+            <blockquote>A hook only fires for actions taken through Claude Code. A human pushing from
+              their own terminal sails past it &mdash; which is exactly why the same checks run again,
+              server-side, as required rails. A rail that only holds when the well-behaved actor
+              cooperates is not a rail.</blockquote>
           </div>
+        </div>
+      </div>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>The rails (automated actors)</h3>
+          <div class="person"><span class="nm">ci.yml</span><span class="rl">build-and-test &mdash; the mechanical floor; hard block</span></div>
+          <div class="person"><span class="nm">grader.yml</span><span class="rl">a fresh agent's verdict against the spec; advises</span></div>
+          <div class="person"><span class="nm">correctness.yml</span><span class="rl">a fresh agent hunts logic defects; blocks on one</span></div>
+          <div class="person"><span class="nm">security.yml</span><span class="rl">the security-reviewer on gated paths / risk:high; blocks on HIGH</span></div>
+          <div class="person"><span class="nm">deploy-dev.yml</span><span class="rl">ships the merged artifact to dev; rolls back on failure</span></div>
+        </div>
+        <div class="group">
+          <h3>The humans at the bar</h3>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; owns the rails as a product; merges none of it alone</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Rob's named deputy &mdash; reads every rails change</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator / Checker &mdash; the non-author at the merge bar</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; proves each rail fails safely</span></div>
+          <div class="person"><span class="nm">Tom Reilly</span><span class="rl">Harbor platform &mdash; owns branch protection, runners, secrets</span></div>
+          <div class="person"><span class="nm">Wes Carter</span><span class="rl">Harbor lead engineer &mdash; signs HIGH changes</span></div>
+        </div>
+      </div>
+
+      <details class="deeper">
+        <summary>The codes and labels, decoded</summary>
+        <div class="deeper-body">
+          <p>The rails run on a small vocabulary of stable IDs and GitHub labels. A change's identity, its
+            tier, and every override it uses are all one of these:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Code / label</th><th>Means</th><th>Where it acts</th></tr></thead>
+            <tbody>
+              <tr><td><code>NNNN-name.md</code></td><td>A spec file &mdash; one feature, one branch, one PR</td><td>The grader reads it as the authority on intent</td></tr>
+              <tr><td><code>risk:high</code></td><td>A PR label declaring the change HIGH risk</td><td>Fires <code>security.yml</code>; adds a named sign-off to the bar</td></tr>
+              <tr><td><code>accepted-risk:correctness</code></td><td>A PR label recording an audited correctness override</td><td>Lets <code>correctness.yml</code> pass a BLOCK verdict</td></tr>
+              <tr><td><code>gate-exception</code></td><td>The label on a true emergency merge past a gate</td><td>Needs the Pod Lead + one human + a Retro+ item</td></tr>
+              <tr><td><code>ADR-NN</code></td><td>An architecture decision record &mdash; a signed choice</td><td>ADR-001 the replica staleness rule (02:00&ndash;04:30)</td></tr>
+              <tr><td><code>REQ-NN</code> · <code>D-NN</code> · <code>Q-NN</code></td><td>Requirement · product decision · open question</td><td>D-07 duplicate-merge; REQ-019 fast path; Q-15 replica access</td></tr>
+              <tr><td><code>rc-X.Y.Z</code></td><td>A release-candidate artifact &mdash; the proven bytes</td><td>rc-1.0.1 promoted to prod, never rebuilt (Phase 8)</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The required-check <em>names</em> are the job names, not the file names:
+            <code>build-and-test</code>, <code>grader</code>, <code>correctness-review</code>,
+            <code>security-review</code>. Rename a job and you must rename its required-status-check
+            context in <code>branch-protection.json</code> or the bar stops enforcing it.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 02 — THE FIVE RAILS, IN ORDER                                          -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">Five workflows &mdash; and the single most important fact about each is whether it can say "no"</p>
+        <h2>The five rails, in order</h2>
+        <p class="lead">A PR fires all five rails. Two <strong>block</strong> mechanically (a machine's
+          call), two <strong>advise or block on a defect</strong> (an AI agent's call, scaffolded so it is
+          checkable), and one <strong>ships</strong>. Confusing block with advise is how a team either
+          ships unreviewed agent code or drowns every typo in ceremony. Below, each rail is read from the
+          actual YAML in <code>kit/workflows/</code>: what triggers it, what it does, whether it blocks or
+          advises, and what it leaves behind. <strong>Step through it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">a command does it &mdash; and writes the file</span>
+          <span class="tag green">a person does it &mdash; and it is recorded</span>
+          <span class="tag amber">a person does it &mdash; and nothing records it</span>
+        </div>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="The five rails, in order" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a rail"></div>
+
+        <div class="tl-step" data-day="ci">
+          <div class="day">Rail 1 &mdash; ci.yml <span class="date">· fires on every PR + push to main · job build-and-test</span></div>
+          <h3>Does it compile, do the tests pass, is it covered &mdash; the mechanical floor</h3>
+          <p>The only rail with no AI in it. It restores, builds, runs the test suite with coverage, and
+            uploads the built artifact. It answers only what a machine can answer for certain, and any red
+            here is <strong>a hard block</strong> &mdash; a closed door no human waves through without a
+            recorded exception. The standard's 80% coverage floor is enforced in the test runner so a
+            coverage miss is a non-zero exit, not a low number in a passing report.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">ci.yml <span class="arrow">&rarr;</span> <span class="script">build-and-test</span></span>
+            <span class="cmd">ci.yml <span class="arrow">&rarr;</span> <span class="script">eval-gate</span> (optional)</span>
+            <span class="cmd">gh pr checks</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Leaves behind</span>
+            <span class="tag">the CI run (Actions log)</span>
+            <span class="tag">coverage/ &mdash; the uploaded artifact deploy-dev promotes</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>On the first walking-skeleton slice (spec 0001), the coverage gate <strong>miscounted
+              generated files</strong> and read low. Caught on the PR, fixed cheap, before any feature
+              depended on it. The optional <code>eval-gate</code> is a second hard block for agentic
+              behavior that must not regress; a time-boxed bypass is <em>recorded</em> in
+              <code>profile/eval-bypasses.md</code> &mdash; the gate still runs, the ledger only says why a
+              known failure was accepted.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="grader">
+          <div class="day">Rail 2 &mdash; grader.yml <span class="date">· fires on every non-draft PR · job grader</span></div>
+          <h3>A fresh agent grades the change against its spec &mdash; and only advises</h3>
+          <p>An agent that did <strong>not</strong> write the code reads the committed spec file in the
+            diff and walks its acceptance checks one by one, pinning each verdict to a changed line, and
+            posts one PR comment (updated on re-runs). This rail is <strong>required to RUN</strong> &mdash;
+            <code>grader</code> is a required check, so a PR can't merge until it has run &mdash; but its
+            <strong>verdict never blocks.</strong> "The grader ran" is what the method requires; <em>what
+            it said</em> is the human Checker's input, not a gate. It is the one rail that
+            <strong>fails soft</strong>: the Claude step is <code>continue-on-error</code>, so a missing
+            key or an API hiccup never adds false red.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">grader.yml <span class="arrow">&rarr;</span> <span class="script">claude-code-action</span> (--model sonnet)</span>
+            <span class="cmd">diff-anchors.sh <span class="arrow">&rarr;</span> changed-line set</span>
+            <span class="cmd">rubrics/grader.md</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Leaves behind</span>
+            <span class="tag">the grader's PR comment (verdict, per-check, line-anchored)</span>
+            <span class="tag green">the Checker's decision &mdash; a human reads it and acts</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>On spec 0016 (duplicate-claim merge, HIGH), <strong>eleven tests passed</strong> and CI
+              went green. The grader flagged the hole the eleven never covered: two claims with an
+              <strong>empty policy number</strong> merging into one. It advised; it did not block. Sara
+              (not the author) read it, agreed, and bounced it back &mdash; the principle in its purest
+              form. The full episode is section 04.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>The grader's value depends on a human <em>reading</em> the advisory verdict &mdash; and
+              nothing records that they did. The non-author approval at the bar implies it, but there is no
+              receipt that the grader's comment was read and weighed. It is also lenient by design: if the
+              PR carries no <code>specs/NNNN-*.md</code>, the grader falls back to the PR description and
+              emits a <em>warning</em>, not a block.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="correctness">
+          <div class="day">Rail 3 &mdash; correctness.yml <span class="date">· fires on every PR; reviews when source changed · job correctness-review</span></div>
+          <h3>A different fresh agent hunts logic defects &mdash; and blocks on one</h3>
+          <p>The bug class the others miss: CI proves it compiles and tests pass, security covers
+            exploitability, the grader checks intent &mdash; none asks "is this code correct?" A fresh
+            agent (neither the author nor the grader) reviews the changed lines for off-by-ones, null
+            paths, inverted conditions, and writes a machine verdict. It <strong>blocks on a
+            high-confidence defect</strong> (<code>CORRECTNESS_VERDICT: BLOCK</code>) unless a named human
+            records the <code>accepted-risk:correctness</code> label &mdash; an audited override on the PR
+            timeline. It <strong>fails closed</strong>: a source change whose review can't complete blocks
+            rather than passes. When no source changed, it short-circuits to a trivial pass, so it can be a
+            required check without leaving low-risk PRs stuck pending.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">correctness.yml <span class="arrow">&rarr;</span> <span class="script">claude-code-action</span> (--model opus)</span>
+            <span class="cmd">verdict <span class="arrow">&rarr;</span> runner temp (anti-tamper)</span>
+            <span class="cmd">gh pr edit --add-label accepted-risk:correctness</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Leaves behind</span>
+            <span class="tag">the correctness PR comment + the red/green check</span>
+            <span class="tag green">the audited override label, when a human accepts the risk</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>At Phase C close, spec 0051 extracted the replica-staleness guard into one shared check
+              &mdash; a refactor the tests couldn't vouch for and the grader was silent on (the spec
+              promised no new behavior). The correctness rail read the extraction against both originals,
+              confirmed the 02:00&ndash;04:30 boundary and the degraded path were byte-for-byte the prior
+              behavior, and cleared it. The refactor merged on proof, not crossed fingers (section 04).</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">Where the local check can't bind</div>
+            <p>A pre-push hook does correctness self-review on the agent's machine &mdash; but it binds only
+              the <em>agent</em>; a human pushing from their terminal sails past. So this rail runs again
+              server-side on every PR. The label is an audited override, <strong>not</strong> an
+              authorization check: the workflow cannot reliably tell the label's applier from the author,
+              so the "a non-author signs off" guarantee comes from the bar's non-author approval, not the
+              label. The YAML says so in its own comments.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="security">
+          <div class="day">Rail 4 &mdash; security.yml <span class="date">· fires on every PR; reviews on gated paths / risk:high · job security-review</span></div>
+          <h3>The security-reviewer, path-triggered &mdash; and blocks on HIGH</h3>
+          <p>Path-triggered, not just tier-triggered: the workflow runs the security-reviewer agent on any
+            PR touching a guarded directory &mdash; the regex is
+            <code>(^\.github/|/Auth/|/Identity/|/Security/|/Migrations/|^infra/)</code> &mdash; or carrying
+            the <code>risk:high</code> label. A change tiered MEDIUM that touches the auth folder is caught
+            regardless. It <strong>blocks on a HIGH finding</strong> (<code>SECURITY_VERDICT: BLOCK</code>)
+            and <strong>fails closed</strong> if the review can't complete. When no gated path changed and
+            no <code>risk:high</code> label is present, it passes trivially.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">security.yml <span class="arrow">&rarr;</span> <span class="script">security-reviewer</span> (--model opus)</span>
+            <span class="cmd">gh pr edit --add-label risk:high</span>
+            <span class="cmd">rubrics/security.md · CODEOWNERS</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Leaves behind</span>
+            <span class="tag">the security PR comment + the red/green check</span>
+            <span class="tag amber">the named human sign-off &mdash; a PR convention, not a tool receipt</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>On the walking skeleton's HIGH slice (spec 0002, the replica verification read),
+              <code>risk:high</code> fired this rail; <strong>Dan recorded a named sign-off</strong> under
+              the Q-15 controls before merge. The first PR to touch acknowledgment templates (spec 0003)
+              tripped the PII template-review gate the same way &mdash; the path caught it, independent of
+              its tier.</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The override the YAML doesn't implement</div>
+            <p>The merge bar promises a <code>risk:high</code> change can proceed on "a named human
+              sign-off recorded in the PR," and the workflow's own error text says <em>"Resolve them or
+              record a named accepted-risk sign-off."</em> But the enforce step has <strong>no
+              label</strong> and <strong>no condition</strong> that lets a recorded sign-off pass &mdash;
+              on a HIGH verdict it always <code>exit 1</code>. Unlike the correctness rail, there is no
+              coded override; the sign-off is human convention the YAML never checks. (Drift, filed.)</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="deploy-dev">
+          <div class="day">Rail 5 &mdash; deploy-dev.yml <span class="date">· fires on a successful CI run on main (the merge) · job deploy-dev</span></div>
+          <h3>Ships the merged artifact to dev &mdash; and rolls back on failure</h3>
+          <p>Not a gate; the merge already cleared the bar. Triggered by a <em>successful CI run on
+            main</em>, it <strong>promotes the exact artifact CI built</strong> (downloaded from the
+            triggering run &mdash; never a rebuild), captures the last known-good version, deploys, health-
+            checks, and <strong>restores the last good version on any failure.</strong> Merge&rarr;dev is
+            automatic and human-free; promotion beyond dev (dev&rarr;test&rarr;prod) is deliberate and
+            human-gated, and is <em>not</em> this workflow.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">deploy-dev.yml <span class="arrow">&rarr;</span> workflow_run(CI, success, main)</span>
+            <span class="cmd">download-artifact <span class="arrow">&rarr;</span> promote, never rebuild</span>
+            <span class="cmd">restore last-good on failure()</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Leaves behind</span>
+            <span class="tag">the deployed dev environment (the GitHub dev Environment)</span>
+            <span class="tag">a rollback to the last good version, on a failed deploy</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>The rollback path is proven by <strong>failing safely first</strong>. In the Phase 8
+              rehearsal it failed in test on a Tuesday &mdash; a config key had moved ahead of the artifact
+              &mdash; which spec 0046 fixed by versioning config <em>with</em> the release. Thursday,
+              <strong>rc-1.0.1 was promoted to production, not rebuilt</strong>; the first real FNOL (a
+              burst pipe, 08:14) got a coverage recommendation in <strong>3 hours 6 minutes</strong>
+              against the 11.4-day baseline (section 04).</p>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">Ships as a starter that fails until wired</div>
+            <p>This is the one rail <strong>built fresh</strong> to the standard, not generalized from the
+              source harness &mdash; the source deferred deploy entirely. As shipped it <em>intentionally
+              fails</em>: the deploy step is
+              <code>echo "::error::&lt;&lt;DEPLOY_STEP&gt;&gt; not yet wired &mdash; this starter
+              intentionally fails until adapted."; exit 1</code>. It encodes the &sect;5 rules (promote
+              never rebuild; a rollback that has never run is a wish) correctly, but the deploy and
+              rollback steps are placeholders a client must wire and <strong>rehearse</strong> before
+              trusting.</p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next rail &rarr;</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — SELF-VALIDATION / EPISODE 1 THE GRADER CATCH                      -->
+  <!-- 03 — WHAT A MERGE LEAVES BEHIND                                        -->
   <!-- ===================================================================== -->
   <section class="s">
-    <div class="wrap-wide reveal ref-doc">
+    <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">Episode 1 — the merge bar holds</p>
-      <h2>The agent has to prove it works &mdash; not just say so</h2>
-      <p class="lead"><em>Build week four · Thursday 2026-05-07 · spec 0016 (duplicate-claim merge), HIGH
-        risk.</em> The Stop hook held the agent to a green suite &mdash; eleven tests &mdash; before a
-        human ever saw the change. Then the grader caught what eleven green tests missed.</p>
+      <p class="kicker">Every receipt a cleared PR leaves &mdash; and the ones the standard wants but no tool writes</p>
+      <h2>What a merge leaves behind</h2>
+      <p class="lead">A phase leaves a folder of artifacts; a merge leaves a <strong>ledger of
+        receipts</strong>. Blue rows are written by a rail and have a real place to live. <strong>Amber
+        rows are what the standard demands and no tool emits</strong> &mdash; the receipts that exist only
+        as memory, convention, or a metric nobody records. Those are the rows to argue about.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">grader PR comment</span></td><td>A fresh agent's per-check verdict against the committed spec, each check pinned to a changed line; one comment, updated on re-runs</td><td><code>grader.yml</code> (claude-code-action, sonnet)</td><td>&mdash; (advisory)</td><td>the PR conversation</td><td>The human Checker's decision</td></tr>
+          <tr><td><span class="tag">correctness verdict + comment</span></td><td>Logic-defect findings on the changed lines, plus a machine <code>PASS</code>/<code>BLOCK</code> token on the first line</td><td><code>correctness.yml</code> (opus)</td><td>&mdash;</td><td>PR comment + the <code>correctness-review</code> check; verdict in runner temp (ephemeral, anti-tamper)</td><td>The merge bar &mdash; blocks on <code>BLOCK</code></td></tr>
+          <tr><td><span class="tag">security verdict + comment</span></td><td>Security findings on the gated files, plus a <code>PASS</code>/<code>BLOCK</code> token; fires on gated paths or <code>risk:high</code></td><td><code>security.yml</code> (opus)</td><td>&mdash;</td><td>PR comment + the <code>security-review</code> check</td><td>The merge bar &mdash; blocks on HIGH</td></tr>
+          <tr><td><span class="tag">CI run + coverage artifact</span></td><td>Build, tests, lint, 80% coverage &mdash; and the deployable bytes deploy-dev promotes</td><td><code>ci.yml</code> (build-and-test)</td><td>&mdash;</td><td>the Actions run + the uploaded <code>coverage/</code> artifact</td><td>deploy-dev (promotes the CI artifact)</td></tr>
+          <tr><td><span class="tag">review receipt</span></td><td>Proof <code>/code-review</code> and <code>/simplify</code> ran against this exact commit &mdash; the reviewer's own summary, commit-bound</td><td><code>save-review-receipt.ps1</code> (local, pre-push)</td><td>the reviewer (the content is theirs)</td><td><code>.claude/.review-receipts/&lt;sha&gt;.&lt;kind&gt;</code> (gitignored, per-clone)</td><td>The review gate (blocks the push until present)</td></tr>
+          <tr><td><span class="tag">co-authored merge commit</span></td><td>Provenance in the history: who, or what, wrote each line &mdash; agent commits carry a co-author trailer</td><td>the committer / agent</td><td>&mdash;</td><td>git history on <code>main</code></td><td>Audit; Phase C transfer</td></tr>
+          <tr><td><span class="tag">deployed dev environment</span></td><td>The merged artifact, promoted (never rebuilt) and running in dev; a rollback record on a failed deploy</td><td><code>deploy-dev.yml</code> (once wired)</td><td>&mdash;</td><td>the GitHub <code>dev</code> Environment</td><td>The Build loop's constant exercise of the rails</td></tr>
+
+          <tr><td><span class="tag amber">the metrics line</span></td><td>Per-merge dashboard data &mdash; accepted-as-is rate, review wait, the DORA four, escaped bugs (GOLD &sect;9)</td><td><strong>nothing</strong> &mdash; no rail appends it</td><td>Setup Owner (would)</td><td class="dim">no path &mdash; nothing writes it</td><td>The internal dashboard; Retro+</td></tr>
+          <tr><td><span class="tag amber">the central provenance log</span></td><td>Every agent recommendation, applied artifact, and gate outcome, logged centrally (the-rails.md &sect;9)</td><td><strong>nothing</strong> emits it</td><td>Setup Owner</td><td class="dim">no path &mdash; nothing writes it</td><td>Audit after a poisoned tool-return</td></tr>
+          <tr><td><span class="tag amber">the "grader was read" receipt</span></td><td>Evidence the human Checker read the advisory verdict and acted on it &mdash; the whole point of an advising rail</td><td><strong>a human</strong>, un-recorded</td><td>the Checker</td><td class="dim">no path &mdash; the approval implies it, nothing records it</td><td>The merge decision</td></tr>
+          <tr><td><span class="tag amber">the risk:high sign-off</span></td><td>A named human's recorded sentence accepting a HIGH risk &mdash; a name, not a thumbs-up</td><td><strong>a human</strong>, by convention in a PR comment</td><td>the named signer</td><td class="dim">no path &mdash; nothing templates or checks it</td><td>The merge bar (HIGH path)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Four of the receipts the standard leans on have nowhere to live. The DORA four and the
+          accepted-as-is rate are the numbers the rails are supposed to be <em>watched</em> by &mdash; yet
+          no rail appends a metrics line, so the dashboard is hand-kept or absent. The central provenance
+          log the-rails.md calls "what makes the rails auditable rather than merely automated" is not
+          written by anything in the kit. And the two human receipts &mdash; that the grader was read, that
+          a HIGH sign-off happened &mdash; survive only as a PR approval and a comment.
+          <strong>Human work is not the problem. Human work without a receipt is.</strong></p>
+      </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced by the rails: feature code
+        (the specs and the loop own that), the test and production environments (the first hardening pass
+        and Phase 8 add those), and the metrics dashboard itself. The rails emit <em>receipts</em>, not
+        products &mdash; the enforcement, not the thing enforced.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 04 — THE RAILS DOING THEIR JOB (seven episodes)                        -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal ref-doc">
+      <span class="modnum">04</span>
+      <p class="kicker">Seven real changes, each meeting a real gate &mdash; the rails not as spec but as story</p>
+      <h2>The rails doing their job</h2>
+      <p class="lead">These episodes span Build (2026-04-13 to 07-10), the Phase 8 go-live (week of
+        07-20), Phase 9 hypercare (from 07-27), and into Phase C close (08-17). The rails were built once
+        and never stopped running. Three ran on rails the plugin ships today (episodes 1, 5, 7); four use
+        machinery <strong>net-new to the kit</strong>, flagged inline and tallied in section 05.</p>
+
+      <h3 style="margin-top:8px;">Episode 1 &mdash; the grader catches what eleven green tests missed</h3>
+      <p class="dim"><em>Build week four · Thursday 2026-05-07 · spec 0016 (duplicate-claim merge), HIGH risk.</em></p>
       <p><strong>Tooling —</strong> No plugin command. Spec 0016 rides the loop; the PR fires ci.yml +
         grader.yml; <code>risk:high</code> fires security.yml &rarr; the security-reviewer agent; Wes's
         named sign-off in the PR.</p>
@@ -1000,23 +1307,12 @@
           sign-off</strong> in the PR before merge. Then a non-author merged, and deploy-dev shipped it
           to dev.</li>
       </ul>
-      <p class="note"><strong>The rail that mattered:</strong> the grader (rung 4 of the checking
-        ladder). An agent produced a confident, green-looking change; a separate gate caught what the
-        author was blind to; a human owned the call. Agent proposes, gate disposes.</p>
-    </div>
-  </section>
+      <p class="note"><strong>The rail that mattered:</strong> the grader. An agent produced a confident,
+        green-looking change; a separate gate caught what the author was blind to; a human owned the call.
+        Agent proposes, gate disposes.</p>
 
-  <!-- ===================================================================== -->
-  <!-- 04 — THE FIVE GATES / EPISODE 2 SELF-HEALING CI                        -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">04</span>
-      <p class="kicker">Episode 2 — self-healing CI stops at a PR</p>
-      <h2>Five checks &mdash; and knowing which ones can say "no"</h2>
-      <p class="lead"><em>Build week six · Tuesday 2026-05-19 · <strong>(net-new to the kit)</strong>.</em>
-        A red pipeline got a proposed fix from a bounded agent &mdash; and the merge bar, applied to the
-        pipeline's own repairs, held it at a PR.</p>
+      <h3 style="margin-top:30px;">Episode 2 &mdash; self-healing CI: a proposed fix that stops at a PR</h3>
+      <p class="dim"><em>Build week six · Tuesday 2026-05-19 · <strong>(net-new to the kit)</strong>.</em></p>
       <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash;
         self-heal.yml &rarr; a bounded fix agent (read/write/run-tests/run-lint only); emits a
         <code>fix/</code> PR, never a merge.</p>
@@ -1031,9 +1327,9 @@
           <strong>re-ran the tests from the environment until they went green.</strong> It proved the
           fix; it did not assert it.</li>
         <li>Then it stopped. It opened a <code>fix/serializer-default</code> <strong>pull
-          request</strong> with the diff and a one-paragraph explanation, and went no further. It cannot
-          push to <code>main</code>; it cannot approve its own work. <strong>Sara reviewed the proposed
-          fix, agreed, and merged it</strong> through the same merge bar as everything else.</li>
+          request</strong> and went no further. It cannot push to <code>main</code>; it cannot approve
+          its own work. <strong>Sara reviewed the proposed fix, agreed, and merged it</strong> through the
+          same merge bar as everything else.</li>
         <li>The agent ran under <strong>its own least-privilege identity</strong> &mdash; a workload
           credential scoped to read the repo and open a PR, nothing more. If its prompt had been steered
           somewhere bad, the identity is the wall that was still standing.</li>
@@ -1041,20 +1337,9 @@
       <p class="note"><strong>The rail that mattered:</strong> the merge bar, applied to the pipeline's
         own repairs. A self-healing pipeline that pushed its own fix would have thrown away the only rule
         that makes it safe. Stopping at the PR is the whole design.</p>
-    </div>
-  </section>
 
-  <!-- ===================================================================== -->
-  <!-- 05 — THE MERGE BAR / EPISODE 3 FLAKY TEST                              -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">05</span>
-      <p class="kicker">Episode 3 — quarantined, not "fixed"</p>
-      <h2>The merge bar &mdash; what every change must clear to land</h2>
-      <p class="lead"><em>Hardening pass one · Wednesday 2026-05-27 · <strong>(net-new to the
-        kit)</strong>.</em> A flaky test was beginning to block unrelated work. The wrong move would
-        have been "an agent makes it green." Triage and a state machine beat the reflex.</p>
+      <h3 style="margin-top:30px;">Episode 3 &mdash; the flaky test that got quarantined, not "fixed"</h3>
+      <p class="dim"><em>Hardening pass one · Wednesday 2026-05-27 · <strong>(net-new to the kit)</strong>.</em></p>
       <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash; the
         flaky-test state machine (Active &rarr; Quarantined &rarr; Disabled) moves the test out of the
         blocking set; the real fix then rides the loop.</p>
@@ -1080,65 +1365,9 @@
       <p class="note"><strong>The rail that mattered:</strong> triage over reflex. Active &rarr;
         Quarantined &rarr; Disabled with eligibility gating and a grace period beats "an agent fixes
         every red test" &mdash; which would have papered over a real race with a flakier assertion.</p>
-    </div>
-  </section>
 
-  <!-- ===================================================================== -->
-  <!-- 06 — DEPLOY & PROMOTION / EPISODE 5 ROLLBACK                           -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">06</span>
-      <p class="kicker">Episode 5 — promotion, and the rollback that failed first</p>
-      <h2>A merge isn't a deploy &mdash; promotion is</h2>
-      <p class="lead"><em>Phase 8 go-live week · 2026-07-20 to 07-23 · rc-1.0.1.</em> The same proven
-        artifact moved up, never rebuilt &mdash; and the rollback was proven by failing safely in test,
-        not assumed.</p>
-      <p><strong>Tooling —</strong> No plugin command &mdash; the rehearsal and the go/no-go are
-        human-run on the rails; spec 0046 rides the loop; <code>/sdlc-gate</code> at the Phase 8
-        boundary.</p>
-      <ul>
-        <li><strong>Tuesday, the rehearsal in test:</strong> deploy &rarr; roll back &rarr; redeploy,
-          run by the hands that would run it at 2 a.m. The deploy went fine. <strong>The rollback
-          failed.</strong> The previous artifact came back, but a configuration key had moved ahead of
-          it in a separate change, so the rolled-back app booted against config it didn't understand. A
-          rollback that had only ever been written would have failed exactly here &mdash; in production,
-          during an incident, instead of in test on a Tuesday.</li>
-        <li>The fix rode the loop as <strong>spec 0046 &mdash; configuration versioned with the release
-          artifact</strong>, so a promoted build always carries the config it was tested with and a
-          rollback restores both together. Re-rehearsed <strong>Wednesday: clean.</strong> The failed
-          first rehearsal went in the go/no-go packet too: found-and-fixed is stronger evidence than
-          never-stressed.</li>
-        <li><strong>Thursday, go-live.</strong> The <strong>same artifact that passed test &mdash;
-          rc-1.0.1 &mdash; was promoted to production, not rebuilt.</strong> Tom executed; the release
-          manager called each step; the pod and Harbor's operators watched the same dashboards. The
-          first real FNOL &mdash; a burst pipe, reported on the portal at 08:14 &mdash; produced a
-          coverage recommendation in <strong>3 hours 6 minutes</strong>, against the 11.4-day
-          baseline.</li>
-        <li><strong>Secrets had rotated before go-live</strong> to production-only values the pod could
-          not read; <strong>Dan held his go</strong> at the ceremony until the rotation record was
-          attached, then gave it. The engagement reached production with the pod having never known a
-          production secret.</li>
-        <li><code>/sdlc-gate</code> passed the Phase 8 gate; billing milestone 6.</li>
-      </ul>
-      <p class="note"><strong>The rails that mattered:</strong> promotion (the proven artifact moved up,
-        never rebuilt) and the rehearsed rollback (proven by failing safely in test, not assumed). Plus
-        identity: secrets the pod never held.</p>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 07 — INFRASTRUCTURE / EPISODE 4 THE FUNNEL                             -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">07</span>
-      <p class="kicker">Episode 4 — a HIGH-risk infra change through the funnel</p>
-      <h2>Infrastructure is HIGH risk every time &mdash; so it's read-only until the last step</h2>
-      <p class="lead"><em>Hardening pass one · Thursday 2026-05-28 · the test environment ·
-        <strong>(net-new gates flagged)</strong>.</em> Adding the test environment was a Bicep change.
-        Everything before the apply was read-only &mdash; and the policy gate caught two violations on
-        the PR.</p>
+      <h3 style="margin-top:30px;">Episode 4 &mdash; a HIGH-risk infrastructure change through the funnel</h3>
+      <p class="dim"><em>Hardening pass one · Thursday 2026-05-28 · the test environment · <strong>(net-new gates flagged)</strong>.</em></p>
       <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash;
         iac.yml runs the funnel: schema-validate &rarr; PSRule policy gate &rarr; <code>bicep
         what-if</code> (Tom reads it) &rarr; human approval &rarr; scoped least-privilege apply.</p>
@@ -1146,16 +1375,15 @@
         <li>Hardening pass one is where the <strong>test environment</strong> gets added alongside dev.
           That is a Bicep change, and Bicep is HIGH risk every time. Claude drafted the test-environment
           Bicep; then it went down the funnel, every step read-only until the last.</li>
-        <li><strong>Schema validation</strong> passed &mdash; the templates compiled against the
-          resource schema. <strong>The policy-as-code gate did not:</strong> PSRule flagged two things
-          &mdash; a storage account that would have defaulted to public network access, and a resource
-          group missing the required cost-center tag. Caught mechanically, on the PR, not by a reviewer
-          remembering to look. The agent fixed both; the gate went green.</li>
+        <li><strong>Schema validation</strong> passed. <strong>The policy-as-code gate did not:</strong>
+          PSRule flagged two things &mdash; a storage account that would have defaulted to public network
+          access, and a resource group missing the required cost-center tag. Caught mechanically, on the
+          PR, not by a reviewer remembering to look. The agent fixed both; the gate went green.</li>
         <li><strong><code>bicep what-if</code> produced the dry-run</strong> &mdash; the exact list of
           what would be created in the test subscription. <strong>Tom read it</strong> before approving:
           the app hosting, the buffered queue, the private endpoint to the replica, the Key Vault &mdash;
-          and nothing he didn't expect. An infrastructure change approved without reading its what-if is
-          a change approved blind; this one wasn't.</li>
+          and nothing he didn't expect. An infrastructure change approved without reading its what-if is a
+          change approved blind; this one wasn't.</li>
         <li>Only then did the <strong>apply</strong> run, under a <strong>deploy identity scoped to the
           test resource group and nothing else.</strong> The test environment came up from code, the
           same way dev had &mdash; and the same way prod would in eight weeks.</li>
@@ -1163,21 +1391,40 @@
       <p class="note"><strong>The rail that mattered:</strong> the infrastructure funnel. Everything
         before the apply is read-only &mdash; the policy gate and the what-if did their work while
         nothing in the cloud had changed yet.</p>
-    </div>
-  </section>
 
-  <!-- ===================================================================== -->
-  <!-- 08 — IDENTITY / EPISODE 6 DRIFT                                        -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">08</span>
-      <p class="kicker">Episode 6 — drift: proposed, never auto-applied</p>
-      <h2>Identity is the real guardrail &mdash; not the instructions</h2>
-      <p class="lead"><em>Phase 9 hypercare · Monday 2026-07-28 · <strong>(net-new to the
-        kit)</strong>.</em> A hand-edited environment was caught by the schedule &mdash; and the agent
-        proposed a remediation rather than silently re-applying the code over a human's deliberate
-        change.</p>
+      <h3 style="margin-top:30px;">Episode 5 &mdash; promotion, and the rollback that failed in rehearsal first</h3>
+      <p class="dim"><em>Phase 8 go-live week · 2026-07-20 to 07-23 · rc-1.0.1.</em></p>
+      <p><strong>Tooling —</strong> No plugin command &mdash; the rehearsal and the go/no-go are
+        human-run on the rails; spec 0046 rides the loop; <code>/sdlc-gate</code> at the Phase 8
+        boundary.</p>
+      <ul>
+        <li><strong>Tuesday, the rehearsal in test:</strong> deploy &rarr; roll back &rarr; redeploy,
+          run by the hands that would run it at 2 a.m. The deploy went fine. <strong>The rollback
+          failed.</strong> The previous artifact came back, but a configuration key had moved ahead of
+          it, so the rolled-back app booted against config it didn't understand. A rollback that had only
+          ever been written would have failed exactly here &mdash; in production, during an incident,
+          instead of in test on a Tuesday.</li>
+        <li>The fix rode the loop as <strong>spec 0046 &mdash; configuration versioned with the release
+          artifact</strong>, so a promoted build always carries the config it was tested with and a
+          rollback restores both together. Re-rehearsed <strong>Wednesday: clean.</strong> The failed
+          first rehearsal went in the go/no-go packet too: found-and-fixed is stronger evidence than
+          never-stressed.</li>
+        <li><strong>Thursday, go-live.</strong> The <strong>same artifact that passed test &mdash;
+          rc-1.0.1 &mdash; was promoted to production, not rebuilt.</strong> Tom executed; the release
+          manager called each step. The first real FNOL &mdash; a burst pipe, reported on the portal at
+          08:14 &mdash; produced a coverage recommendation in <strong>3 hours 6 minutes</strong>, against
+          the 11.4-day baseline.</li>
+        <li><strong>Secrets had rotated before go-live</strong> to production-only values the pod could
+          not read; <strong>Dan held his go</strong> until the rotation record was attached, then gave it.
+          The engagement reached production with the pod having never known a production secret.</li>
+        <li><code>/sdlc-gate</code> passed the Phase 8 gate; billing milestone 6.</li>
+      </ul>
+      <p class="note"><strong>The rails that mattered:</strong> promotion (the proven artifact moved up,
+        never rebuilt) and the rehearsed rollback (proven by failing safely in test, not assumed). Plus
+        identity: secrets the pod never held.</p>
+
+      <h3 style="margin-top:30px;">Episode 6 &mdash; drift: proposed, never auto-applied</h3>
+      <p class="dim"><em>Phase 9 hypercare · Monday 2026-07-28 · <strong>(net-new to the kit)</strong>.</em></p>
       <p><strong>Tooling —</strong> No plugin command <strong>(net-new to the kit)</strong> &mdash;
         drift-check.yml runs on a schedule, compares real infrastructure to the code, and opens a
         remediation PR; a human decides.</p>
@@ -1198,23 +1445,11 @@
       </ul>
       <p class="note"><strong>The rail that mattered:</strong> drift assessment that proposes, never
         auto-applies &mdash; the agent-proposes/gate-disposes rule, one more time, on the live
-        environment itself. And underneath it all: identity. Every agent here ran under its own scoped
-        credential, so a subverted prompt could never reach past what its job needed.</p>
-    </div>
-  </section>
+        environment itself. And underneath it all: identity &mdash; every agent ran under its own scoped
+        credential.</p>
 
-  <!-- ===================================================================== -->
-  <!-- 09 — CORRECTNESS / EPISODE 7 THE REFACTOR                              -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">09</span>
-      <p class="kicker">Episode 7 — the correctness rail clears a refactor</p>
-      <h2>A refactor changes no behavior &mdash; so the rail that proves that is the one that matters</h2>
-      <p class="lead"><em>Phase C close &amp; transfer · Monday 2026-08-17 · spec 0051 (extract the
-        replica-staleness guard), MEDIUM risk.</em> A handoff cleanup merged two copies of a
-        correctness-critical guard into one &mdash; and the correctness rail proved the one still behaves
-        like the two.</p>
+      <h3 style="margin-top:30px;">Episode 7 &mdash; the correctness rail clears a refactor that changed no behavior</h3>
+      <p class="dim"><em>Phase C close &amp; transfer · Monday 2026-08-17 · spec 0051 (extract the replica-staleness guard), MEDIUM risk.</em></p>
       <p><strong>Tooling —</strong> No plugin command &mdash; spec 0051 rides the loop; the PR fires
         ci.yml + grader.yml + <strong>correctness.yml</strong>; Wes's non-author check at the merge
         bar.</p>
@@ -1233,8 +1468,7 @@
           <em>did this diff change behavior it shouldn't</em> read the extraction against both originals
           and confirmed the invariant survived: the boundary still fired at 02:00 and cleared at 04:30,
           the degraded-response path was byte-for-byte the prior behavior, the check still ran before the
-          call and not after. No drift &mdash; and it said so on the PR, the verdict that lets a refactor
-          of a correctness-critical guard merge with confidence instead of crossed fingers.</li>
+          call and not after. No drift &mdash; and it said so on the PR.</li>
         <li>Because the diff was proven equivalent, not assumed so, <strong>Wes (not the author) signed
           at the merge bar</strong> on the strength of the correctness verdict, and every gate re-ran on
           the final commit before merge. The client team inherited one guard instead of two &mdash; and
@@ -1249,18 +1483,19 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 10 — WHAT WAS NET-NEW (the honest part)                                -->
+  <!-- 05 — WHAT WAS NET-NEW (the honest part)                                -->
   <!-- ===================================================================== -->
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">10</span>
-      <p class="kicker">The honest part</p>
-      <h2>A single change, from proposed to deployed</h2>
-      <p class="lead">Episode 1 (the grader catch) is the single change followed end to end: spec 0016
-        rode the loop, the Stop hook proved it green, ci/grader/correctness/security fired, Sara bounced
-        the grader's catch back, Wes signed HIGH, a non-author merged, deploy-dev shipped it to dev. Four of the seven
-        episodes lean on machinery the <strong>claude-code-sdlc plugin does not ship today</strong>
-        &mdash; collected honestly here.</p>
+      <span class="modnum">05</span>
+      <p class="kicker">Four episodes lean on machinery the plugin does not ship today</p>
+      <h2>What was net-new to the kit</h2>
+      <p class="lead">The plugin's rails are the five workflows (ci, grader, correctness, security,
+        deploy-dev), the grader and security-reviewer agents, the blocking Stop hook, and branch
+        protection &mdash; everything Phase 3 installs and proves. The agentic-pipeline pieces below were
+        invented for this example to show the rails deep-dive in action. None is a command a pod can type
+        now; each is the kind of thing a first agentic-ops engagement would build once and
+        <strong>harvest back into the kit.</strong></p>
       <table style="margin-top:18px;">
         <thead><tr><th>Piece</th><th>What it is</th><th>In the plugin today?</th></tr></thead>
         <tbody>
@@ -1278,15 +1513,15 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 11 — THE ARTIFACTS, WHOLE                                              -->
+  <!-- 06 — THE ARTIFACTS, WHOLE                                              -->
   <!-- ===================================================================== -->
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal ref-doc">
-      <span class="modnum">11</span>
-      <p class="kicker">The artifacts, in full</p>
-      <h2>The failure modes, and the defense against each</h2>
-      <p class="lead">The rollback fix (spec 0046) and the infrastructure funnel (iac.yml), reproduced
-        whole &mdash; the two artifacts these episodes turn on, then the per-episode tooling tally.</p>
+      <span class="modnum">06</span>
+      <p class="kicker">The two artifacts these episodes turn on, reproduced whole</p>
+      <h2>Two artifacts, whole</h2>
+      <p class="lead">The rollback fix (spec 0046) and the infrastructure funnel (iac.yml), reproduced in
+        full &mdash; then the per-episode tooling tally.</p>
 
       <h3 style="margin-top:8px;">Artifact: spec 0046 in full (the rollback fix)</h3>
       <p><strong>Spec 0046 — Configuration versioned with the release artifact</strong><br>
@@ -1339,6 +1574,73 @@
           <tr><td>7 · Correctness-rail refactor (0051)</td><td>Spec rides the loop; ci.yml + grader.yml + <strong>correctness.yml</strong> on the PR; Wes's non-author sign-off at the merge bar</td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 07 — THE MERGE BAR                                                     -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Not an exit gate &mdash; a bar every change clears, one principle behind all of it</p>
+      <h2>The merge bar</h2>
+      <p class="lead">Branch protection is what turns five workflows from suggestions into rails. It is
+        repository configuration &mdash; set by the Setup Owner or a named client admin &mdash; and it
+        makes the gates mandatory at the one moment that matters: the merge. Behind it stands the whole
+        reason agent-built software can be trusted to ship: <strong>the agent proposes, a gate
+        disposes.</strong> An agent may produce any change, but only as a reviewable artifact; a
+        deterministic policy layer plus a named human decides whether it takes effect.</p>
+
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">Every PR, to merge, must clear</div>
+          <ul>
+            <li><strong>CI green</strong> &mdash; build, tests, lint, coverage, all passing. Hard block.</li>
+            <li><strong>The grader has run</strong> &mdash; the workflow completed and posted its verdict.
+              The verdict can say anything; the <em>running</em> is required.</li>
+            <li><strong>Correctness review passed</strong> &mdash; no high-confidence defect, or a named
+              human recorded the <code>accepted-risk:correctness</code> override.</li>
+            <li><strong>A non-author approval</strong> &mdash; someone who did not write the change
+              approved it.</li>
+          </ul>
+          <p style="margin-top:12px;">A <code>risk:high</code> change adds two more: <strong>the security
+            workflow passed</strong> (blocking on HIGH) and <strong>a named human sign-off recorded in the
+            PR</strong> &mdash; a person, by name, accepting the risk. Not a thumbs-up; a recorded
+            sentence with a name attached.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">The non-author rule</div>
+          <p>The author of a change is <strong>never its checker</strong>. The platform forbids an agent
+            from approving or merging its own work exactly as it forbids a human author from being their
+            own approver &mdash; and the correctness override is honest about it: a label records who
+            accepted a defect, but the guarantee that the person clearing it is not the author comes from
+            this rule, not the label.</p>
+          <div class="snippet resolve">
+            <div class="from">The rule that survives every collapse of pod size</div>
+            <blockquote>Even a two-person pod holds it. An agent pushes only to branches it creates
+              (<code>spec/NNNN-*</code>), never to main; every commit it makes is co-authored, so who &mdash;
+              or what &mdash; wrote a line is never a guess.</blockquote>
+          </div>
+        </div>
+      </div>
+
+      <div class="aha warn" style="margin-top:26px;">
+        <div class="lbl">The one escape hatch &mdash; deliberately expensive</div>
+        <p>A true emergency merge past a gate requires the Pod Lead <em>plus one other human</em>, a
+          <code>gate-exception</code> label, and a Retro+ agenda item. Two exceptions in a month is not
+          bad luck &mdash; it means the gate or the specs are wrong. Fix that; do not normalize the
+          bypass. On a single-maintainer repo, GitHub forbids self-approval, so the ruleset ships
+          <strong>armed with an owner bypass</strong> (<code>bypass_mode: pull_request</code>): the owner
+          can self-merge a PR, but even they cannot push <em>directly</em> to main skipping CI &mdash;
+          every change still rides a PR and its checks. Remove the bypass the moment a second reviewer
+          joins.</p>
+      </div>
+
+      <p style="margin-top:22px;">That is the merge bar: not a phase boundary the engagement crosses once,
+        but a standing line every change clears, forever. The rails do not report to a calendar. They
+        report to the bar &mdash; and the bar reports to a human. <strong>Gates report; humans
+        decide.</strong></p>
     </div>
   </section>
 

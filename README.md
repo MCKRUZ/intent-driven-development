@@ -67,6 +67,7 @@ Plain-language pages for getting in the door fast. No engagement context require
 
 | Page                                                                                                | What it covers                                                                |
 | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [The artifact flow](https://mckruz.github.io/intent-driven-development/docs/companion/artifact-flow.html) | What each phase receives and produces, where each file lives, and the handoff chain end to end |
 | [Loop cheat-sheet](https://mckruz.github.io/intent-driven-development/docs/cheatsheet.html)         | The wall card — Intent → Delegate → Discern, the checking ladder, Do/Don't    |
 | [Glossary](https://mckruz.github.io/intent-driven-development/docs/glossary.html)                   | Every term of art in the standard, defined in plain words                     |
 | [FAQ](https://mckruz.github.io/intent-driven-development/docs/faq.html)                             | Honest answers to what clients and new pod members actually ask               |

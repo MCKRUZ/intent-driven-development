@@ -167,6 +167,24 @@ a { color: var(--accent); }
 .tag.amber { background: #fbf3e2; color: var(--med); border-color: #e8d3a8; }
 .tag .who { font-weight: 700; opacity: .72; margin-right: 5px; }
 
+/* ---- the handoff chain (artifact-flow page) -------------------------------- */
+.chain { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0; margin: 26px 0; }
+.chain .link { flex: 1 1 150px; min-width: 150px; background: var(--card); border: 1px solid var(--rule);
+  border-radius: 12px; padding: 14px 16px; margin-right: 26px; position: relative; box-shadow: var(--shadow); }
+.chain .link:last-child { margin-right: 0; }
+.chain .link::after { content: "\2192"; position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  color: var(--accent); font-size: 19px; font-weight: 700; }
+.chain .link:last-child::after { content: ""; }
+.chain .link .ph { font-size: 11px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; color: var(--ink-faint); }
+.chain .link .doc { font-family: "Cascadia Code", "Consolas", ui-monospace, monospace; font-size: 12.5px;
+  color: var(--accent-deep); margin-top: 6px; word-break: break-word; }
+.chain .link.terminal { background: #f2f9f4; border-color: #bfe0cb; }
+.chain .link.terminal::after { content: ""; }
+@media (max-width: 900px) {
+  .chain .link { margin-right: 0; margin-bottom: 26px; }
+  .chain .link::after { content: "\2193"; right: 50%; top: auto; bottom: -22px; transform: translateX(50%); }
+}
+
 .tl-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; gap: 12px; }
 .tl-nav button {
   appearance: none; cursor: pointer; font: inherit; font-weight: 600; font-size: 15px;
