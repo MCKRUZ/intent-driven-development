@@ -700,100 +700,380 @@
 <main id="track-example" class="track">
 
   <!-- ===================================================================== -->
-  <!-- 01 — WHY THIS PHASE EXISTS                                             -->
+  <!-- 01 — WHAT PHASE 2 RECEIVED                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
-      <p class="kicker">The scenario, and the three constraints that converge on the data model</p>
-      <h2>A handful of decisions are expensive to take back &mdash; so take them deliberately</h2>
+      <p class="kicker">Before anything is written, five files arrive and two questions are still open</p>
+      <h2>What Phase 2 received</h2>
       <p class="lead">Harbor Mutual &mdash; a fictional regional insurer &mdash; hired a five-person pod to
         rebuild how property-insurance claims get reported and decided. A claim takes a median of
         <strong>11.4 days</strong> from FNOL (first notice of loss) to a coverage decision; the target is
-        <strong>5 days or less</strong>. Phase 1 closed Friday 2026-03-20 with a signed requirements
-        baseline, two open questions (Q-15, Q-16), and a recommendation: start design at the claim data
-        model, where three constraints converge.</p>
+        <strong>5 days or less</strong>. Phase 1 closed Friday 2026-03-20. Design does not start from a blank
+        page &mdash; it starts from these files, on disk, in the client's own repository.</p>
+
+      <div class="artifacts" style="margin-bottom:26px;">
+        <span class="lbl">Inherited from Phase 1 &mdash; read by <code>synthesize_spec.py</code> into one design brief</span>
+        <span class="tag">phase2-handoff.md</span>
+        <span class="tag">requirements.md</span>
+        <span class="tag">non-functional-requirements.md</span>
+        <span class="tag">epics.md</span>
+        <span class="tag">constraints.md</span>
+      </div>
+
       <div class="pair">
         <div class="idea">
-          <div class="plabel">The four design drivers</div>
+          <div class="plabel">The four design drivers, and the two unknowns</div>
+          <p>Most of a requirements baseline doesn't shape architecture. Four things here do &mdash; and two of
+            them are still questions, which is why they're due this week.</p>
           <ul>
-            <li><strong>Driver 1 &mdash; PolicyOne &amp; the replica.</strong> Policy data lives in an aging
-              core that syncs only once a night; Phase 1 found a read-only nightly <strong>snapshot
-              replica</strong>, queryable in milliseconds. Whether security allows reading it was open
-              question <strong>Q-15</strong>.</li>
-            <li><strong>Driver 2 &mdash; storm season.</strong> Catastrophe events spike claim volume ~10x
-              for about a week (NFR-02). The exact surge profile was <strong>Q-16</strong>.</li>
-            <li><strong>Driver 3 &mdash; the fast path.</strong> 61% of claims are simple and get a
+            <li><strong>PolicyOne &amp; the replica.</strong> Policy data lives in an aging core that syncs
+              only once a night; Phase 1 found a read-only nightly <strong>snapshot replica</strong>,
+              queryable in milliseconds. Whether security allows reading it is open question
+              <strong>Q-15</strong>.</li>
+            <li><strong>Storm season.</strong> Catastrophe events spike claim volume ~10x for about a week
+              (NFR-02). The exact surge profile is <strong>Q-16</strong>.</li>
+            <li><strong>The fast path.</strong> 61% of claims are simple and get a
               recommend-then-one-click-confirm decision (D-09).</li>
-            <li><strong>Driver 4 &mdash; auto-proof.</strong> The data design must not preclude Harbor's
-              auto-insurance business later (C-03); v1 ships property only.</li>
+            <li><strong>Auto-proof.</strong> The data design must not preclude Harbor's auto-insurance
+              business later (C-03); v1 ships property only.</li>
           </ul>
         </div>
         <div class="eg">
-          <div class="plabel">The cast this week</div>
-          <p><strong>Our pod:</strong> Maya Chen (Pod Lead) · Rob Feld (Setup Owner, the design authority) ·
-            Jonah Kim &amp; Sara Whitfield (Orchestrator/Checkers) · Nadia Brooks (Quality Engineer).</p>
-          <p style="margin-top:12px;"><strong>Harbor's cast:</strong> Karen Voss (VP Claims Operations,
-            sponsor) · Luis Ortega (product owner) · Wes Carter (lead engineer) · Dan Kowalski (IT security) ·
-            Priti Shah (data and reporting lead).</p>
-          <p style="margin-top:12px;">One person joins the story: <strong>Wes Carter</strong>, Harbor's lead
-            engineer &mdash; the design counterpart who co-signs every ADR and, at close, becomes Harbor's
-            Setup Owner. His hours this week are the handoff being built early.</p>
+          <div class="plabel">Where the week is headed</div>
+          <p>Those four drivers converge on one place &mdash; the claim data model &mdash; which is why Phase 1's
+            handoff recommended starting design there. Everything decided this week is either a consequence of
+            them or a bet being tested against them.</p>
+          <p style="margin-top:12px;"><strong>Wes Carter is the one to watch.</strong> Harbor's lead engineer
+            co-signs every decision record next to Rob's name. At close, the harness hands to someone who
+            <em>chose</em> this architecture &mdash; not someone it happened to.</p>
+          <div class="snippet">
+            <div class="from">Carried in from Phase 1, still unanswered on Monday</div>
+            <blockquote>Q-15 &mdash; may we read the replica directly? (Dan) · Q-16 &mdash; what does the surge
+              actually look like? (Priti)</blockquote>
+          </div>
         </div>
       </div>
+
+      <div class="cast" style="margin-top:30px;">
+        <div class="group">
+          <h3>Our pod</h3>
+          <div class="person"><span class="nm">Maya Chen</span><span class="rl">Pod Lead</span></div>
+          <div class="person"><span class="nm">Rob Feld</span><span class="rl">Setup Owner &mdash; the design authority; signs every ADR</span></div>
+          <div class="person"><span class="nm">Jonah Kim</span><span class="rl">Orchestrator / Checker &mdash; runs the replica spike</span></div>
+          <div class="person"><span class="nm">Sara Whitfield</span><span class="rl">Orchestrator / Checker &mdash; runs the email-extraction spike</span></div>
+          <div class="person"><span class="nm">Nadia Brooks</span><span class="rl">Quality Engineer &mdash; owns the proving plan</span></div>
+        </div>
+        <div class="group">
+          <h3>Harbor Mutual</h3>
+          <div class="person"><span class="nm">Karen Voss</span><span class="rl">VP Claims Operations &mdash; sponsor; approves the advance</span></div>
+          <div class="person"><span class="nm">Wes Carter</span><span class="rl">Lead engineer &mdash; co-signs every ADR; becomes Setup Owner at close</span></div>
+          <div class="person"><span class="nm">Luis Ortega</span><span class="rl">Product owner &mdash; decides product trade-offs on a 2-day clock</span></div>
+          <div class="person"><span class="nm">Dan Kowalski</span><span class="rl">IT security &mdash; answers Q-15; runs the threat review</span></div>
+          <div class="person"><span class="nm">Priti Shah</span><span class="rl">Data &amp; reporting &mdash; answers Q-16</span></div>
+        </div>
+      </div>
+
+      <details class="deeper">
+        <summary>The ID codes, decoded</summary>
+        <div class="deeper-body">
+          <p>Every artifact in this engagement carries a stable identifier, so a decision made in week two can
+            still be traced in month nine. You'll see these throughout:</p>
+          <table class="ref-doc">
+            <thead><tr><th>Prefix</th><th>Means</th><th>Born in</th><th>Example here</th></tr></thead>
+            <tbody>
+              <tr><td><code>DOC-NNN</code></td><td>A client document taken in at intake</td><td>Phase 0</td><td>The 2023 API inventory that turned out to be wrong</td></tr>
+              <tr><td><code>C-NN</code></td><td>A constraint &mdash; a hard limit the design must honor</td><td>Phase 0</td><td>C-02 nightly sync · C-03 auto-proof</td></tr>
+              <tr><td><code>D-NN</code></td><td>A decision the client's product owner owes us</td><td>Phase 0/1</td><td>D-07 merge rule · D-09 fast path · D-12 retention</td></tr>
+              <tr><td><code>Q-NN</code></td><td>An open question with an owner and a due date</td><td>any</td><td>Q-15 replica access · Q-16 surge profile</td></tr>
+              <tr><td><code>REQ-NNN</code></td><td>A functional requirement</td><td>Phase 1</td><td>REQ-014 same-business-day coverage status</td></tr>
+              <tr><td><code>NFR-NN</code></td><td>A non-functional requirement &mdash; a quality target</td><td>Phase 1</td><td>NFR-02 the 10x surge</td></tr>
+              <tr><td><code>AQ-NN</code></td><td>An architectural question Design must answer</td><td>Phase 1 handoff</td><td>The four that become ADR-001&ndash;004</td></tr>
+              <tr><td><code>ADR-NNN</code></td><td>An architecture decision record &mdash; a signed choice</td><td>Phase 2</td><td>ADR-001 coverage verification source</td></tr>
+            </tbody>
+          </table>
+          <p class="note">The plugin's Phase 2 begins by reading every <code>AQ-NN</code> out of
+            <code>phase2-handoff.md</code>. An architectural question with no ADR at the end of the week is a
+            gate failure &mdash; that's the thread tying Phase 1's homework to Phase 2's output.</p>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 02 — THE ONE RULE                                                      -->
+  <!-- 02 — THE PROCEDURE                                                     -->
   <!-- ===================================================================== -->
   <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">02</span>
-      <p class="kicker">Claude framed three options; two named humans chose</p>
-      <h2>Claude presents options; humans choose</h2>
-      <p class="lead">For the coverage-verification-source decision, Claude laid out three real paths with
-        honest costs. Rob (the Setup Owner) and Wes (Harbor's lead engineer) worked through them in the
-        day-2 option session with the spike results in hand &mdash; and chose. The AI framed the choice; two
-        named humans owned it, both signatures on the record.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The three options, honestly costed</div>
-          <ol>
-            <li><strong>Read the snapshot replica directly.</strong> Fresh-as-of-yesterday data in
-              milliseconds; requires the Q-15 controls and a staleness contract.</li>
-            <li><strong>Queue batch requests through PolicyOne.</strong> No new access path, but answers
-              arrive next business day &mdash; re-adds the day the metric exists to remove.</li>
-            <li><strong>Build a real-time read API on PolicyOne.</strong> True real-time, but mainframe-side
-              work Harbor can't staff this year; CON-01 already deferred real-time to the auto phase.</li>
-          </ol>
+    <div class="wrap-wide">
+      <div class="reveal">
+        <span class="modnum">02</span>
+        <p class="kicker">The machine's ten steps, the humans' five days, braided</p>
+        <h2>The procedure, step by step</h2>
+        <p class="lead">Phase 2 is ten numbered steps in <code>claude-code-sdlc</code> and five working days in
+          this standard. They are the same week seen twice. Below, they're braided: what the tool runs, what
+          the humans do that the tool cannot, and the file each step leaves behind. <strong>Step through
+          it.</strong></p>
+        <div class="tooling" style="margin-top:20px;">
+          <span class="label">Legend</span>
+          <span class="tag">machine step &mdash; a command writes a file</span>
+          <span class="tag green">human decision &mdash; nothing is written until a person chooses</span>
+          <span class="tag amber">human work, no tooling &mdash; the method requires it; no command produces it</span>
         </div>
-        <div class="eg">
-          <div class="plabel">What the humans chose</div>
-          <div class="snippet resolve">
-            <div class="from">Decision &mdash; Rob Feld (pod) + Wes Carter (Harbor), 2026-03-25</div>
-            <blockquote>Option 1. The replica read, behind a verification service that owns the staleness
-              contract.</blockquote>
+      </div>
+
+      <div class="tl" data-timeline tabindex="0" aria-label="Phase 2 procedure, day by day" style="margin-top:26px;">
+        <div class="tl-rail" role="tablist" aria-label="Jump to a day"></div>
+
+        <div class="tl-step" data-day="Day 1">
+          <div class="day">Day 1 &mdash; Mon 3/23 <span class="date">· plugin Step 0 opens</span></div>
+          <h3>Pull the architectural questions; put real options on the table</h3>
+          <p>Claude reads <code>phase2-handoff.md</code> and extracts every <code>AQ-NN</code> Phase 1 left for
+            Design. For each one it presents two to three concrete options with honest costs. This is a
+            <strong>blocking human gate</strong> in the plugin: <em>collect human decisions for all AQs before
+            writing any artifact.</em> Claude encodes decisions; it does not invent them.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> Step 0 HITL gate</span>
+            <span class="tag green">human decision</span>
           </div>
-          <p style="margin-top:12px;">One product-facing trade-off (what the portal shows users during
-            surge degradation) split off to Luis with the usual 2-business-day clock.</p>
+          <p>The pod also brings its own day-1 craft, which no command performs: reading the baseline for the
+            five-to-eight requirements that actually shape architecture, and killing the strawman options
+            before a human ever sees them. Two Phase 1 questions come due today, because their answers are
+            design inputs.</p>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag green">AQ decisions, held in the session &mdash; not yet on disk</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Drivers extracted: C-02 batch window, NFR-02 surge, C-03 auto-proof, C-04 regulatory clock,
+              C-05 PII-in-tenant, D-07 merge rule. Both open questions land. <strong>Q-15</strong> (Dan):
+              replica read approved under controls. <strong>Q-16</strong> (Priti): the surge is real &mdash;
+              peak 1,710 claims on day 2, nine elevated days. Claude presents three options for each of four
+              decisions; Rob kills one strawman per set and books the option session for tomorrow.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 2">
+          <div class="day">Day 2 &mdash; Tue 3/24 <span class="date">· the option session · no command runs</span></div>
+          <h3>Test the risky bets against the real thing, then let humans choose</h3>
+          <p>Before anyone commits to an option, the assumptions underneath it get tested. Orchestrators run
+            <strong>spikes</strong>: throwaway code, hours-boxed, on branches that get deleted, pointed at the
+            client's live systems rather than the client's documentation. Then the option session &mdash; 90 to
+            120 minutes, the Setup Owner and the client's engineer, spike results in hand &mdash; and they
+            choose. This closes the plugin's Step 0 gate.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="none">none &mdash; exploratory coding on a throwaway branch, then humans in a room</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag amber">spike-findings.md &mdash; the method requires it; no command writes it</span>
+            <span class="tag green">four decisions, made and owned</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">The gap you should know about</div>
+            <p>Phase 2's exit gate says <em>"every external integration the design depends on was spiked
+              against the live system."</em> The word "spike" appears in no file in
+              <code>claude-code-sdlc</code>. Nothing prompts you to run one, and nothing checks that you did.
+              This is human work that currently leaves no receipt &mdash; and it is exactly the work that saved
+              Harbor a 2 a.m. incident in month four.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Jonah's spike: the replica answers in <strong>180ms at the 95th percentile</strong> &mdash; and is
+              <strong>unavailable 02:00&ndash;04:30 nightly</strong> during its refresh. No document mentioned
+              that. Sara's spike: LLM email-field extraction hits <strong>88%</strong> on 50 redacted samples
+              &mdash; promising, below target, and exactly the number ADR-004's confidence-threshold design
+              needs. In the option session Rob and Wes choose all four decisions. One product-facing trade-off
+              &mdash; what the portal shows users during surge degradation &mdash; splits off to Luis on the
+              2-business-day clock.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 3">
+          <div class="day">Day 3 &mdash; Wed 3/25 <span class="date">· plugin Steps 1&ndash;6</span></div>
+          <h3>The machine runs; decisions become signed records</h3>
+          <p>With every architectural question answered, the tool is finally allowed to write. Six steps fire
+            in sequence: synthesize the design brief, run the planner, map its output into the engagement's
+            artifact directory, write the ADRs from yesterday's human decisions, fill the gaps in the generated
+            skeletons, and define the data model.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd"><span class="script">synthesize_spec.py</span> <span class="arrow">&rarr;</span> planning/spec.md</span>
+            <span class="cmd">/deep-plan <span class="arrow">&rarr;</span> planning/claude-plan.md</span>
+            <span class="cmd"><span class="script">map_deep_plan_artifacts.py</span></span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> ADRs</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out &mdash; all under <code>.sdlc/artifacts/02-design/</code></span>
+            <span class="tag">design-doc.md</span>
+            <span class="tag">api-contracts.md</span>
+            <span class="tag">adrs/ADR-001&hellip;004.md</span>
+            <span class="tag">adr-registry.md</span>
+            <span class="tag">phase3-handoff.md</span>
+            <span class="tag">research-notes.md</span>
+            <span class="tag">integration-notes.md</span>
+            <span class="tag">deep-plan-checkpoint.yaml</span>
+          </div>
+          <p><strong>An unsigned record is just a conversation.</strong> Claude drafts each ADR against the
+            template; the Setup Owner edits; the Setup Owner <em>and</em> the client's counterpart both sign.
+            Two names, or it isn't a decision.</p>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Four ADRs drafted, edited by Rob, signed by Rob and Wes, dated 2026-03-25. The claim data model
+              gets drafted where the constraints converge. Running the forward-compatibility check against
+              C-03 (auto-proof) forces exactly one structural change: claim type moves from a code-level enum
+              to a <strong>reference table</strong> with an extensible coverage schema. Adding the auto book
+              later becomes a data change, not a schema migration. Door open; room unfurnished.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 4">
+          <div class="day">Day 4 &mdash; Thu 3/26 <span class="date">· plugin Step 7 · plus the threat review</span></div>
+          <h3>Pin the edges, walk the attack surface, plan the proof</h3>
+          <p>The API contracts get completed &mdash; not just what success looks like, but every failure path and
+            every degradation behavior, flowed down from the Phase 1 error specs. The tool renders the
+            architecture as five diagrams, one of which is a <strong>trust-boundary diagram</strong>. Then the
+            humans attack it: a security session walks each data flow and assigns every threat &mdash; mitigate
+            it in the design now, or guard it with a build-time gate later.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> contracts</span>
+            <span class="cmd">/visual-explainer <span class="arrow">&rarr;</span> .sdlc/reports/architecture-diagrams.html</span>
+            <span class="none">threat review &mdash; a human session; Claude drafts the data flows and the candidate list</span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">architecture-diagrams.html</span>
+            <span class="tag amber">threat-model.md + mitigation map</span>
+            <span class="tag amber">nfr-proving-plan.md</span>
+            <span class="tag amber">walking-skeleton.md</span>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>REQ-014's error spec becomes contract behavior: policy not found returns
+              <code>needs-review</code> with a reason code, never a silent "verified"; the replica's refresh
+              window returns <code>pending-verification</code> and <strong>intake never blocks</strong>. The
+              threat review with Dan finds <strong>9 threats: 7 mitigated in the design, 2 handed forward as
+              build-time security gates</strong> &mdash; malware scanning on document upload, and a PII
+              template-review gate on acknowledgment letters, because that data leaves the system on paper.
+              Nadia writes how each NFR will be proven and where its number will be read. Steering with Karen
+              surfaces document retention, which becomes D-12.</p>
+          </div>
+        </div>
+
+        <div class="tl-step" data-day="Day 5">
+          <div class="day">Day 5 &mdash; Fri 3/27 <span class="date">· plugin Steps 8&ndash;9 · the gate</span></div>
+          <h3>Fresh eyes attack it, the gate reports, a human decides</h3>
+          <p>A reviewer that did not draft the design challenges it from four angles. The consistency check runs
+            both directions &mdash; every top-tier requirement lands in a design element, every design element
+            traces back to a requirement. Then the gate runs, generates a report for the stakeholders, and
+            stops. <code>advance_phase.py</code> will not move the engagement forward without
+            <code>--confirmed</code>: a named human's sign-off.</p>
+          <div class="tooling">
+            <span class="label">Tooling</span>
+            <span class="cmd">/sdlc-review --all</span>
+            <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+            <span class="cmd">/sdlc-phase-report <span class="arrow">&rarr;</span> <span class="script">generate_phase_report.py</span></span>
+            <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py --confirmed</span></span>
+          </div>
+          <div class="artifacts">
+            <span class="lbl">Out</span>
+            <span class="tag">.sdlc/reports/phase02-report.html</span>
+            <span class="tag amber">consistency-check.md</span>
+            <span class="tag green">the sponsor's signature &mdash; billing milestone 3</span>
+          </div>
+          <div class="aha warn">
+            <div class="lbl">What the gate actually checks</div>
+            <p><code>check_gates.py</code> verifies that five files exist, are non-empty, and contain no
+              placeholder text. It never reads the ten-bullet exit-gate checklist this standard specifies
+              &mdash; that list lives in <code>phase-registry.yaml</code>, and no code opens it. The human is
+              stopped at the gate and asked to sign; the checklist they should be signing against is never put
+              in front of them. <em>The human gate is real. What it asks is not.</em></p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor</div>
+            <p>Three review findings survive Rob's triage. <strong>HIGH:</strong> no back-pressure behavior
+              defined for surge &mdash; the contract gains an explicit degraded-acceptance mode.
+              <strong>MEDIUM:</strong> the staleness flag isn't wired to fast-path escalation &mdash; fixed,
+              traced to REQ-019. <strong>MEDIUM:</strong> a notification-preferences service that no
+              requirement asked for had crept into the component diagram &mdash; <strong>cut</strong>.
+              Accidental scope dies in design, not in build. Consistency check clean after the cut. Rob and Wes
+              walk the ADRs, Luis confirms the product trade-offs, Karen approves.</p>
+          </div>
+        </div>
+
+        <div class="tl-nav">
+          <button class="ghost" data-tl-prev type="button">&larr; Previous</button>
+          <span class="count" data-tl-count>1 / 5</span>
+          <button data-tl-next type="button">Next day &rarr;</button>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 03 — THE ADR                                                           -->
+  <!-- 03 — THE ARTIFACT LEDGER                                               -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
-      <p class="kicker">Four signed ADRs &mdash; one in full</p>
+      <p class="kicker">Everything that exists on Friday and didn't on Monday</p>
+      <h2>What Phase 2 produced</h2>
+      <p class="lead">The design phase's whole output, named. Blue rows are written by a command and checked by
+        the gate. <strong>Amber rows are the method's human work</strong> &mdash; required by this standard,
+        produced by no tool, and today leaving no file behind. Those are the rows to argue about.</p>
+
+      <table class="ref-doc" style="margin-top:20px;">
+        <thead><tr><th>Artifact</th><th>What it actually is</th><th>Written by</th><th>Signed by</th><th>Lives at</th><th>Feeds</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">design-doc.md</span></td><td>The shape of the system: components, boundaries, data flow, deployment view. Navigation for the ADRs &mdash; short enough to be read, not a novel</td><td><code>/deep-plan</code> drafts; Setup Owner enriches</td><td>Setup Owner</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Phase 3 skeleton</td></tr>
+          <tr><td><span class="tag">adrs/ADR-NNN.md</span></td><td>One decision each: context, 2&ndash;3 options genuinely considered, the choice, the consequences including the unpleasant ones</td><td>Claude drafts from the Step 0 human decisions</td><td><strong>Setup Owner + client counterpart &mdash; both</strong></td><td><code>.sdlc/artifacts/02-design/adrs/</code></td><td>Phase 3 build; every later argument</td></tr>
+          <tr><td><span class="tag">adr-registry.md</span></td><td>The index of every ADR with its status &mdash; active, superseded, proposed</td><td><code>/sdlc-coach</code></td><td>Setup Owner</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Close &mdash; the decision history Harbor inherits</td></tr>
+          <tr><td><span class="tag">api-contracts.md</span></td><td>Every operation: request and response shapes, auth, error semantics, degradation behavior per dependency failure. A contract that only describes success is half a contract</td><td><code>/deep-plan</code> drafts; Setup Owner completes</td><td>Setup Owner</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Phase 3 specs</td></tr>
+          <tr><td><span class="tag">phase3-handoff.md</span></td><td>Decisions, contracts, section breakdown, implementation order, build risks, open questions under their original IDs</td><td><code>map_deep_plan_artifacts.py</code> drafts; Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Phase 3, directly</td></tr>
+          <tr><td><span class="tag">architecture-diagrams.html</span></td><td>Five rendered diagrams &mdash; layers, request flow, data flow, section dependencies, and the trust boundary</td><td><code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>Stakeholder review; the threat session</td></tr>
+          <tr><td><span class="tag">research-notes.md</span><br><span class="tag">integration-notes.md</span><br><span class="tag">deep-plan-checkpoint.yaml</span></td><td>The planner's working memory: what it researched, what it learned about the client's systems, and enough session state for Phase 3 to resume</td><td><code>/deep-plan</code></td><td>&mdash;</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Phase 3 resumption</td></tr>
+          <tr><td><span class="tag">phase02-report.html</span></td><td>The gate result and artifact inventory, self-contained. This is the document a sponsor actually reads before signing</td><td><code>generate_phase_report.py</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate</td></tr>
+
+          <tr><td><span class="tag amber">spike findings</span></td><td>Each risky assumption confirmed or falsified against the live system, with evidence. The spike code is deleted; the finding is not</td><td><strong>A human, on a throwaway branch</strong></td><td>Setup Owner</td><td class="dim">no path &mdash; nothing writes it</td><td>The ADRs it should have informed</td></tr>
+          <tr><td><span class="tag amber">threat model + mitigation map</span></td><td>Data flows reviewed; each threat either mitigated in the design or assigned as a build-time security gate</td><td><strong>Setup Owner + client security</strong></td><td>Both</td><td class="dim">no path &mdash; nothing writes it</td><td>Phase 3's risk-tier map</td></tr>
+          <tr><td><span class="tag amber">NFR proving plan</span></td><td>Per quality target: the verification method, and the named place its number will be read</td><td><strong>Quality Engineer</strong></td><td>QE</td><td class="dim">no path &mdash; nothing writes it</td><td>Phase 9 monitoring</td></tr>
+          <tr><td><span class="tag amber">walking-skeleton definition</span></td><td>The thin end-to-end slice Phase 3 must ship &mdash; named, bounded, and sufficient to exercise every ADR's chosen mechanism at least once</td><td><strong>Setup Owner + QE</strong></td><td>Setup Owner</td><td class="dim">no path &mdash; nothing writes it</td><td>Phase 3, day 6</td></tr>
+          <tr><td><span class="tag amber">consistency check record</span></td><td>Requirements traced against design in both directions; orphans resolved or removed</td><td><strong>Pod Lead</strong></td><td>Pod Lead</td><td class="dim">no path &mdash; nothing writes it</td><td>The exit gate</td></tr>
+          <tr><td><span class="tag amber">data model</span></td><td>Serves every top-tier requirement; passes the forward-compatibility check; convergence constraints are structural, not bolted on</td><td>Plugin Step 6 &mdash; but into <code>design-doc.md</code>, not its own file</td><td>Setup Owner</td><td class="dim">folded into design-doc.md</td><td>Phase 3 schema</td></tr>
+        </tbody>
+      </table>
+
+      <div class="aha warn" style="margin-top:22px;">
+        <div class="lbl">Read the amber rows again</div>
+        <p>Six of the thirteen things Phase 2 is supposed to produce have nowhere to live. The threat review
+          happens, and its output survives as a memory and a couple of GitHub labels. The spike that found
+          Harbor's 02:00&ndash;04:30 refresh window leaves no artifact at all &mdash; the finding reaches the ADR
+          only because Jonah was in the room on Wednesday. <strong>Human work is not the problem. Human work
+          without a receipt is.</strong></p>
+      </div>
+
+      <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase 2: production code, the
+        spec backlog (Phase 3 and triage own that), provisioned environments (Phase 3), UI visual design
+        beyond what the product trade-offs required, and estimates beyond the SOW's phase figures.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 04 — THE DECISIONS, AND ONE IN FULL                                    -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Four signed ADRs &mdash; one reproduced whole</p>
       <h2>Write down what you rejected, not just what you chose</h2>
-      <p class="lead">Four decisions came out of the option session; four ADRs went on the list. Claude
-        drafted them against the ADR template; Rob edited; <strong>Rob and Wes both signed</strong>, dated
-        2026-03-25. Each records the rejected options with their reasons &mdash; the part that stops the
-        argument coming back in month three.</p>
+      <p class="lead">Four architectural questions came in from Phase 1; four ADRs go out. Claude drafted them
+        against the template; Rob edited; <strong>Rob and Wes both signed</strong>, dated 2026-03-25. Each
+        records the rejected options <em>with their reasons</em> &mdash; the part that stops the argument coming
+        back in month three.</p>
 
       <table class="ref-doc" style="margin-top:18px;">
         <thead><tr><th>ID</th><th>Decision</th><th>Chosen</th><th>Rejected (and why)</th></tr></thead>
@@ -841,58 +1121,17 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 04 — SPIKES                                                            -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">04</span>
-      <p class="kicker">Two throwaway spikes on day 2 &mdash; and the window no document mentioned</p>
-      <h2>Test the risky assumption against the real thing &mdash; with throwaway code</h2>
-      <p class="lead">On day 2 the Orchestrators ran two hours-boxed spikes as Claude sessions on throwaway
-        branches. The code was deleted; the findings went straight into the design. One found something no
-        document mentioned &mdash; and it saved a 2 a.m. incident in month four.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">Jonah &mdash; the snapshot replica</div>
-          <p>The replica answers in <strong>180 milliseconds at the 95th percentile</strong> (95 of every
-            100 queries come back at least that fast), comfortably inside the same-business-day promise. The
-            catch nobody's documentation mentioned:</p>
-          <div class="snippet">
-            <div class="from">What the spike found that the docs didn't</div>
-            <blockquote>The replica is <strong>unavailable during its 02:00&ndash;04:30 refresh window</strong>
-              each night.</blockquote>
-          </div>
-          <div class="snippet resolve">
-            <div class="from">Flowed straight into REQ-014's degradation behavior</div>
-            <blockquote>When the replica is unreachable, show "pending verification" and never block intake
-              &mdash; written into the contract, not discovered as a 2 a.m. incident in month four.</blockquote>
-          </div>
-        </div>
-        <div class="eg">
-          <div class="plabel">Sara &mdash; email field extraction</div>
-          <p>The mail API sustains the volume, and LLM (large language model) field extraction on 50
-            redacted sample emails hits <strong>88% accuracy</strong> &mdash; promising, below target,
-            exactly the data the threshold design (ADR-004) needs.</p>
-          <p style="margin-top:12px;">The 88% spike baseline becomes the starting line the eval suite
-            measures improvement from. The AI-engineering module activates on ADR-004: a 200-email golden
-            set as acceptance criteria, an eval gate in CI, and prompt/model changes tiered HIGH.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 05 — CONTRACTS                                                         -->
+  <!-- 05 — THE CONTRACT, AS SHIPPED                                          -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">05</span>
-      <p class="kicker">REQ-014's error spec, now as contract behavior</p>
+      <p class="kicker">An exhibit from <code>api-contracts.md</code> &mdash; the coverage-verification endpoint</p>
       <h2>A contract that only describes success is half a contract</h2>
-      <p class="lead">On day 4 the API contracts completed and the Phase 1 error-behavior specs flowed down:
-        REQ-014's accepts/returns/fails-how became the verification endpoint's response codes, staleness
-        header, and refresh-window degradation behavior. Every row below is a failure case &mdash; the part
-        the next person can't guess.</p>
+      <p class="lead">REQ-014's error specification flowed straight down into contract behavior: response
+        codes, the staleness header, and what the endpoint does when its dependency is simply gone. Every row
+        below is a <em>failure</em> case &mdash; the part the next person cannot guess and will otherwise
+        invent.</p>
       <table class="ref-doc" style="margin-top:18px;">
         <thead><tr><th>Condition</th><th>Response</th></tr></thead>
         <tbody>
@@ -909,51 +1148,16 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 06 — DESIGNING WITHIN THE CONSTRAINT                                   -->
+  <!-- 06 — THE DATA MODEL, AS SHIPPED                                        -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">06</span>
-      <p class="kicker">The auto-proof check forced exactly one structural change</p>
-      <h2>Design <em>with</em> the hard limit, not around it</h2>
-      <p class="lead">The constitution said the design must not preclude Harbor's future auto-insurance
-        business (C-03) &mdash; but v1 ships property only. On day 3 the auto-proof check ran against the
-        draft data model and forced exactly one change. The once-a-night sync was honored the same way:
-        the replica read <em>is</em> the design, not a workaround pasted over it.</p>
-      <div class="pair">
-        <div class="idea">
-          <div class="plabel">The forward-compatibility check</div>
-          <p>The Setup Owner walked each constitution-protected future against the draft model and recorded
-            the verdict alongside the model. Auto-proof (C-03) forced the one structural change; the nightly
-            batch window (C-02) was honored, not routed around.</p>
-        </div>
-        <div class="eg">
-          <div class="plabel">The change it forced</div>
-          <div class="decision">
-            Claim type moved from a code-level enum to a <strong>reference table</strong> with an extensible
-            coverage schema.<br>
-            Adding the auto book later becomes a <strong>data change</strong>, not a schema migration &mdash;
-            door open, room unfurnished.
-          </div>
-          <p style="margin-top:12px;">"Must not preclude" meant the door stays open, not that the auto room
-            gets furnished now.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 07 — THE MODEL & THE SEAMS                                             -->
-  <!-- ===================================================================== -->
-  <section class="s">
-    <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
-      <p class="kicker">The data model, drafted day 3 &mdash; and the orphan the review cut</p>
+      <p class="kicker">An exhibit from <code>design-doc.md</code> &mdash; where the constraints converge</p>
       <h2>Ship only what's funded, but leave the right seams</h2>
-      <p class="lead">The claim data model got drafted starting exactly where the handoff said: claim,
-        event log, channel sources, the merge rules from D-07 structural rather than bolted on. The
-        coverage service is the <em>seam</em> for real-time. And the both-directions consistency check cut
-        a service nothing asked for.</p>
+      <p class="lead">The model was drafted starting exactly where Phase 1's handoff pointed: the claim, its
+        event log, its channel sources, with D-07's merge rules structural rather than bolted on. The coverage
+        service is the <em>seam</em> where real-time can land later without the contract changing.</p>
       <div class="pair">
         <div class="idea">
           <div class="plabel">The data model (summary)</div>
@@ -971,86 +1175,63 @@
           </ul>
         </div>
         <div class="eg">
-          <div class="plabel">The orphan the review cut</div>
-          <div class="snippet resolve">
-            <div class="from">Day-5 consistency check, both directions</div>
-            <blockquote>A notification-preferences service that no requirement asked for had crept into the
-              component diagram. Cut. Accidental scope dies in design, not build.</blockquote>
+          <div class="plabel">The one change the constitution forced</div>
+          <p>Phase 0's constitution said the design must not <em>preclude</em> Harbor's future auto-insurance
+            business (C-03) &mdash; while v1 ships property only. Walking that protected future against the
+            draft model forced exactly one structural change:</p>
+          <div class="decision">
+            Claim type moved from a code-level enum to a <strong>reference table</strong> with an extensible
+            coverage schema.<br>
+            Adding the auto book later becomes a <strong>data change</strong>, not a schema migration &mdash;
+            door open, room unfurnished.
           </div>
-          <p style="margin-top:12px;">D-12 (document retention) surfaced at Thursday's steering, Luis
-            answered next morning (seven years, per the stricter state's regulation), and it landed in the
-            model as a retention attribute &mdash; not a TODO.</p>
+          <p style="margin-top:12px;">"Must not preclude" means the door stays open, not that the room gets
+            furnished. The nightly sync (C-02) was honored the same way: the replica read <em>is</em> the
+            design, not a workaround pasted over it.</p>
+          <p style="margin-top:12px;">D-12 (document retention) surfaced at Thursday's steering; Luis answered
+            next morning &mdash; seven years, per the stricter state's regulation &mdash; and it landed in the
+            model as a retention attribute, not a TODO.</p>
         </div>
       </div>
       <div class="aha">
         <div class="lbl">The check that keeps it honest</div>
-        <p>The consistency check runs both directions: every P0 requirement lands in a design element, and
-          every remaining element traces back. Clean after the orphan cut.</p>
+        <p>On day 5 the consistency check runs both directions: every top-tier requirement must land in a
+          design element, and every remaining element must trace back to a requirement. It found a
+          notification-preferences service that no requirement had asked for, sitting in the component
+          diagram. <strong>Cut.</strong> Accidental scope dies in design, not in build.</p>
       </div>
     </div>
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 08 — THE WEEK, END TO END                                             -->
-  <!-- ===================================================================== -->
-  <section class="s paper">
-    <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
-      <p class="kicker">How the five days played out</p>
-      <h2>The week, end to end</h2>
-      <p class="lead">The week ran Monday 3/23 to Friday 3/27. Options early, decisions in the middle,
-        contracts and proving at the end &mdash; with the riskiest bets tested against reality on day two
-        before anything depended on them.</p>
-      <ul>
-        <li><strong>Day 1 (Mon 3/23) &mdash; design drivers and option sets.</strong> Tooling:
-          <code>/deep-plan</code> structures the option research. The pod extracts the drivers (C-02 batch
-          window, NFR-02 surge, C-03 auto-proof, C-04 regulatory clock, C-05 PII-in-tenant, D-07 merge
-          rule). Both open questions land: Q-15 (Dan) &mdash; replica read access approved under controls;
-          Q-16 (Priti) &mdash; the surge is real (peak 1,710 claims on day 2, nine elevated days). Claude
-          presents three options each for four decisions; Rob kills one strawman per set and books the
-          option session. Spikes assigned: Jonah (replica), Sara (email extraction).</li>
-        <li><strong>Day 2 (Tue 3/24) &mdash; spikes and the option session.</strong> No plugin command:
-          throwaway Claude coding plus humans choosing. The replica answers in 180ms p95 (and is unavailable
-          02:00&ndash;04:30); email extraction hits 88% on 50 redacted samples. The two-hour option session
-          chooses four decisions; one product trade-off splits to Luis on the 2-day clock.</li>
-        <li><strong>Day 3 (Wed 3/25) &mdash; decisions become records; the model takes shape.</strong>
-          Tooling: <code>/sdlc-coach</code> drafts the four ADRs and the data model against the ADR
-          template. Rob edits; Rob and Wes both sign. The model gets drafted; the auto-proof check (C-03)
-          forces the reference-table change.</li>
-        <li><strong>Day 4 (Thu 3/26) &mdash; contracts, threat review, first steering.</strong> Tooling:
-          <code>/sdlc-coach</code> drafts the contracts; <code>/visual-explainer</code> renders the steering
-          narrative; the threat review is a human session. REQ-014's error spec flows into contract
-          behavior. Threat review with Dan: 9 threats, 7 mitigated in design, 2 assigned as build-time
-          security gates (malware scanning on upload; PII template-review on acknowledgment letters). Nadia
-          completes the proving plan and the walking-skeleton definition. Steering with Karen surfaces
-          document retention &rarr; D-12.</li>
-        <li><strong>Day 5 (Fri 3/27) &mdash; review, gate, handoff.</strong> Tooling:
-          <code>/sdlc-review --all</code> &rarr; <code>multi-reviewer</code>; <code>/sdlc-gate</code> &rarr;
-          <code>check_gates.py</code>; <code>/sdlc-phase-report</code> &rarr;
-          <code>generate_phase_report.py</code>; <code>/sdlc-next</code> &rarr; <code>advance_phase.py</code>.
-          Three findings survive Rob's triage: HIGH (no surge back-pressure &rarr; degraded-acceptance mode
-          added), MEDIUM (staleness flag not wired to fast-path escalation &rarr; fixed, traced to REQ-019),
-          MEDIUM (orphan notification-preferences service &rarr; cut). Consistency check clean after the
-          cut; gate passes; the Phase 3 handoff is drafted. Rob and Wes walk the ADRs, Luis confirms the
-          product trade-offs, Karen approves. <strong>Billing milestone 3.</strong></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ===================================================================== -->
-  <!-- 09 — THREAT REVIEW, PROVING PLAN, HANDOFF                              -->
+  <!-- 07 — WHAT PHASE 3 RECEIVES                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
-      <p class="kicker">The threat review, the proving plan, and what Phase 3 inherits</p>
-      <h2>The failure modes, and the defense against each</h2>
-      <p class="lead">Two of Phase 2's named traps got caught in the act at Harbor: faith-based integration
-        (the spike found the refresh window) and the orphan service (cut on day 5). The threat review, the
-        proving plan, and the handoff are the artifacts that close the week.</p>
+      <span class="modnum">07</span>
+      <p class="kicker">The handoff &mdash; and the two questions that travel with it</p>
+      <h2>What Phase 3 receives</h2>
+      <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses
+        the boundary into Foundation: the signed decisions, the slice that proves them, the security gates to
+        wire, and the questions that are still open &mdash; carried forward under their original IDs, never
+        silently dropped.</p>
+
+      <div class="artifacts" style="margin:22px 0 8px;">
+        <span class="lbl">Crosses into Phase 3</span>
+        <span class="tag">phase3-handoff.md</span>
+        <span class="tag">design-doc.md</span>
+        <span class="tag">api-contracts.md</span>
+        <span class="tag">adrs/ + adr-registry.md</span>
+        <span class="tag">deep-plan-checkpoint.yaml</span>
+        <span class="tag amber">walking-skeleton definition</span>
+        <span class="tag amber">threat mitigation map &rarr; risk-tier map</span>
+        <span class="tag amber">NFR proving plan</span>
+      </div>
 
       <h2 style="margin-top:30px;">Threat review outcomes</h2>
-      <p class="dim">Day 4, with Dan. Claude drafted the data flows and candidate list; the session decided.</p>
+      <p class="dim">Day 4, with Dan. Claude drafted the data flows and candidate list; the session decided.
+        Two of the nine become <strong>Phase 3's build-time security gates</strong> &mdash; this is the one
+        place a Phase 2 human session reaches directly into the factory Phase 3 builds.</p>
       <ul>
         <li>9 threats identified; 7 mitigated in the design (private endpoint for the replica, per-channel
           input validation at the adapters, audit log integrity, least-privilege service accounts among

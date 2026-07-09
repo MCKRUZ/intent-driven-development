@@ -163,6 +163,9 @@ a { color: var(--accent); }
 .artifacts .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-faint); font-weight: 700; width: 100%; margin-bottom: 2px; }
 .tag { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid #cfe1ee; }
 .tag.green { background: #e7f3ec; color: var(--low); border-color: #bfe0cb; }
+/* amber = the method requires this artifact; no tool emits it. A human writes the receipt. */
+.tag.amber { background: #fbf3e2; color: var(--med); border-color: #e8d3a8; }
+.tag .who { font-weight: 700; opacity: .72; margin-right: 5px; }
 
 .tl-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; gap: 12px; }
 .tl-nav button {

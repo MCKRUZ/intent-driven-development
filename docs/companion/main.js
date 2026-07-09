@@ -63,8 +63,12 @@
 
   /* ---- timeline stepper --------------------------------------------------- */
   function initTimeline() {
-    var tl = document.querySelector("[data-timeline]");
-    if (!tl) return;
+    Array.prototype.slice
+      .call(document.querySelectorAll("[data-timeline]"))
+      .forEach(initOneTimeline);
+  }
+
+  function initOneTimeline(tl) {
     var steps = Array.prototype.slice.call(tl.querySelectorAll(".tl-step"));
     if (steps.length < 2) return;
 
