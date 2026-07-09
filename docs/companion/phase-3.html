@@ -803,6 +803,17 @@
         the boundary as what Nadia and Rob remember from Phase 2's Thursday &mdash; which is exactly why the
         people who were in that room are the people who build the foundation.</p>
 
+      <div class="aha">
+        <div class="lbl">The architecture Phase 3 has to make real</div>
+        <p>Coverage checks read the nightly snapshot replica of PolicyOne directly (<strong>ADR-001</strong>),
+          behind a verification service that owns the staleness contract. Claims live in a relational model
+          plus an <strong>append-only event log</strong> (<strong>ADR-002</strong>). Surge is absorbed by a
+          buffered ingestion queue and autoscaling (<strong>ADR-003</strong>). Email FNOL is extracted by an
+          LLM with per-field confidence thresholds (<strong>ADR-004</strong>). Every one of those four
+          mechanisms has to be exercised at least once by the walking skeleton &mdash; that is what makes the
+          skeleton a proof rather than a demo.</p>
+      </div>
+
       <div class="pair">
         <div class="idea">
           <div class="plabel">What crossed on disk, and what didn't</div>

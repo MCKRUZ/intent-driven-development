@@ -22,11 +22,19 @@ was made over the alternatives. Claude researches the options and drafts the ADR
 vs. many" is a real decision in the loop: one agent for tightly coupled code, many only for
 independent read-only exploration (see [the build loop](build-loop.md)). See also **subagent**.
 
+**The alert drill.** Firing each critical alert deliberately, in a controlled way, while the
+client's on-call responds from the playbook and the pod watches silently. An alert that has never
+fired is a wish, not a safety net (see `docs/phase-9-monitoring.md`).
+
 **The author is never the sole approver.** The rule that whoever produced a change doesn't get to
 be the only one who signs it off — not for code, not for a harness change, not for a spec, not for
 this document. A fresh grader and a non-author human carry the verdict. This is the practical
 answer to "how do you trust code you didn't write." Survives every team size (see
 [the team](team.md)).
+
+**Baseline.** What "normal" looks like for a metric, measured from real production traffic. Every
+alert threshold is derived from it, never from a number that felt right (see
+`docs/phase-9-monitoring.md`).
 
 **Bicep.** Microsoft's infrastructure-as-code language for Azure — the cloud environment described
 as files in the repo instead of clicked together by hand. Always HIGH risk; lives in `infra/`.
@@ -59,6 +67,10 @@ the gated paths, and the Definition of Checked. A stale CLAUDE.md means agents g
 differ per run — keeping it current is Setup Owner work. Versioned and PR-reviewed like code
 (standard, section 6).
 
+**The close gate.** The engagement's final test: the client runs one real spec end-to-end —
+triage, spec, delegate, grade, merge, deploy — with nobody from the pod driving (see
+`docs/phase-c-close.md`).
+
 **Definition of Checked.** What replaces "Definition of Done." A change is done when it has been
 specified, tested, graded by someone other than its author, approved by a human where the risk
 demands it, and merged without breaking anything. "The agent finished typing" is not done.
@@ -87,6 +99,10 @@ the DevOps Research and Assessment team). Its 2024–2025 reports found that as 
 on AI, delivery stability dropped two years running — AI makes a strong team faster and a sloppy
 team worse. The standard tracks the DORA "four": deploy frequency, lead time, change-fail rate,
 time-to-recover (standard, section 9).
+
+**Dry-run / what-if.** Running a change in read-only preview to see what it _would_ do before it
+does anything: `bicep what-if` shows exactly what would be created, changed, or deleted (see
+[the rails](the-rails.md)).
 
 **Evals / golden set.** For deliverables that are themselves AI-powered: a versioned set of input
 scenarios with graded expected behavior (the golden set) and a pass threshold ("correct on ≥ 95%
@@ -117,6 +133,10 @@ agents, hooks, settings), the CI workflows, and `infra/`. The Setup Owner treats
 versioned, owned, changed only by reviewed PR. A line in CLAUDE.md is a design decision enforced a
 hundred times a day (standard, section 6).
 
+**The harness audit.** The sweep for anything only the pod understands — undocumented skills, hooks
+with pod-only assumptions — where each finding is fixed by a PR the client's own engineer merges
+(see `docs/phase-c-close.md`).
+
 **The harvest loop.** After every engagement, a mandatory retro PR against this repo: skills
 generalized (client specifics stripped), hooks improved, templates corrected, a retro file added.
 This is the compounding asset — the second engagement starts where the first finished (standard,
@@ -127,10 +147,16 @@ to stop. A **blocking** hook (the **Stop hook** / `stop-gate`) refuses to let th
 while tests fail or the build is broken. It isn't optional or persuadable. The single
 highest-value automation the kit ships (standard, section 5.2).
 
+**Hypercare.** The two-week watch after go-live: the client's operators driving, the pod beside
+them. Ends with Phase 9's gate (see `docs/phase-9-monitoring.md`).
+
 **IaC (Infrastructure as Code).** Defining the cloud environment as files in the repo rather than
 configuring it by hand, so it's reviewable, repeatable, and auditable. Always HIGH risk; runs
 through a generate → validate → policy → what-if → approve → scoped-apply → drift-check funnel.
 See [the rails](the-rails.md).
+
+**Incident playbook.** The detect–diagnose–escalate–communicate companion to the RUNBOOK. The
+RUNBOOK resolves; the playbook detects and communicates (see `docs/phase-9-monitoring.md`).
 
 **Intent.** The first beat of the loop, and the one humans own outright. Decide what you want, then
 write it as something you can test ("returns 401 for a bad token," not "make auth good"). Vagueness
@@ -141,6 +167,10 @@ decisions inside it belong to the PO.
 settings, skills, agents (grader, security-reviewer), hooks, CI workflows, Bicep starters, and the
 stack profile. Phase 3 of every engagement begins by installing it into the client repo and
 adapting it in the open (standard, section 10).
+
+**Least-privilege identity.** Each actor — human or agent — runs under its own credential scoped to
+exactly its job. What an agent _can_ do is its permissions, not its prompt (see
+[the rails](the-rails.md)).
 
 **Mechanical gates.** The hard blocks in CI that no human overrides: build, tests, lint, and 80%
 coverage on new code. Distinct from the grader (required to run, advisory verdict) and the human
@@ -169,6 +199,10 @@ there's more work than it can check, you add a pod, not a seventh person (see [t
 gate earned. Runs intent triage, the flow check, and client steering; assigns risk tiers; is the
 interface to the client PO (or plays proxy-PM in proxy mode). See [the team](team.md).
 
+**Policy-as-code.** Rules about what infrastructure is allowed — no public storage, encryption on,
+tags present — written as a gate that runs mechanically on every change (see
+[the rails](the-rails.md)).
+
 **Quality Engineer** (was: QA). Stops _performing_ checks and starts _building the machinery_ that
 checks every change: the grader definition, the Stop hook, the CI test gates, test infrastructure,
 and (for agentic deliverables) the eval harness. Takes a regular turn as Checker. See
@@ -189,11 +223,18 @@ to production, "which check should have caught it?" The answer becomes a concret
 of the checking ladder. An escaped bug that doesn't change a check is a wasted bug (standard,
 section 5.4).
 
+**Review-wait tripwire.** The agreed threshold (median one working day) that, once crossed, stops
+new work starting until the review queue clears — the enforcement side of **Review wait (median)**
+(see [the build loop](build-loop.md)).
+
 **Risk tier (HIGH / MEDIUM / LOW).** The taxonomy the Pod Lead assigns to every spec at triage,
 recorded in the spec and in CLAUDE.md so agents see it too. HIGH (auth, payments, PII, migrations,
 public API or pipeline/IaC changes, prompt/model/tool changes, anything hard to undo) triggers the
 full ladder, a security-reviewer pass, and a named human sign-off. Challenges escalate up, never
 down (standard, section 5.1).
+
+**Self-healing CI.** An agent that, on a red pipeline, diagnoses the failure through bounded tools
+and proposes a fix **as a PR** — never pushing to a protected branch (see [the rails](the-rails.md)).
 
 **Setup Owner** (was: Architect). Owns the harness as a product — CLAUDE.md, skills, agents, hooks,
 settings, the pipeline, the IaC, the kit install. Names a deputy on day one. The keystone role and
@@ -202,6 +243,9 @@ the known bus-factor risk, which is why the deputy rule exists. See [the team](t
 **Setup review.** The weekly 30–60 minute meeting where the week's harness changes merge, Retro+
 findings become new checks or skills, and token spend is reviewed. The Setup Owner's deputy reviews
 (standard, section 5.4).
+
+**The shadow flip.** The role reversal that opens Phase C: the client's engineers orchestrate, the
+pod only checks — the inverse of how Build began (see `docs/phase-c-close.md`).
 
 **Skill.** A written-down team practice or runbook the agent loads when it's relevant (a
 test-writing pattern, an API convention). Skills keep their detail out of the way until needed, so
@@ -244,6 +288,9 @@ standard exists to replace: no checking is just vibe coding; the loop closes it.
 the full loop and deployed to the client's dev environment — the exit proof of Phase 3 (Foundation)
 that the factory actually works before the build loop opens at volume (see
 `docs/phase-3-foundation.md`).
+
+**Warning vs critical.** The two alert severities: a warning is investigated in working hours; a
+critical wakes someone up (see `docs/phase-9-monitoring.md`).
 
 **WIP cap.** The hard limit on concurrent agent streams — default: no Orchestrator runs more than 2
 at once, and the pod halts new streams when median review wait exceeds one working day. A

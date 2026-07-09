@@ -287,6 +287,10 @@ are scheduled work in the flow, not a phase that gates all other work.
 
 ## 6. The harness standard
 
+> Cross-phase reference: [`docs/companion/artifact-flow.html`](docs/companion/artifact-flow.html) — what
+> each phase receives and produces, where every file lives, and the handoff chain end to end. Each phase's
+> final required artifact is named for the phase that consumes it.
+
 What every client delivery repo contains after kit install (Phase 3). The harness is a product:
 versioned, owned by the Setup Owner, changed only by reviewed PR.
 
