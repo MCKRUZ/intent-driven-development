@@ -278,7 +278,7 @@ recorded · `⚠` a person does it — and nothing records it.
 | ⚠ the outcome-metric first read | The engagement's headline number, read honestly for the first time in production, caveats attached | **Pod Lead + sponsor** | Sponsor | no path — on the business dashboard and spoken at steering | Close — the final scorecard |
 | ⚠ `close-handoff.md` | Monitoring inventory, drill record, debt log, open items with owners — the package Phase C opens on | **Claude drafts — but the phase body never says how** | Pod Lead | gate demands the path; no step writes it | Phase C, directly |
 
-> ⚠ **The gap:** Five of the eleven things Phase 9 is supposed to produce have nowhere the
+> ⚠ **The gap:** Five of the ten things Phase 9 is supposed to produce have nowhere the
 > tooling puts them — and two of them are the phase's whole reason to exist. The drill that
 > caught Harbor's silent-night routing typo is *required by the plugin's own exit gate* and
 > produced by no step and no command. The what-healthy session that shapes every alert reaches

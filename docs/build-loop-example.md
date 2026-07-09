@@ -219,7 +219,7 @@ State marker key:
 | ⚠ the named HIGH-risk sign-off | The risk:high requirement: a named human accepted the risk of merging this change | A named human (Wes Carter) | Wes Carter | no path — nothing writes it | The merge, HIGH tier |
 
 **Only two amber rows — and that is the point.** Compare this with the design phase, where six of
-thirteen outputs had nowhere to live. The Build loop is the best-instrumented stretch of the
+fourteen outputs had nowhere to live. The Build loop is the best-instrumented stretch of the
 engagement: the spec, the verdict, and three metrics lines all land at real paths, automatically. The
 only human work without a file is the pair of merge-bar judgments — the non-author approval and the
 named sign-off — and even those live in the PR's own approval state. **Human work is not the problem;

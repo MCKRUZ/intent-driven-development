@@ -251,7 +251,7 @@ Key: `▪` a command does it — and writes the file · `▸` a person does it �
 | ⚠ the go/no-go record | Every named role asked and answered, the decision and its rationale recorded with names — the durable proof a human said go | **Pod Lead, by hand** | Pod Lead | no path — `go-no-go-record.md` is optional; nothing writes it | The exit gate; the audit trail |
 | ⚠ secrets rotation record | Production secrets rotated to values the pod never held, signed by the client's security — the handoff made literal | **Setup Owner + client security** | Client security | no path — nothing writes it | The go/no-go packet; Phase C access revocation |
 
-**Read the amber rows again.** Four of the eight things Phase 8 is supposed to produce have nowhere
+**Read the amber rows again.** Four of the nine things Phase 8 is supposed to produce have nowhere
 to live — and they are the four that *are* this phase: the rehearsal that found Harbor's crash-loop,
 the rollout decision Luis owns, the ceremony seven people stood in, and the rotation that made the
 handoff real. The plugin marks the go/no-go record and the rollback procedure **optional** while its

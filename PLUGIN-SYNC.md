@@ -74,12 +74,12 @@ silent in the room; the audit of everything still living in our heads; the proof
 actually revoked. A person does the work; a file records that it happened; the gate can see it.
 
 **Phase C is the only phase that does this.** Every artifact in the standard is one of three things, and
-the middle one is the one to grow. Counted across the ten rewritten Example-tab ledgers — one hundred
-artifacts, the whole engagement:
+the middle one is the one to grow. Counted across the ten rewritten Example-tab ledgers — 110 artifacts,
+the whole engagement:
 
 | | Written by | Gate sees it | Count |
 |---|---|---|---|
-| **Machine artifact** | a command | yes | **55** |
+| **Machine artifact** | a command | yes | **65** |
 | **Human receipt** | a person | yes | **3** — all three in Phase C |
 | **Unrecorded work** | a person | no | **42** — spread across every other phase |
 

@@ -235,7 +235,7 @@ State marker key:
 | ⚠ consistency check record | Requirements traced against design in both directions; orphans resolved or removed | **Pod Lead** | Pod Lead | no path — nothing writes it | The exit gate |
 | ⚠ data model | Serves every top-tier requirement; passes the forward-compatibility check; convergence constraints are structural, not bolted on | Plugin Step 6 — but into `design-doc.md`, not its own file | Setup Owner | folded into `design-doc.md` | Phase 3 schema |
 
-> ⚠ **The gap:** Six of the thirteen things Phase 2 is supposed to produce have nowhere to live.
+> ⚠ **The gap:** Six of the fourteen things Phase 2 is supposed to produce have nowhere to live.
 > The threat review happens, and its output survives as a memory and a couple of GitHub labels.
 > The spike that found Harbor's 02:00–04:30 refresh window leaves no artifact at all — the
 > finding reaches the ADR only because Jonah was in the room on Wednesday. **Human work is not
