@@ -137,7 +137,8 @@
             between &mdash; typically 8 to 16 weeks, the bulk of the engagement &mdash; runs as this loop.
             There is no exit gate at the end of a loop pass, because the loop is not a phase. It is how
             every single change gets built, from the day the Foundation gate closes to the day the backlog
-            is done. It has no gate &mdash; it has a merge bar that every change clears.</p>
+            is done. It has no <em>batch artifact</em> gate &mdash; it has a merge bar that every change
+            clears, and it is left when a human declares the backlog feature-complete.</p>
           <p>The loop replaces the implementation, testing, and review phases of a traditional SDLC,
             collapsed into one cycle and run per change. The moment the pod starts skipping the loop for
             "small" changes is the moment unchecked work creeps back in. Small and risky is exactly the
@@ -1345,12 +1346,16 @@ per-policy independence for the no-policy path.</code></pre>
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">08</span>
-      <p class="kicker">There is no gate &mdash; there is a bar every change clears</p>
+      <p class="kicker">No batch gate &mdash; a bar every change clears, and a declaration to leave</p>
       <h2>The merge bar</h2>
-      <p class="lead">The other phases on this site end at a gate: a batch of artifacts, checked once, a human
-        sign-off, advance. <strong>The Build loop has no gate.</strong> It has a merge bar &mdash; the same
-        short list every single change clears to land &mdash; and it is left not when a checker passes but when
-        a <strong>human declares the backlog feature-complete</strong>.</p>
+      <p class="lead">The other phases end at a gate: a batch of artifacts, checked once, a human sign-off,
+        advance. <strong>The Build loop has no batch artifact gate.</strong> Checking does not accumulate to
+        the end &mdash; it happens per change, at a merge bar every single change clears. The harness knows
+        this: the loop is the one phase flagged <code>continuous: true</code>, and the gate script says so out
+        loud &mdash; <em>"Build is feature-complete by human declaration, not by this count."</em></p>
+      <p style="margin-top:14px;">That does not mean nothing closes it. Leaving the loop has exactly two
+        conditions, and one of them is a person: a <strong>human declares the backlog feature-complete</strong>,
+        and <code>phase7-handoff.md</code> exists and is complete. Nothing advances without both.</p>
 
       <div class="pair">
         <div class="idea">
@@ -1368,34 +1373,40 @@ per-policy independence for the no-policy path.</code></pre>
         </div>
         <div class="eg">
           <div class="plabel">How the loop is left</div>
-          <p>The loop ends when a human declares the backlog feature-complete &mdash; every story the
-            engagement committed to has ridden the loop and merged. That declaration is the only thing that
-            produces the loop's one required output:</p>
+          <p>A human declares the backlog feature-complete &mdash; every story the engagement committed to has
+            ridden the loop and merged. No checker can make that call, because it is a judgment about scope,
+            not about code. The declaration is what triggers the loop's one required output:</p>
           <div class="artifacts" style="margin:12px 0;">
-            <span class="lbl">The single required output &mdash; produced by a declaration, not a gate</span>
+            <span class="lbl">The single required output &mdash; written after the declaration, then checked</span>
             <span class="tag">phase7-handoff.md</span>
           </div>
           <p><code>phase7-handoff.md</code> names what was built, the state of the system in dev, the open
             questions carried under their original IDs, the deferred items with rationale, and what
-            Documentation must cover. It is the entry package for Phase 7 &mdash; not a gate receipt.</p>
+            Documentation must cover. It is the entry package for Phase 7 &mdash; and it <em>is</em> checked:
+            <code>advance_phase.py</code> requires it to exist and be free of placeholders, and will not move
+            the engagement forward without <code>--confirmed</code>, a named person's sign-off.</p>
+          <p style="margin-top:12px;">So the distinction is precise. <strong>No batch of deliverables piles up
+            to be graded at the end</strong> &mdash; that is the failure mode this method exists to kill.
+            One handoff document, and a human who says the work is done.</p>
         </div>
       </div>
 
-      <div class="aha warn" style="margin-top:24px;">
-        <div class="lbl">How the plugin models this &mdash; and why it reads wrong</div>
-        <p>The plugin's <code>phase-registry.yaml</code> lists <code>build</code> as a phase (order 4) with
-          <code>exit_gate.approval: manual</code> and <code>artifacts.required: [phase7-handoff.md]</code>
-          &mdash; the same shape it gives a genuinely gated phase. Taken at face value, that frames the Build
-          loop as ending at an artifact exit gate, which the standard is firm it does not. Read it accurately:
-          the loop's <em>only</em> required output is <code>phase7-handoff.md</code>, and it is produced when a
-          human declares feature-complete, not by a gate run. The gate script itself agrees &mdash; for this
-          phase <code>check_gates.py</code> reports the spec backlog as information and states plainly that
-          <em>"Build is feature-complete by human declaration, not by this count,"</em> verifying only that
-          <code>phase7-handoff.md</code> exists and is complete. The registry's framing is the thing to fix,
-          not the loop's behavior.</p>
+      <div class="aha" style="margin-top:24px;">
+        <div class="lbl">How the harness models this</div>
+        <p><code>phase-registry.yaml</code> flags <code>build</code> with <code>continuous: true</code> and
+          describes it in its own words: <em>"there is no artifact exit gate &mdash; checking happens per
+          change, and a human declares the backlog feature-complete to leave."</em> Its first exit condition is
+          a <code>check:</code> string rather than an artifact &mdash; <em>"Build backlog is feature-complete
+          (human declaration &mdash; no batch artifact gate)."</em> <code>phase_model.is_continuous()</code>
+          reads that flag, and <code>check_gates.py</code> branches on it twice: it reports the spec backlog as
+          information only, and states plainly that <em>"Build is feature-complete by human declaration, not by
+          this count."</em></p>
+        <p style="margin-top:12px;">The mechanism and the method agree, exactly. This is the one place in the
+          whole reconciliation where the harness encodes a human judgment <strong>as a human judgment</strong>
+          &mdash; and refuses to let a count stand in for it.</p>
       </div>
 
-      <p style="margin-top:22px;">Why no gate at all? Because a gate batches checking &mdash; write everything,
+      <p style="margin-top:22px;">Why no batch gate? Because a gate batches checking &mdash; write everything,
         then review everything &mdash; and batched checking is the exact failure mode this loop exists to kill.
         When an agent can produce code in minutes, the constraint is never building; it is proving. So the
         proving moves to per-change, inside the loop, on the bar above &mdash; and the moment the pod starts
@@ -1418,8 +1429,9 @@ per-policy independence for the no-policy path.</code></pre>
       <p>The gated phases open the engagement (0&ndash;3) and close it (7&ndash;9, C). Everything in
         between &mdash; typically 8 to 16 weeks, the bulk of the engagement &mdash; runs as this loop. There
         is no exit gate at the end of a loop pass; the loop is how every change gets built, from the day the
-        Foundation gate closes to the day the backlog is done. It has no gate &mdash; it has a merge bar
-        that every change clears.</p>
+        Foundation gate closes to the day the backlog is done. It has no <em>batch artifact</em> gate
+        &mdash; it has a merge bar that every change clears, and it is left when a human declares the backlog
+        feature-complete.</p>
       <p class="dim" style="font-size:17px;">The precise mechanics &mdash; the three beats in full, the
         Definition of Ready, the risk taxonomy, the checking ladder, the cadences, and the metrics. The full
         prose method sits under each section's &ldquo;Go deeper&rdquo; on the <a href="#glance">How it

@@ -88,8 +88,10 @@ rehearsal. The alert drill. The go/no-go ceremony. The option session. Each one 
 is the reason a client pays for a pod rather than a prompt, and none of them leaves a trace a machine or
 an auditor can find.
 
-The per-phase breakdown, by drift kind, from the nine reconciliation passes (75 rows; full tables in the
-appendix below):
+The per-phase breakdown, by drift kind, from the nine reconciliation passes (74 rows; full tables in the
+appendix below). One originally-filed row — X-4, against the Build loop — has been **withdrawn**: the
+plugin was right and the reconciliation was wrong. It is left in place, struck through, rather than
+deleted:
 
 | Page | Missing artifact | Undocumented output | Name mismatch | Internal contradiction | Other | Total |
 |---|---|---|---|---|---|---|
@@ -100,9 +102,9 @@ appendix below):
 | Phase 8 | 3 | 2 | 2 | 3 | — | 10 |
 | Phase 9 | 4 | 1 | — | 3 | — | 8 |
 | Phase C | 2 | — | 2 | 3 | — | 7 |
-| Build loop | — | 3 | — | — | 1 wrong-framing | 4 |
+| Build loop | — | 3 | — | — | ~~1 wrong-framing~~ withdrawn | 3 |
 | The Rails | 2 | 1 | 1 | 2 | — | 6 |
-| **Total** | **23** | **16** | **12** | **22** | **2** | **75** |
+| **Total** | **23** | **16** | **12** | **22** | **1** | **74** |
 
 **Fix 3 — apply the `close-gate-evidence.md` pattern to the other unreceipted rituals.** For each, add an
 artifact spec to the phase body and a `required` (or `optional`) entry to the registry. Claude does not
@@ -134,7 +136,7 @@ and whether the assumption survived. The spike code is deleted. The finding is n
 | X-1 | DEAD-CONFIG | `exit_gate.conditions[]` parsed by nothing | `phases/phase-registry.yaml` → all phases |
 | X-2 | DEAD-CONFIG | `approval: manual` read by nothing | `phases/phase-registry.yaml` → all phases |
 | X-3 | STALE-REFERENCE | Phase 7's Entry Criteria requires "Phase 6 exit gate passed". Phases 4/5/6 do not exist — they were collapsed into the Build loop. Phase 1 also points NFR thresholds at "Phase 6" measurement | `phases/07-documentation.md`, `phases/01-requirements.md` |
-| X-4 | WRONG-FRAMING | The registry models `build` as a gated phase with `artifacts.required: [phase7-handoff.md]` and `approval: manual`. The standard is explicit that the Build loop **has no gate** — it has a merge bar every change clears, and it ends when a human declares feature-complete | `phases/phase-registry.yaml` → `build` |
+| ~~X-4~~ | **WITHDRAWN** | Originally filed as WRONG-FRAMING: "the registry models `build` as a gated phase." **This was wrong, and the error was ours.** The registry sets `continuous: true` on `build`; its `description` states "there is no artifact exit gate — checking happens per change, and a human declares the backlog feature-complete to leave"; its first exit condition is `check: "Build backlog is feature-complete (human declaration — no batch artifact gate)"`. `phase_model.is_continuous()` reads the flag and `check_gates.py` special-cases `build` twice, emitting `"Build is feature-complete by human declaration, not by this count."` The defect was filed by reading `artifacts.required` and `approval: manual` in isolation. **The plugin is correct.** See the note below | `phases/phase-registry.yaml` → `build`; `scripts/phase_model.py:117`; `scripts/check_gates.py:347,371` |
 | X-5 | INTERNAL-CONTRADICTION | Phase 2's Exit Criteria require `architecture-diagrams.html` and `deep-plan-checkpoint.yaml`, but the registry marks the first RECOMMENDED and the second Optional — so `check_gates.py` never checks either, and the exit criteria are decorative | `phases/02-design.md` vs registry |
 | X-6 | INTERNAL-CONTRADICTION | `close-handoff.md` is a registry-required Phase 9 artifact with **no Artifact Specification** in the phase body. It is produced but unspecified | `phases/09-monitoring.md` |
 | X-7 | WEAK-CHECK | `exists_and_complete` is a placeholder-token scan, not a completeness check. A directory (`adrs/`) passes on being non-empty. Cross-reference and cross-phase-consistency checks are `SHOULD` severity and never block | `scripts/check_gates.py` |
@@ -310,7 +312,14 @@ Also affected by X-8, X-1, X-7: the design-level threat review belongs in Phase 
 
 ### Build loop
 
-The Build loop is deliberately not a gated phase; the drift is the plugin modelling it as if it were, plus three real receipts the narrative never surfaces. Plugin = `phases/build-loop.md` + `phase-registry.yaml` + `scripts/`.
+The Build loop is deliberately not a batch-gated phase, and **the plugin models it correctly** — `continuous: true`, special-cased in the gate script, feature-complete by human declaration. The drift runs the other way: it is the *standard* that under-describes the loop's close. Plus three real receipts the narrative never surfaces. Plugin = `phases/build-loop.md` + `phase-registry.yaml` + `scripts/`.
+
+> **Correction, 2026-07-09.** The row originally filed here as WRONG-FRAMING (X-4) has been withdrawn. It
+> claimed the registry modelled `build` as a gated phase. It does not. The mistake was reading
+> `artifacts.required` and `approval: manual` without reading `continuous: true`, the entry's own
+> `description`, or `check_gates.py`'s `if phase_id == "build"` branches. **Follow the registry:** the loop
+> is continuous, has no batch artifact gate, and closes on a named human's feature-complete declaration
+> plus `phase7-handoff.md`. The standard's pages have been corrected to say so; the plugin needs no change.
 
 | # | Kind | The standard says | The plugin does | Where |
 |---|------|-------------------|-----------------|-------|
@@ -318,7 +327,7 @@ The Build loop is deliberately not a gated phase; the drift is the plugin modell
 | B-2 | UNDOCUMENTED-OUTPUT | Same as B-1 — the Build-loop narrative names no metrics file. | `scorecard.py record` appends `spec_merged`/`spec_reverted`/… events to `.sdlc/metrics/loop-events.jsonl` on every loop outcome; the biweekly steering scorecard is computed from it. Real, per-trip, never surfaced in the Build-loop companion. (Named in plugin phase doc line 147 and in `artifact-flow.html`, not in the narrative.) | `claude-code-sdlc/scripts/scorecard.py:4–5,211`; `phases/build-loop.md:147` · absent from `docs/companion/build-loop.html` + `docs/build-loop-example.md` |
 | B-3 | UNDOCUMENTED-OUTPUT | Same as B-1 — the Build-loop narrative names no metrics file, and describes the grader verdict as a PR comment with no durable on-disk receipt. | `record_findings.py` appends every grader finding — with severity and disposition — to `.sdlc/metrics/findings-log.jsonl`, giving the verdict memory across re-grades and driving the open-HIGH-debt count at the merge bar. **This one is undocumented even in the plugin's own `phases/build-loop.md`** (it appears in no line of the phase doc), as well as in the companion. | `claude-code-sdlc/scripts/record_findings.py:5,225,265` · absent from `phases/build-loop.md`, `docs/companion/build-loop.html`, `docs/build-loop-example.md` |
 
-Also affected by X-4: the registry modelling `build` as a gated phase (`order: 4`, `exit_gate.approval: manual`, `artifacts.required: [phase7-handoff.md]`) while its own `description` says "there is no artifact exit gate" — the original WRONG-FRAMING row — is X-4.
+Note: the former fourth row here (WRONG-FRAMING, X-4) is **withdrawn** — see the correction above. Drift-row count for the Build loop is therefore **3**, not 4, and the document total is **74**, not 75.
 
 ### The Rails
 
@@ -403,8 +412,8 @@ Also affected by X-1: `check_gates.py` never reading or evaluating the `close.ex
    reversible.
 2. **X-3, X-5, X-6** — the stale reference and the two internal contradictions. Documentation-level
    corrections inside the plugin; nothing starts failing.
-3. **X-4** — remove `build`'s exit gate and `approval`, or rename what it models. Requires a decision about
-   what `phase7-handoff.md` is if it is not a gate artifact.
+3. ~~**X-4**~~ — **withdrawn.** No plugin change. The registry was right; the standard's Build-loop pages
+   have been corrected to follow it.
 4. **X-8** — add the Phase 2 design-level threat review step, keep the Phase 3 confirmation pass.
 5. **Fix 3 / Fix 2** — the receipt artifacts, and wiring or deleting `approval`. **These change what
    `/sdlc-gate` blocks on.** Any engagement mid-flight would newly fail on a missing `threat-model.md`.

@@ -403,10 +403,15 @@ phase example.
 
 ## The merge bar
 
-The other phases on this site end at a gate: a batch of artifacts, checked once, a human sign-off,
-advance. **The Build loop has no gate.** It has a merge bar — the same short list every single change
-clears to land — and it is left not when a checker passes but when a **human declares the backlog
-feature-complete**.
+The other phases end at a gate: a batch of artifacts, checked once, a human sign-off, advance. **The
+Build loop has no batch artifact gate.** Checking does not accumulate to the end — it happens per
+change, at a merge bar every single change clears. The harness knows this: the loop is the one phase
+flagged `continuous: true`, and the gate script says so out loud — _"Build is feature-complete by human
+declaration, not by this count."_
+
+That does not mean nothing closes it. Leaving the loop has exactly two conditions, and one of them is a
+person: a **human declares the backlog feature-complete**, and `phase7-handoff.md` exists and is
+complete. Nothing advances without both.
 
 **The bar every change clears:**
 
@@ -420,25 +425,29 @@ A `risk:high` change adds two more: the security workflow passes, and a named hu
 PR. That is the whole of it — there is nothing further to clear at the end of a loop pass, because
 every pass already cleared this.
 
-**How the loop is left.** The loop ends when a human declares the backlog feature-complete — every
-story the engagement committed to has ridden the loop and merged. That declaration is the only thing
-that produces the loop's one required output:
+**How the loop is left.** A human declares the backlog feature-complete — every story the engagement
+committed to has ridden the loop and merged. No checker can make that call, because it is a judgment
+about scope, not about code. The declaration triggers the loop's one required output:
 
-- `phase7-handoff.md` — the single required output, produced by a declaration, not a gate.
+- `phase7-handoff.md` — written after the declaration, then checked.
 
 `phase7-handoff.md` names what was built, the state of the system in dev, the open questions carried
 under their original IDs, the deferred items with rationale, and what Documentation must cover. It is
-the entry package for Phase 7 — not a gate receipt.
+the entry package for Phase 7 — and it *is* checked: `advance_phase.py` requires it to exist and be free
+of placeholders, and will not move the engagement forward without `--confirmed`, a named person's
+sign-off.
 
-**How the plugin models this — and why it reads wrong.** The plugin's `phase-registry.yaml` lists
-`build` as a phase (order 4) with `exit_gate.approval: manual` and
-`artifacts.required: [phase7-handoff.md]` — the same shape it gives a genuinely gated phase. Taken at
-face value, that frames the Build loop as ending at an artifact exit gate, which the standard is firm
-it does not. Read it accurately: the loop's *only* required output is `phase7-handoff.md`, and it is
-produced when a human declares feature-complete, not by a gate run. The gate script itself agrees — for
-this phase `check_gates.py` reports the spec backlog as information and states plainly that *"Build is
-feature-complete by human declaration, not by this count,"* verifying only that `phase7-handoff.md`
-exists and is complete. The registry's framing is the thing to fix, not the loop's behavior.
+So the distinction is precise. **No batch of deliverables piles up to be graded at the end** — that is
+the failure mode this method exists to kill. One handoff document, and a human who says the work is
+done.
+
+**How the harness models this.** `phase-registry.yaml` flags `build` with `continuous: true` and
+describes it in its own words: *"there is no artifact exit gate — checking happens per change, and a
+human declares the backlog feature-complete to leave."* Its first exit condition is a `check:` string,
+not an artifact: *"Build backlog is feature-complete (human declaration — no batch artifact gate)."*
+`phase_model.is_continuous()` reads that flag, and `check_gates.py` branches on it twice — reporting the
+spec backlog as information only, and stating plainly that *"Build is feature-complete by human
+declaration, not by this count."* The mechanism and the method agree, exactly.
 
 Why no gate at all? Because a gate batches checking — write everything, then review everything — and
 batched checking is the exact failure mode this loop exists to kill. When an agent can produce code in

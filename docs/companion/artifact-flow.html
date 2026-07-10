@@ -146,7 +146,7 @@
           <tr>
             <td><a href="build-loop.html#example"><strong>The Build loop</strong></a></td>
             <td><code>.sdlc/artifacts/build/</code></td>
-            <td class="dim">none &mdash; the loop has no artifact gate. It ends when a <strong>human declares feature-complete</strong>, not when a check passes.</td>
+            <td class="dim">none &mdash; the loop is flagged <code>continuous: true</code> and has <strong>no batch artifact gate</strong>. Checking happens per change, at the merge bar. It ends when a <strong>human declares the backlog feature-complete</strong>, not when a count passes.</td>
             <td><code>phase7-handoff.md</code></td>
           </tr>
           <tr>
