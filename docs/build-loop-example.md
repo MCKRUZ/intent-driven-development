@@ -449,7 +449,7 @@ not an artifact: *"Build backlog is feature-complete (human declaration — no b
 spec backlog as information only, and stating plainly that *"Build is feature-complete by human
 declaration, not by this count."* The mechanism and the method agree, exactly.
 
-Why no gate at all? Because a gate batches checking — write everything, then review everything — and
+Why no batch gate? Because a gate batches checking — write everything, then review everything — and
 batched checking is the exact failure mode this loop exists to kill. When an agent can produce code in
 minutes, the constraint is never building; it is proving. So the proving moves to per-change, inside
 the loop, on the bar above — and the moment the pod starts skipping the loop for a "small" change is

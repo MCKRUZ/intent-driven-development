@@ -1,6 +1,8 @@
 # Plugin sync — reconciling `claude-code-sdlc` with the standard
 
-> **Status:** change spec, not yet applied. Nothing in `MCKRUZ/claude-code-sdlc` was modified.
+> **Status:** Fix 1 is **shipped** — [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10),
+> awaiting non-author review. X-4 is **withdrawn** (the plugin was right). Everything else below is still a
+> change spec, not yet applied.
 > **Written:** 2026-07-09, while rewriting the per-phase Example tabs against the plugin's real behavior.
 > **Premise:** `claude-code-sdlc` is the mechanism; this standard is the process that documents it. They
 > should be in sync. The legitimate difference is that the standard carries far more human-in-the-loop
@@ -35,16 +37,29 @@ either direction; the threat review happened* — sits in a YAML file that nothi
 
 The standard has the checklist. The plugin has the gate. Nothing connects them.
 
-### Fix 1 — render the exit-gate conditions at the moment of sign-off
+### Fix 1 — render the exit-gate conditions at the moment of sign-off ✅ SHIPPED
 
-`check_gates.py` should read `exit_gate.conditions[]` from the registry and emit every prose condition as a
-`MANUAL` result (`passed: None`) alongside the automated artifact checks. `advance_phase.py` already
-handles `passed is None` correctly — it prints `REVIEW REQUIRED — N manual gate(s) need human sign-off`
-and refuses to advance without `--confirmed`. The plumbing exists. Only the input is missing.
+> **Landed as `G7-exit-criteria`** — [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10).
+> 6 new tests written red before the implementation; 227 passing. Awaiting non-author review.
 
-Effect: the human sees what they are vouching for. No new blocking behavior; nothing that passes today
-starts failing. This is the highest-value, lowest-risk change in this document, and it should ship first
-and alone.
+`check_gates.py` now reads `exit_gate.conditions[]` from the registry, skips the entries carrying an
+`artifact:` key (G1/G2 already check those), and emits every prose condition as `passed: None` — which
+renders as `REVIEW`. `advance_phase.py` already handled `passed is None`: it prints `REVIEW REQUIRED — N
+manual gate(s) need human sign-off` and refuses to advance without `--confirmed`. The plumbing existed.
+Only the input was missing.
+
+The human now sees what they are vouching for. G7 never blocks — only a MUST *failure* stops an advance,
+and a condition nobody evaluated cannot have failed.
+
+**One behavior change:** a *dry run* of `advance_phase.py` on a phase with prose conditions now prints
+`REVIEW REQUIRED` and exits 1, where it previously printed `Dry run complete` and exited 0. Confirmed
+advances are unaffected — verified end to end against a temp project.
+
+**Coverage gap worth knowing:** phases 0, 1 and 2 declare *no* prose exit conditions in the registry, so
+G7 is silent for the entire opening of an engagement. The standard's rich checklists for those phases —
+*every ADR carries two signatures; every integration was spiked against the live system; no orphans in
+either direction* — still exist only in this repo's prose. Putting them into
+`phase-registry.yaml` is a **data-only change** that needs no code. That is the natural follow-up.
 
 ### Fix 2 — the `approval` field is dead
 
@@ -408,8 +423,9 @@ Also affected by X-1: `check_gates.py` never reading or evaluating the `close.ex
 
 ## Recommended order
 
-1. **Fix 1 alone** (render exit conditions at sign-off). No behavior change, immediate value, trivially
-   reversible.
+1. ~~**Fix 1 alone**~~ — **done.** [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10).
+1b. **Declare phases 0–2's exit conditions in the registry.** Data-only; G7 renders them the moment they
+   exist. This is where the standard's opening-phase checklists finally reach the human at the gate.
 2. **X-3, X-5, X-6** — the stale reference and the two internal contradictions. Documentation-level
    corrections inside the plugin; nothing starts failing.
 3. ~~**X-4**~~ — **withdrawn.** No plugin change. The registry was right; the standard's Build-loop pages
