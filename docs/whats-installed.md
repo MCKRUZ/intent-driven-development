@@ -37,7 +37,7 @@ before, so the most specific layer wins:
 1. core             the neutral standard — identical everywhere
 2. stack pack       how we build in this technology        (from the profile's language)
 3. CI/CD pack       which platform runs the checks         (from the profile's platform)
-4. frontend packs   for repos with screens: a generic UX layer, then the framework's (react)
+4. frontend packs   for repos with screens: a generic UX layer, then the framework's (react, angular)
 5. tools packs      optional tools the team opted into     (from the profile's tools list)
 6. customer profile one company's standards (coverage bar, compliance)
 7. repo adaptation  the repo's own edits during setup — owned by the repo from then on
@@ -93,7 +93,8 @@ and the build fixer (any broken build).
 Repos with a user interface get a seventh specialist: **`ux-reviewer`** (from the frontend
 pack). It reviews screens the way the grader reviews code — do all the states exist (loading,
 empty, error, success), is it keyboard-reachable, does it follow the house pattern — and
-drives the changed flow in a real browser when it can. On React repos it arrives React-aware.
+drives the changed flow in a real browser when it can. On React and Angular repos it arrives
+framework-aware.
 Advisory: it reports, a human decides.
 
 ## skills/ — the runbooks
