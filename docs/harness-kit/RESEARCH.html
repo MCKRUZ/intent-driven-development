@@ -256,9 +256,12 @@ schema used instead.</p>
 </table>
 <p><strong>Verified hook contract (the part that's easy to get wrong):</strong>
 - A <code>Stop</code> hook <strong>blocks</strong> by writing top-level JSON <code>{"decision":"block","reason":"…"}</code> to stdout
-  <strong>and</strong> <code>exit 2</code>. <strong><code>exit 1</code> is silently ignored</strong> (treated as a non-blocking error).
-  <code>hookSpecificOutput</code> is <strong>invalid on Stop</strong> and silently drops the block — put everything in
-  <code>reason</code>, which is the only channel surfaced back to the model.
+  <strong>and</strong> <code>exit 0</code> — JSON output is only parsed on exit 0, and <code>reason</code> is the channel surfaced
+  back to the model. <code>exit 2</code> also blocks, but stdout (and any JSON in it) is <strong>ignored</strong> on
+  exit 2 — only stderr is surfaced, so a stdout JSON reason would be silently dropped. <strong><code>exit 1</code>
+  is a non-blocking error.</strong> (Corrected 2026-07-15 against the hooks reference — an earlier
+  version of this note claimed JSON + <code>exit 2</code> and that <code>hookSpecificOutput</code> is invalid on Stop;
+  Stop actually accepts <code>hookSpecificOutput.additionalContext</code> for non-blocking feedback.)
 - <code>stop_hook_active</code> is the <strong>loop guard</strong> — <code>exit 0</code> when true, so the gate pushes back exactly
   once per stretch. Claude force-ends after <strong>8 consecutive blocks</strong> (a backstop, not a substitute
   for the guard).
@@ -297,7 +300,7 @@ secrets).</p>
 <ul>
 <li><strong>Stop-hook gating</strong> — the only hook that decides whether the agent is <em>allowed to be finished</em>.
   Reference design ships as <code>kit/hooks/stop-gate.{ps1,sh}</code>: loop-guard on <code>stop_hook_active</code>, run
-  build/tests/format, <code>block()</code> = print <code>{"decision":"block","reason":…}</code> then <code>exit 2</code>,
+  build/tests/format, <code>block()</code> = print <code>{"decision":"block","reason":…}</code> then <code>exit 0</code>,
   <code>timeout</code>-wrap every check. <strong>Test it three ways before trusting it</strong> — a passing case (stays
   quiet), a failing case (blocks), and a turn it shouldn't apply to (steps aside). "Until you have
   seen the gate do all three with your own eyes, you do not have a gate."</li>

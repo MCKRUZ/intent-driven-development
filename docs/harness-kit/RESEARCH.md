@@ -113,9 +113,12 @@ schema used instead.
 
 **Verified hook contract (the part that's easy to get wrong):**
 - A `Stop` hook **blocks** by writing top-level JSON `{"decision":"block","reason":"…"}` to stdout
-  **and** `exit 2`. **`exit 1` is silently ignored** (treated as a non-blocking error).
-  `hookSpecificOutput` is **invalid on Stop** and silently drops the block — put everything in
-  `reason`, which is the only channel surfaced back to the model.
+  **and** `exit 0` — JSON output is only parsed on exit 0, and `reason` is the channel surfaced
+  back to the model. `exit 2` also blocks, but stdout (and any JSON in it) is **ignored** on
+  exit 2 — only stderr is surfaced, so a stdout JSON reason would be silently dropped. **`exit 1`
+  is a non-blocking error.** (Corrected 2026-07-15 against the hooks reference — an earlier
+  version of this note claimed JSON + `exit 2` and that `hookSpecificOutput` is invalid on Stop;
+  Stop actually accepts `hookSpecificOutput.additionalContext` for non-blocking feedback.)
 - `stop_hook_active` is the **loop guard** — `exit 0` when true, so the gate pushes back exactly
   once per stretch. Claude force-ends after **8 consecutive blocks** (a backstop, not a substitute
   for the guard).
@@ -143,7 +146,7 @@ These are the citation-verified foundations the kit's gates implement.
 
 - **Stop-hook gating** — the only hook that decides whether the agent is *allowed to be finished*.
   Reference design ships as `kit/hooks/stop-gate.{ps1,sh}`: loop-guard on `stop_hook_active`, run
-  build/tests/format, `block()` = print `{"decision":"block","reason":…}` then `exit 2`,
+  build/tests/format, `block()` = print `{"decision":"block","reason":…}` then `exit 0`,
   `timeout`-wrap every check. **Test it three ways before trusting it** — a passing case (stays
   quiet), a failing case (blocks), and a turn it shouldn't apply to (steps aside). "Until you have
   seen the gate do all three with your own eyes, you do not have a gate."
