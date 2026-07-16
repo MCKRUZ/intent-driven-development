@@ -119,8 +119,11 @@ machine config; self-installing tools (GitNexus) ship printed instructions inste
 ## The pull-request checks — workflows/
 
 These run at the server and apply to every change, whoever wrote it. Build & tests **block** —
-and the job opens with a secret scan, so a committed credential fails the build before anything
-else runs. A broken build or a committed secret is a fact, and facts block. The AI grader **advises only**: its review must
+the job opens with a secret scan and closes by enforcing the coverage floor, so a committed
+credential or a coverage miss fails the build alongside any red test. The **spec-gate blocks**
+too: a pull request that changes source without a committed spec is refused (with a recorded
+`no-spec:chore` exemption for genuine chores). A broken build, a committed secret, a coverage
+miss, or specless source change is a fact, and facts block. The AI grader **advises only**: its review must
 happen, but "the AI approved it" never replaces the human approver. Correctness and security
 reviews **block** on concrete, demonstrable findings, with a visible, recorded human
 override. Branch protection tops it off: blocking checks are mandatory and a person who

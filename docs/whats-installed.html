@@ -235,7 +235,8 @@
   principle: <b>work can be proposed by anyone; only a gate lets it through.</b></p>
   <table>
     <tr><th>Check</th><th>Power</th><th>Why</th></tr>
-    <tr><td>Build &amp; tests (starts with a secret scan)</td><td class="blocks">BLOCKS</td><td>a broken build or a committed credential is a fact — facts block</td></tr>
+    <tr><td>Build &amp; tests (secret scan first, coverage floor last)</td><td class="blocks">BLOCKS</td><td>a broken build, a committed credential, or a coverage miss is a fact — facts block</td></tr>
+    <tr><td>Spec-gate</td><td class="blocks">BLOCKS</td><td>source changed with no committed spec — refused, with a recorded <code>no-spec:chore</code> exemption for genuine chores</td></tr>
     <tr><td>Grader (AI review vs. the standards)</td><td class="advises">ADVISES</td><td>an AI's "looks good" must never replace the human approver — the review must <i>happen</i>, but a human weighs it</td></tr>
     <tr><td>Correctness review</td><td class="blocks">BLOCKS</td><td>only on a concrete, demonstrable defect — a human can overrule with a visible, recorded label</td></tr>
     <tr><td>Security review</td><td class="blocks">BLOCKS</td><td>on serious findings in sensitive code</td></tr>
