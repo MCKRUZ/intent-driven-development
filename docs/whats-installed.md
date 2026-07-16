@@ -119,7 +119,8 @@ machine config; self-installing tools (GitNexus) ship printed instructions inste
 ## The pull-request checks — workflows/
 
 These run at the server and apply to every change, whoever wrote it. Build & tests **block** —
-a broken build is a fact, and facts block. The AI grader **advises only**: its review must
+and the job opens with a secret scan, so a committed credential fails the build before anything
+else runs. A broken build or a committed secret is a fact, and facts block. The AI grader **advises only**: its review must
 happen, but "the AI approved it" never replaces the human approver. Correctness and security
 reviews **block** on concrete, demonstrable findings, with a visible, recorded human
 override. Branch protection tops it off: blocking checks are mandatory and a person who
