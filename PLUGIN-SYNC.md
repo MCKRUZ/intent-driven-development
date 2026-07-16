@@ -1,8 +1,9 @@
 # Plugin sync — reconciling `claude-code-sdlc` with the standard
 
-> **Status:** Fix 1 is **shipped** — [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10),
-> awaiting non-author review. X-4 is **withdrawn** (the plugin was right). Everything else below is still a
-> change spec, not yet applied.
+> **Status:** Fix 1 is **merged** — [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10),
+> merged 2026-07-10. It merged with zero reviews — the standard's own non-author bar was not met (solo-repo
+> reality; recorded here so the record stays honest). X-4 is **withdrawn** (the plugin was right). Everything
+> else below is still a change spec, not yet applied.
 > **Written:** 2026-07-09, while rewriting the per-phase Example tabs against the plugin's real behavior.
 > **Premise:** `claude-code-sdlc` is the mechanism; this standard is the process that documents it. They
 > should be in sync. The legitimate difference is that the standard carries far more human-in-the-loop
@@ -37,10 +38,11 @@ either direction; the threat review happened* — sits in a YAML file that nothi
 
 The standard has the checklist. The plugin has the gate. Nothing connects them.
 
-### Fix 1 — render the exit-gate conditions at the moment of sign-off ✅ SHIPPED
+### Fix 1 — render the exit-gate conditions at the moment of sign-off ✅ MERGED
 
-> **Landed as `G7-exit-criteria`** — [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10).
-> 6 new tests written red before the implementation; 227 passing. Awaiting non-author review.
+> **Landed as `G7-exit-criteria`** — [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10),
+> merged 2026-07-10. 6 new tests written red before the implementation; 227 passing at merge (suite is 298
+> as of 2026-07-16). Merged without a non-author review — the standard's own bar, unmet for solo-repo reasons.
 
 `check_gates.py` now reads `exit_gate.conditions[]` from the registry, skips the entries carrying an
 `artifact:` key (G1/G2 already check those), and emits every prose condition as `passed: None` — which
@@ -355,7 +357,7 @@ Drift = where `docs/the-rails.md` / GOLD-STANDARD describes blocking behavior th
 | R-3 | MISSING-ARTIFACT | deploy-dev **"Deploys the merged artifact to the client's dev environment"** and **"Merge → dev, automatically"** (the-rails.md §3 table, §5). | `deploy-dev.yml` ships as a **non-functional starter that intentionally fails**: Deploy step `echo "::error::<<DEPLOY_STEP>> not yet wired — this starter intentionally fails until adapted."` then `exit 1`; the rollback step likewise ends `exit 1`. It encodes the §5 rules (promote-never-rebuild via `workflow_run` download; restore-on-`failure()`) but the deploy/rollback are placeholders. The "deployed dev environment" receipt does not exist until a client wires **and rehearses** it. (README/RAILS flag this; the-rails.md deep-dive presents it as functioning.) | `kit/workflows/deploy-dev.yml` L99–109, L126–140 vs `docs/the-rails.md` §3, §5 |
 | R-4 | UNDOCUMENTED-OUTPUT | the-rails.md §3 defines **ci** as "Build, tests, lint, 80% coverage on new code. The mechanical floor." — a single hard gate, no eval gate mentioned. | `ci.yml` ships a **second optional HARD gate**, job `eval-gate` (blocks on any failing eval fixture), with a recorded-bypass ledger at `profile/eval-bypasses.md`. It is documented only in `ci.yml` comments, `RAILS.md`, and `README.md` — never in the `the-rails.md` deep-dive that the companion page mirrors. | `kit/workflows/ci.yml` L111–153 (+ `kit/profile/eval-bypasses.md`), `kit/workflows/RAILS.md` L22 vs `docs/the-rails.md` §3 |
 | R-5 | NAME-MISMATCH | the-rails.md §1/§3/§4 name the five rails **ci / grader / correctness / security / deploy-dev** (and prose refers to "the security workflow," "correctness review"). | The **required status-check contexts are the JOB names**, which differ: `build-and-test`, `grader`, `correctness-review`, `security-review`. So "ci" ≠ `build-and-test`, "correctness" ≠ `correctness-review`, "security" ≠ `security-review`. RAILS.md itself warns "Rename a job → rename its required-check context." The workflow display-name and the enforced-check name are not the same string. | `kit/profile/rulesets/branch-protection.json` L30–35 (+ job `name:` lines: `ci.yml` L35, `correctness.yml` L50, `security.yml` L38) vs `docs/the-rails.md` §3 |
-| R-6 | INTERNAL-CONTRADICTION | `kit/workflows/README.md` "Known drift" asserts **GOLD-STANDARD §6 lists only four workflows and "omits `correctness.yml`,"** and files an action for the standard's owner to add it. | GOLD-STANDARD §6's harness tree **already lists `correctness.yml`** with a full description ("fresh agent ... blocks on a high-confidence defect, named override on record"). The drift the README documents is already fixed upstream — so the README's own "Known drift" note is now stale and contradicts the current standard. | `kit/workflows/README.md` L72–88 vs `GOLD-STANDARD.md` §6 L307–314 (L311) |
+| R-6 | INTERNAL-CONTRADICTION | `kit/workflows/README.md` "Known drift" asserts **GOLD-STANDARD §6 lists only four workflows and "omits `correctness.yml`,"** and files an action for the standard's owner to add it. | GOLD-STANDARD §6's harness tree **already lists `correctness.yml`** with a full description ("fresh agent ... blocks on a high-confidence defect, named override on record"). The drift the README documents is already fixed upstream — so the README's own "Known drift" note is now stale and contradicts the current standard. **Resolved 2026-07-16** — the README section is now a short "Drift note — resolved" pointer. | `kit/workflows/README.md` (was L72–88) vs `GOLD-STANDARD.md` §6 |
 
 ### Phase 7 — Documentation
 

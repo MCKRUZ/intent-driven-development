@@ -1,9 +1,10 @@
 # Delivery Standard — Progress Snapshot
 
-**Last saved:** 2026-06-11
+**Last saved:** 2026-07-16
 **Owner:** Matt Kruczek
 
-This file is the resume point. Read it first next session.
+This file is the resume point. Read it first next session. Sections marked HISTORY record
+past state for the trail; the STATUS sections are current as of the last-saved date.
 
 ---
 
@@ -16,8 +17,10 @@ AI-engineering track for when the deliverable IS agents). It synthesizes two sou
 - `MCKRUZ/intent-driven-development` — the IDD methodology (the "why")
 - `MCKRUZ/claude-code-sdlc` — the executable plugin (the "how": commands, agents, gates)
 
-The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). Not yet
-`git init`ed — that's deferred to Matt.
+The standard lives in this folder (local name `delivery-standard`), a git repo whose remote is
+**`github.com/MCKRUZ/intent-driven-development`** — the planned separate `delivery-standard`
+repo was never created; this folder became the standard's home under that remote. Active
+history: 45 commits on `main` as of 2026-07-16 (first commit 2026-06-11).
 
 ---
 
@@ -140,15 +143,20 @@ The standard lives in a NEW repo: **`MCKRUZ/delivery-standard`** (this folder). 
     the audit fix conflicts with locked convention 1: vocab directly after primer) — flagged for
     Matt as a separate standard-wide decision if he wants it. Examples were NOT touched (they use
     "The story so far", audited implicitly via the-rails-example).
-  - All commits on `main` (repo convention — prior phases committed straight to main). NOT pushed
-    (remote is public github.com/MCKRUZ/intent-driven-development). Offer push when Matt's ready.
+  - All commits on `main` (repo convention — prior phases committed straight to main). At the
+    time NOT pushed; since pushed to the public remote github.com/MCKRUZ/intent-driven-development.
 
-### Referenced but NOT yet built (named in GOLD-STANDARD section 10, do not exist as files yet)
+### STATUS (2026-07-16) — built since the section above was first written
+- `kit/` — **complete, 100 files**, synced to the plugin via its `sync_kit.py`. Six agents
+  (planner, architect, grader, security-reviewer, build-error-resolver, debugger), six skills,
+  three hooks (`.ps1` + `.sh` each), seven workflows (five rails + two eval), `profile/`
+  (CODEOWNERS, rubrics, branch-protection ruleset, rails scripts), `infra/`, `eval-datasets/`,
+  `prompts/`, core `mcp.json`, the `HARNESS.md` tour, and `packs/` (stacks/dotnet, cicd/github,
+  cicd/azure-devops, frontend/generic, frontend/react, tools/gitnexus).
+- `retros/` — one retro: `retros/2026-06-24-claude-code-sdlc-alignment.md`.
+
+### Still NOT built (named in GOLD-STANDARD section 10, marked "planned" there)
 - `docs/profile-swap.md`, `docs/commercial.md`, `docs/data-flow-brief.md`, `docs/po-onboarding.md`
-- `kit/` — the entire installable engagement starter (CLAUDE.md.template, spec-template,
-  settings.json, skills/, agents/ grader+security-reviewer, hooks/ stop-gate, workflows/
-  ci+grader+correctness+security+deploy-dev, infra/ Bicep, profile/). NONE built yet.
-- `retros/` — empty.
 
 ---
 
@@ -227,9 +235,10 @@ found a read-only nightly **snapshot replica**. Storm surge ~10x for a week. 61%
 
 ---
 
-## Changes made to claude-code-sdlc (the plugin repo)
+## Changes made to claude-code-sdlc (the plugin repo) — HISTORY (2026-06-11)
 
-These are NEW additions Matt asked for, sitting uncommitted in that repo's working tree:
+Historical log, superseded by the STATUS block at the end of this section. These were NEW
+additions Matt asked for, at the time sitting uncommitted in that repo's working tree:
 
 - **`agents/discovery-analyst.md`** — cross-document analysis (contradictions + questions).
   Has standalone mode (`--docs`).
@@ -244,11 +253,16 @@ These are NEW additions Matt asked for, sitting uncommitted in that repo's worki
   all 12 incl. /sdlc-intake, /sdlc-brief, /sdlc-enhance, /sdlc-coach, /sdlc-review),
   `references/agent-roster.md`, `CLAUDE.md` (12 commands, 8 agents, + "Standalone or Workflow"
   design rule: every agent/command runs both in-workflow and standalone).
-- Plugin now: **12 commands, 8 agents.**
+- Plugin then stood at 12 commands, 8 agents.
 - **Removed:** the `examples/phase-0-discovery/` folder I initially added there (content moved
   to delivery-standard/docs/phase-0-example).
 
-Nothing committed in either repo. Both working trees are dirty and ready for Matt's review.
+**STATUS (2026-07-16):** all of the above is long committed. Both repos live on GitHub with
+active history (`MCKRUZ/intent-driven-development` for the standard, `MCKRUZ/claude-code-sdlc`
+for the plugin). The plugin is at **20 commands and 13 agents**, installs the kit with
+profile-aware pack composition (profiles: starter, microsoft-enterprise, creative-tooling), and
+its installer suite is **298 passing tests** (run 2026-07-16). Plugin/standard reconciliation is
+tracked in `PLUGIN-SYNC.md`.
 
 ---
 
@@ -260,11 +274,11 @@ Nothing committed in either repo. Both working trees are dirty and ready for Mat
 
 ---
 
-## NEXT STEPS (where to resume)
+## The docs arc — HISTORY (complete as of 2026-06-11)
 
 Phases done as deep-dive + example: **0, 1, 2, 3.** Phase 3 (2026-06-11) is fully cross-linked
-in both formats and indexed in GOLD-STANDARD section 10. Matt has NOT yet reviewed the rendered
-Phase 3 HTML. Remaining work, in likely order:
+in both formats and indexed in GOLD-STANDARD section 10. The numbered log below records how the
+arc finished:
 
 1. ~~Build loop deep-dive + worked example~~ DONE 2026-06-11: `build-loop.md/.html` +
    `build-loop-example.md/.html` (week four of Build, Mon 5/4-Fri 5/8 2026; specs 0015
@@ -322,19 +336,17 @@ Phase 3 HTML. Remaining work, in likely order:
    retros/2026-harbor-mutual.md. Final metric read: completed-cohort median 4.2 days (under
    the 5-day target; cohort caveat; unbiased read October 2026, Harbor's dashboard).
 
-## Remaining work (the docs arc is done; these build the rest of the repo)
+## Remaining work — STATUS (2026-07-16)
 
-1. **Build the `kit/`** — the installable artifacts GOLD-STANDARD section 10 describes and the
-   examples show in use: CLAUDE.md.template, spec-template, settings.json, skills/, agents/
-   (grader, security-reviewer), hooks/ (stop-gate), workflows/ (ci, grader, correctness,
-   security, deploy-dev), infra/ Bicep starters, profile/. Keep consistent with what the examples
-   show running — including the four harvest items (config-with-artifact, timezone tests,
-   suppression-window alerts, vendor-blip split), which per the story are already IN the kit.
-2. **The four `docs/` support files:** profile-swap, commercial, data-flow-brief,
+1. ~~Build the `kit/`~~ **DONE** — complete at 100 files (see the STATUS block under "Files
+   that exist"), synced to the plugin via `sync_kit.py`, installer verified by 298 passing
+   tests. The four harvest items from the Harbor story (config-with-artifact, timezone tests,
+   suppression-window alerts, vendor-blip split) are folded in.
+2. **The four `docs/` support files** — still open: profile-swap, commercial, data-flow-brief,
    po-onboarding (phase-0 mentions the PO onboarding guide unlinked — re-link when built).
-2b. **`docs/agentic-spec-example.md`** — GOLD-STANDARD section 11 now forward-references it ("to be
-   added with the first agentic engagement"); write it when the AI-engineering module gets
-   its worked example.
+   GOLD-STANDARD section 10 now marks them "(planned — not yet built)".
+2b. **`docs/agentic-spec-example.md`** — still open; GOLD-STANDARD section 11 forward-references
+   it ("to be added with the first agentic engagement").
 2c. **(2026-06-11) Comprehensibility pass DONE** — 5 audit agents (actionability lens: could
    a new pod member RUN the phase from the page?) found ~70 real stalls; 99 fixes applied
    across every doc pair, both formats. Notable corrections of record: security gates are
@@ -345,13 +357,17 @@ Phase 3 HTML. Remaining work, in likely order:
    open decision-list items FOR THIS STORY (not an empty list); P0 budget is set by the Pod
    Lead before the day-4 session; tripwire default = one-working-day median, WIP default =
    2 streams per Orchestrator (both from section 14); 0049 closed ahead of its day-30 deadline.
-3. Optional cleanup: retrofit sidebar "Next" links to phase-0/1 pages (convention 8).
-3. **Build the `kit/`** — the actual installable artifacts (templates, agents, hooks, CI YAML,
-   Bicep). Currently only described in GOLD-STANDARD section 10, not built. Phase 3 docs now name its
-   contents in use — keep the kit consistent with what the example shows running.
-4. **The four `docs/` support files** (profile-swap, commercial, data-flow-brief, po-onboarding).
-5. Optional cleanup: retrofit the sidebar "Next" link to the phase-0/1 pages (convention 8).
-6. Eventually: `git init` both repos, commit, push (Matt's call — deferred).
+3. Optional cleanup: retrofit sidebar "Next" links to phase-0/1 pages (convention 8) — still open.
+4. ~~`git init` both repos, commit, push~~ **DONE** — both repos live on GitHub with active
+   history (see the plugin STATUS block above).
 
-Matt works through this incrementally: typically "do the deep-dive, then the example, then move
-to the next phase," reviewing the rendered HTML between steps.
+Open engineering items are tracked as GitHub issues on `MCKRUZ/intent-driven-development`
+(open as of 2026-07-16):
+
+- **#4** — Angular frontend pack (angular-aware ux-reviewer)
+- **#5** — harvest remaining approved MAH items into the kit
+- **#6** — bring MAH onto the kit (agents first, or full installer run)
+- **#7** — nudge-hook pattern paragraph in `kit/hooks/README.md`
+- **#8** — live shakedown of the committed MCP server set on first real `/sdlc-setup`
+
+Matt works through this incrementally, reviewing rendered HTML between steps.

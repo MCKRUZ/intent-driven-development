@@ -1104,22 +1104,32 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 │                              # taxonomy, Definition of Ready/Checked, spec conventions,
 │                              # gated paths, "done means the hook lets you stop"
 ├── specs/                     # one file per feature: NNNN-name.md, the source of truth
+├── .mcp.json                  # team MCP server set; packs merge stack/CI additions
+├── docs/harness.md            # developer-facing tour of the installed harness (kit HARNESS.md)
 ├── .claude/
 │   ├── settings.json          # permission rules: auto-allow safe, ask on gated
-│   ├── skills/                # team practices as skills (test-writer, api-pattern, ...)
-│   ├── agents/
-│   │   ├── grader.md          # grades code against spec; never grades its own work
-│   │   └── security-reviewer.md
-│   └── hooks/
-│       └── stop-gate.ps1      # blocking Stop hook: tests pass + build green or no finish
-├── .github/workflows/
-│   ├── ci.yml                 # build, test, lint, coverage — hard gates
-│   ├── grader.yml             # claude-code-action grader, posts PR comment; required to RUN,
-│   │                          # verdict advisory (never blocks)
-│   ├── correctness.yml        # fresh agent (≠ grader, ≠ author) hunts changed lines for logic
-│   │                          # defects; blocks on a high-confidence defect, named override on record
-│   ├── security.yml           # security-reviewer on gated paths or risk:high label; blocks on HIGH
-│   └── deploy-dev.yml         # merge to main -&gt; client dev environment
+│   ├── skills/                # spec-writer, test-writer, api-pattern, pr-writer,
+│   │                          # eval-builder, diagnose
+│   ├── agents/                # planner, architect, grader, security-reviewer,
+│   │                          # build-error-resolver, debugger (+ ux-reviewer via a frontend pack)
+│   └── hooks/                 # stop-gate, review-gate, save-review-receipt (.ps1 + .sh each);
+│                              # stop-gate blocks finishing on a red build/tests
+├── .github/
+│   ├── RAILS.md               # operator's guide + shakedown drills
+│   ├── CODEOWNERS
+│   ├── profile/rubrics/       # grader.md, correctness.md, security.md — workflows read these
+│   ├── rulesets/              # branch-protection.json (applied via scripts/rails/)
+│   └── workflows/
+│       ├── ci.yml             # secret scan, build, test, coverage — hard gates
+│       ├── grader.yml         # claude-code-action grader, posts PR comment; required to RUN,
+│       │                      # verdict advisory (never blocks)
+│       ├── correctness.yml    # fresh agent (≠ grader, ≠ author) hunts changed lines for logic
+│       │                      # defects; blocks on a high-confidence defect, named override on record
+│       ├── security.yml       # security-reviewer on gated paths or risk:high label; blocks on HIGH
+│       ├── deploy-dev.yml     # merge to main -&gt; client dev environment
+│       └── eval-*.yml         # eval-regression + eval-suite (§11 agentic work)
+├── scripts/rails/             # diff-anchors.sh, apply-branch-protection.sh
+├── eval-datasets/ + prompts/  # golden-set template + versioned judge prompts (§11 work only)
 ├── infra/                     # Bicep: dev environment first, test/prod added at hardening
 └── .sdlc/                     # orchestration-tool state, artifacts, phase reports (committed)</code></pre>
           <details class="deeper">
@@ -1317,21 +1327,30 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           <pre><code>delivery-standard/
 ├── GOLD-STANDARD.md           # this document
 ├── docs/
-│   ├── profile-swap.md        # what changes off the .NET/Angular/Azure default
-│   ├── commercial.md          # section 12 expanded: SOW language, workshop agenda
-│   ├── data-flow-brief.md     # the client-security one-pager
-│   └── po-onboarding.md       # client PO guide: vague-line test, decision lists, their role
+│   ├── profile-swap.md        # (planned — not yet built) what changes off the .NET/Angular/Azure default
+│   ├── commercial.md          # (planned — not yet built) section 12 expanded: SOW language, workshop agenda
+│   ├── data-flow-brief.md     # (planned — not yet built) the client-security one-pager
+│   └── po-onboarding.md       # (planned — not yet built) client PO guide: vague-line test, decision lists
 ├── kit/
 │   ├── CLAUDE.md.template
 │   ├── spec-template.md
 │   ├── settings.json
+│   ├── mcp.json               # team MCP server set; packs merge additions
+│   ├── HARNESS.md             # developer-facing tour; installs to docs/harness.md
 │   ├── skills/                # generalized skills harvested from engagements
-│   ├── agents/                # grader.md, security-reviewer.md
-│   ├── hooks/                 # stop-gate.ps1 (+ bash variant)
+│   ├── agents/                # planner, architect, grader, security-reviewer,
+│   │                          # build-error-resolver, debugger
+│   ├── hooks/                 # stop-gate, review-gate, save-review-receipt (.ps1 + .sh each)
 │   ├── workflows/             # ci.yml, grader.yml, correctness.yml, security.yml, deploy-dev.yml
 │   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
+│   ├── packs/                 # composable additions: stacks/dotnet, cicd/github, cicd/azure-devops,
+│   │                          # frontend/generic, frontend/react, tools/gitnexus
+│   ├── eval-datasets/         # golden-set template (§11)
+│   ├── prompts/               # versioned judge prompts (§11)
 │   ├── infra/                 # Bicep starters
-│   └── profile/               # microsoft-enterprise profile + SOC 2 gates
+│   └── profile/               # CODEOWNERS, rubrics, branch-protection ruleset, rails scripts
+│                              # (customer profiles — starter, microsoft-enterprise, … — live in
+│                              # the plugin's profiles/, not here)
 └── retros/                    # one file per engagement: what we changed and why</code></pre>
           <p>
             <strong>Delivery mechanism:</strong> <code>kit/</code> is the canonical source, but the
