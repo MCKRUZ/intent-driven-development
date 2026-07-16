@@ -259,8 +259,11 @@ claude-code-sdlc/harness   the plugin's bundled copy — generated, never hand-e
         │  install_harness.py --profile
 product repo               composed core + packs, then adapted during setup</pre>
   <p>After install there is no live link back — nothing upstream can change a client repo behind
-  its back. Updating is deliberate: update the plugin, re-run the installer. Existing files are
-  never overwritten unless forced, so a repo's own adaptations are safe.</p>
+  its back. Updating is deliberate: update the plugin, run <code>/sdlc-upgrade</code>. The install
+  receipt (<code>.claude/harness-manifest.json</code>, written at install with a fingerprint of
+  every file as installed) keeps it safe: untouched files come forward, adapted files are left
+  alone, and files changed on both sides are reported for a deliberate merge. Nothing is silently
+  overwritten.</p>
 </section>
 
 </main>

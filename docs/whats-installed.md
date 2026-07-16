@@ -141,5 +141,7 @@ product repo               composed core + packs, then adapted during setup
 ```
 
 After install there is no live link back. Updating a repo is deliberate — update the plugin,
-re-run the installer — and existing files are never overwritten unless forced, so a repo's own
-adaptations are safe.
+run `/sdlc-upgrade` — and the install receipt (`.claude/harness-manifest.json`, written at
+install with a fingerprint of every file as installed) keeps it safe: untouched files come
+forward, adapted files are left alone, and files changed on both sides are reported for a
+deliberate merge. Nothing is silently overwritten.
