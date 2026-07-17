@@ -23,22 +23,22 @@ coding — the loop closes it.** That's what makes the speed safe to put in fron
 
 ## Start here, by who you are
 
-- **Brand new to the method?** Read the [loop cheat-sheet](docs/cheatsheet.html) (20 seconds),
-  then the [glossary](docs/glossary.html) for any word that trips you, then
-  [The Delivery Standard](GOLD-STANDARD.html) itself.
-- **Prefer a story to a spec?** Follow [The Harbor Journey](docs/journey.html) — one full
+- **Brand new to the method?** Read the [loop cheat-sheet](https://mckruz.github.io/intent-driven-development/docs/cheatsheet.html) (20 seconds),
+  then the [glossary](https://mckruz.github.io/intent-driven-development/docs/glossary.html) for any word that trips you, then
+  [The Delivery Standard](https://mckruz.github.io/intent-driven-development/GOLD-STANDARD.html) itself.
+- **Prefer a story to a spec?** Follow [The Harbor Journey](https://mckruz.github.io/intent-driven-development/docs/journey.html) — one full
   engagement, start to finish, as a continuous worked example.
-- **A pod member joining an engagement?** [The Delivery Standard](GOLD-STANDARD.html) front to
-  back, then [The Team](docs/team.html) for your role, then the
-  [build loop](docs/companion/build-loop.html). Keep the [glossary](docs/glossary.html) and
-  [anti-pattern field guide](docs/anti-patterns.html) open.
+- **A pod member joining an engagement?** [The Delivery Standard](https://mckruz.github.io/intent-driven-development/GOLD-STANDARD.html) front to
+  back, then [The Team](https://mckruz.github.io/intent-driven-development/docs/team.html) for your role, then the
+  [build loop](https://mckruz.github.io/intent-driven-development/docs/companion/build-loop.html). Keep the [glossary](https://mckruz.github.io/intent-driven-development/docs/glossary.html) and
+  [anti-pattern field guide](https://mckruz.github.io/intent-driven-development/docs/anti-patterns.html) open.
 - **A client stakeholder or sponsor?** Read [In 30 seconds](#in-30-seconds) above, then the
-  [FAQ](docs/faq.html) — it answers the questions you're about to ask (data, decisions, what you'll
+  [FAQ](https://mckruz.github.io/intent-driven-development/docs/faq.html) — it answers the questions you're about to ask (data, decisions, what you'll
   see, what happens when we leave).
-- **Leading or selling the engagement?** [The Delivery Standard](GOLD-STANDARD.html) section 12
-  (commercial) and section 1 (the shape), plus the [FAQ](docs/faq.html) for client objections.
-- **Migrating a team off Scrum?** The [FAQ](docs/faq.html) ("Do we still run sprints?") and the
-  [anti-pattern field guide](docs/anti-patterns.html) (especially "cutting the safety net too
+- **Leading or selling the engagement?** [The Delivery Standard](https://mckruz.github.io/intent-driven-development/GOLD-STANDARD.html) section 12
+  (commercial) and section 1 (the shape), plus the [FAQ](https://mckruz.github.io/intent-driven-development/docs/faq.html) for client objections.
+- **Migrating a team off Scrum?** The [FAQ](https://mckruz.github.io/intent-driven-development/docs/faq.html) ("Do we still run sprints?") and the
+  [anti-pattern field guide](https://mckruz.github.io/intent-driven-development/docs/anti-patterns.html) (especially "cutting the safety net too
   early").
 
 ## Read it online
