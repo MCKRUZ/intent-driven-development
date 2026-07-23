@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Day in the Loop — the build loop, on film</title>
+<meta name="description" content="The IDD build loop dramatized in four short narrated clips — Orient, Delegate, Verify, Discern — plus the full stitched module. Watch a single change go from spec to production through the loop.">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* page-scoped video layout — v- prefix so nothing collides with styles.css */
+  .v-clips { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 26px; margin-top: 24px; }
+  .v-clip { background: #fff; border: 1px solid #d8dee8; border-top: 4px solid #0f5c8c; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(16,35,50,.05); }
+  .v-clip.delegate { border-top-color: #b07a1e; }
+  .v-clip.verify   { border-top-color: #2a7d94; }
+  .v-clip.discern  { border-top-color: #2e7d4f; }
+  .v-clip video { width: 100%; display: block; background: #0b1a29; }
+  .v-cap { padding: 16px 20px 20px; }
+  .v-cap .n { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #46556b; }
+  .v-cap h3 { margin: 4px 0 8px; font-size: 21px; color: #0f5c8c; }
+  .v-clip.delegate .v-cap h3 { color: #b07a1e; }
+  .v-clip.verify   .v-cap h3 { color: #2a7d94; }
+  .v-clip.discern  .v-cap h3 { color: #2e7d4f; }
+  .v-cap .who { font-size: 12px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: #46556b; margin-bottom: 8px; }
+  .v-cap p { margin: 0; font-size: 14.5px; color: #1a2332; line-height: 1.55; }
+  .v-cap .len { display: inline-block; margin-top: 12px; font-size: 12px; color: #46556b; background: #eef2f7; border: 1px solid #d8dee8; border-radius: 20px; padding: 2px 10px; }
+  .v-full { margin-top: 26px; background: #fff; border: 1px solid #d8dee8; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(16,35,50,.05); }
+  .v-full video { width: 100%; display: block; background: #0b1a29; }
+  .v-full .v-cap { padding: 18px 22px 22px; }
+  .v-note { font-size: 13px; color: #46556b; margin-top: 10px; }
+  .v-note a { color: #0f5c8c; }
+</style>
+<noscript><style>
+  .track { display: block !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+</style></noscript>
+</head>
+<body>
+
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../../index.html">Home</a>
+  <a href="../../GOLD-STANDARD.html">The Standard</a>
+  <details class="ref">
+    <summary class="active">Phases &#9662;</summary>
+    <div class="menu">
+      <a href="phase-0.html">0 · Discovery</a>
+      <a href="phase-1.html">1 · Requirements</a>
+      <a href="phase-2.html">2 · Design</a>
+      <a href="phase-3.html">3 · Foundation</a>
+      <a href="build-loop.html">The Build Loop</a>
+      <a href="day-in-the-loop.html">A Day in the Loop (film)</a>
+      <a href="the-rails.html">The Rails</a>
+      <a href="phase-7.html">7 · Documentation</a>
+      <a href="phase-8.html">8 · Deployment</a>
+      <a href="phase-9.html">9 · Monitoring</a>
+      <a href="phase-c.html">C · Close &amp; Transfer</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Reference &#9662;</summary>
+    <div class="menu">
+      <a href="artifact-flow.html">The artifact flow</a>
+      <a href="../cheatsheet.html">Loop cheat-sheet</a>
+      <a href="../glossary.html">Glossary</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../anti-patterns.html">Anti-pattern field guide</a>
+    </div>
+  </details>
+</div>
+
+<div class="progress"><div class="bar"></div></div>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; A Day in the Loop</p>
+    <p class="eyebrow">The build loop · on film</p>
+    <h1>A Day in the Loop
+      <span class="sub">One change, one spec, from intent to production &mdash; the loop the whole standard turns on, watched happening instead of described. Four short clips, narrated. Roughly ten minutes end to end.</span>
+    </h1>
+  </div>
+</header>
+
+<main class="track active">
+
+  <!-- ===================================================================== -->
+  <!-- 01 — WHY WATCH                                                         -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">The loop, not the slide about the loop</p>
+      <h2>Watch a single change ride the four beats</h2>
+      <p class="lead">Every page in this standard describes the loop. This one shows it. A real spec on a
+        real repo &mdash; Harbor Claims &mdash; goes from a written intent to a deployed change, and you
+        watch the four beats happen in order: <strong>Orient, Delegate, Verify, Discern</strong>. Nothing is
+        re-enacted; the pull request, the gates, and the sign-off are the real ones.</p>
+      <p>If you are new here, watch them in order &mdash; each clip picks up where the last one ends. If you
+        just want the whole thing, the full module is at the bottom.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 02 — THE FOUR CLIPS                                                    -->
+  <!-- ===================================================================== -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Four beats · four clips</p>
+      <h2>The loop, one beat at a time</h2>
+
+      <div class="v-clips">
+
+        <div class="v-clip intent">
+          <video controls preload="none" playsinline
+            poster="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/poster-1-orient.png">
+            <source src="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-1-orient.mp4" type="video/mp4">
+            Your browser can&rsquo;t play this video. <a href="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-1-orient.mp4">Download the clip</a>.
+          </video>
+          <div class="v-cap">
+            <div class="n">Beat 01</div>
+            <h3>Orient</h3>
+            <div class="who">Human owns it</div>
+            <p>Before you touch a file, you read the spec and the rails around it &mdash; what &ldquo;done&rdquo;
+              means, and what the machine will refuse. You are setting the box the agent works inside.</p>
+            <span class="len">≈ 4 min</span>
+          </div>
+        </div>
+
+        <div class="v-clip delegate">
+          <video controls preload="none" playsinline
+            poster="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/poster-2-delegate.png">
+            <source src="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-2-delegate.mp4" type="video/mp4">
+            Your browser can&rsquo;t play this video. <a href="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-2-delegate.mp4">Download the clip</a>.
+          </video>
+          <div class="v-cap">
+            <div class="n">Beat 02</div>
+            <h3>Delegate</h3>
+            <div class="who">Agent builds · you set the box</div>
+            <p>The agent plans first, you approve the plan, then it builds and self-checks inside the scope and
+              permissions you gave it. You are supervising the work, not typing it.</p>
+            <span class="len">≈ 2 min</span>
+          </div>
+        </div>
+
+        <div class="v-clip verify">
+          <video controls preload="none" playsinline
+            poster="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/poster-3-verify.png">
+            <source src="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-3-verify.mp4" type="video/mp4">
+            Your browser can&rsquo;t play this video. <a href="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-3-verify.mp4">Download the clip</a>.
+          </video>
+          <div class="v-cap">
+            <div class="n">Beat 03</div>
+            <h3>Verify</h3>
+            <div class="who">The machine checks the machine</div>
+            <p>Opening the pull request fires the gates: build and tests, a security pass, a correctness review,
+              and a grader that re-reads the spec cold. Green everywhere &mdash; and it still says <em>not
+              done</em>.</p>
+            <span class="len">≈ 2 min</span>
+          </div>
+        </div>
+
+        <div class="v-clip discern">
+          <video controls preload="none" playsinline
+            poster="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/poster-4-discern.png">
+            <source src="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-4-discern.mp4" type="video/mp4">
+            Your browser can&rsquo;t play this video. <a href="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-4-discern.mp4">Download the clip</a>.
+          </video>
+          <div class="v-cap">
+            <div class="n">Beat 04</div>
+            <h3>Discern</h3>
+            <div class="who">Gates check · a human approves</div>
+            <p>The judgment calls the machine surfaced but wouldn&rsquo;t settle. A high-risk label, a named
+              sign-off that isn&rsquo;t you, and the merge that ships to deploy. The name on the decision stays
+              human.</p>
+            <span class="len">≈ 2 min</span>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="v-note">Videos are hosted as
+        <a href="https://github.com/MCKRUZ/intent-driven-development/releases/tag/demo-day-in-the-loop">release
+        assets</a> and stream on demand &mdash; nothing downloads until you press play.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 03 — THE WHOLE THING                                                   -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">All four, stitched</p>
+      <h2>The full loop, end to end</h2>
+      <p class="lead">The same four beats as one continuous film, with title cards between them &mdash; the
+        version to put on a screen when you are showing someone the method for the first time.</p>
+
+      <div class="v-full">
+        <video controls preload="none" playsinline
+          poster="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/poster-all.png">
+          <source src="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-all.mp4" type="video/mp4">
+          Your browser can&rsquo;t play this video. <a href="https://github.com/MCKRUZ/intent-driven-development/releases/download/demo-day-in-the-loop/idd-loop-all.mp4">Download the full module</a>.
+        </video>
+        <div class="v-cap">
+          <div class="n">The build loop · complete</div>
+          <h3>A Day in the Loop</h3>
+          <p>Orient → Delegate → Verify → Discern, uncut. Roughly ten minutes.</p>
+        </div>
+      </div>
+
+      <div class="next" style="margin-top:30px;">
+        <a href="build-loop.html#example"><span class="t">Now read the loop in full &rarr;</span><span class="d">The Build Loop companion page &mdash; the same four beats written out step by step, with the worked Harbor Claims example.</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    A Day in the Loop — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Filmed on the real Harbor Claims reference repository. Narration is the course author&rsquo;s voice. Clips
+    are served as GitHub release assets, not committed to the repo.
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
