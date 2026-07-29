@@ -142,7 +142,7 @@
   stopped being the bottleneck, so the valuable work moved to two places — deciding clearly
   (intent) and proving it's right (checking). Every role below is the old role rebuilt around
   that fact.</p>
-  <div class="meta">Paired source: docs/team.md · part of MCKRUZ/delivery-standard v1.0</div>
+  <div class="meta">Paired source: docs/team.md · part of MCKRUZ/intent-driven-development v1.0</div>
 </header>
 
 <section>
@@ -222,6 +222,12 @@ known bus-factor risk, which is why the deputy rule exists.</p>
 <ul><li>Name a deputy (the senior Orchestrator). The deputy reviews every harness change; the Setup Owner is never sole approver of their own foundation work.</li></ul>
 <h4>Per harness change</h4>
 <ul><li>Harness changes are PRs like everything else: reviewed by the deputy, version-bumped, changelogged. "Harness" means CLAUDE.md, anything under <code>.claude/</code>, the CI workflows, and <code>infra/</code>.</li></ul>
+<h4>On every new model family — the model-generation review</h4>
+<ul>
+<li>Re-test what the harness assumes: is CLAUDE.md still earning its length, are all the hooks still necessary, is plan-mode-always still right at every tier, do the agent definitions still describe things the base model cannot do?</li>
+<li>The output is a PR that <strong>deletes as well as adds</strong>. Every other cadence in this method only accumulates; this is the one that subtracts, and without it the harness silently becomes a monument to limitations that no longer exist.</li>
+<li>The sorting rule: scaffolding that hedges model weakness should shrink; scaffolding that carries human accountability should not. Know which pile each piece is in before removing it.</li>
+</ul>
 <h4>Daily</h4>
 <ul><li>Watch for friction signals: hook failures, permission prompts the team keeps hitting, pipeline flakes, agents repeatedly misreading a convention. Fix same-day or ticket it into the setup backlog — a harness papercut taxes every spec in flight.</li></ul>
 <h4>Weekly</h4>
@@ -247,6 +253,15 @@ two of them in fixed, opposite roles: one <strong>Orchestrator</strong> who dire
 <strong>Checker</strong> who judges the result. They swap per change — Priya orchestrates spec 0007 and
 Marcus checks it; Marcus orchestrates 0008 and Priya checks it. The swap is what makes "author
 never sole approver" real on a small team, and it keeps both sharp at both crafts.</p>
+<p><strong>The entry bar is understanding, not just method.</strong> Before working a spec
+unsupervised on this engagement, an Orchestrator or Checker demonstrates — out loud, without
+reading from the docs — the system's architecture and main data flows, how the layer <em>beneath</em>
+theirs behaves when it fails, and what the agent is most likely to get wrong in this codebase.
+Method certification travels between engagements; this does not, and it is re-earned each time.</p>
+<p>It is the bar most easily skipped and the most expensive to skip. The role's whole value is
+catching what the model got wrong, and someone fluent in the ceremony but thin on the system will
+approve confidently and be unable to tell. The natural checkpoint is the Phase 3 exit, when the pod
+has just built the foundation and proving they understand it costs almost nothing.</p>
 <h4>Per spec, as Orchestrator</h4>
 <ul>
 <li>Translate the ready story into <code>specs/NNNN-name.md</code>: goal, why, scope in/out, testable acceptance checks, risk tier, delegation plan, checking plan.</li>
@@ -426,7 +441,7 @@ engagement should probably be two engagements with two outcomes.</p>
 </ul>
 </section>
 
-<footer>The Team · Delivery Standard deep-dive · MCKRUZ/delivery-standard · Paired source: docs/team.md</footer>
+<footer>The Team · Delivery Standard deep-dive · MCKRUZ/intent-driven-development · Paired source: docs/team.md</footer>
 </main>
 </div>
 </body>

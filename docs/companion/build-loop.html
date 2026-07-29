@@ -480,10 +480,78 @@
     </div>
   </section>
 
-  <!-- 07 Discern -->
+  <!-- 07 the spike — when you can't write the spec yet -->
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">07</span>
+      <p class="kicker">Before Intent &mdash; when the answer isn't known</p>
+      <h2>You can't write a checkable line about something nobody has checked</h2>
+      <p class="lead">Every beat so far assumed a spec exists. Sometimes it can't yet &mdash; and writing
+        one anyway is the most expensive mistake in the loop, because it looks like progress.</p>
+      <div class="pair">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p><strong>When the honest answer is "nobody knows," run a spike.</strong></p>
+          <ul>
+            <li><strong>Boxed.</strong> A time box or a token box, agreed at triage and written down. A
+              spike that runs until it feels finished is just unsupervised building.</li>
+            <li><strong>Throwaway, and enforced.</strong> Spike work lives on a <code>spike/</code>
+              branch, and a required check refuses any PR opened from one. The code is read, learned
+              from, and deleted.</li>
+            <li><strong>The finding is the deliverable.</strong> What was assumed, what was tested
+              against which system, what was found, whether the assumption survived. The write-up is
+              committed; the code is not.</li>
+          </ul>
+          <p style="margin-top:12px;">The code is the experiment. The write-up is the result &mdash; and
+            it's the only thing that outlives the branch.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>A story kept bouncing at triage: nobody could say whether the carrier's API deduplicated on
+            the idempotency key, or whether a retry quietly created a second claim. Two people wrote two
+            different acceptance lines for it, which is the vague-line test failing out loud.</p>
+          <div class="decision">
+            Not a spec &mdash; a spike, boxed at one working day, against the carrier sandbox. The finding:
+            retries <em>do</em> duplicate. The assumption died, the spec became writable, and the
+            duplicate-handling requirement that nobody had thought to ask for went into it.
+          </div>
+          <p style="margin-top:12px;">Guessing that line would have shipped a claim-duplication bug behind
+            a full set of green tests.</p>
+        </div>
+      </div>
+      <details class="deeper">
+        <summary>Go deeper — the full method</summary>
+        <div class="deeper-body">
+          <p><strong>Why a spec can't cover it.</strong> Acceptance criteria that pass the vague-line test
+            cannot be written about behavior nobody has verified. There are only two honest responses, and
+            one of them is a lie: write a precise spec about an unknown &mdash; which the grader then
+            dutifully grades against fiction &mdash; or find out first.</p>
+          <p><strong>Why the throwaway rule is mechanical.</strong> "It started as a spike" is the most
+            natural route by which unchecked code reaches production. Spike code has, by design, climbed
+            none of the checking ladder: no spec to grade against, no coverage bar, no Checker. The
+            enforcement is a required status check (<code>spike-guard</code>) rather than a branch-protection
+            rule, because protection rules govern the branch being <em>merged into</em> and cannot express
+            "refuse this source branch." Unlike the spec gate, it carries no label escape &mdash; the route
+            for spike work worth shipping is to write the spec and rebuild it.</p>
+          <p><strong>Where they come from, where they go.</strong> The Pod Lead opens a spike at triage when
+            a story cannot be made ready; the Architect opens one when a design decision has no evidence
+            behind it. The finding closes the decision-list item, unblocks the stuck spec, and &mdash; when
+            it invalidates a Phase 2 decision &mdash; feeds the ADR revision that follows, as a HIGH-risk
+            spec like any other. Design gets decided at the design gate and stays revisable afterward; the
+            spike is what earns the revision.</p>
+          <p class="dim">Two failure modes worth naming: the spike that ships (throwaway code talked onto
+            main because it "already works"), and the spike with no finding (the code gets deleted, nothing
+            gets written down, and the pod pays twice &mdash; once to run it, again the next time somebody
+            wonders the same thing).</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 08 Discern -->
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
       <p class="kicker">Beat three &mdash; Discern</p>
       <h2>The author never checks their own work</h2>
       <p class="lead">A change is done when it has been proven against its spec by something
@@ -560,11 +628,11 @@
     </div>
   </section>
 
-  <!-- 08 the loop's beats as a sequence — TIMELINE -->
-  <section class="s paper">
+  <!-- 09 the loop's beats as a sequence — TIMELINE -->
+  <section class="s">
     <div class="wrap-wide">
       <div class="reveal">
-        <span class="modnum">08</span>
+        <span class="modnum">09</span>
         <p class="kicker">Now watch one change go through</p>
         <h2>Spec 0016, beat by beat</h2>
         <p class="dim">You've got the three beats; here's a single HIGH-risk change walking through all of
@@ -667,10 +735,10 @@
     </div>
   </section>
 
-  <!-- 09 the week — cadence -->
-  <section class="s">
+  <!-- 10 the week — cadence -->
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
+      <span class="modnum">10</span>
       <p class="kicker">What keeps the loop honest</p>
       <h2>Four short meetings &mdash; and two numbers that run the week</h2>
       <p class="lead">None of the meetings asks "what did you do yesterday." When agents do the building,
@@ -730,10 +798,10 @@
     </div>
   </section>
 
-  <!-- 10 small PRs / what the client sees -->
-  <section class="s paper">
+  <!-- 11 small PRs / what the client sees -->
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
+      <span class="modnum">11</span>
       <p class="kicker">Two disciplines that make it work</p>
       <h2>One spec, one change &mdash; and the client sees outcomes, never activity</h2>
       <p class="lead">Two habits keep the loop sustainable: changes stay small (one spec, one branch, one
@@ -797,7 +865,7 @@
   </section>
 
   <!-- close -->
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
       <p class="kicker">The loop, in one breath</p>
       <h2>Say it clearly, bound it tight, let no one check their own work</h2>
@@ -1661,7 +1729,7 @@ per-policy independence for the no-policy path.</code></pre>
 
 <footer class="foot">
   <div class="wrap">
-    The Build Loop — Intent-Driven Development · MCKRUZ/delivery-standard v1.0 · Owner: Matt Kruczek.<br>
+    The Build Loop — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

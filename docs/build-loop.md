@@ -41,12 +41,17 @@ gate closes to the day the backlog is done.
 | **Risk tier**             | HIGH / MEDIUM / LOW, assigned per spec at triage. Sets how tightly the agent is bounded and how much review the change gets.                                                                                              |
 | **WIP cap**               | The limit on how many changes may be in flight at once. Set at the end of Phase 3 from checking capacity (the standard's default: no Orchestrator runs more than two concurrent agent streams), enforced at the daily flow check. |
 | **Review-wait tripwire**  | The wait-time threshold that, once crossed, stops new work starting until the review queue clears (default: median one working day; set alongside the WIP cap at the end of Phase 3). Review is the loop's real bottleneck; this number is how the pod refuses to bury it. |
+| **A spike**               | Bounded, throwaway work run to answer a question the pod cannot yet answer — the code is deleted and cannot merge, the written finding is the deliverable. What you run when a story can't be made ready because nobody knows enough yet (section 3a). |
 
 The loop is three beats, run for every change, large or small:
 
 1. **Intent** — decide what you want, clearly enough to check, and write it down as a spec.
 2. **Delegate** — an agent builds it, inside bounds a human set, from a plan a human approved.
 3. **Discern** — checks and a non-author prove it before anyone trusts it; merge deploys it.
+
+Everything that reaches the product runs those three beats. When the pod doesn't yet know enough
+to write the spec that starts them, a **spike** (section 3a) runs first to find out — bounded,
+throwaway, and unable to merge by design.
 
 The moment the pod starts skipping the loop for "small" changes is the moment unchecked work
 creeps back in. Small and risky is exactly the cheap-to-type, expensive-to-get-wrong case: the
@@ -132,9 +137,21 @@ PR — a stale spec is a lie that misleads the next reader and the next agent.
 
 | Tier   | What lands here                                                                                                                                                                                  | What it triggers                                                                                       |
 | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| HIGH   | Auth/identity, payments, personal or client data handling, schema migrations, public API contract changes, infrastructure and pipeline changes, AI-behavior changes (prompts, models, tool definitions), anything hard to undo | Tight agent permissions, the full checking ladder, a security review pass, a named human sign-off in the PR |
+| HIGH   | Auth/identity, payments, personal or client data handling, schema migrations, public API contract changes, infrastructure and pipeline changes, AI-behavior changes (prompts, models, tool definitions), **revising an architecture decision made at the design gate**, anything hard to undo | Tight agent permissions, the full checking ladder, a security review pass, a named human sign-off in the PR |
 | MEDIUM | New business logic, external integrations, changes to shared internal services                                                                                                                   | Standard permissions, grader plus a human Checker                                                       |
 | LOW    | UI within existing patterns, copy, internal tooling, additive CRUD on established rails                                                                                                          | Lighter review; the grader and the mechanical gates still run                                           |
+
+**Revising a design decision is normal, and it is a spec.** Phase 2 chose the architecture, and
+contact with a real implementation sometimes proves the choice wrong — that happens on serious
+platform projects, not just sloppy ones, and pretending otherwise just means the revision happens
+without a record. The route is: a spike produces the evidence (section 3a), then the revision goes
+through as a HIGH-risk spec. The superseded decision is marked superseded rather than edited, so
+the history of what was believed when survives. What is *not* allowed is the quiet drift — code
+that no longer matches a design record nobody updated.
+
+**Bug-fix specs carry one extra gate.** The new test must fail against the code as it was before
+the fix — proven mechanically, not asserted. Coverage says a test exists; only this says the test
+would have caught the bug. See rung 3 in section 4.
 
 Intent is the highest-leverage hour anyone spends in the loop. When the agent can produce the
 code in minutes, what decides whether you get what you wanted is how clearly you said it —
@@ -183,6 +200,55 @@ watching, and the Stop hook refuses to let the agent finish with failing tests o
 build. This hook is the single highest-value automation in the standard: it turns "the tests
 must pass" from a request the agent might rationalize past into a fact about the world.
 
+### 3a. The spike — when you don't know enough to write a spec yet
+
+Everything above assumes a spec exists. Sometimes it can't yet. An integration's real behavior
+is undocumented; a design choice depends on how the live system actually answers; nobody knows
+whether the assumption the architecture rests on is true. Acceptance criteria that pass the
+vague-line test cannot be written about something nobody understands.
+
+There are only two honest responses, and one of them is a lie: write a precise spec about an
+unknown — which the grader then dutifully grades against fiction — or find out first. **A spike
+is how you find out.**
+
+A spike is the loop's second delegation mode. It is not a small spec and it is not a phase:
+
+- **It is bounded.** A time box or a token box, agreed at triage and written down. A spike
+  that runs until it feels finished is just unsupervised building.
+- **Its code is throwaway, and that is enforced, not promised.** Spike work happens on a
+  `spike/` branch, and a required CI check (`spike-guard`) fails any pull request opened from
+  one — so the merge button is never available. The code is read, learned from, and deleted.
+  Nothing a spike wrote reaches the product except by being rebuilt under a spec.
+- **Its deliverable is a written finding, not a change.** What was assumed, what was tested
+  against which system, what was found, and whether the assumption survived. The finding is
+  committed; the code is not.
+- **It answers something specific.** A spike opens against a named unknown — usually a
+  decision-list item or a risky assumption in an ADR — and closes when that question has an
+  answer, including the answer "we still don't know, and here is what it would take."
+
+The finding is what makes a spike different from tinkering. The code is the experiment; the
+write-up is the result, and it is the only thing that outlives the branch. A spike whose code is
+deleted and whose finding was never written is work the pod paid for twice — once to run, and
+again the next time somebody wonders the same thing.
+
+**Why the throwaway rule is enforced mechanically.** "It started as a spike" is the most
+natural route by which unchecked code reaches production. Spike code has, by design, climbed
+none of the checking ladder: no spec to grade against, no coverage bar, no Checker. If it could
+merge, "spike" would become the word for skipping the loop. It can't, so it isn't.
+
+The enforcement is a required status check rather than a branch-protection rule, because
+protection rules govern the branch being *merged into* and cannot express "refuse this source
+branch." `spike-guard` fails on any PR whose head branch matches `spike/`, and — unlike the
+spec gate, which has a recorded label escape for genuine chores — it has no exemption. The
+route for spike work that turns out to be worth shipping is to write the spec and rebuild it.
+
+**Where spikes come from and where they go.** The Pod Lead opens a spike at intent triage when a
+story cannot be made ready, or the Architect opens one when a design decision has no evidence
+behind it. Its finding closes the decision-list item, unblocks the spec that was stuck, and —
+when it changes an architecture decision made back in Phase 2 — feeds the ADR revision that
+follows (section 2, HIGH risk, same bar as any other HIGH change). Design gets decided at the
+design gate and stays revisable afterward; the spike is what earns the revision.
+
 ---
 
 ## 4. Discern — prove, then merge
@@ -195,8 +261,8 @@ its spec by something other than its author, not when the code exists. The provi
 | ---- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1    | The done-rule in the harness | Sets the bar ("done means checked, not typed"); persuasion only — it enforces nothing by itself                                                     |
 | 2    | The agent re-checks each turn | The agent's own mechanical slips: the broken import, the test it broke two steps back                                                              |
-| 3    | The blocking Stop hook       | The agent declaring itself done anyway — it cannot finish with red tests or a broken build. But a hook enforces the tests that exist; it cannot enforce a test nobody wrote |
-| 4    | The separate grader          | The hole the author was blind to: it grades check-by-check against the spec, not against the tests, so it catches the case the author never thought to test |
+| 3    | The blocking Stop hook       | The agent declaring itself done anyway — it cannot finish with red tests or a broken build. But a hook enforces the tests that exist; it cannot enforce a test nobody wrote, and on a bug fix the repro-gate answers the next question down: would this test have *caught* it? |
+| 4    | The separate grader          | The hole the author was blind to: it grades check-by-check against the spec, not against the tests, so it catches the case the author never thought to test. It runs on the **strongest** model available — independence comes from not having written the code, capability is a separate axis, and this is the rung worth resourcing |
 | 5    | The human / security gate    | The judgment calls no machine should own: the risk acceptance, the product call, the security sign-off on a HIGH change                              |
 
 Rung 4 is where the bug the author's green test suite hid goes to die — and it only works
@@ -223,6 +289,18 @@ way up. One depth for everything fails in both directions — reading a typo fix
 auth change burns the pod's scarce review attention, and waving an auth change through on a
 glance ships the instability the industry's own delivery research keeps warning about.
 
+**Depth is one dial; repetition is the other.** These reviewers are probabilistic, so a single
+pass is a sample, not a measurement — "the security review passed" strictly means it passed once.
+On HIGH-risk changes the pass can be repeated, and the rule when passes disagree is deliberately
+*not* a majority vote: any pass that blocks, blocks. A lone run finding an issue the others missed
+is the entire reason to sample more, and out-voting it throws away the signal you paid for.
+Disagreement is itself a finding — a change two independent reads interpret differently is a
+change that is hard to reason about, and that is worth a human's attention on its own.
+
+The dial ships set to one pass. Raising it waits on a cheap experiment nobody has run yet: repeat
+the pass on a handful of real HIGH changes and see whether the findings actually differ. Turning
+it up by default would be asserting a benefit we have not measured.
+
 Merge deploys to the client's dev environment automatically — the rails from Phase 3. A true
 emergency merge past a gate requires the Pod Lead plus one other human, an exception label,
 and a retro agenda item. Two exceptions in a month means the gate or the specs are wrong —
@@ -243,6 +321,17 @@ the clarity of intent going in, and the review queue coming out.
 | **Intent triage**      | 60 min    | refinement | Stories become ready specs: vague lines sharpened, silent decisions surfaced onto the decision list, risk tiers assigned, the backlog ordered.        |
 | **Retro+**             | 60 min    | retro      | Every escaped bug gets the same question — "which check should have caught it?" — and the answer becomes a harness improvement, not a resolution to try harder. |
 | **Setup review**       | 30-60 min | (new)      | The week's harness changes merge: CLAUDE.md updates, skill and hook improvements, permission tuning — versioned, PR'd, reviewed by the Setup Owner's deputy. |
+
+Setup review is additive by nature — it processes what the week added. Once a new model family
+lands, the Setup Owner also runs a **model-generation review**, which asks the opposite question:
+what can now be *deleted*? Much of any harness is scaffolding around model limitations, and those
+expire; the vendor's own teams have cut the bulk of a major agent's instructions once the model
+outgrew them. The output is a PR that removes as well as adds.
+
+The sorting rule: scaffolding that hedges model weakness should shrink over time; scaffolding that
+carries human accountability should not. The Stop hook and the coverage floor are the first kind.
+The non-author approval and the named sign-off are the second — they encode who is answerable,
+and no model improvement retires that.
 
 The Pod Lead runs the flow check and intent triage (whole pod attends; the Quality Engineer
 vets checks for testability at triage); the Quality Engineer brings the escaped-bug list to
@@ -318,6 +407,16 @@ doubled PR volume while actual delivery stayed flat.
 - **Skipping Intent.** Typing the wish straight to the agent ("add rate limiting, go"). The
   agent builds something plausible and fast, and the undescribed case is the one it gets
   wrong. Everything enters through a ready spec, every time.
+- **Speccing an unknown.** Writing confident acceptance criteria about behavior nobody has
+  verified — the integration's real response, the assumption the design rests on. The spec reads
+  as ready, the grader grades it against fiction, and the pod finds out at merge. When the answer
+  isn't known, the honest move is a spike (section 3a), not a better-worded guess.
+- **The spike that ships.** Throwaway code talked onto `main` because it "already works." It
+  climbed none of the ladder — no spec to grade against, no coverage bar, no Checker — and
+  "it started as a spike" becomes the phrase that means the loop was skipped. Branch protection
+  refuses the merge; the finding is what leaves the branch.
+- **The spike with no finding.** The code gets deleted and nothing gets written down, so the pod
+  pays twice: once to run the experiment, again the next time somebody wonders the same thing.
 - **The author grading itself.** The agent that wrote the code confirming it works, or the
   Orchestrator who drove it approving it. Checking theater — it catches nothing the author
   didn't already think of. Author never approves, no exceptions.

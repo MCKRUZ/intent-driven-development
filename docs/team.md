@@ -114,6 +114,16 @@ known bus-factor risk, which is why the deputy rule exists.
   changelogged. "Harness" means CLAUDE.md, anything under `.claude/`, the CI workflows, and
   `infra/`.
 
+**On every new model family — the model-generation review:**
+- Re-test what the harness assumes: is CLAUDE.md still earning its length, are all the hooks still
+  necessary, is plan-mode-always still right at every tier, do the agent definitions still describe
+  things the base model cannot do?
+- The output is a PR that **deletes as well as adds**. Every other cadence in this method only
+  accumulates; this is the one that subtracts, and without it the harness silently becomes a
+  monument to limitations that no longer exist.
+- The sorting rule: scaffolding that hedges model weakness should shrink; scaffolding that carries
+  human accountability should not. Know which pile each piece is in before removing it.
+
 **Daily:**
 - Watch for friction signals: hook failures, permission prompts the team keeps hitting, pipeline
   flakes, agents repeatedly misreading a convention. Fix same-day or ticket it into the setup
@@ -148,6 +158,17 @@ two of them in fixed, opposite roles: one **Orchestrator** who directs the agent
 who judges the result. They swap per change — Priya orchestrates spec 0007 and Marcus checks it;
 Marcus orchestrates 0008 and Priya checks it. The swap is what makes "author never sole
 approver" real on a small team, and it keeps both sharp at both crafts.
+
+**The entry bar is understanding, not just method.** Before working a spec unsupervised on this
+engagement, an Orchestrator or Checker demonstrates — out loud, without reading from the docs —
+the system's architecture and main data flows, how the layer *beneath* theirs behaves when it
+fails, and what the agent is most likely to get wrong in this codebase. Method certification
+travels between engagements; this does not, and it is re-earned each time.
+
+It is the bar most easily skipped and the most expensive to skip. The role's whole value is
+catching what the model got wrong, and someone fluent in the ceremony but thin on the system will
+approve confidently and be unable to tell. The natural checkpoint is the Phase 3 exit, when the
+pod has just built the foundation and proving they understand it costs almost nothing.
 
 **Per spec, as Orchestrator:**
 - Translate the ready story into `specs/NNNN-name.md`: goal, why, scope in/out, testable

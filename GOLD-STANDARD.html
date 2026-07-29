@@ -790,12 +790,50 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
           </ul>
           <h3>Certification</h3>
           <p>
-            Nobody works a client spec until they have completed the IDD course
+            Two bars, and they are different in kind. <strong>Method
+            competence</strong> transfers between engagements;
+            <strong>system understanding</strong> does not, and has to be
+            re-earned on every codebase.
+          </p>
+          <p>
+            <strong>Method competence</strong> (once, then it travels). Nobody
+            works a client spec until they have completed the IDD course
             (2-day format, <code>intent-driven-development/course/</code>) and
             passed the competency rubric: demonstrably wrote a spec that passes
             the vague-line test, ran the full loop on a practice feature, and
             operated the grader. Demonstrated, not attested. The practice ground
             is internal projects, never client-billed work.
+          </p>
+          <p>
+            <strong>System understanding</strong> (per engagement, before working
+            a spec unsupervised). An Orchestrator or Checker demonstrates, out
+            loud and without reading from the docs:
+          </p>
+          <ul>
+            <li>the system's architecture and its main data flows;</li>
+            <li>
+              the layer <em>beneath</em> the one they work in — the queue, the
+              identity provider, the deployment target — well enough to say how
+              it behaves when it fails;
+            </li>
+            <li>
+              for a given spec, what the agent is most likely to get wrong here,
+              and why.
+            </li>
+          </ul>
+          <p>
+            This bar exists because the method can manufacture its own worst
+            failure mode: someone fluent in the ceremony, steering confidently,
+            without the understanding to notice the model is wrong. The checking
+            ladder does not save you — rung 5 is a human exercising judgment, and
+            judgment without understanding is a rubber stamp. The model's working
+            memory is finite and far smaller than a person's, so the human is the
+            one who has to hold the whole picture.
+          </p>
+          <p>
+            The natural checkpoint is the Phase 3 exit: the pod has just built the
+            foundation, so it is the cheapest moment to prove they understand it.
+            Re-established when someone joins mid-engagement.
           </p>
         </section>
 
@@ -818,13 +856,17 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               team can audit everything from week one.
             </li>
             <li>
-              <strong><code>MCKRUZ/delivery-standard</code></strong> (this repo)
-              — private, ours. The gold standard docs plus the installable kit
+              <strong><code>MCKRUZ/intent-driven-development</code></strong> (this repo)
+              — <strong>public</strong>, ours. The gold standard docs plus the installable kit
               (section 10). Installed into the client repo at Phase 3;
               improvements harvested back after every engagement.
               Client-specific harness content stays with the client; generalized
               craft compounds with us. The SOW carves this out explicitly
-              (section 12).
+              (section 12). Because the repo is public, nothing client-identifying
+              ever lands here — the harvest rule in section 10 (strip client
+              specifics before generalizing) is a confidentiality control, not just
+              tidiness. The same applies to <code>MCKRUZ/claude-code-sdlc</code>,
+              which is also public.
             </li>
           </ul>
           <p>
@@ -949,12 +991,14 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               <td>
                 Auth/identity, payments, PII/client data handling, schema
                 migrations, public API contract changes, IaC/pipeline changes,
-                prompt/model/tool-definition changes (section 11), anything hard
+                prompt/model/tool-definition changes (section 11),
+                <strong>ADR revisions</strong> (section 5.3a), anything hard
                 to undo
               </td>
               <td>
                 Tight agent permissions, full ladder, security-reviewer agent
-                pass, named human sign-off in the PR
+                pass, named human sign-off in the PR, repetition dial
+                (section 14)
               </td>
             </tr>
             <tr>
@@ -974,6 +1018,17 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               <td>Lighter review; grader + mechanical gates still run</td>
             </tr>
           </table>
+          <p>
+            <strong>Bug-fix specs carry one extra mechanical gate.</strong>
+            Coverage proves a test exists; it does not prove the test would have
+            caught the bug. A fix labelled <code>type:bugfix</code> must ship a
+            test that <strong>fails against the code as it was before the
+            fix</strong> — proven in CI by the <code>repro-gate</code> job, which
+            reconstructs the pre-fix tree with the new test applied and requires
+            it to go red. There is no label escape: a test that cannot fail
+            cannot protect anything. Feature specs are exempt because there is no
+            "before" state to fail against.
+          </p>
           <h3>5.2 Delegate</h3>
           <ul>
             <li>
@@ -1025,6 +1080,52 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               rails from Phase 3).
             </li>
           </ul>
+          <h3>5.3a Spikes (when a story can't be made ready)</h3>
+          <p>
+            A story sometimes fails Definition of Ready for a reason no amount of
+            rewriting fixes: nobody knows the answer yet. The integration's real
+            behavior is undocumented; the design rests on an assumption no one has
+            tested. Acceptance criteria written about an unknown are fiction, and
+            the grader will grade them as if they weren't.
+          </p>
+          <p>
+            A <strong>spike</strong> is the second delegation mode, and it is not a
+            spec:
+          </p>
+          <ul>
+            <li>
+              Boxed in time or tokens, agreed at triage, recorded.
+            </li>
+            <li>
+              Run on a <code>spike/</code> branch. A required CI check
+              (<code>spike-guard</code>) fails any PR opened from one, so the merge
+              button never lights up. The throwaway rule is mechanical, not
+              honour-based — spike code has climbed none of the checking ladder, so
+              "it started as a spike" must never be a route onto <code>main</code>.
+              Unlike the spec gate, this check has no label escape; work worth
+              shipping gets a spec and gets rebuilt.
+            </li>
+            <li>
+              Its deliverable is a written finding
+              (<code>kit/spike-template.md</code>): what was assumed, what was
+              tested against which system, what was found, whether the assumption
+              survived. The finding is committed; the code is deleted.
+            </li>
+            <li>
+              It closes a named unknown — a decision-list item or a risky
+              assumption — and unblocks the spec that was stuck. When it invalidates
+              a Phase 2 decision, the ADR revision that follows is a HIGH-risk spec
+              like any other.
+            </li>
+          </ul>
+          <p>
+            Spikes are how the design gate stays honest rather than becoming a
+            fiction: Phase 2 decides, and evidence found later is allowed to change
+            the decision through a gated route.
+          </p>
+          <blockquote>
+            Deep-dive: <code>docs/build-loop.md</code> §3a.
+          </blockquote>
           <h3>5.4 Weekly cadence</h3>
           <table>
             <tr>
@@ -1147,6 +1248,48 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               </p>
             </div>
           </details>
+          <h3>The model-generation review (what should we delete?)</h3>
+          <p>
+            Setup review is additive by nature: it processes the week's
+            improvements. Nothing in the cadence ever asks what should come
+            <em>out</em>. That matters, because a large share of any harness
+            exists to compensate for model limitations — and those expire. The
+            vendor's own teams have deleted the bulk of a major agent's
+            instructions once the model outgrew the need for them.
+          </p>
+          <p>
+            So the Setup Owner runs a <strong>model-generation review</strong>,
+            triggered by a new model family rather than by the calendar. It
+            re-tests the harness's load-bearing assumptions:
+          </p>
+          <ul>
+            <li>
+              CLAUDE.md — what is still earning its place, and what is now telling
+              the model something it already knows?
+            </li>
+            <li>
+              Which hooks remain necessary, and which now block behaviour the
+              model gets right unaided?
+            </li>
+            <li>Is plan-mode-always still right at every risk tier?</li>
+            <li>
+              Do the agent definitions still describe things the base model cannot
+              do?
+            </li>
+          </ul>
+          <p>
+            The output is a PR that <strong>deletes as well as adds</strong>,
+            reviewed by the deputy like any other harness change.
+          </p>
+          <blockquote>
+            <strong>The principle underneath it.</strong> Scaffolding that hedges
+            model weakness should be expected to shrink; scaffolding that carries
+            human accountability should not. The Stop hook and the coverage floor
+            are the first kind and will eventually look quaint. The non-author
+            approval and the named sign-off are the second kind — they encode who
+            is answerable, which no model improvement retires. Sorting the harness
+            into those two piles is the review's real job.
+          </blockquote>
         </section>
 
         <section id="s7" class="reveal">
@@ -1233,11 +1376,35 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
             <summary>Go deeper — model policy and token spend</summary>
             <div class="deeper-body">
               <p>
-                Model policy default: plan mode and design work on the strongest
-                available model; implementation on the standard model; the CI grader
-                on the standard model. Token spend is a client-visible cost once
-                they hold the keys — the Setup Owner watches it and it appears in
-                the internal dashboard, never as a client-facing productivity claim.
+                Model policy default — <strong>the strong model goes on the
+                checking side, not the writing side</strong>:
+              </p>
+              <table>
+                <tr><th>Work</th><th>Model</th></tr>
+                <tr><td>Plan mode and design</td><td>strongest available</td></tr>
+                <tr><td>Implementation</td><td>standard</td></tr>
+                <tr>
+                  <td>Grader, correctness pass, security reviewer</td>
+                  <td>strongest available</td>
+                </tr>
+              </table>
+              <p>
+                Most of the effort in agent-built work is verification, not
+                typing — a reported large-scale migration split roughly 15%
+                producing the code against 85% making it correct and proving it.
+                The rung that catches what the author was blind to is the one
+                worth resourcing. Independence still comes from the checker not
+                having written the code; model tier buys capability, which is a
+                separate axis, and we now buy both.
+              </p>
+              <p>
+                This means the pod deliberately spends more on checking a change
+                than on writing it. Expect the question from any client holding
+                the keys, and answer it plainly: the expensive part of the work is
+                being sure, and that is where the money should go. Token spend is
+                a client-visible cost once they hold the keys — the Setup Owner
+                watches it and it appears in the internal dashboard, never as a
+                client-facing productivity claim.
               </p>
             </div>
           </details>
@@ -1334,6 +1501,7 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 ├── kit/
 │   ├── CLAUDE.md.template
 │   ├── spec-template.md
+│   ├── spike-template.md      # the written finding a spike leaves behind (§5.3a)
 │   ├── settings.json
 │   ├── mcp.json               # team MCP server set; packs merge additions
 │   ├── HARNESS.md             # developer-facing tour; installs to docs/harness.md
@@ -1459,7 +1627,10 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
               and harness — is the client's. The carve-out: generalized methods,
               templates, skills, and tooling patterns (this repo) remain ours
               and may be reused, stripped of client-specific content. Stated
-              plainly, agreed up front.
+              plainly, agreed up front — including that this repo is
+              <strong>public</strong>, so the carve-out is a disclosure the client
+              agrees to, not just a retention. Anything that cannot be stripped to
+              a generalized form does not leave the delivery repo.
             </li>
             <li>
               <strong>Training as a line item.</strong> The client-team
@@ -1548,12 +1719,31 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
             <li>
               WIP cap: no Orchestrator runs more than 2 concurrent agent
               streams; the pod halts new streams when median review wait exceeds
-              one working day.
+              one working day. The cap counts <strong>changes in flight that need
+              a named human check</strong>, not agent processes — read-only
+              exploration agents are unbounded. Reports of engineers running 3-10
+              agents at once are counting the latter; the two numbers measure
+              different things, and ours is set by checking capacity because that
+              is the actual constraint.
             </li>
             <li>
-              The grader uses the same model family as implementation (a fresh
-              context, not a stronger model) — independence comes from not
-              having written the code, not from model size.
+              The grader runs on the <strong>strongest</strong> available model,
+              on a fresh context (section 8). Independence comes from not having
+              written the code; capability is a separate axis and the rung that
+              catches the author's blind spot is worth resourcing. This reverses
+              an earlier default in this standard — the kit's correctness and
+              security reviewers were already on the strong model, so the written
+              policy had drifted from what we actually ship.
+            </li>
+            <li>
+              Repetition on HIGH-risk security review is a
+              <strong>dial, currently set to 1</strong>
+              (<code>SECURITY_PASSES_HIGH</code> in
+              <code>kit/workflows/security.yml</code>). The aggregation logic
+              ships and any dissenting pass blocks — but the count stays at 1
+              until we run the experiment (repeat the pass on real HIGH changes
+              and record whether findings actually differ). Shipping 3 by default
+              would assert a benefit nobody here has measured.
             </li>
             <li>
               <code>.sdlc/</code> state and artifacts are committed to the
@@ -1573,7 +1763,7 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
         </section>
 
         <footer>
-          The Delivery Standard · v1.0 · 2026-06-10 · MCKRUZ/delivery-standard ·
+          The Delivery Standard · v1.0 · 2026-06-10 · MCKRUZ/intent-driven-development ·
           Paired source: GOLD-STANDARD.md
         </footer>
       </main>
