@@ -154,10 +154,31 @@ without the queue growing.
 
 ### Certification
 
-Nobody works a client spec until they have completed the IDD course (2-day format,
-`intent-driven-development/course/`) and passed the competency rubric: demonstrably wrote a spec
-that passes the vague-line test, ran the full loop on a practice feature, and operated the grader.
-Demonstrated, not attested. The practice ground is internal projects, never client-billed work.
+Two bars, and they are different in kind. **Method competence** transfers between engagements;
+**system understanding** does not, and has to be re-earned on every codebase.
+
+**Method competence** (once, then it travels). Nobody works a client spec until they have
+completed the IDD course (2-day format, `intent-driven-development/course/`) and passed the
+competency rubric: demonstrably wrote a spec that passes the vague-line test, ran the full loop on
+a practice feature, and operated the grader. Demonstrated, not attested. The practice ground is
+internal projects, never client-billed work.
+
+**System understanding** (per engagement, before working a spec unsupervised). An Orchestrator or
+Checker demonstrates, out loud and without reading from the docs:
+
+- the system's architecture and its main data flows;
+- the layer *beneath* the one they work in — the queue, the identity provider, the deployment
+  target — well enough to say how it behaves when it fails;
+- for a given spec, what the agent is most likely to get wrong here, and why.
+
+This bar exists because the method can manufacture its own worst failure mode: someone fluent in
+the ceremony, steering confidently, without the understanding to notice the model is wrong. The
+checking ladder does not save you — rung 5 is a human exercising judgment, and judgment without
+understanding is a rubber stamp. The model's working memory is finite and far smaller than a
+person's, so the human is the one who has to hold the whole picture.
+
+The natural checkpoint is the Phase 3 exit: the pod has just built the foundation, so it is the
+cheapest moment to prove they understand it. Re-established when someone joins mid-engagement.
 
 ---
 
@@ -168,10 +189,13 @@ Demonstrated, not attested. The practice ground is internal projects, never clie
 - **Delivery repo** — in the **client's GitHub/ADO org from day one**. Contains the product code
   AND the harness (`CLAUDE.md`, `.claude/`, `specs/`), versioned together. Handoff at close is
   trivial: revoke our access. Their security team can audit everything from week one.
-- **`MCKRUZ/delivery-standard`** (this repo) — private, ours. The gold standard docs plus the
-  installable kit (section 10). Installed into the client repo at Phase 3; improvements harvested
-  back after every engagement. Client-specific harness content stays with the client; generalized
-  craft compounds with us. The SOW carves this out explicitly (section 12).
+- **`MCKRUZ/intent-driven-development`** (this repo) — **public**, ours. The gold standard docs
+  plus the installable kit (section 10). Installed into the client repo at Phase 3; improvements
+  harvested back after every engagement. Client-specific harness content stays with the client;
+  generalized craft compounds with us. The SOW carves this out explicitly (section 12).
+  Because the repo is public, nothing client-identifying ever lands here — the harvest rule in
+  section 10 (strip client specifics before generalizing) is a confidentiality control, not just
+  tidiness. The same applies to `MCKRUZ/claude-code-sdlc`, which is also public.
 
 There is no separate per-client "system repo." The harness rides inside the delivery repo so
 agents always load it, harness changes are PRs reviewed like code, and nothing needs syncing.
@@ -229,9 +253,16 @@ without discussion):
 
 | Tier   | What lands here                                                                                                                                                                                   | What it triggers                                                                                   |
 | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| HIGH   | Auth/identity, payments, PII/client data handling, schema migrations, public API contract changes, IaC/pipeline changes, prompt/model/tool-definition changes (section 11), anything hard to undo | Tight agent permissions, full ladder, security-reviewer agent pass, named human sign-off in the PR |
+| HIGH   | Auth/identity, payments, PII/client data handling, schema migrations, public API contract changes, IaC/pipeline changes, prompt/model/tool-definition changes (section 11), **ADR revisions** (section 5.3a), anything hard to undo | Tight agent permissions, full ladder, security-reviewer agent pass, named human sign-off in the PR, repetition dial (section 14) |
 | MEDIUM | New business logic, external integrations, changes to shared internal services                                                                                                                    | Standard permissions, grader + human Checker                                                       |
 | LOW    | UI within existing patterns, copy, internal tooling, additive CRUD on established rails                                                                                                           | Lighter review; grader + mechanical gates still run                                                |
+
+**Bug-fix specs carry one extra mechanical gate.** Coverage proves a test exists; it does not
+prove the test would have caught the bug. A fix labelled `type:bugfix` must ship a test that
+**fails against the code as it was before the fix** — proven in CI by the `repro-gate` job, which
+reconstructs the pre-fix tree with the new test applied and requires it to go red. There is no
+label escape: a test that cannot fail cannot protect anything. Feature specs are exempt because
+there is no "before" state to fail against.
 
 ### 5.2 Delegate
 
@@ -256,6 +287,33 @@ without discussion):
 - **Human Checker** (hard block): non-author approval on every PR. On HIGH risk, additionally the
   security-reviewer agent's pass and a named human sign-off.
 - Merge deploys to the client dev environment automatically (the rails from Phase 3).
+
+### 5.3a Spikes (when a story can't be made ready)
+
+A story sometimes fails Definition of Ready for a reason no amount of rewriting fixes: nobody
+knows the answer yet. The integration's real behavior is undocumented; the design rests on an
+assumption no one has tested. Acceptance criteria written about an unknown are fiction, and the
+grader will grade them as if they weren't.
+
+A **spike** is the second delegation mode, and it is not a spec:
+
+- Boxed in time or tokens, agreed at triage, recorded.
+- Run on a `spike/` branch. A required CI check (`spike-guard`) fails any PR opened from one, so
+  the merge button never lights up. The throwaway rule is mechanical, not honour-based — spike
+  code has climbed none of the checking ladder, so "it started as a spike" must never be a route
+  onto `main`. Unlike the spec gate, this check has no label escape; work worth shipping gets a
+  spec and gets rebuilt.
+- Its deliverable is a written finding (`kit/spike-template.md`): what was assumed, what was
+  tested against which system, what was found, whether the assumption survived. The finding is
+  committed; the code is deleted.
+- It closes a named unknown — a decision-list item or a risky assumption — and unblocks the spec
+  that was stuck. When it invalidates a Phase 2 decision, the ADR revision that follows is a
+  HIGH-risk spec like any other.
+
+Spikes are how the design gate stays honest rather than becoming a fiction: Phase 2 decides, and
+evidence found later is allowed to change the decision through a gated route.
+
+> Deep-dive: `docs/build-loop.md` §3a.
 
 ### 5.4 Weekly cadence
 
@@ -337,6 +395,31 @@ what requires plan approval, what paths are gated, and the Definition of Checked
 stale CLAUDE.md means agents guess, and guesses differ per run — keeping it current is Setup Owner
 work, reviewed at setup review.
 
+### The model-generation review (what should we delete?)
+
+Setup review is additive by nature: it processes the week's improvements. Nothing in the cadence
+ever asks what should come *out*. That matters, because a large share of any harness exists to
+compensate for model limitations — and those expire. The vendor's own teams have deleted the bulk
+of a major agent's instructions once the model outgrew the need for them.
+
+So the Setup Owner runs a **model-generation review**, triggered by a new model family rather than
+by the calendar. It re-tests the harness's load-bearing assumptions:
+
+- CLAUDE.md — what is still earning its place, and what is now telling the model something it
+  already knows?
+- Which hooks remain necessary, and which now block behaviour the model gets right unaided?
+- Is plan-mode-always still right at every risk tier?
+- Do the agent definitions still describe things the base model cannot do?
+
+The output is a PR that **deletes as well as adds**, reviewed by the deputy like any other harness
+change.
+
+> **The principle underneath it.** Scaffolding that hedges model weakness should be expected to
+> shrink; scaffolding that carries human accountability should not. The Stop hook and the coverage
+> floor are the first kind and will eventually look quaint. The non-author approval and the named
+> sign-off are the second kind — they encode who is answerable, which no model improvement
+> retires. Sorting the harness into those two piles is the review's real job.
+
 ---
 
 ## 7. DevOps
@@ -374,10 +457,25 @@ Resolved in Phase 0, before anyone opens a terminal:
 3. **High-compliance path:** Claude via the client's Azure tenant (Microsoft Foundry). Verify
    current model availability and Claude Code compatibility at Phase 0 before promising it.
 
-Model policy default: plan mode and design work on the strongest available model; implementation
-on the standard model; the CI grader on the standard model. Token spend is a client-visible cost
-once they hold the keys — the Setup Owner watches it and it appears in the internal dashboard,
-never as a client-facing productivity claim.
+Model policy default — **the strong model goes on the checking side, not the writing side**:
+
+| Work | Model |
+| ---- | ----- |
+| Plan mode and design | strongest available |
+| Implementation | standard |
+| Grader, correctness pass, security reviewer | strongest available |
+
+Most of the effort in agent-built work is verification, not typing — a reported large-scale
+migration split roughly 15% producing the code against 85% making it correct and proving it. The
+rung that catches what the author was blind to is the one worth resourcing. Independence still
+comes from the checker not having written the code; model tier buys capability, which is a
+separate axis, and we now buy both.
+
+This means the pod deliberately spends more on checking a change than on writing it. Expect the
+question from any client holding the keys, and answer it plainly: the expensive part of the work
+is being sure, and that is where the money should go. Token spend is a client-visible cost once
+they hold the keys — the Setup Owner watches it and it appears in the internal dashboard, never as
+a client-facing productivity claim.
 
 ---
 
@@ -428,7 +526,7 @@ repo and adapting it in the open (the adaptation PRs are the client team's first
 work).
 
 ```
-delivery-standard/
+intent-driven-development/     # cloned locally as delivery-standard/ on some machines
 ├── GOLD-STANDARD.md           # this document
 ├── docs/
 │   ├── profile-swap.md        # (planned — not yet built) what changes off the .NET/Angular/Azure default
@@ -438,6 +536,7 @@ delivery-standard/
 ├── kit/
 │   ├── CLAUDE.md.template
 │   ├── spec-template.md
+│   ├── spike-template.md      # the written finding a spike leaves behind (§5.3a)
 │   ├── settings.json
 │   ├── mcp.json               # team MCP server set; packs merge additions
 │   ├── HARNESS.md             # developer-facing tour; installs to docs/harness.md
@@ -508,7 +607,10 @@ What the SOW must contain for this methodology to survive contact:
    Phase 0 exit condition. The clock on Phase 1 doesn't start without it.
 4. **IP terms.** Everything in the delivery repo — code and harness — is the client's. The
    carve-out: generalized methods, templates, skills, and tooling patterns (this repo) remain
-   ours and may be reused, stripped of client-specific content. Stated plainly, agreed up front.
+   ours and may be reused, stripped of client-specific content. Stated plainly, agreed up front —
+   including that this repo is **public**, so the carve-out is a disclosure the client agrees to,
+   not just a retention. Anything that cannot be stripped to a generalized form does not leave
+   the delivery repo.
 5. **Training as a line item.** The client-team capability workstream (their engineers pairing
    into the loop during Build, the PO onboarding, the close gate where they run a spec solo) is
    priced, not given away — it's a deliverable (the capability outcome from the Phase 0
@@ -545,9 +647,20 @@ The engagement ends when the client can run this without us:
 Decisions made by the standard's author without a dedicated discussion, listed so they're visible:
 
 - WIP cap: no Orchestrator runs more than 2 concurrent agent streams; the pod halts new streams
-  when median review wait exceeds one working day.
-- The grader uses the same model family as implementation (a fresh context, not a stronger model)
-  — independence comes from not having written the code, not from model size.
+  when median review wait exceeds one working day. The cap counts **changes in flight that need a
+  named human check**, not agent processes — read-only exploration agents are unbounded. Reports of
+  engineers running 3-10 agents at once are counting the latter; the two numbers measure different
+  things, and ours is set by checking capacity because that is the actual constraint.
+- The grader runs on the **strongest** available model, on a fresh context (section 8). Independence
+  comes from not having written the code; capability is a separate axis and the rung that catches
+  the author's blind spot is worth resourcing. This reverses an earlier default in this standard —
+  the kit's correctness and security reviewers were already on the strong model, so the written
+  policy had drifted from what we actually ship.
+- Repetition on HIGH-risk security review is a **dial, currently set to 1** (`SECURITY_PASSES_HIGH`
+  in `kit/workflows/security.yml`). The aggregation logic ships and any dissenting pass blocks —
+  but the count stays at 1 until we run the experiment (repeat the pass on real HIGH changes and
+  record whether findings actually differ). Shipping 3 by default would assert a benefit nobody
+  here has measured.
 - `.sdlc/` state and artifacts are committed to the client repo (their visibility, their record).
 - Conventional commits enforced by convention and PR title check, not by hook.
 - A narrative-companion generator (in our toolchain, `/sdlc-enhance`) produces client-facing

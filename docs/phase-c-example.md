@@ -166,7 +166,7 @@ named human on each side signs the close.
 > the **October** quarter-read on Harbor's calendar, caveats intact; the debt log sits in
 > Harbor's tracker with Harbor owners. On Wednesday 8/26 Rob and Dan walk the revocation item by
 > item, audit-confirmed, Dan signs — bookended with Phase 8's secrets rotation. The harvest PR
-> opens against `MCKRUZ/delivery-standard` with four patterns, and `retros/2026-harbor-mutual.md`
+> opens against `MCKRUZ/intent-driven-development` with four patterns, and `retros/2026-harbor-mutual.md`
 > is written. Friday 8/28 the close steering: Karen gets the record and the 4.2-day read; the
 > final milestone bills. The engagement ends.
 

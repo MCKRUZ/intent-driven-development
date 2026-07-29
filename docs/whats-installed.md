@@ -137,7 +137,7 @@ defect, commit a fake secret — and watch each gate catch it.
 ## Where the pieces come from (custody chain)
 
 ```
-delivery-standard/kit      the source of truth (this repo)
+intent-driven-development/kit   the source of truth (this repo)
         │  sync_kit.py
 claude-code-sdlc/harness   the plugin's bundled copy — generated, never hand-edited
         │  install_harness.py --profile
