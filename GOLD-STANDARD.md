@@ -150,7 +150,10 @@ without the queue growing.
 - 3 people: one person is Pod Lead + Setup Owner (deputy duty moves to the senior Orchestrator);
   two Orchestrator/Checkers swap per change. One stream, two at most.
 - 2 people: only with an experienced pair, one stream, and the grader-in-CI carrying more weight.
-  The rule that survives all collapsing: **the author of a change never solely approves it.**
+  The rule that survives all collapsing: **the author of a change never solely approves it.** One
+  bounded exception exists, and only for our own internal repos, where a single maintainer has no
+  second person to satisfy; its terms — and the mechanical rungs that stand in for the missing
+  reviewer — are written in [the team deep-dive](docs/team.md). It never applies to client work.
 
 ### Certification
 
@@ -619,9 +622,9 @@ What the SOW must contain for this methodology to survive contact:
    is a future option once we have engagement-level accepted-as-is and outcome data trustworthy
    enough to price against — not before.
 
-The Phase 0 outcome workshop agenda (in `docs/commercial.md`): the three outcomes (business,
-software, capability), the one measurable success metric and where it will be read from, the PO
-decision, the tooling decision, constraints, and pod introductions.
+The Phase 0 outcome workshop agenda: the three outcomes (business, software, capability), the one
+measurable success metric and where it will be read from, the PO decision, the tooling decision,
+constraints, and pod introductions.
 
 ---
 

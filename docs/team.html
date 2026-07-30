@@ -171,6 +171,27 @@
 <li><strong>The author of a change is never its sole approver.</strong> Not for code, not for harness changes, not for specs, not for this document.</li>
 <li><strong>Checking capacity is the constraint.</strong> Nobody opens more agent streams than the team can review without the queue growing. Headcount doesn't set the limit; review wait does.</li>
 </ol>
+<p><strong>The one carve-out, written down rather than taken quietly.</strong> Rule 1 says "not for
+this document" — and on our own methodology repos, which have a single maintainer, there is no
+second person to satisfy. It has been breached rather than honoured, more than once. An unwritten
+exception that keeps recurring corrodes the rule it is an exception to — and "authors grading
+themselves" is <a href="anti-patterns.html">anti-pattern 2</a> in this method, whose prevention
+line is exactly the rule being carved out here. So the terms are written down, rather than the
+exception being taken silently.</p>
+<p>A sole maintainer may approve their own change when <strong>all</strong> of these hold:</p>
+<ul>
+<li><strong>The repo is ours and internal.</strong> Never a client repo, and never one carrying
+client-identifying material — the harvest rule applies first.</li>
+<li><strong>The full mechanical ladder is green</strong> for the change's risk tier: grader,
+correctness, and on HIGH the security pass. Those rungs are what stands in for the missing person,
+so none of them may be skipped, overridden, or merged around in order to use this.</li>
+<li><strong>The self-approval is recorded in the PR and named as one.</strong> A silent merge is not
+covered by this carve-out; it is still a breach.</li>
+<li><strong>It expires</strong> the moment a second maintainer exists on that repo.</li>
+</ul>
+<p>What it does not do is make rule 1 advisory anywhere else. On delivery work the pod always has a
+second person — that is what a pod is — so the rule holds unconditionally there, and being in a
+hurry has never been a carve-out.</p>
 </section>
 
 <section id="jobs">
