@@ -368,10 +368,10 @@ Open engineering items are tracked as GitHub issues on `MCKRUZ/intent-driven-dev
 - **#6** — bring MAH onto the kit (agents first, or full installer run)
 - **#11** — deploy promotion + rollback workflows, and a dependency-update axis
 - **#12** — fleet observability: gate outcomes visible across installed repos
-- **#35** — `check_standard.py` should verify the kit's file inventory against the docs
-  that enumerate it (nothing catches a stale list today)
 
 Closed since the last revision of this list: #4 (Angular frontend pack), #8 (MCP server
-shakedown), #7 (nudge-hook pattern) and #33 (the sole-approver cross-reference).
+shakedown), #7 (nudge-hook pattern), #33 (the sole-approver cross-reference) and #35 (the
+kit-inventory check — `check_standard.py` now verifies that every component the kit ships is
+named in every document that enumerates it, so a list like this one cannot go stale unnoticed).
 
 Matt works through this incrementally, reviewing rendered HTML between steps.
