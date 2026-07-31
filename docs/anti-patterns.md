@@ -36,7 +36,8 @@ Checking theater: letting the thing that wrote the code also approve it.
   quietly violates that.
 - **Fix:** The grader is a **fresh agent that did not write the code**; the human Checker is never
   the change's author. On HIGH risk, a security-reviewer pass precedes a named human sign-off.
-- **Prevent:** **The author is never the sole approver** — a hard rule at every team size. The
+- **Prevent:** **The author is never the sole approver** — a hard rule at every team size (the one
+  carve-out, for single-maintainer internal repos, is written down in [the team](team.md)). The
   Orchestrator/Checker swap makes it real on a small pod; subagents keep the grader separate by
   construction.
 

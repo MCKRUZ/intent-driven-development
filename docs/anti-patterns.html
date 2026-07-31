@@ -154,7 +154,7 @@ verifying.</p>
 <li><strong>Symptom:</strong> The "review" is the same agent (or the person who drove it) confirming its own work. Approvals are instant, nothing ever bounces back, and the grader and the author are effectively the same.</li>
 <li><strong>Root cause:</strong> You can't trust the thing that wrote the code to vouch for it, and a self-review quietly violates that.</li>
 <li><strong>Fix:</strong> The grader is a <strong>fresh agent that did not write the code</strong>; the human Checker is never the change's author. On HIGH risk, a security-reviewer pass precedes a named human sign-off.</li>
-<li><strong>Prevent:</strong> <strong>The author is never the sole approver</strong> — a hard rule at every team size. The Orchestrator/Checker swap makes it real on a small pod; subagents keep the grader separate by construction.</li>
+<li><strong>Prevent:</strong> <strong>The author is never the sole approver</strong> — a hard rule at every team size (the one carve-out, for single-maintainer internal repos, is written down in <a href="team.html">the team</a>). The Orchestrator/Checker swap makes it real on a small pod; subagents keep the grader separate by construction.</li>
 </ul>
 </section>
 

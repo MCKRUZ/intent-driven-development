@@ -362,12 +362,14 @@ arc finished:
    history (see the plugin STATUS block above).
 
 Open engineering items are tracked as GitHub issues on `MCKRUZ/intent-driven-development`
-(open as of 2026-07-16):
+(open as of 2026-07-31):
 
-- **#4** — Angular frontend pack (angular-aware ux-reviewer)
 - **#5** — harvest remaining approved MAH items into the kit
 - **#6** — bring MAH onto the kit (agents first, or full installer run)
-- **#7** — nudge-hook pattern paragraph in `kit/hooks/README.md`
-- **#8** — live shakedown of the committed MCP server set on first real `/sdlc-setup`
+- **#11** — deploy promotion + rollback workflows, and a dependency-update axis
+- **#12** — fleet observability: gate outcomes visible across installed repos
+
+Closed since the last revision of this list: #4 (Angular frontend pack), #8 (MCP server
+shakedown), #7 (nudge-hook pattern) and #33 (the sole-approver cross-reference).
 
 Matt works through this incrementally, reviewing rendered HTML between steps.
