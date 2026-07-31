@@ -1,8 +1,13 @@
 # Fix 3 — triage of the 42 unreceipted rituals
 
-> **Status:** proposal, awaiting Matt's review. Nothing here is implemented.
-> **Decision taken:** ships as a **major version** with a migration note, not behind a profile flag.
-> A flag defaulting to off is Fix 3 shipped disabled, which is how the repetition dial ended up in limbo.
+> **Status: IMPLEMENTED** in `claude-code-sdlc` **1.0.0**. This document is the record of why the
+> 42 were split the way they were; the changelog is the record of what shipped.
+>
+> **Decisions taken.** Ships as a **major version** with a migration note, not behind a profile flag —
+> a flag defaulting to off is Fix 3 shipped disabled, which is how the repetition dial ended up in
+> limbo. The PO decision and tooling records stayed in **B** (open question 1). The Phase 7
+> cold-checkout became **two** files, the waiver lives **in the artifact**, and it went out as **one
+> release** (open questions 2–4).
 
 ## What this is
 
@@ -23,7 +28,7 @@ So they are triaged four ways.
 
 | | Disposition | What it means | Count |
 |---|---|---|---|
-| **A** | **Required receipt** | A file, gate-checked, with a HITL gate that refuses to advance without it or a named waiver | **11** |
+| **A** | **Required receipt** | A file, gate-checked, with a HITL gate that refuses to advance without it or a named waiver | **11** rows → **12** files |
 | **B** | **Optional receipt** | A file when the work happens, surfaced to the approver at sign-off via G7. Never blocks | **14** |
 | **C** | **Verify, don't file** | It is a state of the world, not a document. Check the real thing; a markdown file asserting it is *weaker* | **6** |
 | **D** | **No artifact** | Already recorded inside a parent artifact the gate checks, or the receipt would be ceremony | **6** |
@@ -39,7 +44,7 @@ answer is "yes, and its absence would change the conclusion," it blocks. Otherwi
 
 ---
 
-## A — Required receipt, with a HITL gate (11)
+## A — Required receipt, with a HITL gate (11 rows, 12 files)
 
 These block the phase. Each is load-bearing, none can be performed by a command, and each is the
 reason a client pays for a pod rather than a prompt.
@@ -50,16 +55,26 @@ reason a client pays for a pod rather than a prompt.
 | A2 | `spikes/NNNN-*.md` | 1, 2, Build | Each risky assumption confirmed or falsified against the live system. The code is deleted; the finding is the deliverable. Covers both the Phase 1 feasibility spikes and the Phase 2 design spikes | `spikes/` optional; template ships; **no HITL gate** |
 | A3 | `threat-model.md` | 2 | The guarded-path map Phase 3 wires its security gates from. Without it, which paths are guarded gets decided at wiring time, from memory | spec + Step 7 exist as **RECOMMENDED** |
 | A4 | `nfr-proving-plan.md` | 2 | Per quality target: the verification method and the named place its number will be read. Phase 9 reads it back — a target with no proving plan is a wish | nothing |
-| A5 | `walking-skeleton-spec.md` | 2 | The thin end-to-end slice Phase 3 must ship, sufficient to exercise every ADR's mechanism once. Phase 3 builds from it | **optional** in registry |
+| A5 | `walking-skeleton-definition.md` | 2 | The thin end-to-end slice Phase 3 must ship, sufficient to exercise every ADR's mechanism once. Phase 3 builds from it, and its CHECKPOINT verifies the running software *against* it | nothing — see note |
 | A6 | `data-flow-brief.md` | 3 | What goes to the API, what does not, where keys live, who sees usage — in client security's hands, in writing. Contractual, not just technical | nothing |
-| A7 | `cold-checkout-record.md` | 7 | The doc-defect log from a cold verifier following the README, and the client ops engineer walking the RUNBOOK through deploy → rollback → one failure. Phase 7's entire purpose is *prove a stranger can run this*; without the record, nothing distinguishes a phase that did it from one that did not | nothing |
+| A7 | `readme-verification.md` + `runbook-walkthrough.md` | 7 | The doc-defect log from a cold verifier following the README, and the client ops engineer walking the RUNBOOK through deploy → rollback → one failure. Phase 7's entire purpose is *prove a stranger can run this*; without the record, nothing distinguishes a phase that did it from one that did not | nothing |
 | A8 | `rollback-rehearsal.md` | 8 | The timestamped deploy → roll back → redeploy timeline, run by the client's operators, with time-back-to-healthy. "A rollback that has never run is a wish" is already in the standard; this is the wish becoming a fact | nothing |
 | A9 | `go-no-go-record.md` | 8 | Every named role asked and answered, the decision and rationale recorded with names. The most critical gate in the lifecycle currently produces an optional file nothing writes | **optional** in registry |
 | A10 | `secrets-rotation-record.md` | 8 | Production secrets rotated to values the pod never held, signed by client security. The handoff made literal — and the single most audit-relevant fact at close | nothing |
 | A11 | `drill-record.md` | 9 | Per critical alert: trigger, detection time, routing, responder, outcome. The one proof the pager works. An alert that has never fired is a configuration, not a control | **optional**; no step runs the drill |
 
-**Six of the eleven already have partial machinery** (A2, A3, A5, A9, A11 exist as optional or
-recommended; A3 has its spec). For those, Fix 3 is a promotion plus a HITL gate, not new authorship.
+**Correction made during implementation.** An earlier draft counted A5 as a promotion of Phase 3's
+existing optional `walking-skeleton-spec.md`. It is not the same artifact: Phase 3's file is the
+*evidence* that the skeleton was built and rode the loop, while this is Phase 2's *definition* of
+what to build. Phase 3's CHECKPOINT verifies the running software **against** the Phase 2
+definition, so conflating them would have left that comparison with nothing to compare to. A5 is
+new, and named `walking-skeleton-definition.md` to keep the two distinct.
+
+**Four of the twelve already have machinery:** A2, A9 and A11 exist as optional registry entries
+(promotion + HITL gate); A3 has its artifact spec from the X-8 fix but no registry entry. The other
+eight are new authorship.
+
+**Twelve, not eleven** — A7 splits into two files, per the decision on open question 2.
 
 ---
 
@@ -151,24 +166,35 @@ major version.
 
 ---
 
-## Open questions for Matt
+## Open questions — answered
 
-1. **B1/B2 — the PO decision record and tooling record.** Both are SOW preconditions with billing
-   teeth, which is an argument for **A**, not B. I put them in B because they are commercial
-   artifacts that live in the contract, and duplicating them into `.sdlc/` risks the file and the
-   SOW disagreeing. If you would rather the gate hold the engagement until they are recorded, they
-   move to A and the required count goes to 13.
+1. **B1/B2 — the PO decision record and tooling record.** → **B**, as proposed. They stay optional:
+   the contract is their home of record, and a copy in `.sdlc/` that disagrees with the signed
+   document is worse than no copy. The specs say so explicitly.
 
-2. **A7 — one file or two?** The README cold-checkout and the RUNBOOK cold walk-through are two
-   different rituals by two different people. One file keeps Phase 7 to a single new artifact; two
-   files keep the receipts honest to who performed them. I lean **two**, but it makes Phase 7 the
-   heaviest phase in the release.
+2. **A7 — one file or two.** → **Two.** `readme-verification.md` and `runbook-walkthrough.md` are
+   different rituals by different people; one file would have blurred who actually did what. It does
+   make Phase 7 the heaviest phase in the release. `runbook-walkthrough.md` is required only for
+   `service` and `app` — a library or skill has no RUNBOOK to walk, and requiring the receipt anyway
+   would have re-created D-3 for the receipt.
 
-3. **The waiver mechanism.** Every HITL gate needs an escape or it will be worked around. I propose
-   a named waiver recorded *in the artifact itself* — the file exists, and says "waived by <name>,
-   because <reason>." A missing file blocks; a waived one does not. That keeps the record honest
-   about what was skipped, which is the same principle as the eval-bypass ledger.
+3. **The waiver mechanism.** → **In the artifact.** `WAIVED: <name> — <reason>`, both halves
+   required, reported by name at INFO in the record the approver signs. A missing file still blocks.
 
-4. **Sequencing.** 11 required artifacts is a large single release. An alternative is two: the six
-   promotions first (they already exist, so the migration is smaller), then the five new ones. I
-   lean **one release** — a half-migrated gate is worse than either end state — but it is your call.
+4. **Sequencing.** → **One release.** A half-migrated gate is worse than either end state.
+
+## What actually changed during implementation
+
+Three things the triage got wrong, caught while building:
+
+- **A5 was not a promotion.** Phase 3's existing optional `walking-skeleton-spec.md` is the
+  *evidence* the skeleton was built; the ledger item is Phase 2's *definition* of what to build.
+  Conflating them would have left Phase 3's checkpoint with nothing to verify against. A5 shipped as
+  a new Phase 2 artifact, `walking-skeleton-definition.md`.
+
+- **A2 could not be a required directory.** Requiring `spikes/` would force a spike on engagements
+  with no unknowns, and a directory cannot carry a waiver. It shipped as `spike-findings.md` — a
+  file that can honestly say "no unverified assumptions, confirmed by <name>" — which is what the
+  punch list's own worked example proposed in the first place.
+
+- **The required count is twelve, not eleven**, because A7 split in two.

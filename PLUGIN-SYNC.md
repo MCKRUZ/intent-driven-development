@@ -11,8 +11,11 @@
 > actually missing under 1b was different and is now fixed: those conditions were *all* artifact
 > checks, so the approver at an opening gate was shown a file list and never a judgement call.
 >
-> **Still open: Fix 3** — the 42 unreceipted rituals. That is a feature programme, not a defect, and it
-> changes what `/sdlc-gate` blocks on. It stays behind a version boundary with a migration note.
+> **Fix 3 is done**, in `claude-code-sdlc` **1.0.0** — triaged first (`FIX-3-TRIAGE.md`) rather than
+> applied mechanically, because "an artifact for each of the 42" was wrong for 24 of them. Twelve
+> required receipts, eleven optional, twelve deliberately given none, and the `risk:high` sign-off
+> turned into a required status check rather than a file. Waivers live in the artifact and are
+> reported by name. Shipped as a major version with a migration note, per the warning below.
 >
 > **Written:** 2026-07-09, while rewriting the per-phase Example tabs against the plugin's real behavior.
 > **Written:** 2026-07-09, while rewriting the per-phase Example tabs against the plugin's real behavior.
@@ -447,8 +450,11 @@ Also affected by X-1: `check_gates.py` never reading or evaluating the `close.ex
 5. ~~**Fix 2**~~ — **done (deleted).** `approval` carried the identical value on all nine phases and
    `advance_phase.py` requires `--confirmed` unconditionally, so the key encoded nothing.
 
-**The only item still open is Fix 3** — the receipt artifacts. It is a feature programme rather than a
-defect, and it **changes what `/sdlc-gate` blocks on**: any engagement mid-flight would newly fail on a
-missing artifact. Ship it behind a profile flag, or on a major version, with a migration note. Do not
-fold it into a documentation commit. The remaining half of X-7 (raising cross-reference checks above
-`SHOULD`) has the same property and belongs in the same release.
+~~**The only item still open is Fix 3**~~ — **done in 1.0.0.** Triaged in `FIX-3-TRIAGE.md`, shipped
+as a major version with a migration note.
+
+**What remains from this punch list:** the second half of X-7 — raising cross-reference and
+cross-phase-consistency checks above `SHOULD`. It has the same gate-behaviour property and was held
+back rather than bundled: 1.0.0 already asks every mid-flight engagement for twelve new receipts,
+and adding newly-blocking consistency failures on the same day would make one migration
+indistinguishable from the other when something breaks.
