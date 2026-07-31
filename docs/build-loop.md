@@ -282,6 +282,13 @@ In the rails, the ladder lands as three layers on every PR:
 - **The human Checker** (hard block): non-author approval on every PR. On HIGH risk, also a
   security review pass and a named human sign-off recorded in the PR.
 
+  That sign-off is enforced, not merely expected. A required check (`risk-signoff`) fails any PR
+  labelled `risk:high` that carries no line of the form `SIGNED-OFF-BY: <name> — <sentence>`, in
+  the body or a comment. **The sentence is required**: a name on its own is the thumbs-up this rung
+  exists to reject, and a rule that depends on everyone remembering it is not a rung at all.
+  It is a check rather than a committed receipt for a reason — a file under `.sdlc/` would describe
+  a merge that already happened, and the acceptance has to exist before the merge.
+
 You do not run every change up all five rungs — that recreates the review bottleneck the loop
 exists to remove. The risk tier sets the climb: LOW stops after the grader's advisory pass and
 a light human look, MEDIUM gets the standard grader-plus-Checker treatment, HIGH goes all the
