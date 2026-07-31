@@ -61,6 +61,86 @@ def write_workflow(repo, filename, job_id, job_name, gate=False, body=""):
     )
 
 
+# ── kit inventory ─────────────────────────────────────────────────────────────────────────────
+
+
+class TestKitInventoryIsEnumerated:
+    """The drift this catches: a component ships and one hand-maintained list never hears about it."""
+
+    @staticmethod
+    def _write_docs(repo, text):
+        (repo / "kit" / "README.md").write_text(text, encoding="utf-8")
+        (repo / "GOLD-STANDARD.md").write_text(text, encoding="utf-8")
+        (repo / "GOLD-STANDARD.html").write_text(text, encoding="utf-8")
+
+    def test_a_component_no_document_names_is_drift(self, repo):
+        (repo / "kit" / "hooks").mkdir(parents=True)
+        (repo / "kit" / "hooks" / "new-gate.ps1").write_text("x", encoding="utf-8")
+        self._write_docs(repo, "hooks: stop-gate")
+        result = cs.check_kit_inventory_is_enumerated()
+        assert not result.ok
+        assert all("new-gate" in f for f in result.failures)
+        assert len(result.failures) == 3, "every enumerating document should report it"
+
+    def test_a_documented_component_is_not_drift(self, repo):
+        (repo / "kit" / "hooks").mkdir(parents=True)
+        (repo / "kit" / "hooks" / "stop-gate.ps1").write_text("x", encoding="utf-8")
+        self._write_docs(repo, "hooks: stop-gate")
+        assert cs.check_kit_inventory_is_enumerated().ok
+
+    def test_twins_are_one_component(self, repo):
+        """stop-gate.ps1 and stop-gate.sh are documented once, not twice."""
+        (repo / "kit" / "hooks").mkdir(parents=True)
+        (repo / "kit" / "hooks" / "stop-gate.ps1").write_text("x", encoding="utf-8")
+        (repo / "kit" / "hooks" / "stop-gate.sh").write_text("x", encoding="utf-8")
+        self._write_docs(repo, "hooks: stop-gate")
+        result = cs.check_kit_inventory_is_enumerated()
+        assert result.ok
+        assert result.checked == 3, "one component across three documents, not two"
+
+    def test_one_document_missing_it_is_still_drift(self, repo):
+        """The HTML twin is the surface most likely to rot — nothing generates it."""
+        (repo / "kit" / "hooks").mkdir(parents=True)
+        (repo / "kit" / "hooks" / "review-gate.sh").write_text("x", encoding="utf-8")
+        (repo / "kit" / "README.md").write_text("review-gate", encoding="utf-8")
+        (repo / "GOLD-STANDARD.md").write_text("review-gate", encoding="utf-8")
+        (repo / "GOLD-STANDARD.html").write_text("nothing here", encoding="utf-8")
+        result = cs.check_kit_inventory_is_enumerated()
+        assert not result.ok
+        assert len(result.failures) == 1
+        assert "GOLD-STANDARD.html" in result.failures[0]
+
+    def test_a_substring_match_does_not_count_as_documented(self, repo):
+        """`grader` inside `upgraded` is not documentation. A check that cannot fail is worse
+        than no check, and substring matching is how these quietly stop failing."""
+        (repo / "kit" / "agents").mkdir(parents=True)
+        (repo / "kit" / "agents" / "grader.md").write_text("x", encoding="utf-8")
+        self._write_docs(repo, "the harness was upgraded last week")
+        assert not cs.check_kit_inventory_is_enumerated().ok
+
+    def test_skills_are_directories_not_files(self, repo):
+        (repo / "kit" / "skills" / "spec-writer").mkdir(parents=True)
+        (repo / "kit" / "skills" / "spec-writer" / "SKILL.md").write_text("x", encoding="utf-8")
+        self._write_docs(repo, "skills: spec-writer")
+        assert cs.check_kit_inventory_is_enumerated().ok
+
+    def test_readme_is_not_itself_a_component(self, repo):
+        (repo / "kit" / "hooks").mkdir(parents=True)
+        (repo / "kit" / "hooks" / "README.md").write_text("x", encoding="utf-8")
+        result = cs.check_kit_inventory_is_enumerated()
+        assert result.ok
+        assert result.checked == 0
+
+    def test_an_allowlisted_component_is_not_drift(self, repo, monkeypatch):
+        monkeypatch.setattr(
+            cs, "ALLOWED_UNDOCUMENTED", {"hooks/internal-only": "deliberately undocumented"}
+        )
+        (repo / "kit" / "hooks").mkdir(parents=True)
+        (repo / "kit" / "hooks" / "internal-only.sh").write_text("x", encoding="utf-8")
+        self._write_docs(repo, "nothing here")
+        assert cs.check_kit_inventory_is_enumerated().ok
+
+
 # ── check 1: rooted paths ─────────────────────────────────────────────────────────────────────
 
 
