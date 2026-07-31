@@ -1,0 +1,45 @@
+name: standard-check
+
+# Keeps the written standard honest against the kit it describes.
+#
+# The kit is checked against the plugin's generated harness by sync_kit.py --check, over in
+# claude-code-sdlc. Nothing checked it against the prose, which is how GOLD-STANDARD section 14
+# came to describe a model policy the shipped workflows had already moved past. That was found
+# by accident. This job is the mechanism that finds the next one.
+#
+# It runs on every PR because a check that only runs when someone remembers is the same as no
+# check — which is the failure being fixed here.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  standard-check:
+    name: standard-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install test dependencies
+        run: python -m pip install --quiet pytest
+
+      # The checker's own tests run first. A consistency check that has silently stopped
+      # catching things is worse than no check: it reports green forever and everyone stops
+      # looking. The tests inject real drift and assert it is caught, so they are what makes
+      # the green below mean anything.
+      - name: Test the checker
+        run: python -m pytest scripts/tests -q
+
+      - name: Check the standard against the kit
+        run: python scripts/check_standard.py

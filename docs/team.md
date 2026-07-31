@@ -42,6 +42,28 @@ Two rules survive every mapping and every scale:
 2. **Checking capacity is the constraint.** Nobody opens more agent streams than the team can
    review without the queue growing. Headcount doesn't set the limit; review wait does.
 
+**The one carve-out, written down rather than taken quietly.** Rule 1 says "not for this document"
+— and on our own methodology repos, which have a single maintainer, there is no second person to
+satisfy. It has been breached rather than honoured, more than once. An unwritten exception that
+keeps recurring corrodes the rule it is an exception to — and "authors grading themselves" is
+anti-pattern 2 in this method, whose prevention line is exactly the rule being carved out here. So
+the terms are written down, rather than the exception being taken silently.
+
+A sole maintainer may approve their own change when **all** of these hold:
+
+- **The repo is ours and internal.** Never a client repo, and never one carrying
+  client-identifying material — the harvest rule applies first.
+- **The full mechanical ladder is green** for the change's risk tier: grader, correctness, and on
+  HIGH the security pass. Those rungs are what stands in for the missing person, so none of them
+  may be skipped, overridden, or merged around in order to use this.
+- **The self-approval is recorded in the PR and named as one.** A silent merge is not covered by
+  this carve-out; it is still a breach.
+- **It expires** the moment a second maintainer exists on that repo.
+
+What it does not do is make rule 1 advisory anywhere else. On delivery work the pod always has a
+second person — that is what a pod is — so the rule holds unconditionally there, and being in a
+hurry has never been a carve-out.
+
 ---
 
 ## 2. The jobs, concretely

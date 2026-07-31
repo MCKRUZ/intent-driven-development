@@ -1,0 +1,6 @@
+# Python — this repo gained scripts/ with the standard-vs-kit consistency check.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
