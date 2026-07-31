@@ -437,14 +437,18 @@ Also affected by X-1: `check_gates.py` never reading or evaluating the `close.ex
 ## Recommended order
 
 1. ~~**Fix 1 alone**~~ — **done.** [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10).
-1b. **Declare phases 0–2's exit conditions in the registry.** Data-only; G7 renders them the moment they
-   exist. This is where the standard's opening-phase checklists finally reach the human at the gate.
-2. **X-3, X-5, X-6** — the stale reference and the two internal contradictions. Documentation-level
-   corrections inside the plugin; nothing starts failing.
+1b. ~~**Declare phases 0-2's exit conditions in the registry.**~~ — **done**, though not as filed.
+   The conditions already existed; what was missing is that all of them were artifact checks, so an
+   approver at an opening gate never saw a judgement call. Phases 0 and 1 now declare those.
+2. ~~**X-3, X-5, X-6**~~ — **done.** The stale references turned out to be twelve, not six.
 3. ~~**X-4**~~ — **withdrawn.** No plugin change. The registry was right; the standard's Build-loop pages
    have been corrected to follow it.
-4. **X-8** — add the Phase 2 design-level threat review step, keep the Phase 3 confirmation pass.
-5. **Fix 3 / Fix 2** — the receipt artifacts, and wiring or deleting `approval`. **These change what
-   `/sdlc-gate` blocks on.** Any engagement mid-flight would newly fail on a missing `threat-model.md`.
-   Ship behind a profile flag, or on a major version, with a migration note. Do not fold this into a
-   documentation commit.
+4. ~~**X-8**~~ — **done.** Phase 2 gained the design-level threat review; Phase 3 keeps its confirmation pass.
+5. ~~**Fix 2**~~ — **done (deleted).** `approval` carried the identical value on all nine phases and
+   `advance_phase.py` requires `--confirmed` unconditionally, so the key encoded nothing.
+
+**The only item still open is Fix 3** — the receipt artifacts. It is a feature programme rather than a
+defect, and it **changes what `/sdlc-gate` blocks on**: any engagement mid-flight would newly fail on a
+missing artifact. Ship it behind a profile flag, or on a major version, with a migration note. Do not
+fold it into a documentation commit. The remaining half of X-7 (raising cross-reference checks above
+`SHOULD`) has the same property and belongs in the same release.
