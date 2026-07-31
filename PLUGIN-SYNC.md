@@ -1,9 +1,20 @@
 # Plugin sync — reconciling `claude-code-sdlc` with the standard
 
-> **Status:** Fix 1 is **merged** — [claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10),
-> merged 2026-07-10. It merged with zero reviews — the standard's own non-author bar was not met (solo-repo
-> reality; recorded here so the record stays honest). X-4 is **withdrawn** (the plugin was right). Everything
-> else below is still a change spec, not yet applied.
+> **Status (2026-07-31):** every functional defect and internal contradiction below is now **fixed**.
+> D-1, D-2, D-3, X-2, X-3, X-5, X-6, X-7, X-8 and 1b were applied together; Fix 1 was already merged
+> ([claude-code-sdlc#10](https://github.com/MCKRUZ/claude-code-sdlc/pull/10), 2026-07-10) and X-4 is
+> **withdrawn** (the plugin was right).
+>
+> Three entries turned out to be **stale rather than open**, and the punch list was wrong about them:
+> X-1 (`exit_gate.conditions[]` parsed by nothing) was closed by Fix 1 and is covered by tests; 1b
+> (phases 0–2 declare no exit conditions) was false — they declared five, four and five. What was
+> actually missing under 1b was different and is now fixed: those conditions were *all* artifact
+> checks, so the approver at an opening gate was shown a file list and never a judgement call.
+>
+> **Still open: Fix 3** — the 42 unreceipted rituals. That is a feature programme, not a defect, and it
+> changes what `/sdlc-gate` blocks on. It stays behind a version boundary with a migration note.
+>
+> **Written:** 2026-07-09, while rewriting the per-phase Example tabs against the plugin's real behavior.
 > **Written:** 2026-07-09, while rewriting the per-phase Example tabs against the plugin's real behavior.
 > **Premise:** `claude-code-sdlc` is the mechanism; this standard is the process that documents it. They
 > should be in sync. The legitimate difference is that the standard carries far more human-in-the-loop
@@ -63,7 +74,7 @@ G7 is silent for the entire opening of an engagement. The standard's rich checkl
 either direction* — still exist only in this repo's prose. Putting them into
 `phase-registry.yaml` is a **data-only change** that needs no code. That is the natural follow-up.
 
-### Fix 2 — the `approval` field is dead
+### ~~Fix 2 — the `approval` field is dead~~ ✅ FIXED (deleted)
 
 `phase-registry.yaml` sets `approval: manual` on all nine phases. No script reads it:
 
@@ -150,14 +161,14 @@ and whether the assumption survived. The spike code is deleted. The finding is n
 
 | # | Kind | Detail | Where |
 |---|------|--------|-------|
-| X-1 | DEAD-CONFIG | `exit_gate.conditions[]` parsed by nothing | `phases/phase-registry.yaml` → all phases |
-| X-2 | DEAD-CONFIG | `approval: manual` read by nothing | `phases/phase-registry.yaml` → all phases |
-| X-3 | STALE-REFERENCE | Phase 7's Entry Criteria requires "Phase 6 exit gate passed". Phases 4/5/6 do not exist — they were collapsed into the Build loop. Phase 1 also points NFR thresholds at "Phase 6" measurement | `phases/07-documentation.md`, `phases/01-requirements.md` |
+| ~~X-1~~ ✅ | **STALE ENTRY** | Already closed by Fix 1: `check_exit_criteria()` reads them and renders them at sign-off, with tests. The punch list was out of date, not the plugin | `phases/phase-registry.yaml` → all phases |
+| ~~X-2~~ ✅ | FIXED (deleted) | All nine phases carried the identical value and `advance_phase.py` requires `--confirmed` unconditionally, so it encoded nothing | `phases/phase-registry.yaml` → all phases |
+| ~~X-3~~ ✅ FIXED | STALE-REFERENCE | Phase 7's Entry Criteria requires "Phase 6 exit gate passed". Phases 4/5/6 do not exist — they were collapsed into the Build loop. Phase 1 also points NFR thresholds at "Phase 6" measurement | `phases/07-documentation.md`, `phases/01-requirements.md` |
 | ~~X-4~~ | **WITHDRAWN** | Originally filed as WRONG-FRAMING: "the registry models `build` as a gated phase." **This was wrong, and the error was ours.** The registry sets `continuous: true` on `build`; its `description` states "there is no artifact exit gate — checking happens per change, and a human declares the backlog feature-complete to leave"; its first exit condition is `check: "Build backlog is feature-complete (human declaration — no batch artifact gate)"`. `phase_model.is_continuous()` reads the flag and `check_gates.py` special-cases `build` twice, emitting `"Build is feature-complete by human declaration, not by this count."` The defect was filed by reading `artifacts.required` and `approval: manual` in isolation. **The plugin is correct.** See the note below | `phases/phase-registry.yaml` → `build`; `scripts/phase_model.py:117`; `scripts/check_gates.py:347,371` |
-| X-5 | INTERNAL-CONTRADICTION | Phase 2's Exit Criteria require `architecture-diagrams.html` and `deep-plan-checkpoint.yaml`, but the registry marks the first RECOMMENDED and the second Optional — so `check_gates.py` never checks either, and the exit criteria are decorative | `phases/02-design.md` vs registry |
-| X-6 | INTERNAL-CONTRADICTION | `close-handoff.md` is a registry-required Phase 9 artifact with **no Artifact Specification** in the phase body. It is produced but unspecified | `phases/09-monitoring.md` |
-| X-7 | WEAK-CHECK | `exists_and_complete` is a placeholder-token scan, not a completeness check. A directory (`adrs/`) passes on being non-empty. Cross-reference and cross-phase-consistency checks are `SHOULD` severity and never block | `scripts/check_gates.py` |
-| X-8 | WRONG-PHASE | Threat modeling appears only in `phases/03-foundation.md`. The standard runs a **design-level** threat review in Phase 2, producing the mitigation map that becomes Phase 3's build-time security gates. **Resolution: it is genuinely both** — a design-level review in Phase 2, and a foundation-level pass in Phase 3 confirming the gates got wired. Both phases need the step | `phases/02-design.md`, `phases/03-foundation.md` |
+| ~~X-5~~ ✅ FIXED | INTERNAL-CONTRADICTION | Phase 2's Exit Criteria require `architecture-diagrams.html` and `deep-plan-checkpoint.yaml`, but the registry marks the first RECOMMENDED and the second Optional — so `check_gates.py` never checks either, and the exit criteria are decorative | `phases/02-design.md` vs registry |
+| ~~X-6~~ ✅ FIXED | INTERNAL-CONTRADICTION | `close-handoff.md` is a registry-required Phase 9 artifact with **no Artifact Specification** in the phase body. It is produced but unspecified | `phases/09-monitoring.md` |
+| ~~X-7~~ ⚠️ PARTLY FIXED | WEAK-CHECK | **Fixed:** a directory artifact is now checked through to its files — `adrs/` can no longer pass on being non-empty, and a placeholder in any ADR (at any depth) blocks. **Still open:** cross-reference and cross-phase-consistency checks remain `SHOULD` and never block. Raising them is a gate-behaviour change that would newly fail mid-flight engagements, so it belongs with Fix 3 behind a version boundary, not in a defect sweep | `scripts/check_gates.py` |
+| ~~X-8~~ ✅ FIXED | WRONG-PHASE | Threat modeling appears only in `phases/03-foundation.md`. The standard runs a **design-level** threat review in Phase 2, producing the mitigation map that becomes Phase 3's build-time security gates. **Resolution: it is genuinely both** — a design-level review in Phase 2, and a foundation-level pass in Phase 3 confirming the gates got wired. Both phases need the step | `phases/02-design.md`, `phases/03-foundation.md` |
 
 ---
 
@@ -166,7 +177,7 @@ and whether the assumption survived. The spike code is deleted. The finding is n
 Each was found while reconciling the docs, and each was then confirmed by reading the plugin's code
 directly. They are ordered by how badly they break a real engagement.
 
-### D-1 — Phase 2's blocking human gate reads a section nothing writes
+### ~~D-1 — Phase 2's blocking human gate reads a section nothing writes~~ ✅ FIXED
 
 `phases/02-design.md` Step 0 is the most important human gate in the method:
 
@@ -196,7 +207,7 @@ engagement rests on — trace back to identifiers the process never assigned.
 Address" section, with an ID scheme and one line per question. Phase 1's exit gate should refuse to close
 with an architectural implication that has no `AQ-NN`. This closes the loop that Phase 2 already assumes.
 
-### D-2 — Phase 7's gate checks a copy of the deliverable, not the deliverable
+### ~~D-2 — Phase 7's gate checks a copy of the deliverable, not the deliverable~~ ✅ FIXED
 
 `check_gates.py` resolves every required artifact under the phase's own directory:
 
@@ -223,7 +234,7 @@ artifacts:
     - path: "RUNBOOK.md"  root: repo
 ```
 
-### D-3 — the gate ignores `project_type`; five phase bodies do not
+### ~~D-3 — the gate ignores `project_type`; five phase bodies do not~~ ✅ FIXED
 
 `phases/{00,03,07,08,09}-*.md` adapt their required artifacts by `project_type` (read from `state.yaml`).
 Phase 7 is explicit: a `library` or `cli` project should *"Skip RUNBOOK — there is no server to operate"*,
