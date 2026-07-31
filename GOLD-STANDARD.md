@@ -370,7 +370,8 @@ client-repo/
 │   ├── agents/                # planner, architect, grader, security-reviewer,
 │   │                          # build-error-resolver, debugger (+ ux-reviewer via a frontend pack)
 │   └── hooks/                 # stop-gate, review-gate, save-review-receipt (.ps1 + .sh each);
-│                              # stop-gate blocks finishing on a red build/tests
+│                              # stop-gate blocks finishing on a red build/tests;
+│                              # sensitive-edit-nudge = advisory example, installed unregistered
 ├── .github/
 │   ├── RAILS.md               # operator's guide + shakedown drills
 │   ├── CODEOWNERS
@@ -547,6 +548,7 @@ intent-driven-development/     # cloned locally as delivery-standard/ on some ma
 │   ├── agents/                # planner, architect, grader, security-reviewer,
 │   │                          # build-error-resolver, debugger
 │   ├── hooks/                 # stop-gate, review-gate, save-review-receipt (.ps1 + .sh each)
+│   │                          # + sensitive-edit-nudge (advisory example, unregistered)
 │   ├── workflows/             # ci.yml, grader.yml, correctness.yml, security.yml, deploy-dev.yml
 │   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
 │   ├── packs/                 # composable additions: stacks/dotnet, cicd/github, cicd/azure-devops,
