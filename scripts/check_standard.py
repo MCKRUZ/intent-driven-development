@@ -77,6 +77,19 @@ GATE_MARKER = "status-check context (branch-protection.json)"
 MODEL_REFERENCE = re.compile(r"<<MODEL>>.*?\(reference:\s*([A-Za-z0-9.-]+)\)")
 MODEL_FLAG = re.compile(r"^\s*--model\s+([A-Za-z0-9.-]+)\s*$", re.MULTILINE)
 
+# The kit's shipped components, and the documents that enumerate them. Adding a file to any of
+# these directories means updating every list below by hand — there is no generator — and a
+# missed list is silent: the reader has no way to know the inventory is stale.
+#
+# Directories, not individual files, because the failure is always "a new component nobody wrote
+# down". Naming files here would reproduce the very list this check exists to verify.
+ENUMERATED_DIRS = ("hooks", "agents", "skills", "workflows")
+ENUMERATING_DOCS = ("kit/README.md", "GOLD-STANDARD.md", "GOLD-STANDARD.html")
+
+# A component may go unnamed ONLY with a reason recorded here, matching ALLOWED_MISSING above:
+# it turns "nobody documented this" from an accident into a decision someone signed.
+ALLOWED_UNDOCUMENTED: dict[str, str] = {}
+
 PASSES_ASSIGNMENT = re.compile(r"^\s*PASSES_HIGH=(\d+)\s*$", re.MULTILINE)
 PASSES_REFERENCE = re.compile(r"<<SECURITY_PASSES_HIGH>>\s*—\s*reference value\s*(\d+)")
 PASSES_PROSE = re.compile(r"dial, currently set to (\d+)\*\*")
@@ -275,8 +288,60 @@ def check_security_dial() -> Result:
     return result
 
 
+def _kit_components(subdir: str) -> list[str]:
+    """The component names shipped in kit/<subdir>, twins collapsed to one name.
+
+    `stop-gate.ps1` and `stop-gate.sh` are one component documented once, so the extension is
+    dropped. Skills are directories, so their name is used as-is.
+    """
+    root = REPO_ROOT / "kit" / subdir
+    if not root.is_dir():
+        return []
+    names = {
+        entry.stem if entry.is_file() else entry.name
+        for entry in root.iterdir()
+        if entry.name != "README.md"
+    }
+    return sorted(names)
+
+
+def check_kit_inventory_is_enumerated() -> Result:
+    """Every component the kit ships is named in every document that enumerates the kit.
+
+    The docs list the kit's contents in four hand-maintained places — a table row in
+    kit/README.md, two tree diagrams in GOLD-STANDARD.md, and the HTML twin of both. Nothing
+    generates them and, before this check, nothing verified them: a component could ship while
+    a list went on describing the kit as it was, and the omission was invisible to a reader.
+
+    Word boundaries matter here. A bare substring test would let `grader` be "found" inside
+    `upgraded`, and a check that cannot fail is the thing this script exists to prevent.
+    """
+    result = Result("kit components are enumerated in the docs")
+    texts = {}
+    for doc in ENUMERATING_DOCS:
+        path = REPO_ROOT / doc
+        texts[doc] = path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
+
+    for subdir in ENUMERATED_DIRS:
+        for name in _kit_components(subdir):
+            if f"{subdir}/{name}" in ALLOWED_UNDOCUMENTED:
+                continue
+            pattern = re.compile(rf"(?<![A-Za-z0-9_-]){re.escape(name)}(?![A-Za-z0-9_-])")
+            for doc in ENUMERATING_DOCS:
+                result.checked += 1
+                if pattern.search(texts[doc]):
+                    continue
+                result.failures.append(
+                    f"{doc} never names `{name}`, which kit/{subdir}/ ships. "
+                    f"Add it to that document's inventory, or record it in "
+                    f"ALLOWED_UNDOCUMENTED with a reason."
+                )
+    return result
+
+
 CHECKS = (
     check_rooted_paths,
+    check_kit_inventory_is_enumerated,
     check_required_contexts_exist,
     check_gate_jobs_are_required,
     check_model_references,
