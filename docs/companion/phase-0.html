@@ -69,9 +69,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 <main id="track-glance" class="track active">
@@ -1828,6 +1829,307 @@
   </section>
 
 </main>
+
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">You've been handed a project and told to run Phase&nbsp;0.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase 0 takes about two weeks. Most of that is waiting on other people, not working.
+        Read this once end to end before you start &mdash; a few steps need meetings booked days ahead.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Three things, and two of them are people, not software. Sort the people out on day
+        one &mdash; they're the long pole.</p>
+      <ul>
+        <li><strong>The plugin, installed.</strong> If <code>/sdlc-setup</code> isn't in your slash
+          command list, run <code>/plugin marketplace add MCKRUZ/claude-code-sdlc</code> then
+          <code>/plugin install claude-code-sdlc@mckruz</code>.</li>
+        <li><strong><code>uv</code> installed</strong> (the plugin runs Python scripts through it).
+          <code>pip install uv</code> or <code>brew install uv</code>. If it's missing, the commands
+          will tell you so rather than fail silently.</li>
+        <li><strong>A sponsor, booked.</strong> The person who owns the budget and will sign at the
+          end. You cannot do Step 1 without them; get a half-day workshop on the calendar now.</li>
+        <li><strong>The data owner, booked.</strong> Whoever can run the report your success metric
+          comes from. Hardest person to get, needed around day 6. Book them in week one.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Starting the typing before the meetings are booked. The commands take minutes; the people
+          take days. Open both clocks on day one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; once, at the very start</p>
+      <h2>Set the project up</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-setup</span>
+      </div>
+      <p><strong>What happens:</strong> it asks you two questions &mdash; which profile (pick
+        <code>starter</code> if you're not sure; <code>microsoft-enterprise</code> if this is a
+        .NET/Angular/Azure build with compliance requirements) and the project name. Then it does a lot
+        in one go: creates the <code>.sdlc/</code> folder that tracks everything, <em>and</em> installs
+        the whole delivery harness into the repo &mdash; CI workflows, hooks, agents, rules, the
+        CLAUDE.md governance file.</p>
+      <p><strong>What you do:</strong> answer the two questions. Then read what it printed. If you see a
+        <code>WARNING:</code> line it means no pre-built pack exists for your language or CI platform
+        and you'll be adapting that part by hand. If you see a <strong>MANUAL SETUP</strong> block, run
+        those commands before going further.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">.sdlc/state.yaml &mdash; says Phase 0, active</span>
+        <span class="tag">.claude/ &mdash; hooks, agents, settings</span>
+        <span class="tag">.github/workflows/ &mdash; 7 CI files</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> <code>/sdlc-status</code> shows Phase 0
+        active. Commit everything it created, including
+        <code>.claude/harness-manifest.json</code> &mdash; that's the receipt future upgrades read.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Type this &mdash; then stop and talk to a human</p>
+      <h2>Frame the problem</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> Claude shows you Phase 0 guidance, then immediately blocks and
+        asks five questions: what's the problem in one sentence, who's most affected, what does success
+        look like, what's non-negotiable, and what kind of thing is this (service / app / library /
+        skill / CLI). Nothing gets written until these are answered.</p>
+      <p><strong>What you do:</strong> <em>do not answer these yourself.</em> These are the sponsor's
+        answers, not yours. If you haven't had that conversation yet, go have it, then come back and
+        type what they actually said. Guessing here is the single most expensive mistake in the phase
+        &mdash; everything downstream inherits it.</p>
+      <div class="aha warn">
+        <div class="lbl">Watch for this</div>
+        <p>Claude will not invent stakeholders and you shouldn't either. If the sponsor names three
+          people, there are three. Don't let a persona table get padded with hypothetical users.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Only if the client gave you documents &mdash; otherwise skip</p>
+      <h2>Load the documents</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-intake</span>
+      </div>
+      <p><strong>What happens:</strong> it reads every document in the intake folder, gives each one a
+        permanent ID (DOC-001, DOC-002...), writes a summary of each, and locks the catalog so those IDs
+        never shift. It stops partway to ask you which documents matter most.</p>
+      <p><strong>What you do:</strong> at that stop, prioritize honestly. Marking everything
+        high-priority defeats the point &mdash; the summaries get budgeted by priority so the whole
+        corpus stays loadable later.</p>
+      <p class="dim">Also automatic and invisible to you: if the repo already has source code in it,
+        Claude scans it first and asks you to confirm the summary is right.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">.sdlc/context/intake/ &mdash; catalog + per-document summaries</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Only if you're running a workshop with multiple stakeholders</p>
+      <h2>Prep the workshop</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-brief</span>
+      </div>
+      <p><strong>What happens:</strong> a fresh agent reads all the documents <em>against each
+        other</em> and produces two lists &mdash; every place the documents contradict each other, and
+        every question none of them answer. It sorts the questions into "email this one now" and "needs
+        the room." Then it drafts a one-page workshop brief and stops to let you choose what goes on
+        it.</p>
+      <p><strong>What you do:</strong> two jobs. First, actually send the email questions today &mdash;
+        that's the whole point, it saves you room time. Second, curate the brief down to one page and
+        <strong>send it yourself</strong>. Claude never sends anything to a client.</p>
+      <div class="aha warn">
+        <div class="lbl">The rule on the brief</div>
+        <p>Questions only. No proposed outcomes, no suggested metrics, no solutions. A brief that
+          answers its own questions produces a workshop that just agrees with you &mdash; and you learn
+          nothing.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">contradiction-list.md</span>
+        <span class="tag">question-list.md</span>
+        <span class="tag amber">the brief &mdash; you send it; it never gets committed</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Nothing to type &mdash; close the laptop</p>
+      <h2>Run the workshop and the interviews</h2>
+      <p class="lead">Half a day with the sponsor and the right people in one room, then separate
+        45-minute interviews with the people who actually live the problem day to day.</p>
+      <p><strong>What you do:</strong> settle every contradiction from the list. Get the real problem in
+        the sponsor's own words. Pick <em>one</em> success metric and name the system it will be read
+        from. Force the two questions people love to defer: who answers product questions during the
+        build, and is our AI tooling access sorted.</p>
+      <p><strong>Bring back:</strong> notes. That's it. You'll hand them to Claude next.</p>
+      <div class="aha warn">
+        <div class="lbl">Interview the doers, not just the funders</div>
+        <p>Where the adjuster's version disagrees with the executive's version is the most valuable
+          thing you'll find in this phase. Write the disagreement down, don't smooth it over.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Back at the keyboard &mdash; now Claude can write</p>
+      <h2>Draft the documents</h2>
+      <p class="lead">Paste your workshop and interview notes into Claude and work through the phase's
+        drafting steps. It writes; you correct. Do it the same day &mdash; notes go stale fast.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>File</th><th>What goes in it</th></tr></thead>
+        <tbody>
+          <tr><td><code>problem-statement.md</code></td><td>The problem with real numbers, who's affected, and the root cause &mdash; not the first symptom</td></tr>
+          <tr><td><code>success-criteria.md</code></td><td>The metric: baseline, target, stretch, and how it gets measured. Leave the baseline blank for now &mdash; step 7 fills it</td></tr>
+          <tr><td><code>constraints.md</code></td><td>Every non-negotiable, each with the reason it exists</td></tr>
+          <tr><td><code>constitution.md</code></td><td>The short document the sponsor signs: what this is, what done means, who decides what</td></tr>
+          <tr><td><code>phase1-handoff.md</code></td><td>Findings, decisions, open questions with owners, risks</td></tr>
+        </tbody>
+      </table>
+      <p><strong>What you do:</strong> read every draft as if you're trying to prove it wrong. Claude
+        drafts from your notes, but it will pick up whatever framing the documents leaned toward &mdash;
+        and the documents are often wrong about what the problem really is.</p>
+      <div class="aha warn">
+        <div class="lbl">Two files nothing creates for you</div>
+        <p>The standard also requires a <strong>PO decision record</strong> (who answers product
+          questions, in writing) and a <strong>tooling record</strong> (whose AI account and keys). No
+          command writes either one. Write them by hand, or fold the facts into
+          <code>constitution.md</code> and <code>constraints.md</code> &mdash; but don't skip them, they
+          carry contract weight.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Nothing to type &mdash; and no gate will catch you skipping it</p>
+      <h2>Prove the metric is real</h2>
+      <p class="lead">Sit with the data owner and <em>actually run the report</em> your success metric
+        depends on. Read the number off the screen. Type it into
+        <code>success-criteria.md</code> with the report's name next to it.</p>
+      <p><strong>Why this step exists:</strong> everyone nods along to "reduce processing time 30%"
+        and months later nobody can produce the current number. If the baseline can't be read today,
+        that's a finding, not a footnote &mdash; either change the metric, or make instrumenting it the
+        first piece of work in Phase 1.</p>
+      <div class="aha warn">
+        <div class="lbl">Nothing verifies this but you</div>
+        <p>The automated gate checks that <code>success-criteria.md</code> has a baseline field filled
+          in. It cannot tell whether you read that number off a live system or typed it from memory.
+          This one is on your integrity.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Type this &mdash; the machine checks your work</p>
+      <h2>Run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-gate</span>
+      </div>
+      <p><strong>What happens:</strong> it checks the five files exist, aren't empty, and have no
+        leftover placeholder text, then opens an HTML report in your browser. It also puts four judgment
+        questions in front of you &mdash; is the scope unambiguous, does every success criterion name
+        its source, is every persona a real person, is the project type recorded.</p>
+      <p><strong>What you do:</strong> fix whatever it flags and run it again until it's clean. A
+        leftover <code>TODO</code> in one file is the usual culprit.</p>
+      <p class="dim">Optional: <code>/sdlc-enhance</code> writes a plain-language version of the
+        artifacts for the sponsor to read before the sign-off meeting. Worth doing if your sponsor
+        isn't technical.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate does NOT check</div>
+        <p>Four things the standard requires to close this phase have no check behind them at all:
+          the PO decision, live tooling access under the client's account, the metric actually read from
+          its source, and the repo being live in the client's org. A green gate does not mean you're
+          done. Walk those four yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Type this &mdash; last thing in the phase</p>
+      <h2>Get the signature and advance</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next</span>
+      </div>
+      <p><strong>Before you type it:</strong> run the 45-minute review with the sponsor. Walk the
+        constitution, the metric with its proven baseline, the constraints, who owns product decisions,
+        and the open questions. Get the actual sign-off. This is a billing milestone &mdash; it's not
+        ceremonial.</p>
+      <p><strong>What happens:</strong> it re-runs the gates, then stops and asks you to confirm before
+        moving anything. Say yes and it advances the project to Phase 1. Then it does one more thing:
+        it surfaces every open question from your handoff document and makes you answer or explicitly
+        defer each one before any Phase 1 work starts.</p>
+      <p><strong>What you do:</strong> answer them properly. An open question waved through here is a
+        question someone rediscovers in month three.</p>
+      <div class="artifacts">
+        <span class="lbl">Phase 0 is done when</span>
+        <span class="tag">state.yaml says Phase 1</span>
+        <span class="tag green">the sponsor has signed</span>
+        <span class="tag">everything is committed in the client's repo</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these two handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and what's missing.</td></tr>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>Claude drafts,
+        you decide.</strong> If you find yourself accepting a draft you haven't verified, stop &mdash;
+        that's the failure mode this entire process exists to prevent.</p>
+    </div>
+  </section>
+
+</main>
+
 <main id="track-reference" class="track">
 
   <section class="s">

@@ -69,9 +69,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 
@@ -1387,6 +1388,412 @@
 <!-- ======================================================================= -->
 <!-- REFERENCE TRACK                                                          -->
 <!-- ======================================================================= -->
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">You've been handed an engagement that's nearly over and told to run Phase&nbsp;C.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase C takes about three weeks. Almost none of it is typing. The phase does not
+        close because a date arrived &mdash; it closes when the <em>client's own team</em> has run one
+        real piece of work end to end through the loop, unaided, while you watched. Read this once end
+        to end before you start; two of the steps have to begin in week one or the whole calendar
+        slips.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Four things, and three of them are people or decisions someone else has to make.
+        If any of the first two are missing, stop &mdash; that is a steering conversation, not a
+        scheduling one.</p>
+      <ul>
+        <li><strong>Named client engineers who will drive.</strong> At least three of them, available
+          to orchestrate real specs while you only check &mdash; and then one who runs a spec solo.
+          Without them the close gate cannot be passed at all. This is the training workstream that was
+          priced into the SOW back in Phase 0; if nobody was ever named, Phase C reveals that, it
+          cannot fix it.</li>
+        <li><strong>A named client Setup Owner.</strong> The client engineer who owns the harness after
+          you leave. They must be named <em>before</em> this phase starts, and by the end they must
+          have merged harness changes themselves.</li>
+        <li><strong>Real backlog items to run the loop on.</strong> Ordinary work the client genuinely
+          needs, mixed risk tiers, each small enough to merge inside the window. Not exercises invented
+          for the occasion.</li>
+        <li><strong>The prior phase actually closed.</strong> Phase 9's exit gate passed and
+          <code>close-handoff.md</code> reviewed. Check with <code>/sdlc-status</code> &mdash; the
+          project should read Phase&nbsp;C (slug <code>close</code>), active.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Treating Phase C as paperwork &mdash; write the report, revoke the seats, go home. The
+          paperwork is the easy part and none of it is the gate. The gate is a person on the client's
+          team shipping something real without you. Everything else on this page exists to support
+          that one event.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; first thing, before you schedule anything</p>
+      <h2>Open the phase and confirm the transfer is real</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> Claude reads <code>close-handoff.md</code> and the Phase 9
+        retrospective, shows you the Phase C guidance, then stops at a blocking gate and asks you four
+        questions in a picker: are client engineers named and available to orchestrate real specs; is
+        the client Setup Owner named and ready to merge harness changes themselves; which real backlog
+        items are the candidates for the shadow-flip specs and the close-gate spec; and what pod access
+        exists to revoke &mdash; seats, tokens, repo permissions, environment roles, vault policies.
+        Nothing else in the phase starts until you answer.</p>
+      <p><strong>What you do:</strong> answer honestly, including when the answer is no. If the client
+        cannot name engineers to run the loop, say so here rather than discovering it in week two. A
+        "no" at this gate is a steering conversation with the sponsor about the transfer &mdash; it is
+        not a reason to keep going and hope.</p>
+      <p class="note"><strong>Don't move on until:</strong> you have real names against the first two
+        questions and a shortlist of real backlog items against the third. The fourth answer becomes
+        step 02's input, so write it down properly &mdash; that list is the seed of the revocation
+        checklist.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Nothing to type &mdash; and it has to start in week one</p>
+      <h2>Draft the access-revocation checklist</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">no command drafts this &mdash; you write it, by hand, from records</span>
+      </div>
+      <p><strong>What you do:</strong> build <code>access-revocation-checklist.md</code> now, three
+        weeks before you'll execute it. Walk every source of access the engagement was ever granted:
+        the Phase 0/1 access checklist, CI secrets, environment roles, vault policies, repo
+        permissions, seats. One row per credential.</p>
+      <p><strong>Why so early:</strong> if you start this in week three it becomes a discovery
+        exercise, and discovery is exactly what you don't have time for on the way out the door.
+        Drafted in week one, week three is execution &mdash; tick, confirm, tick, confirm.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">access-revocation-checklist.md &mdash; a draft; nothing generates it</span>
+      </div>
+      <p class="dim">Also note which production secrets the pod ever touched. Those don't get removed,
+        they get rotated into values the pod cannot read &mdash; a separate job in step 07.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Week one &mdash; they type, you don't</p>
+      <h2>The shadow flip: at least three real specs</h2>
+      <div class="tooling">
+        <span class="label">They type</span>
+        <span class="cmd">/sdlc-spec</span>
+        <span class="none">and you type nothing at all</span>
+      </div>
+      <p><strong>What happens:</strong> the roles that opened Build reverse. The client's engineers
+        take the Orchestrator seat on real specs from their own backlog &mdash; triage with their
+        Product Owner, writing the spec, setting the bounds, approving the plan, driving the agent
+        &mdash; and the pod serves only as Checkers. The bar does not move: the grader runs, a
+        non-author approves, merge deploys. <code>/sdlc-spec</code> is the same command they'd use on
+        any other change; it scaffolds the spec, proposes a risk tier for a human to confirm, and
+        enforces the Definition of Ready before the work can be delegated.</p>
+      <p><strong>What you do:</strong> check, and coach <em>by question only</em> &mdash; "what does
+        the spec say about that path?" &mdash; never by taking the keyboard. And log every single
+        moment you wanted to grab it. Each one of those is a transfer gap with a name, and the log is
+        the actual output of this week. Roll it up per spec: who orchestrated, who checked, the grader
+        and Checker outcomes, and the gaps.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">close-gate-evidence.md &mdash; the shadow-flip section; you write it</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Three is a hard floor, and "real" is a hard word</div>
+        <p>Three real specs is an exit condition, not a target to negotiate down. And a spec built for
+          the occasion doesn't count &mdash; it has to be work the client actually needs, with a real
+          risk tier and real consequences. Confirm each one clears that bar <em>before</em> it runs,
+          not after.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Week one, in parallel &mdash; you ask Claude, in plain English</p>
+      <h2>Audit the harness for anything only you understand</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">no slash command runs this &mdash; you ask Claude for a read-only sweep</span>
+      </div>
+      <p><strong>What happens:</strong> you ask Claude to run a read-only audit of the harness for
+        transfer risk &mdash; sweeping <code>CLAUDE.md</code>, <code>.claude/</code> (skills, agents,
+        hooks, settings) and <code>specs/</code> for three things: skills or hooks that assume paths,
+        permissions or tools only the pod ever had; conventions the repo refers to but never documents;
+        and knowledge that lives in someone's head instead of in the repo. It lists each finding with
+        its location and why it would strand the client. The phase definition carries the exact wording
+        of that request &mdash; copy it rather than improvising.</p>
+      <p><strong>What you do:</strong> the sweep only surfaces candidates. The Setup Owner then walks
+        every skill, hook and convention by hand against one question: <em>could their team operate
+        this if we vanished tonight?</em> Then &mdash; and this is the part people skip &mdash; every
+        finding becomes a documented fix that the <strong>client's</strong> Setup Owner merges. Not
+        you. Their merge, in their history.</p>
+      <p>On top of the fixes, the client Setup Owner ships at least one harness change <em>of their
+        own</em> this phase: their idea, their PR, reviewed by a named deputy on their side. Merge
+        history is the test.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">harness-audit.md &mdash; findings, fixes, and who merged them</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">"Ask the pod" must return zero results</div>
+        <p>The failure this step exists to catch is the indispensable pod member &mdash; one person's
+          head still holds how something really works, and everyone finds out the week after they
+          leave. A Setup Owner who was named in a deck but never merged anything is a label, not an
+          owner, and the audit will not catch that for you. Check the merge log.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Week two &mdash; nothing to type, and that is the entire point</p>
+      <h2>The close gate: one real spec, solo, observed</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; if anyone from the pod touches a key, the run is void</span>
+      </div>
+      <p class="lead">One real spec &mdash; something the client genuinely needs, at a real risk tier
+        &mdash; runs the loop end to end with nobody from the pod driving. Their triage, their spec,
+        their bounds, their plan approval, their Checker, their merge, the automatic deploy.</p>
+      <p><strong>What you do:</strong> sit there and take notes. Present, silent, writing. Record each
+        loop step with a timestamp and a name, every stall, every guardrail event and how the team
+        responded, and the merge and deploy that closed it. Then write the verdict.</p>
+      <p><strong>Stalls are data. Help voids the run.</strong> If someone on their side gets stuck for
+        twenty minutes and works it out, that is a pass with a note. If someone on your side answers
+        one small question forty minutes in, the run is over &mdash; not as punishment, but because the
+        thing you were measuring stopped being measurable.</p>
+      <div class="aha warn">
+        <div class="lbl">A failed run is information, not embarrassment</div>
+        <p>Name the gap, fix it &mdash; more reps, a harness clarification, a missing line in a
+          playbook &mdash; and re-run on a <em>different</em> real spec. "They got through it with a
+          little help" is a fail. Record the voided run, the gap it revealed, the fix, and the spec you
+          re-ran on; that record is part of the evidence, not something to bury.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">close-gate-evidence.md &mdash; the observation record; you write it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Week three &mdash; run a script, then do the thinking it can't</p>
+      <h2>Hand over the record</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd"><span class="script">generate_handoff_report.py</span> <span class="arrow">&rarr;</span> final-handoff-report.md</span>
+      </div>
+      <p><strong>What happens:</strong> the script drafts <code>final-handoff-report.md</code> straight
+        from the engagement's own records &mdash; the index of every phase report, the per-phase
+        gate-and-sign-off table pulled from <code>state.yaml</code>, the metrics history, and the spec
+        backlog. It fills everything that is data and marks everything that isn't with a
+        <code>[Fill: ...]</code> slot. It writes to <code>.sdlc/artifacts/close/</code> and refuses to
+        overwrite a report a human has already edited unless you pass <code>--force</code>.</p>
+      <p><strong>What you do:</strong> fill the marked slots, because they are exactly the parts no
+        script can produce &mdash; how the outcomes landed against the problem statement written in
+        Phase 0 and with what caveats, the debt log with an owner and a date on every line, the open
+        items, and who the client calls now (their own team). Ask Claude for a read-only sweep of the
+        engagement record to draft those slots; then read every line as the sponsor will.</p>
+      <p>Two more things hand over alongside it: every phase report from 0 through 9, and the outcomes
+        dashboard &mdash; re-pointed to client ownership with its caveats intact, and the quarter-read
+        date (the day the outcome metric gets its first full-period reading) on the client's calendar.
+        Record that handover in <code>outcomes-dashboard-handover.md</code>.</p>
+      <div class="aha warn">
+        <div class="lbl">This script isn't behind a slash command</div>
+        <p>Unlike the gate checks, nothing wraps <code>generate_handoff_report.py</code> in a
+          <code>/sdlc-*</code> command &mdash; you invoke it yourself through <code>uv</code>, the way
+          the plugin runs all its Python. Ask Claude to run it if you're unsure of the exact
+          invocation for your install; the plugin's own path variable resolves it. Delivered means
+          delivered <em>into the client's tooling</em>, not left in a folder on your laptop.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">final-handoff-report.md &mdash; drafted by script, finished by you</span>
+        <span class="tag amber">outcomes-dashboard-handover.md &mdash; optional artifact, you write it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Week three &mdash; nothing to type, execute the checklist</p>
+      <h2>Revoke every credential, audited</h2>
+      <p class="lead">Every pod seat, token, repo permission, environment role and vault access
+        &mdash; removed on the checklist you drafted in step 02, then <em>confirmed against the
+        client's own audit trail by their security</em>.</p>
+      <p><strong>What you do:</strong> walk it item by item with the client's operations or platform
+        person and their security. Mark each one removed, with a date. Then go back through and mark
+        each one confirmed. Separately, rotate any production secret the pod ever touched into a
+        production-only value the pod cannot read, and get that signed by client security.</p>
+      <div class="aha warn">
+        <div class="lbl">"Removed" and "confirmed" are two different columns</div>
+        <p>A checklist where everything says removed and nothing says confirmed is an intention, not a
+          revocation. The engagement is supposed to end with the pod <em>provably</em> unable to touch
+          the system &mdash; that's not distrust, it's the last deliverable of the security posture the
+          whole engagement ran on. "We'll clean up the seats next sprint" is how pods still have
+          production access a year later.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">access-revocation-checklist.md &mdash; every row removed <em>and</em> confirmed</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Week three &mdash; the step that pays for the next engagement</p>
+      <h2>Open the harvest PR back to the standard</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">no command &mdash; you ask Claude to draft it, then you open the PR yourself</span>
+      </div>
+      <p><strong>What happens:</strong> you ask Claude to read the Phase 9 retrospective and this
+        engagement's harness changes, and draft the improvements the engagement earned &mdash;
+        generalized skills, corrected templates, patterns worth repeating &mdash; with every
+        client-specific name, number and domain detail stripped out. Each candidate comes with the
+        evidence behind it and the file in the standard it would touch.</p>
+      <p><strong>What you do:</strong> open that as a pull request against the firm's own
+        <code>delivery-standard</code> repo. The pod reviews it; the standard's deputy merges it. Then
+        write one file into that repo's <code>retros/</code> folder: what this engagement changed about
+        the standard, and why. Record the whole thing locally in
+        <code>harvest-pr-notes.md</code>.</p>
+      <p><strong>Why it's mandatory:</strong> this is the compounding asset compounding. An engagement
+        that ends without a harvest taught the standard nothing, and the next pod re-discovers these
+        lessons at a client's expense. It is a gate item, not a virtue.</p>
+      <div class="aha warn">
+        <div class="lbl">Nothing can verify this for you</div>
+        <p>The harvest PR lands in a <em>different repository</em>, so the gate cannot see it and never
+          will. The gate asks about it, and <code>harvest-pr-notes.md</code> is the only local receipt
+          &mdash; a receipt you wrote. The same is true of the retro file. If you're the last person
+          touching this engagement, you are the only check on whether the harvest happened.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">harvest-pr-notes.md &mdash; optional artifact, and the only local trace</span>
+        <span class="tag amber">a retro file in the standard's repo &mdash; outside this project entirely</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Type this &mdash; the machine checks your work, up to a point</p>
+      <h2>Build the reports and run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+      </div>
+      <p><strong>What happens:</strong> seven gates run against Phase C and an HTML report opens in
+        your browser at <code>.sdlc/reports/close-report.html</code>. The blocking part checks that the
+        four required artifacts &mdash; <code>final-handoff-report.md</code>,
+        <code>harness-audit.md</code>, <code>close-gate-evidence.md</code> and
+        <code>access-revocation-checklist.md</code> &mdash; exist, have real content, and are
+        structurally sound. The rest of the phase's exit conditions are rendered as prose checks for
+        the human who signs: they always come back as REVIEW and they never block.</p>
+      <p><strong>What you do:</strong> fix whatever it flags and run it again until it's clean. Then
+        share the HTML report at the close steering &mdash; it is the review artifact the final
+        sign-off is made against, and the last billing milestone lands with it.</p>
+      <p class="dim">Before the steering, the phase also asks for an interactive visual report at
+        <code>.sdlc/reports/close-visual.html</code> &mdash; the transfer scorecard, the audit findings
+        and their merges, the revocation tracker, and the harvest summary. That's the
+        <code>/visual-explainer</code> skill, not an <code>/sdlc</code> command. If it isn't available
+        in your install, generate equivalent HTML and say so.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate does NOT check &mdash; read this twice</div>
+        <p>A green gate on Phase C is a check on four markdown files. It cannot verify the one thing
+          this phase is about. No automated check can tell whether a client team really ran a real spec
+          unaided, whether the spec was real or a toy, whether anyone from the pod quietly helped,
+          whether the client Setup Owner actually merged anything, whether a credential was truly
+          confirmed against their audit trail, or whether the harvest PR was ever opened &mdash; two of
+          those live in repositories and systems this gate cannot see at all. The standard's exit
+          criteria are strictly larger than anything the plugin can enforce. Walk them yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">Type this &mdash; the last command of the engagement</p>
+      <h2>Sign the close</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next</span>
+      </div>
+      <p><strong>Before you type it:</strong> run the close steering with the sponsor. The engagement
+        record, the outcome metric's current read with its caveats intact, the close-gate evidence, the
+        formal end of the SOW, and the answer to the only question left &mdash; who they call now
+        (their own team), and what a future engagement would look like (a new Phase 0, in daylight,
+        with its own SOW).</p>
+      <p><strong>What happens:</strong> it re-runs the gates, then stops and asks you to confirm.
+        Phase C is the terminal phase &mdash; there is no next phase to advance into and no handoff
+        out. When it passes, the project is complete and the command tells you where future work would
+        re-enter.</p>
+      <p><strong>What you do:</strong> get a named human on each side to sign. Gates report, humans
+        decide &mdash; one last time. Then stop answering questions. Hypercare reflexes that outlive
+        their window un-transfer the engagement one message at a time; if the client wants ongoing
+        help, that is a new agreement, not a habit.</p>
+      <div class="artifacts">
+        <span class="lbl">The engagement is done when</span>
+        <span class="tag green">the client team ran one real spec end to end, unassisted</span>
+        <span class="tag">the harness has a client owner with merges to prove it</span>
+        <span class="tag">access is revoked and confirmed against their audit trail</span>
+        <span class="tag">the harvest PR is open against the standard</span>
+        <span class="tag green">a named human on each side has signed</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and what's missing.</td></tr>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next in this phase.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You want to be walked through it conversationally. For Phase C it asks the questions that matter: how many real specs have their engineers orchestrated, where did you want to grab the keyboard, is the close-gate spec a real one.</td></tr>
+          <tr><td><code>/sdlc-gate</code></td><td>Before the close steering, and again after every fix, until it's clean.</td></tr>
+          <tr><td><code>/sdlc-phase-report</code></td><td>Regenerate the HTML report at any time &mdash; for the steering deck, or after you've edited an artifact.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>the less you
+        type, the better it's going.</strong> Phase C is the one phase where your hands on the keyboard
+        is the failure signal. If you find yourself driving, stop &mdash; that's the finding, and it
+        belongs in the record.</p>
+    </div>
+  </section>
+
+</main>
+
 <main id="track-reference" class="track">
   <section class="s">
     <div class="wrap ref-doc reveal">

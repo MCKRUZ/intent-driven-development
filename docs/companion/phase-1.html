@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 
@@ -1400,6 +1401,390 @@
 <!-- ======================================================================= -->
 <!-- REFERENCE TRACK                                                          -->
 <!-- ======================================================================= -->
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">Phase&nbsp;0 is signed and someone has handed you Phase&nbsp;1.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase 1 takes about a week. It is the drafting-heaviest phase of the whole
+        engagement, and the thing that decides whether it lands on time is not the typing &mdash; it's
+        whether the product owner answers questions inside two days. Read this once end to end before
+        you start.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Phase 1 has an entry gate, not just an exit gate. Two of these come out of
+        Phase&nbsp;0 and you cannot fake them; the rest are people.</p>
+      <ul>
+        <li><strong>Phase 0 actually closed.</strong> <code>/sdlc-status</code> should say Phase 1.
+          The registry's entry gate for this phase is two lines: Phase 0's exit gate passed, and
+          <code>phase1-handoff.md</code> has been read.</li>
+        <li><strong><code>phase1-handoff.md</code>, read &mdash; not skimmed.</strong> Its open
+          questions carry numbered IDs (<code>Q-NN</code>). Every one must be answered or formally
+          escalated <em>before</em> you write requirements. They are inputs, not background reading.</li>
+        <li><strong>The document registry, if Phase 0 ran intake.</strong> That's the
+          <code>DOC-NNN</code> ID list. Requirements have to cite it &mdash; a P0 that came out of a
+          client document and doesn't name which one fails the phase's own exit criteria.</li>
+        <li><strong>The product owner, booked for the week.</strong> Elicitation, the decision list on
+          a two-business-day answer clock, the priority session, sign-off. This is the phase their
+          committed hours were written for.</li>
+        <li><strong>Domain experts, one per epic area.</strong> 60&ndash;90 minutes each. Plus the data
+          owner if Phase 0 found the success metric can't be read yet, and compliance/security if the
+          domain is regulated.</li>
+        <li><strong>A number for the top priority tier, decided before the priority session.</strong>
+          How many P0s the pod can credibly deliver in the first stretch of Build. You set it; the PO
+          ranks inside it.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Writing requirements while Phase 0's open questions are still open. Every unanswered
+          <code>Q-NN</code> becomes an assumption buried inside a requirement, and nobody finds it
+          until the build disagrees with the client. Answer them first &mdash; that's why the phase
+          opens with a gate that asks.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; then answer four questions before anything gets written</p>
+      <h2>Open the phase</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> it reads <code>.sdlc/state.yaml</code>, loads this phase's
+        definition, and prints the phase purpose, any <em>resolved</em> questions it can find in
+        Phase&nbsp;0's handoff, what to do next, a checklist of required artifacts marked exists or
+        missing, the exit criteria, and a reminder block of the gate commands. It changes nothing.</p>
+      <p>Then Phase 1's first workflow step runs, and it is a blocking human gate. Claude puts four
+        questions to you through a real prompt, not chat text: are the <code>Q-NN</code> open
+        questions from Discovery answered; is the P0/P1/P2 prioritization clear; are there
+        requirements you expect that Discovery never captured; and &mdash; if intake ran &mdash; does
+        the document registry imply requirements the handoff missed. <strong>No requirement gets
+        written until you confirm scope.</strong></p>
+      <p><strong>What you do:</strong> answer from the handoff document and from the PO, with both in
+        front of you. "I think so" is not an answer to question one.</p>
+      <p class="dim">The output also prints a "Skills to Use" line &mdash; the registry names
+        <code>/deep-project</code> and <code>/plan</code> for this phase. Those are separate skills,
+        not part of the plugin. If they aren't installed, ignore that line; nothing depends on it.</p>
+      <p class="note"><strong>Don't move on until:</strong> all four gate questions have real answers
+        and you can name the epic areas you're about to run sessions for.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Nothing to type &mdash; this is the week's real work</p>
+      <h2>Run the elicitation sessions</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; you're in a room, or on a call</span>
+      </div>
+      <p><strong>What you do first:</strong> have Claude draft the candidate epic map from the
+        Phase&nbsp;0 artifacts and the document corpus &mdash; 4&ndash;8 epics, each traced to one of
+        the outcomes, each with a one-paragraph intent. Correct it. Then use it to plan sessions: one
+        per epic area, the right domain expert in each. If Phase 0 found the success metric can't be
+        read end to end, the instrumentation epic goes on the map now and goes first.</p>
+      <p><strong>What happens in the sessions:</strong> 60&ndash;90 minutes each, you running them.
+        Claude preps the question list from the corpus and the epic intent beforehand, and structures
+        the notes afterwards into draft requirements with stable IDs, each traced back to the session
+        or the document it came from.</p>
+      <p><strong>Also running this week:</strong> read-only feasibility checks against the risks the
+        handoff flagged &mdash; is that API inventory still current, does the integration surface
+        exist as documented. Anything the checks contradict has to be reconciled before the
+        requirement that depends on it is signed.</p>
+      <div class="aha warn">
+        <div class="lbl">Interview the doers, not just the managers</div>
+        <p>The intake clerk knows the duplicate-claim workaround. The manager knows the org chart. If
+          every attendee has "manager" in their title, your requirements describe what the org chart
+          believes, not what the work actually is.</p>
+      </div>
+      <p class="dim">The plugin ships a <code>/sdlc-spike</code> command for the harder version of
+        this &mdash; a boxed, read-only investigation of a question nobody can answer yet, which
+        commits a written finding rather than code. It is real and it is in the plugin, but it is
+        missing from the command reference, so treat its exact flow as something to read in
+        <code>commands/sdlc-spike.md</code> before you lean on it.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Back at the keyboard &mdash; and there is no one command for this</p>
+      <h2>Draft the three requirement documents</h2>
+      <p class="lead">Paste your session notes into Claude and work through the phase's drafting steps.
+        There is no <code>/sdlc-requirements</code>. Claude writes; you correct. Do it the same day the
+        sessions happened.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>File</th><th>What has to be in it</th></tr></thead>
+        <tbody>
+          <tr><td><code>requirements.md</code></td><td>A summary table by priority and domain; the functional requirements as a table &mdash; ID, requirement, priority, domain, source, source document(s); business rules kept separate from requirements; a traceability matrix linking every P0/P1 to a Phase 0 pain</td></tr>
+          <tr><td><code>non-functional-requirements.md</code></td><td>Performance, security, scalability, reliability, maintainability. Each NFR as a row &mdash; ID, requirement, metric, test method, priority, <strong>measurement basis</strong></td></tr>
+          <tr><td><code>epics.md</code></td><td>An epic for every P0 and P1. "As a &hellip; I want &hellip; so that &hellip;", with at least two Given/When/Then scenarios &mdash; happy path <em>and</em> an error case &mdash; and the requirement ID it came from</td></tr>
+        </tbody>
+      </table>
+      <p><strong>The two rules that catch everyone:</strong></p>
+      <ul>
+        <li><strong>Every P0 and P1 needs Accepts / Returns / Errors.</strong> What valid input it
+          expects, what it produces on success, and what it does on each failure &mdash; named, one by
+          one. "Handles invalid input gracefully" is not a specification. "If the email format is
+          invalid, return 400 with a field-level error naming the invalid field" is.</li>
+        <li><strong>Every numeric NFR threshold needs a measurement basis.</strong> One of four:
+          <code>Measured</code> (cite the profiling run), <code>Industry standard</code> (cite the
+          reference), <code>Contractual</code> (cite the document), or
+          <code>[aspirational &mdash; validate in the Build loop]</code>. Aspirational is honest and
+          allowed. A number with no stated basis, treated as validated, is not.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">Design wearing a requirements costume</div>
+        <p>"The system SHALL use a message queue" is not a requirement, it's a Phase 2 decision that
+          snuck upstream and closed off options before anyone weighed them. Rewrite it as the behavior
+          that wanted it: "intake must accept submissions while downstream systems are unavailable."
+          Same for anything naming a database, a framework, or a hosting model.</p>
+      </div>
+      <p class="dim">The plugin ships starter templates for these under
+        <code>templates/phases/01-requirements/</code>, but nothing copies them into your project
+        &mdash; they are reference, not scaffolding. Read them for the expected table shapes.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Nothing to type &mdash; and nothing in the plugin enforces the outcome</p>
+      <h2>Run the priority session</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; 90 minutes, the PO driving</span>
+      </div>
+      <p><strong>What you do:</strong> announce the top-tier budget when the session opens &mdash; the
+        number you set before anyone walked in. The pod advises on cost and risk; the
+        <strong>PO assigns every priority</strong>. Then sequence the epics against the outcome: which
+        one moves the success metric first. Then draft the stories under each epic, each carrying a
+        named stakeholder and why they need it.</p>
+      <p><strong>What Claude does not do here:</strong> set a priority, accept a criterion, or make a
+        scope call. If there's no client PO and you're covering the role, every one of those decisions
+        gets logged for the sponsor to ratify &mdash; made <em>and</em> written down, not just
+        made.</p>
+      <div class="aha warn">
+        <div class="lbl">Everything is P0, and nothing checks that it isn't</div>
+        <p>Priority inflation is the default state of nature, and it is the failure mode this phase is
+          most likely to die of. Nothing in the plugin verifies that the top tier respected its budget,
+          or that a human rather than Claude assigned the priorities &mdash; there isn't even a prose
+          check for it in the exit gate. The budget holds because you hold it.</p>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> no story carries an invented persona. If
+        nobody named the stakeholder in a session, the story doesn't get one made up for it.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Type nothing &mdash; but this file will block your gate</p>
+      <h2>Write the decision list by hand</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; no command writes this file</span>
+      </div>
+      <p><strong>What it is:</strong> every product decision this phase surfaced and could not answer.
+        Not topics &mdash; questions with their options. "Fail open or fail closed on a duplicate
+        submission?" is a decision list entry. "Duplicate handling" is not.</p>
+      <p><strong>What each entry needs:</strong> a stable <code>D-NN</code> ID that blocked specs can
+        point at; the decision stated as a question with its options; a <strong>named human</strong>
+        who can actually answer it, not a role; the date raised and the date due on the agreed clock;
+        and the answer when it arrives, with who gave it and when.</p>
+      <p><strong>Why it matters more than it looks:</strong> a spec cannot enter the Build loop with an
+        open decision belonging to its story. If it does, the agent picks an answer &mdash; silently,
+        plausibly, on a Tuesday, and correctly-looking. This file is what stops that.</p>
+      <div class="aha warn">
+        <div class="lbl">The file nothing creates for you</div>
+        <p><code>decision-list.md</code> is a <strong>required</strong> artifact in the phase registry,
+          so <code>/sdlc-gate</code> blocks without it. No command writes it and no template ships
+          under that name. The template that <em>does</em> ship is <code>decision-log.md</code>, which
+          calls itself optional and lives at <code>.sdlc/decision-log.md</code> as a phase-spanning
+          file that <code>/sdlc-status</code> reads. They are not the same thing and one does not
+          satisfy the other. Write <code>decision-list.md</code> into this phase's artifact folder
+          yourself.</p>
+      </div>
+      <p class="note"><strong>If the work genuinely didn't happen,</strong> the file still has to
+        exist, containing a line in the form <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code>.
+        The gate accepts it and reports it, by name, in the record the approver signs. A missing file
+        still blocks. The escape is from the work, never from the record.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Type this &mdash; fresh eyes before the gate, not after</p>
+      <h2>Attack your own requirements</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-review --adversarial</span>
+      </div>
+      <p><strong>What happens:</strong> a reviewer agent that did not write the draft goes at this
+        phase's artifacts and challenges every assumption. It writes <code>review-report.md</code> into
+        the phase's artifact folder with CRITICAL / HIGH / MEDIUM / LOW findings, each naming a
+        specific artifact and carrying an actionable recommendation. With no flag it runs
+        <code>--council</code> instead, which reviews from the architecture, product, quality and
+        security angles at once; <code>--all</code> runs everything and combines the report.</p>
+      <p><strong>What you do:</strong> fix the CRITICAL and HIGH findings now. The review changes no
+        state and blocks nothing &mdash; it is advisory by design &mdash; but those two levels usually
+        predict exactly what the gate is about to fail on. Run your own testability pass alongside it:
+        take every acceptance criterion and ask whether two people could build different things from
+        that line. If yes, it goes back to be rewritten, not quietly into the pile.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">review-report.md &mdash; the agent's findings</span>
+        <span class="tag amber">adversarial-review-record.md &mdash; the receipt; you write it, nothing does</span>
+      </div>
+      <p class="note"><strong>Worth knowing:</strong> the phase definition says the approver is asked
+        about the optional records &mdash; the adversarial review record and the scope-out record
+        &mdash; at sign-off. Nothing in the gate or in <code>/sdlc-next</code> currently asks. If you
+        want them in front of the person signing, put them there yourself.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Type nothing &mdash; but get this section right or Phase 2 improvises</p>
+      <h2>Write the handoff, and the AQ list inside it</h2>
+      <p class="lead"><code>phase2-handoff.md</code> carries the requirements summary, what the NFRs
+        imply for design, the decisions you made and why, the product questions still open, the risks
+        worth watching, and a recommended design starting point. One section inside it does more work
+        than all the rest.</p>
+      <p><strong>The section is called "What Design Must Address."</strong> It is a numbered list of
+        architectural questions, <code>AQ-01</code> onward, one line each, each citing the REQ and NFR
+        IDs that raised it. For example: <em>does the intake API need idempotency, or can duplicates
+        be reconciled downstream? (driven by REQ-014, NFR-003)</em>.</p>
+      <p><strong>The rules:</strong> one question per AQ &mdash; if answering it takes two decisions,
+        it's two AQs. It's architectural if the answer changes the shape of the system: a component
+        boundary, a data flow, a technology choice, a consistency or failure model. If it only changes
+        what a screen says, it's a product question and belongs under open questions instead. And
+        <strong>do not answer them here</strong> &mdash; an AQ that arrives pre-answered has skipped
+        the gate that exists to get a human's name on it.</p>
+      <p><strong>Also carry forward:</strong> Phase 0's open questions, under their original
+        <code>Q-NN</code> IDs. Renumbering them breaks the trail back to who raised what.</p>
+      <div class="aha warn">
+        <div class="lbl">Why a thin AQ list is expensive</div>
+        <p>Phase 2 opens with a blocking human gate that reads this list and <em>has no other input</em>.
+          It pulls each <code>AQ-NN</code>, puts two or three concrete options to a human, and the
+          answers become the ADRs the rest of the engagement rests on. If the section is thin, Claude
+          improvises the architectural questions instead &mdash; and the signed decisions trace back to
+          identifiers nobody ever assigned.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Type this &mdash; the machine checks your work</p>
+      <h2>Run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-gate</span>
+      </div>
+      <p><strong>What happens:</strong> seven gates run. Required artifacts exist (G1). They're
+        non-empty and free of placeholder markers &mdash; <code>TODO</code>, <code>TBD</code>,
+        <code>${</code>, <code>PLACEHOLDER</code>, <code>[INSERT</code> (G2). Metrics, compliance, and
+        cross-phase drift follow (G3&ndash;G5), then content quality and cross-references (G6). Last,
+        G7 prints the phase's own exit conditions as prose for the human who signs &mdash; it never
+        passes or fails them. Then it writes an HTML report and opens it in your browser, and records
+        the results in state. It never advances the phase.</p>
+      <p><strong>What you do:</strong> fix every MUST failure and run it again until it's clean. The
+        usual culprits are a leftover <code>TODO</code> and a missing
+        <code>decision-list.md</code>. If it offers to auto-repair the fixable issues, that's a repair
+        agent, not magic &mdash; read what it changed.</p>
+      <p class="note"><strong>Before you run it:</strong> the command checks that a visual report
+        exists at <code>.sdlc/reports/01-requirements-visual.html</code> &mdash; the phase's registry
+        slug, not the name the phase definition gives (<code>phase01-visual.html</code>), which will
+        not be found. Same for the generated report: it lands at
+        <code>.sdlc/reports/01-requirements-report.html</code>. Save yours under the slug names.</p>
+      <p class="dim">Also available: <code>/sdlc-phase-report</code> regenerates that HTML any time,
+        and <code>/sdlc-enhance</code> writes a plain-language version of the artifacts for
+        stakeholders to read before the review.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate does NOT check</div>
+        <p>The four exit conditions it prints &mdash; the AQ list, no unresolved P0 conflicts, every
+          NFR threshold's measurement basis, every P0 tracing to a Phase 0 pain &mdash; are
+          <em>reported, never enforced</em>. Beyond those, four things the standard requires to close
+          this phase have nothing behind them at all: that error behavior is spelled out for every
+          top-tier operation, that the PO assigned the priorities and the top tier held its budget,
+          that every open decision has a named owner (the file's existence is checked; its contents
+          aren't), and that a scope-out record exists and the sponsor has seen it. A green gate is not
+          a finished phase. Walk those four yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Type this &mdash; last thing in the phase</p>
+      <h2>Get the sign-off and advance</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next</span>
+      </div>
+      <p><strong>Before you type it:</strong> run the phase review. The PO confirms the requirements
+        say what they meant. The sponsor sees the scope-out list with their own eyes &mdash; that page
+        is what prevents the month-four "I assumed that was included" conversation. Schedule the first
+        biweekly steering while everyone is still in the room.</p>
+      <p><strong>What happens:</strong> it re-runs the gates. If a MUST gate fails it stops, shows the
+        blockers, generates the report anyway, and offers repair. If they pass, it presents the phase
+        summary and <strong>asks you to confirm out loud</strong> before it moves anything. It then
+        offers &mdash; optionally &mdash; to record per-discipline sign-offs by name. Skipping that
+        advances exactly as before; whatever names you give get written into the sign-off record.
+        Finally it condenses this phase's artifacts into a frozen summary layer later phases read
+        instead of the full documents, and advances the project to Phase 2.</p>
+      <p><strong>What you do:</strong> give it real names. The agent only records what it is told, and
+        "the team approved" is not a name.</p>
+      <div class="artifacts">
+        <span class="lbl">Phase 1 is done when</span>
+        <span class="tag">state.yaml says Phase 2</span>
+        <span class="tag green">the PO and the sponsor have signed</span>
+        <span class="tag">the decision list is empty or every survivor has an owner and a due date</span>
+        <span class="tag">everything is committed</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next and which artifacts are still missing.</td></tr>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Also surfaces open decisions and flags any that have blown their clock.</td></tr>
+          <tr><td><code>/sdlc-review</code></td><td>Before the gate. <code>--adversarial</code> here; <code>--council</code> if you want all four viewpoints at once.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>Claude
+        drafts and interrogates; humans decide and own.</strong> Claude never sets a priority, accepts
+        a criterion, or makes a scope call &mdash; and if you let it, the gate will not catch you,
+        because none of those three has a check behind it.</p>
+    </div>
+  </section>
+
+</main>
+
 <main id="track-reference" class="track">
   <section class="s">
     <div class="wrap ref-doc reveal">

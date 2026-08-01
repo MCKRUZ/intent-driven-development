@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 
@@ -1301,6 +1302,465 @@ Wed 7/22  08:05  Re-rehearsal: deploy rc-1.0.1                    OK (8 min)
 <!-- ======================================================================= -->
 <!-- REFERENCE TRACK                                                          -->
 <!-- ======================================================================= -->
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">You've been handed a project and told to run Phase&nbsp;8.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase 8 takes about five business days, and almost none of it is typing. The software
+        doesn't change this week &mdash; only who is looking at it. Read this once end to end before you
+        start: two steps need people booked days ahead, and one step must never be automated.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Six things. Four of them are people or decisions, not software &mdash; and two of
+        them have to exist <em>before</em> anything reaches production, not during.</p>
+      <ul>
+        <li><strong>The plugin, installed.</strong> If <code>/sdlc-status</code> isn't in your slash
+          command list, run <code>/plugin marketplace add MCKRUZ/claude-code-sdlc</code> then
+          <code>/plugin install claude-code-sdlc@mckruz</code>.</li>
+        <li><strong><code>uv</code> installed</strong> (the plugin runs Python scripts through it).
+          <code>pip install uv</code> or <code>brew install uv</code>.</li>
+        <li><strong>Phase 7 closed, and <code>phase8-handoff.md</code> read.</strong> That's the entry
+          criteria. If you haven't read the handoff, you don't yet know what you're deploying.</li>
+        <li><strong>The production environment provisioned, and its configuration and secrets ready.</strong>
+          Provisioned from the same infrastructure code that built dev and test &mdash; not hand-built
+          this week.</li>
+        <li><strong>A written rollback plan, before the promote.</strong> Not "we'd redeploy the old
+          version." The exact steps, plus the trigger &mdash; the written condition that makes someone
+          decide to roll back. You will rehearse it at step 04; it has to exist before then.</li>
+        <li><strong>A named go/no-go decision owner.</strong> One person &mdash; usually the release
+          manager &mdash; owns the promote decision, and everyone knows who it is. Also name the client's
+          platform engineer who will actually run the promotion, and book the client's operators for
+          rehearsal week.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Treating the rollback as a document. A rollback that has never been executed is a wish. It gets
+          run for the first time at step&nbsp;04, in test, by the client's own operators &mdash; and if
+          those people can't make rehearsal week, the deployment date moves. The rehearsal doesn't.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; the phase opens with a planning gate, not the decision</p>
+      <h2>Start the phase</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> Claude reads <code>phase8-handoff.md</code> and shows you the
+        Phase 8 guidance, then stops before any deployment activity and asks five questions in a picker:
+        the deployment target and strategy (blue/green, rolling, canary, or direct replacement), the
+        rollback plan and its trigger condition, who must be notified before / during / after, whether
+        this is test-only or test plus production, and the deployment window &mdash; when it starts and
+        how long it runs.</p>
+      <p><strong>What you do:</strong> answer with decisions the client has already made, not your
+        preferences. If you don't know the answer to one of them, that's the finding &mdash; go get it
+        agreed before you type anything else.</p>
+      <div class="aha warn">
+        <div class="lbl">This is not the go/no-go</div>
+        <p>This gate plans the deployment. The go/no-go decides it, and it happens at step&nbsp;07,
+          after the rehearsal and the smoke results exist. Don't let a good conversation here feel like
+          approval &mdash; there is no evidence on the table yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Nothing to type &mdash; the checklist and the credentials</p>
+      <h2>Walk the checklist, rotate the secrets</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; ask Claude in the session to draft, then walk it with the client</span>
+      </div>
+      <p><strong>What happens:</strong> no command does this. Claude drafts
+        <code>deployment-checklist.md</code> from the RUNBOOK that Phase 7 proved: every step ordered,
+        each with an action, an expected outcome, and how to verify it. It also needs a rollback
+        procedure with decision criteria, a post-deployment verification section, and sign-off lines.</p>
+      <p><strong>What you do:</strong> walk the checklist with the client's platform engineer. Review the
+        configuration for the target environment. Cut the production access list to least privilege.
+        Draft the stakeholder notifications with the window in them. Then rotate every credential the pod
+        has ever touched to production-only values the pod has never held, and write
+        <code>secrets-rotation-record.md</code>: each credential, what it was for, where it now lives,
+        the rotation date, and anything deliberately not rotated with the reason and who accepted the
+        risk.</p>
+      <div class="aha warn">
+        <div class="lbl">The pod cannot sign the rotation</div>
+        <p>The secrets rotation is confirmed by the client's security function, <strong>by name</strong>,
+          or it is not confirmed. If it genuinely did not happen, write a line in the file reading
+          <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code>. The gate accepts that and prints it,
+          with the name, in the report the approver signs against. A missing file still blocks. The
+          escape is from the work, not from the record.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">deployment-checklist.md</span>
+        <span class="tag">secrets-rotation-record.md &mdash; signed by client security</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Nothing to type &mdash; and this one belongs to the client</p>
+      <h2>Get the rollout shape decided</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; this is a session with the client's product owner and operations</span>
+      </div>
+      <p><strong>What happens:</strong> the client decides how production traffic arrives &mdash; a full
+        cutover, a pilot cohort, or a parallel run alongside the old process. You write it down as
+        <code>rollout-shape-decision.md</code>: the shape and why, what happens to work already in flight
+        in the old process, the fallback, and the conditions that would trigger it. Named owner, dated.</p>
+      <p><strong>What you do:</strong> route the decision, don't make it. Then get it written
+        <em>before</em> the ceremony. A rollout shape improvised at the go/no-go is a rollout shape
+        nobody in operations has staffed.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">rollout-shape-decision.md &mdash; optional; the gate won't block on it, but the approver is asked</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> someone with a name owns the shape and the
+        in-flight-work answer. "We'll decide at the ceremony" means it gets decided under time pressure
+        by whoever speaks first.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Nothing to type &mdash; the most useful hour of the week</p>
+      <h2>Rehearse the rollback in test</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; the client's operators drive; you watch and take timestamps</span>
+      </div>
+      <p><strong>What happens:</strong> in the test environment, the client's own operators run
+        deploy &rarr; roll back &rarr; redeploy. For real. From the procedure in the checklist, with their
+        own permissions, using the same hands that would do it at 2&nbsp;a.m.</p>
+      <p><strong>What you do:</strong> record it in <code>rollback-rehearsal.md</code> &mdash; the
+        timeline with each step stamped (deploy, the decision to roll back, rollback complete, redeploy),
+        the <strong>time back to healthy</strong> measured rather than estimated, who ran it by name, the
+        written trigger conditions, and what broke that nobody expected.</p>
+      <div class="aha warn">
+        <div class="lbl">A clean first rehearsal is suspicious</div>
+        <p>A rehearsal where nothing surprised anyone was probably not run against anything real. If the
+          first attempt fails, that is the rehearsal doing its job &mdash; put the failed run in the file
+          <em>next to</em> the clean one. Found-and-fixed is stronger evidence than never-stressed. Fix
+          what it surfaced through the normal loop, re-rehearse, and move the window. Never promote past
+          a failed rehearsal.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">rollback-rehearsal.md &mdash; timestamped, with names</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Type this &mdash; the dress rehearsal</p>
+      <h2>Deploy to test and smoke it</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/e2e</span>
+      </div>
+      <p><strong>What happens:</strong> the release candidate goes to the test environment through the
+        full procedure &mdash; the client's platform engineer executes it, calling each checklist step.
+        Then the smoke suite runs: one journey per top-priority user story, minimum, non-destructive
+        (reads and harmless writes only). You are not writing this suite this week &mdash; it is
+        assembled from end-to-end journeys that already exist, trimmed to the safe paths.</p>
+      <p><strong>What you do:</strong> record results per test in <code>smoke-test-results.md</code>:
+        the environment, a table of test / story / environment / result / notes, any issues found with
+        their severity and resolution, and references to the screenshots captured as evidence. Keep the
+        test and production sections separate &mdash; you'll add the production half at step 09.</p>
+      <div class="aha warn">
+        <div class="lbl">Two helpers this phase names that don't exist</div>
+        <p>The phase definition tells Claude to spawn an agent called <code>devops-automator</code> for
+          the deployment and <code>e2e-runner</code> for the smoke tests. <strong>Neither ships with the
+          plugin.</strong> Do the deploy through your pipeline and run your end-to-end suite directly.
+          <code>build-error-resolver</code> is real &mdash; <code>/sdlc-setup</code> installs it into
+          <code>.claude/agents/</code>, and it's the right thing to reach for if the deployment build
+          fails. <code>/e2e</code> is listed as this phase's primary skill but also isn't part of the
+          plugin; if you don't have it, run the suite however your project already runs it.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">smoke-test-results.md &mdash; test section filled in</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Nothing special to type &mdash; but write it now, not on go-live day</p>
+      <h2>Draft the release notes</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; ask Claude to draft <code>release-notes.md</code> from the merged specs</span>
+      </div>
+      <p><strong>What happens:</strong> Claude assembles the notes from every spec merged since the build
+        started. There's no dedicated command for it; <code>/sdlc</code> reminds you what the file must
+        contain.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Section</th><th>What goes in it</th></tr></thead>
+        <tbody>
+          <tr><td>Version</td><td>The semantic version and the release date</td></tr>
+          <tr><td>Summary</td><td>What this release delivers &mdash; two or three sentences, for stakeholders</td></tr>
+          <tr><td>New features</td><td>User-facing capabilities added</td></tr>
+          <tr><td>Bug fixes</td><td>Issues resolved</td></tr>
+          <tr><td>Breaking changes</td><td>Anything that requires the people using it to do something</td></tr>
+          <tr><td>Known limitations</td><td>What doesn't work yet, and what has caveats</td></tr>
+          <tr><td>Upgrade path</td><td>How to move from the previous version, if there is one</td></tr>
+        </tbody>
+      </table>
+      <p><strong>What you do:</strong> read the draft as someone who never saw a spec, because that's who
+        it's for. Cut every internal term. If a line only makes sense to the people who built the system,
+        rewrite it or delete it.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">release-notes.md</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Nothing to type &mdash; and nothing here is ever automated</p>
+      <h2>The go/no-go</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; this is a meeting, and it is the point of the phase</span>
+      </div>
+      <p class="lead">A named human decides whether this goes to production. Not a gate, not a command,
+        not Claude. Every release, this one and every one after it.</p>
+      <p><strong>What happens:</strong> the evidence goes on the table &mdash; the rehearsal record, the
+        smoke results, the written rollback trigger, the rollout shape, the notification list, the
+        deployment window. Then every named role is asked in turn: release manager, platform engineer,
+        operations, security, product owner, quality, sponsor. Each answers <strong>go</strong>,
+        <strong>no</strong>, or <strong>held</strong>. A held answer names its condition, and the
+        ceremony waits until that condition is met or it becomes a no.</p>
+      <p><strong>What you do:</strong> write <code>go-no-go-record.md</code> as it happens &mdash; every
+        role, the name, the time, the answer, and one line of rationale each, plus the decision and the
+        agreed window. Write it in the room, not from memory afterwards.</p>
+      <div class="aha warn">
+        <div class="lbl">The gate has no idea what belongs in this file</div>
+        <p><code>go-no-go-record.md</code> is a required artifact, but unlike every other required file
+          in this phase it has no content specification behind it. The automated check only confirms the
+          file exists, isn't empty, and has no leftover <code>TODO</code>. The list above is what actually
+          has to be in it &mdash; nothing will tell you if you leave half of it out.</p>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Go/no-go theater</div>
+        <p>The failure mode is a ceremony where the decision was really made days ago and the meeting
+          exists to nod. The tell: nobody in the room could plausibly say no. A no is cheap today and
+          expensive next week &mdash; make it genuinely available, and never punish the person who used
+          it.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag green">go-no-go-record.md &mdash; a named human said go, on the record</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Nothing to type &mdash; the client's engineer runs it</p>
+      <h2>Promote to production</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing in Claude &mdash; the promotion runs through the pipeline</span>
+      </div>
+      <p><strong>What happens:</strong> in the agreed window, the client's platform engineer promotes
+        <em>the same artifact that passed test</em> to production. The release manager calls each
+        checklist step out loud; the pod and the client's operators watch the same dashboards.</p>
+      <p><strong>What you do:</strong> stay off the keyboard. The people who will run this system in a
+        month should be the ones running it today, with you beside them. Log each step and its outcome as
+        you go &mdash; <code>deployment-log.md</code> is an optional artifact and this is where it gets
+        written.</p>
+      <div class="aha warn">
+        <div class="lbl">Promote, never rebuild</div>
+        <p>Do not kick off a fresh build for production "real quick." A rebuilt artifact is something no
+          environment ever verified, and you have just spent a week verifying the other one.</p>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">There is no production deploy workflow in the kit</div>
+        <p>The kit ships one deploy workflow: <code>.github/workflows/deploy-dev.yml</code>, and it
+          targets <strong>dev only</strong>. It is a starter skeleton &mdash; its deploy, health-check and
+          restore steps are placeholders (<code>&lt;&lt;DEPLOY_STEP&gt;&gt;</code>,
+          <code>&lt;&lt;HEALTH_CHECK&gt;&gt;</code>, <code>&lt;&lt;RESTORE_LAST_GOOD&gt;&gt;</code>) you
+          wire to the client's platform. Promotion beyond dev is deliberately not automated and not
+          shipped: you build that path with the client, and step&nbsp;04 is where you prove it works.
+          Don't go looking for a <code>deploy-prod</code> file &mdash; it doesn't exist, and expecting it
+          is how a promotion turns into an improvisation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Type this &mdash; then watch, with your hands off</p>
+      <h2>Smoke production and watch the first real traffic</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/e2e</span>
+      </div>
+      <p><strong>What happens:</strong> the same smoke suite runs against live production endpoints
+        &mdash; one journey per top-priority story, non-destructive, through the test-mode paths built for
+        exactly this. Results go into the production section of
+        <code>smoke-test-results.md</code>, alongside the test results and the go/no-go decision with its
+        rationale.</p>
+      <p><strong>What you do:</strong> three things. Confirm the smoke suite is green. Confirm monitoring
+        is <em>receiving</em> production data &mdash; tuning the alerts is Phase 9's job, but going live
+        blind is not acceptable today. Then trace the first real transactions end to end against expected
+        behaviour, with the people who own the outcome looking at the same screen.</p>
+      <div class="aha warn">
+        <div class="lbl">If it can corrupt data, it isn't a smoke test</div>
+        <p>Reads and harmless writes only, through flagged test-mode paths that leave no unflagged
+          records. The classic own-goal in this phase is a verification step that causes the incident it
+          was meant to catch.</p>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> the production smoke section is filled in
+        with a result per test, and someone has watched a real transaction all the way through.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">Nothing to type &mdash; the path you rehearsed</p>
+      <h2>If it goes wrong, roll back</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; the operators run the procedure they rehearsed at step 04</span>
+      </div>
+      <p><strong>What happens:</strong> you already know when to call it, because the trigger condition
+        was written down before the promote and rehearsed in test. Someone calls it, the operators run
+        the procedure, and production returns to the last known-good version.</p>
+      <p><strong>What you do:</strong> do not debug forward in production. Roll back first, then
+        diagnose in test. Record the incident under "Issues found" in
+        <code>smoke-test-results.md</code> and in <code>deployment-log.md</code>, fix the cause through
+        the normal loop, re-rehearse, and go back to step 07 &mdash; a second promote needs a second
+        recorded go.</p>
+      <p class="note">A rollback is not a failed phase. Promoting past a failed rehearsal is. The whole
+        design of this week is to make the expensive discovery happen somewhere cheap.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">11</span>
+      <p class="kicker">Type this &mdash; the machine checks your paperwork</p>
+      <h2>Run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-gate</span>
+      </div>
+      <p><strong>What happens:</strong> it checks that seven required files exist, aren't empty, and have
+        no leftover placeholder text &mdash; <code>TODO</code>, <code>TBD</code>,
+        <code>PLACEHOLDER</code>, <code>[INSERT</code>. Then it renders the phase's exit conditions as
+        review items for the human who signs, and opens an HTML report in your browser.</p>
+      <div class="artifacts">
+        <span class="lbl">The seven it requires</span>
+        <span class="tag">release-notes.md</span>
+        <span class="tag">deployment-checklist.md</span>
+        <span class="tag">smoke-test-results.md</span>
+        <span class="tag">phase9-handoff.md</span>
+        <span class="tag">rollback-rehearsal.md</span>
+        <span class="tag">go-no-go-record.md</span>
+        <span class="tag">secrets-rotation-record.md</span>
+      </div>
+      <p><strong>What you do:</strong> fix what it flags and run it again until it's clean. A leftover
+        <code>TODO</code> in one file is the usual culprit.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate does NOT check</div>
+        <p>It cannot tell whether the rollback actually ran, whether the ceremony actually happened, or
+          whether production smoke actually passed. Those three <em>are</em> its exit conditions, and
+          they are rendered for review only &mdash; they never block. Four more things the delivery
+          standard requires to close this phase aren't in the automated list at all: monitoring receiving
+          production data, the first real traffic traced end to end, hypercare underway on its agreed
+          window, and the release notes actually sent to stakeholders. A green gate means the paperwork
+          exists. Walk those seven yourself.</p>
+      </div>
+      <p class="dim">The phase definition also asks for an interactive visual report generated with a
+        <code>/visual-explainer</code> skill. That skill isn't part of the plugin, and no gate checks for
+        the file &mdash; treat it as optional polish for the stakeholder review, not a blocker.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">12</span>
+      <p class="kicker">Type this &mdash; last thing in the phase</p>
+      <h2>Sign off and advance</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next</span>
+      </div>
+      <p><strong>Before you type it:</strong> draft <code>phase9-handoff.md</code> &mdash; what was
+        deployed, when and where; the current system state and how to verify it; what monitoring must
+        cover; known issues in production; and the escalation contacts, by name. Then run steering with
+        the sponsor: the deployment record, the smoke results, and the first real production numbers on
+        the outcome scorecard, however early. This gate is a billing milestone.</p>
+      <p><strong>What happens:</strong> it re-runs the gates, opens the report, and stops to ask you to
+        confirm before it moves anything. Say yes and it advances the project to Phase 9. Then it pulls
+        every open question out of your handoff document and blocks until each one is answered or
+        explicitly defaulted &mdash; no Phase 9 work gets written until they are.</p>
+      <p><strong>What you do:</strong> answer them properly. In this phase they're usually the things
+        production just taught you, and Phase 9 is where they turn into alerts.</p>
+      <div class="artifacts">
+        <span class="lbl">Phase 8 is done when</span>
+        <span class="tag">state.yaml says Phase 9</span>
+        <span class="tag green">a named human's go is on the record</span>
+        <span class="tag">production smoke green and monitoring receiving data</span>
+        <span class="tag">hypercare underway on its agreed window</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and what's missing.</td></tr>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next.</td></tr>
+          <tr><td><code>/sdlc-gate</code></td><td>After each artifact lands, not just at the end. Cheaper to fix one file at a time.</td></tr>
+          <tr><td><code>/sdlc-phase-report</code></td><td>Regenerate the HTML report to share with stakeholders before sign-off.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>Claude prepares
+        the evidence, humans make the decision.</strong> Every other phase has judgment calls you could
+        arguably automate one day. This one has exactly one that you never will &mdash; a deployment
+        without a recorded human go isn't a deployment, it's an incident.</p>
+    </div>
+  </section>
+
+</main>
+
 <main id="track-reference" class="track">
   <section class="s">
     <div class="wrap ref-doc reveal">

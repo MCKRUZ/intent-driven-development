@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 <main id="track-glance" class="track active">
@@ -1460,6 +1461,516 @@ playbook. Two findings, both fixed and re-drilled same day.</blockquote>
     All names, numbers, and documents are invented but internally consistent &mdash; the 11.4-day baseline, the
     six alerts, the drill record, and the Phase 2 proving-plan promises trace through every artifact on this
     page.</p>
+
+</main>
+
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">The system is already live. You've been handed it and told to run Phase&nbsp;9.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase 9 takes about two weeks and runs <em>inside</em> the hypercare window on purpose
+        &mdash; week one exists so real production traffic can pile up, because you cannot write a single
+        honest alert threshold until you have measured what normal looks like. Read this end to end before
+        you start: the number that unlocks the whole phase takes days to accumulate, not minutes.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Six things. Three of them are people, one of them is time, and none of them can be
+        arranged the morning you need them.</p>
+      <ul>
+        <li><strong>The system live in production, and Phase 8 closed.</strong> That's the entry condition.
+          No production traffic means no baseline, and no baseline means every threshold you write is a
+          guess.</li>
+        <li><strong>The plugin, installed.</strong> If you arrived here through Phase 8 it already is. If
+          <code>/sdlc-status</code> doesn't run, install it: <code>/plugin marketplace add
+          MCKRUZ/claude-code-sdlc</code> then <code>/plugin install claude-code-sdlc@mckruz</code>. You also
+          need <code>uv</code> (<code>pip install uv</code>) &mdash; the plugin runs its Python checks
+          through it.</li>
+        <li><strong><code>phase9-handoff.md</code>, read.</strong> Phase 8 wrote it. The plugin's first step
+          in this phase is to read it back to you and ask questions about it.</li>
+        <li><strong>Read <em>and write</em> access to the client's monitoring stack.</strong> Whatever their
+          team already watches &mdash; that's the stack. You are wiring into theirs, never standing up your
+          own. Alerts built in a tool the client doesn't open become noise the week you leave.</li>
+        <li><strong>The client's operations / on-call people, booked twice.</strong> Once in week one for
+          the session that decides what "healthy" means, once on day 8 for the drill. They are the thread
+          of the phase; they're the ones being paged.</li>
+        <li><strong><code>RUNBOOK.md</code> from Phase 7, open.</strong> Its failure scenarios are the list
+          your alerts get derived from. You don't brainstorm alerts; you walk that list.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Writing alerts on day one. It feels productive and it produces numbers nobody measured. Week one
+          is for measuring normal and getting operations in a room. If you skip straight to thresholds you
+          will spend week two arguing about numbers that can't explain themselves.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; first thing in the phase</p>
+      <h2>Orient, and agree the scope</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> it prints the Phase 9 guidance from the plugin's phase definition
+        &mdash; what to do next, the required artifacts with an exists/missing mark against each, and the
+        exit criteria. The phase's own first step is then a stop: before any monitoring gets configured,
+        Claude reads <code>phase9-handoff.md</code> and puts questions in front of you &mdash; what are the
+        top three things that could go wrong in production, who gets paged and at what threshold, and what
+        monitoring infrastructure already exists (are we adding to their Grafana / Datadog / CloudWatch, or
+        starting from scratch).</p>
+      <p><strong>What you do:</strong> answer the third question from the client's reality, not your
+        preferences. And do <em>not</em> answer the second one yourself &mdash; "who gets paged" is
+        operations' answer, in their names. If you haven't asked them yet, that's the next thing you do.</p>
+      <div class="aha warn">
+        <div class="lbl">Check the project type before anything else</div>
+        <p>Phase 9 reads <code>project_type</code> from <code>state.yaml</code> and changes shape
+          completely. For <code>service</code> / <code>app</code> it's the full thing: dashboards, alerting,
+          on-call, runbook. For <code>library</code> / <code>cli</code> it's package health &mdash; download
+          counts, open issues, version adoption &mdash; and "alerts" means issue-triage criteria. For
+          <code>skill</code> there is no server and no metrics pipeline at all: monitoring is GitHub Issues
+          plus user feedback. Configuring dashboards for a skill project is a wasted phase.</p>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> the monitoring scope is written down and names a
+        stack that already exists at the client, with a named owner for every dashboard you intend to
+        build.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">The step everything else rests on</p>
+      <h2>Measure what normal looks like</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">nothing new &mdash; this happens inside the /sdlc session</span>
+      </div>
+      <p><strong>What happens:</strong> the phase tells Claude to spawn an agent called
+        <code>performance-benchmarker</code> to establish the production baseline &mdash; response times,
+        throughput, error rates and resource usage, measured against the targets in
+        <code>non-functional-requirements.md</code>. Those measurements are the "normal" that every alert
+        threshold later gets derived from.</p>
+      <div class="aha warn">
+        <div class="lbl">The agent this step names does not ship with the plugin</div>
+        <p><code>performance-benchmarker</code> appears in the plugin's agent roster and in Phase 9's own
+          step text, but there is no agent definition for it anywhere in the plugin. The same is true of
+          <code>doc-updater</code> (step 4) and <code>feedback-synthesizer</code> (step 10). If your install
+          doesn't have them from somewhere else, the spawn simply won't find them. That does not excuse you
+          from the step &mdash; read the numbers out of the client's own stack yourself. The measurement is
+          the point; the agent was only ever a convenience.</p>
+      </div>
+      <p><strong>What you do:</strong> pull the real numbers over the hypercare window that has actually
+        elapsed &mdash; request rate, latency percentiles, error rate, queue depth, dependency health
+        &mdash; and write each one down <em>with the period it was measured over</em>. A number without its
+        window is not a baseline; it's an anecdote.</p>
+      <p><strong>When production hasn't exercised a path:</strong> the seasonal surge, the rare dependency
+        failure. Do not invent a normal for it. Use what the engagement already measured &mdash; the
+        hardening passes' load-test results, the design phase's spikes &mdash; mark that value
+        <strong>modeled</strong> on its face, and give it a revisit date and a named owner. Honest and
+        modeled beats confident and wrong.</p>
+      <div class="artifacts">
+        <span class="lbl">Where this lands</span>
+        <span class="tag amber">baseline-data.md &mdash; optional; the gate never asks for it</span>
+        <span class="tag">baseline measurements also belong inside monitoring-config.md</span>
+      </div>
+      <p class="note">Write it down even though nothing forces you to. Every threshold in step 5 has to cite
+        this data, and a reviewer who can't see the baseline can't review a single alert.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Nothing to type &mdash; get operations in a room</p>
+      <h2>Decide what "healthy" means, together</h2>
+      <p class="lead">Half a day with the client's operations people. Walk every failure scenario in
+        <code>RUNBOOK.md</code> and every top-priority user journey, and answer the same four questions for
+        each one: what does healthy look like, what does degraded look like, who gets woken, and who is
+        merely told in the morning.</p>
+      <p><strong>What you do:</strong> ask, capture, and let operations win ties. You know what the system
+        does; they know what 3 a.m. is like in this company. One line per scenario and per journey is
+        enough. That table is what the alert definitions get written from &mdash; the whole of step 5 is
+        just this session, formalised.</p>
+      <div class="aha warn">
+        <div class="lbl">This session's output has no required home</div>
+        <p><code>what-healthy-table.md</code> is an <strong>optional</strong> artifact. The gate never asks
+          for it. Phase 9's exit conditions don't mention it either, so &mdash; unlike the optional receipts
+          in the final phase &mdash; nothing puts the question in front of the person who signs. If nobody
+          types the table up, the entire design session survives only in somebody's memory. Fold it into
+          <code>monitoring-config.md</code> or write the file. Waking the wrong person at 3 a.m. is a design
+          defect, and this is where that design is recorded.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Back at the keyboard &mdash; the first required file</p>
+      <h2>Write the monitoring configuration</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">nothing new &mdash; you draft this with Claude in the /sdlc session</span>
+      </div>
+      <p><strong>What happens:</strong> the phase hands the baseline output to a <code>doc-updater</code>
+        agent (see the warning in step 2 &mdash; it may not exist on your install) to write
+        <code>monitoring-config.md</code>. The file is required and it must contain four things: the
+        <strong>dashboard inventory</strong> (what exists and what each one shows), the <strong>metrics
+        catalog</strong> (every metric collected, its source, its meaning), the <strong>coverage
+        assessment</strong> (is every top-priority feature observable, and what's the gap), and the
+        <strong>baseline measurements</strong> from step 2.</p>
+      <p><strong>What you do:</strong> two things nobody will make you do. First, put a named owner on every
+        dashboard &mdash; a dashboard nobody reviews is decoration, and it doesn't ship. Second, build the
+        <em>business</em> layer, not just system metrics: the one number the client hired you to move,
+        expressed in their own reporting language, co-built with their data lead. A client who can see
+        request rates but not whether the thing they bought is working has been given a monitoring stack and
+        no answer.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag green">monitoring-config.md &mdash; required; the gate blocks without it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">The spine of the whole phase</p>
+      <h2>Derive the alerts from the baseline</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">nothing new &mdash; you draft this with Claude in the /sdlc session</span>
+      </div>
+      <p><strong>What happens:</strong> you and Claude write <code>alert-definitions.md</code>. It's
+        required, and the specification is exact. An <strong>alert table</strong> &mdash; name, condition,
+        severity, recipient, response time, link to its playbook entry. <strong>Per-alert detail for every
+        critical alert</strong> &mdash; the exact query or threshold, <em>why this threshold</em>, what to
+        do when it fires, how to resolve it. An <strong>alert philosophy</strong> &mdash; how you decided
+        what deserves an alert versus what you merely watch. And a <strong>baseline reference</strong>
+        &mdash; how each threshold was derived from step 2's numbers.</p>
+      <p><strong>What you do:</strong> walk the RUNBOOK's critical failure modes and give each one an alert.
+        Give every alert two thresholds: <strong>warning</strong> means investigate during working hours,
+        <strong>critical</strong> means wake someone up. The difference between them is simply who suffers
+        if it waits until morning. Then write the derivation next to the number, every time. &ldquo;2x the
+        measured p95 over 10 minutes&rdquo; survives an argument six months from now. &ldquo;500ms&rdquo;
+        does not &mdash; and a threshold that can't explain itself can never be tuned, only deleted.</p>
+      <div class="aha warn">
+        <div class="lbl">Why a made-up number is worse than no alert</div>
+        <p>A guessed threshold fails in one of two ways. <strong>Too low:</strong> it fires constantly, the
+          team mutes it, and now you have something worse than no alert &mdash; a team trained to ignore the
+          pager, which is the state they'll be in when the real one fires. <strong>Too high:</strong> it
+          never fires at all, and you discover that during the incident. Neither failure is visible in any
+          gate, any report, or any file listing. The only thing standing between you and both of them is
+          having actually measured normal first.</p>
+      </div>
+      <p><strong>Get the confirmation recorded, not remembered:</strong> the people being paged confirm
+        every threshold, and their names go on the review of the change that ships the alert rules. A
+        meeting where everyone nodded is not a record.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag green">alert-definitions.md &mdash; required; the gate blocks without it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Nothing to type &mdash; and nothing checks it</p>
+      <h2>Run the fatigue review before anything ships</h2>
+      <p class="lead">Take every alert you just proposed and replay its condition against the hypercare
+        metrics history &mdash; the same data your baseline came from. For each one, count two numbers: how
+        many times it <em>would have</em> fired over that period, and how many of those firings would have
+        demanded that somebody actually do something.</p>
+      <p><strong>What you do:</strong> anything that would have fired more than once a week without
+        demanding action gets its threshold raised or gets cut. Now &mdash; not in three months, after the
+        team has already learned to ignore it. Record the decision per alert: kept, raised, or cut, and
+        why.</p>
+      <p><strong>Why this is a separate pass:</strong> every alert looks reasonable in isolation. The damage
+        is cumulative. Fifty alerts feels thorough and guarantees all fifty get ignored within a month.
+        Fewer, actionable, derived, reviewed.</p>
+      <div class="artifacts">
+        <span class="lbl">Where this lands</span>
+        <span class="tag amber">fatigue-review-record.md &mdash; optional; nothing asks whether you did this</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Only if any part of what you built is LLM-powered</p>
+      <h2>The three alerts the plugin never mentions</h2>
+      <p class="lead">If a spec's deliverable was an agent, a prompt, or anything else where the behaviour is
+        probabilistic, the standard requires three extra alerts here: <strong>cost spikes</strong> (token
+        cost per task), <strong>refusal rates</strong>, and <strong>eval drift in production samples</strong>
+        &mdash; plus tracing (what the agent saw, decided, and called) and failure-mode logging.</p>
+      <p><strong>What you do:</strong> add all three to <code>alert-definitions.md</code> like any other
+        alert &mdash; condition, severity, named recipient, playbook link. The eval-drift one already has
+        its number: <code>/sdlc-evals</code> authored a versioned golden set and a pass threshold for that
+        spec during the build. That threshold is the alert condition. Don't invent a second one; extend the
+        CI gate into a live watch on real production samples.</p>
+      <div class="aha warn">
+        <div class="lbl">Nothing in the tooling will remind you</div>
+        <p>This requirement lives in the delivery standard, not in the plugin. Phase 9's definition file
+          never mentions agents, tokens, refusals, or evals. No artifact field asks for them, no gate check
+          looks for them, and no command produces them. If your system has an LLM-powered feature and you
+          forget this step, every automated check in the phase will still come back green.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Back at the keyboard &mdash; the third required file</p>
+      <h2>Write the incident playbook</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">nothing new &mdash; you draft this with Claude in the /sdlc session</span>
+      </div>
+      <p><strong>What happens:</strong> <code>incident-response.md</code> gets written against the alert
+        table. Required, and it must contain: <strong>incident classification</strong> (P1/P2/P3, with
+        definitions), <strong>response procedures</strong> per alert type &mdash; detect, diagnose, resolve,
+        communicate &mdash; an <strong>escalation matrix</strong> naming who to contact at each severity,
+        <strong>communication templates</strong> for what you tell users and stakeholders while it's
+        happening, and the <strong>post-incident process</strong> for writing the post-mortem.</p>
+      <p><strong>What you do:</strong> cross-reference <code>RUNBOOK.md</code> instead of duplicating it.
+        Same failure modes, different lens &mdash; the RUNBOOK resolves; the playbook detects, classifies,
+        and communicates. And make every escalation entry a person's name. A team alias nobody owns is how
+        an escalation dies at 3 a.m.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag green">incident-response.md &mdash; required; the gate blocks without it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Nothing to type &mdash; and the plugin gives you no step for it</p>
+      <h2>Fire every critical alert on purpose</h2>
+      <p class="lead">Before drill day, write down one <strong>synthetic trigger</strong> per critical alert
+        &mdash; a test lane, flagged test data, a test toggle, a deliberately blocked dependency &mdash;
+        something that makes the real alert condition true without touching real traffic or real data. No
+        trigger agreed in writing, no drill.</p>
+      <p><strong>What you do:</strong> fire each critical alert and let the client's own on-call respond from
+        the playbook while you watch, silently. Record, per alert: the trigger used, the time it fired, the
+        time it was detected, where it routed, who responded, and the outcome &mdash; pass, or the finding
+        and its fix. Whatever the drill breaks gets fixed through the normal loop and re-drilled.</p>
+      <p><strong>Why it's non-negotiable:</strong> routing that goes to the wrong channel, a playbook step
+        that quietly assumes pod access, a threshold that doesn't actually trigger &mdash; all of it fails
+        here, by appointment, at drill prices. An alert that has never fired is a wish.</p>
+      <div class="aha warn">
+        <div class="lbl">You are required to hand in a receipt nobody told you to write</div>
+        <p><code>drill-record.md</code> is on the plugin's required-artifact list for Phase 9 &mdash; the
+          gate's integrity and completeness checks will block if it's missing or empty. But the phase
+          definition has <em>no drill step</em>, no specification for the file, and no command that produces
+          it. The registry also carries "alert drill executed" as an exit condition, but that one is
+          rendered for the human who signs and never enforced. So: write the file by hand, with the columns
+          above. It goes in the gate packet.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag green">drill-record.md &mdash; required by the gate, specified by nothing</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">Half a day &mdash; the pod and the client's core team</p>
+      <h2>Write the retrospective honestly</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">nothing new &mdash; Claude assembles the evidence, the humans supply the candour</span>
+      </div>
+      <p><strong>What happens:</strong> the phase spawns <code>feedback-synthesizer</code> in the background
+        to look through whatever user feedback the launch produced &mdash; issues, support requests, survey
+        results &mdash; for patterns. (Same caveat as step 2: that agent isn't shipped with the plugin. If
+        it isn't available, read the feedback yourself.) Meanwhile you write
+        <code>project-retrospective.md</code>, which is required and has two halves that both have to be
+        there.</p>
+      <p><strong>The product half:</strong> which technical decisions aged well, which created debt, what
+        collaboration patterns worked.</p>
+      <p><strong>The process half</strong> (this one is explicitly required, and it's the one people skip):
+        which phases were worth their cost and which felt like overhead; which human sign-off gates caught
+        real issues and which got rubber-stamped; which artifacts were actually referenced later and which
+        were written and never read; what you'd skip next time and what you'd add; whether the profile's
+        thresholds were right.</p>
+      <p><strong>What you do:</strong> produce three concrete outputs. The <strong>technical debt log</strong>
+        &mdash; every known shortcut, with a priority and a suggested timing. Logged debt is managed; unlogged
+        debt is next year's crisis with no paper trail. The <strong>client-facing improvements</strong>
+        &mdash; what their team changes about how they run this. And the <strong>harvest list</strong>
+        &mdash; the patterns, corrections and improvements the next engagement should inherit.</p>
+      <div class="aha warn">
+        <div class="lbl">No gate can tell candid from polite</div>
+        <p>"Everything went great, communicate better next time" passes every automated check in the phase
+          &mdash; the file exists, it isn't empty, it has no leftover <code>TODO</code> in it. Write items
+          concrete enough to act on: not "communicate better" but "add a daily async standup during the
+          build loop". And keep it for the teams, not for management &mdash; the retro records findings, not
+          names attached to blame.</p>
+      </div>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag green">project-retrospective.md &mdash; required; the gate blocks without it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">11</span>
+      <p class="kicker">Nothing to type &mdash; the number the engagement was bought for</p>
+      <h2>Read the outcome metric out loud, with its caveats</h2>
+      <p class="lead">The one number fixed back in Phase 0 gets its first honest production read here. Sit
+        with the sponsor, read it off the live system, and state every caveat alongside it: which cohort it
+        covers, whether the period is partial, and what else changed at the same time.</p>
+      <p><strong>Why the caveats are the artifact:</strong> a first read published without them gets quoted
+        for a year without them. Record the number, the window, where it was read from, every caveat, and
+        who was in the room.</p>
+      <p><strong>Also today:</strong> hypercare formally ends. The dashboards, the pager and the playbook
+        become the client's, with the pod one escalation away until the final phase. Make the handover a
+        deliberate moment with a date on it &mdash; a hypercare that quietly never ends is a handover
+        failing in slow motion.</p>
+      <div class="artifacts">
+        <span class="lbl">Where this lands</span>
+        <span class="tag amber">outcome-metric-first-read.md &mdash; optional; nothing asks for it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">12</span>
+      <p class="kicker">The last required file &mdash; and it's all names</p>
+      <h2>Write the handoff to the final phase</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">nothing new &mdash; you draft this with Claude in the /sdlc session</span>
+      </div>
+      <p><strong>What happens:</strong> <code>close-handoff.md</code> is required, and the next phase opens
+        by reading it. It must state: <strong>transfer readiness</strong> plainly, including if the answer
+        is no; the <strong>named client engineers</strong> who will run real work at the close gate, and
+        their availability; the <strong>named client Setup Owner</strong> who takes the harness, and whether
+        they have already merged a harness change themselves; <strong>candidate backlog items</strong>
+        &mdash; real work, not toy work invented for the test; the <strong>access inventory to revoke</strong>
+        (every seat, token, repo permission, environment role and vault policy the pod holds); the
+        <strong>operational state at handover</strong> &mdash; what's live, what's monitored, what's still
+        manual, and any alert or incident open right now; and the <strong>known debt and open risks</strong>
+        carried from the retrospective, with owners on the client's side.</p>
+      <p><strong>What you do:</strong> the phase stops and asks you to confirm every name individually. Do
+        that literally &mdash; each one is a real person who has agreed, not a plausible name from an org
+        chart. <em>"Will be identified later" is not a name.</em> If you can't fill one in, record the gap
+        explicitly. The next phase needs to know what's missing far more than it needs a tidy-looking
+        list.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag green">close-handoff.md &mdash; required; the gate blocks without it</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">13</span>
+      <p class="kicker">Type this &mdash; the machine checks your work</p>
+      <h2>Run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-gate</span>
+      </div>
+      <p><strong>What happens:</strong> it runs the seven gate checks, records the results in
+        <code>state.yaml</code>, then writes and opens an HTML report in your browser. The blocking part is
+        narrow and mechanical: it confirms the six required files exist, aren't empty, and contain no
+        leftover placeholder text (<code>TODO</code>, <code>TBD</code>, <code>PLACEHOLDER</code>,
+        <code>[INSERT</code>). The last gate renders the phase's declared exit conditions &mdash; including
+        "every alert threshold derived from a measured baseline" and "alert drill executed" &mdash; as
+        review lines for the human who signs. Those never block. Gates report; humans decide.</p>
+      <p><strong>What you do:</strong> fix whatever it flags and run it again until it's clean. A stray
+        <code>TODO</code> in one file is the usual culprit.</p>
+      <p class="dim">Optional: <code>/sdlc-phase-report</code> regenerates the HTML at any time, and
+        <code>/sdlc-enhance</code> writes plain-language companions to the artifacts &mdash; worth doing if
+        your sponsor isn't technical.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate does NOT check</div>
+        <p>It can confirm <code>alert-definitions.md</code> exists and has no placeholder text in it. It
+          cannot read a threshold and tell you whether anybody measured anything &mdash; a file full of
+          numbers pulled from thin air passes exactly as cleanly as one derived from real traffic. It
+          cannot tell whether the drill happened or whether <code>drill-record.md</code> was written from
+          memory the morning of the gate. It cannot see operations' names on the change review. And the
+          fatigue review, the what-healthy table and the outcome metric's first read have no check and no
+          sign-off question behind them at all. <strong>A green gate is not a finished phase.</strong></p>
+      </div>
+      <p class="note"><strong>On the escape hatch:</strong> a line reading <code>WAIVED: &lt;name&gt; &mdash;
+        &lt;reason&gt;</code> inside a required artifact lets it pass the completeness check, printed with
+        the name attached in the report the approver signs. It exists so a receipt that genuinely doesn't
+        apply doesn't get worked around invisibly. It is not a way past a step you skipped.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">14</span>
+      <p class="kicker">Type this &mdash; last thing in the phase</p>
+      <h2>Take the sign-off and advance</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next</span>
+      </div>
+      <p><strong>Before you type it:</strong> run the steering session with the sponsor. Walk the drill
+        record, the debt log, the watch handover, and the outcome metric's first read with its caveats
+        stated. This is a billing milestone and it's where the engagement's credibility gets spent or
+        banked &mdash; it is not ceremonial.</p>
+      <p><strong>What happens:</strong> it re-runs the gates, then stops and asks you to confirm before
+        moving anything. Say yes and it advances the project to the final phase. Then it surfaces every open
+        question from <code>close-handoff.md</code> and makes you answer or explicitly defer each one before
+        any work in the next phase starts.</p>
+      <p><strong>What you do:</strong> answer them properly. An open question waved through at a handover is
+        a question the client rediscovers after you've gone.</p>
+      <div class="artifacts">
+        <span class="lbl">Phase 9 is done when</span>
+        <span class="tag">state.yaml says Close &amp; Transfer</span>
+        <span class="tag green">every critical alert has fired once, on purpose, and was answered</span>
+        <span class="tag">the dashboards, pager and playbook are formally the client's</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and what's missing.</td></tr>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next.</td></tr>
+          <tr><td><code>/sdlc-gate</code></td><td>Any time you want to know how far off you are. It records results but never advances the phase.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>a threshold that
+        can't explain itself can't be tuned.</strong> If you can't say which measurement a number came from
+        and over what window, you haven't set an alert &mdash; you've set a coin flip that someone will
+        eventually mute.</p>
+    </div>
+  </section>
 
 </main>
 

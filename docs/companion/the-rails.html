@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor episodes · <strong>Reference</strong> the precise mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor episodes · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the precise mechanics</span>
   </div>
 </div>
 
@@ -1641,6 +1642,402 @@
         but a standing line every change clears, forever. The rails do not report to a calendar. They
         report to the bar &mdash; and the bar reports to a human. <strong>Gates report; humans
         decide.</strong></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — stand the rails up, then prove they catch something      -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">Your senior said &ldquo;set up the rails on this repo and make sure they
+        actually work.&rdquo; This page is <strong>what you actually type</strong>, in order, and
+        what you do between the typing.</p>
+      <p class="sig">The rails are not a phase. They are a standing standard &mdash; the same
+        pipeline every change rides, for the whole engagement. So this runbook is shaped
+        differently from a phase runbook: <strong>set it up, then prove it catches something.</strong>
+        The second half is the half people skip, and it is the half that matters.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Four things. Two are permissions you may not have yet &mdash; ask for them on
+        day one, because everything after step 3 is blocked without them.</p>
+      <ul>
+        <li><strong>The plugin, installed.</strong> If <code>/sdlc-harness</code> isn't in your
+          slash command list, run <code>/plugin marketplace add MCKRUZ/claude-code-sdlc</code> then
+          <code>/plugin install claude-code-sdlc@mckruz</code>.</li>
+        <li><strong>Admin rights on the repo.</strong> You cannot install a GitHub App, add a
+          repository secret, or apply a branch ruleset without them. Not &ldquo;write access&rdquo;
+          &mdash; admin.</li>
+        <li><strong>GitHub Actions enabled</strong> on the repo, and the <code>gh</code> CLI
+          installed and logged in. The branch-protection script drives the GitHub API through
+          <code>gh</code>.</li>
+        <li><strong>An Anthropic API key</strong> you're allowed to put in this repo's secrets.
+          Three of the gates call the Claude API on every PR they review, and there is a real
+          per-PR token cost. Somebody owns that bill &mdash; find out who before you wire it.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Installing the workflow files, seeing green ticks, and calling it done. A workflow file
+          that is present is not a rail. A rail is a check that <em>runs</em>, plus a rule that
+          <em>requires it to pass</em>. Both halves, or you have a decoration.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; once, in the repo you're arming</p>
+      <h2>Install the rails</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-harness</span>
+      </div>
+      <p><strong>What happens:</strong> it copies the whole delivery harness out of the plugin and
+        into the repo. For the rails specifically that means the workflow files land in
+        <code>.github/workflows/</code>, the reviewer rubrics in
+        <code>.github/profile/rubrics/</code>, the branch-protection ruleset in
+        <code>.github/rulesets/</code>, <code>CODEOWNERS</code> in <code>.github/</code>, and the
+        rails scripts in <code>scripts/rails/</code>. It also installs the local
+        <code>.claude/hooks/</code> &mdash; the Stop hook lives there. It is idempotent: files that
+        already exist are left alone and reported as SKIPPED.</p>
+      <p><strong>What you do:</strong> read the list it printed, then read
+        <code>.github/RAILS.md</code> end to end. That file is the operator's guide for these exact
+        gates &mdash; it is the source this page is written from, and it ships with your repo so it
+        can't drift out of reach. Commit everything.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">.github/workflows/ &mdash; the workflow YAML</span>
+        <span class="tag">.github/RAILS.md &mdash; the operator's guide</span>
+        <span class="tag">.github/rulesets/branch-protection.json</span>
+        <span class="tag">scripts/rails/ &mdash; apply-branch-protection.sh, diff-anchors.sh</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> the workflow files are committed and
+        pushed. A workflow on a branch that was never pushed cannot run on anything. Later, when the
+        plugin ships a new gate, <code>/sdlc-upgrade</code> is how you bring the repo forward
+        &mdash; it updates factory-original files, leaves your adaptations alone, and drops
+        both-sides conflicts beside the original as <code>.harness-new</code> for you to merge by
+        hand.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Nothing to type &mdash; this is editing, by hand, in your editor</p>
+      <h2>Fill in the placeholders</h2>
+      <p class="lead">The workflows ship generic. Every value that depends on <em>your</em> repo is
+        marked and waiting for you. Nothing automates this step.</p>
+      <p><strong>What you do:</strong> search the installed files for <code>&lt;&lt;</code> markers
+        and for the owner handle <code>@your-org/your-team</code>, and replace every one. The ones
+        that will bite you first:</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Where</th><th>What you're setting</th></tr></thead>
+        <tbody>
+          <tr><td><code>ci.yml</code></td><td>Your toolchain, and the restore / build / test commands. Also the coverage floor and the regex for what counts as source.</td></tr>
+          <tr><td><code>security.yml</code></td><td>The gated-path regex &mdash; the directories where any change gets a security review regardless of risk tier. Keep it in sync with <code>CODEOWNERS</code> and the security rubric; there are three copies of that path list and they must agree.</td></tr>
+          <tr><td><code>correctness.yml</code></td><td>The source pathspec &mdash; which directories the logic-defect reviewer looks at.</td></tr>
+          <tr><td><code>grader.yml</code></td><td>The committed-spec directory the grader reads.</td></tr>
+          <tr><td><code>deploy-dev.yml</code></td><td>The real deploy step, the health check, and how to capture and restore the last known-good version. Ships as a starter that does nothing until you wire it.</td></tr>
+          <tr><td><code>CODEOWNERS</code></td><td>The owning user or team handle.</td></tr>
+        </tbody>
+      </table>
+      <div class="aha warn">
+        <div class="lbl">Two marker styles, and searching for one finds only half</div>
+        <p>Most placeholders are double-angle &mdash; <code>&lt;&lt;LIKE_THIS&gt;&gt;</code>. But the
+          eval-runner wiring and the infrastructure files use single-angle
+          <code>&lt;PLACEHOLDER&gt;</code> markers instead. Search for both styles, or you will ship
+          a half-adapted pipeline that looks finished.</p>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> a search for <code>&lt;&lt;</code> across
+        <code>.github/</code> comes back empty, and a search for <code>your-org</code> comes back
+        empty too.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Type one command, then do the rest in the GitHub web UI</p>
+      <h2>Give the agent gates their credentials</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/install-github-app</span>
+      </div>
+      <p><strong>What happens:</strong> it walks you through installing the Claude GitHub App on
+        this repo. Three of the gates &mdash; the grader, the security review, and the correctness
+        review &mdash; are AI agents that need it. You can do the same thing by hand at
+        <code>github.com/apps/claude</code>. Repo admin required.</p>
+      <p><strong>What you do next, in the browser:</strong> Settings &rarr; Secrets and variables
+        &rarr; Actions, and add a repository secret named <code>ANTHROPIC_API_KEY</code>. Never put
+        the key in a file. Not in the workflow, not in <code>CLAUDE.md</code>, not in a spec &mdash;
+        a key in a commit is a rotation event and an audit review, not an edit.</p>
+      <div class="aha warn">
+        <div class="lbl">What happens if you skip the key</div>
+        <p>The two blocking agent gates <strong>fail closed</strong> &mdash; on purpose. Security
+          review and correctness review will go red on the PRs they were meant to review, because a
+          review that could not run is not a review that passed. The grader is the one exception: it
+          only advises, so it stays green and does nothing. That is by design, and it means a
+          missing key silently costs you the grader without costing you a red tick.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Type this &mdash; dry run first, always</p>
+      <h2>Arm the merge bar</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">bash scripts/rails/apply-branch-protection.sh --dry-run</span>
+      </div>
+      <div class="tooling">
+        <span class="label">Then</span>
+        <span class="cmd">bash scripts/rails/apply-branch-protection.sh</span>
+      </div>
+      <p><strong>What happens:</strong> the script reads
+        <code>.github/rulesets/branch-protection.json</code> and applies it to the repo through the
+        GitHub API. The dry run prints the plan without changing anything; the real run prompts you
+        to confirm. The ruleset is what turns the workflows from suggestions into rails: it names
+        the status checks that must be green, requires a review from someone who did not write the
+        change, requires the code owner, and blocks force-pushes and deletion of the default
+        branch.</p>
+      <p><strong>What you do:</strong> read the dry-run output before you confirm. Then check one
+        thing in the GitHub UI &mdash; Settings &rarr; Rules &rarr; the ruleset should say
+        <strong>Active</strong>, not Evaluate. An Evaluate ruleset reports and merges anyway.</p>
+      <div class="aha warn">
+        <div class="lbl">The rule about this file</div>
+        <p>This script is the only sanctioned way to change branch protection. Edit the JSON, re-run
+          the script. <strong>Do not hand-edit rules in the GitHub UI</strong> &mdash; a hand-edit is
+          invisible to the repo, and the next person to run the script silently reverts it.</p>
+      </div>
+      <p class="note"><strong>A trap worth knowing:</strong> the required-check names in the JSON are
+        the workflow <em>job</em> names, not the file names. If you ever rename a job, rename its
+        required check in the same commit &mdash; otherwise GitHub waits forever for a check that
+        will never report, and every PR sits pending with no error to read.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Read this once &mdash; it's what you just armed</p>
+      <h2>The rails that block, one at a time</h2>
+      <p class="lead">Blocking means a red check stops the merge. Each one has a defined escape, and
+        the escape is always a label plus a written reason &mdash; recorded on the PR, never a quiet
+        override.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Rail</th><th>What it blocks</th><th>The recorded escape</th></tr></thead>
+        <tbody>
+          <tr><td><code>build-and-test</code></td><td>A red build, a red test, a secret found by the scan, or coverage under the floor. The mechanical floor.</td><td>None. Fix it.</td></tr>
+          <tr><td><code>spec-gate</code></td><td>A PR that touches source but carries no committed spec in the same diff. &ldquo;No spec, no build.&rdquo;</td><td><code>no-spec:chore</code> label + the reason in the PR description</td></tr>
+          <tr><td><code>spike-guard</code></td><td>A merge from a <code>spike/</code> branch. A spike's deliverable is the written finding; the code is disposable.</td><td>None, deliberately. Rebuild it under a spec.</td></tr>
+          <tr><td><code>risk-signoff</code></td><td>A PR labelled <code>risk:high</code> with no named human accepting the risk in a written sentence. A thumbs-up does not satisfy it.</td><td>Write the sign-off line. That <em>is</em> the gate.</td></tr>
+          <tr><td><code>repro-gate</code></td><td>A PR labelled <code>type:bugfix</code> whose new test also passes <em>without</em> the fix &mdash; a test that would never have caught the bug.</td><td>None. Write a test that fails first.</td></tr>
+          <tr><td><code>dependency-gate</code></td><td>A change that <em>introduces</em> a package with a known High or Critical advisory. It compares this branch against the base branch, so pre-existing findings are not your problem.</td><td><code>accepted-risk:dependency</code> label + reason and expiry in <code>.github/dependency-exceptions.md</code></td></tr>
+          <tr><td><code>correctness-review</code></td><td>A high-confidence logic defect on the changed lines &mdash; an off-by-one, an inverted null check &mdash; found by a fresh agent that did not write the code.</td><td><code>accepted-risk:correctness</code> label, applied by a named human</td></tr>
+          <tr><td><code>security-review</code></td><td>A HIGH security finding. Fires on the <code>risk:high</code> label <em>or</em> on any PR touching a gated path, whatever its risk tier.</td><td>Fix it, or the risk sign-off recorded on the PR</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:14px;"><strong>And one that never blocks:</strong> the
+        <code>grader</code>. A fresh agent reads the spec against the diff and posts a
+        check-by-check verdict as a PR comment. The merge bar requires that it <em>ran</em>. It does
+        not care what it said. That is deliberate &mdash; a polished, confident AI verdict is exactly
+        how an agent talks a human into approving harm, so the grader informs the human reviewer and
+        never replaces them.</p>
+      <div class="aha warn">
+        <div class="lbl">Two documents, two different lists</div>
+        <p>The standard's own rails page describes <strong>five workflows</strong>. What you just
+          installed carries more gates than that &mdash; the extra ones were added to the plugin
+          later and the standard's summary table has not caught up. When the two disagree,
+          <code>.github/RAILS.md</code> in your repo and the job names in <code>ci.yml</code> are the
+          truth, because those are the files GitHub actually executes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Nothing to type &mdash; browser work, then wiring</p>
+      <h2>The deploy and promotion path</h2>
+      <p class="lead">Merge ships to dev by itself. Everything above dev is deliberate, and a human
+        says go every single time.</p>
+      <p><strong>What happens on merge:</strong> <code>deploy-dev.yml</code> fires after CI succeeds
+        on the default branch. It downloads the exact artifact CI built for that commit &mdash; it
+        does not rebuild &mdash; ships it to dev, runs a health check, and restores the last
+        known-good version if the deploy or the health check fails.</p>
+      <p><strong>What you do:</strong> wire its placeholder deploy, health-check, and rollback steps
+        to your platform, point it at a real dev environment, then set the repository variable
+        <code>DEPLOY_WIRED</code> to <code>true</code>. Until you do, the job runs, warns that deploy
+        is not wired, and stops &mdash; deliberately warning rather than failing, because a job that
+        is red on every single merge teaches the team that red is normal.</p>
+      <p><strong>For test and prod:</strong> <code>deploy-promote.yml</code> is manual only. It never
+        fires on a trigger. Before you use it, go to Settings &rarr; Environments &rarr;
+        <code>test</code>, then <code>prod</code>, and add <strong>Required reviewers</strong> to
+        each. That approval <em>is</em> the go/no-go &mdash; the run pauses until a named person
+        approves, and the approval lands in the deployment's own audit trail.</p>
+      <div class="aha warn">
+        <div class="lbl">An environment with no required reviewers is an automatic promotion</div>
+        <p>That is the standard's single most protected stop, silently absent, and nothing on the
+          screen looks wrong. The workflow's preflight refuses to run against a target with no
+          reviewers configured &mdash; and unlike <code>deploy-dev</code> it <em>fails</em> rather
+          than warns when unwired, because a human asked for this promotion and is standing there
+          waiting for an answer.</p>
+      </div>
+      <p class="note">The preflight also refuses to promote a build straight to prod that never
+        reached test. That is &ldquo;promote the artifact, never rebuild it&rdquo; enforced
+        mechanically rather than remembered.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">The important part &mdash; block out a day for it</p>
+      <h2>Prove each rail by making it fail on purpose</h2>
+      <p class="lead">A pipeline that has never caught anything is not proven. It is merely present.
+        A rail that has only ever seen green has not been tested &mdash; it has been
+        <em>assumed</em>. So you break things deliberately, one at a time, and watch each gate catch
+        you. This is called the shakedown, and it is the difference between a rail and a
+        decoration.</p>
+      <p><strong>How each drill works:</strong> open a throwaway PR that plants the exact fault the
+        gate exists to catch, confirm the check goes red and says something useful, then &mdash; for
+        the gates that have an escape &mdash; apply the escape label and confirm it goes green.
+        Close every drill PR unmerged. <strong>A blocking gate is only proven when both its block
+        and its escape have been seen to work.</strong></p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Rail</th><th>Plant this</th><th>You must see</th></tr></thead>
+        <tbody>
+          <tr><td>Stop hook</td><td>A compile error or a failing test, then try to end a Claude Code turn</td><td>The hook refuses to let the agent finish, and hands back the build error</td></tr>
+          <tr><td>Secret scan</td><td>A fake but realistic credential in a config file &mdash; an invented <code>AKIA&hellip;</code>-style key. <strong>Never a real one.</strong></td><td><code>build-and-test</code> red at its first step, <code>Secret scan (gitleaks)</code>, with the planted string redacted in the log</td></tr>
+          <tr><td>Coverage floor</td><td>A sizeable new class under source with no tests</td><td><code>build-and-test</code> red at <code>Enforce coverage floor</code>, naming the measured percentage and the floor it missed</td></tr>
+          <tr><td><code>spec-gate</code></td><td>A source file touched, no spec in the diff</td><td>Red, listing the touched files. Then apply <code>no-spec:chore</code>, re-run, watch it go green</td></tr>
+          <tr><td><code>correctness-review</code></td><td>An inverted null check, or an off-by-one that drops a row</td><td>Red with the verdict anchored to the exact changed line. Then apply <code>accepted-risk:correctness</code> and watch it clear</td></tr>
+          <tr><td><code>security-review</code></td><td>A probe PR touching a gated path with a planted HIGH issue</td><td>Red. This proves your gated-path regex is actually matching &mdash; the part most likely to be wrong</td></tr>
+          <tr><td><code>grader</code></td><td>A spec that claims something the diff does not do</td><td>A PR comment calling out the mismatch. Nothing blocks &mdash; you are confirming it <em>posts the miss</em></td></tr>
+          <tr><td><code>dependency-gate</code></td><td>A package with a published High or Critical advisory</td><td>Red, naming the package and the advisory. Then apply <code>accepted-risk:dependency</code> and watch it clear</td></tr>
+          <tr><td><code>deploy-dev</code></td><td>A known-bad deploy &mdash; a deliberately broken artifact, or a health check pointed at a failing build</td><td>The deploy fails <em>and the last known-good version is restored</em></td></tr>
+          <tr><td><code>deploy-promote</code></td><td>A promotion request against test</td><td>It <strong>pauses</strong> for a named reviewer. Separately: try to promote a build to prod that only ever reached dev &mdash; the preflight must refuse</td></tr>
+        </tbody>
+      </table>
+      <div class="aha warn">
+        <div class="lbl">Run the dependency drill even if you skip every other one</div>
+        <p>Every other rail fails <em>loudly</em> when it's misconfigured &mdash; you get a red tick
+          and an error to read. The dependency gate fails <strong>silent and green</strong>. A
+          scanner that cannot parse its tool's output reports no findings, and no findings looks
+          exactly, character for character, like a clean repo.</p>
+        <p>The reason is an exit code. The .NET scan command the gate ships with
+          (<code>dotnet list package --vulnerable</code>) <strong>exits 0 even when it finds a High
+          advisory</strong> &mdash; the findings live in its output, never in its status. So the gate
+          is written to treat a non-zero exit as &ldquo;the tooling broke,&rdquo; not &ldquo;the code
+          is clean,&rdquo; and to fail closed on it. But if the scan runs and produces nothing usable
+          for any other reason, you get a green tick and no signal at all.</p>
+        <p><strong>Planting a known-vulnerable package is the only way to know this gate is
+          wired.</strong> There is no other test. Do it.</p>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Be honest about what has actually been drilled</div>
+        <p>The drills are written down; nothing records whether they were run <em>on your repo</em>.
+          The newest three rails &mdash; the dependency gate, promotion, and the telemetry file
+          &mdash; ship with their drills listed as a migration step, which is a polite way of saying
+          somebody still has to do them. Assume nothing here has been proven on this repo until you
+          watched it go red yourself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Nothing to type &mdash; write the evidence down</p>
+      <h2>Record the proof</h2>
+      <p class="lead">Write one entry per rail into <code>pipeline-proof.md</code>: which rail, what
+        you planted, what you saw, the link to the drill PR, the date, and your name.</p>
+      <p><strong>Why this step exists:</strong> six months from now somebody will ask whether the
+        rollback has ever actually run. &ldquo;I think so&rdquo; is not an answer. A dated line with
+        a PR link is.</p>
+      <div class="aha warn">
+        <div class="lbl">Nothing verifies this but you</div>
+        <p>The automated phase gate checks that <code>pipeline-proof.md</code> exists and has no
+          leftover placeholder text. It cannot tell whether you ran a single drill. Writing
+          &ldquo;proven&rdquo; next to a rail you never forced to fail is the one lie on this page
+          that nobody downstream can detect.</p>
+      </div>
+      <p class="note">There is also a weekly telemetry workflow that writes
+        <code>.github/rails-telemetry.json</code> &mdash; a record of this repo's own gate outcomes,
+        computed from the repo's own history with no external calls. The one thing it catches that
+        counting cannot: a gate whose <em>check</em> still runs but whose <em>requirement</em> was
+        removed. A disarmed gate looks completely normal on the PR page &mdash; the red run just
+        merges anyway. Only comparing what is required against what exists finds it.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">When a rail goes red on real work</p>
+      <h2>What to do when a gate stops you</h2>
+      <p class="lead">The instinct is to find the way around it. Resist that &mdash; the way around
+        is what the rails exist to prevent. There are exactly three legitimate responses, in this
+        order.</p>
+      <ul>
+        <li><strong>Fix the change.</strong> Almost always the right answer. The gate found something
+          real: a broken test, a missed spec, an off-by-one, a vulnerable package.</li>
+        <li><strong>Record the escape.</strong> If the finding is real but consciously accepted,
+          apply that gate's escape label <em>and write the reason where the label points</em>
+          &mdash; the PR description, <code>.github/dependency-exceptions.md</code>,
+          <code>.github/eval-bypasses.md</code>. A label with no sentence behind it is a shrug in a
+          costume. And the escape never removes the non-author approval: someone who did not write
+          the change still has to approve it.</li>
+        <li><strong>Fix the gate.</strong> If it's a false positive, that is a defect in the rails
+          and the rails ride the same loop as everything else &mdash; a spec, a branch, a PR, a
+          reviewer who is not you. Never a quiet edit to the YAML on the branch that the gate is
+          currently blocking.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The one thing you must not do</div>
+        <p>Do not weaken the gate on the branch the gate is blocking. These workflows run the PR's
+          <em>own copy</em> of themselves, so a PR can in principle loosen the regex that would have
+          caught it. That is a known residual risk, and the thing that actually closes it is a review
+          by someone who did not write the change. If you find yourself editing
+          <code>.github/</code> to get your own PR through, stop and go get a second person.</p>
+      </div>
+      <p class="note">The emergency bypass is deliberately expensive: two humans, an exception label,
+        and a retro item. Two bypasses in a month is not bad luck &mdash; it means the gate or the
+        specs are wrong. Fix that; do not normalise the bypass.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-harness</code></td><td>First install, and any time you want to re-check what the plugin would put in this repo.</td></tr>
+          <tr><td><code>/sdlc-upgrade</code></td><td>After a plugin update. Brings the harness forward without stomping your adaptations.</td></tr>
+          <tr><td><code>bash scripts/rails/apply-branch-protection.sh --dry-run</code></td><td>Any time you touch the ruleset JSON, or you want to see what is currently required. Read it before you apply it.</td></tr>
+          <tr><td><code>gh pr checks</code></td><td>Which gates ran on this PR and which are still pending. Faster than the browser, and it shows you a check that is waiting on a job that will never report.</td></tr>
+          <tr><td><code>gh run view --log-failed</code></td><td>A gate went red and you want the failing step's output without clicking through Actions.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole standard:
+        <strong>the agent proposes, the gate disposes.</strong> An agent may produce any change, but
+        only as something a person can review, and a deterministic check plus a named human decides
+        whether it takes effect. Every rail on this page is one more place that stops being a good
+        intention and becomes a fact about the world.</p>
     </div>
   </section>
 
