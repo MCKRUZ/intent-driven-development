@@ -19,6 +19,7 @@ provides:
     - workflows/deploy-dev.yml       # promote-never-rebuild; rolls back on failure (starter)
     - workflows/deploy-promote.yml   # dev→test→prod; manual only, human go/no-go via Environments
     - workflows/dependency-scan.yml  # weekly standing-stock scan; raises an issue, never blocks
+    - workflows/rails-telemetry.yml  # weekly gate-outcome report; committed for the fleet collector
     - workflows/eval-regression.yml  # §11 per-PR blocking eval-regression gate
     - workflows/eval-suite.yml       # §11 periodic advisory full benchmark
   rails_guide: RAILS.md              # operator's guide + shakedown drills
@@ -76,6 +77,7 @@ overlays:
   - { src: workflows/deploy-dev.yml,      dest: .github/workflows/deploy-dev.yml }
   - { src: workflows/deploy-promote.yml,  dest: .github/workflows/deploy-promote.yml }
   - { src: workflows/dependency-scan.yml, dest: .github/workflows/dependency-scan.yml }
+  - { src: workflows/rails-telemetry.yml, dest: .github/workflows/rails-telemetry.yml }
   - { src: dependabot.yml,                dest: .github/dependabot.yml }
   - { src: workflows/eval-regression.yml, dest: .github/workflows/eval-regression.yml }
   - { src: workflows/eval-suite.yml,      dest: .github/workflows/eval-suite.yml }

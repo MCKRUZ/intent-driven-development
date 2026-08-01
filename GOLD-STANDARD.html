@@ -1237,6 +1237,7 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 │       ├── deploy-dev.yml     # merge to main -&gt; client dev environment (automatic, unattended)
 │       ├── deploy-promote.yml # dev -&gt; test -&gt; prod; manual only, named approver every time
 │       ├── dependency-scan.yml # weekly advisory scan; raises an issue, never blocks
+│       ├── rails-telemetry.yml # weekly gate-outcome report, committed for the fleet view
 │       └── eval-*.yml         # eval-regression + eval-suite (§11 agentic work)
 ├── scripts/rails/             # diff-anchors.sh, apply-branch-protection.sh
 ├── eval-datasets/ + prompts/  # golden-set template + versioned judge prompts (§11 work only)
@@ -1527,6 +1528,8 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 │   │                          #   manual only, human go/no-go every time — §7)
 │   │                          # + dependency-scan.yml (weekly standing-stock advisory scan;
 │   │                          #   the blocking half is ci.yml's dependency-gate job — §7)
+│   │                          # + rails-telemetry.yml (weekly gate-outcome report, committed;
+│   │                          #   read across repos by scripts/collect_rails_telemetry.py — §9)
 │   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
 │   ├── packs/                 # composable additions: stacks/dotnet, cicd/github, cicd/azure-devops,
 │   │                          # frontend/generic, frontend/react, tools/gitnexus

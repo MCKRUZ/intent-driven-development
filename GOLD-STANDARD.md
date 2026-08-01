@@ -561,6 +561,34 @@ flat.
 Client-facing scorecard: their success metric, the DORA stability pair, accepted-as-is trend,
 and the demo. That's it.
 
+### Watching the gates across engagements
+
+Every gate outcome and every override is recorded in the repo it happened in — the accepted-risk
+labels, the two ledgers, the PR timeline. That is enough to answer a question about one repo and
+useless for answering one about a portfolio. So each installed repo writes a weekly
+`rails-telemetry.json` and commits it: which gates ran and what they concluded, every override by
+name with the change it was applied to, and — the part that needs a machine — **which checks
+branch protection actually requires, against which gate jobs actually exist**.
+
+That last comparison is the reason the file exists. A gate has two halves: the check, and the rule
+requiring it to pass. Remove the rule and the check still runs, still reports, and looks entirely
+normal on the pull request; a red run simply merges anyway. From outside that repo, a gate someone
+disarmed and a gate that never caught anything produce identical evidence. No amount of counting
+separates them.
+
+Two constraints on this, both non-negotiable. **It stays inside the client's tenancy** — the
+workflow reads the repo's own history through the platform's own API and writes into the same
+repo; nothing is transmitted anywhere, which is what makes it something a client security team can
+approve. And **it counts gates, never people**: an override count is reported against merged
+changes so it reads as a rate rather than a bare number, and there is no per-author breakdown
+anywhere in the file. The rule from earlier in this section holds here too — we measure the rails,
+not the humans.
+
+`scripts/collect_rails_telemetry.py` (operator tooling, not part of the kit and never installed)
+reads those files across every reachable repo and reports worst-first. A repo that is not
+reporting is listed as **unknown, not clean** — a fleet view that quietly counts silence as health
+is the same failure it was built to catch.
+
 ---
 
 ## 10. The kit (what's in this repo)
@@ -597,6 +625,8 @@ intent-driven-development/     # cloned locally as delivery-standard/ on some ma
 │   │                          #   manual only, human go/no-go every time — §7)
 │   │                          # + dependency-scan.yml (weekly standing-stock advisory scan;
 │   │                          #   the blocking half is ci.yml's dependency-gate job — §7)
+│   │                          # + rails-telemetry.yml (weekly gate-outcome report, committed;
+│   │                          #   read across repos by scripts/collect_rails_telemetry.py — §9)
 │   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
 │   ├── packs/                 # composable additions: stacks/dotnet, cicd/github, cicd/azure-devops,
 │   │                          # frontend/generic, frontend/react, tools/gitnexus
@@ -604,6 +634,7 @@ intent-driven-development/     # cloned locally as delivery-standard/ on some ma
 │   ├── prompts/               # versioned judge prompts (§11)
 │   ├── infra/                 # Bicep starters
 │   └── profile/               # CODEOWNERS, rubrics, branch-protection ruleset, rails scripts
+│                              # + rails-telemetry.schema.json (the report's shape, fixed at v1)
 │                              # + eval-bypasses.md and dependency-exceptions.md (the two
 │                              #   accepted-risk ledgers — each entry named, dated, and expiring)
 │                              # (customer profiles — starter, microsoft-enterprise, … — live in
