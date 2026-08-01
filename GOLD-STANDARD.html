@@ -1234,7 +1234,8 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 │       ├── correctness.yml    # fresh agent (≠ grader, ≠ author) hunts changed lines for logic
 │       │                      # defects; blocks on a high-confidence defect, named override on record
 │       ├── security.yml       # security-reviewer on gated paths or risk:high label; blocks on HIGH
-│       ├── deploy-dev.yml     # merge to main -&gt; client dev environment
+│       ├── deploy-dev.yml     # merge to main -&gt; client dev environment (automatic, unattended)
+│       ├── deploy-promote.yml # dev -&gt; test -&gt; prod; manual only, named approver every time
 │       └── eval-*.yml         # eval-regression + eval-suite (§11 agentic work)
 ├── scripts/rails/             # diff-anchors.sh, apply-branch-protection.sh
 ├── eval-datasets/ + prompts/  # golden-set template + versioned judge prompts (§11 work only)
@@ -1509,6 +1510,9 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 │   ├── CLAUDE.md.template
 │   ├── spec-template.md
 │   ├── spike-template.md      # the written finding a spike leaves behind (§5.3a)
+│   ├── rollback-template.md   # Phase 8: the written "roll back if X" + rehearsal record
+│   ├── alert-definitions-template.md    # Phase 9: baselines, thresholds, who is woken
+│   ├── incident-playbook-template.md    # Phase 9: detect/diagnose/escalate/communicate
 │   ├── settings.json
 │   ├── mcp.json               # team MCP server set; packs merge additions
 │   ├── HARNESS.md             # developer-facing tour; installs to docs/harness.md
@@ -1518,6 +1522,8 @@ CLOSE (gated phases — automated checks, then a human signs to advance)
 │   ├── hooks/                 # stop-gate, review-gate, save-review-receipt (.ps1 + .sh each)
 │   │                          # + sensitive-edit-nudge (advisory example, unregistered)
 │   ├── workflows/             # ci.yml, grader.yml, correctness.yml, security.yml, deploy-dev.yml
+│   │                          # + deploy-promote.yml (the deploy rail's second half: dev→test→prod,
+│   │                          #   manual only, human go/no-go every time — §7)
 │   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
 │   ├── packs/                 # composable additions: stacks/dotnet, cicd/github, cicd/azure-devops,
 │   │                          # frontend/generic, frontend/react, tools/gitnexus

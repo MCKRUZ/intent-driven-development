@@ -367,6 +367,7 @@
               <tr><td><code>correctness</code></td><td>every PR that changes source</td><td><strong>Blocks</strong> on a high-confidence defect</td><td>A fresh AI agent &mdash; separate from the grader &mdash; hunts the changed lines for plain logic defects: the bug class ci can't see (it compiles, the tests pass) and security doesn't look for (it's not exploitable, just wrong). Passes trivially when no source changed; a named human can override on the record.</td></tr>
               <tr><td><code>security</code></td><td>the <code>risk:high</code> label <strong>or</strong> any PR touching a registered gated path</td><td><strong>Blocks</strong> on HIGH; advises otherwise</td><td>Runs the security-reviewer agent. Path-triggered: fires on any PR touching a guarded path (auth, migrations, the pipeline, infra), independent of the spec's tier.</td></tr>
               <tr><td><code>deploy-dev</code></td><td>merge to main</td><td>n/a (it ships)</td><td>Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails.</td></tr>
+          <tr><td><code>deploy-promote</code></td><td>manual only &mdash; never a trigger</td><td>n/a (it ships)</td><td>Promotes that same artifact onward to test and production. Holds until a named approver signs, and refuses a target environment that has no approver configured. Restores the last good version when a promotion fails.</td></tr>
             </tbody>
           </table>
           <p><strong>The grader advises; it never blocks.</strong> It is tempting to let a confident AI
@@ -1690,6 +1691,7 @@
           <tr><td><code>correctness</code></td><td>every PR that changes source</td><td><strong>Blocks</strong> on a high-confidence defect</td><td>A fresh AI agent, separate from the grader, hunts the changed lines for plain logic defects &mdash; the bug class ci can't see (it compiles, the tests pass) and security doesn't look for (just wrong, not exploitable). Trivial pass when no source changed; named-human override on the record.</td></tr>
           <tr><td><code>security</code></td><td>the <code>risk:high</code> label <strong>or</strong> any PR touching a registered gated path</td><td><strong>Blocks</strong> on HIGH; advises otherwise</td><td>Runs the security-reviewer agent. Path-triggered: fires on any PR touching a guarded path (auth, migrations, the pipeline, infra), independent of the spec's tier.</td></tr>
           <tr><td><code>deploy-dev</code></td><td>merge to main</td><td>n/a (it ships)</td><td>Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails.</td></tr>
+          <tr><td><code>deploy-promote</code></td><td>manual only &mdash; never a trigger</td><td>n/a (it ships)</td><td>Promotes that same artifact onward to test and production. Holds until a named approver signs, and refuses a target environment that has no approver configured. Restores the last good version when a promotion fails.</td></tr>
         </tbody>
       </table>
       <p class="note">The grader <strong>advises; it never blocks</strong> &mdash; a polished, plausible
@@ -1740,8 +1742,8 @@
         <thead><tr><th>Step</th><th>How</th><th>Gate</th></tr></thead>
         <tbody>
           <tr><td>Merge &rarr; dev</td><td>The <code>deploy-dev</code> workflow ships every merged change to dev</td><td>Automatic &mdash; the merge already cleared the bar</td></tr>
-          <tr><td>Dev &rarr; test</td><td>Promoted deliberately, smoke-tested on arrival</td><td>On demand; the test environment is added at the first hardening pass</td></tr>
-          <tr><td>Test &rarr; prod</td><td>The first promotion is the Phase 8 go/no-go; every promotion after rides the client's release cadence</td><td>A human go/no-go <strong>every</strong> time &mdash; the single most protected stop in the standard</td></tr>
+          <tr><td>Dev &rarr; test</td><td>The <code>deploy-promote</code> workflow, run by hand, smoke-tested on arrival</td><td>On demand &mdash; and it will not start until a named approver signs</td></tr>
+          <tr><td>Test &rarr; prod</td><td>The same <code>deploy-promote</code> workflow. The first promotion is the Phase 8 go/no-go; every one after rides the client's release cadence</td><td>A human go/no-go <strong>every</strong> time &mdash; the single most protected stop in the standard, and enforced by the environment's own approval rule rather than by convention</td></tr>
         </tbody>
       </table>
       <p>Two rules govern every promotion:</p>

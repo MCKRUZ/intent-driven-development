@@ -11,6 +11,11 @@ safely — read [`RAILS.md`](./RAILS.md).
 `ci.yml` carries two blocking gates — `build-and-test` and `spec-gate` — so five
 workflow files yield six gate rows here.
 
+`deploy-promote.yml` is listed below but is **not a sixth rail**: it is the second half of
+the deploy rail. `deploy-dev` owns merge → dev (automatic, unattended); `deploy-promote`
+owns everything beyond it (manual, human-gated). Neither carries a merge gate — they run
+after the merge bar has already been cleared.
+
 | Workflow | File | Fires on | Block or advise | Source |
 | --- | --- | --- | --- | --- |
 | **CI** | `ci.yml` | every PR + push to main | **BLOCKS** (secret scan/build/test + enforced coverage floor; optional eval-gate) | generalized from source `ci.yml` |
@@ -19,6 +24,7 @@ workflow files yield six gate rows here.
 | **Correctness Review** | `correctness.yml` | every PR (reviews when source changed) | **BLOCKS** on a high-confidence defect (override label) | generalized from source `correctness-review.yml` |
 | **Security Review** | `security.yml` | every PR (reviews on gated paths / `risk:high`) | **BLOCKS** on HIGH | generalized from source `security-review.yml` |
 | **Deploy Dev** | `deploy-dev.yml` | successful CI on `main` (merge) | ships; **rolls back** on failure | **BUILT FRESH** — starter, adapt per client |
+| **Deploy Promote** | `deploy-promote.yml` | **manual only** (`workflow_dispatch`) | ships to test/prod after a named approver signs; **rolls back** on failure | **BUILT FRESH** — starter, adapt per client |
 
 Why each block-vs-advise choice exists (the-rails.md §3): mechanical truth (CI)
 blocks; the grader **advises** because a confident AI verdict is exactly how an agent
@@ -51,11 +57,13 @@ adapting.
 | `<<MODEL>>` | grader / security / correctness | reviewer model (sonnet / opus) |
 | `<<GATED_PATHS>>` | security + CODEOWNERS header | slash-anchored guarded-dir regex — keep both, and the security rubric's prose path list, in sync |
 | `<<SOURCE_PATHS>>` | correctness | source root pathspec (reference: `src/`) |
-| `<<CI_WORKFLOW_NAME>>` | deploy-dev | must equal `ci.yml`'s `name:` |
-| `<<ARTIFACT_NAME>>` | deploy-dev | the deployable artifact CI uploads (CI must upload it) |
-| `<<DEPLOY_STEP>>` / `<<HEALTH_CHECK>>` | deploy-dev | real deploy + health probe (azure/webapps-deploy, `az deployment`, kubectl…) |
-| `<<CAPTURE_LAST_GOOD>>` / `<<RESTORE_LAST_GOOD>>` | deploy-dev | record live version + rollback mechanism |
+| `<<CI_WORKFLOW_NAME>>` | deploy-dev + deploy-promote | must equal `ci.yml`'s `name:` |
+| `<<ARTIFACT_NAME>>` | deploy-dev + deploy-promote | the deployable artifact CI uploads (CI must upload it) |
+| `<<DEPLOY_STEP>>` / `<<HEALTH_CHECK>>` | deploy-dev + deploy-promote | real deploy + health probe (azure/webapps-deploy, `az deployment`, kubectl…) |
+| `<<CAPTURE_LAST_GOOD>>` / `<<RESTORE_LAST_GOOD>>` | deploy-dev + deploy-promote | record live version + rollback mechanism |
 | `<<DEV_ENVIRONMENT>>` | deploy-dev | GitHub Environment name (reference: `dev`) |
+| `<<SMOKE_TEST>>` | deploy-promote | one non-destructive check per top-priority journey — it runs against **prod** |
+| `<<ENVIRONMENTS>>` | deploy-promote | the `choice` options for source/target (reference: `dev`, `test`, `prod`) — must match your GitHub Environment names |
 | `<<CODE_OWNER>>` | CODEOWNERS | owning user/team handle |
 | `<<RULESET_FILE>>` | apply-branch-protection.sh | ruleset JSON path if layout differs |
 

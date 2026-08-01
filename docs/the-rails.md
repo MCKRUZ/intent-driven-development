@@ -314,6 +314,36 @@ if X") written down in advance, not invented mid-incident. The rails are not pro
 being present; they are proven by a deploy failing and the rollback catching it. A rail that has
 never failed safely has not been proven (section 9).
 
+The trigger belongs in `ROLLBACK.md` (from `kit/rollback-template.md`), written while nobody is
+under pressure, because the person deciding at 2 a.m. should be *executing* a decision rather than
+making one. That file also forces the question teams skip: **what a rollback does not undo.** Code
+reverts cleanly; state does not. A release carrying a destructive schema migration, a one-way data
+transform, or a published message cannot simply be reversed, and the restored version may not
+understand the data it now finds. If that question has no answer at the Phase 8 go/no-go, the
+release is not ready to promote — that is a finding, not a footnote.
+
+### The two halves of the deploy rail
+
+Deploy is **two** workflows, and the split is the point:
+
+- `deploy-dev` is automatic and unattended. It fires on a successful CI run on the protected
+  branch and needs no human, because the merge bar has already been cleared.
+- `deploy-promote` is manual-trigger only. It cannot fire on its own, and it holds until a named
+  person approves.
+
+The go/no-go is the target environment's **own** approval mechanism — GitHub Environment required
+reviewers, Azure DevOps environment checks — not logic invented in a workflow file. Two reasons:
+the client's security team can already audit it, and it cannot be quietly edited away without
+branch protection noticing. `deploy-promote` refuses to run against a target environment that has
+no approver configured, so "we forgot to set that up" fails loudly instead of silently promoting
+to production unattended.
+
+Both rules above are enforced mechanically, not by convention. Promotion is rejected unless the
+named CI run succeeded, ran on the protected branch, *and* the source environment has already run
+those exact bytes — which is what stops someone promoting a green build straight to production
+having skipped test entirely. The pipeline would otherwise happily oblige, and nothing would say
+so.
+
 ---
 
 ## 6. The infrastructure pipeline
@@ -458,6 +488,10 @@ deliberately and caught:
   exact line, record the override label, watch it go green, close it unmerged. A blocking gate is
   only proven when both its block and its escape have been seen to work.
 - A known-bad deploy proves the **pipeline restores** the last good version.
+- An attempted promotion proves the **go/no-go actually holds**: the run must pause for a named
+  approver, and a build that has only reached dev must be *refused* a promotion straight to prod.
+  A promotion path that sails through unapproved, or that lets you skip an environment, is not a
+  gate — and both failures look exactly like success until someone tries them.
 - A probe PR touching a guarded path proves the **security gate** fires — a throwaway change opened
   solely to confirm the gate triggers, then closed unmerged.
 
@@ -495,6 +529,13 @@ the provenance trail is what makes the rails auditable rather than merely automa
 - **The rollback that was only ever written.** Documented, reviewed, never run — then executed for
   the first time during an incident, where every surprise costs downtime. Rehearse it in test,
   before it is needed.
+- **The promotion gate nobody configured.** The promote pipeline exists, the environment exists,
+  and the environment has no approver on it — so every promotion sails straight through to
+  production with a green tick and no human in the loop. It looks identical to a working gate
+  right up until it matters, which is why the pipeline refuses to run rather than assuming.
+- **The skipped environment.** A green build promoted from dev directly to prod because the
+  operator picked the wrong target and nothing checked. "The same build that passed test" is only
+  true if something enforces that it actually passed test.
 - **A secret in the repo.** The one unrecoverable foundation mistake. The client's vault from day
   one — never in code, never in CLAUDE.md, never in a spec.
 - **The unattended destructive apply.** An agent runs an infrastructure `apply` that deletes or

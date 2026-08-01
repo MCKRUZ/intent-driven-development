@@ -50,6 +50,9 @@ so install here unless you also repoint the references.
 | `CLAUDE.md.template` | `./CLAUDE.md` | Replace every `{{TOKEN}}`; delete guidance comments. |
 | `spec-template.md` | `./specs/spec-template.md` | Copy per feature to `specs/NNNN-name.md`. |
 | `spike-template.md` | `./spikes/spike-template.md` | Copy per unknown to `spikes/NNNN-name.md`. The finding is committed; the `spike/` branch never merges. |
+| `rollback-template.md` | `./ROLLBACK.md` | Phase 8. The **written** trigger ("roll back if X"), the procedure, what a rollback does NOT undo, and the rehearsal record. Proven by the client's operators executing deploy → roll back → redeploy in test. |
+| `alert-definitions-template.md` | `./ALERTS.md` | Phase 9. One entry per alert: measured baseline, warning/critical thresholds, who is woken, the drill record, and the standing fatigue review. |
+| `incident-playbook-template.md` | `./INCIDENT-PLAYBOOK.md` | Phase 9. Detect → diagnose → escalate → communicate, per alert, plus the user-facing message templates. The RUNBOOK resolves; this detects and communicates. |
 | `settings.json` | `./.claude/settings.json` | Shared, committed. Leans on `deny` (see below). |
 | `mcp.json` | `./.mcp.json` | Team MCP servers (context7, sequential-thinking, playwright); packs merge additions (dotnet → microsoft-learn, github → github, azure-devops → azure-devops). npx-launched servers are version-pinned; the HTTP-hosted ones (context7, microsoft-learn, github) run server-side and cannot be pinned. No secrets — auth is always per-developer. Each developer approves the set once on first open. |
 | `HARNESS.md` | `./docs/harness.md` | The developer-facing tour: what each installed piece does and why, per layer. Point new team members here first. |
@@ -58,6 +61,7 @@ so install here unless you also repoint the references.
 | `agents/*` | `./.claude/agents/` | `planner`, `architect`, `grader`, `security-reviewer`, `build-error-resolver`, `debugger` — model-tiered; see `agents/README.md`. |
 | `skills/*` | `./.claude/skills/` | `spec-writer`, `test-writer`, `api-pattern`, `pr-writer`, `eval-builder`, `diagnose`. |
 | `workflows/{ci,grader,correctness,security,deploy-dev,eval-regression,eval-suite}.yml` | `./.github/workflows/` | The five rails + the two eval workflows. |
+| `workflows/deploy-promote.yml` | `./.github/workflows/` | The second half of the deploy rail: dev→test→prod. Manual trigger only — the target Environment's **required reviewers** are the human go/no-go, and the workflow refuses to run against an environment that has none. |
 | `workflows/RAILS.md` | `./.github/RAILS.md` | Operator's guide + shakedown drills. |
 | `profile/rubrics/*` | `./.github/profile/rubrics/` | Workflows read these by this path. |
 | `profile/eval-bypasses.md` | `./.github/eval-bypasses.md` | Override/bypass ledger. |
