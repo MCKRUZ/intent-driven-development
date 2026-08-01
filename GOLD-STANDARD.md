@@ -441,6 +441,34 @@ change.
   DevOps/security reviews it — they have to operate it after we leave.
 - **Secrets:** client's Key Vault and client's GitHub secrets. Never in code, never in CLAUDE.md,
   never in specs. The Anthropic API key is client-procured (section 8).
+- **Third-party components:** most of what ships is code nobody on the pod wrote, and it decays —
+  a package that was clean on the day it landed becomes an advisory later, with no commit to
+  mark the moment. The position has three parts, and the split between the first two is the
+  whole design:
+  - **A change may not introduce a known-vulnerable package.** The `dependency-gate` CI check
+    scans this branch and the target branch and blocks on the difference. Diff-scoped like every
+    other gate, so a CVE published overnight in untouched code never reddens work nobody caused
+    — a check that is red for reasons outside your control teaches the team that red is normal,
+    and that costs us every other gate's credibility.
+  - **What is already here is found weekly and raised as an issue, not a block.** The
+    `dependency-scan` workflow reports the standing stock; the fix rides the normal rails as an
+    ordinary spec with a risk tier, prioritised by a human. Upgrading anything touching auth,
+    payments, or client data is HIGH risk like any other such change (section 5.1).
+  - **Upgrades are proposed automatically and reviewed like any change.** Dependabot opens the
+    PRs; they clear the full merge bar, and nothing auto-merges. "The bot wrote it" is not a
+    reason to skip review — a dependency upgrade is a behavioural change to code we did not
+    write, which warrants more scrutiny than a colleague's diff, not less.
+
+  Accepting a vulnerability instead of fixing it is a recorded decision, not a silence: the
+  `accepted-risk:dependency` label clears the gate for one PR, and `dependency-exceptions.md`
+  carries the reason, the reachability assessment, a named person, and an expiry date. Expired
+  acceptances are swept at the Setup review (section 5.4).
+
+  **Platform caveat, stated plainly:** Azure DevOps has no first-party Dependabot — it is a
+  marketplace extension there, and installing a third-party extension with repo write access is
+  the client's decision, not ours to make quietly. On that platform the first two parts hold and
+  the third is manual until they choose. We say so rather than shipping a pipeline that silently
+  does less than its GitHub twin.
 - **Environments:** merge -> dev (automatic), dev -> test (on demand, smoke-tested), test -> prod
   (Phase 8 ceremony and thereafter on the client's release cadence, human go/no-go every time).
   Two workflows, deliberately separate: `deploy-dev` is automatic and unattended; `deploy-promote`
@@ -567,6 +595,8 @@ intent-driven-development/     # cloned locally as delivery-standard/ on some ma
 │   ├── workflows/             # ci.yml, grader.yml, correctness.yml, security.yml, deploy-dev.yml
 │   │                          # + deploy-promote.yml (the deploy rail's second half: dev→test→prod,
 │   │                          #   manual only, human go/no-go every time — §7)
+│   │                          # + dependency-scan.yml (weekly standing-stock advisory scan;
+│   │                          #   the blocking half is ci.yml's dependency-gate job — §7)
 │   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
 │   ├── packs/                 # composable additions: stacks/dotnet, cicd/github, cicd/azure-devops,
 │   │                          # frontend/generic, frontend/react, tools/gitnexus
@@ -574,6 +604,8 @@ intent-driven-development/     # cloned locally as delivery-standard/ on some ma
 │   ├── prompts/               # versioned judge prompts (§11)
 │   ├── infra/                 # Bicep starters
 │   └── profile/               # CODEOWNERS, rubrics, branch-protection ruleset, rails scripts
+│                              # + eval-bypasses.md and dependency-exceptions.md (the two
+│                              #   accepted-risk ledgers — each entry named, dated, and expiring)
 │                              # (customer profiles — starter, microsoft-enterprise, … — live in
 │                              # the plugin's profiles/, not here)
 └── retros/                    # one file per engagement: what we changed and why

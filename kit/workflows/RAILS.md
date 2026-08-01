@@ -99,10 +99,14 @@ These are deliberate, outward-facing actions. Nothing in the kit performs them.
 The ruleset requires exactly these check contexts to be green before merge:
 
 - `build-and-test`
+- `spike-guard` (no PR may be opened from a `spike/` branch — no label escape)
+- `risk-signoff` (a `risk:high` PR carries a named human's sentence accepting the risk)
+- `repro-gate` (a `type:bugfix` PR ships a test that fails against the pre-fix tree)
 - `spec-gate` (a source PR must carry its committed spec — `no-spec:chore` label is the recorded escape)
 - `grader` (required to have RUN — its verdict never blocks)
 - `correctness-review`
 - `security-review`
+- `dependency-gate` (the change introduces no new High/Critical advisory — `accepted-risk:dependency` is the recorded override)
 
 If you keep the optional `eval-gate` job in `ci.yml`, add `eval-gate` to the
 `required_status_checks` array too and re-apply.
@@ -187,6 +191,14 @@ gate is only proven when **both its block and its escape** have been seen to wor
   3. **The rollback still works up here.** Repeat the known-bad deploy against **test**
      via `deploy-promote` — the rollback rehearsal Phase 8 requires, run by the
      client's own operators with their own permissions, before prod is ever a target.
+- **dependency-gate** — open a throwaway PR that adds a package with a **published advisory**
+  (any well-known vulnerable version will do). The check must go **red**, naming the package and
+  the advisory URL. Then apply `accepted-risk:dependency` and confirm it goes **green** — the
+  override clears it. Close it unmerged.
+  Run this one even if you skip others. Every other rail here fails loudly when misconfigured;
+  this one fails **silent and green** — a scan that cannot parse its tool's output reports no
+  findings, which looks exactly like a clean repo. Planting a real advisory is the only proof
+  the gate is wired at all.
 - **security** — open a **probe PR touching a guarded path** (e.g. add a comment in a
   file under `**/Auth/`) with a planted HIGH issue. The check must go red. Close it
   unmerged.

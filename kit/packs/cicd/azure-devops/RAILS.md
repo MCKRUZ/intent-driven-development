@@ -17,6 +17,8 @@ and — the part most teams skip — how to **prove they actually catch things**
 | **build-and-test** | `ci.yml` | every PR | **Blocks** (hard gate) — includes the enforced coverage floor |
 | **spec-gate** | `ci.yml` (stage in the build-and-test pipeline) | every PR | **Blocks** — a source change with no spec in the diff is a fact; `no-spec:chore` PR label is the recorded escape |
 | **eval-gate** *(optional)* | `ci.yml` | every PR | **Blocks** — keep only if you ship an eval-fixture suite |
+| **dependency-gate** | `ci.yml` (stage) | every PR | **Blocks** when the change INTRODUCES a High/Critical advisory (`accepted-risk:dependency` = recorded override) |
+| **dependency-scan** | `dependency-scan.yml` | weekly + manual | **Advises** — raises/updates one advisory work item; never blocks |
 | **grader** | `grader.yml` | every PR | **Advises** — never blocks; required to RUN |
 | **correctness-review** | `correctness.yml` | every PR; reviews when source changed | **Blocks** on a high-confidence defect |
 | **security-review** | `security.yml` | every PR; reviews on gated paths / `risk:high` | **Blocks** on HIGH |
@@ -157,6 +159,11 @@ when **both its block and its escape** have been seen to work.
   3. **The rollback still works up here.** Repeat the known-bad deploy against **test** via
      `deploy-promote`, executed by the client's own operators with their own permissions — the
      Phase 8 rehearsal, run before prod is ever a target.
+- **dependency-gate** — open a throwaway PR adding a package with a **published advisory**. The
+  stage must go **red**, naming the package and advisory. Apply the `accepted-risk:dependency` PR
+  label and confirm it clears. Abandon the PR. Run this one even if you skip others: every other
+  rail fails loudly when misconfigured, this one fails **silent and green** — a scan that cannot
+  parse its tool's output reports no findings, which looks exactly like a clean repo.
 - **eval-regression** — open a PR touching `prompts/**` that degrades a key metric past the trip-wire (or
   point the runner at a fixture that regresses). The `eval-regression` build validation must go red.
 - **secret scan** — open a throwaway PR that commits a **fake but realistic credential** (e.g. an invented

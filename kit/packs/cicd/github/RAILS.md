@@ -38,6 +38,8 @@ the selected stack's value. To swap stacks by hand today, replace the value on e
 | **build-and-test** | `ci.yml` | every PR | **Blocks** (hard gate) — includes the enforced coverage floor |
 | **spec-gate** | `ci.yml` | every PR | **Blocks** — a source change with no spec in the diff is a fact; `no-spec:chore` label is the recorded escape |
 | **eval-gate** *(optional)* | `ci.yml` | every PR | **Blocks** (hard gate) — keep only if you ship an eval-fixture suite (`ci-profile.eval_gate.enabled`) |
+| **dependency-gate** | `ci.yml` | every PR | **Blocks** when the change INTRODUCES a High/Critical advisory (`accepted-risk:dependency` = recorded override) |
+| **dependency-scan** | `dependency-scan.yml` | weekly + manual | **Advises** — raises one self-closing issue for the standing stock |
 | **grader** | `grader.yml` | every PR | **Advises** — never blocks; required to RUN |
 | **correctness-review** | `correctness.yml` | every PR; reviews when source changed | **Blocks** on a high-confidence defect |
 | **security-review** | `security.yml` | every PR; reviews on gated paths / `risk:high` | **Blocks** on HIGH |
@@ -213,6 +215,10 @@ gate is only proven when **both its block and its escape** have been seen to wor
   3. **The rollback still works up here.** Repeat the known-bad deploy against **test**
      via `deploy-promote`, executed by the client's own operators with their own
      permissions — the Phase 8 rehearsal, run before prod is ever a target.
+- **dependency-gate** — open a throwaway PR adding a package with a **published advisory**. The
+  check must go **red**, naming the package and advisory. Apply `accepted-risk:dependency` and
+  confirm it clears. Close it unmerged. Run this one even if you skip others: every other rail
+  fails loudly when misconfigured, this one fails **silent and green**.
 - **security** — open a **probe PR touching a guarded path** (e.g. add a comment in a
   file under `**/Auth/`) with a planted HIGH issue. The check must go red. Close it
   unmerged.

@@ -19,6 +19,8 @@ after the merge bar has already been cleared.
 | Workflow | File | Fires on | Block or advise | Source |
 | --- | --- | --- | --- | --- |
 | **CI** | `ci.yml` | every PR + push to main | **BLOCKS** (secret scan/build/test + enforced coverage floor; optional eval-gate) | generalized from source `ci.yml` |
+| **Dependency Gate** | `ci.yml` (`dependency-gate` job) | every PR | **BLOCKS** when the change INTRODUCES a package with a known High/Critical advisory (`accepted-risk:dependency` label = recorded override) | built fresh for the kit |
+| **Dependency Scan** | `dependency-scan.yml` | weekly + manual | **ADVISES** — raises one self-closing issue for the standing stock; never blocks | built fresh for the kit |
 | **Spec Gate** | `ci.yml` (`spec-gate` job) | every PR | **BLOCKS** — a source change with no spec in the diff is a fact (`no-spec:chore` label = recorded escape) | built fresh for the kit |
 | **Grader** | `grader.yml` | every PR | **ADVISES** — required to RUN, verdict never blocks | generalized from source `grader.yml` |
 | **Correctness Review** | `correctness.yml` | every PR (reviews when source changed) | **BLOCKS** on a high-confidence defect (override label) | generalized from source `correctness-review.yml` |
@@ -68,9 +70,12 @@ adapting.
 | `<<RULESET_FILE>>` | apply-branch-protection.sh | ruleset JSON path if layout differs |
 
 Required-status-check **context names** in `../profile/rulesets/branch-protection.json`
-must match the workflow **job names**: `build-and-test`, `spec-gate`, `grader`,
-`correctness-review`, `security-review` (and `eval-gate` if you keep that job). Rename
-a job → rename its required-check context.
+must match the workflow **job names**: `build-and-test`, `spike-guard`, `risk-signoff`,
+`repro-gate`, `spec-gate`, `grader`, `correctness-review`, `security-review`,
+`dependency-gate` (and `eval-gate` if you keep that job). Rename a job → rename its
+required-check context. `check_standard.py` verifies this both ways: a required context
+no job produces would block every PR forever, and a job calling itself a gate that the
+ruleset does not require is decoration — it reports, and a red run merges anyway.
 
 ## Fail-safe semantics (do not weaken)
 
@@ -84,6 +89,12 @@ a job → rename its required-check context.
 - **Promote, never rebuild.** `deploy-dev` ships the exact artifact CI built for the
   commit (via `workflow_run` download), and restores the last known-good version on a
   failed deploy or health check.
+- **The dependency gate cannot prove itself green.** Every other gate here fails loudly
+  when misconfigured. This one fails *silent and green*: a scan that cannot reach its
+  vulnerability feed, or whose output parsing is wrong, reports no findings — which is
+  indistinguishable from a clean repo. Both halves fail closed on a scan that ERRORS, but
+  nothing can detect a scan that succeeds while seeing nothing. Only the shakedown drill
+  (plant a known-vulnerable package) proves it is wired.
 
 ## Drift note — resolved
 
