@@ -338,10 +338,13 @@ arc finished:
 
 ## Remaining work — STATUS (2026-07-16)
 
-1. ~~Build the `kit/`~~ **DONE** — complete at 100 files (see the STATUS block under "Files
-   that exist"), synced to the plugin via `sync_kit.py`, installer verified by 298 passing
-   tests. The four harvest items from the Harbor story (config-with-artifact, timezone tests,
-   suppression-window alerts, vendor-blip split) are folded in.
+1. ~~Build the `kit/`~~ **DONE** — synced to the plugin via `sync_kit.py`, installer verified by
+   its own test suite. The four harvest items from the Harbor story (config-with-artifact,
+   timezone tests, suppression-window alerts, vendor-blip split) are folded in.
+   **Counts corrected 2026-08-01** — this line said "100 files" and "298 passing tests"; both were
+   stale and measured, not estimated: the kit is **138 files** (`sync_kit.py --check`) and the
+   plugin's suite is **532 passed, 6 skipped**. Neither number is load-bearing, which is exactly
+   how they drifted unnoticed for so long — prefer running the two commands to quoting this line.
 2. **The four `docs/` support files** — still open: profile-swap, commercial, data-flow-brief,
    po-onboarding (phase-0 mentions the PO onboarding guide unlinked — re-link when built).
    GOLD-STANDARD section 10 now marks them "(planned — not yet built)".
@@ -362,12 +365,40 @@ arc finished:
    history (see the plugin STATUS block above).
 
 Open engineering items are tracked as GitHub issues on `MCKRUZ/intent-driven-development`
-(open as of 2026-07-31):
+(open as of 2026-08-01):
 
 - **#5** — harvest remaining approved MAH items into the kit
 - **#6** — bring MAH onto the kit (agents first, or full installer run)
-- **#11** — deploy promotion + rollback workflows, and a dependency-update axis
-- **#12** — fleet observability: gate outcomes visible across installed repos
+
+**In review (2026-08-01)** — #11 and #12 are built and open as a stacked chain. Merge in order;
+each is based on the one above it, so each PR's diff shows only its own change:
+
+- **[#39](https://github.com/MCKRUZ/intent-driven-development/pull/39)** → `main` — the deploy
+  rail's second half. `deploy-promote.yml` (manual only; refuses an environment with no approver,
+  and refuses to promote a build the source environment never ran) + the Phase 8/9 skeletons
+  `ROLLBACK.md`, `ALERTS.md`, `INCIDENT-PLAYBOOK.md`. Also fixes drift: both pack copies of
+  `deploy-dev.yml` still hard-failed every merge, having never received the core's `DEPLOY_WIRED`
+  guard.
+- **[#40](https://github.com/MCKRUZ/intent-driven-development/pull/40)** → #39 — the standard's
+  first position on third-party components (closes #11 with #39). A diff-scoped `dependency-gate`
+  in `ci.yml`, a weekly `dependency-scan.yml` that raises an issue rather than blocking, and
+  dependabot. Both scan commands were run against real published advisories before shipping, which
+  changed the design twice: `dotnet list package --vulnerable` **exits 0** with a High finding, and
+  `npm audit --json` **exits 1** whenever it finds anything.
+- **[#41](https://github.com/MCKRUZ/intent-driven-development/pull/41)** → #40 — fleet visibility
+  (closes #12). Each repo commits a weekly `rails-telemetry.json`; the enforcement section compares
+  what branch protection *requires* against what the workflows *declare*, which is the only way to
+  tell a disarmed gate from one that never caught anything. Collector +19 tests.
+- **[claude-code-sdlc#28](https://github.com/MCKRUZ/claude-code-sdlc/pull/28)** → the plugin sync
+  (1.1.0). Merge last. Its installer suite is what proved the three above actually install: it
+  caught five payload files that installed nowhere, and its golden snapshot now shows the nine
+  files a real install gains.
+
+One caveat carried forward from all three: **nothing has been made to fail on purpose yet.**
+`docs/the-rails.md` §9 is explicit that a rail is proven by catching something, not by existing.
+The new shakedown drills are written but unrun. The dependency gate especially — unlike every
+other rail it fails *silent and green* when misconfigured, so planting a known-vulnerable package
+is the only way to know it is wired at all.
 
 Closed since the last revision of this list: #4 (Angular frontend pack), #8 (MCP server
 shakedown), #7 (nudge-hook pattern), #33 (the sole-approver cross-reference) and #35 (the
