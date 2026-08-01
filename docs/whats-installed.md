@@ -131,8 +131,19 @@ override. Branch protection tops it off: blocking checks are mandatory and a per
 didn't write the change must approve it. In one sentence: *machines verify the facts; a human
 makes the call.*
 
+Getting a change into an environment is two workflows, deliberately not one. Merging ships to
+**dev** automatically, with no human in the loop, because the change already cleared the bar
+above. Going any further — to test, then to production — is a separate workflow that cannot
+start on its own and stops until a **named person approves**. Neither one rebuilds anything: both
+ship the exact package the build produced, so what reaches production is the thing that was
+tested rather than a fresh copy nobody has seen. And a promotion is refused unless the previous
+environment has already run those same bytes, so nobody can skip test by accident. If a deploy
+goes wrong, the previous good version is restored automatically; the decision to undo a deploy
+that went wrong *later* is written down in advance, in `ROLLBACK.md`, rather than improvised at
+3 a.m.
+
 Before trusting any gate, run the drills in `RAILS.md`: break the build on purpose, plant a
-defect, commit a fake secret — and watch each gate catch it.
+defect, commit a fake secret, attempt a promotion nobody approved — and watch each gate catch it.
 
 ## Where the pieces come from (custody chain)
 

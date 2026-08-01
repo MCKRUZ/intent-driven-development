@@ -443,6 +443,18 @@ change.
   never in specs. The Anthropic API key is client-procured (section 8).
 - **Environments:** merge -> dev (automatic), dev -> test (on demand, smoke-tested), test -> prod
   (Phase 8 ceremony and thereafter on the client's release cadence, human go/no-go every time).
+  Two workflows, deliberately separate: `deploy-dev` is automatic and unattended; `deploy-promote`
+  is manual-trigger only and cannot run without a named approver, because promotion beyond dev is
+  the standard's most protected stop. The go/no-go is the target environment's own approval
+  mechanism (GitHub required reviewers / Azure DevOps environment checks) rather than anything
+  hand-rolled — the client's security team can already audit it, and `deploy-promote` refuses to
+  run against an environment that has no approver configured. Neither workflow rebuilds: both ship
+  the exact artifact a named CI run produced, and a promotion is rejected unless the source
+  environment has already run those same bytes.
+- **Rollback:** every deploy captures the last known-good version and restores it on failure. The
+  human path — the deploy that succeeded and went wrong an hour later — is written down in advance
+  in `ROLLBACK.md` (`kit/rollback-template.md`), including what a rollback does **not** undo, and
+  is proven by the client's own operators rehearsing deploy -> roll back -> redeploy in test.
 
 ---
 
@@ -541,6 +553,9 @@ intent-driven-development/     # cloned locally as delivery-standard/ on some ma
 │   ├── CLAUDE.md.template
 │   ├── spec-template.md
 │   ├── spike-template.md      # the written finding a spike leaves behind (§5.3a)
+│   ├── rollback-template.md   # Phase 8: the written "roll back if X" + rehearsal record
+│   ├── alert-definitions-template.md    # Phase 9: baselines, thresholds, who is woken
+│   ├── incident-playbook-template.md    # Phase 9: detect/diagnose/escalate/communicate
 │   ├── settings.json
 │   ├── mcp.json               # team MCP server set; packs merge additions
 │   ├── HARNESS.md             # developer-facing tour; installs to docs/harness.md
@@ -550,6 +565,8 @@ intent-driven-development/     # cloned locally as delivery-standard/ on some ma
 │   ├── hooks/                 # stop-gate, review-gate, save-review-receipt (.ps1 + .sh each)
 │   │                          # + sensitive-edit-nudge (advisory example, unregistered)
 │   ├── workflows/             # ci.yml, grader.yml, correctness.yml, security.yml, deploy-dev.yml
+│   │                          # + deploy-promote.yml (the deploy rail's second half: dev→test→prod,
+│   │                          #   manual only, human go/no-go every time — §7)
 │   │                          # (+ eval-regression.yml, eval-suite.yml for agentic specs — §11)
 │   ├── packs/                 # composable additions: stacks/dotnet, cicd/github, cicd/azure-devops,
 │   │                          # frontend/generic, frontend/react, tools/gitnexus
