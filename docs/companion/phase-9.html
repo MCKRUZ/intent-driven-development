@@ -1125,21 +1125,23 @@
             through the loop and re-drilled until clean.</p>
           <div class="tooling">
             <span class="label">Tooling</span>
-            <span class="none">none &mdash; the drill is human work; no command, and no step in the plugin runs it</span>
+            <span class="none">no command &mdash; the drill is human work, and Step 4 says so: Claude prepares the plan and writes the record, but cannot page anyone</span>
           </div>
           <div class="artifacts">
             <span class="lbl">Out</span>
-            <span class="tag amber">drill-record.md &mdash; the registry marks it optional; nothing writes it</span>
+            <span class="tag">drill-record.md &mdash; required, and Step 4 produces it</span>
           </div>
-          <div class="aha warn">
-            <div class="lbl">The gap that should alarm you most</div>
-            <p>The exit gate has a <strong>teeth</strong> condition: <em>"Alert drill executed: every critical
-              alert fired and answered from the playbook."</em> Yet there is <strong>no drill step in the
-              plugin</strong> &mdash; the workflow runs Step 0 through Step 6 and never mentions one &mdash;
-              <strong>no command</strong> triggers it, and <code>drill-record.md</code> is listed <em>optional</em>.
-              The single most valuable act of the phase, the one that separates a procedure from a wish, is
-              required by the gate and produced by nothing. This is exactly the work that caught Harbor's
-              silent-night bug.</p>
+          <div class="aha">
+            <div class="lbl">The widest gap in the phase &mdash; now closed</div>
+            <p>The exit gate carried a <strong>teeth</strong> condition &mdash; <em>"Alert drill executed: every
+              critical alert fired and answered from the playbook"</em> &mdash; while the workflow ran Step 0
+              through Step 6 and never mentioned a drill, no command triggered one, and
+              <code>drill-record.md</code> was listed <em>optional</em>. The single most valuable act of the
+              phase was required by the gate and produced by nothing. The plugin now ships
+              <strong>Step 4: Alert Drill</strong> &mdash; placed after the playbook, so the drill tests
+              <code>incident-response.md</code> as much as it tests the alert &mdash; with a spec, a template,
+              and the artifact promoted to <strong>required</strong>. This is exactly the work that caught
+              Harbor's silent-night bug.</p>
           </div>
           <div class="aha">
             <div class="lbl">At Harbor</div>
@@ -1255,7 +1257,7 @@
           <tr><td><span class="tag">project-retrospective.md</span></td><td>What worked and didn't with receipts, the SDLC review, the technical debt log, and the harvest list &mdash; "the most important Phase 9 artifact"</td><td><code>feedback-synthesizer</code> assembles; the humans own the candor</td><td>Pod Lead</td><td><code>.sdlc/artifacts/09-monitoring/</code></td><td>The harvest PR (Phase C)</td></tr>
           <tr><td><span class="tag">phase09-report.html</span><br><span class="tag">phase09-visual.html</span></td><td>The gate result and artifact inventory, self-contained &mdash; the document a sponsor actually reads before signing</td><td><code>generate_phase_report.py</code> · <code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate</td></tr>
 
-          <tr><td><span class="tag amber">drill-record.md</span></td><td>Per critical alert: the trigger, detection time, where it routed, who responded, the outcome &mdash; pass, or the finding and its fix. The one proof the pager works</td><td><strong>Quality Engineer, by hand</strong></td><td>QE</td><td class="dim">optional in the registry &mdash; no step runs the drill</td><td>The gate packet; Close</td></tr>
+          <tr><td><span class="tag">drill-record.md</span></td><td>Per critical alert: the trigger, detection time, where it routed, who responded, the outcome &mdash; pass, or the finding and its fix. The one proof the pager works</td><td><strong>Quality Engineer</strong>, from the Step 4 drill</td><td>QE</td><td class="dim">required; Step 4 runs the drill and the template ships</td><td>The gate packet; Close</td></tr>
           <tr><td><span class="tag amber">the what-healthy table</span></td><td>Per failure scenario and journey: healthy, degraded, who is woken, who is told in the morning. The session's entire output</td><td><strong>Pod + client operations</strong></td><td>On-call lead + Pod Lead</td><td class="dim">no path &mdash; folded into monitoring-config only if a human types it</td><td>Every alert definition</td></tr>
           <tr><td><span class="tag amber">the fatigue-review record</span></td><td>Each proposed alert replayed over hypercare history; anything firing weekly without action raised or cut, with the count</td><td><strong>Quality Engineer</strong></td><td>QE</td><td class="dim">no path &mdash; nothing writes it</td><td>The shipped alert set</td></tr>
           <tr><td><span class="tag amber">the outcome-metric first read</span></td><td>The engagement's headline number, read honestly for the first time in production, caveats attached</td><td><strong>Pod Lead + sponsor</strong></td><td>Sponsor</td><td class="dim">no path &mdash; on the business dashboard and spoken at steering</td><td>Close &mdash; the final scorecard</td></tr>
@@ -1424,7 +1426,7 @@ playbook. Two findings, both fixed and re-drilled same day.</blockquote>
         <span class="tag">alert-definitions.md</span>
         <span class="tag">incident-response.md</span>
         <span class="tag">project-retrospective.md</span>
-        <span class="tag amber">drill-record.md</span>
+        <span class="tag">drill-record.md</span>
         <span class="tag amber">close-handoff.md &mdash; required, unspecified</span>
         <span class="tag amber">the harvest list &rarr; the Phase C PR</span>
       </div>
@@ -1775,18 +1777,18 @@ playbook. Two findings, both fixed and re-drilled same day.</blockquote>
       <p><strong>Why it's non-negotiable:</strong> routing that goes to the wrong channel, a playbook step
         that quietly assumes pod access, a threshold that doesn't actually trigger &mdash; all of it fails
         here, by appointment, at drill prices. An alert that has never fired is a wish.</p>
-      <div class="aha warn">
-        <div class="lbl">You are required to hand in a receipt nobody told you to write</div>
+      <div class="aha">
+        <div class="lbl">The receipt, and where its shape comes from</div>
         <p><code>drill-record.md</code> is on the plugin's required-artifact list for Phase 9 &mdash; the
-          gate's integrity and completeness checks will block if it's missing or empty. But the phase
-          definition has <em>no drill step</em>, no specification for the file, and no command that produces
-          it. The registry also carries "alert drill executed" as an exit condition, but that one is
-          rendered for the human who signs and never enforced. So: write the file by hand, with the columns
-          above. It goes in the gate packet.</p>
+          gate's integrity and completeness checks block if it's missing or empty. <strong>Step 4</strong>
+          runs the drill and specifies the file, and a template ships at
+          <code>templates/phases/09-monitoring/drill-record.md</code>, so you are filling in a shape rather
+          than inventing one. The registry also carries "alert drill executed" as an exit condition, put in
+          front of the human who signs. It goes in the gate packet.</p>
       </div>
       <div class="artifacts">
         <span class="lbl">You now have</span>
-        <span class="tag green">drill-record.md &mdash; required by the gate, specified by nothing</span>
+        <span class="tag green">drill-record.md &mdash; required, with a step and a template behind it</span>
       </div>
     </div>
   </section>
@@ -1912,8 +1914,9 @@ playbook. Two findings, both fixed and re-drilled same day.</blockquote>
         <p>It can confirm <code>alert-definitions.md</code> exists and has no placeholder text in it. It
           cannot read a threshold and tell you whether anybody measured anything &mdash; a file full of
           numbers pulled from thin air passes exactly as cleanly as one derived from real traffic. It
-          cannot tell whether the drill happened or whether <code>drill-record.md</code> was written from
-          memory the morning of the gate. It cannot see operations' names on the change review. And the
+          cannot tell whether the drill actually happened or whether <code>drill-record.md</code> was written
+          from memory the morning of the gate &mdash; Step 4 tells you to write it as you go, and nothing
+          can enforce that. It cannot see operations' names on the change review. And the
           fatigue review, the what-healthy table and the outcome metric's first read have no check and no
           sign-off question behind them at all. <strong>A green gate is not a finished phase.</strong></p>
       </div>
