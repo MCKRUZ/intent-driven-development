@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 
@@ -1396,6 +1397,422 @@ read failures outside the refresh window (configured in Phase 9).</blockquote>
         topology and alert thresholds are documented as pointers to the next phases &mdash; not as content,
         because they don't exist yet. <strong>Billing milestone 5.</strong> The engagement advanced to
         Deployment.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">You've been handed a finished system and told to run Phase&nbsp;7.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase 7 takes about a week. Two days of it is writing. The rest is proving the writing
+        works by handing it to strangers &mdash; and that part needs two of the client's people booked in
+        advance. Read this once end to end before you start.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Four things. Two of them are people, and those are the long pole &mdash; nothing in
+        this phase closes without them.</p>
+      <ul>
+        <li><strong>A project already in Phase 7.</strong> Run <code>/sdlc-status</code>. If it doesn't
+          say Phase 7 active, you're in the wrong place &mdash; this phase opens after the Build loop is
+          declared feature-complete and <code>phase7-handoff.md</code> has been read.</li>
+        <li><strong>The project type, checked.</strong> Open <code>.sdlc/state.yaml</code> and read
+          <code>project_type</code>. It decides what you owe: a <code>service</code> or <code>app</code>
+          owes the full suite including a RUNBOOK; a <code>library</code> or <code>cli</code> skips the
+          RUNBOOK and adds a CHANGELOG; a <code>skill</code> skips both the RUNBOOK and the API docs.
+          Get this wrong and you'll spend a day writing operations procedures for something that has no
+          server.</li>
+        <li><strong>A client engineer who has never opened the repo, booked.</strong> Two to three hours,
+          on a clean machine. Not you, not anyone on the pod. This person is the whole point of the
+          phase.</li>
+        <li><strong>The client's ops engineer, booked.</strong> Three to four hours in the dev
+          environment, using <em>their own</em> permissions. Hardest person to get. Book them in the
+          first two days.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Treating this as a writing week. The writing is the easy half and Claude does most of it. The
+          phase is the verification &mdash; and if those two client people aren't on a calendar, the
+          phase cannot close. No command will tell you that until day five.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; then stop and talk to the client</p>
+      <h2>Orient and scope the documentation</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> it reads <code>.sdlc/state.yaml</code>, loads the Phase 7
+        definition, and prints the phase's steps, the required artifacts with an exists/missing mark
+        against each, and the exit criteria. Then the phase's first step is a stop: Claude asks you who
+        each document is for, which docs already exist and need updating versus which must be written
+        from scratch, whether the client has documentation standards or templates you must follow, and
+        &mdash; for a <code>library</code>, <code>cli</code>, or <code>skill</code> project &mdash; which
+        artifacts are genuinely not applicable. Nothing gets written until you answer.</p>
+      <p><strong>What you do:</strong> read <code>phase7-handoff.md</code> from the Build loop first,
+        then answer with the client, not from your own head. "Who reads the RUNBOOK" has a name attached
+        to it at the client, and that name changes how you write it.</p>
+      <p class="note"><strong>Don't move on until:</strong> you have written down which artifacts you owe
+        and which are N/A for this project type. Deciding an artifact is N/A <em>after</em> the gate has
+        already blocked on it is how people end up arguing with the tool instead of talking to the
+        client.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Nothing to type &mdash; you and the running system</p>
+      <h2>Spot-check the specs against reality</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; this one is done by hand, against dev</span>
+      </div>
+      <p><strong>What you do:</strong> pick five to ten specs out of <code>specs/</code>, weighted toward
+        the HIGH-risk ones and the ones that changed most recently. Execute each spec's acceptance checks
+        by hand against the running dev system. <em>Execute</em>, not re-read &mdash; re-reading a spec
+        tells you the spec is self-consistent, which was never in doubt.</p>
+      <p><strong>Why this step exists:</strong> the specs stayed current all through Build because the
+        spec changed in the same PR as the behavior. This is the pass that proves that discipline
+        actually held. Any mismatch you find is a defect: author it as a spec with
+        <code>/sdlc-spec</code> and put it through the loop like any other change, merged before this
+        phase can close.</p>
+      <p>Write what you did into <code>spec-audit-record.md</code>: which specs you sampled and why those
+        ones, each check re-executed with its result, and every divergence you found.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">spec-audit-record.md &mdash; optional; the gate won't block on it</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Optional does not mean skip</div>
+        <p>The gate doesn't block on this file, but the approver is asked about it at sign-off. Write it
+          while you're doing the work. A receipt reconstructed from memory a week later is worth less
+          than no receipt at all &mdash; it looks like evidence and isn't.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Type this &mdash; two drafts run at once</p>
+      <h2>Draft the README, diff the API</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> the phase tells Claude to run two drafting streams in one message,
+        because they touch nothing shared. One drafts <code>README.md</code> from the repo as it actually
+        is, including setup instructions written against a fresh checkout. The other reads every endpoint
+        implementation and diffs it against <code>api-contracts.md</code> from Phase 2, producing
+        <code>api-docs.md</code> plus a note on every difference &mdash; what changed, when, and why.</p>
+      <p><strong>What you do:</strong> guard the diff. There are two ways to get this wrong and they look
+        opposite. Docs transcribed from the code faithfully document your bugs as features. Docs
+        transcribed from the Phase 2 contracts document the plan, not the build. Only the comparison
+        finds drift, so check that every endpoint entry names both sides.</p>
+      <p>The README has to carry all six of these or it isn't done: what the project is and why,
+        prerequisites, step-by-step local setup, how to run it in dev/test/production, configuration and
+        where it lives, and how to contribute.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">README.md &mdash; at the repo root, not under .sdlc/</span>
+        <span class="tag">api-docs.md</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Two names in the phase file that the plugin does not ship</div>
+        <p>The Phase 7 definition spawns two agents by name, <code>doc-updater</code> and
+          <code>backend-architect</code>, and the phase registry names <code>/update-docs</code> as this
+          phase's primary skill. <strong>None of the three ship with the plugin.</strong> They are
+          assumed to already exist in your Claude Code install. If yours doesn't have them, nothing
+          breaks and nothing warns you &mdash; Claude just does the drafting in the main conversation.
+          Judge the output, not the agent name in the log.</p>
+      </div>
+      <p class="dim"><code>README.md</code> and <code>RUNBOOK.md</code> are checked at the repo root on
+        purpose. A copy under <code>.sdlc/</code> would validate a file no stranger ever opens, and it
+        starts drifting from the real one at the next commit.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Nothing to type &mdash; a decision per row</p>
+      <h2>Label every drift</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; Claude found the differences; you decide what each one is</span>
+      </div>
+      <p><strong>What you do:</strong> take the differences from step 3 and put them in one table, one row
+        each: what the contract promised, what the system actually does, the label, and the resolution.
+        There are exactly two labels. <strong>Intentional</strong> &mdash; someone made this choice, so
+        write down the why and update the contract. <strong>Unintentional</strong> &mdash; this is a
+        defect; author it with <code>/sdlc-spec</code>, put it through the loop, fix it before the phase
+        closes.</p>
+      <p>Review the finished table with the client's lead engineer. The contracts belong to them after
+        close, so the labels have to be theirs too.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag amber">drift-catalog.md &mdash; optional; the gate won't block on it</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">"We'll decide later" is not a label</div>
+        <p>An unlabeled drift doesn't disappear, it just moves. It becomes the client's surprise during
+          Phase 8, when the people who could have explained it are already gone. If a row can't be
+          resolved this week, it needs a named owner and an explicit decision about whether it blocks
+          deployment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Only for <code>service</code> and <code>app</code> projects &mdash; otherwise skip</p>
+      <h2>Write the RUNBOOK for 3&nbsp;a.m.</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-coach</span>
+      </div>
+      <p><strong>What happens:</strong> Claude drafts the operational procedures from the real pipeline
+        and infrastructure. <code>/sdlc-coach</code> walks you through it conversationally instead of
+        handing you a checklist, which helps here because most of the content is knowledge that lives in
+        the Setup Owner's head, not in a file Claude can read.</p>
+      <p><strong>What you do:</strong> write for one specific reader &mdash; someone exhausted, stressed,
+        and seeing this system for the first time, mid-incident. Every procedure gets numbered steps,
+        exact copy-pasteable commands (never "run the deploy script"), an observable check after each
+        step so they know it worked, and a recovery path if it didn't.</p>
+      <p>The RUNBOOK has to carry all five: the deployment procedure with its pre- and post-checks; a
+        configuration reference listing every environment variable, secret and flag with its valid
+        values; common operations &mdash; restart, scale, database migration, rollback; the top five
+        failure scenarios with diagnosis and resolution steps; and a cross-reference saying which Phase 9
+        alert maps to which failure scenario.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">RUNBOOK.md &mdash; at the repo root</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Two banned strings</div>
+        <p>"See the wiki" and "ask the team." Every one of those is a 3&nbsp;a.m. failure you've deferred
+          onto someone who has nobody to ask. After close, there is no team. Write it down or it doesn't
+          exist.</p>
+      </div>
+      <p class="dim">A <code>library</code>, <code>cli</code> or <code>skill</code> project skips this
+        step entirely &mdash; there is no server to operate. The gate agrees: it only requires
+        <code>RUNBOOK.md</code> for <code>service</code> and <code>app</code>.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Type this &mdash; then triage what it finds</p>
+      <h2>Sweep for decisions nobody wrote down</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> the phase runs a read-only pass over the git history from the
+        start of the Build loop, plus <code>implementation-notes.md</code>, looking for choices that never
+        got written up as a decision record: an architecture change, a dependency added, a pattern
+        chosen, an alternative rejected in a commit message. It comes back with a list of candidates and
+        the context for each.</p>
+      <p><strong>What you do:</strong> triage the list with the client's lead engineer. Some candidates
+        aren't real decisions &mdash; strike those. Each real one becomes an ADR: the context, the
+        options, the decision, the consequences, co-signed the way every ADR before it was. Then add the
+        new entries to <code>adr-registry.md</code> and close every still-open ADR as either accepted or
+        superseded, based on how the implementation actually turned out.</p>
+      <div class="aha warn">
+        <div class="lbl">This is debt collection, not paperwork</div>
+        <p>A decision that lives only in a PR thread and someone's memory is tribal knowledge. At close,
+          the tribe leaves the building. If the sweep dredges up a choice the client's engineer would not
+          have signed, that is the phase working &mdash; record the disagreement or re-open the decision,
+          explicitly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Nothing to type &mdash; this is the step the phase exists for</p>
+      <h2>The cold checkout</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; you sit behind someone else and say nothing</span>
+      </div>
+      <p class="lead">A client engineer who has never opened this repo follows the README exactly as
+        written, on a clean machine, while you watch without helping. Every place they stall is a
+        documentation defect.</p>
+      <p><strong>What "clean machine" means:</strong> a fresh OS account or a VM with none of the
+        project's toolchain pre-installed. They install what the README tells them to install, and
+        nothing it doesn't. Your laptop, with six years of tools on it, cannot run this test.</p>
+      <p><strong>What "stall" means:</strong> any step they cannot complete as written without
+        information from outside the document. Having to ask, guess, or go searching all count. A typo
+        they can read past does not. Log each one as it happens &mdash; the step number, what was
+        missing, and what they did instead. That log <em>is</em> your defect list.</p>
+      <p><strong>Then fix and re-run.</strong> Same day, same verifier, from step one, end to end. A
+        partial re-run that starts at the failed step proves nothing about the fixes upstream, and the
+        verifier is still cold for every step they never reached the first time.</p>
+      <p><strong>Write it up</strong> in <code>readme-verification.md</code>: who verified it and when,
+        the starting point (clean clone, which OS, which toolchain versions), every stall as it happened,
+        the README change each stall produced, and whether the second cold pass got through
+        unassisted.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">readme-verification.md &mdash; required for every project type</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">"They managed with a little help" is a fail</div>
+        <p>The moment someone leans over the verifier's shoulder and says "oh, you just need to&hellip;",
+          the run is void. The stalls are the data; helping erases the data. It is not a pass with an
+          asterisk &mdash; log the help as a stall, fix the README, and run it again.</p>
+      </div>
+      <p class="note">If the cold run genuinely did not happen, say so <em>in the file</em>: a line
+        reading <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code>. The gate accepts that and
+        reports it, by name, in the record the approver signs. A missing file still blocks. The escape is
+        from the work, not from the record &mdash; an exception nobody can see is how a gate stops being
+        a gate.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Nothing to type &mdash; <code>service</code> and <code>app</code> only</p>
+      <h2>The cold walk-through of the RUNBOOK</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; the client's ops engineer drives, on their own account</span>
+      </div>
+      <p class="lead">The client's own operations engineer executes three things from the RUNBOOK, cold,
+        in the dev environment: a deploy, a rollback, and one failure scenario.</p>
+      <p><strong>The load-bearing part is "their own permissions."</strong> A walk-through done with the
+        pod's access proves the RUNBOOK works for people who will not be here next month &mdash; which is
+        the opposite of what you need to know. Every place they lack access the RUNBOOK assumed they had
+        is a finding, and it is much cheaper found now than during a real incident.</p>
+      <p><strong>What you do:</strong> stage the failure scenario in dev ahead of time &mdash; induce the
+        condition or fake its symptoms &mdash; and hand the ops engineer only the symptom. They respond
+        from the RUNBOOK alone. The pod stays silent, same rule as the checkout. And time the rollback:
+        how long it actually took is the number an incident cares about.</p>
+      <p><strong>Write it up</strong> in <code>runbook-walkthrough.md</code>: who walked it and when, the
+        three exercises with what happened in each, every permission gap found, the timings, and what got
+        rewritten as a result.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">runbook-walkthrough.md &mdash; required for service and app</span>
+      </div>
+      <p class="note">Same waiver rule as step 7: if it did not happen, the file still has to exist and
+        say <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code> in plain sight. And the same
+        substitution ban &mdash; a pod member standing in for the client's operator is not a
+        walk-through, it's a rehearsal of your own knowledge.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Type this &mdash; the machine checks your work</p>
+      <h2>Write the handoff, run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-gate</span>
+      </div>
+      <p><strong>Before you type it,</strong> write <code>phase8-handoff.md</code>: the documentation
+        inventory (what was updated versus created), the honest gaps and why they're gaps, the deployment
+        checklist &mdash; the ordered list of what Phase 8 must do before go-live, drawn from the
+        RUNBOOK's deploy and rollback procedures plus whatever this phase knowingly left open &mdash; a
+        straight answer on whether the RUNBOOK is sufficient for an on-call engineer, and the status of
+        every ADR.</p>
+      <p><strong>What happens:</strong> it runs the gate checks over the phase's required artifacts. One
+        gate confirms each required file exists; the next confirms it isn't empty and has no leftover
+        placeholder text &mdash; <code>TODO</code>, <code>TBD</code>, <code>PLACEHOLDER</code> and
+        friends. Then it renders the phase's two written exit conditions &mdash; the cold checkout and the
+        cold walk-through &mdash; for a human to read and judge. It writes a self-contained HTML report
+        into <code>.sdlc/reports/</code> and opens it in your browser.</p>
+      <p><strong>What you do:</strong> fix what it flags and run it again until it's clean. A leftover
+        <code>TODO</code> in the handoff is the usual culprit.</p>
+      <p class="dim">Optional and worth it: <code>/sdlc-review</code> before the gate for a
+        multi-perspective read of the artifacts; <code>/sdlc-enhance</code> to generate a plain-language
+        companion for a non-technical sponsor; <code>/sdlc-phase-report</code> to regenerate the HTML at
+        any time. The phase also asks for an interactive visual report via a
+        <code>/visual-explainer</code> skill that the plugin does not ship &mdash; the phase file says
+        "or equivalent," so if you don't have it, the gate's own report is what stakeholders review.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate can and cannot check</div>
+        <p>It can confirm <code>readme-verification.md</code> exists and isn't a stub. It cannot confirm
+          that anyone followed the README. The two conditions this entire phase is built around &mdash;
+          the cold checkout and the cold walk-through &mdash; are rendered for a human to sign against;
+          they never block. A green gate means the receipts are on file. Whether the receipts are true is
+          on you.</p>
+        <p>The same applies to the waiver: a receipt whose only content is
+          <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code> passes and is reported by name. That is
+          deliberate &mdash; it's an exception you can see. Reaching for it because the week ran short is
+          how the phase quietly stops being a phase.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">Type this &mdash; last thing in the phase</p>
+      <h2>Get the sign-off and advance</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next</span>
+      </div>
+      <p><strong>Before you type it:</strong> run the steering review with the sponsor. Walk the
+        documentation audit, the drift story, and the deployment readiness picture. Get a named human on
+        each side to approve the advance. This is a billing milestone &mdash; it isn't ceremonial.</p>
+      <p><strong>What happens:</strong> it re-runs the gates, shows you the report, then stops and asks
+        you to confirm before it moves anything. Say yes and it advances the project to Phase 8. Then it
+        blocks a second time: it pulls every open question out of <code>phase8-handoff.md</code> and makes
+        you answer or explicitly defer each one, with a proposed default for each, before any Phase 8
+        work begins.</p>
+      <p><strong>What you do:</strong> answer them properly. An open question waved through here is a
+        question someone rediscovers during a deployment window.</p>
+      <div class="artifacts">
+        <span class="lbl">Phase 7 is done when</span>
+        <span class="tag">state.yaml says Phase 8</span>
+        <span class="tag green">a named human on each side signed</span>
+        <span class="tag">the cold runs happened, and their receipts say who and when</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and what's missing.</td></tr>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list. Most useful on the RUNBOOK.</td></tr>
+          <tr><td><code>/sdlc-spec</code></td><td>Every time a drift or an audit mismatch turns out to be a defect. Defects ride the loop; they don't get a footnote.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>Claude drafts
+        from the code; humans verify by use.</strong> Reading a document you wrote and finding it good is
+        the author grading the author. If you're short on time and something has to give, do not let it
+        be the cold run &mdash; the cold run is the phase.</p>
     </div>
   </section>
 

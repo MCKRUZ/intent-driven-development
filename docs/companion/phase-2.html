@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 
@@ -1277,6 +1278,477 @@
           <tr><td>Q-18</td><td>Construction of the surge load-test dataset from the 2024 CAT event (volume curve + channel mix)</td><td>Priti Shah + Nadia Brooks</td><td>Before hardening pass 1</td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">You've been handed a project and told to run Phase&nbsp;2.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase 2 takes about a week. Almost none of that is typing. The commands assemble
+        documents; the decisions inside them are human, and four of the files the gate demands have no
+        command behind them at all. Read this once end to end before you start.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Phase 2 cannot be started cold. It runs on what Phase 1 handed you, and on two
+        people you don't control. Book the people on day one &mdash; they're the long pole.</p>
+      <ul>
+        <li><strong>Phase 1 closed.</strong> <code>/sdlc-status</code> must show Phase 2 active. If it
+          still says Phase 1, finish that gate first &mdash; the design scripts read Phase 0&ndash;1
+          artifacts and will produce a thin spec without them.</li>
+        <li><strong><code>phase2-handoff.md</code>, read.</strong> This is the file Phase 1 wrote for
+          you. Inside it is a section listing <strong>AQ-NN</strong> items &mdash; architectural
+          questions Phase 1 deliberately refused to answer. Step&nbsp;1 is nothing but resolving them.
+          If your handoff has no AQ list, go back and ask why.</li>
+        <li><strong>The client's lead engineer or architect, booked.</strong> They co-sign every
+          architecture decision record. They own this system after you leave, so they choose <em>with</em>
+          you, not after you. Expect to need 3&ndash;5 hours of their time across the week.</li>
+        <li><strong>Client security, booked for one session.</strong> The threat review is a real
+          meeting with a real output that Phase 3 reads. Get it on the calendar around day 4.</li>
+        <li><strong>Credentials for anything you'll spike against.</strong> A spike is throwaway code
+          run against a <em>live</em> system to check an assumption. Sandbox access requests take days.
+          Start them now.</li>
+        <li><strong><code>/deep-plan</code> available.</strong> Phase 2 leans on it heavily, and it is a
+          separate skill &mdash; not part of the SDLC plugin. Check it's in your slash-command list. The
+          phase registry names <code>/plan</code> as the secondary skill if it isn't.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Letting Claude answer the architectural questions. It will produce a confident, plausible
+          architecture in about four minutes, and every ADR after that documents a machine's default
+          rather than a decision. Claude presents options; humans choose. That rule is stricter here
+          than anywhere except Phase 0.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; then stop; nothing gets written yet</p>
+      <h2>Resolve the architectural questions</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> Claude shows you Phase 2 guidance, reads
+        <code>phase2-handoff.md</code>, pulls out every AQ-NN in it, and then <em>blocks</em>. For each
+        question it puts 2&ndash;3 concrete options in front of you with their trade-offs and waits.
+        The phase definition is explicit: no artifact gets written until every AQ has a human answer.</p>
+      <p><strong>What you do:</strong> don't answer alone at your desk. These answers become the ADRs,
+        and an ADR the client's engineer didn't help choose is an engagement artifact, not a client
+        decision. Get the option sets in front of your counterpart &mdash; a 90-minute session with the
+        options on the table and any spike results in hand &mdash; and bring the humans' choices back
+        here.</p>
+      <div class="aha warn">
+        <div class="lbl">One option is not a decision</div>
+        <p>If Claude presents a single approach for an AQ, push back and make it produce real
+          alternatives. The alternatives are where the thinking happens. An ADR built on one option is
+          documentation of a reflex, and it is the most common way this phase goes wrong.</p>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> every AQ-NN in the handoff has an answer a
+        named human stands behind. Write the choices and the reasons down as you go &mdash; those notes
+        are the raw material for step 6.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Type this &mdash; it just gathers, it decides nothing</p>
+      <h2>Synthesize the spec</h2>
+      <div class="tooling">
+        <span class="label">You run</span>
+        <span class="cmd"><span class="script">uv run scripts/synthesize_spec.py</span> --state .sdlc/state.yaml --output planning/spec.md</span>
+      </div>
+      <p><strong>What happens:</strong> the script reads <code>requirements.md</code>,
+        <code>non-functional-requirements.md</code>, <code>epics.md</code>, <code>constraints.md</code>
+        and <code>phase2-handoff.md</code> and stitches them into one file,
+        <code>planning/spec.md</code>. That file is the input the next step consumes. It writes nothing
+        else and changes no state.</p>
+      <p><strong>What you do:</strong> open <code>planning/spec.md</code> and read it. If a requirement
+        or constraint you know matters isn't in there, it came from a Phase 0&ndash;1 artifact that is
+        missing or thin &mdash; fix the source file and re-run, don't hand-patch the spec.</p>
+      <p class="dim">The phase definition writes that path relative (<code>scripts/…</code>), but the
+        scripts ship inside the plugin. If a bare path errors, use the form the command reference uses:
+        <code>uv run --project ${CLAUDE_PLUGIN_ROOT}/scripts ${CLAUDE_PLUGIN_ROOT}/scripts/synthesize_spec.py …</code></p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">planning/spec.md &mdash; one file, everything upstream</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Type this &mdash; the long one; budget most of a day</p>
+      <h2>Run /deep-plan, and stop it early</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/deep-plan @planning/spec.md</span>
+      </div>
+      <p><strong>What happens:</strong> a research-through-review workflow in six visible beats. It
+        studies your existing code and searches the web for practices relevant to this architecture
+        (<code>planning/claude-research.md</code>); it interviews you about technical trade-offs
+        (<code>planning/claude-interview.md</code>); it re-synthesizes everything
+        (<code>planning/claude-spec.md</code>); it writes the actual architecture blueprint in prose
+        (<code>planning/claude-plan.md</code>); it runs a review of that plan by other models if you
+        have them configured, or an Opus subagent if you don't
+        (<code>planning/reviews/</code>); then it folds the review feedback back into the plan.</p>
+      <p><strong>What you do:</strong> two things. First, feed your step-1 AQ answers into the interview
+        &mdash; they are the decisions, and /deep-plan should be encoding them, not re-litigating them.
+        Second, <strong>stop it after step 15.</strong> The steps beyond that are TDD planning and
+        section splitting, and those belong to Phase 3. Let it run on and you'll have Phase 3's work
+        done with Phase 2's information.</p>
+      <p><code>planning/claude-plan.md</code> is the primary design artifact of this phase. Read it
+        properly and approve it before you go further &mdash; everything downstream is a transformation
+        of it.</p>
+      <div class="aha warn">
+        <div class="lbl">Read the external reviews, don't just file them</div>
+        <p>The review files in <code>planning/reviews/</code> are the only independent critique your
+          architecture gets before it's built. They're cheap to skim and expensive to skip. Findings you
+          decide not to act on should be written down as accepted, with a name.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Type this &mdash; it moves files; it does not write content</p>
+      <h2>Map the outputs into SDLC locations</h2>
+      <div class="tooling">
+        <span class="label">You run</span>
+        <span class="cmd"><span class="script">uv run scripts/map_deep_plan_artifacts.py</span> --state .sdlc/state.yaml --phase 2 --planning-dir planning/</span>
+      </div>
+      <p><strong>What happens:</strong> it transforms the <code>planning/</code> output into the
+        <code>.sdlc/artifacts/02-design/</code> files the gate looks for. Two of them &mdash;
+        <code>design-doc.md</code> and <code>api-contracts.md</code> &mdash; come out as
+        <strong>skeletons</strong> extracted from the plan, with <code>&lt;!-- FILL: --&gt;</code>
+        markers where content is missing. It also copies the research notes, the integration notes and
+        the reviews across, and writes <code>deep-plan-checkpoint.yaml</code>, which Phase 3 reads to
+        resume.</p>
+      <p><strong>What you do:</strong> understand what just happened, because it's easy to misread. This
+        script <em>relocated and reshaped</em> the plan. It did not verify anything and it did not
+        author anything new. The skeletons are starting points; step 7 is where you finish them.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">design-doc.md &mdash; skeleton</span>
+        <span class="tag">api-contracts.md &mdash; skeleton</span>
+        <span class="tag">phase3-handoff.md &mdash; section boundaries</span>
+        <span class="tag">research-notes.md &middot; integration-notes.md &middot; external-reviews/</span>
+        <span class="tag">deep-plan-checkpoint.yaml</span>
+      </div>
+      <p class="note"><strong>Note what it did <em>not</em> produce:</strong> no ADRs, no ADR registry,
+        no threat model, no spike findings, no proving plan, no walking-skeleton definition. Six of the
+        nine files the gate blocks on are still empty at this point.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Nothing to type &mdash; this one touches live systems</p>
+      <h2>Run the spikes</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; Claude does not run spikes; they use real credentials against real systems</span>
+      </div>
+      <p class="lead">A spike is small throwaway code that answers one question nobody could answer from
+        documentation. The code gets deleted. <strong>The written finding is the deliverable.</strong></p>
+      <p><strong>What you do:</strong> list every external system this design bets on, and every
+        assumption it rests on that has only been checked on paper. For each one, phrase the question so
+        that an answer would be recognisable &mdash; not "look at the carrier API" but "does the carrier
+        API deduplicate on our idempotency key, or do retries create duplicate claims?" Then go and find
+        out, against the live system. Record each in
+        <code>.sdlc/artifacts/02-design/spike-findings.md</code>: the question, what you tested against
+        (which environment, which version &mdash; sandbox and live differ, and the difference is usually
+        the finding), what you observed, whether the assumption survived, and what it changes.</p>
+      <p>"Still unknown" is a real result and belongs in the file. If the design genuinely depends on no
+        unverified assumption, say that explicitly and name who confirmed it &mdash; an empty file is not
+        the same claim.</p>
+      <div class="aha warn">
+        <div class="lbl">No command and no template writes this file</div>
+        <p><code>spike-findings.md</code> is a required artifact: the gate blocks if it's missing. But
+          nothing in the plugin creates it and there is no template for it. You write it by hand. If a
+          spike genuinely could not happen, the gate accepts a line in the file reading
+          <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code>, and it reports that waiver, by name,
+          in the record the approver signs. A missing file still blocks. The escape is from the work,
+          not from the record.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Nothing to type &mdash; Claude drafts, after you've chosen</p>
+      <h2>Write the decision records</h2>
+      <p class="lead">Every choice that would be expensive to reverse gets one file. Technology
+        selection, structural patterns, integration approach, data storage, the security model, API
+        design choices. If undoing it later would cause significant rework, it needs a record.</p>
+      <p><strong>What you do:</strong> take the choices from step 1 and from
+        <code>claude-plan.md</code>, and have Claude draft one record per decision from the template at
+        <code>templates/phases/02-design/adrs/ADR-template.md</code>. Number them sequentially &mdash;
+        <code>ADR-001.md</code>, <code>ADR-002.md</code> &mdash; and put them in
+        <code>.sdlc/artifacts/02-design/adrs/</code>. Then register every one of them in
+        <code>adr-registry.md</code>, which has its own template and needs three tables: active,
+        superseded, and proposed.</p>
+      <p>Each record carries the context that forced the decision, the alternatives that were genuinely
+        considered and why they lost, the decision itself, and the consequences &mdash; including the
+        unpleasant ones. Then get it signed: yours and your client counterpart's name and date, in the
+        file. The shipped template has a single <code>Deciders:</code> line; put both names there.</p>
+      <div class="aha warn">
+        <div class="lbl">Delete the template's guidance comments</div>
+        <p>The ADR template ships with <code>&lt;!-- REQUIRED: … --&gt;</code> comments in it, and
+          <code>&lt;!-- REQUIRED:</code> is one of the strings the gate treats as unfinished work. Leave
+          them in and the whole <code>adrs/</code> directory fails &mdash; one bad file fails the folder.
+          The gate scans every file in that directory for <code>TODO</code>, <code>TBD</code>,
+          <code>PLACEHOLDER</code>, <code>[INSERT</code>, <code>${</code> and
+          <code>&lt;!-- REQUIRED:</code>.</p>
+      </div>
+      <p class="note"><strong>What the gate cannot see:</strong> it counts no options and reads no
+        signatures. An ADR with one alternative, or with only your name on it, passes the machine check
+        cleanly. Both of those are things the standard requires to close this phase. Nobody but you will
+        catch them.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Nothing to type &mdash; you're finishing what step 4 sketched</p>
+      <h2>Complete the design document, the contracts, and the model</h2>
+      <p class="lead">The two skeletons are starting points, not drafts. Fill every
+        <code>&lt;!-- FILL: --&gt;</code> marker and enrich the rest.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>File</th><th>What has to be in it</th></tr></thead>
+        <tbody>
+          <tr><td><code>design-doc.md</code></td><td>Architecture overview, what each component does and owns, the key data flows for the primary use cases, the cross-cutting concerns (errors, logging, security, configuration), and the technology choices with their rationale pointing at the ADRs</td></tr>
+          <tr><td><code>api-contracts.md</code></td><td>Every endpoint or interface, request and response schemas, authentication per endpoint, the error response format and codes, and the versioning strategy</td></tr>
+          <tr><td>The data model</td><td>Entities and their relationships, key fields and types, and the persistence strategy</td></tr>
+        </tbody>
+      </table>
+      <p><strong>What you do:</strong> write the failure behavior down. A contract that specifies only
+        success is half a contract &mdash; the error semantics from Phase 1 are supposed to flow into
+        concrete response codes and degradation behavior here, and if they don't, that Phase 1 work
+        evaporates. Also run the forward-compatibility check the constitution asked for: walk each
+        protected future against the draft model and record the verdict next to it.</p>
+      <div class="aha warn">
+        <div class="lbl">The data model has nowhere to live</div>
+        <p>The phase definition tells you to define the data model, and the standard names it as an
+          owned artifact &mdash; but <code>data-model.md</code> is listed as <em>optional</em> in the
+          phase registry, has no template, and no gate checks it. Put it in
+          <code>design-doc.md</code> or write <code>data-model.md</code> yourself. Either is fine; what
+          isn't fine is assuming a green gate means the model was written.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Nothing to type &mdash; a real meeting, with security in it</p>
+      <h2>Run the threat review</h2>
+      <p class="lead">This happens in Phase 2, not Phase 3, for one reason: Phase 3 wires its build-time
+        security gates <em>from this review's output</em>. Skip it and those gates get chosen by whoever
+        is wiring them, on the day, from memory.</p>
+      <p><strong>What you do:</strong> work from the components, data flows and trust boundaries you just
+        defined &mdash; a threat review before there's a design to review is theatre. For each boundary
+        the design crosses, write down four things: what crosses it and how sensitive it is (PII,
+        payment, auth material, client-confidential); what could go wrong, concretely, in this system;
+        the mitigation and where it lives; and <strong>the guarded path</strong> &mdash; the file
+        patterns that must trigger the security workflow on any PR touching them once they're built.
+        Record it in <code>threat-model.md</code>, and record any risk you're knowingly not mitigating
+        with the name of the human who accepted it.</p>
+      <p>That guarded-path column is the handoff to Phase 3. Get it in front of your client counterpart
+        and security and have a named human accept it. An unreviewed guarded-path list means the
+        security gate protects whatever Claude guessed was sensitive.</p>
+      <div class="aha warn">
+        <div class="lbl">The phase text and the gate disagree about this file</div>
+        <p>The phase definition labels <code>threat-model.md</code> "RECOMMENDED" and says promoting it
+          would block engagements already past Phase 2. The phase registry &mdash; which is what the gate
+          actually reads &mdash; lists it under <strong>required</strong>. Trust the registry: the gate
+          blocks on a missing <code>threat-model.md</code>. Like the other receipts, a
+          <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code> line inside the file is accepted and
+          reported by name.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Nothing to type &mdash; two files, both written by hand</p>
+      <h2>Say how the design gets proved</h2>
+      <p class="lead">Two required artifacts, no template for either, no command that produces either.
+        Both are agreements, not documentation tasks.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>File</th><th>What has to be in it</th></tr></thead>
+        <tbody>
+          <tr><td><code>nfr-proving-plan.md</code></td><td>Per non-functional requirement: its id and threshold, the verification method (the load profile, the query, the measurement window), the <em>named</em> place the number is read from &mdash; a specific dashboard or report, not "monitoring" &mdash; who reads it and in which phase, and what happens if it misses</td></tr>
+          <tr><td><code>walking-skeleton-definition.md</code></td><td>The one user-visible path Phase 3 must build end to end; every ADR it exercises and the mechanism each chose; what is deliberately stubbed and what that defers; and the observable condition that means done</td></tr>
+        </tbody>
+      </table>
+      <p><strong>What you do:</strong> confirm each measurement method with your Quality Engineer before
+        writing it down &mdash; it's an engineering commitment. Then present the proposed skeleton slice
+        and its ADR coverage to the Setup Owner and the QE and get it agreed.</p>
+      <div class="aha warn">
+        <div class="lbl">Why these two exist at all</div>
+        <p>Phase 9 reads the proving plan back when the system is live and the target is either met or
+          it isn't &mdash; if the method was never agreed, that becomes an argument about what the number
+          meant. And Phase 3 checks the running software against the skeleton definition; without the
+          file, "the skeleton is done" becomes a matter of opinion. A skeleton that misses an ADR is the
+          common failure here, and it stays invisible until Phase 3 is over.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">Type this &mdash; or hand-roll it; either is allowed</p>
+      <h2>Render the diagrams</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/visual-explainer</span>
+      </div>
+      <p><strong>What happens:</strong> you describe the five diagrams the phase asks for and it produces
+        a single self-contained HTML page at
+        <code>.sdlc/reports/architecture-diagrams.html</code>. The five: the architecture layer diagram,
+        the primary flow (core loop or request path), the data flow for the main use case, a dependency
+        graph of the implementation sections from <code>phase3-handoff.md</code>, and the trust-boundary
+        diagram from your threat model.</p>
+      <p><strong>What you do:</strong> replace every piece of ASCII art in <code>design-doc.md</code>
+        with a link to a rendered diagram. If <code>/visual-explainer</code> isn't available, generate
+        the HTML yourself with Mermaid &mdash; the rule is that the final artifacts contain rendered
+        diagrams, not that a particular skill produced them.</p>
+      <p class="dim">This one is advisory. The gate surfaces it as a review item for the human signing
+        off; it never blocks. It is also the artifact stakeholders actually look at, which is a decent
+        argument for doing it anyway.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">11</span>
+      <p class="kicker">Type this &mdash; before the gate, not after</p>
+      <h2>Get the design reviewed by fresh eyes</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-review</span>
+      </div>
+      <p><strong>What happens:</strong> an agent that didn't draft your design reads the phase's
+        artifacts from four viewpoints at once &mdash; architecture, product, quality, security &mdash;
+        plus a consistency-and-ambiguity pass. It writes <code>review-report.md</code> into the phase's
+        artifact directory with CRITICAL / HIGH / MEDIUM / LOW findings, each pointing at a specific
+        artifact with an actionable recommendation.</p>
+      <p><strong>What you do:</strong> run it with no arguments for this phase &mdash; that's the council
+        mode, and it's the one the command reference recommends for Phase 2. Then fix the CRITICAL and
+        HIGH findings before you run the gate; they usually predict gate failures. Findings you're
+        choosing to accept get accepted explicitly, with a name attached, in the review record.</p>
+      <p class="dim">The findings are advisory. Nothing about this command blocks anything &mdash; it
+        changes no state and the gate never reads its output.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">12</span>
+      <p class="kicker">Type this &mdash; the machine checks your work</p>
+      <h2>Run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-gate <span class="arrow">&rarr;</span> <span class="script">check_gates.py</span></span>
+      </div>
+      <p><strong>What happens:</strong> seven gates run and an HTML report opens in your browser. For
+        Phase 2 the ones that bite are the first two: every required artifact must exist, and every
+        required artifact must be non-empty and free of unfinished-work markers. Nine files are
+        required &mdash; <code>design-doc.md</code>, <code>api-contracts.md</code>, <code>adrs/</code>,
+        <code>adr-registry.md</code>, <code>phase3-handoff.md</code>, <code>spike-findings.md</code>,
+        <code>threat-model.md</code>, <code>nfr-proving-plan.md</code>,
+        <code>walking-skeleton-definition.md</code>. The last gate prints the phase's prose conditions
+        for the human who signs; it always reports and never blocks.</p>
+      <p><strong>What you do:</strong> fix what it flags and run it again until it's clean. The usual
+        culprit is a leftover template comment. Then read the report as a reader, not as an author.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate does NOT check</div>
+        <p>A green gate here means nine files exist and contain no marker strings. It cannot tell
+          whether any ADR considered more than one option, whether both signatures are on it, whether the
+          integrations were actually spiked or the findings invented, whether the forward-compatibility
+          rule was checked against the model, or whether requirements and design were traced in both
+          directions &mdash; that last record, <code>consistency-check-record.md</code>, is optional and
+          nothing checks it at all. Every one of those is on the exit checklist the standard says closes
+          this phase. Walk them yourself.</p>
+      </div>
+      <p class="dim">Optional: <code>/sdlc-phase-report</code> regenerates the HTML at any time, and
+        <code>/sdlc-enhance</code> writes a plain-language companion for stakeholders who won't read the
+        design document.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">13</span>
+      <p class="kicker">Type this &mdash; last thing in the phase</p>
+      <h2>Get the signatures and advance</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next <span class="arrow">&rarr;</span> <span class="script">advance_phase.py</span></span>
+      </div>
+      <p><strong>Before you type it:</strong> finish <code>phase3-handoff.md</code>. It needs the design
+        summary and key decisions, the breakdown of implementation sections, the recommended order with
+        the dependency reasoning, the interface contracts between sections, the open technical questions,
+        and the design risks. Then run the sign-off review &mdash; the sponsor gets the design
+        <em>narrative</em> (what was decided, what it costs, what it protects), not the component
+        diagrams. Get a named human on each side to approve the advance.</p>
+      <p><strong>What happens:</strong> it re-runs the gates, then stops and asks you to confirm before
+        it moves anything. Say yes and it marks Phase 2 complete and Phase 3 active. Then it does one
+        more thing: it pulls every open question out of your handoff and makes you answer or explicitly
+        defer each one before any Phase 3 work starts. That gate is blocking and has no exceptions.</p>
+      <p><strong>What you do:</strong> answer them properly. An open question waved through here is a
+        question someone rediscovers in build week three.</p>
+      <div class="artifacts">
+        <span class="lbl">Phase 2 is done when</span>
+        <span class="tag">state.yaml says Phase 3</span>
+        <span class="tag green">every ADR carries both signatures</span>
+        <span class="tag">the guarded-path map is accepted by a named human</span>
+        <span class="tag">everything is committed in the client's repo</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and which required artifacts are still missing.</td></tr>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next in this phase.</td></tr>
+          <tr><td><code>/sdlc-review</code></td><td>Any time the design has changed materially. Cheap, advisory, and it reads what you'd rather not re-read.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>Claude presents
+        options, humans choose.</strong> The commands in this list assemble and check documents. Not one
+        of them can make an architectural decision, sign an ADR, accept a risk, or run a spike &mdash;
+        and the gate cannot tell the difference between a decision and a default. That difference is the
+        whole value of the week.</p>
     </div>
   </section>
 

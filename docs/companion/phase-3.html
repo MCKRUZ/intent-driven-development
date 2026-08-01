@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
   </div>
 </div>
 <main id="track-glance" class="track active">
@@ -1537,6 +1538,529 @@
     </div>
   </section>
 
+
+</main>
+
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — every step the plugin runs, in order, no company        -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">You've been handed a project and told to run Phase&nbsp;3.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">Phase 3 takes about two weeks. It is the highest-risk phase in the opening &mdash;
+        you are building the machine that checks every change after it, and nothing checks that machine
+        except you. Read this once end to end before you start.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">More than any other phase, and most of it is access you don't control. Chase the
+        access on day one &mdash; the commands take minutes, the permissions take days.</p>
+      <ul>
+        <li><strong>Phase 2, closed.</strong> You need <code>phase3-handoff.md</code> read, the
+          walking-skeleton definition (the thinnest end-to-end slice that proves the architecture),
+          and <code>threat-model.md</code> with its guarded-path map. If Phase 2 produced no threat
+          model, stop and do that review now &mdash; Step&nbsp;4 wires the security gate <em>from</em>
+          that map, and choosing guarded paths from memory at wiring time is how the gate ends up
+          protecting whatever seemed sensitive on the day.</li>
+        <li><strong>The plugin and <code>uv</code>.</strong> If <code>/sdlc</code> isn't in your slash
+          command list, run <code>/plugin marketplace add MCKRUZ/claude-code-sdlc</code> then
+          <code>/plugin install claude-code-sdlc@mckruz</code>. The plugin's scripts run through
+          <code>uv</code> &mdash; <code>pip install uv</code> or <code>brew install uv</code>.</li>
+        <li><strong>PowerShell (<code>pwsh</code>) on every machine that runs an agent.</strong> The
+          Stop hook ships as <code>.claude/hooks/stop-gate.ps1</code>. Without <code>pwsh</code> the
+          hook is registered and can never run &mdash; an agent finishes a turn on a red build and
+          nothing objects. It fails silently, which is the worst way for a guardrail to fail.</li>
+        <li><strong>Repo admin on the client's repo.</strong> Someone must be able to enable GitHub
+          Actions, agree the runner policy, install the Claude GitHub App
+          (<code>/install-github-app</code> &mdash; repo admin required), and apply branch protection.
+          Name that person. "Access is being sorted" is not a name.</li>
+        <li><strong>The <code>ANTHROPIC_API_KEY</code> repository secret.</strong> Settings &rarr;
+          Secrets and variables &rarr; Actions. The grader, correctness and security workflows call
+          the Claude API and there is a real per-PR token cost. Until this is set,
+          <code>security-review</code> and <code>correctness-review</code> <strong>fail closed</strong>
+          on the PRs they review &mdash; by design &mdash; and the grader stays green and does
+          nothing.</li>
+        <li><strong>A real dev environment and the client's secrets vault.</strong> Not a sandbox of
+          yours. The exit demo runs in the client's environment or it has proven nothing.</li>
+        <li><strong>A named deputy.</strong> The person who reviews every harness change you make.
+          Named on day one. If you defer this, you are approving your own foundation right now.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Treating client access as a scheduling problem. Branch-protection admin, Actions enabled,
+          runner policy and vault access are the gating dependency of this phase &mdash; the rails
+          cannot be proven without them. If the client can't give their DevOps engineer four to six
+          hours across the two weeks, that goes to the sponsor on day one, not into a quietly
+          slipping schedule.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Type this &mdash; then stop, before you install anything</p>
+      <h2>Confirm the plan</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc</span>
+      </div>
+      <p><strong>What happens:</strong> Claude shows you Phase 3 guidance and then immediately blocks
+        on a human gate. It asks four things: are these the right thinnest end-to-end slices and which
+        single one carries the highest risk; where the dev environment lives and who holds
+        branch-protection admin, Actions enablement, runner policy and the secrets vault; who the
+        Setup Owner's deputy is; and &mdash; if this is a library, CLI or skill rather than a service
+        or app &mdash; what "deploy to dev" even means for this target. Nothing installs until you
+        answer.</p>
+      <p><strong>What you do:</strong> answer with facts, not intentions. Every one of these questions
+        is really "is this real yet?" A named person with the access already granted is an answer. A
+        ticket number is not.</p>
+      <p class="note"><strong>Don't move on until:</strong> one slice is marked as the HIGH-risk one
+        (it has to ride the loop at HIGH before this phase can close), and every access item has a
+        human name against it.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Type this &mdash; the only big install of the phase</p>
+      <h2>Put the harness in the repo</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-harness</span>
+      </div>
+      <p><strong>What happens:</strong> it copies the plugin's bundled harness into the repo. It is
+        idempotent &mdash; anything already there is left alone and reported as <code>SKIPPED</code>,
+        so it is safe to run twice. What lands: <code>CLAUDE.md</code>,
+        <code>specs/spec-template.md</code>, <code>.claude/</code> (settings, hooks, agents, skills),
+        <code>.github/workflows/</code>, <code>.github/RAILS.md</code>, <code>.github/profile/</code>
+        (the review rubrics, the branch-protection ruleset, CODEOWNERS),
+        <code>scripts/rails/</code>, <code>eval-datasets/</code>, <code>prompts/</code>, and
+        <code>infra/</code> for the infrastructure code.</p>
+      <p><strong>What you do:</strong> read the SKIPPED list, then commit all of it &mdash; including
+        <code>.claude/harness-manifest.json</code>. That file is the receipt every future upgrade
+        reads to tell your edits apart from the factory version. Lose it and upgrades get
+        much worse.</p>
+      <p class="dim">If Phase 0 already ran <code>/sdlc-setup</code>, the harness is probably already
+        here. To pull the plugin's newer version instead, use <code>/sdlc-upgrade</code>: it dry-runs
+        first, brings forward files you never touched, leaves your adaptations alone, and writes a
+        <code>.harness-new</code> sibling next to any file that changed on both sides. Merge each one
+        by hand and delete it &mdash; a leftover <code>.harness-new</code> is an unfinished
+        upgrade.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">CLAUDE.md &mdash; generic, not yours yet</span>
+        <span class="tag">.github/workflows/ &mdash; the rails, unwired</span>
+        <span class="tag">.claude/harness-manifest.json &mdash; the receipt</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> it's committed. And be clear about what
+        just happened &mdash; you installed a firm asset. The kit is not built on the client's clock;
+        this phase only adapts it.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Nothing to type &mdash; and no command does this for you</p>
+      <h2>Adapt it to the client</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; this is writing, reviewed as PRs</span>
+      </div>
+      <p><strong>What you do:</strong> rewrite <code>CLAUDE.md</code> in the client's own language.
+        Five things go in it: the domain glossary in their words, the stack standards, the risk
+        taxonomy from Step&nbsp;5, the gated paths, and the Definition of Checked (what must be true
+        before a change counts as done). Then record what the kit installed and what you changed, per
+        file, in <code>harness-inventory.md</code>.</p>
+      <p><strong>How you do it:</strong> as pull requests the client's lead engineer actually reads.
+        This is the client team's first concrete look at how the pod works &mdash; months before the
+        handover. Doing it in a private branch and presenting it finished throws that away.</p>
+      <div class="aha warn">
+        <div class="lbl">This one is invisible when you skip it</div>
+        <p>A generic <code>CLAUDE.md</code> installs clean, commits clean and passes every gate. It
+          just quietly makes every agent guess the domain &mdash; and guesses differ per run, so the
+          same spec produces different code on Tuesday than it did on Monday. Nothing in the tooling
+          can tell an adapted file from an unadapted one.</p>
+      </div>
+      <p class="note"><strong>The rule that holds all phase:</strong> every harness change is reviewed
+        by the deputy. The author of the foundation is never its sole approver. That includes this
+        step, and it includes you.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Editing, then one script &mdash; the longest step in the phase</p>
+      <h2>Take the rails live</h2>
+      <p class="lead">The workflows ship with holes in them on purpose. They do nothing useful until
+        you fill the holes, connect the API access, and turn on branch protection.</p>
+      <p><strong>First, fill in the placeholders.</strong> Search the installed files for
+        <code>&lt;&lt;LIKE_THIS&gt;&gt;</code> markers and the <code>@your-org/your-team</code> owner
+        handle in CODEOWNERS. There is a second marker style too &mdash; single-angle
+        <code>&lt;PLACEHOLDER&gt;</code> on the eval-runner wiring and in <code>infra/</code>. Search
+        for both, or you will miss half of them.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>File</th><th>What you have to set</th></tr></thead>
+        <tbody>
+          <tr><td><code>ci.yml</code></td><td>Your toolchain, restore/build/test commands, the solution or workspace path, any service provisioning, and the coverage floor (default 80%). Also the regex for what counts as source in the spec check</td></tr>
+          <tr><td><code>grader.yml</code></td><td>The committed-spec directory (reference: <code>specs/</code>) and the reviewer model</td></tr>
+          <tr><td><code>correctness.yml</code></td><td>The source-root pathspec &mdash; what it hunts for defects in</td></tr>
+          <tr><td><code>security.yml</code></td><td>The gated-path regex &mdash; the guarded paths from your Phase 2 threat model. Keep it in sync with CODEOWNERS and the security rubric's prose list</td></tr>
+          <tr><td><code>deploy-dev.yml</code></td><td>Every deploy and rollback step, the artifact name CI uploads, and the environment name. It ships as a starter that <em>fails</em> until you wire it</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Then connect the API access.</strong> Install the Claude GitHub App
+        (<code>/install-github-app</code>, repo admin required) and add the
+        <code>ANTHROPIC_API_KEY</code> repository secret. The grader, correctness and security
+        workflows are all agents; without these they cannot run.</p>
+      <p><strong>Then turn on branch protection.</strong></p>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd"><span class="script">scripts/rails/apply-branch-protection.sh</span> --dry-run</span>
+        <span class="cmd"><span class="script">scripts/rails/apply-branch-protection.sh</span></span>
+      </div>
+      <p><strong>What happens:</strong> the dry run prints the plan; the second applies it and prompts
+        you to confirm. It enforces five required checks plus a non-author approval and code-owner
+        review.</p>
+      <p><strong>What you do:</strong> read the ruleset JSON before you apply it. And from here on,
+        change branch protection <em>only</em> by editing that JSON and re-running the script. Editing
+        rules by hand in the GitHub UI puts the repo and the file out of sync, and the file is what
+        the next person reads.</p>
+      <div class="artifacts">
+        <span class="lbl">The five checks a PR must clear</span>
+        <span class="tag">build-and-test</span>
+        <span class="tag">spec-gate</span>
+        <span class="tag">grader &mdash; must have run</span>
+        <span class="tag">correctness-review</span>
+        <span class="tag">security-review</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">Two checks the phase write-up doesn't mention</div>
+        <p>The kit enforces more than the standard's prose describes. <strong>spec-gate</strong> fails
+          any PR that touches source without its spec in the same diff &mdash; the escape is the
+          <code>no-spec:chore</code> label, and applying it is recorded. And the first step of
+          <code>build-and-test</code> is a <strong>secret scan</strong>. Your first real PR will
+          probably hit one of these; that is the rail working, not a misconfiguration.</p>
+      </div>
+      <p class="note"><strong>One thing never to do:</strong> do not switch these workflows to
+        <code>pull_request_target</code> to make something work. That exposes the secrets and the
+        write token to code from forked pull requests.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Nothing to type &mdash; a required document</p>
+      <h2>Write the risk-tier map</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; Claude drafts it in conversation, you decide the tiers</span>
+      </div>
+      <p><strong>What you do:</strong> produce <code>risk-tier-map.md</code> &mdash; every area of the
+        codebase with its tier and the reason for it, every guarded path with the workflow that fires
+        on it, and the taxonomy itself repeated so agents reading <code>CLAUDE.md</code> see the same
+        thing humans do. The security gates from the Phase 2 threat model <strong>must</strong> appear
+        on this map.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Tier</th><th>What lands here</th><th>What it triggers</th></tr></thead>
+        <tbody>
+          <tr><td>HIGH</td><td>Auth and identity, payments, personal or client data, schema migrations, public API contract changes, infrastructure and pipeline changes, AI-behaviour changes (prompts, models, tool definitions), anything hard to undo</td><td>Tight agent permissions, the full checking ladder, a security review pass, a named human sign-off</td></tr>
+          <tr><td>MEDIUM</td><td>New business logic, external integrations, changes to shared internal services</td><td>Standard permissions, the grader plus a human Checker</td></tr>
+          <tr><td>LOW</td><td>UI within existing patterns, copy, internal tooling, additive CRUD on established rails</td><td>Lighter review; the grader and the mechanical gates still run</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><strong>Note where you are on this map:</strong> the pipeline YAML and the
+        infrastructure code you have been writing since Step&nbsp;2 are HIGH. Everything you build in
+        this phase is subject to the tightest row of the table you are writing.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Nothing to type &mdash; and the one mistake you cannot undo</p>
+      <h2>Provision the dev environment from code</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; no command drafts infrastructure code</span>
+      </div>
+      <p><strong>What you do:</strong> have Claude draft the infrastructure code for the dev
+        environment into <code>infra/</code> (Bicep on the .NET/Azure default; the pattern works on any
+        stack), then run every change through the same funnel, in this order:</p>
+      <div class="tooling">
+        <span class="label">The funnel</span>
+        <span class="cmd">schema-validate <span class="arrow">&rarr;</span> policy check <span class="arrow">&rarr;</span> dry-run <span class="arrow">&rarr;</span> human approval <span class="arrow">&rarr;</span> least-privilege apply</span>
+      </div>
+      <p>The dry run (<code>bicep what-if</code> or your platform's equivalent) is the step people skip
+        when they're tired. It is the step that tells you what is about to be destroyed. The
+        environment provisions from code, never from clicks in a portal &mdash; a clicked environment
+        cannot be rebuilt and nobody can review it.</p>
+      <p><strong>Then write <code>data-flow-brief.md</code>.</strong> One page for the client's
+        security team: what leaves the repo for the model API, what does not and the mechanism that
+        keeps it out, where credentials live (their vault, their tenant, their audit trail), who can
+        see usage, the contractual position on whether their data trains a model, and a named person
+        in their security function who signed it, with a date. <strong>They</strong> accept this, not
+        you &mdash; the pod's own reading of it doesn't count.</p>
+      <div class="aha warn">
+        <div class="lbl">The one unrecoverable mistake of the phase</div>
+        <p>A secret in the repo. Not in code, not in <code>CLAUDE.md</code>, not in a spec, not in a
+          workflow file. A key in a commit is a rotation event and an audit-log review, not an edit
+          &mdash; and git history keeps it after you delete the line. Secrets live in the client's
+          vault and in GitHub secrets from day one.</p>
+      </div>
+      <p class="dim">Building a library, a CLI or a skill instead of a service? There is no
+        environment to provision. Record <code>N/A &mdash; {project_type}</code> for the
+        infrastructure artifacts and carry on &mdash; the rails still apply, and the gate reads the
+        project type and reports those artifacts as not applicable rather than failing you.</p>
+      <p class="note"><strong>If the brief genuinely didn't happen:</strong> say so <em>in the
+        file</em> &mdash; a line reading <code>WAIVED: &lt;name&gt; &mdash; &lt;reason&gt;</code>. The
+        gate accepts that and reports it, by name, in the record the approver signs. A missing file
+        still blocks. The escape is from the work, never from the record.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Type this once per slice &mdash; then ride the loop</p>
+      <h2>Run the walking skeleton through the loop</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-spec</span>
+      </div>
+      <p><strong>What happens:</strong> it turns one slice into a ready spec at
+        <code>specs/NNNN-name.md</code>. It walks you through the goal, why, what's in and out of
+        scope, and acceptance checks that survive the vague-line test &mdash; <em>could two people
+        build different things from this?</em> It surfaces silent product decisions to a decision list
+        with named owners, proposes a risk tier and stops for you to confirm or override it, then runs
+        a Definition-of-Ready check you re-run until it reads <code>READY</code>.</p>
+      <p><strong>What you do:</strong> one spec per slice. One spec, one branch, one PR. Then ride each
+        spec through the full loop &mdash; and it must be the <em>full</em> loop:</p>
+      <div class="tooling">
+        <span class="label">Every slice</span>
+        <span class="cmd">Intent <span class="arrow">&rarr;</span> Delegate <span class="arrow">&rarr;</span> Discern <span class="arrow">&rarr;</span> merge <span class="arrow">&rarr;</span> deploy</span>
+      </div>
+      <p>Delegate means the agent in plan mode, bounded by the spec, with the Stop hook refusing to let
+        it finish on a red build. Discern means the CI gates and the grader on the pull request and a
+        human Checker who did not write the change approving the merge. Then merge to main deploys it
+        to the real dev environment automatically.</p>
+      <p><strong>Two slices need special handling.</strong> The riskiest seam runs at HIGH: tight agent
+        permissions, the <code>risk:high</code> label so the security workflow fires, and a named human
+        sign-off recorded in the PR. <em>At least one HIGH-risk spec through the full loop is a hard
+        condition for closing this phase</em> &mdash; the HIGH path gets proven before Build depends on
+        it. And the slice that emits the engagement's outcome metric gets extra attention, because it
+        is what makes the success metric measurable from day one of Build.</p>
+      <div class="aha warn">
+        <div class="lbl">The single most common Foundation failure</div>
+        <p>Hand-building the skeleton off the rails "because it's only the skeleton", to save a day.
+          Don't. The skeleton is the <em>only</em> cheap opportunity you will get to discover a gate
+          that doesn't fire, a grader that doesn't post, or a deploy that doesn't roll back. Build
+          around the rails and you find those defects in Build instead, where they are expensive and
+          everyone is watching.</p>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> every slice has ridden the loop, the slices
+        connect end-to-end in the real dev environment, an automated smoke journey walks the same path
+        a user would (the <code>/e2e</code> skill helps here; <code>/tdd</code> helps inside the
+        slices), and the running software is checked against the Phase 2 walking-skeleton definition.
+        Each slice compiling is not "done". Record the per-slice evidence &mdash; spec, PR, grader
+        verdict, Checker, deploy &mdash; in <code>walking-skeleton-spec.md</code>. Nothing writes that
+        file for you.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Nothing to type &mdash; the step that separates a rail from a decoration</p>
+      <h2>Break every rail on purpose</h2>
+      <p class="lead">A rail that has only ever seen green has not been tested. It has been assumed.
+        Before this phase closes, make each one fail deliberately and watch it catch you. A blocking
+        gate is only proven when <strong>both its block and its escape</strong> have been seen to
+        work.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Rail</th><th>How you break it</th><th>What must happen</th></tr></thead>
+        <tbody>
+          <tr><td>Stop hook</td><td>Break a source file &mdash; a failing test or a compile error &mdash; then try to end a Claude Code turn</td><td>The hook refuses to let the turn end and hands back the build error</td></tr>
+          <tr><td>grader</td><td>A PR whose spec claims something the diff does not do</td><td>The grader's comment calls out the mismatch. It never blocks &mdash; you are confirming it <em>posts the miss</em></td></tr>
+          <tr><td>spec-gate</td><td>A throwaway PR touching source with no spec in the diff</td><td>Goes red, listing the touched files. Then apply <code>no-spec:chore</code> and confirm it goes green</td></tr>
+          <tr><td>coverage floor</td><td>A throwaway PR that pushes coverage below the floor</td><td><code>build-and-test</code> goes red at the coverage step, naming the measured percentage and the floor</td></tr>
+          <tr><td>correctness</td><td>A planted logic defect &mdash; an inverted null check, an off-by-one that drops a row</td><td>Goes red anchored to the exact line. Then apply <code>accepted-risk:correctness</code> and confirm it goes green</td></tr>
+          <tr><td>deploy-dev</td><td>A known-bad deploy &mdash; a deliberately broken artifact or a health check pointed at a failing build</td><td>The deploy fails and the last known-good version is restored</td></tr>
+          <tr><td>security</td><td>A probe PR touching a guarded path with a planted HIGH issue</td><td>The check goes red</td></tr>
+          <tr><td>secret scan</td><td>A throwaway PR committing a fake but realistic credential &mdash; an invented key, <strong>never a real one</strong></td><td><code>build-and-test</code> goes red at its first step with the planted string redacted in the log</td></tr>
+        </tbody>
+      </table>
+      <p><strong>What you do:</strong> close every one of these unmerged, and write each result down in
+        <code>pipeline-proof.md</code> &mdash; one entry per rail, with the PR link. That file is the
+        only evidence this happened.</p>
+      <div class="aha warn">
+        <div class="lbl">Nothing verifies this but you</div>
+        <p>No command runs the shakedown, and no gate check can tell whether you did it. A pipeline
+          that has never caught anything is not proven &mdash; it is merely present. This is the
+          highest-value hour of the phase and it is entirely on your integrity.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Nothing to type &mdash; two numbers to agree out loud</p>
+      <h2>Set the cadences and the tripwires</h2>
+      <p><strong>What you do:</strong> write <code>cadence-plan.md</code>. It carries the calendar for
+        the rhythms that start now and run all through Build &mdash; the daily flow check, weekly
+        intent triage, retro+, and the setup review &mdash; each with a named owner. Then two numbers
+        the pod agrees deliberately:</p>
+      <ul>
+        <li><strong>The WIP cap</strong> &mdash; how many changes may be in flight at once. Default: no
+          more than two concurrent agent streams per Orchestrator. It stops the pod opening more
+          changes than it can check.</li>
+        <li><strong>The review-wait tripwire</strong> &mdash; the wait time that, once crossed, stops
+          new work starting until the review queue clears. Default: a median of one working day.
+          Review is the loop's real bottleneck, and this number is how the pod refuses to bury it.</li>
+      </ul>
+      <p>The same file records the numbers that steer the loop: accepted-as-is rate, review wait,
+        rework and revert rate, escaped bugs, the DORA four, and security-review wait on its own line.
+        It also names the banned ones explicitly &mdash; velocity, story points, PR count, lines of
+        code. Agents inflate every one of those, so measuring them measures nothing.</p>
+      <p class="note"><strong>Don't just inherit the defaults.</strong> If your engagement needs
+        different numbers, that's fine &mdash; write down the reasoning next to them. A number nobody
+        argued about is a number nobody will honour.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">Nothing to type &mdash; five files, no commands</p>
+      <h2>Write the closing documents</h2>
+      <p class="lead">Claude drafts these in conversation from the work you've done; you correct them.
+        No <code>/sdlc</code> command produces any of them.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>File</th><th>What goes in it</th></tr></thead>
+        <tbody>
+          <tr><td><code>foundation-report.md</code></td><td>What was installed and how <code>CLAUDE.md</code> was adapted; the five workflows, branch protection, the Stop hook and the registered guarded paths; a line per rail proven by forced failure; the skeleton outcome including the HIGH-risk slice and the metric ticking in dev; open questions under their original IDs</td></tr>
+          <tr><td><code>risk-tier-map.md</code></td><td>From step 5 &mdash; the tier table with rationale, the registered security gates, and the taxonomy mirrored from <code>CLAUDE.md</code></td></tr>
+          <tr><td><code>cadence-plan.md</code></td><td>From step 9 &mdash; the calendar, the WIP cap, the tripwire, the steering metrics and the banned ones</td></tr>
+          <tr><td><code>build-handoff.md</code></td><td>The ordered spec backlog ready for the first triage, the risk-tier map reference, the cadence calendar, the open questions, and what is proven and ready for Build</td></tr>
+          <tr><td><code>data-flow-brief.md</code></td><td>From step 6 &mdash; signed by a named person in the client's security function</td></tr>
+        </tbody>
+      </table>
+      <p class="dim">Three more are optional but worth the twenty minutes:
+        <code>harness-inventory.md</code> (step 3), <code>pipeline-proof.md</code> (step 8), and
+        <code>walking-skeleton-spec.md</code> (step 7). Nothing creates them either. You can also
+        generate an interactive HTML report for stakeholders with the <code>/visual-explainer</code>
+        skill &mdash; the rails status board, the slice tracker, the risk-tier map and the cadence
+        calendar.</p>
+      <div class="artifacts">
+        <span class="lbl">What the gate will look for</span>
+        <span class="tag">foundation-report.md</span>
+        <span class="tag">risk-tier-map.md</span>
+        <span class="tag">cadence-plan.md</span>
+        <span class="tag">build-handoff.md</span>
+        <span class="tag">data-flow-brief.md</span>
+        <span class="tag amber">everything else &mdash; unchecked</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">11</span>
+      <p class="kicker">Type these &mdash; the machine checks your work, badly</p>
+      <h2>Review, then run the gate</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-review --edge-cases</span>
+        <span class="cmd">/sdlc-gate</span>
+      </div>
+      <p><strong>What happens:</strong> <code>/sdlc-review --edge-cases</code> puts a fresh reviewer
+        across this phase's artifacts, walking every branch and boundary, and writes
+        <code>review-report.md</code> with findings rated CRITICAL through LOW. It is advisory and
+        blocks nothing &mdash; but a CRITICAL or HIGH finding usually predicts a gate failure, so read
+        it before you run the gate rather than after.</p>
+      <p>Then <code>/sdlc-gate</code> runs seven checks and opens an HTML report in your browser. In
+        practice, for this phase, it does two things: it confirms the five required files exist, are
+        not empty, and have no leftover placeholder text; and it prints three sentences for you to
+        judge yourself &mdash; the skeleton is deployed and verified, the rails are proven not just
+        present, at least one HIGH-risk spec ran the full loop. Those three always report as needing
+        review. They never block.</p>
+      <p><strong>What you do:</strong> fix what it flags and re-run until clean. A leftover
+        <code>TODO</code> in one file is the usual culprit.</p>
+      <div class="aha warn">
+        <div class="lbl">What the gate cannot see &mdash; read this twice</div>
+        <p>Almost the entire substance of Phase 3. The gate cannot check that branch protection is
+          actually applied, that the security gates fired on a real PR, that the environment
+          provisions from code, that no secret reached the repo, that the outcome metric ticks in dev,
+          that the deputy reviewed the harness, or that the WIP cap and tripwire were agreed. The
+          delivery standard requires every one of those before this phase closes. <strong>Five green
+          files is not a closed phase.</strong> Walk that list yourself, out loud, with the deputy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">12</span>
+      <p class="kicker">Type this &mdash; last thing in the phase</p>
+      <h2>Demo, sign off, advance</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-next</span>
+      </div>
+      <p><strong>Before you type it:</strong> run the exit demo. In the client's own dev environment,
+        through the real pipeline, with the outcome metric ticking. Not on your laptop. A localhost
+        demo proves the code compiles; it does not prove the factory works, and proving the factory
+        works is the only reason this phase exists. Get the named sign-off from a human on each
+        side.</p>
+      <p><strong>What happens:</strong> it re-runs the gates, generates the report, then stops and asks
+        you to confirm before it moves anything. Say yes and it advances the project into the Build
+        loop. Then it surfaces every open question from your handoff and makes you answer or explicitly
+        defer each one before any Build work starts.</p>
+      <div class="artifacts">
+        <span class="lbl">Phase 3 is done when</span>
+        <span class="tag">the skeleton runs in the client's dev environment</span>
+        <span class="tag">every rail has failed safely at least once</span>
+        <span class="tag green">a named human on each side signed</span>
+      </div>
+      <p class="note">There is no next phase gate. The Build loop has no batch artifact gate &mdash;
+        from here the merge bar <em>is</em> the gate, on every single change, forever. Which is why
+        step 8 mattered so much.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next.</td></tr>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and what's missing.</td></tr>
+          <tr><td><code>/sdlc-spec</code></td><td>Before building any change &mdash; every slice, every time. No spec, no build.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
+          <tr><td><code>/sdlc-phase-report</code></td><td>Regenerate the stakeholder HTML report without re-running the gate.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>the agent
+        proposes, a gate disposes.</strong> In this phase you are building the gate &mdash; so nothing
+        you build here is allowed to merge on your own approval. If you find yourself about to approve
+        your own pipeline change because the deputy is busy, stop. That is precisely the failure this
+        entire machine exists to prevent, and you would be committing it inside the machine.</p>
+    </div>
+  </section>
 
 </main>
 

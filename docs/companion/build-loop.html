@@ -70,9 +70,10 @@
     <div class="toggle" role="tablist" aria-label="Choose a view">
       <button data-view="glance" role="tab" aria-selected="true">How it works</button>
       <button data-view="example" role="tab" aria-selected="false">Example</button>
+      <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor week · <strong>Reference</strong> the precise mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor week · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the precise mechanics</span>
   </div>
 </div>
 
@@ -1479,6 +1480,414 @@ per-policy independence for the no-policy path.</code></pre>
         When an agent can produce code in minutes, the constraint is never building; it is proving. So the
         proving moves to per-change, inside the loop, on the bar above &mdash; and the moment the pod starts
         skipping the loop for a "small" change is the moment unchecked work creeps back in.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================================================================== -->
+<!-- TRACK: STEPS — one full trip through the loop, no company, just the    -->
+<!-- plugin                                                                 -->
+<!-- ===================================================================== -->
+<main id="track-steps" class="track">
+
+  <section class="hook">
+    <div class="wrap">
+      <p class="big">You've been handed a piece of work and told to run it through the loop.
+        This page is <strong>what you actually type</strong>, in order, and what you do between the typing.</p>
+      <p class="sig">The loop is not a phase. It has no end date and no exit gate &mdash; it repeats,
+        once per change, from the day the Foundation gate closes to the day the backlog is done. One
+        trip takes hours or days, not weeks. Read this once end to end, then run one change through it.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Before you type anything</p>
+      <h2>What you need first</h2>
+      <p class="lead">Two of these are software and two are people. The people are the ones that stop
+        you at 4pm on a Friday, so sort them out first.</p>
+      <ul>
+        <li><strong>The plugin, installed.</strong> If <code>/sdlc-spec</code> isn't in your slash
+          command list, run <code>/plugin marketplace add MCKRUZ/claude-code-sdlc</code> then
+          <code>/plugin install claude-code-sdlc@mckruz</code>.</li>
+        <li><strong><code>uv</code> installed</strong> (the plugin runs its Python scripts through it).
+          <code>pip install uv</code> or <code>brew install uv</code>.</li>
+        <li><strong>The rails, already built and proven.</strong> Phase 3 installed them: CI, branch
+          protection, the Stop hook, the deploy. The loop <em>runs on</em> them &mdash; you do not build
+          them here. If <code>.claude/hooks/stop-gate.ps1</code> and
+          <code>.github/workflows/ci.yml</code> aren't in the repo, you're not ready to start.</li>
+        <li><strong>A story that came out of intent triage</strong> &mdash; with a risk tier a human
+          assigned and one named existing pattern to reuse. A story that hasn't been through triage is
+          a conversation, not work.</li>
+        <li><strong>A second human, lined up.</strong> You cannot finish a change alone. Somebody who
+          did not write it has to approve it. Know who that is before you start, not when the pull
+          request is already open and everyone's gone home.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The mistake new people make</div>
+        <p>Typing the wish straight at the agent &mdash; "add rate limiting, go" &mdash; and skipping
+          straight to step 3. You'll get something plausible and fast, and the case you never described
+          is the one it gets wrong. It also won't merge: the <code>spec-gate</code> check fails any pull
+          request that touches source code and carries no spec file in its diff.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">01</span>
+      <p class="kicker">Beat 1: Intent &mdash; type this, once per change</p>
+      <h2>Write the spec</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-spec</span>
+      </div>
+      <p><strong>What happens:</strong> the whole Intent beat runs as one command. It scaffolds
+        <code>specs/NNNN-name.md</code> (the script <code>new_spec.py</code> allocates the next
+        four-digit id, so you never pick one), then walks you through the <strong>Definition of
+        Ready</strong> &mdash; the goal, why it matters, what's in scope <em>and</em> out, the acceptance
+        checks, the one existing pattern this change reuses, and any product decision nobody has made
+        yet. Then it proposes a risk tier with one sentence of reasoning and <strong>stops to ask
+        you</strong>. Last, it runs <code>check_spec.py</code>, which must report <code>READY</code>.</p>
+      <p><strong>What you do:</strong> answer as the person who decided, not the person guessing.
+        Confirm or override the tier &mdash; Claude proposes tiers, it never assigns them. Raising a
+        tier needs no permission from anyone; lowering one is a conversation with the Pod Lead, who owns
+        it.</p>
+      <p class="dim">Two flags worth knowing: <code>--repo &lt;path&gt;</code> writes a spec in a repo
+        with no <code>.sdlc/</code> at all, and <code>--spec &lt;path&gt;</code> validates and finishes
+        a spec that already exists instead of scaffolding a new one.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">specs/NNNN-name.md &mdash; in the repo, in version control</span>
+        <span class="tag">a risk tier, confirmed by a human</span>
+        <span class="tag green">status: ready</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> <code>check_spec.py</code> reads
+        <code>READY</code>. A spec it reports NOT READY does not enter the loop &mdash; building from
+        one is exactly the failure this beat exists to prevent.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">02</span>
+      <p class="kicker">Still Intent &mdash; nothing to type, and this is the part that pays</p>
+      <h2>Read your own spec back</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; ten minutes of your own judgment</span>
+      </div>
+      <p class="lead"><code>check_spec.py</code> checked the <em>shape</em> of the spec: the sections are
+        there, the tier is valid, scope in and out are both filled, no placeholder text is left. It
+        cannot check the <em>meaning</em>. Only you can.</p>
+      <p><strong>What you do:</strong> run the <strong>vague-line test</strong> on every acceptance
+        check, out loud: <em>"could two people build different things from this line?"</em> If yes, it's
+        a wish, not a check. "Handle errors gracefully" is a wish. "A duplicate submission returns 409
+        with body <code>{ "error": "duplicate claim" }</code>" is a check.</p>
+      <p>Then the two things beginners leave blank. <strong>Scope out</strong> &mdash; what this change
+        must <em>not</em> touch is as load-bearing as what it must do. And the <strong>decision
+        list</strong> &mdash; every real product choice nobody has answered (fail open or fail closed?
+        what does a blocked user actually see?). An unanswered decision doesn't wait for you. The agent
+        makes it, fast, unsupervised, and you find out what it picked when something breaks.</p>
+      <div class="aha warn">
+        <div class="lbl">The lint advises &mdash; you decide</div>
+        <p><code>check_spec.py</code> reports two kinds of finding: <strong>BLOCK</strong>, which you
+          must fix, and <strong>ADVISE</strong>, which is its vague-line lint flagging a line that
+          smells. The lint is a hint, not a verdict &mdash; a spec can read <code>READY</code> and still
+          be hopelessly vague. Nothing downstream fixes vague intent. It doesn't get caught later; it
+          gets built, fast, wrong.</p>
+      </div>
+      <p class="note"><strong>If this change is a bug fix:</strong> set <code>type: bugfix</code> in the
+        spec's frontmatter and label the pull request <code>type:bugfix</code> later. That label switches
+        on an extra gate in step 5 &mdash; leave it off and the gate silently doesn't apply.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
+      <p class="kicker">Beat 2: Delegate &mdash; the first of two mandatory human stops</p>
+      <h2>Approve the plan before any code exists</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">git checkout -b spec/NNNN-name</span>
+      </div>
+      <p>Then, in Claude Code, start the agent <strong>in plan mode</strong> and point it at the spec
+        file. One spec = one branch = one pull request.</p>
+      <p><strong>What happens:</strong> in plan mode the agent can read the repo and the spec but cannot
+        change a file. It comes back with an approach &mdash; which files it will touch, how it will
+        satisfy each acceptance check.</p>
+      <p><strong>What you do:</strong> read the plan hunting for the <em>one decision it glossed
+        over</em>. Not "does this look reasonable" &mdash; "what did it quietly decide?" ("What's the
+        counter key when the request has no key?") Correct it, then approve. Correcting a plan costs you
+        a sentence; correcting a finished build costs a redo.</p>
+      <div class="artifacts">
+        <span class="lbl">What runs this beat</span>
+        <span class="tag amber">no command &mdash; Intent has /sdlc-spec, Delegate is you and the agent</span>
+      </div>
+      <div class="aha warn">
+        <div class="lbl">This stop is not optional and nothing enforces it</div>
+        <p>The spec's Delegation Plan says plan approval is required before any code on MEDIUM and HIGH
+          changes. No hook and no CI check verifies you actually did it &mdash; the machinery cannot see
+          the difference between a plan you read and a plan you waved through. The most dangerous
+          decisions in agent-built code are the ones nobody noticed being made, and this is the only
+          moment they're cheap to catch.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Still Delegate &mdash; the agent works, you watch the right things</p>
+      <h2>Let it build inside the box</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; the bounds are already written in the spec</span>
+      </div>
+      <p><strong>What the box is,</strong> and it's three things, all set in the spec's Delegation Plan:
+        <strong>scope</strong> (the file patterns it may touch &mdash; everything else is out, and "if
+        something outside this needs changing, stop and ask" is part of the handoff),
+        <strong>context</strong> (the one canonical pattern to reuse, named &mdash; an agent not pointed
+        at the existing pattern will cheerfully invent a second one), and <strong>permissions</strong>
+        (build, test, lint and reads run freely; installs, network calls, and gated paths like auth or
+        migrations force a human confirm).</p>
+      <p><strong>What you do:</strong> stay out of the keystrokes on the parts that are cheap to undo;
+        stay in the big calls on the parts that are expensive to get wrong. Use <em>one</em> agent. Fan
+        out to explore a question three ways; never fan out to build &mdash; parallel agents writing the
+        same files clobber each other.</p>
+      <p class="note"><strong>If this is a bug fix, the order is fixed:</strong> the regression test
+        first, proven failing against the broken code, <em>then</em> the fix. Not because it's tidier
+        &mdash; because step 5 mechanically checks you did it that way.</p>
+      <div class="aha">
+        <div class="lbl">The Stop hook is doing work you can't see</div>
+        <p><code>stop-gate.ps1</code> fires every time the agent tries to end its turn. If the build is
+          broken or a test is red, it refuses to let it stop and hands the reason back to the model. That
+          turns "the tests must pass" from a request the agent can rationalise past into a fact about the
+          world. Its limit is worth knowing: it enforces the tests that <em>exist</em>. It cannot enforce
+          a test nobody wrote &mdash; that's what the next two steps are for.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
+      <p class="kicker">Beat 3: Discern &mdash; type this, then let the machines run</p>
+      <h2>Push, open the pull request, and let CI grind</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">git push -u origin spec/NNNN-name</span>
+      </div>
+      <p>Then open the pull request and label it from the spec: <code>risk:high</code> if the tier is
+        HIGH, <code>type:bugfix</code> if it's a fix. The labels are not decoration &mdash; they're what
+        switches the extra gates on.</p>
+      <p><strong>What happens:</strong> the mechanical gates run and hard-block the merge.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Check</th><th>What it refuses</th></tr></thead>
+        <tbody>
+          <tr><td><code>build-and-test</code></td><td>A broken build, a failing test, a lint error, or new code under the 80% coverage floor</td></tr>
+          <tr><td><code>spec-gate</code></td><td>A pull request that touches source and carries no spec file in its diff. Recorded escape: the <code>no-spec:chore</code> label, with the reason stated in the description</td></tr>
+          <tr><td><code>repro-gate</code></td><td>Bug fixes only. It rebuilds the code as it was <em>before</em> your fix, drops your new test on top, and runs it. If it passes, your test doesn't reproduce the bug</td></tr>
+          <tr><td><code>risk-signoff</code></td><td><code>risk:high</code> pull requests with no line reading <code>SIGNED-OFF-BY: &lt;name&gt; &mdash; &lt;sentence&gt;</code></td></tr>
+          <tr><td><code>spike-guard</code></td><td>Any pull request opened from a <code>spike/</code> branch (see step 10)</td></tr>
+        </tbody>
+      </table>
+      <p><strong>What you do:</strong> fix what's red and push again. Never suppress a check to go green
+        &mdash; skipping a flaky test to get past the gate is the rail lying to you.</p>
+      <div class="aha warn">
+        <div class="lbl">Two ways step 5 surprises people</div>
+        <p><strong>The push gets refused.</strong> That's <code>review-gate</code>, a hook that blocks
+          <code>git push</code> and <code>gh pr create</code> until per-commit review receipts exist. Run
+          your review (<code>/code-review</code> and <code>/simplify</code> by default), save the receipt
+          with <code>save-review-receipt</code>, then push. It only fires for pushes made
+          <em>through Claude Code</em> &mdash; a human pushing from their own terminal isn't gated at all,
+          which is exactly why the CI checks above exist as well.</p>
+        <p><strong><code>repro-gate</code> fails and you don't see why.</strong> Coverage proves a test
+          exists. It does not prove the test would have <em>caught</em> the bug. A fix can satisfy the
+          80% floor with a test that passes before and after &mdash; decoration that protects nothing
+          while every gate stays green. There is no label escape on this one: a test that cannot fail
+          cannot protect anything.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">06</span>
+      <p class="kicker">Still Discern &mdash; nothing to type, but read it properly</p>
+      <h2>The grader posts its verdict</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; the Grader workflow runs on the pull request</span>
+      </div>
+      <p><strong>What happens:</strong> a fresh agent that did <em>not</em> write the code reads the spec
+        out of the diff and posts a check-by-check verdict as a pull request comment. It is
+        <strong>required to run</strong> &mdash; "the grader has run" is a required status check &mdash;
+        but its verdict is <strong>advisory</strong>. It doesn't block. A human reads it and decides.</p>
+      <p><strong>What you do:</strong> read every line of it, especially where it disagrees with you. The
+        grader grades against the <em>spec</em>, not against your tests &mdash; which means it is looking
+        for exactly the case you never thought to test. A grader complaint on a check you were sure was
+        covered is the single most valuable thing the loop produces. Fix it, or write down why you
+        didn't.</p>
+      <p class="note">This is where step 2 gets paid back or punished. Vague acceptance checks give the
+        grader nothing to test against, it returns a shrug, and the bug ships. The grader is only ever as
+        sharp as the spec you wrote.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
+      <p class="kicker">Still Discern &mdash; the second mandatory human stop</p>
+      <h2>Someone who isn't you approves it</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="none">nothing &mdash; another person approves in the pull request</span>
+      </div>
+      <p><strong>The merge bar,</strong> which every change clears regardless of size:</p>
+      <ul>
+        <li>CI green &mdash; build, tests, lint, coverage</li>
+        <li>The grader has run</li>
+        <li>Correctness passed, or a named-human override recorded</li>
+        <li>A <strong>non-author approval</strong></li>
+      </ul>
+      <p>A <code>risk:high</code> change adds two more: a security review pass, and a named human
+        sign-off recorded in the pull request as <code>SIGNED-OFF-BY: &lt;name&gt; &mdash;
+        &lt;sentence&gt;</code>. The sentence is required, not a formality &mdash; a bare name is the
+        thumbs-up this rung exists to reject.</p>
+      <p><strong>What you do:</strong> get a Checker assigned at the daily flow check. You are not
+        eligible &mdash; you wrote it.</p>
+      <div class="aha warn">
+        <div class="lbl">The author never approves their own work</div>
+        <p>No exceptions. Not when the pod is down to two people, not when it's a one-line change, not
+          at 6pm on a release day. The agent that wrote the code confirming it works, or you approving
+          your own pull request, is checking theater &mdash; it catches nothing you hadn't already
+          thought of. This rule survives every collapse of pod size.</p>
+      </div>
+      <p class="dim">How deep the review goes is set by the tier, not by mood: LOW gets the grader's
+        advisory pass and a light human look, MEDIUM gets grader plus Checker, HIGH goes all the way up.
+        <code>check_spec.py</code> already enforced back at step 1 that the spec's Checking Plan matches
+        its tier &mdash; a HIGH spec declaring a LOW climb fails the Definition of Ready.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
+      <p class="kicker">Merge &mdash; and the loop starts again</p>
+      <h2>What happens after the merge button</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">gh pr merge</span>
+      </div>
+      <p><strong>What happens:</strong> merge deploys to the client's dev environment automatically
+        &mdash; that's the pipeline Phase 3 built, not something you trigger. The spec's
+        <code>status</code> frontmatter moves to <code>merged</code>. Because the spec files
+        <em>are</em> the tracker, <code>track_specs.py</code> derives the backlog straight from them
+        &mdash; counts by status and risk, what's in flight, whether the WIP cap has been breached
+        &mdash; so there is no separate progress file to drift out of date.</p>
+      <p><strong>What you do:</strong> now, and only now, pick up the next spec. Don't start a new one
+        while one you own is half-built &mdash; finishing what's in flight before starting the next is
+        how the loop avoids compounding half-done work across sessions.</p>
+      <p class="note"><strong>Forever after:</strong> when this behavior changes later, the spec changes
+        in the <em>same pull request</em> as the code. A spec left rotting is a lie that misleads the
+        next human and the next agent, and the grader will happily grade a future change against it.</p>
+      <div class="aha">
+        <div class="lbl">There is no gate here, and that's the whole point</div>
+        <p>You will look for the phase gate. There isn't one. The loop has no artifact exit gate because
+          checking already happened, per change, at steps 5 through 7. The loop ends only when a
+          <strong>human declares the backlog feature-complete</strong>, which produces
+          <code>phase7-handoff.md</code>. Running <code>/sdlc-gate</code> for this phase checks that one
+          file exists and is complete &mdash; it does not re-check the build.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Nothing to type &mdash; this is a calendar, not a command</p>
+      <h2>The cadences running around the loop</h2>
+      <p class="lead">One trip through steps 1&ndash;8 is your day. These four meetings are the week they
+        sit inside. None of them asks what you did yesterday &mdash; when agents do the building, "the
+        agents wrote a lot" is a number that means nothing.</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Meeting</th><th>Length</th><th>What actually happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Flow check</strong> (daily)</td><td>10&ndash;15 min</td><td>The queue number first: how many changes are waiting to be checked, how long the oldest has waited. Every waiting change gets a Checker named. The WIP cap gets enforced. Vague specs get bounced back to triage. The security queue is read on its own line &mdash; it clears slower, and averaged in with the rest it hides.</td></tr>
+          <tr><td><strong>Intent triage</strong> (weekly)</td><td>60 min</td><td>Stories become ready specs: vague lines sharpened, silent decisions surfaced with named owners, risk tiers assigned, the backlog ordered. This is where the work you'll run through step 1 comes from.</td></tr>
+          <tr><td><strong>Retro+</strong> (weekly)</td><td>60 min</td><td>Every bug that escaped gets one question &mdash; "which check should have caught it?" &mdash; and the answer becomes a change to the harness, not a resolution to try harder.</td></tr>
+          <tr><td><strong>Setup review</strong> (weekly)</td><td>30&ndash;60 min</td><td>The week's harness changes merge: CLAUDE.md updates, hook and skill improvements, permission tuning &mdash; reviewed like any other change.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:16px;"><strong>Two numbers run the week.</strong> The <strong>WIP cap</strong>
+        stops the pod opening more changes than it can check &mdash; agents can always write more code;
+        proving it is the constraint. The <strong>review-wait tripwire</strong> is the alarm on the same
+        constraint: when the median wait crosses the agreed threshold, the pod stops starting new work
+        and clears the queue.</p>
+      <p class="note"><strong>Never tracked, never reported:</strong> velocity, story points, pull
+        request count, lines of code. Agents inflate all of them &mdash; <code>scorecard.py</code>
+        refuses to record them, which is deliberate.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">10</span>
+      <p class="kicker">When step 1 is impossible &mdash; type this instead</p>
+      <h2>The spike: when nobody knows the answer yet</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-spike</span>
+      </div>
+      <p class="lead">Sometimes a story fails the Definition of Ready not because it's badly written,
+        but because <strong>nobody knows</strong>. The integration's real behavior is undocumented; the
+        assumption the design rests on has never been tested. You cannot write an acceptance check about
+        something nobody understands.</p>
+      <p><strong>What happens:</strong> it opens <code>spikes/NNNN-name.md</code> and demands two things
+        from a named human it will not invent for you &mdash; the <strong>box</strong> (a time box or a
+        token box) and <strong>who opened it</strong>. Then you work on a <code>spike/NNNN-name</code>
+        branch. Normal quality bars don't apply; this code is going to be deleted.</p>
+      <p><strong>What you do:</strong> state the unknown precisely before you start &mdash; not "look
+        into the carrier API" but "does the carrier API deduplicate on our idempotency key, or do retries
+        create duplicate claims?" Then write the finding, <em>including when the answer is "we still
+        don't know"</em>. Recording what you ruled out saves the next attempt. Commit the finding, delete
+        the branch.</p>
+      <div class="aha warn">
+        <div class="lbl">Spike code can never merge, and that's mechanical</div>
+        <p><code>spike-guard</code> fails any pull request whose head branch matches <code>spike/</code>,
+          and unlike <code>spec-gate</code> there is <strong>no label escape</strong>. "It started as a
+          spike" is the most natural route by which unchecked code reaches production &mdash; spike code
+          has climbed none of the ladder, with no spec to grade against and no Checker. If the work turns
+          out to be worth shipping, you write the spec and rebuild it under the loop.</p>
+      </div>
+      <p class="note">Don't use a spike to start building without a spec. If the answer is known and the
+        work just feels large, that's a spec &mdash; possibly several.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <p class="kicker">Keep these handy</p>
+      <h2>Commands you'll use constantly</h2>
+      <table class="ref-doc" style="margin-top:10px;">
+        <thead><tr><th>Type this</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><code>/sdlc-spec</code></td><td>Every single change, before any code. No spec, no build.</td></tr>
+          <tr><td><code>/sdlc-spike</code></td><td>A story can't be made ready because nobody knows the answer yet.</td></tr>
+          <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows where the project stands.</td></tr>
+          <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next.</td></tr>
+          <tr><td><code>/sdlc-review</code></td><td>Design-heavy work, before <code>/sdlc-gate</code>. Multi-perspective review (council, adversarial, or edge-cases) &mdash; advisory, doesn't block.</td></tr>
+          <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want walking through conversationally instead of following a list.</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:20px;">Rule of thumb for the whole loop: <strong>written is
+        cheap, checked is the bar.</strong> A change is done when something other than its author has
+        proven it against its spec &mdash; not when the code exists. Everything on this page is
+        machinery for that one sentence, and the two human stops (step 3 and step 7) are the parts no
+        machine can do for you.</p>
     </div>
   </section>
 
