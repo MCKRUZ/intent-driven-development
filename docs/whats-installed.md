@@ -142,8 +142,19 @@ goes wrong, the previous good version is restored automatically; the decision to
 that went wrong *later* is written down in advance, in `ROLLBACK.md`, rather than improvised at
 3 a.m.
 
+Most of what ships is code nobody here wrote — hundreds of third-party components — and it
+decays: a package that was clean the day it arrived becomes a published vulnerability later,
+with no commit marking the moment. So the checks treat those two situations differently. A
+change that **brings in** a component with a known serious flaw is blocked, like any other
+defect. A flaw discovered in something already present is **not** blocked — it is raised as an
+issue and scheduled like any other work, because failing everyone's pull requests for something
+nobody did teaches the team that red means nothing. Upgrade proposals arrive automatically and
+get reviewed exactly like a person's change; nothing merges itself.
+
 Before trusting any gate, run the drills in `RAILS.md`: break the build on purpose, plant a
-defect, commit a fake secret, attempt a promotion nobody approved — and watch each gate catch it.
+defect, commit a fake secret, add a knowingly vulnerable package, attempt a promotion nobody
+approved — and watch each gate catch it. The dependency check especially: unlike the others, a
+misconfigured one stays quietly green, so the only proof it works is seeing it go red.
 
 ## Where the pieces come from (custody chain)
 

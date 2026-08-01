@@ -64,7 +64,9 @@ so install here unless you also repoint the references.
 | `workflows/deploy-promote.yml` | `./.github/workflows/` | The second half of the deploy rail: dev→test→prod. Manual trigger only — the target Environment's **required reviewers** are the human go/no-go, and the workflow refuses to run against an environment that has none. |
 | `workflows/RAILS.md` | `./.github/RAILS.md` | Operator's guide + shakedown drills. |
 | `profile/rubrics/*` | `./.github/profile/rubrics/` | Workflows read these by this path. |
+| `workflows/dependency-scan.yml` | `./.github/workflows/` | Weekly scan of the **standing stock** of third-party advisories. Raises (and self-closes) one issue; never blocks — the blocking, diff-scoped half is `ci.yml`'s `dependency-gate` job. On by default: a security scan you have to remember to switch on is not running. |
 | `profile/eval-bypasses.md` | `./.github/eval-bypasses.md` | Override/bypass ledger. |
+| `profile/dependency-exceptions.md` | `./.github/dependency-exceptions.md` | Accepted-risk ledger for `dependency-gate`. The `accepted-risk:dependency` label clears one PR; this records why, who decided, whether the vulnerable path is reachable, and when the acceptance expires. Swept at Setup review. |
 | `profile/CODEOWNERS` | `./.github/CODEOWNERS` | |
 | `profile/scripts/*` | `./scripts/rails/` | Workflows call `scripts/rails/diff-anchors.sh`. |
 | `profile/rulesets/branch-protection.json` | `./.github/rulesets/` | Copied on install; `scripts/rails/apply-branch-protection.sh` reads it from there and applies it to GitHub. |

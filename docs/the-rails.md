@@ -190,8 +190,24 @@ ship unreviewed agent code or drown every typo in ceremony.
 | **correctness**  | every PR that changes source                        | **Blocks** on a high-confidence defect    | A fresh AI agent — not the one that wrote the code, and separate from the grader — hunts the changed lines for plain logic defects (off-by-ones, null paths, inverted conditions). The bug class ci can't see (it compiles, the tests pass) and security doesn't look for (it's not exploitable, just wrong). Trivially passes when no source changed. A named human can override on the record. |
 | **security**     | the `risk:high` label **or** any PR touching a registered gated path | **Blocks** on HIGH; **advises** otherwise | Runs the security-reviewer agent. Path-triggered: it fires on any PR that touches a guarded path (auth, migrations, the pipeline, infra) independent of the spec's tier. |
 | **deploy-dev**   | merge to main                                       | n/a (it ships)                           | Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails — the rollback the rails rehearse. |
+| **dependency**   | every PR                                            | **Blocks** on a package the change introduces | Scans this branch and the target branch and compares the two. Blocks when the change pulls in a package carrying a known High/Critical advisory; says nothing about what was already there. A named human can override on the record. |
 
-Five things about this table carry more weight than they look:
+**The sixth row is not a sixth rail.** `dependency` is a job inside `ci.yml`, alongside the
+other mechanical gates, and `deploy-promote` is the second half of the deploy rail rather than
+a new one. The count of workflow files has not changed; what changed is what `ci` checks.
+
+Six things about this table carry more weight than they look:
+
+**The dependency gate measures the diff, not the repo — and that is the whole design.**
+Every other gate above asks "what did this change do?". A vulnerability scan naturally asks
+"what is wrong with this repo?", and those are different questions with very different
+consequences. A CVE published overnight against a package nobody has touched in a year would,
+under the repo-wide reading, turn every open pull request red the next morning. Nobody caused
+it, nobody can fix it in their branch, and within a fortnight the team has learned that red is
+an ambient condition rather than a signal — which does not just cost us this gate, it costs us
+the credibility of every other one. So the gate blocks on what the change *introduced*, and the
+standing stock is found by a weekly scan that raises an issue and rides the normal rails as an
+ordinary spec. Slower, deliberately: a gate people route around protects nothing.
 
 **The grader advises; it never blocks.** It is tempting to let a confident AI verdict gate the
 merge. We do not, and the reason is in the threat model: a polished, plausible explanation is
@@ -494,6 +510,11 @@ deliberately and caught:
   gate — and both failures look exactly like success until someone tries them.
 - A probe PR touching a guarded path proves the **security gate** fires — a throwaway change opened
   solely to confirm the gate triggers, then closed unmerged.
+- A PR adding a **knowingly vulnerable package** proves the **dependency gate** blocks. This drill
+  matters more than most, because of how this gate fails: if the scan command or its output
+  parsing is wrong, it reports *nothing*, and a gate finding nothing is indistinguishable from a
+  gate with nothing to find. Every other rail here fails loudly; this one fails silent and green.
+  Adding a package with a published advisory is the only way to know it is wired at all.
 
 A rail that has only ever seen green has not been tested; it has been *assumed*. The shakedown is
 not optional polish — it is the difference between a rail and a decoration.
@@ -536,6 +557,10 @@ the provenance trail is what makes the rails auditable rather than merely automa
 - **The skipped environment.** A green build promoted from dev directly to prod because the
   operator picked the wrong target and nothing checked. "The same build that passed test" is only
   true if something enforces that it actually passed test.
+- **The dependency scan that reports nothing.** A misconfigured scan, a private feed with no
+  vulnerability data, or a broken output parser all produce the same clean green as a genuinely
+  clean repo. "No findings" and "not looking" are indistinguishable from the outside, which is
+  why the gate is proven by planting a known-vulnerable package rather than by watching it pass.
 - **A secret in the repo.** The one unrecoverable foundation mistake. The client's vault from day
   one — never in code, never in CLAUDE.md, never in a spec.
 - **The unattended destructive apply.** An agent runs an infrastructure `apply` that deletes or
