@@ -65,6 +65,8 @@ so install here unless you also repoint the references.
 | `workflows/RAILS.md` | `./.github/RAILS.md` | Operator's guide + shakedown drills. |
 | `profile/rubrics/*` | `./.github/profile/rubrics/` | Workflows read these by this path. |
 | `workflows/dependency-scan.yml` | `./.github/workflows/` | Weekly scan of the **standing stock** of third-party advisories. Raises (and self-closes) one issue; never blocks — the blocking, diff-scoped half is `ci.yml`'s `dependency-gate` job. On by default: a security scan you have to remember to switch on is not running. |
+| `workflows/rails-telemetry.yml` | `./.github/workflows/` | Weekly gate-outcome report, committed as `.github/rails-telemetry.json`. Records what ran, every override by name, and **which checks branch protection actually requires vs which gate jobs exist** — the comparison that catches a gate someone disarmed. No external calls: it reads this repo's own history and writes into this repo. |
+| `profile/rails-telemetry.schema.json` | `./.github/rails-telemetry.schema.json` | The report's shape, fixed at version 1 before the install wave so it is not retrofitted across live repos. The fleet collector refuses a version it does not know rather than misreading it. |
 | `profile/eval-bypasses.md` | `./.github/eval-bypasses.md` | Override/bypass ledger. |
 | `profile/dependency-exceptions.md` | `./.github/dependency-exceptions.md` | Accepted-risk ledger for `dependency-gate`. The `accepted-risk:dependency` label clears one PR; this records why, who decided, whether the vulnerable path is reachable, and when the acceptance expires. Swept at Setup review. |
 | `profile/CODEOWNERS` | `./.github/CODEOWNERS` | |

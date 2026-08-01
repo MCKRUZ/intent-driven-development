@@ -22,6 +22,7 @@ provides:
     - azure-pipelines/deploy-promote.yml   # dev→test→prod — manual only; the target Environment's
                                            # approval check IS the human go/no-go (STARTER)
     - azure-pipelines/dependency-scan.yml  # weekly standing-stock scan — raises a work item, never blocks
+    - azure-pipelines/rails-telemetry.yml  # weekly gate-outcome report — same schema as the github pack's
     - azure-pipelines/eval-regression.yml  # per-PR eval-regression gate — BLOCKS
     - azure-pipelines/eval-suite.yml       # full benchmark — manual + scheduled, ADVISORY
   templates:
@@ -101,6 +102,7 @@ overlays:
   - { src: azure-pipelines/deploy-dev.yml,                      dest: .azuredevops/pipelines/deploy-dev.yml }
   - { src: azure-pipelines/deploy-promote.yml,                  dest: .azuredevops/pipelines/deploy-promote.yml }
   - { src: azure-pipelines/dependency-scan.yml,                 dest: .azuredevops/pipelines/dependency-scan.yml }
+  - { src: azure-pipelines/rails-telemetry.yml,                 dest: .azuredevops/pipelines/rails-telemetry.yml }
   - { src: azure-pipelines/eval-regression.yml,                 dest: .azuredevops/pipelines/eval-regression.yml }
   - { src: azure-pipelines/eval-suite.yml,                      dest: .azuredevops/pipelines/eval-suite.yml }
   - { src: azure-pipelines/templates/setup-toolchain.yml,       dest: .azuredevops/pipelines/templates/setup-toolchain.yml }

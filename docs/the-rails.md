@@ -526,6 +526,24 @@ inflate every one of those, and the published research is blunt about it — mea
 doubled PR volume while actual delivery stayed flat. The rails are healthy when changes flow and
 fail rarely, not when the agents are busy.
 
+**Watch that the gates are still armed, not just that they are green.** Proving a rail once, at
+Foundation, proves it was wired that week. Branch protection is edited later — during an
+incident, in a repo reorganisation, by someone with admin who meant to change one thing. The
+moment a check stops being *required*, it keeps running and keeps reporting, and a red run
+merges anyway. Nothing on the pull request looks different. From outside the repo, a disarmed
+gate and a gate that never caught anything are the same picture.
+
+So each repo writes a weekly `rails-telemetry.json` — what ran, every override by name, and the
+comparison of what branch protection *requires* against what the workflows *declare*. It reads
+the repo's own history through the platform's own API and commits into the same repo; nothing
+leaves the client's tenancy. `scripts/collect_rails_telemetry.py` reads those files across the
+fleet and puts disarmed gates at the top, with repos that are not reporting listed as **unknown
+rather than clean** — counting silence as health is the failure this exists to catch.
+
+Where the file cannot read live branch protection it falls back to the committed ruleset and
+says so, because that reading describes *intent* rather than what the platform is enforcing.
+Presenting the two as equivalent would be the same silent-green problem one layer up.
+
 **Log everything with provenance.** Every recommendation an agent made, every artifact that got
 applied, every policy-gate outcome — logged centrally, with co-authorship on the commits, so any
 change is traceable to the identity that produced it. After a poisoned tool-return steers an agent
@@ -557,6 +575,11 @@ the provenance trail is what makes the rails auditable rather than merely automa
 - **The skipped environment.** A green build promoted from dev directly to prod because the
   operator picked the wrong target and nothing checked. "The same build that passed test" is only
   true if something enforces that it actually passed test.
+- **The gate that was quietly unrequired.** Someone removes a check from branch protection to
+  unblock an urgent fix and never puts it back. The workflow still runs, still posts its
+  verdict, still looks exactly as it did — and stops mattering. This is not caught by watching
+  pull requests, because nothing about them changes; only comparing what is required against
+  what exists finds it.
 - **The dependency scan that reports nothing.** A misconfigured scan, a private feed with no
   vulnerability data, or a broken output parser all produce the same clean green as a genuinely
   clean repo. "No findings" and "not looking" are indistinguishable from the outside, which is
