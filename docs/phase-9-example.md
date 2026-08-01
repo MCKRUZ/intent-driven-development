@@ -73,10 +73,11 @@ design week can still be traced when its number comes due in production:
 
 ## The procedure, step by step
 
-Phase 9 is seven numbered steps in `claude-code-sdlc` and ten working days in this standard,
+Phase 9 is eight numbered steps in `claude-code-sdlc` and ten working days in this standard,
 run inside the hypercare window. Below they're braided: what the tool runs, what the humans do
 that the tool cannot, and the file each beat leaves behind. Two of the most important beats —
-the drill and the what-healthy session — have no command at all.
+the drill and the what-healthy session — have no *command* at all: the drill is Step 4 but
+needs a real responder, and the what-healthy session is a room full of people.
 
 **Reading the markers.** `▪` a command does it — and writes the file · `▸` a person does it —
 and it is recorded · `⚠` a person does it — and nothing records it.
@@ -176,11 +177,11 @@ repeating it. Harbor's on-call lead corrects it line by line.
 > detects and communicates, the RUNBOOK resolves.
 
 ### Day 8 · Wed 8/5 — fire every critical alert on purpose, and watch the client answer it
-*no plugin step exists*
+*Phase 9 · Step 4 — Alert Drill*
 
-**Tooling —** *none — the drill is human work; no command, and no step in the plugin runs it.*
+**Tooling —** *no command; the drill is human work, and the plugin step says so — Claude prepares the drill plan and writes the record, but cannot page anyone.*
 
-**Artifacts out —** `⚠` `drill-record.md` (the registry marks it optional; nothing writes it).
+**Artifacts out —** `drill-record.md` (required).
 
 Each critical alert is triggered for real, one at a time, through a synthetic trigger agreed
 with Tom in advance — replica reads blocked outside the window, a retry storm on the dispatch
@@ -188,12 +189,16 @@ test lane, flagged test messages pushed past the queue threshold, a staleness cl
 forward. Harbor's on-call responds from the playbook while Nadia observes in silence. What
 breaks gets fixed through the loop and re-drilled until clean.
 
-> ⚠ **The gap:** The exit gate has a **teeth** condition — *"Alert drill executed: every
-> critical alert fired and answered from the playbook."* Yet there is **no drill step in the
-> plugin** — the workflow runs Step 0 through Step 6 and never mentions one — **no command**
-> triggers it, and `drill-record.md` is listed *optional*. The single most valuable act of the
-> phase, the one that separates a procedure from a wish, is required by the gate and produced by
-> nothing. This is exactly the work that caught Harbor's silent-night bug.
+> ✅ **Closed.** This used to be the widest gap in the phase. The exit gate carried a **teeth**
+> condition — *"Alert drill executed: every critical alert fired and answered from the
+> playbook"* — while the workflow ran Step 0 through Step 6 and never mentioned a drill, no
+> command triggered one, and `drill-record.md` was listed *optional*. The single most valuable
+> act of the phase was required by the gate and produced by nothing.
+>
+> The plugin now ships **Step 4: Alert Drill**, placed after the playbook is written so the drill
+> tests `incident-response.md` as much as it tests the alert, with a `drill-record.md` spec, a
+> template, and the artifact promoted to **required**. This is exactly the work that caught
+> Harbor's silent-night bug.
 
 > **At Harbor:** The drill earned its keep. VERIFY-DEGRADED routed to the general ops channel
 > instead of the pager rotation — a routing-key typo that would have meant a silent night during
@@ -272,7 +277,7 @@ recorded · `⚠` a person does it — and nothing records it.
 | ▪ `incident-response.md` | Per alert: meaning, first diagnosis steps, P1/P2/P3, escalation names, communication templates; cross-references the RUNBOOK | Claude drafts; on-call lead corrects | Client operations | `.sdlc/artifacts/09-monitoring/` | The drill; Close |
 | ▪ `project-retrospective.md` | What worked and didn't with receipts, the SDLC review, the technical debt log, and the harvest list — "the most important Phase 9 artifact" | `feedback-synthesizer` assembles; the humans own the candor | Pod Lead | `.sdlc/artifacts/09-monitoring/` | The harvest PR (Phase C) |
 | ▪ `phase09-report.html` · `phase09-visual.html` | The gate result and artifact inventory, self-contained — the document a sponsor actually reads before signing | `generate_phase_report.py` · `/visual-explainer` | — | `.sdlc/reports/` | The manual sign-off gate |
-| ⚠ `drill-record.md` | Per critical alert: the trigger, detection time, where it routed, who responded, the outcome — pass, or the finding and its fix. The one proof the pager works | **Quality Engineer, by hand** | QE | optional in the registry — no step runs the drill | The gate packet; Close |
+| `drill-record.md` | Per critical alert: the trigger, detection time, where it routed, who responded, the outcome — pass, or the finding and its fix. The one proof the pager works | **Quality Engineer**, from the Step 4 drill | QE | required; Step 4 runs the drill and the template ships | The gate packet; Close |
 | ⚠ the what-healthy table | Per failure scenario and journey: healthy, degraded, who is woken, who is told in the morning. The session's entire output | **Pod + client operations** | On-call lead + Pod Lead | no path — folded into `monitoring-config.md` only if a human types it | Every alert definition |
 | ⚠ the fatigue-review record | Each proposed alert replayed over hypercare history; anything firing weekly without action raised or cut, with the count | **Quality Engineer** | QE | no path — nothing writes it | The shipped alert set |
 | ⚠ the outcome-metric first read | The engagement's headline number, read honestly for the first time in production, caveats attached | **Pod Lead + sponsor** | Sponsor | no path — on the business dashboard and spoken at steering | Close — the final scorecard |
@@ -409,7 +414,7 @@ the honest retrospective, and the questions still open — carried forward under
 IDs, never silently dropped.
 
 **Crosses into Phase C:** `monitoring-config.md` · `alert-definitions.md` ·
-`incident-response.md` · `project-retrospective.md` · `⚠ drill-record.md` · `⚠ close-handoff.md`
+`incident-response.md` · `project-retrospective.md` · `drill-record.md` · `⚠ close-handoff.md`
 (required, unspecified) · `⚠` the harvest list → the Phase C PR.
 
 **The Close & Transfer handoff (summary)** — drafted day 10 by Claude for the Pod Lead to own,
