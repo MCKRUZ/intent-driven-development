@@ -84,6 +84,17 @@ the agent will have is named (standard, section 5.1).
 approves it **before** any code, then the agent builds and self-checks inside the bounds it was
 given (scope, context, one-agent-or-many). The building is the agent's job, not the human's.
 
+**Dependency-gate.** The CI check (a job inside `ci.yml`) that blocks a pull request from
+introducing a package with a known vulnerability — it scans this branch against the target branch
+and fails on the difference, so a CVE published overnight in code nobody touched never reddens
+work nobody caused. Diff-scoped, like every other gate. See also **dependency-scan** (standard,
+section 7).
+
+**Dependency-scan.** The weekly workflow that reports every known vulnerability already present
+in the dependency tree. Not a block — an issue raised and prioritised like any other work, because
+failing everyone's PR for a flaw nobody introduced teaches the team that red means nothing. See
+also **dependency-gate** (standard, section 7).
+
 **Deputy.** The named second person who reviews work the owner can't review alone — above all, the
 Setup Owner's deputy, who reviews every harness change so the Setup Owner is never sole approver of
 their own foundation. "No role without a deputy" is a standing rule (standard, section 4; see
@@ -108,6 +119,13 @@ does anything: `bicep what-if` shows exactly what would be created, changed, or 
 scenarios with graded expected behavior (the golden set) and a pass threshold ("correct on ≥ 95%
 of the set"). Evals are acceptance criteria, run in CI like tests. Changing a prompt, model, or
 tool definition runs the full golden set as a regression gate (standard, section 11).
+
+**Fleet telemetry.** The portfolio view assembled from every installed repo's own gate history.
+Each repo commits a weekly `rails-telemetry.json` — which gates ran, what they concluded, and
+every override by name — by reading its own history through the platform's own API, so nothing
+leaves the client's tenancy. `scripts/collect_rails_telemetry.py` (operator tooling, never
+installed into a client repo) reads those files across every reachable repo and reports
+worst-first; a repo that isn't reporting counts as unknown, not clean (standard, section 9).
 
 **Flow check.** What the daily standup becomes — 10 minutes, not "what did you do" (the agents did
 plenty) but "what's waiting to be checked, which specs are vague, how long is the review queue."
@@ -208,9 +226,10 @@ checks every change: the grader definition, the Stop hook, the CI test gates, te
 and (for agentic deliverables) the eval harness. Takes a regular turn as Checker. See
 [the team](team.md).
 
-**The rails.** The agentic CI/CD and DevOps pipeline every change rides — the five workflows (CI,
-grader, correctness, security, deploy), the merge bar, deploy and promotion, and the agent-safe IaC funnel. Not
-a numbered phase; a standing standard. Governing principle: **agent proposes, gate disposes.**
+**The rails.** The agentic CI/CD and DevOps pipeline every change rides — eight workflows (CI,
+grader, correctness, security, deploy-dev, deploy-promote, dependency-scan, rails-telemetry), the
+merge bar, deploy and promotion, and the agent-safe IaC funnel. Not a numbered phase; a standing
+standard. Governing principle: **agent proposes, gate disposes.**
 Deep-dive: [the-rails.md](the-rails.md).
 
 **Review wait (median).** How long a change sits waiting to be checked. The real bottleneck

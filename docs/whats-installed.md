@@ -151,6 +151,14 @@ issue and scheduled like any other work, because failing everyone's pull request
 nobody did teaches the team that red means nothing. Upgrade proposals arrive automatically and
 get reviewed exactly like a person's change; nothing merges itself.
 
+Every gate outcome and override is recorded in the repo where it happened, which answers a
+question about one repo and nothing about a portfolio. Once a week `rails-telemetry.yml` commits
+`.github/rails-telemetry.json` — which gates ran, what they concluded, and every override by name
+— by reading the repo's own history through the platform's own API, so nothing leaves the
+client's tenancy. `scripts/collect_rails_telemetry.py` (operator tooling, never installed into a
+client repo) reads that file across every reachable repo and reports worst-first; a repo that
+isn't reporting counts as unknown, not clean.
+
 Before trusting any gate, run the drills in `RAILS.md`: break the build on purpose, plant a
 defect, commit a fake secret, add a knowingly vulnerable package, attempt a promotion nobody
 approved — and watch each gate catch it. The dependency check especially: unlike the others, a

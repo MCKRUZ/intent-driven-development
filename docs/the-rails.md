@@ -192,9 +192,15 @@ ship unreviewed agent code or drown every typo in ceremony.
 | **deploy-dev**   | merge to main                                       | n/a (it ships)                           | Deploys the merged artifact to the client's dev environment, and restores the last good version when a deploy fails — the rollback the rails rehearse. |
 | **dependency**   | every PR                                            | **Blocks** on a package the change introduces | Scans this branch and the target branch and compares the two. Blocks when the change pulls in a package carrying a known High/Critical advisory; says nothing about what was already there. A named human can override on the record. |
 
-**The sixth row is not a sixth rail.** `dependency` is a job inside `ci.yml`, alongside the
-other mechanical gates, and `deploy-promote` is the second half of the deploy rail rather than
-a new one. The count of workflow files has not changed; what changed is what `ci` checks.
+**The sixth row is not a sixth rail — and three more files exist beyond this table, for a
+different reason.** `dependency` is a job inside `ci.yml`, alongside the other mechanical gates;
+that job added no file. Three separate files have since joined the repo — `deploy-promote.yml`,
+`dependency-scan.yml`, `rails-telemetry.yml` — but none of them fire on a PR, so none belong in a
+table of PR-time gates: promotion is a deliberate `workflow_dispatch` (section 3, "How does a
+change reach production safely?"), the dependency scan is the weekly standing-stock check the row
+above already defers to, and telemetry is a scheduled reporting job with no merge stake at all.
+The gates a PR must clear are still exactly these five; the repo's total workflow-file count has
+grown around them, not within them.
 
 Six things about this table carry more weight than they look:
 

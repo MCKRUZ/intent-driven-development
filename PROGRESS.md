@@ -232,6 +232,16 @@ found a read-only nightly **snapshot replica**. Storm surge ~10x for a week. 61%
    Phase 3 pages; retrofitted to phase-2-design and phase-2-example). Markdown pages carry the
    bottom "Next:" link only. NOTE: phase-0/1 pages still lack the sidebar next link —
    inconsistency flagged for cleanup, not yet retrofitted.
+9. **Every companion page carries a "Steps" runbook tab** (`data-view="steps"`), a fourth tab
+   alongside How it works / Example / Reference (2026-08-01, `8d501de`). It is the hands-on
+   procedure for someone who has never run this phase before: what to type, what the plugin does
+   in response, what the human does next, and a warning wherever a beginner realistically goes
+   wrong — structured as numbered steps (`<span class="modnum">`), each with a `tooling` block
+   naming exactly what you type. No worked example and no client company — that's the Example
+   tab's job; Steps is procedure only, and states plainly when the standard requires work no
+   command performs rather than implying a tool exists. A phase shaped differently from the
+   numbered-phase norm (e.g. a standing standard like the rails) reshapes the tab's structure to
+   fit rather than forcing the four-step template. Future companion pages follow this pattern.
 
 ---
 
