@@ -58,6 +58,23 @@ a { color: var(--accent); }
 .topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
 .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
 .topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh { display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); padding: 8px 16px 3px; font-weight: 700; }
+
+/* ---- "where you are" strip (phase pages) ---------------------------------- */
+.phase-strip { background: var(--card); border-bottom: 1px solid var(--rule); }
+.phase-strip .wrap { max-width: 1280px; margin: 0 auto; padding: 12px 18px 10px; overflow-x: auto; }
+.phase-strip .row { display: flex; align-items: stretch; min-width: 900px; }
+.phase-strip .ph { flex: 1; position: relative; text-align: center; padding: 9px 4px 5px; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); text-decoration: none; }
+.phase-strip .ph::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--rule); }
+.phase-strip .ph.gate::before { background: var(--accent); }
+.phase-strip .ph.loop { flex: 2.2; color: var(--ink); }
+.phase-strip .ph.loop::before { background: var(--med); }
+.phase-strip .ph.here { color: var(--ink); background: var(--accent-soft); border-radius: 0 0 6px 6px; }
+.phase-strip .ph.here::after { content: "you are here"; display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-top: 2px; }
+.phase-strip .ph small { display: block; font-weight: 400; font-size: 11px; color: var(--ink-faint); }
+.phase-strip .back { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
+.phase-strip .back span::before { content: "\21A9  "; color: var(--med); font-weight: 700; }
+.phase-strip .back b { color: var(--ink); font-weight: 600; }
 
 /* ---- scroll progress bar -------------------------------------------------- */
 .progress { position: sticky; top: 0; z-index: 50; height: 3px; background: transparent; }

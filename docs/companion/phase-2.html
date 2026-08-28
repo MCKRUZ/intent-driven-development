@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a class="active" href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,9 +73,30 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="phase-1.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">← Phase 1</a>
-    <span style="font-weight:700;color:#1a2332;">Phase 2 · Design</span>
-    <a href="phase-3.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase 3 →</a>
+    <a href="phase-1.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Requirements</a>
+    <span style="font-weight:700;color:#1a2332;">Design</span>
+    <a href="phase-3.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Foundation &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate here" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> A spike that disproves the assumption behind an ADR earns a revision: the new decision goes through as a HIGH-risk spec with a named owner and a two-day clock, the old ADR is marked superseded, never edited, and every spec built on it is listed as at risk.</span>
+      <span><b>If this gate fails:</b> Nothing advances. The report names the orphan requirement, the integration never spiked against the live system, or the ADR with one option and one signature; the fix rides the loop and the design gate runs again before Foundation starts.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -57,7 +104,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 2 · Design</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Design</p>
     <p class="eyebrow">Phase 2 · Design</p>
     <h1>Design, explained
       <span class="sub">How a team decides the shape of a system it can't easily change later — the idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference.</span>
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 
@@ -1888,9 +1936,106 @@
   </section>
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; Design</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">Design gets decided at this gate and stays revisable afterwards. Contact with a real
+        implementation sometimes proves a choice wrong; that happens on serious platform projects, not just
+        sloppy ones. What the standard forbids is the revision that happens without a record.</p>
+      <ul>
+        <li><strong>A spike disproves the assumption behind an ADR.</strong> ADR-001 chose to read the
+          PolicyOne nightly snapshot directly. If a spike shows the snapshot is not what the design needed,
+          the decision is reopened with the finding as evidence.</li>
+        <li><strong>A Foundation skeleton slice exposes a gap.</strong> The thinnest end-to-end path could not be
+          built the way the design said. The rule in Foundation is explicit: reopen the relevant ADR rather
+          than patch around it in code.</li>
+        <li><strong>A contract turns out to be missing its error semantics.</strong> The first HIGH-risk spec
+          finds a degradation case the contract never described. That is a design change, not a spec detail.</li>
+        <li><strong>An NFR cannot be proved the way the design promised.</strong> The proving method names a
+          place the number will be read, and that place does not produce it.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The forbidden route</div>
+        <p>Code that no longer matches an ADR nobody updated. The quiet drift is the failure this track exists
+          to prevent; the loud revision is the normal case.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>A HIGH-risk spec, every time</h2>
+      <p class="lead">An ADR revision goes through the loop as a HIGH-risk spec. The evidence comes from a spike
+        first; the revision follows it, at the same bar as any other HIGH change.</p>
+      <ul>
+        <li><strong>Risk tier: HIGH, by rule.</strong> The full checking ladder: grader, correctness review, the
+          security workflow, and a named human sign-off recorded in the PR with a sentence, not a thumbs-up.</li>
+        <li><strong>What gets re-run.</strong> The Phase 2 gate on the changed decision: two or three genuinely
+          considered options, both signatures (Setup Owner and client counterpart), the requirement trace in
+          both directions, the threat review for anything the new choice exposes. Every merged spec that
+          traced to the old ADR is listed as at risk and re-graded.</li>
+        <li><strong>The spike first.</strong> If the evidence is not there yet, the revision waits for a bounded
+          spike on a <code>spike/</code> branch whose finding, not code, is the deliverable.</li>
+        <li><strong>The decision clock.</strong> Two business days for the client counterpart to co-sign or
+          object once the revision is drafted. The dependent specs are blocked at triage until then.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>A new ADR, the old one marked superseded, a decision-log row</h2>
+      <p>The superseded decision is marked superseded, never edited, so the history of what was believed at the
+        design gate survives. The new ADR carries the spike finding as its evidence, the options it
+        considered, both signatures, and a pointer back to the record it replaced. The ADR registry shows
+        both, with dates.</p>
+      <p>In our toolchain, <code>/sdlc-revise</code> opens the revision: it changes the one artifact, opens the
+        decision-log row with a named owner and the two-day clock, re-runs the phase gate, and lists every
+        spec and contract the change put at risk. After the revision spec merges, <code>/sdlc-refresh</code>
+        proposes the upstream edits it implies (the data model note, the NFR proving method, the Foundation
+        handoff) and a human confirms each one.</p>
+      <ul>
+        <li>Decision log: owner, reason (the spike finding), date, clock, decision, superseded ADR ID.</li>
+        <li>The new ADR with both signatures; the old ADR marked superseded with the date.</li>
+        <li>The HIGH-risk spec that carried the change, with its named sign-off in the PR.</li>
+        <li>The at-risk list of specs re-graded against the new decision.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>Foundation does not start on an unsigned design</h2>
+      <p class="lead">The design gate is where the client's architect co-signs what will be built. A gate
+        that passes with one signature has not been passed.</p>
+      <ul>
+        <li>Nothing advances. The report names the orphan requirement, the design element tracing to
+          nothing, the integration never spiked against the live system, or the ADR with one option and
+          one signature.</li>
+        <li>The fix is a design change or a spike, recorded the same way the original decision was, and the
+          gate runs again before Foundation begins.</li>
+        <li>The emergency bypass (Pod Lead plus one other human, an exception label, a Retro+ item) is a
+          merge-gate rule. It does not let a design gate be skipped.</li>
+        <li>Once the gate has passed, the same decisions stay open to revision from inside the loop, through
+          the spike and the HIGH-risk spec described above. Passing the gate is not the last word; it is the
+          first recorded one.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
-    Phase 2 · Design — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Phase 2 · Design — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

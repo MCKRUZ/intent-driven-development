@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a class="active" href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,9 +73,30 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="phase-2.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Phase 2</a>
-    <span style="font-weight:700;color:#1a2332;">Phase 3 · Foundation</span>
+    <a href="phase-2.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Design</a>
+    <span style="font-weight:700;color:#1a2332;">Foundation</span>
     <a href="build-loop.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: The Build Loop &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate here" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> A rail that turns out not to block, or a skeleton slice that exposes a design gap, comes back here as a spec against the harness or an explicit reopening of the relevant ADR, never a patch around it in code.</span>
+      <span><b>If this gate fails:</b> Nothing advances into Build. The report says which rail was present but not proven (the Stop hook that did not block, the grader that did not post, deploy-dev that did not roll back); the fix rides the loop and the gate runs again.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -57,7 +104,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 3 · Foundation</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Foundation</p>
     <p class="eyebrow">Phase 3 · Foundation</p>
     <h1>Foundation, explained
       <span class="sub">The phase where the documents stop and the software starts — the idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference.</span>
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 <main id="track-glance" class="track active">
@@ -2226,9 +2274,109 @@
   </section>
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; Foundation</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">Foundation built the factory and proved it. The loop then runs on that factory for eight
+        to sixteen weeks, and some of what it learns is about the factory, not the product.</p>
+      <ul>
+        <li><strong>A rail is present but does not block.</strong> A Stop hook that was proven on day ten stops
+          firing after a harness upgrade; a required check is renamed and branch protection no longer
+          requires it. The gate proved a rail once; the loop has to keep it proven.</li>
+        <li><strong>An escaped bug names a missing check.</strong> Every Retro+ asks "which check should have
+          caught it?" The answer is a harness change, and the harness is a Foundation artifact.</li>
+        <li><strong>A skeleton slice exposed a design gap late.</strong> The thinnest path was built, but the
+          first real spec on top of it finds the seam does not hold. The rule is explicit: reopen the relevant
+          ADR, do not patch around it in code.</li>
+        <li><strong>The environment drifts from the code.</strong> Someone changed the dev environment by hand
+          and the Bicep no longer describes what is running. The environment is provisioned from code or it
+          is not a Foundation artifact any more.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The one that hides</div>
+        <p>A rail that fails silent and green: the scanner that exits zero with findings, the grader that posts
+          "ran" without reading the spec. These do not announce themselves; the drill and the mutation test
+          are how the loop keeps finding them.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>A spec against the harness, at the harness's own bar</h2>
+      <p class="lead">A change to the rails is a change to the thing every other change is checked by. It
+        rides the loop like any spec, and it is reviewed by someone other than the Setup Owner.</p>
+      <ul>
+        <li><strong>Risk tier.</strong> A change to a hook, a required check, branch protection or a deploy
+          workflow is HIGH: it alters what can reach main. A change to a skill's wording or a grader prompt is
+          MEDIUM. The tier decides how far up the ladder the change climbs.</li>
+        <li><strong>What gets re-run.</strong> The proving, not just the presence: the Stop hook is shown to
+          block, the grader to post, deploy-dev to roll back, the HIGH path end to end. The Phase 3 gate's
+          "proven, not present" items are the battery, run on the changed rail.</li>
+        <li><strong>Who approves.</strong> The Setup Owner's deputy, or the client's Setup Owner once one is
+          named. The Setup Owner is never the sole approver of their own foundation, on day ten or in week
+          twelve.</li>
+        <li><strong>The decision clock.</strong> Two business days when the change needs a client decision
+          (a subscription policy, a role assignment, a secret the client must rotate). Access stalls are a
+          gating dependency raised at steering, not absorbed into a slipping week.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>The harness change, its proof, and who reviewed it</h2>
+      <p>A harness change is a spec with a PR, and the PR carries the evidence that the rail works after the
+        change: the workflow run where the hook blocked, the grader comment, the rollback. If the change was
+        driven by an escaped bug, the Retro+ item that named it is the reason on the decision-log row. If it
+        reopened an ADR, that revision is a separate HIGH-risk spec with the old ADR marked superseded, not
+        edited.</p>
+      <p>In our toolchain, <code>/sdlc-revise</code> handles a reopened Foundation artifact the same way as any
+        other: it changes the one artifact, opens the decision-log row with a named owner and the two-day
+        clock, re-runs the Phase 3 gate on it, and lists what depends on it. <code>/sdlc-harness</code> audits
+        what is installed against what is documented, and <code>/sdlc-refresh</code> proposes the upstream
+        edits after the fixing spec merges, for a human to confirm.</p>
+      <ul>
+        <li>Decision log: owner, reason (the escaped bug, the drift, the design gap), date, clock, decision.</li>
+        <li>The spec and PR for the harness change, with non-author approval by the deputy.</li>
+        <li>The proof run attached to the PR: the rail doing its job after the change.</li>
+        <li>The ADR revision, if the reopening reached the design.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>Build does not start on rails that were only described</h2>
+      <p class="lead">"The pipeline is set up" is not an exit condition. "The Stop hook blocked a red test on a
+        real PR" is. A gate that cannot show the second has not passed.</p>
+      <ul>
+        <li>Nothing advances into Build. The report says which rail was present but not proven: the hook that
+          did not block, the grader that did not post, deploy-dev that did not roll back, the HIGH path never
+          exercised.</li>
+        <li>The fix is a spec against the harness or the workflows. It rides the loop, is approved by someone
+          other than its author, and the gate runs again with the rail demonstrated.</li>
+        <li>A skeleton slice that exposed a design gap sends the gap back to the ADR explicitly. The gate does
+          not pass on a workaround in code.</li>
+        <li>The merge-gate emergency bypass (two named people, an exception label, a Retro+ item) does not apply
+          to a phase gate, and there is nothing in Foundation that qualifies as an emergency anyway.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
-    Phase 3 · Foundation — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Phase 3 · Foundation — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

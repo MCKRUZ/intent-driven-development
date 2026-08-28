@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The shape of an engagement — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-deep: #11314e;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, var(--accent-deep), var(--accent)); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc code { background: rgba(255,255,255,.16); color: #fff; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+/* shared top bar */
+.topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+.topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+.topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+.topbar a.home { font-weight: 700; color: #fff; }
+.topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref { position: relative; }
+.topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+.topbar .ref summary.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref summary::-webkit-details-marker { display: none; }
+.topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+.topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 240px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a8699;padding:8px 10px 3px;font-weight:700}
+@media print { .topbar { display: none; } }
+/* human / machine colour coding: --med is a person, --accent is a machine */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot.h { background: var(--med); } .dot.m { background: var(--accent); }
+.beats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0 16px; }
+.beat { position: relative; border: 1px solid var(--rule); border-top: 4px solid var(--rule); border-radius: 10px; padding: 16px 18px 12px; background: #fafbfd; }
+.beat.h { border-top-color: var(--med); } .beat.m { border-top-color: var(--accent); }
+.beat.hm { border-top-color: var(--accent); }
+.beat.hm::after { content: ""; position: absolute; top: -4px; right: 0; width: 50%; height: 4px; background: var(--med); border-top-right-radius: 10px; }
+.beat .who { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.beat.h .who { color: var(--med); } .beat.m .who { color: var(--accent); } .beat.hm .who { color: var(--ink-soft); }
+.beat h3 { margin: 0 0 6px; font-size: 18px; }
+.beat p { font-size: 13.5px; margin: 0; }
+figure { margin: 14px 0 6px; }
+figure img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 12px 40px rgba(16,32,54,.12); display: block; }
+figcaption { font-size: 13px; color: var(--ink-soft); margin-top: 12px; max-width: 80ch; line-height: 1.5; }
+.scen { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 28px; margin: 10px 0 14px; }
+.sc { border-left: 3px solid var(--med); padding: 2px 0 2px 14px; }
+.sc h3 { margin: 0 0 4px; font-size: 15.5px; }
+.sc p { font-size: 13.5px; margin: 0 0 6px; }
+.sc .tool { display: block; font-family: Consolas, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent); }
+.dec { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 20px; margin: 12px 0; background: #fafbfd; }
+.dec h3 { margin: 0 0 10px; font-size: 16px; display: flex; gap: 10px; align-items: baseline; }
+.dec h3 .n { font-size: 12px; color: var(--med); font-weight: 700; letter-spacing: .08em; }
+.dec dl { display: grid; grid-template-columns: 150px 1fr; gap: 5px 14px; margin: 0; font-size: 13.5px; }
+.dec dt { color: var(--ink-soft); font-weight: 600; }
+.dec dd { margin: 0; }
+table.kv th { width: 170px; }
+table.kv code { white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 16px; counter-reset: rule; }
+.rule { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; background: #fafbfd; }
+.rule .rt { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; }
+.rule .rt::before { counter-increment: rule; content: counter(rule); font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.2em; }
+.rule p { font-size: 13.5px; margin: 0; }
+.halves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 12px 0 16px; }
+.half { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: #fafbfd; }
+.half h3 { margin: 0 0 6px; }
+.half p { font-size: 13.5px; margin: 0 0 8px; }
+.half ul { font-size: 13.5px; margin: 0; }
+table.cmp td.mech { color: var(--low); font-weight: 600; }
+table.cmp td.proc { color: var(--accent); font-weight: 600; }
+table.cmp td.disc { color: var(--med); font-weight: 600; }
+table.cmp th.today { box-shadow: inset 0 -3px 0 var(--accent); }
+.steps { counter-reset: step; }
+.step { display: grid; grid-template-columns: 72px 1fr; gap: 18px; padding: 24px 0; border-top: 1px solid var(--rule); }
+.step:first-of-type { border-top: 0; padding-top: 6px; }
+.step .num { font-size: 30px; font-weight: 700; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.step .num small { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; font-weight: 700; }
+.step-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; }
+.step-title a { color: inherit; text-decoration: none; }
+.step-title a:hover { color: var(--accent); }
+.step .gist { font-size: 14px; }
+.step .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px; }
+.step .cell h4 { margin: 8px 0 4px; }
+.step .cell.h h4 { color: var(--med); } .step .cell.m h4 { color: var(--accent); }
+.step .cell ul { font-size: 13.5px; margin: 0 0 6px; }
+.step pre { margin: 12px 0 0; }
+.reentry { margin-top: 12px; padding: 10px 14px; border: 1px dashed var(--med); border-radius: 8px; font-size: 13.5px; background: #fbf5e8; }
+.reentry b { color: var(--med); }
+@media (max-width: 760px) { .beats, .scen, .rules, .halves, .step .grid { grid-template-columns: 1fr; } .step { grid-template-columns: 1fr; } .dec dl { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../index.html">Home</a>
+  <details class="ref"><summary class="active">Understand &#9662;</summary><div class="menu">
+    <a href="sponsor.html">The three-minute version</a><a class="active" href="shape.html">The shape of an engagement</a><a href="journey.html">One engagement, start to finish</a><a href="when-things-change.html">What happens when things change</a><a href="../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+  </div></details>
+  <details class="ref"><summary>Run &#9662;</summary><div class="menu">
+    <span class="mh">Open</span><a href="companion/phase-0.html">Discovery</a><a href="companion/phase-1.html">Requirements</a><a href="companion/phase-2.html">Design</a><a href="companion/phase-3.html">Foundation</a><span class="mh">The middle</span><a href="companion/build-loop.html">The Build Loop</a><a href="companion/the-rails.html">The Rails</a><a href="companion/day-in-the-loop.html">A Day in the Loop</a><span class="mh">Close</span><a href="companion/phase-7.html">Documentation</a><a href="companion/phase-8.html">Deployment</a><a href="companion/phase-9.html">Monitoring</a><a href="companion/phase-c.html">Close &amp; Transfer</a><span class="mh">People</span><a href="team.html">The Team</a>
+  </div></details>
+  <details class="ref"><summary>Install &#9662;</summary><div class="menu">
+    <a href="choose-a-mechanism.html">Choose a mechanism</a><a href="with-the-plugin.html">With the claude-code-sdlc plugin</a><a href="whats-installed.html">What's installed</a><a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a><a href="harness-kit/RESEARCH.html">Harness research</a><a href="harness-kit/CALL-MAP.html">Call map</a>
+  </div></details>
+  <details class="ref"><summary>Reference &#9662;</summary><div class="menu">
+    <a href="companion/artifact-flow.html">The artifact flow</a><a href="cheatsheet.html">Loop cheat-sheet</a><a href="glossary.html">Glossary</a><a href="faq.html">FAQ</a><a href="anti-patterns.html">Anti-pattern field guide</a>
+  </div></details>
+</div>
+<div class="layout">
+<nav>
+  <div class="brand">The shape of an engagement</div>
+  <div class="brand-sub">Delivery Standard · eight decisions, one loop</div>
+  <a class="back" href="../index.html">← Home</a>
+  <a class="back" href="sponsor.html">← The three-minute version</a>
+  <a class="toc" href="#drawing">The drawing</a>
+  <a class="toc" href="#decisions">The eight decisions</a>
+  <a class="toc sub" href="#d1">1 · Problem framed</a>
+  <a class="toc sub" href="#d2">2 · Baseline signed</a>
+  <a class="toc sub" href="#d3">3 · Architecture chosen</a>
+  <a class="toc sub" href="#d4">4 · Factory proven</a>
+  <a class="toc sub" href="#d5">5 · Docs proven by use</a>
+  <a class="toc sub" href="#d6">6 · Go / no-go</a>
+  <a class="toc sub" href="#d7">7 · Healthy in production</a>
+  <a class="toc sub" href="#d8">8 · Client runs it alone</a>
+  <a class="toc" href="#not-a-line">Why it isn't a line</a>
+  <a class="toc" href="#ladder">The checking ladder</a>
+  <a class="back" href="when-things-change.html" style="margin-top:16px">Next: What happens when things change →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>The shape of an engagement</h1>
+  <p>Eight decisions, each signed by a named person with evidence attached, arranged around one
+  continuous build loop. The order is real; the dates are not fixed; any decision can be reopened
+  through a route that leaves a record.</p>
+  <div class="meta">Paired source: docs/shape.md · part of MCKRUZ/intent-driven-development v1.1</div>
+</header>
+
+<section id="drawing">
+<h2>The drawing</h2>
+<figure>
+  <img src="assets/shape-of-an-engagement.png" alt="The shape of an engagement — eight signed decisions around one continuous loop" style="width:100%;height:auto;border-radius:6px;box-shadow:0 12px 40px rgba(16,32,54,.12)">
+  <figcaption>Four decisions open the engagement, signed in order. The middle is a loop, not a
+  phase: Intent → Delegate → Discern, once per change, for 8–16 weeks, every merge checked by a
+  machine and by a non-author. Four decisions close it. The dashed routes are where the loop reaches
+  back into a signed decision. <a href="assets/shape-of-an-engagement-2x.png">Open the full-resolution sheet</a>.</figcaption>
+</figure>
+<p>Harbor Mutual, the fictional regional insurer the standard uses as its worked example, runs this
+whole shape in <a href="journey.html">one engagement, start to finish</a>. This page is the shape
+on its own.</p>
+</section>
+
+<section id="decisions">
+<h2>The eight decisions</h2>
+<p>For each: the decision, the phase it closes, who signs, what evidence sits under the signature,
+and what reopens it later.</p>
+
+<div class="dec" id="d1"><h3><span class="n">OPEN · 1</span> Problem framed</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-0.html">Discovery</a></dd>
+  <dt>Who signs</dt><dd>The sponsor, on the problem and the metric; the sponsor and the candidate product owner, on the PO decision; the sponsor with security, on whose AI account and keys the pod works with.</dd>
+  <dt>Evidence</dt><dd>The problem statement in the client's own words, human-authored. One success metric and the place it will be read from, verified with the data owner. A named product owner at 4 or more hours a week, or proxy mode acknowledged. The tooling decision, with a one-page data-flow brief for the security team.</dd>
+  <dt>What reopens it</dt><dd>Changing the problem, the metric, the PO mode or the tooling. It is the most expensive reopening there is, because billing maps to gates, so it is a SOW conversation at steering. It does happen.</dd>
+</dl></div>
+
+<div class="dec" id="d2"><h3><span class="n">OPEN · 2</span> Baseline signed</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-1.html">Requirements</a></dd>
+  <dt>Who signs</dt><dd>The product owner; the Pod Lead enforces the definition of ready on every story before it gets there.</dd>
+  <dt>Evidence</dt><dd>Epics and stories drafted by the agent and owned by humans. Non-functional requirements that each say where they will be measured. The decision list ("you haven't decided X") generated, and every item answered on the two-business-day clock.</dd>
+  <dt>What reopens it</dt><dd>A requirement changing after signature. It is revised in place with an owner, a reason and a clock; the affected downstream artifacts are listed; this phase's gate is re-run so the change is visible rather than absorbed. When merged work drifts from a requirement, the reverse runs: the merged change proposes the upstream edit and a person confirms it.</dd>
+</dl></div>
+
+<div class="dec" id="d3"><h3><span class="n">OPEN · 3</span> Architecture chosen</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-2.html">Design</a></dd>
+  <dt>Who signs</dt><dd>A person picks from the options; the Architect signs each decision record; the client's lead engineer co-signs, because they will live with it after handoff.</dd>
+  <dt>Evidence</dt><dd>Two or three architectures with concrete trade-offs. Signed decision records (ADRs). A threat model and a plan for proving the non-functional requirements. Unknowns are not guessed; they are spiked.</dd>
+  <dt>What reopens it</dt><dd>A spike disproving an assumption the design rests on. The revision goes through as a HIGH-risk change with a named signature; the old record is marked superseded, never edited away.</dd>
+</dl></div>
+
+<div class="dec" id="d4"><h3><span class="n">OPEN · 4</span> Factory proven</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-3.html">Foundation</a></dd>
+  <dt>Who signs</dt><dd>The Setup Owner, with a deputy reviewing every harness change (the Setup Owner is never sole approver of their own foundation work); the client's platform engineer reviews the pipeline they will operate after we leave; the sponsor sees the exit demo.</dd>
+  <dt>Evidence</dt><dd>The rails live and branch protection applied. The thinnest end-to-end slice, four small pieces of work, ridden through the whole loop into the client's dev environment. One real feature running there.</dd>
+  <dt>What reopens it</dt><dd>Nothing reopens the phase. Every later pipeline or infrastructure change is a HIGH-risk change riding the loop, with human review and no exceptions.</dd>
+</dl></div>
+
+<div class="dec" id="d5"><h3><span class="n">CLOSE · 5</span> Docs proven by use</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-7.html">Documentation</a></dd>
+  <dt>Who signs</dt><dd>Someone who has never seen the system, on the record of following the README cold; an operations engineer on the runbook walk; the lead engineer co-signs any new decision records the drift catalog produced.</dd>
+  <dt>Evidence</dt><dd>The README, API docs and runbook drafted by the agent from the code and the specs, then verified by use, not by reading: a stranger deploys it from the runbook.</dd>
+  <dt>What reopens it</dt><dd>Nothing reopens the phase. Any later change that alters behaviour carries its documentation in the same change; a stale document is a defect, not a reason to rerun Documentation.</dd>
+</dl></div>
+
+<div class="dec" id="d6"><h3><span class="n">CLOSE · 6</span> Go / no-go</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-8.html">Deployment</a></dd>
+  <dt>Who signs</dt><dd>A named approver, always a person, never automatic; the sponsor is informed and asked. Promotion beyond dev cannot run without a configured approver.</dd>
+  <dt>Evidence</dt><dd>A rollback rehearsed by the client's own operators (deploy, roll back, redeploy). Release notes drafted from what merged. Smoke-test results. The secrets-rotation record attached.</dd>
+  <dt>What reopens it</dt><dd>A failed rehearsal: it becomes a piece of work in the loop and the rehearsal is run again before anyone goes live. Going live ahead of the people who will run the system is how a successful deploy becomes next month's incident, so the deployment moves, not the rehearsal.</dd>
+</dl></div>
+
+<div class="dec" id="d7"><h3><span class="n">CLOSE · 7</span> Healthy in production</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-9.html">Monitoring</a></dd>
+  <dt>Who signs</dt><dd>The Pod Lead and the client's operations team, who co-author what "healthy" means and confirm the thresholds against real baseline data.</dd>
+  <dt>Evidence</dt><dd>Alerts modelled from measured baselines rather than guesses. A drill run from the playbook, by the people who will answer the pager. The engagement's retrospective.</dd>
+  <dt>What reopens it</dt><dd>An alert that fires more than once a week without action: raise the threshold or delete the alert. Thresholds are revised the same way they were set, with operations, against data.</dd>
+</dl></div>
+
+<div class="dec" id="d8"><h3><span class="n">CLOSE · 8</span> Client runs it alone</h3><dl>
+  <dt>Closes</dt><dd><a href="companion/phase-c.html">Close &amp; Transfer</a></dd>
+  <dt>Who signs</dt><dd>The client's named Setup Owner, with a deputy; the sponsor, at the close steering.</dd>
+  <dt>Evidence</dt><dd>One real change, end to end, driven by the client's own engineers without us. A harness audit showing nothing only we understand. Our access revoked, confirmed against the client's audit trail.</dd>
+  <dt>What reopens it</dt><dd>Nothing on our side; this signature ends the engagement. What the engagement taught goes back into the standard through the harvest retrospective.</dd>
+</dl></div>
+</section>
+
+<section id="not-a-line">
+<h2>Why it isn't a line</h2>
+<p><strong>Gates sit on decisions, not dates.</strong> A gate is an automated battery of checks
+followed by a named human's signature. The battery reports whether you may advance; the person
+decides whether you do. Because billing milestones map to those gates and not to calendar dates,
+a phase that needs more time takes it, and a gate that fails simply has not been passed yet.</p>
+<p><strong>The phases overlap.</strong> In the opening, the Setup Owner's enablement work runs
+ahead while requirements and design close, which is why Discovery through Foundation is planned
+as 4–6 weeks in total rather than as four sequential blocks. The signatures are ordered; the work
+that earns them is not.</p>
+<p><strong>The middle is not phased.</strong> A traditional lifecycle phases the middle too, with
+separate implementation, quality and testing stages. This standard deliberately doesn't. Checking
+a large batch of work only after it has all been built is the failure mode the delivery research
+warns about, so checking happens per change, inside the loop, never as a later phase. The
+<a href="companion/build-loop.html">Build Loop</a> page is the whole middle.</p>
+</section>
+
+<section id="ladder">
+<h2>The checking ladder</h2>
+<p>Inside the loop, every change is proven by something other than its author before it merges.
+The proof climbs five rungs; each catches what the one below cannot, and the risk tier decides how
+high a change climbs.</p>
+<table>
+  <thead><tr><th>Rung</th><th>The check</th><th>What it catches that the rung below can't</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>The done-rule in the harness</td><td>Sets the bar ("done means checked, not typed"); persuasion only, it enforces nothing by itself.</td></tr>
+    <tr><td>2</td><td>The agent re-checks each turn</td><td>The agent's own mechanical slips: the broken import, the test it broke two steps back.</td></tr>
+    <tr><td>3</td><td>The blocking Stop hook</td><td>The agent declaring itself done anyway; it cannot finish with red tests or a broken build. A hook enforces the tests that exist; it cannot enforce a test nobody wrote, and on a bug fix the repro-gate asks the next question down: would this test have caught it?</td></tr>
+    <tr><td>4</td><td>The separate grader</td><td>The hole the author was blind to. It grades check-by-check against the spec, not against the tests, so it catches the case the author never thought to test. It runs on the strongest model available; independence comes from not having written the code, capability is a separate axis.</td></tr>
+    <tr><td>5</td><td>The human / security gate</td><td>The judgment calls no machine should own: the risk acceptance, the product call, the security sign-off on a HIGH change.</td></tr>
+  </tbody>
+</table>
+<div class="callout">The four routes back into a signed decision, with owners, records and costs, are on <a href="when-things-change.html">what happens when things change</a>. The loop itself, day by day, is the <a href="companion/build-loop.html">Build Loop</a>.</div>
+</section>
+
+<footer>The shape of an engagement · Delivery Standard · MCKRUZ/intent-driven-development · Paired source: docs/shape.md</footer>
+</main>
+</div>
+</body>
+</html>

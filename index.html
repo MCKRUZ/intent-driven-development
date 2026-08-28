@@ -8,9 +8,12 @@
   :root {
     --ink: #1a2332;
     --ink-soft: #46556b;
+    --ink-faint: #7a8699;
     --accent: #0f5c8c;
+    --accent-deep: #11314e;
     --accent-soft: #e8f1f7;
     --rule: #d8dee8;
+    --rule-soft: #e7ebf1;
     --bg: #f7f8fa;
     --card: #ffffff;
     --mono-bg: #0f1722;
@@ -18,39 +21,60 @@
     --high: #b3372f;
     --med: #b07a1e;
     --low: #2e7d4f;
+    --shadow: 0 1px 2px rgba(16,32,54,.04), 0 8px 24px rgba(16,32,54,.06);
+    --shadow-lg: 0 12px 40px rgba(16,32,54,.12);
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
   a { color: var(--accent); }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  code { font-family: "Cascadia Code", Consolas, ui-monospace, monospace; font-size: .9em; background: var(--rule-soft); padding: .08em .4em; border-radius: 3px; }
 
   /* ---- hero ---- */
   header.hero { background: linear-gradient(135deg, #11314e, #0f5c8c); color: #fff; }
-  header.hero .wrap { padding: 64px 24px 56px; }
+  header.hero .wrap { padding: 56px 24px 52px; display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; }
   header.hero .eyebrow { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: #9fc3dd; margin: 0 0 14px; }
   header.hero h1 { margin: 0 0 8px; font-size: 40px; line-height: 1.1; letter-spacing: -0.5px; }
-  header.hero h1 span { display: block; font-size: 22px; font-weight: 500; color: #cfe2f1; margin-top: 8px; letter-spacing: 0; }
-  header.hero p.lede { font-size: 18px; color: #e3eef6; max-width: 60ch; margin: 18px 0 0; }
-  header.hero .onerule { margin: 22px 0 28px; padding: 12px 18px; border-left: 3px solid #9fc3dd; background: rgba(255,255,255,0.08); border-radius: 0 8px 8px 0; max-width: 60ch; font-size: 15px; color: #eaf3fa; }
+  header.hero h1 span { display: block; font-size: 21px; font-weight: 500; color: #cfe2f1; margin-top: 8px; letter-spacing: 0; }
+  header.hero p.lede { font-size: 17px; color: #e3eef6; max-width: 56ch; margin: 18px 0 0; }
+  header.hero .onerule { margin: 22px 0 26px; padding: 12px 18px; border-left: 3px solid #9fc3dd; background: rgba(255,255,255,0.08); border-radius: 0 8px 8px 0; max-width: 56ch; font-size: 15px; color: #eaf3fa; }
   header.hero .onerule strong { color: #fff; }
   .btns { display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 15px; padding: 12px 22px; border-radius: 8px; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 14.5px; padding: 11px 16px; border-radius: 8px; }
   .btn.primary { background: #fff; color: var(--accent); }
   .btn.primary:hover { background: #eaf3fa; }
   .btn.ghost { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.4); }
   .btn.ghost:hover { background: rgba(255,255,255,0.2); }
 
+  /* start here — beside the hero */
+  .start { display: flex; flex-direction: column; gap: 10px; }
+  .start .who { font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; color: #cfe2f1; font-weight: 700; margin-bottom: 2px; }
+  .role { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); border-radius: 10px; padding: 11px 14px; color: #fff; text-decoration: none; }
+  .role:hover { background: rgba(255,255,255,.15); }
+  .role .rn { font-weight: 700; font-size: 15px; }
+  .role .rp { font-size: 13.5px; color: #dbe8f3; line-height: 1.4; }
+  .role .rp b { color: #fff; font-weight: 600; }
+
+  /* ---- the drawing ---- */
+  section.sheet { background: var(--accent-deep); padding: 34px 0 28px; border-bottom: 0; }
+  section.sheet .wrap { max-width: 1240px; }
+  section.sheet img { width: 100%; height: auto; display: block; border-radius: 6px; box-shadow: var(--shadow-lg); }
+  section.sheet .cap { color: #cfe2f1; font-size: 14px; margin: 14px 0 0; max-width: 92ch; line-height: 1.5; }
+  section.sheet .cap b { color: #fff; }
+  section.sheet .cap a { color: #9fc3dd; }
+
   /* ---- generic section ---- */
   section { padding: 52px 0; border-bottom: 1px solid var(--rule); }
-  section.tight { padding: 44px 0; }
-  h2.kicker { font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent); margin: 0 0 18px; }
+  section.tight { padding: 40px 0; }
+  h2.kicker { font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h2.title { font-size: 26px; line-height: 1.2; margin: 0 0 10px; }
   .lead-30 { font-size: 19px; color: var(--ink); max-width: 68ch; margin: 0 0 6px; }
   .lead-30 strong { color: var(--accent); }
-  .sub { color: var(--ink-soft); max-width: 70ch; }
+  .sub { color: var(--ink-soft); max-width: 72ch; margin: 0; }
 
   /* ---- the loop ---- */
-  .loop { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; }
-  .loop .step { flex: 1 1 220px; background: var(--card); border: 1px solid var(--rule); border-top: 4px solid var(--accent); border-radius: 12px; padding: 20px 22px; }
+  .loop { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin-top: 18px; }
+  .loop .step { flex: 1 1 220px; background: var(--card); border: 1px solid var(--rule); border-top: 4px solid var(--accent); border-radius: 12px; padding: 18px 20px; }
   .loop .step .n { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: var(--ink-soft); text-transform: uppercase; }
   .loop .step h3 { margin: 4px 0 6px; font-size: 22px; color: var(--accent); }
   .loop .step .who { font-size: 12.5px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 10px; }
@@ -62,41 +86,41 @@
   .loop .step.discern h3 { color: var(--low); }
   .loop-note { margin: 16px 0 0; font-style: italic; color: var(--ink-soft); }
 
-  /* ---- engagement arc ---- */
-  .arc { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 16px; }
-  .arc .panel { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 22px; }
-  .arc .panel.build { background: var(--accent-soft); border-color: #bcd7e8; }
-  .arc .panel .tag { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); }
-  .arc .panel h3 { margin: 6px 0 10px; font-size: 17px; }
-  .arc .panel p { margin: 0 0 12px; font-size: 13.5px; color: var(--ink-soft); }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip { font-size: 12px; padding: 3px 9px; border-radius: 20px; background: #eef2f7; color: var(--ink-soft); text-decoration: none; border: 1px solid var(--rule); }
-  .chip:hover { background: var(--accent-soft); color: var(--accent); }
-  .arc .panel.build .chip { background: #fff; }
+  /* ---- three doors ---- */
+  .doors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .door { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 20px 16px; box-shadow: var(--shadow); border-top: 4px solid var(--accent); }
+  .door.run { border-top-color: var(--med); }
+  .door.install { border-top-color: var(--low); }
+  .door .q { font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; }
+  .door h3 { font-size: 20px; margin: 4px 0 0; }
+  .door p { font-size: 14.5px; color: var(--ink-soft); margin: 8px 0 0; }
+  .door ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; }
+  .door li { font-size: 14.5px; line-height: 1.4; }
+  .door li a { text-decoration: none; color: var(--ink); font-weight: 600; }
+  .door li a:hover { color: var(--accent); text-decoration: underline; }
+  .door li small { display: block; color: var(--ink-faint); font-size: 12.5px; font-weight: 400; }
+  .door .time { font-size: 12.5px; color: var(--ink-faint); margin-top: 12px; border-top: 1px solid var(--rule-soft); padding-top: 10px; }
 
-  /* ---- start here cards ---- */
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
-  .rcard { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 22px; }
-  .rcard h3 { margin: 0 0 4px; font-size: 16px; color: var(--accent); }
-  .rcard .role { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-soft); margin-bottom: 10px; }
-  .rcard ol { margin: 0; padding-left: 18px; font-size: 13.5px; }
-  .rcard ol li { margin-bottom: 4px; }
-
-  /* ---- index grid ---- */
-  .idx { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px 30px; }
-  .idx .col h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--ink-soft); border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin: 0 0 10px; }
-  .idx .col .row { padding: 3px 0; font-size: 14px; }
-  .idx .col .row a { text-decoration: none; }
-  .idx .col .row a:hover { color: var(--accent); }
-  .idx .col .row a.ex { color: var(--ink-soft); font-size: 12px; margin-left: 6px; }
-  .idx .col .row a.ex::before { content: "· "; }
-  .idx .col .row a.ex:hover { color: var(--accent); }
+  /* ---- phase strip ---- */
+  .strip { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px 14px; box-shadow: var(--shadow); margin-top: 18px; overflow-x: auto; }
+  .strip .row { display: flex; align-items: stretch; min-width: 900px; }
+  .ph { flex: 1; position: relative; text-align: center; padding: 10px 4px 6px; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); text-decoration: none; }
+  .ph::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--accent); }
+  .ph.loop-cell { flex: 2.2; color: var(--ink); }
+  .ph.loop-cell::before { background: var(--med); }
+  .ph:hover { background: var(--accent-soft); border-radius: 0 0 6px 6px; color: var(--ink); }
+  .ph small { display: block; font-weight: 400; font-size: 11px; color: var(--ink-faint); }
+  .strip .back { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--ink-soft); }
+  .strip .back span::before { content: "\21A9  "; color: var(--med); font-weight: 700; }
+  .strip .back b { color: var(--ink); font-weight: 600; }
 
   footer.foot { padding: 28px 0 40px; color: var(--ink-soft); font-size: 13px; }
 
-  @media (max-width: 760px) {
+  @media (max-width: 860px) {
+    header.hero .wrap { grid-template-columns: 1fr; }
     header.hero h1 { font-size: 30px; }
-    .arc { grid-template-columns: 1fr; }
+    .role { grid-template-columns: 1fr; }
+    .doors { grid-template-columns: 1fr; }
     .loop .arrow { flex-basis: 100%; height: 28px; transform: rotate(90deg); }
   }
 
@@ -110,61 +134,112 @@
   .topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
   .topbar .ref summary::-webkit-details-marker { display: none; }
   .topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
-  .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 240px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
   .topbar .ref .menu a { display: block; padding: 9px 16px; }
+  .topbar .ref .menu .mh { display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #7f9db5; padding: 8px 16px 3px; font-weight: 700; }
+  .topbar .spacer { flex: 1; }
+  .topbar a.go { background: var(--accent); color: #fff; border-radius: 6px; padding: 7px 14px; margin: 6px 0; font-weight: 600; }
+  .topbar a.go:hover { background: #1470aa; }
 </style>
 </head>
 <body>
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home active" href="index.html">Home</a>
-  <a href="GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary>Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="docs/companion/phase-0.html">0 · Discovery</a>
-      <a href="docs/companion/phase-1.html">1 · Requirements</a>
-      <a href="docs/companion/phase-2.html">2 · Design</a>
-      <a href="docs/companion/phase-3.html">3 · Foundation</a>
+      <a href="docs/sponsor.html">The three-minute version</a>
+      <a href="docs/shape.html">The shape of an engagement</a>
+      <a href="docs/journey.html">One engagement, start to finish</a>
+      <a href="docs/when-things-change.html">What happens when things change</a>
+      <a href="GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="docs/companion/phase-0.html">Discovery</a>
+      <a href="docs/companion/phase-1.html">Requirements</a>
+      <a href="docs/companion/phase-2.html">Design</a>
+      <a href="docs/companion/phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="docs/companion/build-loop.html">The Build Loop</a>
       <a href="docs/companion/the-rails.html">The Rails</a>
-      <a href="docs/companion/phase-7.html">7 · Documentation</a>
-      <a href="docs/companion/phase-8.html">8 · Deployment</a>
-      <a href="docs/companion/phase-9.html">9 · Monitoring</a>
-      <a href="docs/companion/phase-c.html">C · Close &amp; Transfer</a>
+      <a href="docs/companion/day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="docs/companion/phase-7.html">Documentation</a>
+      <a href="docs/companion/phase-8.html">Deployment</a>
+      <a href="docs/companion/phase-9.html">Monitoring</a>
+      <a href="docs/companion/phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="docs/team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="docs/choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="docs/with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="docs/whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="docs/harness-kit/RESEARCH.html">Harness research</a>
+      <a href="docs/harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
       <a href="docs/companion/artifact-flow.html">The artifact flow</a>
-      <a href="docs/whats-installed.html">What the harness installs</a>
       <a href="docs/cheatsheet.html">Loop cheat-sheet</a>
       <a href="docs/glossary.html">Glossary</a>
       <a href="docs/faq.html">FAQ</a>
       <a href="docs/anti-patterns.html">Anti-pattern field guide</a>
     </div>
   </details>
+  <span class="spacer"></span>
+  <a class="go" href="#start">Start here</a>
 </div>
 
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">MCKRUZ · Delivery Standard · v1.0</p>
-    <h1>Intent-Driven Development
-      <span>How our consulting pods build software with AI agents — safely enough to put in front of a client.</span>
-    </h1>
-    <p class="lede">Agents write code faster than anyone can read it. That doesn't make delivery
-      faster on its own. This standard moves the work to the two things that now decide the
-      outcome: saying clearly what you want, and proving that what came back is right.</p>
-    <div class="onerule"><strong>The one rule:</strong> Claude drafts and interrogates; humans
-      decide and own. Every gate in the standard exists to enforce it.</div>
-    <div class="btns">
-      <a class="btn primary" href="GOLD-STANDARD.html">Read the standard →</a>
-      <a class="btn ghost" href="docs/companion/day-in-the-loop.html">Watch a day in the loop →</a>
-      <a class="btn ghost" href="docs/cheatsheet.html">The 20-second version →</a>
+    <div>
+      <p class="eyebrow">MCKRUZ · The Delivery Standard · v1.1</p>
+      <h1>Intent-Driven Development
+        <span>How a small team builds software with AI agents — safely enough to put in front of a client.</span>
+      </h1>
+      <p class="lede">Agents write code faster than anyone can read it. That doesn't make delivery
+        faster on its own. This standard moves the work to the two things that now decide the
+        outcome: saying clearly what you want, and proving that what came back is right.</p>
+      <div class="onerule"><strong>The one rule:</strong> the agent drafts and interrogates; a named
+        human decides and owns. Every gate in the standard exists to enforce it.</div>
+      <div class="btns">
+        <a class="btn primary" href="docs/sponsor.html">The three-minute version →</a>
+        <a class="btn ghost" href="docs/journey.html">Follow one engagement →</a>
+        <a class="btn ghost" href="docs/choose-a-mechanism.html">Install it →</a>
+      </div>
+    </div>
+    <div class="start" id="start">
+      <span class="who">Start here, by who you are</span>
+      <a class="role" href="docs/sponsor.html"><span class="rn">Sponsor or client</span><span class="rp"><b>The three-minute version</b> → what you decide and see → the FAQ</span></a>
+      <a class="role" href="docs/shape.html"><span class="rn">Leading or selling it</span><span class="rp"><b>The shape of an engagement</b> → the commercial chapter (§12) → FAQ objections</span></a>
+      <a class="role" href="GOLD-STANDARD.html"><span class="rn">Joining a pod</span><span class="rp"><b>The Delivery Standard</b>, front to back → The Team → the Build Loop, glossary open</span></a>
+      <a class="role" href="docs/choose-a-mechanism.html"><span class="rn">Setting it up</span><span class="rp"><b>Choose a mechanism</b> → with the plugin, step by step → what's installed</span></a>
     </div>
   </div>
 </header>
+
+<section class="sheet">
+  <div class="wrap">
+    <a href="docs/shape.html"><img src="docs/assets/shape-of-an-engagement.png" alt="Blueprint-style drawing: the engagement as a rail schematic — four signed gates open it, a continuous build loop runs the middle, four signed gates close it, with dashed sidings back from the loop to earlier decisions; a five-rung checking ladder at the right."></a>
+    <p class="cap"><b>The shape of an engagement, on one sheet.</b> Eight decisions signed by named
+      people around one continuous loop; the dashed sidings are the routes back when something is
+      learned. Gates sit on decisions, not on dates.
+      <a href="docs/shape.html">The eight decisions, explained →</a> ·
+      <a href="docs/assets/shape-of-an-engagement-2x.png">Full-resolution sheet</a></p>
+  </div>
+</section>
 
 <section class="tight">
   <div class="wrap">
@@ -175,33 +250,27 @@
     <p class="sub">So the work runs as one short loop, repeated for every piece of work from a
       one-line fix to a whole feature. Gated phases open and close the engagement; the loop fills
       the middle. <em>No checking is just vibe coding — the loop closes it.</em></p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2 class="kicker">The loop · Intent → Delegate → Discern</h2>
     <div class="loop">
       <div class="step intent">
-        <div class="n">Step 1</div>
+        <div class="n">Beat 1</div>
         <h3>Intent</h3>
-        <div class="who">Human owns it</div>
+        <div class="who">A human owns it</div>
         <p>Decide what you want, then write it as a short spec you can test — "returns 401 for a
           bad token," not "make auth good."</p>
       </div>
       <div class="arrow">→</div>
       <div class="step delegate">
-        <div class="n">Step 2</div>
+        <div class="n">Beat 2</div>
         <h3>Delegate</h3>
-        <div class="who">Agent builds · you set the box</div>
+        <div class="who">The agent builds · you set the box</div>
         <p>The agent plans first — you approve before any code — then builds and self-checks inside
-          the scope, context, and permissions you set.</p>
+          the scope, context, and permissions you set. It cannot call itself done on a red build.</p>
       </div>
       <div class="arrow">→</div>
       <div class="step discern">
-        <div class="n">Step 3</div>
+        <div class="n">Beat 3</div>
         <h3>Discern</h3>
-        <div class="who">Gates check · a human approves</div>
+        <div class="who">Machines report · a human signs</div>
         <p>Mechanical gates, a separate grader that didn't write the code, and a non-author human
           decide it's good — with a named sign-off on anything high-risk.</p>
       </div>
@@ -215,89 +284,47 @@
 
 <section>
   <div class="wrap">
-    <h2 class="kicker">The shape of an engagement</h2>
-    <div class="arc">
-      <div class="panel">
-        <div class="tag">Open</div>
-        <h3>Gated phases</h3>
-        <p>Frame the problem and build the factory — repo, pipeline, and the rules agents work
-          inside. Each phase ends at a gate a human signs.</p>
-        <div class="chips">
-          <a class="chip" href="docs/companion/phase-0.html">0 · Discovery</a>
-          <a class="chip" href="docs/companion/phase-1.html">1 · Requirements</a>
-          <a class="chip" href="docs/companion/phase-2.html">2 · Design</a>
-          <a class="chip" href="docs/companion/phase-3.html">3 · Foundation</a>
-        </div>
+    <h2 class="kicker">Three doors</h2>
+    <h2 class="title">Everything on this site answers one of three questions</h2>
+    <p class="sub">Pick the question you arrived with. Every phase has its own page under <em>Run</em>
+      — the idea, the mechanics, the worked example and the steps, on one page.</p>
+    <div class="doors">
+      <div class="door">
+        <span class="q">Understand</span>
+        <h3>What is this, and why?</h3>
+        <p>For anyone deciding whether to buy it, sell it, or trust it. Ten minutes, no vocabulary required.</p>
+        <ul>
+          <li><a href="docs/sponsor.html">The three-minute version</a><small>What you decide, what you see, what it costs</small></li>
+          <li><a href="docs/shape.html">The shape of an engagement</a><small>The eight signed decisions, explained</small></li>
+          <li><a href="docs/journey.html">One engagement, start to finish</a><small>Harbor Mutual as a story — ten stops</small></li>
+          <li><a href="docs/when-things-change.html">What happens when things change</a><small>New work · a design disproved · a requirement revised · a gate fails</small></li>
+          <li><a href="GOLD-STANDARD.html">The Delivery Standard</a><small>The full text, fourteen sections</small></li>
+        </ul>
+        <div class="time">Reading order for a sponsor: three minutes → the shape → the story.</div>
       </div>
-      <div class="panel build">
-        <div class="tag">Build</div>
-        <h3>The loop runs</h3>
-        <p>The middle isn't phased. Every story runs Intent → Delegate → Discern and ships before
-          the next starts — checking happens per change, never piled up for later.</p>
-        <div class="chips">
-          <a class="chip" href="docs/companion/build-loop.html">The build loop</a>
-          <a class="chip" href="docs/companion/day-in-the-loop.html">A day in the loop · film</a>
-          <a class="chip" href="docs/companion/the-rails.html">The rails (CI/CD)</a>
-          <a class="chip" href="docs/team.html">The team</a>
-        </div>
+      <div class="door run">
+        <span class="q">Run</span>
+        <h3>How do we do it, this week?</h3>
+        <p>The phase pages — how it works, the worked example, the steps, the reference, and what brings you back.</p>
+        <ul>
+          <li><a href="docs/companion/phase-0.html">Discovery</a> · <a href="docs/companion/phase-1.html">Requirements</a> · <a href="docs/companion/phase-2.html">Design</a> · <a href="docs/companion/phase-3.html">Foundation</a><small>The opening — four signed gates</small></li>
+          <li><a href="docs/companion/build-loop.html">The Build Loop</a> · <a href="docs/companion/the-rails.html">The Rails</a> · <a href="docs/companion/day-in-the-loop.html">A Day in the Loop</a><small>The middle — no phases, one loop, on film</small></li>
+          <li><a href="docs/companion/phase-7.html">Documentation</a> · <a href="docs/companion/phase-8.html">Deployment</a> · <a href="docs/companion/phase-9.html">Monitoring</a> · <a href="docs/companion/phase-c.html">Close &amp; Transfer</a><small>The close — four signed gates</small></li>
+          <li><a href="docs/team.html">The Team</a><small>Old roles to new roles, and what nobody does any more</small></li>
+        </ul>
+        <div class="time">Named on the surface, numbered underneath — the URLs and the plugin's phase ids don't change.</div>
       </div>
-      <div class="panel">
-        <div class="tag">Close</div>
-        <h3>Gated phases</h3>
-        <p>Document the system, ship to production, and hand everything over — until the client can
-          run the loop without us.</p>
-        <div class="chips">
-          <a class="chip" href="docs/companion/phase-7.html">7 · Docs</a>
-          <a class="chip" href="docs/companion/phase-8.html">8 · Deploy</a>
-          <a class="chip" href="docs/companion/phase-9.html">9 · Monitor</a>
-          <a class="chip" href="docs/companion/phase-c.html">C · Close</a>
-        </div>
-      </div>
-    </div>
-    <p class="sub" style="margin-top:20px;">Want to go deeper? Each phase has a plain-language <a href="docs/companion/phase-0.html"><strong>interactive walkthrough</strong></a> — the idea, the precise mechanics, and a complete worked example, all on one page.</p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2 class="kicker">Start here · by who you are</h2>
-    <div class="cards">
-      <div class="rcard">
-        <h3>New to the method</h3>
-        <div class="role">First time here</div>
-        <ol>
-          <li><a href="docs/cheatsheet.html">Loop cheat-sheet</a> — 20 seconds</li>
-          <li><a href="docs/companion/phase-0.html">The phases, explained</a> — plain-language walkthroughs</li>
-          <li><a href="docs/glossary.html">Glossary</a> — any word that trips you</li>
-          <li><a href="GOLD-STANDARD.html">The standard</a> — the whole method</li>
-        </ol>
-      </div>
-      <div class="rcard">
-        <h3>Joining a pod</h3>
-        <div class="role">On an engagement</div>
-        <ol>
-          <li><a href="GOLD-STANDARD.html">The standard</a>, front to back</li>
-          <li><a href="docs/team.html">The team</a> — find your role</li>
-          <li><a href="docs/companion/build-loop.html">The build loop</a> + <a href="docs/anti-patterns.html">anti-patterns</a></li>
-        </ol>
-      </div>
-      <div class="rcard">
-        <h3>Client or sponsor</h3>
-        <div class="role">Buying / overseeing</div>
-        <ol>
-          <li>The 30-second pitch above</li>
-          <li><a href="docs/faq.html">FAQ</a> — data, decisions, what you'll see</li>
-          <li><a href="docs/companion/phase-c.html">Close &amp; transfer</a> — what we leave behind</li>
-        </ol>
-      </div>
-      <div class="rcard">
-        <h3>Leading or selling it</h3>
-        <div class="role">Engagement owner</div>
-        <ol>
-          <li><a href="GOLD-STANDARD.html#s1">The shape</a> + <a href="GOLD-STANDARD.html#s12">commercial chapter</a></li>
-          <li><a href="docs/faq.html">FAQ</a> — for the objections</li>
-          <li><a href="docs/anti-patterns.html">Anti-patterns</a> — what to watch for</li>
-        </ol>
+      <div class="door install">
+        <span class="q">Install</span>
+        <h3>How do we set it up?</h3>
+        <p>The mechanism — with the plugin as today's default, and one of three options rather than the definition of the method.</p>
+        <ul>
+          <li><a href="docs/choose-a-mechanism.html">Choose a mechanism</a><small>The eight rules, and three ways to enforce them</small></li>
+          <li><a href="docs/with-the-plugin.html">With the claude-code-sdlc plugin</a><small>One engagement, every command, who signs</small></li>
+          <li><a href="docs/whats-installed.html">What's installed</a><small>What lands in the repo and why</small></li>
+          <li><a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit</a> · <a href="docs/harness-kit/RESEARCH.html">Research</a> · <a href="docs/harness-kit/CALL-MAP.html">Call map</a><small>Source of truth, rationale, and how the pieces wire together</small></li>
+        </ul>
+        <div class="time">Cheat-sheet, glossary, FAQ, anti-patterns and the artifact flow live under <em>Reference</em>.</div>
       </div>
     </div>
   </div>
@@ -305,40 +332,26 @@
 
 <section>
   <div class="wrap">
-    <h2 class="kicker">Everything, indexed</h2>
-    <div class="idx">
-      <div class="col">
-        <h3>The standard</h3>
-        <div class="row"><a href="GOLD-STANDARD.html">The Delivery Standard</a></div>
-        <div class="row"><a href="docs/team.html">The Team</a></div>
+    <h2 class="kicker">Where you are</h2>
+    <h2 class="title">Nine named phases, one loop in the middle, and the routes back</h2>
+    <p class="sub">This strip sits under the heading of every phase page: the gates in order, the loop
+      at its true weight, and the recorded ways back from inside the loop when something is learned.</p>
+    <div class="strip">
+      <div class="row">
+        <a class="ph" href="docs/companion/phase-0.html">Discovery<small>problem framed</small></a>
+        <a class="ph" href="docs/companion/phase-1.html">Requirements<small>baseline signed</small></a>
+        <a class="ph" href="docs/companion/phase-2.html">Design<small>architecture chosen</small></a>
+        <a class="ph" href="docs/companion/phase-3.html">Foundation<small>factory proven</small></a>
+        <a class="ph loop-cell" href="docs/companion/build-loop.html">The Build Loop<small>Intent → Delegate → Discern, once per change · 8–16 weeks · the Rails underneath</small></a>
+        <a class="ph" href="docs/companion/phase-7.html">Documentation<small>proven by use</small></a>
+        <a class="ph" href="docs/companion/phase-8.html">Deployment<small>go / no-go</small></a>
+        <a class="ph" href="docs/companion/phase-9.html">Monitoring<small>healthy in prod</small></a>
+        <a class="ph" href="docs/companion/phase-c.html">Close<small>client runs it alone</small></a>
       </div>
-      <div class="col">
-        <h3>Opening phases</h3>
-        <div class="row"><a href="docs/companion/phase-0.html">0 · Discovery</a><a class="ex" href="docs/companion/phase-0.html#example">example</a></div>
-        <div class="row"><a href="docs/companion/phase-1.html">1 · Requirements</a><a class="ex" href="docs/companion/phase-1.html#example">example</a></div>
-        <div class="row"><a href="docs/companion/phase-2.html">2 · Design</a><a class="ex" href="docs/companion/phase-2.html#example">example</a></div>
-        <div class="row"><a href="docs/companion/phase-3.html">3 · Foundation</a><a class="ex" href="docs/companion/phase-3.html#example">example</a></div>
-      </div>
-      <div class="col">
-        <h3>The middle</h3>
-        <div class="row"><a href="docs/companion/build-loop.html">The Build Loop</a><a class="ex" href="docs/companion/build-loop.html#example">example</a></div>
-        <div class="row"><a href="docs/companion/day-in-the-loop.html">A Day in the Loop</a><a class="ex" href="docs/companion/day-in-the-loop.html">film</a></div>
-        <div class="row"><a href="docs/companion/the-rails.html">The Rails · CI/CD</a><a class="ex" href="docs/companion/the-rails.html#example">example</a></div>
-      </div>
-      <div class="col">
-        <h3>Closing phases</h3>
-        <div class="row"><a href="docs/companion/phase-7.html">7 · Documentation</a><a class="ex" href="docs/companion/phase-7.html#example">example</a></div>
-        <div class="row"><a href="docs/companion/phase-8.html">8 · Deployment</a><a class="ex" href="docs/companion/phase-8.html#example">example</a></div>
-        <div class="row"><a href="docs/companion/phase-9.html">9 · Monitoring</a><a class="ex" href="docs/companion/phase-9.html#example">example</a></div>
-        <div class="row"><a href="docs/companion/phase-c.html">C · Close &amp; Transfer</a><a class="ex" href="docs/companion/phase-c.html#example">example</a></div>
-      </div>
-      <div class="col">
-        <h3>Reference &amp; on-ramp</h3>
-        <div class="row"><a href="docs/companion/artifact-flow.html">The artifact flow</a></div>
-        <div class="row"><a href="docs/cheatsheet.html">Loop cheat-sheet</a></div>
-        <div class="row"><a href="docs/glossary.html">Glossary</a></div>
-        <div class="row"><a href="docs/faq.html">FAQ</a></div>
-        <div class="row"><a href="docs/anti-patterns.html">Anti-pattern field guide</a></div>
+      <div class="back">
+        <span><b>A design disproved:</b> a spike produces the evidence → the decision is revised as a HIGH-risk change; the old record is superseded, never erased.</span>
+        <span><b>A requirement changed:</b> revised in place with an owner, a reason and a two-day clock; the gate re-runs so the change is visible, not absorbed.</span>
+        <span><b>A gate fails:</b> nothing advances; the report says what's missing; the fix rides the loop. <a href="docs/when-things-change.html">All the routes →</a></span>
       </div>
     </div>
   </div>
@@ -346,8 +359,10 @@
 
 <footer class="foot">
   <div class="wrap">
-    Intent-Driven Development · The Delivery Standard · MCKRUZ/intent-driven-development v1.0 ·
-    Owner: Matt Kruczek. Every page exists as a markdown source and a paired HTML render.
+    Intent-Driven Development · The Delivery Standard · MCKRUZ/intent-driven-development v1.1 ·
+    Owner: Matt Kruczek. The companion pages are the published form of each phase; the markdown
+    under <code>docs/</code> is the source of record. The drawing is
+    <code>docs/assets/shape-of-an-engagement.png</code>, built from its own HTML source beside it.
   </div>
 </footer>
 

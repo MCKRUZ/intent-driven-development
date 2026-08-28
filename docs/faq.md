@@ -60,6 +60,30 @@ Checking the work with something stronger than a glance, and matching the depth 
 Everything else leans on it. Plenty of teams say review is the bottleneck now; almost none have
 built the checking to handle the volume. That gap is the reason the method exists.
 
+**Isn't this just waterfall with a loop in the middle?**
+
+No, and the difference is where the gates sit. Waterfall gates on dates: the design phase ends when
+the calendar says so, and whatever was signed by then is what gets built. Here the gates sit on
+**decisions** — a phase ends when a named human signs a specific thing (the problem framed, the
+baseline, the architecture, the factory proven), and the phases overlap while that happens. The
+middle isn't phased at all: one short loop, repeated per story, with the checking inside every pass
+instead of a testing stage at the end. And a signed decision isn't frozen — any of them can be
+reopened from inside the loop through a recorded route
+([what happens when things change](when-things-change.md); standard, section 5.3b). What's refused
+is the quiet version: code drifting from a decision nobody updated.
+
+**What happens when requirements change in month three?**
+
+It depends on what changed, and there are three routes. Most change is just new work: it goes to
+weekly triage as a story, gets a spec, and rides the loop — nothing upstream reopens. If something
+learned disproves a design decision, a spike produces the finding, the ADR is revised as a HIGH-risk
+spec, and the old record is marked superseded. If a signed requirement itself changes, it's revised
+in place — a named owner, a written reason, the two-business-day decision clock, the downstream
+artifacts it touches listed — and the phase's gate is re-run so the change is visible rather than
+absorbed. One commercial note: reopening a Phase 0 decision (the problem, the metric, the PO mode,
+the tooling) is a SOW conversation, because billing milestones map to gates, not dates. What we
+won't do is absorb the change quietly and let the code drift from the plan.
+
 ## About a client engagement
 
 **Our requirements are always a bit vague. Will this still work?**

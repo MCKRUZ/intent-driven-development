@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
-      <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a class="active" href="the-rails.html">The Rails</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -48,8 +74,29 @@
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
     <a href="build-loop.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; The Build Loop</a>
-    <span style="font-weight:700;color:#1a2332;">The Rails · CI/CD</span>
-    <a href="phase-7.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase 7 →</a>
+    <span style="font-weight:700;color:#1a2332;">The Rails</span>
+    <a href="phase-7.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Documentation &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop here" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> An escaped bug's “which check should have caught it?” answer, a gate that is present but not proven, or a check that fires on every PR without demanding action comes back as a spec against the harness or the workflows, reviewed like any other change.</span>
+      <span><b>If a rail goes red:</b> Fix the cause, never suppress the check. A correctness override is a named label audited in the PR timeline; the emergency bypass needs two named people, an exception label and a Retro+ item; two exceptions in a month means the gate or the specs are wrong.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor episodes · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the precise mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor episodes · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the precise mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 
@@ -2243,10 +2291,115 @@
   </section>
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; The Rails</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">The rails are proven in Foundation and then run under every change for the rest of the
+        engagement. They are reopened when the loop learns something about them, and the loop learns
+        something about them every week.</p>
+      <ul>
+        <li><strong>An escaped bug names a missing check.</strong> Retro+ asks "which check should have caught
+          it?" and the answer is a rail that does not exist yet, or one that exists and did not fire. The
+          harness change is the reopening.</li>
+        <li><strong>A rail is present but no longer proven.</strong> A renamed job drops out of the required
+          checks; a scanner starts exiting zero with findings; the grader posts "ran" without reading the
+          spec. Green that means nothing is the most expensive state a rail can be in.</li>
+        <li><strong>A check fires on every PR without demanding action.</strong> A correctness reviewer that
+          flags the same false positive weekly trains people to override it. That is the alert-fatigue rule
+          applied to the pipeline: retune the check or remove it, but do not let it become noise.</li>
+        <li><strong>Overrides start to cluster.</strong> Two emergency exceptions in a month, or a correctness
+          override on every third PR, means the gate or the specs are wrong. The cluster is the trigger, and
+          the fix is upstream of the label.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">What never reopens a rail</div>
+        <p>A red check on a change someone wants merged today. The rails are changed by a spec against the
+          harness, reviewed and approved by someone other than the author, never by editing the workflow on
+          the branch that is failing it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>A change to what can reach main is a HIGH change</h2>
+      <p class="lead">The rails decide what merges. A change to them is checked harder than the changes they
+        check.</p>
+      <ul>
+        <li><strong>Risk tier: HIGH</strong> for anything that touches branch protection, a required check, a
+          hook that blocks, identity, secrets, or the deploy and promotion workflows. MEDIUM for grader
+          prompts, skill wording, and advisory checks.</li>
+        <li><strong>What gets re-run.</strong> The rail's own proof: the Stop hook shown blocking, the grader
+          shown posting, deploy-dev shown rolling back, the security workflow shown failing a seeded finding.
+          A rail change without a run that shows the rail working is not done.</li>
+        <li><strong>Who approves.</strong> Not the Setup Owner alone. The deputy in Build; the client's Setup
+          Owner from Close onward, because by then it is their pipeline.</li>
+        <li><strong>The decision clock.</strong> Two business days when the change needs a client admin (a
+          protection rule, a role, a secret rotation). A stalled admin action is a gating dependency raised at
+          steering, not absorbed.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>The harness spec, the proof run, and the override trail</h2>
+      <p>A rail change is a spec with a PR, and the PR carries the run that proves the rail after the change.
+        If it came from an escaped bug, the Retro+ item is the reason on the decision-log row. Overrides are
+        recorded where they happen: a correctness override is a named label the PR timeline audits, an
+        emergency merge carries the <code>gate-exception</code> label and the two names, and the count of both
+        is read at Retro+ every week.</p>
+      <p>In our toolchain, <code>/sdlc-harness</code> audits what is installed against what is documented and
+        finds the rail that is present but silent; <code>/sdlc-revise</code> changes the one harness artifact,
+        opens the decision-log row with a named owner and the two-day clock, re-gates it, and lists what
+        depends on it; and <code>/sdlc-refresh</code> proposes the documentation edits after the change merges,
+        for a human to confirm.</p>
+      <ul>
+        <li>Decision log: owner, reason (the escaped bug, the silent rail, the override cluster), date, clock.</li>
+        <li>The harness spec and PR with non-author approval and the proof run attached.</li>
+        <li>Override labels on the PRs that carried them, audited in the timeline, counted at Retro+.</li>
+        <li>The Retro+ item that named the missing check, and the harness change that closed it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If a rail goes red</p>
+      <h2>Fix the cause, never the check</h2>
+      <p class="lead">A red rail means the change does not merge. Nothing else changes: not the rail, not the
+        threshold, not the required-checks list.</p>
+      <ul>
+        <li>A failing test is fixed, not retried until it passes. A coverage miss gets tests, not an exclusion.
+          A grader verdict is answered on the branch and a fresh grader run judges the answer.</li>
+        <li>A correctness override is a named label, applied on the PR and audited in its timeline. The
+          non-author approval rule still applies, so the person clearing the defect is never the author.</li>
+        <li>The emergency bypass is the one escape hatch: the Pod Lead plus one other human, an exception
+          label, and a Retro+ agenda item. It is deliberately expensive.</li>
+        <li>Two exceptions in a month is not bad luck. It means the gate or the specs are wrong; fix that, and
+          do not normalize the bypass.</li>
+      </ul>
+      <div class="aha">
+        <div class="lbl">Why suppression is the failure, not the red</div>
+        <p>A red rail is the pipeline doing its job. A rail that was quietly loosened so a change could pass is
+          a rail that will pass the next change too, and nobody will know it did.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
     The Rails · CI/CD &mdash; a companion to <a href="the-rails.html">The Rails (CI/CD &amp; DevOps)</a> ·
-    Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

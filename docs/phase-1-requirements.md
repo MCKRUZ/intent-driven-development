@@ -260,6 +260,12 @@ Phase 1 closes when all of these are true, verified at the phase review:
 - [ ] The Phase 2 handoff carries the open questions under their original IDs
 - [ ] A named human (PO + sponsor side) approved the advance — gates report, humans decide
 
+**If the gate fails.** Nothing advances. The report names the requirement that lacks a testable
+criterion, a source or outcome trace, or a measurement basis, and the decision-list item that
+has no owner. The fix is a rewrite, owned and dated like any other change, and the gate runs
+again on the changed set. Gates report and a named human advances; a gate that is waved through
+with a known gap has simply moved the gap into the build, where it costs more.
+
 ---
 
 ## 6. What goes wrong in Phase 1

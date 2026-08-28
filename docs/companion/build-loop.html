@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
-      <a href="build-loop.html">The Build Loop</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
+      <a class="active" href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,9 +73,30 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="phase-3.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">← Phase 3</a>
+    <a href="phase-3.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Foundation</a>
     <span style="font-weight:700;color:#1a2332;">The Build Loop</span>
-    <a href="the-rails.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: The Rails →</a>
+    <a href="the-rails.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: The Rails &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop here" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From here, back to a gate:</b> A spike whose finding invalidates an ADR becomes a HIGH-risk revision spec, with the old ADR marked superseded. A requirement proved wrong is revised in place with a named owner, a two-day clock and its impact listed. New work enters only through intent triage, never from a chat.</span>
+      <span><b>If this gate fails:</b> A change that fails any rung goes back to the same Orchestrator on the same branch, and every gate, including a fresh grader run, runs again on the updated PR. The only bypass is a true emergency: the Pod Lead plus one other human, an exception label and a Retro+ item.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor week · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the precise mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor week · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the precise mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 
@@ -2136,9 +2184,117 @@ per-policy independence for the no-policy path.</code></pre>
 
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; The Build Loop</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">The loop is where every reopening is discovered and where every fix is carried. This
+        track is about the loop's own routes back: the moments a change inside it has to go upstream to a
+        signed decision, and the moments a signed decision sends work back into it.</p>
+      <ul>
+        <li><strong>A spike finding invalidates a design decision.</strong> The spike answered a named unknown,
+          and the answer is that an ADR's premise is false. The route is the ADR revision as a HIGH-risk
+          spec, with the old ADR marked superseded.</li>
+        <li><strong>A spec cannot be made ready.</strong> Definition of Ready fails for a reason no rewrite fixes:
+          nobody knows the answer. That is a spike, bounded at triage, not a spec written about fiction.</li>
+        <li><strong>A requirement turns out wrong under a real case.</strong> The grader fails a criterion that
+          no honest implementation can meet. The requirement is revised in place with an owner and a clock,
+          and the specs that traced to it are listed as at risk.</li>
+        <li><strong>A phase gate sends work back.</strong> A cold walk stalls, a rollback rehearsal fails, a drill
+          is not answered. Each becomes a spec, and the spec rides the loop like any other, through the same
+          gates, before the phase gate runs again.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The one route that does not exist</div>
+        <p>New work from a chat. Every change enters through intent triage, where the Pod Lead decides whether
+          it is a spec, a revision, a spike, or nothing. A change that skips triage has no spec, so the grader
+          has nothing to grade, so the ladder has nothing to climb.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>The risk tier sets the climb; the reopening sets the tier</h2>
+      <p class="lead">Nothing in the loop is free of the ladder, and a reopening climbs higher than the change
+        that revealed it.</p>
+      <ul>
+        <li><strong>An ADR revision is HIGH.</strong> Grader, correctness review, the security workflow, and a
+          named human sign-off with a sentence in the PR. The spike that earned it ran first, on a
+          <code>spike/</code> branch that cannot merge.</li>
+        <li><strong>A requirement revision is tiered by blast radius.</strong> One criterion's wording is LOW.
+          A change that alters merged behavior is at least MEDIUM, and HIGH if it touches identity, money or
+          data. The at-risk list decides, not the size of the diff.</li>
+        <li><strong>What gets re-run.</strong> The upstream phase gate on the changed artifact, and every gate on
+          each dependent spec as it comes back through: a fresh grader run on the updated PR, never the old
+          verdict reused.</li>
+        <li><strong>The decision clock.</strong> Two business days for the PO (or the proxy, logged) on any
+          decision the reopening needs. Dependent specs are blocked at triage until it lands, and the block is
+          on the board, not in someone's head.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>Every reopening is a row, a revision, and a list</h2>
+      <p>The record is the same shape whatever was reopened: a decision-log row with an owner, a reason, a
+        date and a clock; the revised artifact with its previous version kept (an ADR marked superseded, a
+        requirement with its old text in history); and the list of what the change put at risk, each item
+        with its re-gate result. A spike adds its written finding, committed to the repo even though its
+        code is deleted.</p>
+      <p>In our toolchain, <code>/sdlc-spike</code> opens the bounded investigation and commits the finding;
+        <code>/sdlc-revise</code> changes one upstream artifact, opens the decision-log row with a named owner
+        and the two-day clock, re-runs the phase gate, and lists what the change put at risk; and after the
+        fixing spec merges, <code>/sdlc-refresh</code> proposes the upstream edits it implies, for a human to
+        confirm one by one.</p>
+      <ul>
+        <li>Decision log: owner, reason, date, clock, decision, what was superseded.</li>
+        <li>The spike finding: what was assumed, tested against what, what was found, did the assumption
+          survive.</li>
+        <li>The revision spec and its PR, with the sign-off the tier demands.</li>
+        <li>The at-risk list with re-gate results, and the Retro+ item if a check should have caught it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>Back to the same Orchestrator, on the same branch, up every rung again</h2>
+      <p class="lead">A failed rung is not a note for later. The change does not merge, and nothing about it
+        advances until it does.</p>
+      <ul>
+        <li>The failing check says what is missing: the grader's check-by-check verdict, the correctness
+          reviewer's high-confidence defect, the Checker's bounce with a reason.</li>
+        <li>The fix goes back to the Orchestrator who owns the spec, on the same branch. Every gate, including
+          a fresh grader run, runs again on the updated PR. A stale green does not carry over.</li>
+        <li>The only bypass is a true emergency: the Pod Lead plus one other human, an exception label, and a
+          Retro+ agenda item. Two exceptions in a month means the gate or the specs are wrong; fix that, do
+          not keep excepting.</li>
+        <li>A phase gate is stricter still. It has no bypass. When it fails, the report says what is missing,
+          the fix rides this loop, and the gate runs again.</li>
+      </ul>
+      <div class="aha">
+        <div class="lbl">Why the loop absorbs every reopening</div>
+        <p>Because the loop is the only place in the engagement where a change is proven by something other
+          than its author. Routing a reopening around it would mean the one change most likely to be wrong is
+          the one change nobody checked.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
-    The Build Loop — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    The Build Loop — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

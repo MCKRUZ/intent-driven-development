@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a class="active" href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,8 +73,29 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <span style="font-weight:700;color:#1a2332;">Phase 0 · Discovery</span>
-    <a href="phase-1.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase 1 →</a>
+    <span style="font-weight:700;color:#1a2332;">Discovery</span>
+    <a href="phase-1.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Requirements &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate here" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> A spike or a metric read that contradicts the problem statement or the outcome in the constitution. This is the most expensive route back: the constitution and the success metric are what the SOW was priced against, so reopening them is a sponsor conversation and a SOW change, not a spec.</span>
+      <span><b>If this gate fails:</b> Nothing advances. The day-10 report names what is missing (an unsigned constitution, a metric never read from its source, an unresolved PO or tooling precondition) and the phase stays open until it is fixed; the SOW's gate-based billing makes that the client's problem to unblock.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -56,7 +103,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 0 · Discovery</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Discovery</p>
     <p class="eyebrow">Phase 0 · Discovery</p>
     <h1>Discovery, explained
       <span class="sub">What the first two weeks of an engagement are really for — the idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference.</span>
@@ -71,8 +118,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 <main id="track-glance" class="track active">
@@ -2365,9 +2413,117 @@
 
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; Discovery</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">Discovery is the phase you least want to reopen, because everything downstream was
+        priced and planned against what it decided. It still happens. These are the routes back.</p>
+      <ul>
+        <li><strong>The metric cannot be read the way the constitution says.</strong> Harbor's 11.4-day median
+          was read live from report CR-204, in the room, during Discovery. If Build discovers the source system cannot produce the
+          number on a schedule (the report is hand-assembled, the field is not what everyone assumed), the
+          success metric itself is in question, and only the sponsor can answer it.</li>
+        <li><strong>A spike proves the outcome cannot be moved by the system in scope.</strong> The problem
+          statement said the delay lived in verification; a spike shows most of it lives in a queue the
+          engagement never touched. That is not a design change. It is a different problem.</li>
+        <li><strong>The PO commitment lapses.</strong> The named product owner stops attending triage or
+          answering the decision list inside two business days. The PO clause was a Phase 0 precondition; a
+          lapse reopens it, and the proxy rider is the recorded alternative, not a quiet workaround.</li>
+        <li><strong>The sponsor changes, or the business does.</strong> A new sponsor inherits a constitution
+          they did not sign. Re-signing it is a Discovery activity, however short.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The rule that makes this rare</div>
+        <p>A Phase 0 decision is never revised by editing the constitution in place. It is reopened, by name,
+          with the sponsor in the room, and the old version stays in the record with the date it stopped
+          being true.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>The most expensive reopening in the standard</h2>
+      <p class="lead">Every other phase reopens as a spec. This one reopens the statement of work.</p>
+      <ul>
+        <li><strong>Risk tier: always HIGH.</strong> The constitution and the success metric are the roots of
+          every trace in the repo. Changing either puts every requirement, ADR and spec that traces to it on
+          the at-risk list, and the list is long by construction.</li>
+        <li><strong>The commercial consequence.</strong> Billing milestones map to phase gates, and the Phase 0
+          gate report was the acceptance artifact the SOW was priced against. A reopened outcome statement or
+          metric is therefore a SOW conversation with the sponsor before it is anything else. A reopened PO
+          decision triggers the proxy rider, which changes who makes product decisions and how they are
+          ratified.</li>
+        <li><strong>What gets re-run.</strong> The Phase 0 gate battery: artifacts exist, complete, no
+          placeholders; the metric read from its source again; the sponsor's signature on the revised
+          constitution; a named human advancing. Downstream, the Phase 1 gate re-runs on every requirement whose
+          outcome trace changed.</li>
+        <li><strong>The decision clock.</strong> Two business days for the sponsor-side decision, the same clock
+          as any decision-list item. If the sponsor needs longer, that is itself recorded, because the loop is
+          paused on it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>A decision-log row, a superseded constitution, a SOW amendment</h2>
+      <p>The reopening is a change with an owner, a reason, a date and a clock. It lands as a row in the
+        decision log the sponsor ratifies at steering, and it points at the artifact it changed. The previous
+        constitution (or metric definition, or PO decision) is kept and marked superseded with the date; it is
+        never edited over, because the history of what was believed on day 10 is part of why the engagement
+        looks the way it does.</p>
+      <p>In our toolchain, <code>/sdlc-revise</code> is the mechanism: it changes one artifact, opens the
+        decision-log row with a named owner and the two-day clock, re-runs the phase gate, and lists what the
+        change put at risk downstream. After the spec that motivated the reopening merges,
+        <code>/sdlc-refresh</code> proposes the upstream edits (the handoff, the requirements that traced to
+        the old outcome) and a human confirms each one.</p>
+      <ul>
+        <li>Decision log: owner, reason, date opened, clock, date decided, what was superseded.</li>
+        <li>The revised constitution with a fresh sponsor signature; the old one marked superseded.</li>
+        <li>The SOW amendment or rider, if the change touched a priced precondition.</li>
+        <li>The phase gate report from the re-run, which is the new acceptance artifact.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>Nothing advances, and the SOW says so</h2>
+      <p class="lead">Gates report; a named human advances. A gate that reports a gap does not get advanced by
+        a human who hopes the gap closes later.</p>
+      <ul>
+        <li>The day-10 report says what is missing: an unsigned constitution, a metric never read from its
+          source system, an unresolved PO decision, no live Anthropic access and no signed fallback rider.</li>
+        <li>The fix is the missing thing itself, not a note promising it. The metric gets read. The sponsor
+          signs. The rider is signed or the PO is named.</li>
+        <li>The gate runs again. There is no partial pass; the phase stays open until it passes.</li>
+        <li>The only bypass in the standard is the merge-gate emergency (two named people, an exception label,
+          a Retro+ item), and it does not apply to a phase gate. Nothing in Phase 0 is an emergency.</li>
+      </ul>
+      <div class="aha">
+        <div class="lbl">Why the billing is part of the mechanism</div>
+        <p>Two Phase 0 exit conditions (the PO decision and client-procured tooling) are SOW preconditions with
+          billing teeth. When one of them blocks the gate on day 10, the phase does not close and the clock on
+          Phase 1 does not start, which makes the block the client's problem to unblock rather than a cost the
+          pod absorbs.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
-    Phase 0 · Discovery — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Phase 0 · Discovery — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

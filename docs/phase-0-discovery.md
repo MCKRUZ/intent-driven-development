@@ -314,6 +314,13 @@ Two of these are SOW preconditions with billing teeth (the PO decision and tooli
 is unresolved on day 10, the phase does not close, and the SOW's gate-based billing is what
 makes that the client's problem to unblock rather than ours to absorb.
 
+**If the gate fails.** Nothing advances. The day-10 report says exactly what is missing: an
+unsigned constitution, a metric that was never read from its source system, a PO decision or
+tooling precondition still open. The phase stays open until each item is fixed and the gate is
+run again; there is no partial pass and no advancing on a promise. The SOW's gate-based billing
+is what makes an unresolved precondition the client's problem to unblock rather than ours to
+absorb.
+
 ---
 
 ## 6. What goes wrong in Phase 0

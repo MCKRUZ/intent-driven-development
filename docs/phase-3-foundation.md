@@ -314,6 +314,13 @@ Phase 3 closes — and the engagement enters the Build loop — when all of thes
 - [ ] The Build cadences are scheduled and the WIP cap and review-wait tripwire are set
 - [ ] A named human on each side approved the advance — gates report, humans decide
 
+**If the gate fails.** Nothing advances into Build. The report says which rail was present but
+not proven: the Stop hook that did not block, the grader that did not post, deploy-dev that did
+not roll back, the HIGH path never exercised end to end. The fix is a spec against the harness
+or the workflows, and the gate runs again with the rail demonstrated, not described. A skeleton
+slice that exposed a design gap goes back to the relevant ADR explicitly; the gate does not pass
+on a patch around it in code.
+
 ---
 
 ## 6. What goes wrong in Phase 3

@@ -5,8 +5,11 @@ every engagement: who does what, what Claude does, what the templates are, how s
 DevOps are structured, and what has to be true before anything merges, ships, or gets handed over.
 
 **Owner:** Matt Kruczek. **Deputy:** named per the rule in section 4 (no role without a deputy).
-**Version:** 1.0 (2026-06-10). Changes to this standard go through a PR reviewed by someone who
+**Version:** 1.1 (2026-08-28). Changes to this standard go through a PR reviewed by someone who
 didn't write it, same as everything else.
+
+1.1 — the site reorganised around Understand / Run / Install; section 5.3b (reopening a decision)
+added; section 1 redrawn.
 
 This standard describes the **method as a concept**, kept independent of any one tool. Where it
 names a specific tool — the SDLC orchestration plugin we drive it with (`claude-code-sdlc`), the
@@ -20,8 +23,8 @@ The method synthesizes two bodies of work: the Intent-Driven Development methodo
 our example tool for running the phases). Where the two disagreed, this document is the
 resolution; where it is silent, Intent-Driven Development is the tiebreaker.
 
-> **The one rule.** Claude drafts and interrogates; humans decide and own. Every gate in this
-> standard exists to enforce it: a machine reports, a named human signs.
+> **The one rule.** The agent drafts and interrogates; a named human decides and owns. Every gate
+> in this standard exists to enforce it: a machine reports, a named human signs.
 
 > **New here?** This document is the full reference and assumes the vocabulary. For a softer way
 > in: the [loop cheat-sheet](docs/cheatsheet.md) is the method in 20 seconds, the
@@ -56,25 +59,27 @@ plugin), and only for its phase structure — deliberately with less automation 
 Nothing about the shape below depends on that tool; any phase-gating mechanism that keeps a human
 in the loop would do.
 
-```
-OPEN (gated phases — automated checks, then a human signs to advance)
-  Phase 0  Discovery        problem, outcomes, constraints, tooling approval, PO decision
-  Phase 1  Requirements     epics, stories, NFRs (drafted by Claude, owned by humans)
-  Phase 2  Design           architecture, ADRs, API contracts (Claude proposes 2-3, human picks)
-  Phase 3  Foundation       the factory built; thinnest end-to-end slice deployed to client dev
+![The shape of an engagement — eight signed decisions around one continuous loop](docs/assets/shape-of-an-engagement.png)
 
-BUILD (the build loop — continuous, one piece of work at a time; replaces the batch middle phases)
-  for every story:  Intent -> Delegate -> Discern -> merged & deployed to dev
-  weekly cadence:   intent triage, flow check, retro+, setup review
-  biweekly:         steering with the client (demo + outcome scorecard)
-  hardening passes: scheduled, not a phase — see 5.6
+Eight signed decisions, in order, around one continuous loop:
 
-CLOSE (gated phases — automated checks, then a human signs to advance)
-  Phase 7  Documentation    README, API docs, RUNBOOK (Claude drafts, humans verify by using them)
-  Phase 8  Deployment       promote to prod + release ceremony (pipeline already exists from Phase 3)
-  Phase 9  Monitoring       alerts, incident response, retrospective
-  Phase C  Close & Transfer consulting-only: client owns the harness, runs the loop solo, we leave
-```
+- **Open**
+  - Problem framed (Discovery) — one metric, PO named, keys agreed
+  - Baseline signed (Requirements) — epics, stories, NFRs; drafted by the agent, owned by humans
+  - Architecture chosen (Design) — two or three options proposed, one picked and recorded as ADRs
+  - Factory proven (Foundation) — harness, rails, and the thinnest end-to-end slice live in client dev
+- **The loop** — for every story, Intent → Delegate → Discern, merged and deployed to dev; weekly
+  triage, flow check, Retro+; biweekly steering with the client; hardening passes scheduled, not
+  phased (section 5)
+- **Close**
+  - Docs proven by use (Documentation) — a stranger runs the system from the README and the RUNBOOK
+  - Go/no-go (Deployment) — rollback rehearsed, then a named human says ship
+  - Healthy in production (Monitoring) — alerts from real baselines, the incident drill run, the retro held
+  - Client runs it alone (Close & Transfer) — the client team runs a spec end to end without us driving
+
+Gates sit on decisions, not on dates. A signed decision can be reopened from inside the loop
+(section 5.3b) — what the standard forbids is the quiet version, code that drifts from a decision
+nobody updated.
 
 Phase advancement is **always manual**. Any auto-advance the orchestration tool offers is turned
 off. Gates tell you whether you _may_ advance; a named human decides whether you _do_.
@@ -107,9 +112,9 @@ billing milestones to phase gates, not to dates (section 12).
 
 ## 2. The human/AI collaboration model, phase by phase
 
-The single most important rule: **Claude drafts and interrogates; humans decide and own.** Our
-orchestration tooling can automate much of this; we deliberately run it with less automation than
-it offers. The table below is the contract for every phase: what the human drives, what Claude
+The single most important rule: **The agent drafts and interrogates; a named human decides and
+owns.** Our orchestration tooling can automate much of this; we deliberately run it with less
+automation than it offers. The table below is the contract for every phase: what the human drives, what Claude
 does, and where the mandatory stops are.
 
 | Phase              | Human drives                                                                                                       | Claude does                                                                                                                                                | Mandatory human stops                                                                                            |
@@ -317,6 +322,33 @@ Spikes are how the design gate stays honest rather than becoming a fiction: Phas
 evidence found later is allowed to change the decision through a gated route.
 
 > Deep-dive: `docs/build-loop.md` §3a.
+
+### 5.3b Reopening a decision (when something learned changes a signed gate)
+
+A gate signs a decision, not a date, and the loop is where most of what changes a decision gets
+learned. Three routes exist, and every one of them leaves a record:
+
+- **New work** — the normal case. It enters through weekly intent triage as a story, gets a spec,
+  and rides the loop like everything else. Nothing upstream is reopened.
+- **A design decision is disproved.** A spike produces the finding (section 5.3a); the ADR is
+  revised as a HIGH-risk spec and the old record is marked superseded, so the history shows both
+  what was decided and why it changed.
+- **A signed requirement changes** after the Phase 1 baseline. It is revised in place with a named
+  owner, a written reason, the two-business-day decision clock, and the downstream artifacts it
+  touches listed (design, specs, tests, docs); then the phase's gate is re-run so the change is
+  visible rather than absorbed. When a merged change has drifted from its requirement, the same
+  route runs in reverse — the merged work proposes the upstream edit, and a named human confirms
+  it.
+
+Reopening a Phase 0 decision — the problem, the metric, the PO mode, the tooling — is the most
+expensive kind, and it is a SOW conversation rather than a triage item: billing milestones map to
+gates (section 12), so moving the frame moves the money.
+
+In our toolchain this is `/sdlc-revise` (one artifact, owner and clock, re-gate, blast radius
+shown) and `/sdlc-refresh` (back-propagation after a merge); the concept is the recorded
+reopening, not the command.
+
+What is never allowed is the quiet drift — code that no longer matches a decision nobody updated.
 
 ### 5.4 Weekly cadence
 
@@ -531,7 +563,8 @@ At every phase boundary an automated gate check runs a fixed battery of validati
 completeness, metrics, compliance, consistency, quality). Gates report; a named human advances.
 (In our toolchain this is the `/sdlc-gate` check — the concept is the battery plus the human, not
 the command.) Override rules: the mechanical gates are never overridden; a quality-gate override
-requires written justification recorded with the phase state.
+requires written justification recorded with the phase state. A gate can also be re-run because
+a signed decision was reopened (section 5.3b); the re-run is recorded like any other gate outcome.
 
 ### Merge gates
 
@@ -601,10 +634,13 @@ work).
 intent-driven-development/     # cloned locally as delivery-standard/ on some machines
 ├── GOLD-STANDARD.md           # this document
 ├── docs/
-│   ├── profile-swap.md        # (planned — not yet built) what changes off the .NET/Angular/Azure default
-│   ├── commercial.md          # (planned — not yet built) section 12 expanded: SOW language, workshop agenda
-│   ├── data-flow-brief.md     # (planned — not yet built) the client-security one-pager
-│   └── po-onboarding.md       # (planned — not yet built) client PO guide: vague-line test, decision lists
+│   ├── sponsor.md / .html     # the three-minute version, for sponsors
+│   ├── shape.md               # the shape of an engagement (section 1, expanded)
+│   ├── when-things-change.md  # the three routes for reopening a decision (section 5.3b, expanded)
+│   ├── choose-a-mechanism.md  # which install route fits the client repo
+│   ├── with-the-plugin.md     # the claude-code-sdlc install, step by step
+│   └── assets/                # the engagement drawing (section 1) and its source
+├── internal/                  # working notes, punch lists — not part of the standard
 ├── kit/
 │   ├── CLAUDE.md.template
 │   ├── spec-template.md

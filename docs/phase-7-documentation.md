@@ -263,6 +263,12 @@ Phase 7 closes when all of these are true:
 - [ ] The Phase 8 handoff exists: inventory, gaps, deployment checklist, ADR status
 - [ ] A named human on each side approved the advance — gates report, humans decide
 
+**If the gate fails.** Nothing advances. The report names the step the verifier stalled on and
+the drift item with no owner. Each stall is a documentation defect that becomes a spec and rides
+the loop, and the failed cold run is repeated from a clean machine after the fix merges; "they
+managed with a little help" is a fail, not a near pass. The gate runs again on the re-run, not
+on the promise that the document was corrected.
+
 ---
 
 ## 6. What goes wrong in Phase 7
