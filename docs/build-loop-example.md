@@ -109,7 +109,8 @@ ways, no placeholders) plus a vague-line lint, and it checks that the Checking P
 equals the risk tier. A spec it reports NOT READY does not enter the loop.
 
 **Tooling —** `/sdlc-spec` → `new_spec.py` allocates the next NNNN · `check_spec.py` → the Definition
-of Ready · the risk tier is a human call.
+of Ready · the risk tier is a human call · `/sdlc-channel` → binds 0015 to the screen channel
+and injects its dimensions as checks; `check_channel.py` advises beside `check_spec.py`.
 
 **Artifacts out —** `specs/0016-duplicate-claim-merge.md` · `.sdlc/metrics/spec-log.jsonl` (+1 line,
 the DoR result).
@@ -119,7 +120,10 @@ the DoR result).
 > in the security queue, which is read on its own line because it clears slower. Then triage.
 > *"Show adjusters similar past claims"* fails the vague-line test — nobody can write a check for
 > "similar," so it bounces back to Luis and the agents never see it. *The fast-path work queue* (Gail
-> and Marcus's demo feedback; D-09's simple 61%) sharpens into **spec 0015**, MEDIUM. *Duplicate-claim
+> and Marcus's demo feedback; D-09's simple 61%) sharpens into **spec 0015**, MEDIUM. It has a
+> customer surface — the adjuster console — so it is bound to the screen channel and inherits that
+> channel's dimensions, confidence display and approval, as acceptance checks lifted from Phase 2's
+> interaction contract; the screen's risk floor leaves MEDIUM where Maya put it. *Duplicate-claim
 > merge* (D-07) becomes **spec 0016**; Maya tiers it **HIGH** — a wrong merge mangles two
 > policyholders' data. Triage surfaces the silent decision — *what does the second reporter see?* — and
 > routes it to Luis on his 2-day clock rather than letting the agent quietly decide it.
@@ -219,7 +223,7 @@ State marker key:
 | ⚠ the named HIGH-risk sign-off | The risk:high requirement: a named human accepted the risk of merging this change | A named human (Wes Carter) | Wes Carter | no path — nothing writes it | The merge, HIGH tier |
 
 **Only two amber rows — and that is the point.** Compare this with the design phase, where six of
-fourteen outputs had nowhere to live. The Build loop is the best-instrumented stretch of the
+twenty outputs had nowhere to live. The Build loop is the best-instrumented stretch of the
 engagement: the spec, the verdict, and three metrics lines all land at real paths, automatically. The
 only human work without a file is the pair of merge-bar judgments — the non-author approval and the
 named sign-off — and even those live in the PR's own approval state. **Human work is not the problem;
@@ -388,6 +392,7 @@ What actually ran, on the **claude-code-sdlc** plugin, the kit's rails, and the 
 | Flow-check queue numbers | `/sdlc-status` at the daily flow check; the security queue read on its own line |
 | Ready specs (0015, 0016) | Triage is humans; `/sdlc-spec` scaffolds from the kit template (`new_spec.py` allocates NNNN); the Pod Lead tiers them |
 | Definition-of-Ready check per spec | `check_spec.py` — mechanical floor + vague-line lint; appends the result to `.sdlc/metrics/spec-log.jsonl` |
+| Spec 0015 bound to its channel | `/sdlc-channel` — sets `channel:` on the spec, injects the screen channel's dimensions (confidence display, approval) as acceptance checks from Phase 2's `channel-interaction-spec.md`, seeds the harness context if empty; `check_channel.py` advises on a missing dimension |
 | Spec 0015 (MEDIUM), end to end | Rides the loop: plan mode under bounds, Stop hook, `ci.yml` + `grader.yml` on the PR, non-author Checker, `deploy-dev.yml` on merge |
 | Spec 0016 (HIGH), end to end | Same loop plus the HIGH path: `risk:high` label → `security.yml` → the security-reviewer agent; Wes's named sign-off in the PR |
 | The 0016 catch, given memory | `grader.yml` posts the check-by-check verdict as a PR comment; `record_findings.py` appends it (with disposition) to `.sdlc/metrics/findings-log.jsonl` |

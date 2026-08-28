@@ -125,6 +125,10 @@ Nothing enters the loop as a conversation. A story becomes buildable only by cle
 - The harness context the agent will rely on is named — which existing pattern this change
   reuses, so the agent extends the codebase instead of inventing a second way to do something
   it already does.
+- Its discipline inputs are carried, not rediscovered: a story with a customer surface is bound
+  to one channel and inherits that channel's acceptance dimensions as checks; a story that
+  encodes policy traces its checks to the signed business rules; a story touching personal data
+  takes its tier from the data contract's PII classification, made in Design.
 
 The Orchestrator then writes the spec — one file, in the repo, durable across sessions:
 Goal, Why, Scope in/out, Acceptance checks, Risk tier, Delegation plan (what the agent may
@@ -132,6 +136,17 @@ touch, what is gated), Checking plan (how high this change climbs the checking l
 section 4). The spec outlives the chat that produced it; the agent reads it every session,
 the grader grades against it, and when behavior changes later, the spec changes in the same
 PR — a stale spec is a lie that misleads the next reader and the next agent.
+
+**Binding the channel.** A spec with a customer surface names exactly one channel — a screen, a
+voice line, a chat thread — and the binding is mechanical: the channel's descriptor lists its
+acceptance dimensions (a voice line needs barge-in and readback; a screen needs confidence
+display and approval), and each one becomes a concrete acceptance check on the spec, taken from
+the Design-phase interaction contract where it exists. The descriptor also carries a risk floor,
+which can raise the spec's tier and never lower it. Once injected, the checks are ordinary
+acceptance checks; nothing downstream knows where they came from. An advisory check flags a
+bound spec that is missing one of its channel's dimensions — it advises, it does not block. In
+our toolchain the binding is `/sdlc-channel`; it also seeds the harness context from the
+descriptor when the spec's is empty.
 
 **The risk taxonomy** (it lives in the harness so agents see it too):
 

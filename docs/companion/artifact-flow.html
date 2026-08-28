@@ -154,13 +154,13 @@
           <tr>
             <td><a href="phase-1.html#example"><strong>1 · Requirements</strong></a></td>
             <td><code>.sdlc/artifacts/01-requirements/</code></td>
-            <td><span class="tag">requirements.md</span> <span class="tag">non-functional-requirements.md</span> <span class="tag">epics.md</span></td>
+            <td><span class="tag">requirements.md</span> <span class="tag">non-functional-requirements.md</span> <span class="tag">epics.md</span><br><span class="dim">conditional &mdash; when the trigger applies:</span> <span class="tag green">feature-brief.md</span> <span class="tag green">business-rules.md</span> <span class="tag green">golden-scenarios.md</span></td>
             <td><code>phase2-handoff.md</code> &mdash; carries the <strong>AQ-NN</strong> architectural questions</td>
           </tr>
           <tr>
             <td><a href="phase-2.html#example"><strong>2 · Design</strong></a></td>
             <td><code>.sdlc/artifacts/02-design/</code></td>
-            <td><span class="tag">design-doc.md</span> <span class="tag">api-contracts.md</span> <span class="tag">adrs/</span> <span class="tag">adr-registry.md</span></td>
+            <td><span class="tag">design-doc.md</span> <span class="tag">api-contracts.md</span> <span class="tag">adrs/</span> <span class="tag">adr-registry.md</span><br><span class="dim">conditional &mdash; when the trigger applies:</span> <span class="tag green">data/data-contract.md</span> <span class="tag green">data/data-readiness.md</span> <span class="tag green">data/lineage-audit.md</span> <span class="tag green">experience/user-journey.md</span> <span class="tag green">experience/surface-layout.md</span> <span class="tag green">experience/channel-interaction-spec.md</span></td>
             <td><code>phase3-handoff.md</code></td>
           </tr>
           <tr>
@@ -172,7 +172,7 @@
           <tr>
             <td><a href="build-loop.html#example"><strong>The Build loop</strong></a></td>
             <td><code>.sdlc/artifacts/build/</code></td>
-            <td class="dim">none &mdash; the loop is flagged <code>continuous: true</code> and has <strong>no batch artifact gate</strong>. Checking happens per change, at the merge bar. It ends when a <strong>human declares the backlog feature-complete</strong>, not when a count passes.</td>
+            <td class="dim">none &mdash; the loop is flagged <code>continuous: true</code> and has <strong>no batch artifact gate</strong>. Checking happens per change, at the merge bar. It ends when a <strong>human declares the backlog feature-complete</strong>, not when a count passes. Each spec with a customer surface carries a <code>channel:</code> binding, set at Intent &mdash; that channel's acceptance dimensions become checks on the spec.</td>
             <td><code>phase7-handoff.md</code></td>
           </tr>
           <tr>
@@ -201,6 +201,13 @@
           </tr>
         </tbody>
       </table>
+
+      <p class="note">The <em>conditional</em> chips are the discipline seats' artifacts &mdash; Product and
+        Business requirements in Requirements, Data and Design in Design. Each exists when its trigger applies
+        (an epic spanning more than one surface or persona; a rule book; personal data; a customer surface),
+        is drafted by the seat's agent, and is signed by a named human, with the sign-off recorded at the
+        phase advance beside the phase's own signature. When a trigger does not apply, the phase report says
+        so. They are green because a person's signature is what makes them exist.</p>
 
       <p class="note">Three of Phase C's four artifacts are highlighted for a reason. They are
         <strong>receipts for human rituals</strong> &mdash; the client's own engineer shipping one real change
@@ -288,7 +295,7 @@
         behind</em>.</p>
 
       <div class="next" style="margin-top:30px;">
-        <a href="phase-2.html#example"><span class="t">See it on a real phase &rarr;</span><span class="d">Phase 2's Example tab &mdash; the procedure braided step by step, and a ledger where six of fourteen artifacts are amber.</span></a>
+        <a href="phase-2.html#example"><span class="t">See it on a real phase &rarr;</span><span class="d">Phase 2's Example tab &mdash; the procedure braided step by step, and a ledger where six of twenty artifacts are amber.</span></a>
       </div>
     </div>
   </section>

@@ -36,6 +36,8 @@ runs on a schedule, and what has to be true before design starts.
 | **Elicitation** | The structured working sessions where requirements are drawn out of the people who actually do the work. |
 | **A feasibility spike** | A short, read-only investigation that answers one question about the client's systems (is this API still real?) before a requirement depends on it. |
 | **Traceability** | Every requirement points backward to its source (a document or a named session) and forward to the outcome it serves. |
+| **Feature brief** | One epic decomposed into features and specs, each row carrying its channel (the customer surface it ships through — a screen, a voice line, an API) and its persona; shared logic split out as channel-agnostic "brains" specs. One channel per spec. Drafted only when an epic spans more than one surface or persona. |
+| **Business rules and golden scenarios** | Where a feature encodes policy (eligibility, coverage, pricing — anything with a rule book): the decision table (BR-NN — condition → outcome → source → approver) that pins down what "correct" means, and the scenarios (SCEN-NN — input → expected behaviour) that prove it. Each rule becomes an acceptance check; each scenario seeds the golden set the evaluations run against later. |
 
 Phase 1 answers four questions, and nothing else:
 
@@ -98,9 +100,19 @@ binds: **Claude drafts and interrogates; humans decide and own.** Concretely:
 - **Drafting the structure that makes review cheap.** Stable requirement IDs, acceptance
   criteria in checkable form, error behavior spelled out for the highest-priority items (what
   it accepts, what it returns, what it does on failure).
+- **The two discipline seats, when their trigger applies.** Where an epic spans more than one
+  customer surface or persona, Claude takes the **Product** seat: it interviews the Pod Lead and
+  the PO and drafts the feature brief — the decomposition into features and specs, each row with
+  a channel, a persona, and a proposed risk tier. Where a feature encodes policy, it takes the
+  **Business requirements** seat: it interviews the domain experts and drafts the business rules
+  and the golden scenarios. Both seats propose and stop. The PO confirms the decomposition and
+  the tiers; each rule's outcome is signed by its named approver. A rule whose outcome nobody
+  has decided goes on the decision list with an owner and the 2-business-day clock — Claude
+  never fills the silence with a plausible answer.
 
-What Claude never does in Phase 1: set a priority, accept a criterion, or make a scope call.
-Those are the product owner's, and in proxy mode they're logged, not just made.
+What Claude never does in Phase 1: set a priority, accept a criterion, make a scope call, or
+decide what a business rule's outcome is. Those are the product owner's (or the rule's named
+approver's), and in proxy mode they're logged, not just made.
 
 ---
 
@@ -135,6 +147,13 @@ step to the command and agent that runs it.
   org chart.
 - By end of day, Claude has structured the notes into draft functional requirements with
   stable IDs, each traced to its session or document.
+- Where an epic encodes policy — coverage, eligibility, entitlement, anything with a rule book
+  — the session with that epic's domain experts doubles as the **rules interview**. For each
+  decision point the feature must get right: the condition, the outcome, the policy document
+  the outcome cites, and the named approver who will sign it. Claude drafts the decision table
+  (BR-NN) and the golden scenarios (SCEN-NN) from the notes, including the tricky and
+  ambiguous cases, not just the happy path. Where the policy is silent or contradicts itself,
+  the row is marked *pending* — it is a decision-list item for the PO, never a guessed outcome.
 
 **Day 3 — the full draft and the decision list.**
 - Claude produces the complete draft: functional requirements with acceptance criteria, plus
@@ -144,6 +163,16 @@ step to the command and agent that runs it.
   An NFR without a measurement basis is an opinion. The numbers themselves come from humans —
   elicitation, the constraints, the client's own data; a target nobody on the client side
   stated goes on the decision list, not into the draft.
+- Where an epic spans more than one customer surface or persona, Claude drafts the **feature
+  brief** from the corrected epic map and the session notes: the epic decomposed into features
+  and specs, each row naming its channel and its persona, the shared logic split out as
+  channel-agnostic specs, and a proposed risk tier per row with a reason. The PO confirms the
+  rows and the tiers (a tier moves up, never down); any product choice the brief exposes that
+  nobody has made joins the decision list rather than being answered in the draft.
+- The business rules drafted on day 2 get their confirmation pass: the PO and the domain
+  experts confirm each rule's outcome and approver, and check the scenario set is
+  representative enough to seed the golden set. The pending rules — the ones the policy is
+  silent on — land on the decision list with an owner and the clock.
 - The decision list regenerates against the full draft. The PO starts working it — the
   2-business-day clock is now the phase's critical path (the item everything else waits on),
   and the Pod Lead tracks it visibly.
@@ -185,9 +214,12 @@ step to the command and agent that runs it.
   starting point.
 - The phase review: PO confirms the requirements say what they meant; the sponsor sees the
   scope-out list with their own eyes (this is the page that prevents the month-four "I
-  assumed that was included" conversation). Sign-off recorded; the engagement advances. The
-  **first biweekly steering** is scheduled — the cadence starts now and runs through the
-  whole Build (the implementation stretch of the engagement).
+  assumed that was included" conversation). Where the discipline seats were triggered, their
+  sign-offs are recorded at the advance beside the phase's own signature — the PO on the
+  feature brief, each business rule's named approver on its outcome — by name, per section.
+  Sign-off recorded; the engagement advances. The **first biweekly steering** is scheduled —
+  the cadence starts now and runs through the whole Build (the implementation stretch of the
+  engagement).
 
 ### When the week stretches
 
@@ -216,6 +248,9 @@ requirements artifacts folder of the delivery repo, committed, by the gate run.
 | Non-functional requirements | Claude | Pod Lead + QE | Every NFR has a number, a measurement method, and a named place it will be read from — no "the system shall be fast" |
 | Epic map | Claude (candidates) | PO | 4-8 epics, each traced to an outcome, sequenced by which moves the metric first; instrumentation epic included if the metric needs it |
 | User stories | Claude (drafts) | PO | Stories under epics with real stakeholder justifications — no invented personas |
+| Feature brief (when an epic spans surfaces or personas) | Claude (the Product seat, interview-driven) | PO (confirms) | Rows confirmed — every spec names one channel and a persona, channel-agnostic brains split out from the surfaces — and a risk tier proposed per row with its reason |
+| Business rules (when a feature encodes policy) | Claude (the Business-requirements seat, from the rules interview) | Each rule's named approver | Every BR-NN has a condition, a source, a named approver, and either a signed outcome or a decision-list item with an owner and a clock — no unmarked guesses |
+| Golden scenarios (when a feature encodes policy) | Claude (with the domain experts) | PO + domain experts | SCEN-NN cover the tricky cases — the ambiguous ones, the ones the policy is silent on — not just the happy path; each seeds the golden set |
 | Error behavior specs (top tiers) | Claude (drafts) | Pod Lead + QE | For every top-priority operation: what it accepts, what it returns, what it does on each failure |
 | Decision list / decision log | Claude (generated) | PO (answers) or Pod Lead (proxy, ratified) | Empty, or every survivor is a numbered open question with an owner |
 | Traceability matrix | Claude | QE | Requirement → source and requirement → outcome both populated for the top tiers |
@@ -223,6 +258,12 @@ requirements artifacts folder of the delivery repo, committed, by the gate run.
 | Phase 2 handoff | Claude | Pod Lead | Summary, decisions with rationale, numbered open questions with owners, design risks, recommended starting point |
 | Scope-out record | Pod Lead | Sponsor (has seen it) | The explicit not-in-v1 list, shown at the phase review |
 | Narrative companion (optional) | Claude | Pod Lead (edits) | The requirements retold for stakeholders, human-edited before any client sees it |
+
+The three discipline artifacts are conditional, not optional: when the trigger applies, the
+artifact exists before the gate closes and its owner has signed it; when it does not, the phase
+report says so. In our toolchain they are `feature-brief.md`, `business-rules.md`, and
+`golden-scenarios.md`, drafted by `/sdlc-feature` and `/sdlc-rules` — the concept is the seat,
+the artifact, and the signature, not the command.
 
 What is deliberately **not** produced in Phase 1: architecture diagrams, technology choices,
 data models, API designs, story-level estimates, and UI mockups. A requirement that names a
@@ -256,6 +297,9 @@ Phase 1 closes when all of these are true, verified at the phase review:
       and the top tier respected its budget
 - [ ] The decision list is empty, or every survivor is a numbered open question with an owner
       and a due date
+- [ ] Where the feature encodes policy, every business rule's outcome is signed by its named
+      approver, or sits on the decision list with an owner and a clock; discipline sign-offs
+      (the feature brief, the rules) are recorded at the advance beside the phase signature
 - [ ] The scope-out record exists and the sponsor has seen it
 - [ ] The Phase 2 handoff carries the open questions under their original IDs
 - [ ] A named human (PO + sponsor side) approved the advance — gates report, humans decide
@@ -297,6 +341,12 @@ with a known gap has simply moved the gap into the build, where it costs more.
   and Phase 1 quietly becomes proxy mode without the rider (the contract clause that
   authorizes it). Escalate the clock breach instead — it's in the SOW precisely so this
   moment has teeth.
+- **The guessed rule.** The policy manual is silent on a case, and the analyst — human or
+  agent — fills the gap with a plausible outcome. In the decision table it reads exactly like
+  a decided rule: it has a condition, an outcome, even a source. It ships, and the client
+  finds out what their system decides in production, from a policyholder. The honest move is
+  a *pending* row and a decision-list item with an owner and a clock; a rule nobody decided is
+  not a rule.
 
 ---
 

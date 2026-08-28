@@ -34,6 +34,8 @@ Engineer). On the Harbor side, Luis Ortega's 6 hours per week start getting spen
 | **NFR-NN** | A non-functional requirement — a measurable quality target (speed, capacity, availability). |
 | **E-NN** | An epic — a large slice of work. |
 | **AQ-NN** | An architectural question Design must answer — each becomes an ADR in Phase 2. |
+| **BR-NN** | A business rule — one row of the decision table: condition → outcome → source → approver. |
+| **SCEN-NN** | A golden scenario — an input and the behaviour a named human says is correct. |
 | **P0** | The top priority tier. |
 
 ## What Phase 1 received
@@ -102,6 +104,8 @@ requirement written in week two can still be traced in month nine. You'll see th
 | `NFR-NN` | A non-functional requirement — a quality target | Phase 1 | NFR-02 the 10x storm surge |
 | `E-NN` | An epic — a slice of the work, traced to an outcome | Phase 1 | E-01…E-06 |
 | `AQ-NN` | An architectural question Design must answer | Phase 1 handoff | The four that become Phase 2's ADR-001–004 |
+| `BR-NN` | A business rule — condition → outcome → source → approver | Phase 1 | BR-01 policy inactive at date of loss · BR-04 the pending one |
+| `SCEN-NN` | A golden scenario — input → expected behaviour; seeds the golden set | Phase 1 | SCEN-04 the second FNOL inside 24 hours |
 
 The last row is the thread out of this phase. Phase 1's handoff records the `AQ-NN` — the
 architectural questions the requirements raise but must not answer. Phase 2's very first step
@@ -143,39 +147,66 @@ session per slice.
 > (email is its own beast, not part of the queue epic). Jonah and Sara start the feasibility
 > spikes.
 
-### Day 2 — Tue 3/17 · elicitation · no command runs
+### Day 2 — Tue 3/17 · elicitation · one command runs, after the rooms empty
 
 **Draw the requirements out of the people who do the work.**
 
-**Tooling —** *none — human elicitation sessions; Claude preps question lists and structures the
-notes after*
-**Artifacts out —** ▸ *31 candidate requirements, each source-traced (draft)*
+**Tooling —** *none in the sessions — human elicitation; Claude preps question lists and
+structures the notes after* · `/sdlc-rules → bizreq-analyst` *(the Business-requirements seat,
+straight after the coverage session)*
+**Artifacts out —** ▸ *31 candidate requirements, each source-traced (draft)* ·
+▪ `business-rules.md` *(draft — one row pending)* · ▪ `golden-scenarios.md` *(draft)*
 
 The requirements come from humans in rooms, not from the tool. Five working sessions, 60 to 90
 minutes each, one per epic area, the right person in every room — and crucially not just the
 managers. By evening Claude has structured the notes into candidate functional requirements, each
 carrying a source trace back to the document or session it came from.
 
+One epic encodes policy — coverage — so its session doubles as the rules interview. The
+`bizreq-analyst` agent takes the Business-requirements seat: for each decision point it asks the
+condition, the outcome, the policy document the outcome cites, and the approver who will sign
+it, then drafts the decision table and the scenarios that prove it. It proposes; where the
+policy is silent it marks the row *pending* and stops.
+
 > **At Harbor:** Sessions: queue/assignment (Dee **plus two intake clerks**), coverage (Gail,
 > Marcus), fast-path (Luis, Marcus), acknowledgments (compliance), instrumentation (Priti). The
 > clerks — not their supervisor — reveal the **duplicate-FNOL workaround**: the same loss reported
 > by phone and portal gets two claim numbers today. That one finding becomes REQ-004 and D-07.
 > Talk only to managers and it never surfaces.
+>
+> After the coverage session, Maya keeps Luis and Gail in the room and runs `/sdlc-rules`. The
+> interview produces the **coverage-decision table** — **BR-01** *policy inactive at the date of
+> loss → decline*, source: the underwriting manual §4.2, approver: **Karen Voss**; BR-02 the
+> fast-path eligibility rule (single-dwelling, no injury, under $25k), approver Luis; BR-03 the
+> stale-snapshot rule, approver Luis. Then the agent asks what happens when a second FNOL for
+> the same policy arrives inside 24 hours **with a different loss date** — not the D-07 case,
+> which is the same loss twice. Gail: "That's rare." Luis: "It's not written anywhere." The
+> manual is silent, so **BR-04 is drafted *pending*** and becomes **D-08** on the decision list.
+> The agent does not guess. Four scenarios land beside the rules, SCEN-04 being that one.
 
 ### Day 3 — Wed 3/18 · plugin Steps 1–2
 
 **The full draft — and what it exposes.**
 
-**Tooling —** `/sdlc-coach → requirements-analyst`
+**Tooling —** `/sdlc-coach → requirements-analyst` · `/sdlc-feature → feature-architect` *(the
+Product seat)*
 **Artifacts out —** under `.sdlc/artifacts/01-requirements/`: `requirements.md` ·
-`non-functional-requirements.md` · ⚠ *the decision list — regenerated in the session; no file
-holds it*
+`non-functional-requirements.md` · `feature-brief.md` · ⚠ *the decision list — regenerated in
+the session; no file holds it*
 
 Now the tool writes. Step 1 turns the notes into functional requirements — "the system shall…",
 each with a priority, a source trace, and (for the top tiers) an explicit error specification:
 what it accepts, what it returns, what it does on each failure. Step 2 writes the non-functional
 requirements, every number carrying a measurement basis. The decision list regenerates and the
 testability pass runs.
+
+The epics exist and the sessions have said who reaches each one and how, so the Product seat
+runs today. `/sdlc-feature` spawns the `feature-architect` agent, which interviews the Pod Lead
+and the PO over one epic and drafts the **feature brief**: the epic decomposed into specs, each
+row carrying its channel and its persona, the shared logic split out as a channel-agnostic
+"brains" spec, and a proposed risk tier per row with a reason. One channel per spec. The agent
+proposes the rows and the tiers; the PO confirms them, and any product choice the brief exposes
+that nobody has made goes on the decision list.
 
 > ⚠ **The gap:** The standard's decision list is the PO's work queue — every unmade product call,
 > visible, on a two-business-day clock. In `claude-code-sdlc` Phase 1, **no file holds it.** The
@@ -185,9 +216,18 @@ testability pass runs.
 
 > **At Harbor:** 31 functional requirements and 7 NFRs land. **NFR-02 exposes the storm-surge gap**
 > nobody had named — Phase 0 sized annual volume only. The decision list regenerates to nine open
-> items for Luis; D-07 is answered same day, D-09 takes the full two days. Nadia's testability pass
-> sends **5 of 31** acceptance criteria back for being untestable. A 30-minute sponsor checkpoint
-> keeps the day-5 review free of surprises.
+> items for Luis; D-07 is answered same day, D-08 and D-09 take the full two days. Nadia's
+> testability pass sends **5 of 31** acceptance criteria back for being untestable. A 30-minute
+> sponsor checkpoint keeps the day-5 review free of surprises.
+>
+> The feature brief is for **E-01, the claims-intake epic** — the one that spans three surfaces.
+> The `feature-architect` agent decomposes it into the **adjuster console** (channel: screen;
+> persona: Gail's and Marcus's adjusters), the **intake API** (channel: — ; the channel-agnostic
+> brains — duplicate detection, coverage lookup, fast-path tagging — that every E-02 adapter and
+> the console call), and the **notification flow** (channel: email and letter; persona: the
+> policyholder; the hook E-05 hangs from). Proposed tiers: the brains HIGH, the console MEDIUM,
+> the notification flow HIGH because the regulatory clock rides on it. Luis confirms all three
+> rows and the tiers; the confirmation is what makes the brief decided rather than generated.
 
 ### Day 4 — Thu 3/19 · plugin Step 3 · the priority session
 
@@ -222,7 +262,7 @@ whatever doesn't fit. Feasibility spike results land and get reconciled.
 `/sdlc-next → advance_phase.py`
 **Artifacts out —** `phase2-handoff.md` · `phase01-visual.html` · `phase01-report.html` · ⚠ *the
 adversarial-review record* · ⚠ *the traceability check* · ⚠ *the scope-out record* · ▸ *the PO's +
-sponsor's sign-off — billing milestone 2*
+sponsor's sign-off — billing milestone 2* · ▸ *the discipline sign-offs, recorded beside it*
 
 Fresh reviewers that did not write the draft attack the set from product, quality, and security
 angles. The traceability check runs. Then the tool writes the handoff, renders the stakeholder
@@ -231,8 +271,8 @@ forward without a named sign-off.
 
 > ⚠ **The gap:** `check_gates.py` verifies that four files exist, are non-empty, and contain no
 > placeholder text: `requirements.md`, `non-functional-requirements.md`, `epics.md`,
-> `phase2-handoff.md`. It never reads the nine-bullet exit checklist this standard specifies —
-> priorities assigned by the PO, the scope-out seen by the sponsor, error specs for every top-tier
+> `phase2-handoff.md`. It never reads the exit checklist this standard specifies — priorities
+> assigned by the PO, the scope-out seen by the sponsor, error specs for every top-tier
 > operation, traceability traced both ways. That list lives in `phase-registry.yaml`, and no code
 > opens it. *The human gate is real. What it asks is not.*
 
@@ -240,8 +280,10 @@ forward without a named sign-off.
 > boilerplate). The `multi-reviewer` pass plus Nadia produce two catches: **REQ-022**
 > (bounce-to-postal fallback for a bounced acknowledgment) and the fast-path/regulatory-clock
 > conflict. The gate passes clean; Claude drafts the Phase 2 handoff. Luis confirms the requirements
-> say what he meant; Karen sees the scope-out list. Sign-off; the engagement advances. First
-> biweekly steering booked for Thursday 3/26.
+> say what he meant; Karen sees the scope-out list. The discipline sign-offs go down beside the
+> phase signature, by name and by section: Luis on the feature brief; **Karen on BR-01**, Luis on
+> BR-02 through BR-04 — BR-04 no longer pending, D-08 having closed on Thursday. Sign-off; the
+> engagement advances. First biweekly steering booked for Thursday 3/26.
 
 ## What Phase 1 produced
 
@@ -261,6 +303,9 @@ State markers:
 | ▪ `requirements.md` | The functional requirements: each a "shall", with a priority, a source trace, testable acceptance criteria, the error spec for the top tiers, and the traceability matrix — all in one file | `/sdlc-coach` → `requirements-analyst` | Pod Lead; PO accepts | `.sdlc/artifacts/01-requirements/` | Phase 2 spec synthesis |
 | ▪ `non-functional-requirements.md` | The quality targets — speed, capacity, uptime — each with a number, a test method, and a measurement basis naming where the number is read | `/sdlc-coach` → `requirements-analyst` | Pod Lead + QE | `.sdlc/artifacts/01-requirements/` | Phase 2 design drivers (the AQ-NN) |
 | ▪ `epics.md` | Epics *and* the user stories under them — "as a / I want / so that" with Given/When/Then acceptance criteria, each linked to a requirement ID | `/sdlc-coach` → `requirements-analyst` | PO | `.sdlc/artifacts/01-requirements/` | Phase 3 spec backlog |
+| ▪ `feature-brief.md` | One epic (E-01) decomposed into specs — each row with its channel, its persona and a proposed risk tier; the channel-agnostic brains split out from the surfaces. Conditional: drafted because the epic spans more than one surface | `/sdlc-feature` → `feature-architect` | PO confirms rows and tiers | `.sdlc/artifacts/01-requirements/` | Phase 3 spec carving; the channel binding at Intent |
+| ▪ `business-rules.md` | The coverage-decision table, BR-01..04 — condition → outcome → source → approver; a *pending* marker on any rule the policy is silent on until its decision closes. Conditional: drafted because the feature encodes policy | `/sdlc-rules` → `bizreq-analyst` | Each rule's named approver (Karen on BR-01; Luis on the rest) | `.sdlc/artifacts/01-requirements/` | An acceptance check on each spec; the decision list (D-08) |
+| ▪ `golden-scenarios.md` | SCEN-01..04 — input → expected behaviour, including the case the policy was silent on | `/sdlc-rules` → `bizreq-analyst` | PO + the domain experts in the room | `.sdlc/artifacts/01-requirements/` | The golden set the evaluations run against |
 | ▪ `phase2-handoff.md` | Requirements summary, the architectural implications the NFRs raise (the AQ-NN), decisions with rationale, open questions under their original IDs, risks, recommended starting point | `/sdlc-coach` drafts; Pod Lead completes | Pod Lead | `.sdlc/artifacts/01-requirements/` | Phase 2 Step 0, directly |
 | ▪ `phase01-visual.html` | The requirements retold as a stakeholder-facing visual — the standard's "narrative companion", rendered | `/visual-explainer` | — | `.sdlc/reports/` | The stakeholder review |
 | ▪ `phase01-report.html` | The gate result and artifact inventory, self-contained. This is the document a sponsor actually reads before signing | `generate_phase_report.py` | — | `.sdlc/reports/` | The manual sign-off gate |
@@ -272,7 +317,7 @@ State markers:
 | ⚠ scope-out record | The explicit not-in-v1 list, shown to the sponsor at the review so no one assumes a cut item into the build | **Pod Lead** | Sponsor has seen it | no path — nothing writes it | Phase 2 scope inputs |
 | ⚠ adversarial review record | Fresh reviewers who did not write the draft, attacking it from product, quality, and security angles; the catches recorded | **`multi-reviewer` + QE** | Pod Lead | no path — nothing writes it | The fixes it forces (REQ-022, the clock conflict) |
 
-> ⚠ **The gap — read the amber rows again:** Seven of the thirteen things Phase 1 is supposed to
+> ⚠ **The gap — read the amber rows again:** Seven of the sixteen things Phase 1 is supposed to
 > produce have no home of their own. Three are *folded* into a bigger file — error specs and
 > traceability into `requirements.md`, stories into `epics.md` — so they exist but can't be checked
 > or cited on their own. Four leave **no receipt at all**: the decision list the SOW clock bills
@@ -351,6 +396,41 @@ Every P0 requirement carries an error-behavior structure — the specs the plugi
 - **On stale data (snapshot older than 36h):** status carries a staleness warning; claims in the
   written-acknowledgment state escalate rather than auto-proceed.
 
+## What "correct" means, before anyone builds it
+
+An exhibit from `business-rules.md` and `golden-scenarios.md` — the coverage-decision table, and
+the scenarios that prove it.
+
+Coverage is policy with a rule book behind it, so on day 2 the coverage session doubled as the
+rules interview. The `bizreq-analyst` agent asked, for every decision point, four things: the
+condition, the outcome, the document the outcome cites, and the person who will sign it. It
+drafted the table; it decided nothing. Where the underwriting manual was silent, it wrote
+*pending* and opened a decision-list item instead of a plausible answer.
+
+| ID | Condition | Outcome | Source | Approver |
+|----|-----------|---------|--------|----------|
+| BR-01 | Policy inactive at the date of loss | Decline — status "not-covered" with reason code; routed to an adjuster, never auto-closed | Underwriting manual §4.2 | Karen Voss |
+| BR-02 | Single-dwelling, no injury, estimate under $25k | Fast-path eligible — tagged at intake with a recommendation the adjuster confirms or overrides | Q-14; D-09 | Luis Ortega |
+| BR-03 | Nightly snapshot older than 36 hours | Coverage status carries a staleness warning; a claim in the written-acknowledgment state escalates rather than auto-proceeds | CON-01; REQ-014 error behavior | Luis Ortega |
+| BR-04 | Second FNOL for the same policy inside 24 hours, different loss date | *Pending — D-08* until Thursday; then: a separate claim, flagged "possible duplicate" for the adjuster; never merged automatically, never auto-declined | Manual silent → decision log D-08 | Luis Ortega |
+
+> **The row the agent refused to fill.** BR-04 is the one the underwriting manual does not
+> cover. Same policy, same loss date is D-07 — merge. Same policy, a *different* loss date, a day
+> apart, is either a second loss (a storm week produces exactly this) or the same loss misdated
+> by a nervous policyholder. The agent had a plausible answer available and did not use it: the
+> row shipped *pending*, D-08 went to Luis with the two-business-day clock, and the outcome that
+> stands is Luis's, dated Thursday. Filled in on Tuesday it would have read like every other row.
+
+The scenarios sit beside the rules — each one an input and the behaviour a named human says is
+correct, and each one a seed for the golden set the evaluations run against later:
+
+| ID | Input | Expected behaviour | Rule |
+|----|-------|--------------------|------|
+| SCEN-01 | Portal FNOL; policy active at the date of loss; single-dwelling, no injury, under $25k | Coverage "verified" by 17:00 the same business day; tagged fast-path with a recommendation the adjuster confirms in one action | BR-02; REQ-014; REQ-019 |
+| SCEN-02 | Phone FNOL for a policy that lapsed before the date of loss | Status "not-covered" with reason code; routed to an adjuster; never fast-pathed | BR-01 |
+| SCEN-03 | FNOL received while the snapshot is older than 36 hours, in the written-acknowledgment state | Coverage status shows the staleness warning; the claim escalates to an adjuster and the regulatory clock stays visible | BR-03; REQ-021 |
+| SCEN-04 | Second FNOL for the same policy the next morning, with a different loss date | A separate claim, flagged "possible duplicate" for the adjuster; the first claim untouched; no automatic merge, no automatic decline | BR-04 (per D-08) |
+
 ## "Fast" is an opinion — until you say where the number is read
 
 An exhibit from `non-functional-requirements.md` — seven targets, each with a measurement basis.
@@ -395,12 +475,13 @@ stakeholders — Dee's intake team, Gail's adjusters, the compliance officer by 
 > **The cut:** Seven requirements cut to fit the 12-slot budget — including the **adjuster
 > dashboard rebuild**. "We survive with the current screens one more quarter."
 
-**The decision log — nine surfaced, the two that mattered.** All nine decisions surfaced this
-phase were answered inside it. The two with teeth:
+**The decision log — nine surfaced, the three that mattered.** All nine decisions surfaced this
+phase were answered inside it. The three with teeth:
 
 | ID | Decision | Answer | Who | Days |
 |----|----------|--------|-----|------|
 | D-07 | Duplicate FNOL (same policy + loss date): reject, queue separately, or merge? | Flag and merge; never reject; submitter gets the existing claim number | Luis | 0 |
+| D-08 | Second FNOL for the same policy inside 24h with a *different* loss date — the case the underwriting manual is silent on (BR-04) | A separate claim, flagged "possible duplicate" for the adjuster; never merged or declined automatically | Luis | 2 |
 | D-09 | Does the fast-path decide, or recommend? | v1 recommends; an adjuster confirms with one click; revisit after a year of override data | Luis | 2 |
 
 Day 5's traceability check claimed one casualty — a candidate SMS-notification requirement that
@@ -428,8 +509,8 @@ boundary into Design: the signed requirements, the quality targets, the epics �
 them is Design's job.
 
 **Crosses into Phase 2:** `phase2-handoff.md` · `requirements.md` ·
-`non-functional-requirements.md` · `epics.md` · ⚠ the decision log → open questions Q-15, Q-16 · ⚠
-the scope-out record.
+`non-functional-requirements.md` · `epics.md` · `feature-brief.md` · `business-rules.md` ·
+`golden-scenarios.md` · ⚠ the decision log → open questions Q-15, Q-16 · ⚠ the scope-out record.
 
 ### The architectural questions Design must answer
 
@@ -470,6 +551,8 @@ The abstract Phase 1 page describes this work generically. What actually ran, on
 |---|---|
 | Epic map, requirement decomposition, validation | The `requirements-analyst` agent over the Phase 0 artifacts and the locked intake catalog (DOC-NNN traceability comes from the catalog) |
 | Requirements, NFRs, stories, error specs | Drafted in-session against the `templates/phases/01-requirements/` templates, following `/sdlc` phase guidance; structured error specs per the P0/P1 rule |
+| Feature brief (E-01 decomposed into three channel-bound specs, tiers proposed) | `/sdlc-feature` spawning the `feature-architect` agent — the Product seat; interview with Maya and Luis; Luis confirms the rows and the tiers at the command's HITL gate; written to `feature-brief.md` |
+| Business rules BR-01..04 and golden scenarios SCEN-01..04 | `/sdlc-rules` spawning the `bizreq-analyst` agent — the Business-requirements seat; run straight after the coverage session with Luis and Gail in the room; BR-04 drafted *pending* and opened as D-08 in the decision log; written to `business-rules.md` and `golden-scenarios.md` |
 | Decision list (D-01..D-09) | Generated continuously in-session; persisted to the open-questions file for audit trail |
 | Testability + traceability checks | Nadia's vague-line pass; cross-artifact reference checks inside `/sdlc-gate` |
 | Adversarial review (day 5) | `/sdlc-review --adversarial` spawning the `multi-reviewer` agent; report written as a phase artifact |

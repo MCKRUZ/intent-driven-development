@@ -110,6 +110,15 @@ checking-capacity limit, not a headcount one (standard, section 14).
 _Who does what, and the named meetings, gates and moves an engagement runs through. Look these up
 when a page names one you haven't met._
 
+**Channel.** The customer surface a capability is delivered through — a screen, a voice line, a
+chat thread — not the logic behind it. The same logic on a different channel is a different
+product, because each surface has its own acceptance dimensions: a voice line needs barge-in and
+readback, a screen needs confidence display and approval, a chat thread needs threading and safe
+handling of quoted content. A spec with a customer surface is bound to exactly one channel and
+inherits that channel's dimensions as concrete acceptance checks; a channel also carries a risk
+floor, which can raise a spec's tier and never lower it (standard, section 2, the discipline
+seats).
+
 **Checker.** The role that owns the verdict on a change: reads the grader's report, grades the
 work against the spec, probes an edge the tests missed, and approves or bounces. Not a separate
 headcount — Orchestrators and Checkers swap per change, and the author of a change is never its
@@ -133,6 +142,14 @@ demands it, and merged without breaking anything. "The agent finished typing" is
 Setup Owner's deputy, who reviews every harness change so the Setup Owner is never sole approver of
 their own foundation. "No role without a deputy" is a standing rule (standard, section 4; see
 [the team](team.md)).
+
+**Discipline seat.** One of four conditional seats — **Product**, **Business requirements**,
+**Data**, **Design** — that sit beside the pod's roles for the disciplines a feature draws on. Each
+drafts a named artifact (the feature brief; the business rules and golden scenarios; the data
+contract; the user journey and interaction contract) that a named human signs. Conditional, not
+optional: when the trigger applies, the artifact exists and is signed before the gate closes; when
+it does not, the phase report says so. The sign-offs are recorded at the phase advance beside the
+phase's own signature (standard, section 2).
 
 **Flow check.** What the daily standup becomes — 10 minutes, not "what did you do" (the agents did
 plenty) but "what's waiting to be checked, which specs are vague, how long is the review queue."
@@ -247,6 +264,12 @@ independent read-only exploration (see [the build loop](build-loop.md)). See als
 client's on-call responds from the playbook and the pod watches silently. An alert that has never
 fired is a wish, not a safety net (see `docs/phase-9-monitoring.md`).
 
+**Artifact version history.** The content history of a pre-Build artifact: what it said at each
+version, who changed it and when, with the ability to list the versions, diff any two, and roll one
+back when a revision went wrong. It is what makes "superseded, not erased" a fact rather than a
+habit. In our toolchain: `/sdlc-version` (list, diff, rollback) (standard, section 5.3b; see
+[when things change](when-things-change.md)).
+
 **Baseline.** What "normal" looks like for a metric, measured from real production traffic. Every
 alert threshold is derived from it, never from a number that felt right (see
 `docs/phase-9-monitoring.md`).
@@ -259,11 +282,23 @@ See **IaC** and [the rails](the-rails.md).
 CI green, the grader has run, a non-author has approved. It's how the merge bar is enforced by the
 platform rather than by good intentions (standard, section 4).
 
+**Business rules.** The Business-requirements seat's artifact: a decision table with one row per
+rule (`BR-NN`), each carrying its condition, its outcome, the source policy it cites, and the named
+approver who signs the outcome. Each rule becomes an acceptance check on the spec; a rule whose
+outcome nobody has decided is a decision-list item, never a guess. Drafted in Requirements
+(`business-rules.md` in today's kit) beside the **golden scenarios** (standard, section 2).
+
 **CLAUDE.md.** The file every agent session loads first. It holds the project's standards: the
 stack rules, the domain glossary in the client's words, the risk taxonomy, the spec convention,
 the gated paths, and the Definition of Checked. A stale CLAUDE.md means agents guess, and guesses
 differ per run — keeping it current is Setup Owner work. Versioned and PR-reviewed like code
 (standard, section 6).
+
+**Data contract.** The Data seat's artifact: a table of every field a feature reads or writes,
+with a PII column. The PII classification is confirmed by a human because it drives the risk tier
+— a spec touching personal data is HIGH. Drafted in Design (`data-contract.md`) alongside the
+data-readiness assessment (advisory; gaps become decision-list items) and the lineage / audit
+design (source → transform → sink, with retention and audit points) (standard, section 2).
 
 **Dependency-gate.** The CI check (a job inside `ci.yml`) that blocks a pull request from
 introducing a package with a known vulnerability — it scans this branch against the target branch
@@ -291,12 +326,23 @@ scenarios with graded expected behavior (the golden set) and a pass threshold ("
 of the set"). Evals are acceptance criteria, run in CI like tests. Changing a prompt, model, or
 tool definition runs the full golden set as a regression gate (standard, section 11).
 
+**Feature brief.** The Product seat's artifact: one epic decomposed into features and then specs,
+each row carrying its channel and persona, with shared "brains" logic split out as channel-agnostic
+specs that are first-class rows of their own. One channel per spec. Drafted in Requirements
+(`feature-brief.md`); the decomposition and the proposed risk tiers are what the human signs
+(standard, section 2).
+
 **Fleet telemetry.** The portfolio view assembled from every installed repo's own gate history.
 Each repo commits a weekly `rails-telemetry.json` — which gates ran, what they concluded, and
 every override by name — by reading its own history through the platform's own API, so nothing
 leaves the client's tenancy. `scripts/collect_rails_telemetry.py` (operator tooling, never
 installed into a client repo) reads those files across every reachable repo and reports
 worst-first; a repo that isn't reporting counts as unknown, not clean (standard, section 9).
+
+**Golden scenarios.** The Business-requirements seat's second artifact: a table of `SCEN-NN` rows,
+each an input and the expected behaviour, signed with the business rules. For an LLM-powered spec
+they seed the golden set the evals run against (`golden-scenarios.md`; standard, sections 2 and
+11). See **evals / golden set**.
 
 **The harness audit.** The sweep for anything only the pod understands — undocumented skills, hooks
 with pod-only assumptions — where each finding is fixed by a PR the client's own engineer merges
@@ -315,6 +361,13 @@ See [the rails](the-rails.md).
 
 **Incident playbook.** The detect–diagnose–escalate–communicate companion to the RUNBOOK. The
 RUNBOOK resolves; the playbook detects and communicates (see `docs/phase-9-monitoring.md`).
+
+**Interaction contract** (also **channel interaction spec**). The Design seat's per-channel
+contract for one surface. For a screen it is the event contract, co-authored with Engineering; for
+a voice line it is the turn, barge-in and readback contract; for a chat thread it is the threading
+and escalation contract. Drafted in Design (`channel-interaction-spec.md`) with the user journey
+and the surface layout; at Intent the channel binding turns its rows into concrete acceptance
+checks (standard, section 2).
 
 **The kit.** The installable engagement starter in this repo: CLAUDE.md template, spec template,
 settings, skills, agents (grader, security-reviewer), hooks, CI workflows, Bicep starters, and the

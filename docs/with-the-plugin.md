@@ -81,11 +81,19 @@ nightly read-only replica, found in requirements, not production.
 
 - **Machine drafts:** `requirements.md`, `non-functional-requirements.md`, `epics.md`;
   `/sdlc-review` in adversarial mode hunts the gaps; the decision list ("you haven't decided X")
-  is generated, not remembered.
-- **Human signs:** Luis answers every decision-list item on the two-business-day clock. The Pod
-  Lead enforces Definition of Ready on every story. `phase2-handoff.md` signed at the gate.
+  is generated, not remembered. `/sdlc-feature` decomposes the claims-intake epic into
+  channel-aware features and specs → `feature-brief.md`: the intake console is a screen channel,
+  the shared merge logic a channel-agnostic spec of its own, one channel per spec. `/sdlc-rules`
+  drafts the coverage-decision rules as `BR-NN` rows, each with a named approver, and the golden
+  scenarios `SCEN-NN` → `business-rules.md`, `golden-scenarios.md`.
+- **Human signs:** Luis answers every decision-list item on the two-business-day clock. Each
+  rule's outcome is confirmed by its named approver; undecided outcomes go on the decision list.
+  The Pod Lead enforces Definition of Ready on every story. `phase2-handoff.md` signed at the
+  gate.
 
 ```
+/sdlc-feature                                # epic → features → specs, channel and persona per row
+/sdlc-rules                                  # BR-NN with an approver + SCEN-NN → business-rules.md, golden-scenarios.md
 /sdlc-review requirements.md --mode adversarial
 /sdlc-gate && /sdlc-next
 ```
@@ -105,11 +113,18 @@ will live with. Unknowns are not guessed: they are spiked.
 - **Machine drafts:** `design-doc.md`, `api-contracts.md`, `adrs/` and `adr-registry.md`;
   `threat-model.md`, `nfr-proving-plan.md`, `walking-skeleton-definition.md`; `/sdlc-spike` runs
   the bounded experiment on a `spike/` branch; its code can never merge; its finding is
-  `spike-findings.md`.
+  `spike-findings.md`. `/sdlc-data` → `data-contract.md` with a PII column (claim records carry
+  PII, which is what makes the specs that touch them HIGH), `data-readiness.md`,
+  `lineage-audit.md`. `/sdlc-experience` routes to the visual designer for the claims-intake
+  screen, or to the conversation designer for a voice or chat surface → `user-journey.md`,
+  `surface-layout.md`, `channel-interaction-spec.md`.
 - **Human signs:** architecture selection, a person picks, the agent does not. Each ADR, by the
-  Architect; the client engineer co-signs. `phase3-handoff.md`.
+  Architect; the client engineer co-signs. PII classification confirmed by a person, because it
+  drives the risk tier; discipline sign-offs recorded at the advance. `phase3-handoff.md`.
 
 ```
+/sdlc-data                                   # data-contract.md (PII column), data-readiness.md, lineage-audit.md
+/sdlc-experience                             # screen → visual designer; voice/chat → conversation designer
 /sdlc-spike "does the carrier API dedupe on our idempotency key?"
 /sdlc-gate && /sdlc-next
 ```
@@ -151,6 +166,8 @@ HIGH), where the grader catches an empty-policy-number bug that eleven green tes
 
 - **Intent, human:** `/sdlc-spec` turns a triaged story into `specs/0016-duplicate-claim-merge.md`:
   goal, why, scope in/out, testable acceptance checks, risk tier confirmed by the Pod Lead.
+  `/sdlc-channel` binds a spec with a customer surface to its one channel (the claims-intake
+  console is a screen) and injects that channel's acceptance dimensions as concrete checks.
 - **Delegate, machine, bounded:** plan mode first; the Orchestrator approves the plan.
   Permissions auto-allow build/test/lint; ask on installs, network, gated paths (auth,
   migrations). The Stop hook refuses "done" on a red build.
@@ -162,6 +179,7 @@ HIGH), where the grader catches an empty-policy-number bug that eleven green tes
 
 ```
 /sdlc-spec "duplicate-claim merge"          # Intent → specs/0016-… (ready or bounced)
+/sdlc-channel --spec specs/0016-duplicate-claim-merge.md   # bind to its one channel; its acceptance dimensions become checks
 # plan mode → build → Stop hook → PR on spec/0016-duplicate-claim-merge
 /sdlc-status                                 # queue, decision list, gate status — every flow check
 /sdlc-refresh detect --spec specs/0016-duplicate-claim-merge.md   # after merge: did upstream drift?
@@ -171,7 +189,8 @@ HIGH), where the grader catches an empty-policy-number bug that eleven green tes
 > **Routes back, from inside the loop:** unknown → `/sdlc-spike`; design wrong → `/sdlc-revise`
 > the ADR (HIGH); requirement changed → `/sdlc-revise` the requirement; merged work drifted from
 > its requirement → `/sdlc-refresh` proposes the upstream edit and a person applies it; stale
-> artifacts anywhere → `/sdlc-audit-artifacts`.
+> artifacts anywhere → `/sdlc-audit-artifacts`; what an artifact used to say → `/sdlc-version`
+> (content history: list, diff, roll back).
 
 ## 7 · Documentation · Prove a stranger can run it
 

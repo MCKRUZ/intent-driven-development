@@ -737,6 +737,118 @@
               </td>
             </tr>
           </table>
+          <h3>The discipline seats</h3>
+          <p>
+            The table above names the pod's roles. Four further seats exist for
+            the disciplines a feature draws on, and each one drafts a specific
+            artifact that a named human signs. They are
+            <strong>conditional, not optional</strong>: when the trigger
+            applies, the artifact exists before the gate closes and its owner
+            has signed it; when it does not apply, the phase report says so.
+          </p>
+          <table>
+            <tr>
+              <th>Seat</th>
+              <th>Trigger</th>
+              <th>Drafts (the agent proposes)</th>
+              <th>A named human signs</th>
+              <th>Phase</th>
+            </tr>
+            <tr>
+              <td><strong>Product</strong></td>
+              <td>
+                An epic spans more than one customer surface or persona, or
+                needs carving into buildable specs
+              </td>
+              <td>
+                The <strong>feature brief</strong>: one epic decomposed into
+                features and specs, each row carrying its channel and persona;
+                shared logic split out as channel-agnostic specs.
+                <strong>One channel per spec.</strong>
+              </td>
+              <td>The decomposition and the proposed risk tiers</td>
+              <td>1 Requirements</td>
+            </tr>
+            <tr>
+              <td><strong>Business requirements</strong></td>
+              <td>
+                The feature encodes policy — eligibility, pricing,
+                coverage, entitlement, anything with a rule book
+              </td>
+              <td>
+                <strong>Business rules</strong> as a decision table (condition
+                → outcome → source → approver) and
+                <strong>golden scenarios</strong> (input → expected
+                behaviour). Each rule becomes an acceptance check on the spec;
+                each scenario seeds the golden set (section 11).
+              </td>
+              <td>
+                Each rule's outcome, by its named approver. A rule whose outcome
+                nobody has decided is a decision-list item, never a guess.
+              </td>
+              <td>1 Requirements</td>
+            </tr>
+            <tr>
+              <td><strong>Data</strong></td>
+              <td>
+                The feature reads or writes customer or personal data, or
+                depends on data nobody has checked is there
+              </td>
+              <td>
+                The <strong>data contract</strong> (every field, with a PII
+                column), the <strong>readiness</strong> assessment (advisory),
+                and the <strong>lineage</strong> (source → transform
+                → sink, with retention and audit points)
+              </td>
+              <td>
+                The PII classification — a risk-tier driver: a spec
+                touching personal data is HIGH (section 5.1). Readiness gaps
+                become decision-list items.
+              </td>
+              <td>2 Design</td>
+            </tr>
+            <tr>
+              <td><strong>Design</strong></td>
+              <td>
+                The feature has a customer surface — a screen, a voice
+                line, a chat thread
+              </td>
+              <td>
+                The <strong>user journey</strong> (including abandon and
+                failure paths), the <strong>surface layout</strong> (screens,
+                or a turn-script, or a message flow), and the
+                <strong>interaction contract</strong> for that channel
+              </td>
+              <td>
+                The journey and the contract, co-signed by Engineering where
+                the contract is an API
+              </td>
+              <td>2 Design</td>
+            </tr>
+          </table>
+          <p>
+            <strong>Channels.</strong> A channel is the customer surface a
+            capability is delivered through, not the logic behind it. The same
+            business logic on a different channel is a different product,
+            because each surface has its own acceptance dimensions: a voice
+            line needs barge-in and readback, a screen needs confidence display
+            and approval, a chat thread needs threading and safe handling of
+            quoted content. So the toolchain carries a small library of channel
+            descriptors, each listing its acceptance dimensions and a risk floor
+            (which may raise a spec's tier, never lower it). At Intent, a
+            surface spec is bound to exactly one channel and inherits that
+            channel's dimensions as concrete acceptance checks.
+          </p>
+          <p>
+            Discipline sign-offs are recorded at the phase advance beside the
+            phase's own signature — who signed which section, by name. In
+            our toolchain the seats are <code>/sdlc-feature</code>,
+            <code>/sdlc-rules</code>, <code>/sdlc-data</code> and
+            <code>/sdlc-experience</code>, and the binding is
+            <code>/sdlc-channel</code>; each is interview-driven, proposes, and
+            stops at a human confirmation. The concept is the seat, the artifact
+            and the signature, not the command.
+          </p>
         </section>
 
         <section id="s3" class="reveal">
@@ -1020,6 +1132,14 @@
               the spec
             </li>
             <li>References the harness context the agent will have</li>
+            <li>
+              Carries its discipline inputs (section 2, the discipline seats): a
+              story with a customer surface is bound to one channel and inherits
+              that channel's acceptance dimensions as checks; a story that
+              encodes policy traces its checks to signed business rules; a story
+              touching personal data takes its tier from the data contract's PII
+              classification
+            </li>
           </ul>
           <p>
             The Orchestrator translates the ready story into
@@ -1214,9 +1334,16 @@
             12), so moving the frame moves the money.
           </p>
           <p>
+            Every pre-Build artifact keeps a content history: what it said at
+            each version, who changed it and when, and the ability to diff two
+            versions or roll one back when a revision went wrong. That history
+            is what makes "superseded, not erased" a fact rather than a habit.
+          </p>
+          <p>
             In our toolchain this is <code>/sdlc-revise</code> (one artifact, owner
-            and clock, re-gate, blast radius shown) and <code>/sdlc-refresh</code>
-            (back-propagation after a merge); the concept is the recorded
+            and clock, re-gate, blast radius shown), <code>/sdlc-refresh</code>
+            (back-propagation after a merge) and <code>/sdlc-version</code> (the
+            content history: list, diff, roll back); the concept is the recorded
             reopening, not the command.
           </p>
           <p>
@@ -1670,8 +1797,10 @@
               <strong>Evals are acceptance criteria.</strong> An agentic spec
               includes a golden set (input scenarios with graded expected
               behavior) and a threshold ("correct on ≥ 95% of the golden set").
-              The golden set is versioned in the repo next to the spec. CI runs
-              the eval suite like it runs tests.
+              The golden scenarios signed with the business rules (section 2,
+              the discipline seats) are its seed. The golden set is versioned in
+              the repo next to the spec. CI runs the eval suite like it runs
+              tests.
             </li>
             <li>
               <strong

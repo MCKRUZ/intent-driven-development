@@ -282,7 +282,9 @@
             message" is a check. The difference is whether anyone can tell, mechanically, if it's done.</p>
           <p>A ready story also states what the change must <em>not</em> touch, answers the silent product
             decisions (fail open or fail closed? what does a blocked user see?), and names which existing
-            pattern to reuse. A silent decision left unwritten doesn't disappear &mdash; the agent makes it
+            pattern to reuse &mdash; and, when it has a customer surface, which one channel it is bound to, so
+            that channel's acceptance dimensions become its checks. A silent decision left unwritten doesn't
+            disappear &mdash; the agent makes it
             for you, fast, unsupervised, and you find out what it chose when something breaks.</p>
         </div>
         <div class="eg">
@@ -324,12 +326,26 @@
             <li>The harness context the agent will rely on is named &mdash; which existing pattern this
               change reuses, so the agent extends the codebase instead of inventing a second way to do
               something it already does.</li>
+            <li>Its discipline inputs are carried, not rediscovered: a story with a customer surface is
+              bound to one channel and inherits that channel's acceptance dimensions as checks; a story
+              that encodes policy traces its checks to the signed business rules; a story touching
+              personal data takes its tier from the data contract's PII classification, made in Design.</li>
           </ul>
           <p>The Orchestrator then writes the spec &mdash; one file, in the repo, durable across sessions:
             Goal, Why, Scope in/out, Acceptance checks, Risk tier, Delegation plan, Checking plan. The spec
             outlives the chat that produced it; the agent reads it every session, the grader grades against
             it, and when behavior changes later, the spec changes in the same PR &mdash; a stale spec is a
             lie that misleads the next reader and the next agent.</p>
+          <p><strong>Binding the channel.</strong> A spec with a customer surface names exactly one channel
+            &mdash; a screen, a voice line, a chat thread &mdash; and the binding is mechanical: the channel's
+            descriptor lists its acceptance dimensions (a voice line needs barge-in and readback; a screen
+            needs confidence display and approval), and each one becomes a concrete acceptance check on the
+            spec, taken from the Design-phase interaction contract where it exists. The descriptor also
+            carries a risk floor, which can raise the spec's tier and never lower it. Once injected, the
+            checks are ordinary acceptance checks; nothing downstream knows where they came from. An
+            advisory check flags a bound spec that is missing one of its channel's dimensions &mdash; it
+            advises, it does not block. In our toolchain the binding is <code>/sdlc-channel</code>; it also
+            seeds the harness context from the descriptor when the spec's is empty.</p>
           <p class="dim">Intent is the highest-leverage hour anyone spends in the loop. When the agent can
             produce the code in minutes, what decides whether you get what you wanted is how clearly you
             said it &mdash; vague intent doesn't get fixed downstream, it gets built, fast, wrong.</p>
@@ -1081,6 +1097,7 @@
             <span class="cmd">/sdlc-spec <span class="arrow">&rarr;</span> <span class="script">new_spec.py</span> allocates the next NNNN</span>
             <span class="cmd"><span class="script">check_spec.py</span> <span class="arrow">&rarr;</span> the Definition of Ready</span>
             <span class="tag green">the risk tier &mdash; a human call</span>
+            <span class="cmd">/sdlc-channel <span class="arrow">&rarr;</span> binds 0015 to the screen channel; <span class="script">check_channel.py</span> advises</span>
           </div>
           <div class="artifacts">
             <span class="lbl">On disk</span>
@@ -1092,7 +1109,10 @@
             <p><em>"Show adjusters similar past claims"</em> fails the vague-line test &mdash; nobody can write
               a check for "similar," so it bounces back to Luis and the agents never see it. <em>The fast-path
               work queue</em> (Gail and Marcus's demo feedback) sharpens into <strong>spec 0015</strong>,
-              MEDIUM. <em>Duplicate-claim merge</em> (D-07) becomes <strong>spec 0016</strong>; Maya tiers it
+              MEDIUM. It has a customer surface &mdash; the adjuster console &mdash; so it is bound to the
+              screen channel and inherits that channel's dimensions, confidence display and approval, as
+              acceptance checks lifted from Phase 2's interaction contract; the screen's risk floor leaves
+              MEDIUM where Maya put it. <em>Duplicate-claim merge</em> (D-07) becomes <strong>spec 0016</strong>; Maya tiers it
               <strong>HIGH</strong> &mdash; a wrong merge mangles two policyholders' data. Triage surfaces the
               silent decision &mdash; <em>what does the second reporter see?</em> &mdash; and routes it to Luis
               on his 2-day clock rather than letting the agent quietly decide it.</p>
@@ -1236,7 +1256,7 @@
 
       <div class="aha warn" style="margin-top:22px;">
         <div class="lbl">Only two amber rows &mdash; and that is the point</div>
-        <p>Compare this with the design phase, where six of fourteen outputs had nowhere to live. The Build loop
+        <p>Compare this with the design phase, where six of twenty outputs had nowhere to live. The Build loop
           is the best-instrumented stretch of the engagement: the spec, the verdict, and three metrics lines
           all land at real paths, automatically. The only human work without a file is the pair of merge-bar
           judgments &mdash; the non-author approval and the named sign-off &mdash; and even those live in the
@@ -1442,6 +1462,7 @@ per-policy independence for the no-policy path.</code></pre>
           <tr><td>Flow-check queue numbers</td><td><code>/sdlc-status</code> at the daily flow check; the security queue read on its own line</td></tr>
           <tr><td>Ready specs (0015, 0016)</td><td>Triage is humans; <code>/sdlc-spec</code> scaffolds from the kit template (<code>new_spec.py</code> allocates NNNN); the Pod Lead tiers them</td></tr>
           <tr><td>Definition-of-Ready check per spec</td><td><code>check_spec.py</code> &mdash; mechanical floor + vague-line lint; appends the result to <code>.sdlc/metrics/spec-log.jsonl</code></td></tr>
+          <tr><td>Spec 0015 bound to its channel</td><td><code>/sdlc-channel</code> &mdash; sets <code>channel:</code> on the spec, injects the screen channel's dimensions (confidence display, approval) as acceptance checks from Phase 2's <code>channel-interaction-spec.md</code>, seeds the harness context if empty; <code>check_channel.py</code> advises on a missing dimension</td></tr>
           <tr><td>Spec 0015 (MEDIUM), end to end</td><td>Rides the loop: plan mode under bounds, Stop hook, ci.yml + grader.yml on the PR, non-author Checker, deploy-dev.yml on merge</td></tr>
           <tr><td>Spec 0016 (HIGH), end to end</td><td>Same loop plus the HIGH path: <code>risk:high</code> label &rarr; security.yml &rarr; the security-reviewer agent; Wes's named sign-off in the PR</td></tr>
           <tr><td>The 0016 catch, given memory</td><td>grader.yml posts the check-by-check verdict as a PR comment; <code>record_findings.py</code> appends it (with disposition) to <code>.sdlc/metrics/findings-log.jsonl</code></td></tr>
@@ -1575,7 +1596,7 @@ per-policy independence for the no-policy path.</code></pre>
       <div class="aha warn">
         <div class="lbl">The mistake new people make</div>
         <p>Typing the wish straight at the agent &mdash; "add rate limiting, go" &mdash; and skipping
-          straight to step 3. You'll get something plausible and fast, and the case you never described
+          straight to step 4. You'll get something plausible and fast, and the case you never described
           is the one it gets wrong. It also won't merge: the <code>spec-gate</code> check fails any pull
           request that touches source code and carries no spec file in its diff.</p>
       </div>
@@ -1620,6 +1641,42 @@ per-policy independence for the no-policy path.</code></pre>
   <section class="s">
     <div class="wrap-wide reveal">
       <span class="modnum">02</span>
+      <p class="kicker">Still Intent &mdash; only when the spec has a customer surface</p>
+      <h2>Bind the spec to its channel</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-channel --spec specs/NNNN-name.md</span>
+      </div>
+      <p><strong>What happens:</strong> the command reads the channel &mdash; from <code>--channel</code>, the
+        spec's <code>channel:</code> field, or the feature-brief row &mdash; and loads that channel's descriptor
+        from the team's library: its acceptance dimensions (each an id, an intent, and an example check), a
+        harness-context seed, and a risk floor. Then it reads Phase 2's
+        <code>channel-interaction-spec.md</code>, where each dimension already maps to a concrete contract
+        and the check it becomes, and adds one line per dimension to the spec's existing
+        <strong>Acceptance checks</strong>, tagged with the dimension it came from. It sets
+        <code>channel:</code> on the spec, seeds the harness context if the spec's is empty, and stops to
+        show you the overlay before it writes.</p>
+      <p><strong>What you do:</strong> confirm the overlay. A spec is <strong>one channel</strong> &mdash; if
+        the spec already names a different one, the command stops and asks, and the answer is usually a
+        second spec. The risk floor can only <em>raise</em> the tier; if it does, that is the channel telling
+        you something the story didn't.</p>
+      <p class="dim">Once injected, the channel checks are ordinary acceptance checks. Nothing downstream
+        &mdash; the agent, the grader, the Checker &mdash; knows or cares that they came from a channel.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have</span>
+        <span class="tag">specs/NNNN-name.md &mdash; channel: set, the channel's checks in place</span>
+        <span class="tag">.sdlc/metrics/channel-log.jsonl &mdash; +1 line</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> <code>check_channel.py</code> reports no missing
+        dimension. It advises rather than blocks &mdash; <code>check_spec.py</code> is still the gate,
+        unchanged &mdash; but a bound spec missing a dimension is a screen without an approval step, or a
+        voice line with no barge-in, and you will hear about it in review.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">03</span>
       <p class="kicker">Still Intent &mdash; nothing to type, and this is the part that pays</p>
       <h2>Read your own spec back</h2>
       <div class="tooling">
@@ -1648,13 +1705,13 @@ per-policy independence for the no-policy path.</code></pre>
       </div>
       <p class="note"><strong>If this change is a bug fix:</strong> set <code>type: bugfix</code> in the
         spec's frontmatter and label the pull request <code>type:bugfix</code> later. That label switches
-        on an extra gate in step 5 &mdash; leave it off and the gate silently doesn't apply.</p>
+        on an extra gate in step 6 &mdash; leave it off and the gate silently doesn't apply.</p>
     </div>
   </section>
 
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">03</span>
+      <span class="modnum">04</span>
       <p class="kicker">Beat 2: Delegate &mdash; the first of two mandatory human stops</p>
       <h2>Approve the plan before any code exists</h2>
       <div class="tooling">
@@ -1685,9 +1742,9 @@ per-policy independence for the no-policy path.</code></pre>
     </div>
   </section>
 
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">04</span>
+      <span class="modnum">05</span>
       <p class="kicker">Still Delegate &mdash; the agent works, you watch the right things</p>
       <h2>Let it build inside the box</h2>
       <div class="tooling">
@@ -1707,7 +1764,7 @@ per-policy independence for the no-policy path.</code></pre>
         same files clobber each other.</p>
       <p class="note"><strong>If this is a bug fix, the order is fixed:</strong> the regression test
         first, proven failing against the broken code, <em>then</em> the fix. Not because it's tidier
-        &mdash; because step 5 mechanically checks you did it that way.</p>
+        &mdash; because step 6 mechanically checks you did it that way.</p>
       <div class="aha">
         <div class="lbl">The Stop hook is doing work you can't see</div>
         <p><code>stop-gate.ps1</code> fires every time the agent tries to end its turn. If the build is
@@ -1719,9 +1776,9 @@ per-policy independence for the no-policy path.</code></pre>
     </div>
   </section>
 
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">05</span>
+      <span class="modnum">06</span>
       <p class="kicker">Beat 3: Discern &mdash; type this, then let the machines run</p>
       <h2>Push, open the pull request, and let CI grind</h2>
       <div class="tooling">
@@ -1739,13 +1796,13 @@ per-policy independence for the no-policy path.</code></pre>
           <tr><td><code>spec-gate</code></td><td>A pull request that touches source and carries no spec file in its diff. Recorded escape: the <code>no-spec:chore</code> label, with the reason stated in the description</td></tr>
           <tr><td><code>repro-gate</code></td><td>Bug fixes only. It rebuilds the code as it was <em>before</em> your fix, drops your new test on top, and runs it. If it passes, your test doesn't reproduce the bug</td></tr>
           <tr><td><code>risk-signoff</code></td><td><code>risk:high</code> pull requests with no line reading <code>SIGNED-OFF-BY: &lt;name&gt; &mdash; &lt;sentence&gt;</code></td></tr>
-          <tr><td><code>spike-guard</code></td><td>Any pull request opened from a <code>spike/</code> branch (see step 10)</td></tr>
+          <tr><td><code>spike-guard</code></td><td>Any pull request opened from a <code>spike/</code> branch (see step 11)</td></tr>
         </tbody>
       </table>
       <p><strong>What you do:</strong> fix what's red and push again. Never suppress a check to go green
         &mdash; skipping a flaky test to get past the gate is the rail lying to you.</p>
       <div class="aha warn">
-        <div class="lbl">Two ways step 5 surprises people</div>
+        <div class="lbl">Two ways step 6 surprises people</div>
         <p><strong>The push gets refused.</strong> That's <code>review-gate</code>, a hook that blocks
           <code>git push</code> and <code>gh pr create</code> until per-commit review receipts exist. Run
           your review (<code>/code-review</code> and <code>/simplify</code> by default), save the receipt
@@ -1761,9 +1818,9 @@ per-policy independence for the no-policy path.</code></pre>
     </div>
   </section>
 
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">06</span>
+      <span class="modnum">07</span>
       <p class="kicker">Still Discern &mdash; nothing to type, but read it properly</p>
       <h2>The grader posts its verdict</h2>
       <div class="tooling">
@@ -1779,15 +1836,15 @@ per-policy independence for the no-policy path.</code></pre>
         for exactly the case you never thought to test. A grader complaint on a check you were sure was
         covered is the single most valuable thing the loop produces. Fix it, or write down why you
         didn't.</p>
-      <p class="note">This is where step 2 gets paid back or punished. Vague acceptance checks give the
+      <p class="note">This is where step 3 gets paid back or punished. Vague acceptance checks give the
         grader nothing to test against, it returns a shrug, and the bug ships. The grader is only ever as
         sharp as the spec you wrote.</p>
     </div>
   </section>
 
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
+      <span class="modnum">08</span>
       <p class="kicker">Still Discern &mdash; the second mandatory human stop</p>
       <h2>Someone who isn't you approves it</h2>
       <div class="tooling">
@@ -1821,9 +1878,9 @@ per-policy independence for the no-policy path.</code></pre>
     </div>
   </section>
 
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
+      <span class="modnum">09</span>
       <p class="kicker">Merge &mdash; and the loop starts again</p>
       <h2>What happens after the merge button</h2>
       <div class="tooling">
@@ -1853,9 +1910,9 @@ per-policy independence for the no-policy path.</code></pre>
     </div>
   </section>
 
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
+      <span class="modnum">10</span>
       <p class="kicker">Nothing to type &mdash; this is a calendar, not a command</p>
       <h2>The cadences running around the loop</h2>
       <p class="lead">One trip through steps 1&ndash;8 is your day. These four meetings are the week they
@@ -1881,9 +1938,9 @@ per-policy independence for the no-policy path.</code></pre>
     </div>
   </section>
 
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
+      <span class="modnum">11</span>
       <p class="kicker">When step 1 is impossible &mdash; type this instead</p>
       <h2>The spike: when nobody knows the answer yet</h2>
       <div class="tooling">
@@ -1916,7 +1973,7 @@ per-policy independence for the no-policy path.</code></pre>
     </div>
   </section>
 
-  <section class="s paper">
+  <section class="s">
     <div class="wrap-wide reveal">
       <p class="kicker">Keep these handy</p>
       <h2>Commands you'll use constantly</h2>
@@ -1924,6 +1981,7 @@ per-policy independence for the no-policy path.</code></pre>
         <thead><tr><th>Type this</th><th>When</th></tr></thead>
         <tbody>
           <tr><td><code>/sdlc-spec</code></td><td>Every single change, before any code. No spec, no build.</td></tr>
+          <tr><td><code>/sdlc-channel</code></td><td>Every spec with a customer surface, right after the spec exists. Binds it to one channel and injects that channel's acceptance dimensions as checks; <code>check_channel.py</code> advises beside <code>check_spec.py</code>.</td></tr>
           <tr><td><code>/sdlc-spike</code></td><td>A story can't be made ready because nobody knows the answer yet.</td></tr>
           <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows where the project stands.</td></tr>
           <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next.</td></tr>
@@ -1934,7 +1992,7 @@ per-policy independence for the no-policy path.</code></pre>
       <p class="note" style="margin-top:20px;">Rule of thumb for the whole loop: <strong>written is
         cheap, checked is the bar.</strong> A change is done when something other than its author has
         proven it against its spec &mdash; not when the code exists. Everything on this page is
-        machinery for that one sentence, and the two human stops (step 3 and step 7) are the parts no
+        machinery for that one sentence, and the two human stops (step 4 and step 8) are the parts no
         machine can do for you.</p>
     </div>
   </section>
@@ -2024,8 +2082,10 @@ per-policy independence for the no-policy path.</code></pre>
         <li>The silent decisions are answered &mdash; fail open or fail closed? what does a blocked user see? An unwritten product choice gets made by the agent, fast, unsupervised.</li>
         <li>A risk tier is assigned by the Pod Lead and recorded in the spec.</li>
         <li>The harness context is named &mdash; which existing pattern this change reuses.</li>
+        <li>Its discipline inputs are carried, not rediscovered: a story with a customer surface is bound to one channel and inherits that channel's acceptance dimensions as checks; a story that encodes policy traces its checks to the signed business rules; a story touching personal data takes its tier from the data contract's PII classification, made in Design.</li>
       </ul>
       <p>The Orchestrator then writes the spec &mdash; one file in the repo: Goal, Why, Scope in/out, Acceptance checks, Risk tier, Delegation plan, Checking plan. When behavior changes later, the spec changes in the same PR &mdash; a stale spec is a lie that misleads the next reader and the next agent.</p>
+      <p><strong>Binding the channel.</strong> A spec with a customer surface names exactly one channel. The channel's descriptor lists its acceptance dimensions, and each becomes a concrete acceptance check on the spec (from the Design-phase interaction contract where it exists); its risk floor can raise the tier, never lower it. An advisory check flags a bound spec missing a dimension &mdash; it advises, it does not block. In our toolchain the binding is <code>/sdlc-channel</code>.</p>
     </div>
   </section>
 
