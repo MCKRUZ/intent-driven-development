@@ -74,34 +74,62 @@
 .topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
 .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
 .topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a8699;padding:8px 10px 3px;font-weight:700}
 @media print { .topbar { display: none; } }
 </style>
 </head>
 <body>
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../index.html">Home</a>
-  <a href="../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary>Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="companion/phase-0.html">0 · Discovery</a>
-      <a href="companion/phase-1.html">1 · Requirements</a>
-      <a href="companion/phase-2.html">2 · Design</a>
-      <a href="companion/phase-3.html">3 · Foundation</a>
+      <a href="sponsor.html">The three-minute version</a>
+      <a href="shape.html">The shape of an engagement</a>
+      <a href="journey.html">One engagement, start to finish</a>
+      <a href="when-things-change.html">What happens when things change</a>
+      <a href="../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="companion/phase-0.html">Discovery</a>
+      <a href="companion/phase-1.html">Requirements</a>
+      <a href="companion/phase-2.html">Design</a>
+      <a href="companion/phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="companion/build-loop.html">The Build Loop</a>
       <a href="companion/the-rails.html">The Rails</a>
-      <a href="companion/phase-7.html">7 · Documentation</a>
-      <a href="companion/phase-8.html">8 · Deployment</a>
-      <a href="companion/phase-9.html">9 · Monitoring</a>
-      <a href="companion/phase-c.html">C · Close &amp; Transfer</a>
+      <a href="companion/day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="companion/phase-7.html">Documentation</a>
+      <a href="companion/phase-8.html">Deployment</a>
+      <a href="companion/phase-9.html">Monitoring</a>
+      <a href="companion/phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="harness-kit/RESEARCH.html">Harness research</a>
+      <a href="harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
     <summary class="active">Reference &#9662;</summary>
     <div class="menu">
+      <a href="companion/artifact-flow.html">The artifact flow</a>
       <a href="cheatsheet.html">Loop cheat-sheet</a>
       <a href="glossary.html">Glossary</a>
-      <a href="faq.html">FAQ</a>
+      <a class="active" href="faq.html">FAQ</a>
       <a href="anti-patterns.html">Anti-pattern field guide</a>
     </div>
   </details>
@@ -120,6 +148,8 @@
   <a class="toc sub" href="#sprints-agile">Sprints and Agile?</a>
   <a class="toc sub" href="#agents-per-person">Agents per person</a>
   <a class="toc sub" href="#most-important">Most important practice</a>
+  <a class="toc sub" href="#waterfall-loop">Just waterfall with a loop?</a>
+  <a class="toc sub" href="#requirements-change">Requirements change in month three</a>
   <a class="toc" href="#engagement">About a client engagement</a>
   <a class="toc sub" href="#vague-requirements">Vague requirements</a>
   <a class="toc sub" href="#no-product-owner">No full-time PO</a>
@@ -139,7 +169,7 @@
   <p>Honest answers to the questions clients and new pod members actually ask. No overselling.
   Terms are defined in the <a href="glossary.html">glossary</a>; the full method is the
   <a href="../GOLD-STANDARD.html">standard</a>.</p>
-  <div class="meta">Paired source: docs/faq.md · part of MCKRUZ/intent-driven-development v1.0</div>
+  <div class="meta">Paired source: docs/faq.md · part of MCKRUZ/intent-driven-development v1.1</div>
 </header>
 
 <section id="method">
@@ -190,6 +220,28 @@ capacity is the ceiling, measured — not assumed.</p>
 <p>Checking the work with something stronger than a glance, and matching the depth to the risk.
 Everything else leans on it. Plenty of teams say review is the bottleneck now; almost none have
 built the checking to handle the volume. That gap is the reason the method exists.</p>
+
+<h3 id="waterfall-loop">Isn't this just waterfall with a loop in the middle?</h3>
+<p>No, and the difference is where the gates sit. Waterfall gates on dates: the design phase ends when
+the calendar says so, and whatever was signed by then is what gets built. Here the gates sit on
+<strong>decisions</strong> — a phase ends when a named human signs a specific thing (the problem framed, the
+baseline, the architecture, the factory proven), and the phases overlap while that happens. The
+middle isn't phased at all: one short loop, repeated per story, with the checking inside every pass
+instead of a testing stage at the end. And a signed decision isn't frozen — any of them can be
+reopened from inside the loop through a recorded route
+(<a href="when-things-change.html">what happens when things change</a>; standard, section 5.3b). What's refused
+is the quiet version: code drifting from a decision nobody updated.</p>
+
+<h3 id="requirements-change">What happens when requirements change in month three?</h3>
+<p>It depends on what changed, and there are three routes. Most change is just new work: it goes to
+weekly triage as a story, gets a spec, and rides the loop — nothing upstream reopens. If something
+learned disproves a design decision, a spike produces the finding, the ADR is revised as a HIGH-risk
+spec, and the old record is marked superseded. If a signed requirement itself changes, it's revised
+in place — a named owner, a written reason, the two-business-day decision clock, the downstream
+artifacts it touches listed — and the phase's gate is re-run so the change is visible rather than
+absorbed. One commercial note: reopening a Phase 0 decision (the problem, the metric, the PO mode,
+the tooling) is a SOW conversation, because billing milestones map to gates, not dates. What we
+won't do is absorb the change quietly and let the code drift from the plan.</p>
 </section>
 
 <section id="engagement">

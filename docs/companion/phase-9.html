@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a class="active" href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,9 +73,30 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="phase-8.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">← Phase 8</a>
-    <span style="font-weight:700;color:#1a2332;">Phase 9 · Monitoring</span>
-    <a href="phase-c.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase C →</a>
+    <a href="phase-8.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Deployment</a>
+    <span style="font-weight:700;color:#1a2332;">Monitoring</span>
+    <a href="phase-c.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Close &amp; Transfer &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate here" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> An escaped bug in production asks “which check should have caught it?”, and the answer is a harness change that rides the loop. An alert that fires without demanding action goes back to its baseline and is retuned, not muted.</span>
+      <span><b>If this gate fails:</b> Hypercare does not end. The report names the alert with no playbook entry, the threshold nobody derived, or the drill the client's on-call could not answer; the fix rides the loop and the drill runs again.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -57,7 +104,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 9 · Monitoring</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Monitoring</p>
     <p class="eyebrow">Phase 9 · Monitoring</p>
     <h1>Monitoring, explained
       <span class="sub">How a live system becomes a watched one — and how the engagement writes down what it learned — the idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference.</span>
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 <main id="track-glance" class="track active">
@@ -2237,9 +2285,112 @@ playbook. Two findings, both fixed and re-drilled same day.</blockquote>
 
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; Monitoring</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">Monitoring is the phase that keeps asking the Retro+ question after Build has stopped:
+        which check should have caught it? Every honest answer reopens something.</p>
+      <ul>
+        <li><strong>An escaped bug reaches production.</strong> The question is not "who missed it" but "which
+          rung should have caught it". The answer is a harness change (a test the Stop hook now enforces, a
+          grader check, a security rule), and that change rides the loop.</li>
+        <li><strong>An alert fires without demanding action.</strong> A threshold modeled instead of measured,
+          or measured against a baseline that has moved. The alert goes back to its baseline and is retuned.
+          It is not muted; a muted alert is the same as no alert with a false sense of coverage.</li>
+        <li><strong>A drill is not answered from the playbook.</strong> The client's on-call could not diagnose
+          or escalate from what was written. That is a playbook defect and possibly a RUNBOOK defect, and
+          both are specs.</li>
+        <li><strong>The outcome metric's first production read surprises.</strong> The number moved less than
+          the constitution promised, or the source system reads differently in production than in Discovery.
+          Depending on which, that is a scorecard caveat, a requirement revision, or a Discovery conversation.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The retuning that is not allowed</div>
+        <p>Raising a threshold until the alert stops. A threshold is derived from a measured baseline or
+          explicitly flagged as modeled with a revisit date. "It was noisy" is a reason to re-derive, not a
+          new value.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>A harness change, a re-derived threshold, a drill again</h2>
+      <p class="lead">Nothing in this phase is fixed by editing a dashboard. The fix goes through the loop and
+        is then proved by firing the alert on purpose.</p>
+      <ul>
+        <li><strong>Risk tier.</strong> A harness change that alters what can merge is HIGH. A threshold change
+          is LOW on its own but carries the baseline evidence in the spec. A playbook change is LOW, and its
+          acceptance criterion is a drill the on-call passes.</li>
+        <li><strong>What gets re-run.</strong> The drill on the changed alert, answered by the client's own
+          on-call from the playbook. The alert-fatigue review on anything retuned. The Phase 9 gate items the
+          change touched: the observable metric per feature, the alert per failure mode, the playbook per
+          critical alert.</li>
+        <li><strong>The decision clock.</strong> Two business days when the client's operations must confirm a
+          threshold or an escalation name. Hypercare runs on until it lands; the window does not shrink to
+          fit the calendar.</li>
+        <li><strong>Downstream at risk.</strong> The retrospective's findings and debt log, which cite the
+          escaped bugs, and the Close handoff's monitoring inventory and drill record.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>The escaped-bug answer, the baseline, the drill record</h2>
+      <p>Each escaped bug gets a row: what escaped, which check should have caught it, the harness change that
+        now does, and the date. Each threshold carries its derivation (measured, from what, when) or its
+        "modeled" flag and revisit date. Each drill is on record with who answered it and from which
+        playbook step. The retrospective is these records assembled, with receipts, not a summary written from
+        memory.</p>
+      <p>In our toolchain, the harness change enters as a spec through <code>/sdlc-spec</code>, and
+        <code>/sdlc-harness</code> confirms the new check is installed and documented. When a finding reaches
+        an upstream artifact (an NFR whose measurement basis was wrong, a RUNBOOK failure mode that was
+        missing), <code>/sdlc-revise</code> changes that one artifact, opens the decision-log row with a named
+        owner and the two-day clock, re-runs the phase gate, and lists what the change put at risk. After the
+        fix merges, <code>/sdlc-refresh</code> proposes the playbook and handoff edits, and a human confirms
+        each one.</p>
+      <ul>
+        <li>The escaped-bug log: bug, the check that should have caught it, the harness change, date.</li>
+        <li>Threshold derivations and revisit dates; the alert-fatigue review outcome.</li>
+        <li>The drill record: alert, on-call name, playbook step, pass or fail, re-drill date.</li>
+        <li>Decision log rows for any upstream artifact reopened; the debt log entry if the fix was deferred.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>Hypercare does not end</h2>
+      <p class="lead">The Phase 9 gate ends hypercare and hands the watch to the client. A gate that has not
+        passed means the pod is still on the watch, whatever the calendar says.</p>
+      <ul>
+        <li>The report names the critical alert with no playbook entry, the threshold nobody derived, the
+          top-priority feature with no observable metric, the drill the client's on-call could not answer.</li>
+        <li>Each becomes a change that rides the loop. When it merges, the drill runs again on the fixed
+          alert, answered by the same on-call from the same playbook.</li>
+        <li>The gate runs again after the re-drill. Nothing is handed over on a drill that was answered by the
+          pod instead of the client.</li>
+        <li>The merge-gate emergency bypass (two named people, an exception label, a Retro+ item) does not apply
+          here. An alert that would have fired weekly without demanding action does not ship because the
+          phase is over.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
-    Phase 9 · Monitoring — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Phase 9 · Monitoring — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

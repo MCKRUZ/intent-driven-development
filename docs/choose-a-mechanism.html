@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose a mechanism — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-deep: #11314e;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, var(--accent-deep), var(--accent)); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc code { background: rgba(255,255,255,.16); color: #fff; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+/* shared top bar */
+.topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+.topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+.topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+.topbar a.home { font-weight: 700; color: #fff; }
+.topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref { position: relative; }
+.topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+.topbar .ref summary.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref summary::-webkit-details-marker { display: none; }
+.topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+.topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 240px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a8699;padding:8px 10px 3px;font-weight:700}
+@media print { .topbar { display: none; } }
+/* human / machine colour coding: --med is a person, --accent is a machine */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot.h { background: var(--med); } .dot.m { background: var(--accent); }
+.beats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0 16px; }
+.beat { position: relative; border: 1px solid var(--rule); border-top: 4px solid var(--rule); border-radius: 10px; padding: 16px 18px 12px; background: #fafbfd; }
+.beat.h { border-top-color: var(--med); } .beat.m { border-top-color: var(--accent); }
+.beat.hm { border-top-color: var(--accent); }
+.beat.hm::after { content: ""; position: absolute; top: -4px; right: 0; width: 50%; height: 4px; background: var(--med); border-top-right-radius: 10px; }
+.beat .who { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.beat.h .who { color: var(--med); } .beat.m .who { color: var(--accent); } .beat.hm .who { color: var(--ink-soft); }
+.beat h3 { margin: 0 0 6px; font-size: 18px; }
+.beat p { font-size: 13.5px; margin: 0; }
+figure { margin: 14px 0 6px; }
+figure img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 12px 40px rgba(16,32,54,.12); display: block; }
+figcaption { font-size: 13px; color: var(--ink-soft); margin-top: 12px; max-width: 80ch; line-height: 1.5; }
+.scen { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 28px; margin: 10px 0 14px; }
+.sc { border-left: 3px solid var(--med); padding: 2px 0 2px 14px; }
+.sc h3 { margin: 0 0 4px; font-size: 15.5px; }
+.sc p { font-size: 13.5px; margin: 0 0 6px; }
+.sc .tool { display: block; font-family: Consolas, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent); }
+.dec { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 20px; margin: 12px 0; background: #fafbfd; }
+.dec h3 { margin: 0 0 10px; font-size: 16px; display: flex; gap: 10px; align-items: baseline; }
+.dec h3 .n { font-size: 12px; color: var(--med); font-weight: 700; letter-spacing: .08em; }
+.dec dl { display: grid; grid-template-columns: 150px 1fr; gap: 5px 14px; margin: 0; font-size: 13.5px; }
+.dec dt { color: var(--ink-soft); font-weight: 600; }
+.dec dd { margin: 0; }
+table.kv th { width: 170px; }
+table.kv code { white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 16px; counter-reset: rule; }
+.rule { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; background: #fafbfd; }
+.rule .rt { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; }
+.rule .rt::before { counter-increment: rule; content: counter(rule); font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.2em; }
+.rule p { font-size: 13.5px; margin: 0; }
+.halves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 12px 0 16px; }
+.half { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: #fafbfd; }
+.half h3 { margin: 0 0 6px; }
+.half p { font-size: 13.5px; margin: 0 0 8px; }
+.half ul { font-size: 13.5px; margin: 0; }
+table.cmp td.mech { color: var(--low); font-weight: 600; }
+table.cmp td.proc { color: var(--accent); font-weight: 600; }
+table.cmp td.disc { color: var(--med); font-weight: 600; }
+table.cmp th.today { box-shadow: inset 0 -3px 0 var(--accent); }
+.steps { counter-reset: step; }
+.step { display: grid; grid-template-columns: 72px 1fr; gap: 18px; padding: 24px 0; border-top: 1px solid var(--rule); }
+.step:first-of-type { border-top: 0; padding-top: 6px; }
+.step .num { font-size: 30px; font-weight: 700; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.step .num small { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; font-weight: 700; }
+.step-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; }
+.step-title a { color: inherit; text-decoration: none; }
+.step-title a:hover { color: var(--accent); }
+.step .gist { font-size: 14px; }
+.step .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px; }
+.step .cell h4 { margin: 8px 0 4px; }
+.step .cell.h h4 { color: var(--med); } .step .cell.m h4 { color: var(--accent); }
+.step .cell ul { font-size: 13.5px; margin: 0 0 6px; }
+.step pre { margin: 12px 0 0; }
+.reentry { margin-top: 12px; padding: 10px 14px; border: 1px dashed var(--med); border-radius: 8px; font-size: 13.5px; background: #fbf5e8; }
+.reentry b { color: var(--med); }
+@media (max-width: 760px) { .beats, .scen, .rules, .halves, .step .grid { grid-template-columns: 1fr; } .step { grid-template-columns: 1fr; } .dec dl { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../index.html">Home</a>
+  <details class="ref"><summary>Understand &#9662;</summary><div class="menu">
+    <a href="sponsor.html">The three-minute version</a><a href="shape.html">The shape of an engagement</a><a href="journey.html">One engagement, start to finish</a><a href="when-things-change.html">What happens when things change</a><a href="../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+  </div></details>
+  <details class="ref"><summary>Run &#9662;</summary><div class="menu">
+    <span class="mh">Open</span><a href="companion/phase-0.html">Discovery</a><a href="companion/phase-1.html">Requirements</a><a href="companion/phase-2.html">Design</a><a href="companion/phase-3.html">Foundation</a><span class="mh">The middle</span><a href="companion/build-loop.html">The Build Loop</a><a href="companion/the-rails.html">The Rails</a><a href="companion/day-in-the-loop.html">A Day in the Loop</a><span class="mh">Close</span><a href="companion/phase-7.html">Documentation</a><a href="companion/phase-8.html">Deployment</a><a href="companion/phase-9.html">Monitoring</a><a href="companion/phase-c.html">Close &amp; Transfer</a><span class="mh">People</span><a href="team.html">The Team</a>
+  </div></details>
+  <details class="ref"><summary class="active">Install &#9662;</summary><div class="menu">
+    <a class="active" href="choose-a-mechanism.html">Choose a mechanism</a><a href="with-the-plugin.html">With the claude-code-sdlc plugin</a><a href="whats-installed.html">What's installed</a><a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a><a href="harness-kit/RESEARCH.html">Harness research</a><a href="harness-kit/CALL-MAP.html">Call map</a>
+  </div></details>
+  <details class="ref"><summary>Reference &#9662;</summary><div class="menu">
+    <a href="companion/artifact-flow.html">The artifact flow</a><a href="cheatsheet.html">Loop cheat-sheet</a><a href="glossary.html">Glossary</a><a href="faq.html">FAQ</a><a href="anti-patterns.html">Anti-pattern field guide</a>
+  </div></details>
+</div>
+<div class="layout">
+<nav>
+  <div class="brand">Choose a mechanism</div>
+  <div class="brand-sub">Delivery Standard · the rules, then the tooling</div>
+  <a class="back" href="../index.html">← Home</a>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <a class="toc" href="#rules">The standard: eight rules</a>
+  <a class="toc" href="#mechanism">The mechanism: rails and harness</a>
+  <a class="toc" href="#options">The options, rule by rule</a>
+  <a class="toc" href="#honest">Where the seam is today</a>
+  <a class="back" href="with-the-plugin.html" style="margin-top:16px">Next: With the claude-code-sdlc plugin →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>Choose a mechanism</h1>
+  <p>The standard is eight rules. <code>claude-code-sdlc</code> is the way we enforce them today: one
+  option, not the definition.</p>
+  <div class="meta">Paired source: docs/choose-a-mechanism.md · part of MCKRUZ/intent-driven-development v1.1</div>
+</header>
+
+<section id="rules">
+<h2>The standard: eight rules</h2>
+<p>The method and the tooling are different things, and this page is the seam between them. The
+standard is a short set of rules any mechanism must satisfy. If a mechanism enforces them, it
+conforms; if it cannot, it does not, whatever it is called.</p>
+<div class="rules">
+  <div class="rule"><div class="rt">One spec, one branch, one review</div><p>Every change starts from a written, testable spec that travels in the same diff as the code.</p></div>
+  <div class="rule"><div class="rt">Ready before build</div><p>No vague lines, scope in and out stated, silent decisions answered, a risk tier assigned. Enforced before an agent starts.</p></div>
+  <div class="rule"><div class="rt">Plan before code</div><p>The agent proposes; a person approves the plan before anything is written.</p></div>
+  <div class="rule"><div class="rt">Nothing is done on red</div><p>An agent cannot declare itself finished with failing tests or a broken build; CI is the universal backstop.</p></div>
+  <div class="rule"><div class="rt">The author never approves</div><p>A separate grader that did not write the code, plus a non-author human, on every change. High risk adds security review and a named signature with a sentence.</p></div>
+  <div class="rule"><div class="rt">Gates report, humans advance</div><p>No auto-advance anywhere. Every override carries a name, a reason and an expiry.</p></div>
+  <div class="rule"><div class="rt">Reopening is recorded</div><p>A signed decision may be revised; the revision has an owner, a reason, a clock and a visible blast radius.</p></div>
+  <div class="rule"><div class="rt">Outcomes, never activity</div><p>Success metric and delivery-stability trends; no velocity, points, PR or line counts. Empty reads "no data", never zero.</p></div>
+</div>
+</section>
+
+<section id="mechanism">
+<h2>The mechanism: two halves</h2>
+<p>Whatever enforces the rules has two halves, and they differ in one way that matters when you
+choose: one half does not care which coding agent is in use, the other is specific to it.</p>
+<div class="halves">
+  <div class="half"><h3>The rails</h3><p>Live in the repo and the pipeline. They do not care which local tool wrote the code.</p><ul><li>CI workflows: build, tests, lint, coverage</li><li>The AI grader and reviewers running in the pipeline</li><li>Branch protection and the required checks</li><li>The deploy and promotion gates, with a named approver</li></ul></div>
+  <div class="half"><h3>The harness</h3><p>Lives with the coding agent, and is specific to the one in use.</p><ul><li>The agent's permissions: what it may run, what it must ask about</li><li>The stop-on-red hook that refuses "done" with a failing build</li><li>The plan-first rule</li><li>The phase state and the gates</li></ul></div>
+</div>
+<p>That split is why the checking side of the method already works with any coding agent, and why
+the intent and delegation side is where the options differ.</p>
+</section>
+
+<section id="options">
+<h2>The options, rule by rule</h2>
+<p>Pick one per engagement. For each rule: enforced <span style="color:var(--low);font-weight:600">mechanically</span>
+(a check blocks), <span style="color:var(--accent);font-weight:600">by process</span> (a meeting with a signed artifact),
+or <span style="color:var(--med);font-weight:600">by discipline</span> (people remembering).</p>
+<table class="cmp">
+  <thead><tr><th>Rule</th><th class="today">claude-code-sdlc · today's default</th><th>Rails only, any agent · supported shape</th><th>Templates only · minimum</th></tr></thead>
+  <tbody>
+    <tr><td>1 · One spec, one branch, one review</td><td class="mech">Mechanically</td><td class="mech">Mechanically</td><td class="disc">By discipline</td></tr>
+    <tr><td>2 · Ready before build</td><td class="mech">Mechanically</td><td class="disc">By discipline</td><td class="disc">By discipline</td></tr>
+    <tr><td>3 · Plan before code</td><td class="mech">Mechanically</td><td class="disc">By discipline</td><td class="disc">By discipline</td></tr>
+    <tr><td>4 · Nothing is done on red</td><td class="mech">Mechanically</td><td class="mech">Mechanically</td><td class="disc">By discipline</td></tr>
+    <tr><td>5 · The author never approves</td><td class="mech">Mechanically</td><td class="mech">Mechanically</td><td class="proc">By process</td></tr>
+    <tr><td>6 · Gates report, humans advance</td><td class="mech">Mechanically</td><td class="mech">Mechanically</td><td class="proc">By process</td></tr>
+    <tr><td>7 · Reopening is recorded</td><td class="mech">Mechanically</td><td class="disc">By discipline</td><td class="disc">By discipline</td></tr>
+    <tr><td>8 · Outcomes, never activity</td><td class="mech">Mechanically</td><td class="mech">Mechanically</td><td class="proc">By process</td></tr>
+    <tr><td><strong>What it is</strong></td><td>Full mechanism: the phase state machine and gates, the harness install, the rails, the spec / spike / revise / refresh commands, HTML gate reports. Claude Code only.</td><td>Cursor, Copilot, Codex or any agent writes; the same CI rails, grader and branch protection check. Phase gates run as reviewed checklists and signed records in the repo.</td><td>Spec, spike, rollback, alert and handoff templates plus the cadences and roles, with no orchestration tooling. Gates are meetings with signed artifacts.</td></tr>
+    <tr><td><strong>Requires</strong></td><td>Claude Code and the plugin marketplace. One install, one source of truth for the kit.</td><td>A "ready" check and a plan-approval step the tool may not give you.</td><td>Nothing beyond the repo.</td></tr>
+    <tr><td><strong>Best when</strong></td><td>You want all eight rules enforced by a check, not a habit.</td><td>The client has already standardised on another agent.</td><td>A locked-down environment allows nothing else. An honest fallback; not where we want to be for long.</td></tr>
+  </tbody>
+</table>
+<p>The walkthrough of the default option, one engagement step by step with every command, is
+<a href="with-the-plugin.html">with the claude-code-sdlc plugin</a>. The files any option lays down
+in the repo are listed on <a href="whats-installed.html">what's installed</a>.</p>
+</section>
+
+<section id="honest">
+<h2>Where the seam is today</h2>
+<p>An honest note on how far the neutrality goes right now. The kit's "neutral core" is neutral on
+stack and on CI platform: a stack pack and a CI/CD pack are composed on top of it, and the Azure
+DevOps pack proves that shape is buildable. It is not yet neutral on the coding agent. The core
+ships Claude Code artifacts unconditionally: <code>CLAUDE.md</code>, <code>.claude/hooks</code>,
+agents, skills and <code>.mcp.json</code>.</p>
+<p>The planned change is an <em>agent</em> axis in the pack model. The core would declare the four
+capabilities it needs (a session-context file, a pre-finish block on red, a non-author reviewer,
+and a pre-push gate) and each agent pack would realise them in its own syntax, the same way the
+CI/CD packs already realise the pipeline for GitHub Actions and Azure DevOps. Until that lands,
+"rails only, any agent" is a supported shape you assemble by hand from the rails half of the kit,
+not a pack you install.</p>
+<div class="callout">Harbor Mutual, the standard's fictional worked example, runs on the default option throughout the docs. The reason is only that it is the one we run today; the eight rules above are what the engagement is held to, and they are the same under any of the three.</div>
+</section>
+
+<footer>Choose a mechanism · Delivery Standard · MCKRUZ/intent-driven-development · Paired source: docs/choose-a-mechanism.md</footer>
+</main>
+</div>
+</body>
+</html>

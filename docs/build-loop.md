@@ -313,6 +313,12 @@ emergency merge past a gate requires the Pod Lead plus one other human, an excep
 and a retro agenda item. Two exceptions in a month means the gate or the specs are wrong —
 fix that, don't keep excepting.
 
+**If the gate fails.** A change that fails any rung does not merge, and nothing about it
+advances until it does. The failing check says what is missing: the grader's check-by-check
+verdict, the correctness reviewer's defect, the Checker's bounce. The fix goes back to the same
+Orchestrator on the same branch, and every gate, including a fresh grader run, runs again on the
+updated PR. The exception path above is the only bypass, and it is deliberately expensive.
+
 ---
 
 ## 5. The week

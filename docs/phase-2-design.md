@@ -250,6 +250,14 @@ Phase 2 closes when all of these are true:
 - [ ] The walking-skeleton definition exists and is sufficient to prove the architecture
 - [ ] A named human on each side approved the advance — gates report, humans decide
 
+**If the gate fails.** Nothing advances. The report names the orphan (a requirement with no
+design element, or an element tracing to nothing), the integration never spiked against the live
+system, or the ADR carrying one option and one signature. The fix is a design change or a spike,
+recorded the same way the original decision was, and the gate runs again before Foundation
+starts. Once the gate has passed, the design stays revisable from inside the loop: a spike earns
+the revision, the revision is a HIGH-risk spec, and the old ADR is marked superseded rather than
+edited.
+
 ---
 
 ## 6. What goes wrong in Phase 2

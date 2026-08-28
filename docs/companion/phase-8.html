@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a class="active" href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,9 +73,30 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="phase-7.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">← Phase 7</a>
-    <span style="font-weight:700;color:#1a2332;">Phase 8 · Deployment</span>
-    <a href="phase-9.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase 9 →</a>
+    <a href="phase-7.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Documentation</a>
+    <span style="font-weight:700;color:#1a2332;">Deployment</span>
+    <a href="phase-9.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Monitoring &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate here" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> A rollback rehearsal that fails (at Harbor, the configuration the release left behind, spec 0046) becomes a spec, rides the loop through the same gates, and the rehearsal runs again before any production promotion.</span>
+      <span><b>If this gate fails:</b> A no-go is a no-go. Nothing is promoted, the go/no-go record says what is missing, the fix rides the loop, and the rehearsal and the vote run again; hypercare does not start on an unpassed gate.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -57,7 +104,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 8 · Deployment</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Deployment</p>
     <p class="eyebrow">Phase 8 · Deployment</p>
     <h1>Deployment, explained
       <span class="sub">The week the system finally takes real traffic — and why the whole point is to make that day boring. The idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference.</span>
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 
@@ -1894,9 +1942,109 @@ Wed 7/22  08:05  Re-rehearsal: deploy rc-1.0.1                    OK (8 min)
   </section>
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; Deployment</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">Deployment is promotion, not construction. When it turns into construction, that is the
+        phase reopening itself, and it happens through the loop.</p>
+      <ul>
+        <li><strong>The rollback rehearsal fails.</strong> At Harbor, the client's operators deployed, rolled
+          back, and found the application configuration the release had left behind. That was spec 0046: a
+          fix through the loop, then the rehearsal again on Wednesday, clean.</li>
+        <li><strong>A go/no-go returns no-go.</strong> A named role says no with a reason. The reason is the
+          trigger: a smoke test that cannot run, a secret the pod still holds, a fallback trigger nobody
+          wrote down.</li>
+        <li><strong>The first real traffic does not match expected behavior.</strong> The trace shows a path the
+          skeleton never exercised. That is a defect spec, and hypercare holds until it merges and the trace
+          is repeated.</li>
+        <li><strong>A later phase reopens the rollout.</strong> A Monitoring drill finds the fallback trigger
+          fires too late; a Close audit finds the promotion workflow depends on a pod identity. Both come back
+          to the rollout shape the client owns.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">What is not a reopening</div>
+        <p>A rebuilt artifact. The thing promoted to production is the artifact that passed test, byte for
+          byte. A fix that needs a new build goes through the loop, passes test, and is promoted from there.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>A spec, the rehearsal again, the vote again</h2>
+      <p class="lead">A failed rehearsal costs a loop turn and a second rehearsal. It does not cost the gate's
+        standard, which stays exactly where it was.</p>
+      <ul>
+        <li><strong>Risk tier.</strong> Anything touching the release, its configuration, its secrets or its
+          rollback is HIGH: the security workflow runs, and a named human signs off in the PR with a sentence.
+          The Bicep promotion at Harbor was reviewed line by line for that reason.</li>
+        <li><strong>What gets re-run.</strong> The rehearsal by the client's own operators (deploy, roll back,
+          redeploy), then the go/no-go with every named role asked again. The Phase 8 gate items downstream of
+          the fix: production provisioned from code, secrets rotated, smoke tests, the first-traffic trace.</li>
+        <li><strong>The decision clock.</strong> Two business days on the rollout decisions only the client can
+          make: the in-flight-work answer, the fallback trigger, the hypercare window. A vote cannot be taken
+          on a rollout shape nobody has decided.</li>
+        <li><strong>The commercial consequence.</strong> The Phase 8 milestone bills on the gate report. A
+          rehearsal week that turns into two is a recorded reason on the gate, not an overrun absorbed
+          quietly.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>Both rehearsals, the spec between them, and the vote</h2>
+      <p>The evidence timeline keeps the failed run and the clean run side by side: what the operators did,
+        where it broke, the spec that fixed it, and the repeat. The go/no-go record carries every role's
+        answer and the rationale, including a no-go and what changed before the yes. The rollout shape is a
+        document the client owns, with the in-flight answer and the fallback trigger written in it.</p>
+      <p>In our toolchain, the rehearsal defect enters as a spec through <code>/sdlc-spec</code> and rides the
+        loop at the tier its blast radius sets. If the failure reaches upstream (the RUNBOOK section that described the rollback, the ADR
+        that shaped configuration), <code>/sdlc-revise</code> changes that one artifact, opens the decision-log
+        row with a named owner and the two-day clock, re-runs the phase gate, and lists what the change put at
+        risk. After the fix merges, <code>/sdlc-refresh</code> proposes the RUNBOOK and handoff edits and a
+        human confirms them.</p>
+      <ul>
+        <li>The evidence timeline: failed rehearsal, spec, clean rehearsal, with dates and operators' names.</li>
+        <li>The go/no-go record: every role, every answer, the rationale, and the retake if there was one.</li>
+        <li>The rollout shape document, client-owned, revised in place with the change noted.</li>
+        <li>Decision log row for any upstream artifact the failure reopened.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>A no-go is a no-go</h2>
+      <p class="lead">Nothing is promoted. The point of asking every named role is that any one of them can stop
+        it, and the standard does not have a way to overrule a no with a schedule.</p>
+      <ul>
+        <li>The go/no-go record says what is missing and who said so. The report names the rehearsal that did
+          not run clean, the secret the pod still holds, the smoke test that could not run.</li>
+        <li>The fix rides the loop through the same gates as any change, and the rehearsal and the vote are
+          run again by the same people.</li>
+        <li>Hypercare does not start on an unpassed gate, and release notes do not go out for a release that
+          did not happen.</li>
+        <li>The merge-gate emergency bypass (two named people, an exception label, a Retro+ item) is not a way
+          past a no-go. A production promotion is the one place where "emergency" most often means "we
+          should stop".</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
-    Phase 8 · Deployment — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Phase 8 · Deployment — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

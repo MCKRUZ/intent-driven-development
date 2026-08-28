@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The three-minute version — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-deep: #11314e;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, var(--accent-deep), var(--accent)); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc code { background: rgba(255,255,255,.16); color: #fff; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+/* shared top bar */
+.topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+.topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+.topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+.topbar a.home { font-weight: 700; color: #fff; }
+.topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref { position: relative; }
+.topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+.topbar .ref summary.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref summary::-webkit-details-marker { display: none; }
+.topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+.topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 240px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a8699;padding:8px 10px 3px;font-weight:700}
+@media print { .topbar { display: none; } }
+/* human / machine colour coding: --med is a person, --accent is a machine */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot.h { background: var(--med); } .dot.m { background: var(--accent); }
+.beats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0 16px; }
+.beat { position: relative; border: 1px solid var(--rule); border-top: 4px solid var(--rule); border-radius: 10px; padding: 16px 18px 12px; background: #fafbfd; }
+.beat.h { border-top-color: var(--med); } .beat.m { border-top-color: var(--accent); }
+.beat.hm { border-top-color: var(--accent); }
+.beat.hm::after { content: ""; position: absolute; top: -4px; right: 0; width: 50%; height: 4px; background: var(--med); border-top-right-radius: 10px; }
+.beat .who { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.beat.h .who { color: var(--med); } .beat.m .who { color: var(--accent); } .beat.hm .who { color: var(--ink-soft); }
+.beat h3 { margin: 0 0 6px; font-size: 18px; }
+.beat p { font-size: 13.5px; margin: 0; }
+figure { margin: 14px 0 6px; }
+figure img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 12px 40px rgba(16,32,54,.12); display: block; }
+figcaption { font-size: 13px; color: var(--ink-soft); margin-top: 12px; max-width: 80ch; line-height: 1.5; }
+.scen { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 28px; margin: 10px 0 14px; }
+.sc { border-left: 3px solid var(--med); padding: 2px 0 2px 14px; }
+.sc h3 { margin: 0 0 4px; font-size: 15.5px; }
+.sc p { font-size: 13.5px; margin: 0 0 6px; }
+.sc .tool { display: block; font-family: Consolas, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent); }
+.dec { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 20px; margin: 12px 0; background: #fafbfd; }
+.dec h3 { margin: 0 0 10px; font-size: 16px; display: flex; gap: 10px; align-items: baseline; }
+.dec h3 .n { font-size: 12px; color: var(--med); font-weight: 700; letter-spacing: .08em; }
+.dec dl { display: grid; grid-template-columns: 150px 1fr; gap: 5px 14px; margin: 0; font-size: 13.5px; }
+.dec dt { color: var(--ink-soft); font-weight: 600; }
+.dec dd { margin: 0; }
+table.kv th { width: 170px; }
+table.kv code { white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 16px; counter-reset: rule; }
+.rule { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; background: #fafbfd; }
+.rule .rt { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; }
+.rule .rt::before { counter-increment: rule; content: counter(rule); font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.2em; }
+.rule p { font-size: 13.5px; margin: 0; }
+.halves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 12px 0 16px; }
+.half { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: #fafbfd; }
+.half h3 { margin: 0 0 6px; }
+.half p { font-size: 13.5px; margin: 0 0 8px; }
+.half ul { font-size: 13.5px; margin: 0; }
+table.cmp td.mech { color: var(--low); font-weight: 600; }
+table.cmp td.proc { color: var(--accent); font-weight: 600; }
+table.cmp td.disc { color: var(--med); font-weight: 600; }
+table.cmp th.today { box-shadow: inset 0 -3px 0 var(--accent); }
+.steps { counter-reset: step; }
+.step { display: grid; grid-template-columns: 72px 1fr; gap: 18px; padding: 24px 0; border-top: 1px solid var(--rule); }
+.step:first-of-type { border-top: 0; padding-top: 6px; }
+.step .num { font-size: 30px; font-weight: 700; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.step .num small { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; font-weight: 700; }
+.step-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; }
+.step-title a { color: inherit; text-decoration: none; }
+.step-title a:hover { color: var(--accent); }
+.step .gist { font-size: 14px; }
+.step .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px; }
+.step .cell h4 { margin: 8px 0 4px; }
+.step .cell.h h4 { color: var(--med); } .step .cell.m h4 { color: var(--accent); }
+.step .cell ul { font-size: 13.5px; margin: 0 0 6px; }
+.step pre { margin: 12px 0 0; }
+.reentry { margin-top: 12px; padding: 10px 14px; border: 1px dashed var(--med); border-radius: 8px; font-size: 13.5px; background: #fbf5e8; }
+.reentry b { color: var(--med); }
+@media (max-width: 760px) { .beats, .scen, .rules, .halves, .step .grid { grid-template-columns: 1fr; } .step { grid-template-columns: 1fr; } .dec dl { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../index.html">Home</a>
+  <details class="ref"><summary class="active">Understand &#9662;</summary><div class="menu">
+    <a class="active" href="sponsor.html">The three-minute version</a><a href="shape.html">The shape of an engagement</a><a href="journey.html">One engagement, start to finish</a><a href="when-things-change.html">What happens when things change</a><a href="../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+  </div></details>
+  <details class="ref"><summary>Run &#9662;</summary><div class="menu">
+    <span class="mh">Open</span><a href="companion/phase-0.html">Discovery</a><a href="companion/phase-1.html">Requirements</a><a href="companion/phase-2.html">Design</a><a href="companion/phase-3.html">Foundation</a><span class="mh">The middle</span><a href="companion/build-loop.html">The Build Loop</a><a href="companion/the-rails.html">The Rails</a><a href="companion/day-in-the-loop.html">A Day in the Loop</a><span class="mh">Close</span><a href="companion/phase-7.html">Documentation</a><a href="companion/phase-8.html">Deployment</a><a href="companion/phase-9.html">Monitoring</a><a href="companion/phase-c.html">Close &amp; Transfer</a><span class="mh">People</span><a href="team.html">The Team</a>
+  </div></details>
+  <details class="ref"><summary>Install &#9662;</summary><div class="menu">
+    <a href="choose-a-mechanism.html">Choose a mechanism</a><a href="with-the-plugin.html">With the claude-code-sdlc plugin</a><a href="whats-installed.html">What's installed</a><a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a><a href="harness-kit/RESEARCH.html">Harness research</a><a href="harness-kit/CALL-MAP.html">Call map</a>
+  </div></details>
+  <details class="ref"><summary>Reference &#9662;</summary><div class="menu">
+    <a href="companion/artifact-flow.html">The artifact flow</a><a href="cheatsheet.html">Loop cheat-sheet</a><a href="glossary.html">Glossary</a><a href="faq.html">FAQ</a><a href="anti-patterns.html">Anti-pattern field guide</a>
+  </div></details>
+</div>
+<div class="layout">
+<nav>
+  <div class="brand">The three-minute version</div>
+  <div class="brand-sub">Delivery Standard · for the sponsor</div>
+  <a class="back" href="../index.html">← Home</a>
+  <a class="back" href="../GOLD-STANDARD.html">← The Delivery Standard</a>
+  <a class="toc" href="#what">What this is</a>
+  <a class="toc" href="#shape">The shape of an engagement</a>
+  <a class="toc" href="#decisions">What you decide, what you see</a>
+  <a class="toc" href="#cost">Duration, involvement, signatures</a>
+  <a class="toc" href="#changes">When things change</a>
+  <a class="toc" href="#next">Where next</a>
+  <a class="back" href="shape.html" style="margin-top:16px">Next: The shape of an engagement →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>The three-minute version</h1>
+  <p>For a sponsor or client executive: what this is, what you decide, what you'll see, and what
+  happens when things change.</p>
+  <div class="meta">Paired source: docs/sponsor.md · part of MCKRUZ/intent-driven-development v1.1</div>
+</header>
+
+<section id="what">
+<h2>What this is</h2>
+<p class="lede">AI agents write code fast. That does not make software delivery faster on its own.
+The hard work moves to two places: <strong>saying clearly what you want</strong>, and
+<strong>proving that what came back is right</strong>. This standard is how a small team runs a
+client engagement around those two jobs.</p>
+<p>Every piece of work, large or small, runs the same short loop. A person writes down what they
+want precisely enough to be checked. An agent builds it inside limits the person set. Then automated
+checks and a second person, never the author, prove it before anyone trusts it.</p>
+<div class="legend">
+  <span><i class="dot h"></i> A named human decides and signs</span>
+  <span><i class="dot m"></i> A machine drafts, checks, or reports</span>
+</div>
+<div class="beats" aria-label="The build loop">
+  <div class="beat h"><div class="who">A human writes</div><h3>Intent</h3><p>One short, testable description of one piece of work: a <em>spec</em>. If two people could build different things from a line, it is not ready.</p></div>
+  <div class="beat m"><div class="who">An agent builds</div><h3>Delegate</h3><p>The agent proposes a plan; a person approves it; then it builds inside a set scope, a named pattern to reuse, and fixed permissions. It cannot call itself finished with failing tests.</p></div>
+  <div class="beat hm"><div class="who">Machines report · a human signs</div><h3>Discern</h3><p>Build, tests and coverage gate mechanically. A second AI that did not write the code grades it against the spec. A person who did not write it approves. High-risk work adds a security pass and a named signature.</p></div>
+</div>
+<p>The one rule underneath all of it: <strong>the machine drafts and reports; a named human decides
+and owns.</strong> No gate in the standard is a machine's opinion becoming a decision. A machine
+says whether you <em>may</em> advance; a person decides whether you <em>do</em>.</p>
+</section>
+
+<section id="shape">
+<h2>The shape of an engagement, as it actually runs</h2>
+<p>The standard is usually drawn as a line: four numbered phases, a build loop, four more phases.
+That picture is misleading in one important way. <strong>The phase gates are not points on a
+calendar; they are decisions that get signed.</strong> A decision can be reopened later, when
+something is learned that changes it, and reopening is itself a change with a named owner and a
+risk tier, riding the same loop. Drawn honestly, it looks like this:</p>
+<figure>
+  <img src="assets/shape-of-an-engagement.png" alt="The shape of an engagement — eight signed decisions around one continuous loop" style="width:100%;height:auto;border-radius:6px;box-shadow:0 12px 40px rgba(16,32,54,.12)">
+  <figcaption>Each marked point is a signature by a named person, on a decision, with evidence
+  attached. The order of the signatures is real (you cannot sign an architecture before a problem),
+  but the dates are not fixed, the phases overlap, and any signed decision can be reopened from
+  inside the loop through the dashed routes. What the standard forbids is the <em>quiet</em>
+  version: code that drifts away from a decision nobody updated.
+  <a href="shape.html">Each of the eight decisions, one by one →</a></figcaption>
+</figure>
+</section>
+
+<section id="decisions">
+<h2>What you decide, and what you see</h2>
+<p>Five decisions belong to the client side and nobody else. Everything else is the pod's job,
+reported to you as working software on a steady rhythm.</p>
+<table>
+  <thead><tr><th>Your decision</th><th>When</th><th>What you get before you sign</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Who owns the product decisions.</strong> A named product owner at 4 or more hours a week, or we act as proxy and you ratify a decision log at each steering.</td><td>Discovery workshop, day one</td><td>The problem statement in your words, the one success metric and where it will be read from.</td></tr>
+    <tr><td><strong>Whose AI account and keys.</strong> Yours by default (your contract, your audit trail), with a one-page data-flow brief for your security team.</td><td>Discovery exit</td><td>What goes to the model, what never does, where keys live, who can see usage.</td></tr>
+    <tr><td><strong>The architecture.</strong> Two or three options with real trade-offs; your engineer co-signs the one chosen.</td><td>Design exit</td><td>Decision records you can read, a threat model, and a plan for proving the non-functional requirements.</td></tr>
+    <tr><td><strong>Go / no-go to production.</strong> Always a person, never automatic; promotion beyond dev cannot run without a named approver.</td><td>Deployment</td><td>A rehearsed rollback, release notes drafted from what merged, smoke-test results.</td></tr>
+    <tr><td><strong>That you no longer need us.</strong> The close gate is your team running one real change end to end without us driving.</td><td>Close</td><td>A harness audit (nothing only we understand), a named owner on your side with a deputy, our access revoked.</td></tr>
+  </tbody>
+</table>
+<p><strong>What you see in between:</strong> a 45-minute steering every two weeks. A live demo in
+the dev environment, your success metric, the two delivery-stability figures every engineering
+organisation reports (how often a change fails, how fast it is recovered), and the share of
+agent-built work accepted without rework. Plus a five-bullet note in the off weeks. Never activity
+numbers: no pull-request counts, no "AI productivity" claims. Agents inflate every one of those;
+demos and outcomes don't.</p>
+</section>
+
+<section id="cost">
+<h2>Duration, involvement, signatures</h2>
+<p>Planning figures for a 4–6 person pod and a medium-sized product. Not promises: billing
+milestones map to gates, not dates. The opening phases overlap (the Setup Owner's enablement work
+runs ahead while requirements and design close), so Discovery through Foundation runs 4–6 weeks
+in total.</p>
+<table>
+  <thead><tr><th>Phase</th><th>Typical duration</th><th>Pod involvement</th><th>What we need from your side</th><th>What you sign</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Discovery</strong></td><td>About 2 weeks (10 business days), part of the 4–6 week opening</td><td>The Pod Lead runs the workshop; the Setup Owner starts enablement in parallel</td><td>Sponsor: a half-day workshop plus two 30-minute checkpoints. A candidate product owner. Security and IT from day one (procurement and access need lead time). Two to four domain experts, 45–60 minutes each. The data owner for one working session, to prove the metric can be read.</td><td>The problem statement, the PO decision, the tooling decision</td></tr>
+    <tr><td><strong>Requirements</strong></td><td>About 1 week (5 business days; 8–10 when the domain is heavily regulated or proxy mode adds latency)</td><td>The pod drafts with the agent; the Pod Lead enforces the definition of ready on every story</td><td>The product owner's committed hours, fully spent. Every decision-list item answered on a 2-business-day clock. Domain experts 60–90 minutes per epic area. Sponsor about 1.5 hours.</td><td>The baseline: requirements, non-functionals, epics</td></tr>
+    <tr><td><strong>Design</strong></td><td>About 1 week (5 business days; 8–10 with a large integration estate)</td><td>The Architect presents two or three options with concrete trade-offs</td><td>Your lead engineer for 3–5 hours across the week; they co-sign every decision record. Security 1–2 hours. Product owner about 1 hour. Sponsor 45 minutes.</td><td>The architecture and its decision records (ADRs)</td></tr>
+    <tr><td><strong>Foundation</strong></td><td>About 2 weeks (10 business days)</td><td>The Setup Owner builds the harness and the pipeline; the pod runs the first four small pieces of work through it</td><td>Your platform or DevOps engineer for 4–6 hours: access, branch protection, secrets, and a review of the pipeline they will operate after we leave. Security 2–3 hours. Lead engineer 4–6 hours. Product owner about 1 hour. Sponsor 45 minutes.</td><td>The factory demo: one real feature running in your dev environment</td></tr>
+    <tr><td><strong>Build</strong></td><td>8–16 weeks</td><td>The whole pod: Orchestrators 90–100%, Pod Lead 50–70%, Quality Engineer 60–80%, Setup Owner 30–50%</td><td>Product owner at 4 or more hours a week on the decision list. Security sign-off on every HIGH-risk change. Domain experts as the work demands. Sponsor 45 minutes every two weeks.</td><td>Nothing per phase. Each change merges on its own gates.</td></tr>
+    <tr><td><strong>Documentation</strong></td><td>About 1 week (5 business days)</td><td>The agent drafts from the code and the specs; the pod diffs and corrects</td><td>One engineer who has never opened the repo, 2–3 hours, to follow the README cold. An operations engineer 3–4 hours to walk the runbook with their own permissions. Lead engineer 2–3 hours. Product owner about 1 hour. Sponsor 45 minutes.</td><td>The verification records: someone new ran it cold</td></tr>
+    <tr><td><strong>Deployment</strong></td><td>About 1 week</td><td>The pod beside your operators, not on the keyboard</td><td>Your platform engineer, on and off through the week. Operators 3–4 hours to rehearse deploy, roll back, redeploy themselves. Product owner 2–3 hours on the rollout shape. Security 1–2 hours. Sponsor 1–2 hours, informed and asked.</td><td>Go / no-go</td></tr>
+    <tr><td><strong>Monitoring</strong></td><td>About 2 weeks, inside hypercare</td><td>The pod builds alerts from measured baselines and runs the incident drill</td><td>Operations co-author what "healthy" means; it is the thread of the phase. Platform engineer 3–4 hours. Data or reporting lead 2–3 hours. Security 1–2 hours. Product owner about 1 hour. Sponsor 45 minutes.</td><td>Thresholds confirmed against real data; the drill record</td></tr>
+    <tr><td><strong>Close</strong></td><td>About 3 weeks</td><td>The pod steps back: hands off the keyboard in week one, out of the room by the gate</td><td>Your engineers run at least three real changes with our Checkers, then one solo. Your named Setup Owner merges a harness change of their own. Operations 2–3 hours on access revocation. Sponsor 1 hour.</td><td>The close gate: one real change shipped without us</td></tr>
+  </tbody>
+</table>
+</section>
+
+<section id="changes">
+<h2>What happens when things change</h2>
+<p>Because they will. The standard's sequence is honest about order, not rigid about time. Four
+things routinely happen mid-engagement, and each has a route that leaves a record. None of them is
+"start the phases over."</p>
+<div class="scen">
+  <div class="sc"><h3>A new need appears during build</h3><p>It goes to the weekly triage like any story: written precisely, its risk tiered, its silent decisions put on the decision list for you to answer. Then it rides the loop. This is the normal case, and the loop exists for it.</p></div>
+  <div class="sc"><h3>Something learned disproves the design</h3><p>A bounded experiment, a <em>spike</em>, produces written evidence. The design decision is revised as a high-risk change with a named signature; the old record is marked superseded, not erased. What is forbidden is code that silently stops matching the decision.</p></div>
+  <div class="sc"><h3>A signed requirement changes</h3><p>The requirement is revised in place with an owner, a reason and a two-business-day clock; the affected downstream artifacts are listed; the phase's gate is re-run so the change is visible rather than absorbed.</p></div>
+  <div class="sc"><h3>A gate fails</h3><p>Nothing advances. The gate report says what is missing; the fix rides the loop; the gate runs again. A true emergency merge past a gate takes two named people, a label and a retro item.</p></div>
+</div>
+<p><a href="when-things-change.html">The full routes, who owns each, what is recorded, and what it costs →</a></p>
+</section>
+
+<section id="next">
+<h2>Where next</h2>
+<div class="callout">Want to see the whole shape run once, with names and dates? <a href="journey.html">One engagement, start to finish</a> walks Harbor Mutual, the standard's fictional worked example, from the first workshop to the day the client runs it alone. The eight decisions are laid out one by one on <a href="shape.html">the shape of an engagement</a>; the rules any tooling has to satisfy are on <a href="choose-a-mechanism.html">choose a mechanism</a>.</div>
+</section>
+
+<footer>The three-minute version · Delivery Standard · MCKRUZ/intent-driven-development · Paired source: docs/sponsor.md</footer>
+</main>
+</div>
+</body>
+</html>

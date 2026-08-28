@@ -74,31 +74,59 @@
 .topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
 .topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 200px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
 .topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a8699;padding:8px 10px 3px;font-weight:700}
 @media print { .topbar { display: none; } }
 </style>
 </head>
 <body>
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../index.html">Home</a>
-  <a class="active" href="../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary>Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="companion/phase-0.html">0 · Discovery</a>
-      <a href="companion/phase-1.html">1 · Requirements</a>
-      <a href="companion/phase-2.html">2 · Design</a>
-      <a href="companion/phase-3.html">3 · Foundation</a>
+      <a href="sponsor.html">The three-minute version</a>
+      <a href="shape.html">The shape of an engagement</a>
+      <a href="journey.html">One engagement, start to finish</a>
+      <a href="when-things-change.html">What happens when things change</a>
+      <a href="../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="companion/phase-0.html">Discovery</a>
+      <a href="companion/phase-1.html">Requirements</a>
+      <a href="companion/phase-2.html">Design</a>
+      <a href="companion/phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="companion/build-loop.html">The Build Loop</a>
       <a href="companion/the-rails.html">The Rails</a>
-      <a href="companion/phase-7.html">7 · Documentation</a>
-      <a href="companion/phase-8.html">8 · Deployment</a>
-      <a href="companion/phase-9.html">9 · Monitoring</a>
-      <a href="companion/phase-c.html">C · Close &amp; Transfer</a>
+      <a href="companion/day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="companion/phase-7.html">Documentation</a>
+      <a href="companion/phase-8.html">Deployment</a>
+      <a href="companion/phase-9.html">Monitoring</a>
+      <a href="companion/phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a class="active" href="team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="harness-kit/RESEARCH.html">Harness research</a>
+      <a href="harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
     <summary>Reference &#9662;</summary>
     <div class="menu">
+      <a href="companion/artifact-flow.html">The artifact flow</a>
       <a href="cheatsheet.html">Loop cheat-sheet</a>
       <a href="glossary.html">Glossary</a>
       <a href="faq.html">FAQ</a>
@@ -142,7 +170,7 @@
   stopped being the bottleneck, so the valuable work moved to two places — deciding clearly
   (intent) and proving it's right (checking). Every role below is the old role rebuilt around
   that fact.</p>
-  <div class="meta">Paired source: docs/team.md · part of MCKRUZ/intent-driven-development v1.0</div>
+  <div class="meta">Paired source: docs/team.md · part of MCKRUZ/intent-driven-development v1.1</div>
 </header>
 
 <section>

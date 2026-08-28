@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a class="active" href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,9 +73,30 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="the-rails.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">← The Rails</a>
-    <span style="font-weight:700;color:#1a2332;">Phase 7 · Documentation</span>
-    <a href="phase-8.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase 8 →</a>
+    <a href="the-rails.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; The Rails</a>
+    <span style="font-weight:700;color:#1a2332;">Documentation</span>
+    <a href="phase-8.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Deployment &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate here" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> A cold walk that stalls, or a README that drifted while a Build spec merged, is a documentation defect: it becomes a spec, rides the loop, and the walk is re-run clean afterwards, not waved through.</span>
+      <span><b>If this gate fails:</b> Nothing advances. “They managed with a little help” is a fail; the report names the step the verifier stalled on, the fix is a defect spec, and the cold run happens again on a clean machine.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -57,7 +104,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 7 · Documentation</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Documentation</p>
     <p class="eyebrow">Phase 7 · Documentation</p>
     <h1>Documentation, explained
       <span class="sub">The week that decides whether the client can run this system after we leave — the idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference. The core idea: docs are verified by use, not by reading.</span>
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 
@@ -1954,9 +2002,107 @@ read failures outside the refresh window (configured in Phase 9).</blockquote>
   </section>
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; Documentation</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">Documentation is proven by use, and use continues after the gate. Every later phase runs
+        someone through a document cold, and every stall is a route back to this one.</p>
+      <ul>
+        <li><strong>A cold walk stalls.</strong> Deployment's operators follow the RUNBOOK and stop at a step
+          that assumes something they do not have; Close's client engineers follow the README on a machine
+          the pod never touched. A stall is a documentation defect, and a defect is a spec.</li>
+        <li><strong>A spec merges and the document drifts.</strong> Spec 0046 in Deployment changed how
+          configuration is versioned, and the RUNBOOK was corrected the same afternoon. Every merged spec
+          after this gate is a candidate drift item.</li>
+        <li><strong>An ADR is reopened.</strong> A design revision from the loop supersedes a decision the
+          documentation explained. The doc that explained it now explains something that is no longer true.</li>
+        <li><strong>The sample audit finds a mismatch.</strong> A spec in the library says one thing and the
+          system does another. Intentional drift gets the spec updated; unintentional drift is a defect spec
+          into the loop.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">The stall that is not a defect</div>
+        <p>None. "They managed with a little help" is the definition of a fail. If the verifier needed a word
+          from the pod, the document needed that word, and the word goes in.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>A defect spec, and the cold run again</h2>
+      <p class="lead">The fix is never the edit alone. It is the edit, merged through the loop, and then the
+        same walk repeated from a clean start to show the stall is gone.</p>
+      <ul>
+        <li><strong>Risk tier.</strong> A documentation defect is usually LOW: the diff is prose, and the grader
+          checks it against the spec's acceptance criterion ("a verifier completes step 7 without asking").
+          It becomes MEDIUM or HIGH only if fixing the document reveals the code was wrong, at which point the
+          code change carries its own tier.</li>
+        <li><strong>What gets re-run.</strong> The cold verification that failed, on a clean machine, by
+          someone who has not seen the fix. Then the Phase 7 gate items it touched: the README checkout, the
+          RUNBOOK scenarios, the drift catalog, the ADR sweep.</li>
+        <li><strong>The decision clock.</strong> Two business days on any drift item that needs a client call
+          (is this behavior intended?). An unanswered item is not "no blocker"; it is an open item with an
+          owner and a Phase 8 blocker decision still pending.</li>
+        <li><strong>Downstream at risk.</strong> The Phase 8 handoff and its deployment checklist, both of which
+          were assembled from the documents the defect lived in.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>The defect spec, the re-run, and the drift catalog entry</h2>
+      <p>A documentation defect is a spec like any other: it has an ID, an owner, an acceptance criterion the
+        grader can check, and a PR with non-author approval. The drift catalog gets a row for it with the
+        resolution and the date. The cold run that found it and the cold run that closed it are both on
+        record, with who walked and what they stalled on.</p>
+      <p>In our toolchain, a defect found by a cold walk enters through <code>/sdlc-spec</code> like any change.
+        When the defect reaches an upstream artifact (an ADR the doc explained, a contract the API reference
+        described), <code>/sdlc-revise</code> changes that one artifact, opens the decision-log row with a named
+        owner and the two-day clock, re-runs the phase gate, and lists what the change put at risk. After a
+        Build-era spec merges, <code>/sdlc-refresh</code> proposes the document edits it implies, and a human
+        confirms each one; that is how the drift catalog stays short.</p>
+      <ul>
+        <li>The defect spec: ID, owner, criterion, PR, approval.</li>
+        <li>The drift catalog row: what drifted, intentional or not, resolution, owner, date.</li>
+        <li>The two cold-run records: the stall, then the clean pass.</li>
+        <li>Decision log row when an upstream artifact was reopened.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>The walk happens again, on a clean machine</h2>
+      <p class="lead">The Phase 7 gate is passed by an observed, unassisted run. A promise that the document was
+        fixed does not pass it; the re-run does.</p>
+      <ul>
+        <li>Nothing advances. The report names the step the verifier stalled on, the drift item with no owner,
+          the open ADR the sweep found, the spec that failed the sample audit.</li>
+        <li>Each becomes a defect spec that rides the loop. When it merges, the failed cold run is repeated
+          from a clean start, by someone who has not seen the fix.</li>
+        <li>The gate runs again on the re-run. "They managed with a little help" is a fail on the second walk
+          exactly as it was on the first.</li>
+        <li>The merge-gate emergency bypass (two named people, an exception label, a Retro+ item) has no
+          phase-gate equivalent. Deployment does not start with a RUNBOOK the operators could not follow.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
-    Phase 7 · Documentation — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Phase 7 · Documentation — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What happens when things change — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-deep: #11314e;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, var(--accent-deep), var(--accent)); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc code { background: rgba(255,255,255,.16); color: #fff; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+/* shared top bar */
+.topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+.topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+.topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+.topbar a.home { font-weight: 700; color: #fff; }
+.topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref { position: relative; }
+.topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+.topbar .ref summary.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref summary::-webkit-details-marker { display: none; }
+.topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+.topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 240px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a8699;padding:8px 10px 3px;font-weight:700}
+@media print { .topbar { display: none; } }
+/* human / machine colour coding: --med is a person, --accent is a machine */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot.h { background: var(--med); } .dot.m { background: var(--accent); }
+.beats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0 16px; }
+.beat { position: relative; border: 1px solid var(--rule); border-top: 4px solid var(--rule); border-radius: 10px; padding: 16px 18px 12px; background: #fafbfd; }
+.beat.h { border-top-color: var(--med); } .beat.m { border-top-color: var(--accent); }
+.beat.hm { border-top-color: var(--accent); }
+.beat.hm::after { content: ""; position: absolute; top: -4px; right: 0; width: 50%; height: 4px; background: var(--med); border-top-right-radius: 10px; }
+.beat .who { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.beat.h .who { color: var(--med); } .beat.m .who { color: var(--accent); } .beat.hm .who { color: var(--ink-soft); }
+.beat h3 { margin: 0 0 6px; font-size: 18px; }
+.beat p { font-size: 13.5px; margin: 0; }
+figure { margin: 14px 0 6px; }
+figure img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 12px 40px rgba(16,32,54,.12); display: block; }
+figcaption { font-size: 13px; color: var(--ink-soft); margin-top: 12px; max-width: 80ch; line-height: 1.5; }
+.scen { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 28px; margin: 10px 0 14px; }
+.sc { border-left: 3px solid var(--med); padding: 2px 0 2px 14px; }
+.sc h3 { margin: 0 0 4px; font-size: 15.5px; }
+.sc p { font-size: 13.5px; margin: 0 0 6px; }
+.sc .tool { display: block; font-family: Consolas, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent); }
+.dec { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 20px; margin: 12px 0; background: #fafbfd; }
+.dec h3 { margin: 0 0 10px; font-size: 16px; display: flex; gap: 10px; align-items: baseline; }
+.dec h3 .n { font-size: 12px; color: var(--med); font-weight: 700; letter-spacing: .08em; }
+.dec dl { display: grid; grid-template-columns: 150px 1fr; gap: 5px 14px; margin: 0; font-size: 13.5px; }
+.dec dt { color: var(--ink-soft); font-weight: 600; }
+.dec dd { margin: 0; }
+table.kv th { width: 170px; }
+table.kv code { white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 16px; counter-reset: rule; }
+.rule { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; background: #fafbfd; }
+.rule .rt { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; }
+.rule .rt::before { counter-increment: rule; content: counter(rule); font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.2em; }
+.rule p { font-size: 13.5px; margin: 0; }
+.halves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 12px 0 16px; }
+.half { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: #fafbfd; }
+.half h3 { margin: 0 0 6px; }
+.half p { font-size: 13.5px; margin: 0 0 8px; }
+.half ul { font-size: 13.5px; margin: 0; }
+table.cmp td.mech { color: var(--low); font-weight: 600; }
+table.cmp td.proc { color: var(--accent); font-weight: 600; }
+table.cmp td.disc { color: var(--med); font-weight: 600; }
+table.cmp th.today { box-shadow: inset 0 -3px 0 var(--accent); }
+.steps { counter-reset: step; }
+.step { display: grid; grid-template-columns: 72px 1fr; gap: 18px; padding: 24px 0; border-top: 1px solid var(--rule); }
+.step:first-of-type { border-top: 0; padding-top: 6px; }
+.step .num { font-size: 30px; font-weight: 700; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.step .num small { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; font-weight: 700; }
+.step-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; }
+.step-title a { color: inherit; text-decoration: none; }
+.step-title a:hover { color: var(--accent); }
+.step .gist { font-size: 14px; }
+.step .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px; }
+.step .cell h4 { margin: 8px 0 4px; }
+.step .cell.h h4 { color: var(--med); } .step .cell.m h4 { color: var(--accent); }
+.step .cell ul { font-size: 13.5px; margin: 0 0 6px; }
+.step pre { margin: 12px 0 0; }
+.reentry { margin-top: 12px; padding: 10px 14px; border: 1px dashed var(--med); border-radius: 8px; font-size: 13.5px; background: #fbf5e8; }
+.reentry b { color: var(--med); }
+@media (max-width: 760px) { .beats, .scen, .rules, .halves, .step .grid { grid-template-columns: 1fr; } .step { grid-template-columns: 1fr; } .dec dl { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../index.html">Home</a>
+  <details class="ref"><summary class="active">Understand &#9662;</summary><div class="menu">
+    <a href="sponsor.html">The three-minute version</a><a href="shape.html">The shape of an engagement</a><a href="journey.html">One engagement, start to finish</a><a class="active" href="when-things-change.html">What happens when things change</a><a href="../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+  </div></details>
+  <details class="ref"><summary>Run &#9662;</summary><div class="menu">
+    <span class="mh">Open</span><a href="companion/phase-0.html">Discovery</a><a href="companion/phase-1.html">Requirements</a><a href="companion/phase-2.html">Design</a><a href="companion/phase-3.html">Foundation</a><span class="mh">The middle</span><a href="companion/build-loop.html">The Build Loop</a><a href="companion/the-rails.html">The Rails</a><a href="companion/day-in-the-loop.html">A Day in the Loop</a><span class="mh">Close</span><a href="companion/phase-7.html">Documentation</a><a href="companion/phase-8.html">Deployment</a><a href="companion/phase-9.html">Monitoring</a><a href="companion/phase-c.html">Close &amp; Transfer</a><span class="mh">People</span><a href="team.html">The Team</a>
+  </div></details>
+  <details class="ref"><summary>Install &#9662;</summary><div class="menu">
+    <a href="choose-a-mechanism.html">Choose a mechanism</a><a href="with-the-plugin.html">With the claude-code-sdlc plugin</a><a href="whats-installed.html">What's installed</a><a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a><a href="harness-kit/RESEARCH.html">Harness research</a><a href="harness-kit/CALL-MAP.html">Call map</a>
+  </div></details>
+  <details class="ref"><summary>Reference &#9662;</summary><div class="menu">
+    <a href="companion/artifact-flow.html">The artifact flow</a><a href="cheatsheet.html">Loop cheat-sheet</a><a href="glossary.html">Glossary</a><a href="faq.html">FAQ</a><a href="anti-patterns.html">Anti-pattern field guide</a>
+  </div></details>
+</div>
+<div class="layout">
+<nav>
+  <div class="brand">What happens when things change</div>
+  <div class="brand-sub">Delivery Standard · the routes back</div>
+  <a class="back" href="../index.html">← Home</a>
+  <a class="back" href="shape.html">← The shape of an engagement</a>
+  <a class="toc" href="#new-need">1 · A new need appears during build</a>
+  <a class="toc" href="#design-disproved">2 · Something disproves the design</a>
+  <a class="toc" href="#requirement-changes">3 · A signed requirement changes</a>
+  <a class="toc" href="#gate-fails">4 · A gate fails</a>
+  <a class="toc" href="#phase-0">5 · Reopening a Phase 0 decision</a>
+  <a class="toc" href="#waterfall">Is this waterfall?</a>
+  <a class="back" href="companion/build-loop.html" style="margin-top:16px">Next: The Build Loop →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>What happens when things change</h1>
+  <p>Because they will. Four things routinely happen mid-engagement; each has a route that leaves a
+  record. None of them is "start the phases over."</p>
+  <div class="meta">Paired source: docs/when-things-change.md · part of MCKRUZ/intent-driven-development v1.1</div>
+</header>
+
+<section id="intro">
+<h2>The one rule for every route</h2>
+<p>A signed decision may be revised. The revision has an owner, a reason, a clock and a visible
+blast radius, and it rides the same loop as any other change. What the standard forbids is the
+<em>quiet</em> version: code that no longer matches a decision nobody updated. Each route below is
+the recorded alternative to that drift. The commands named under "in our toolchain" are the
+<code>claude-code-sdlc</code> plugin's; they are the example mechanism, not the rule. Harbor Mutual,
+the standard's fictional worked example, exercises every one of them in
+<a href="with-the-plugin.html">the step-by-step walkthrough</a>.</p>
+</section>
+
+<section id="new-need">
+<h2>1 · A new need appears during build</h2>
+<p>This is the normal case, and the loop exists for it. Nothing enters the loop as a conversation;
+a new need becomes a story and clears the definition of ready at the weekly intent triage like any
+other.</p>
+<table class="kv"><tbody>
+  <tr><th>The trigger</th><td>Someone, on either side, wants something the baseline did not name.</td></tr>
+  <tr><th>The route</th><td>Weekly intent triage. The story is written precisely enough to be checked (every line passes the vague-line test), scope in and out are both stated, the silent product decisions go on the decision list for the product owner to answer, a risk tier is assigned, and the existing pattern the change should reuse is named. Then it rides the loop: Intent, Delegate, Discern, merged and deployed to dev.</td></tr>
+  <tr><th>Who owns it</th><td>The Pod Lead owns triage, the risk tier and the routing. The product owner answers the decision-list items on the agreed clock. The Orchestrator writes the spec.</td></tr>
+  <tr><th>What is recorded</th><td>The spec: one file, in the repo, travelling in the same pull request as the code. The decision-list answers, with the owner's name.</td></tr>
+  <tr><th>What it costs</th><td>The tier the Pod Lead assigns: LOW gets the grader and a light human look, MEDIUM the grader plus a non-author Checker, HIGH the full ladder with a security pass and a named signature. No phase gate re-runs; the merge gates are the gate.</td></tr>
+  <tr><th>In our toolchain</th><td><code>/sdlc-spec</code> turns the triaged story into a spec, ready or bounced. The decision list is visible in <code>/sdlc-status</code>.</td></tr>
+</tbody></table>
+</section>
+
+<section id="design-disproved">
+<h2>2 · Something learned disproves the design</h2>
+<p>Design was decided at the design gate, and contact with a real implementation sometimes proves
+the choice wrong. That happens on serious platform projects, not just sloppy ones, and pretending
+otherwise just means the revision happens without a record.</p>
+<table class="kv"><tbody>
+  <tr><th>The trigger</th><td>A decision record rests on an assumption nobody has tested, and the evidence starts pointing the other way. Acceptance criteria written about an unknown are fiction, and the grader would grade them as if they weren't.</td></tr>
+  <tr><th>The route</th><td>A <strong>spike</strong> first: a bounded experiment, boxed in time or tokens and agreed at triage, run on a <code>spike/</code> branch that a required CI check refuses to merge. Its deliverable is a written finding (what was assumed, what was tested against which system, what was found, whether the assumption survived); the code is deleted. If the finding invalidates the decision, the revision goes through as a HIGH-risk change with a named signature. The old record is marked superseded, never edited, so the history of what was believed when survives.</td></tr>
+  <tr><th>Who owns it</th><td>The Architect opens the spike when a decision has no evidence behind it, or the Pod Lead opens it at triage when a story cannot be made ready. The Architect signs the revised record; the client's lead engineer co-signs it, as with every decision record.</td></tr>
+  <tr><th>What is recorded</th><td>The spike finding, committed. The superseded record, still in place. The HIGH-risk change with its <code>SIGNED-OFF-BY</code> line: a name and a sentence, because a bare name is the thumbs-up this rung exists to reject.</td></tr>
+  <tr><th>What it costs</th><td>The spike's box, then a HIGH change: tight agent permissions, the full checking ladder, a security review pass, a named sign-off. The design gate is not re-run; the revision is the gate.</td></tr>
+  <tr><th>In our toolchain</th><td><code>/sdlc-spike "does the carrier API dedupe on our idempotency key?"</code> runs the bounded experiment. <code>/sdlc-revise ADR-007</code> carries the revision through as a HIGH-risk change.</td></tr>
+</tbody></table>
+</section>
+
+<section id="requirement-changes">
+<h2>3 · A signed requirement changes</h2>
+<p>The baseline was signed at the requirements gate. When a requirement changes afterwards, the
+change is made visible rather than absorbed.</p>
+<table class="kv"><tbody>
+  <tr><th>The trigger</th><td>The product owner, a regulator, or the market changes what the system has to do, after the baseline was signed.</td></tr>
+  <tr><th>The route</th><td>The requirement is revised in place with an owner, a reason and a two-business-day clock. The affected downstream artifacts (design records, specs, tests) are listed so the blast radius is visible. The requirements gate is re-run. When the discovery runs the other way, and a merged change has drifted from its requirement, the reverse runs: the merged work proposes the upstream edit and a person confirms it.</td></tr>
+  <tr><th>Who owns it</th><td>The product owner owns the requirement and the answer clock. The Pod Lead routes the edit and re-tiers whatever work it touches. A person, never an agent, confirms an upstream edit proposed from merged work.</td></tr>
+  <tr><th>What is recorded</th><td>A decision-log row with owner, reason and clock. The revised artifact. The list of what the change put at risk. The re-run gate report.</td></tr>
+  <tr><th>What it costs</th><td>The gate re-run, plus the tier of whatever downstream work the change forces: a changed public API contract or a schema migration is HIGH regardless of how small the wording change was.</td></tr>
+  <tr><th>In our toolchain</th><td><code>/sdlc-revise FR-012</code> routes the edit to its owning discipline, opens the decision-log row, re-runs the phase's gate and lists what is at risk. <code>/sdlc-refresh detect --spec specs/0016-duplicate-claim-merge.md</code> after a merge asks whether upstream drifted, and proposes the edit for a person to apply. <code>/sdlc-audit-artifacts</code> finds stale artifacts anywhere.</td></tr>
+</tbody></table>
+</section>
+
+<section id="gate-fails">
+<h2>4 · A gate fails</h2>
+<p>Gates tell you whether you may advance; a named human decides whether you do. A failed gate is
+not an event; it is the gate doing its job.</p>
+<table class="kv"><tbody>
+  <tr><th>The trigger</th><td>The automated battery at a phase boundary (integrity, completeness, metrics, compliance, consistency, quality) reports something missing, or a merge gate on a pull request goes red.</td></tr>
+  <tr><th>The route</th><td>Nothing advances. The gate report says what is missing; the fix rides the loop; the gate runs again. A failed merge check goes back to the same Orchestrator, who drives the fix on the same branch, and every gate, including a fresh grader run, runs again before merge. The mechanical gates are never overridden. A quality-gate override requires written justification recorded with the phase state. A true emergency merge past a gate takes the Pod Lead and one other human, a <code>gate-exception</code> label, and a Retro+ agenda item. Two exceptions in a month means the gate or the specs are wrong; fix that, don't keep excepting.</td></tr>
+  <tr><th>Who owns it</th><td>The named human who would sign the gate. For an emergency merge, the Pod Lead plus one other named person.</td></tr>
+  <tr><th>What is recorded</th><td>The gate report. Any override, with a name, a reason and an expiry. The exception label on the pull request and the retro item that follows it.</td></tr>
+  <tr><th>What it costs</th><td>The time to fix what the report names, and no more. An override costs a name, a sentence and a retro; the standard is built so that it never costs less than that.</td></tr>
+  <tr><th>In our toolchain</th><td><code>/sdlc-gate</code> runs the battery and opens the HTML report. <code>/sdlc-next</code> refuses to advance without the gate passed and a named human's sign-off.</td></tr>
+</tbody></table>
+</section>
+
+<section id="phase-0">
+<h2>5 · Reopening a Phase 0 decision</h2>
+<p>The problem statement, the success metric, the product-owner mode and the tooling decision are
+the four things signed at the very first gate, and every later signature stands on them. Reopening
+one is the most expensive change in the engagement. Because billing milestones map to gates, it is
+also a statement-of-work conversation, and it belongs at steering rather than in a pull request.</p>
+<p>It does happen: a metric turns out to be unreadable where it was supposed to be read, a named
+product owner leaves and proxy mode has to start, a client's AI procurement stalls. The route is
+the same shape as every other reopening (an owner, a reason, a record, the gate re-run), with the
+sponsor holding the pen and the affected downstream signatures listed before anyone agrees to it.
+Nothing on this page makes it cheap; the point is that it is visible.</p>
+</section>
+
+<section id="waterfall">
+<h2>Is this waterfall?</h2>
+<p>No. Waterfall phases the middle and checks a large batch of work at the end; this standard
+refuses to phase the middle at all and checks every change, inside the loop, before it merges.
+The opening and closing gates are ordered decisions with named owners, not calendar stages, and
+each of them can be reopened through the routes above without starting anything over.</p>
+</section>
+
+<footer>What happens when things change · Delivery Standard · MCKRUZ/intent-driven-development · Paired source: docs/when-things-change.md</footer>
+</main>
+</div>
+</body>
+</html>

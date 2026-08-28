@@ -259,6 +259,13 @@ The engagement closes when all of these are true:
 - [ ] A named human on each side signed the close — gates report, humans decide, one last
       time
 
+**If the gate fails.** The engagement does not close. Leaving on schedule with an unpassed close
+gate is not closing, it is abandoning with paperwork. The report names what the client team
+could not do alone, that item becomes another loop turn with the pod checking rather than
+driving, and the close gate is run again on a different real spec. The week extends until it
+passes; the SOW's gate-based billing means the extension is a scoped conversation, not a silent
+overrun.
+
 ---
 
 ## 6. What goes wrong in Phase C

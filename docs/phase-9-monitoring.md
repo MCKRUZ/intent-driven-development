@@ -291,6 +291,13 @@ Phase 9 closes — and hypercare ends with it — when all of these are true:
       open items with owners
 - [ ] A named human on each side approved the advance — gates report, humans decide
 
+**If the gate fails.** Hypercare does not end. The report names the critical alert with no
+playbook entry, the threshold nobody derived from a baseline, or the drill the client's on-call
+could not answer from the playbook. Each becomes a change that rides the loop, and the drill
+runs again on the fixed alert. An escaped bug found during the phase gets the same question
+every Retro+ asked: which check should have caught it? The answer is a harness change, and the
+gate runs again after it merges.
+
 ---
 
 ## 6. What goes wrong in Phase 9

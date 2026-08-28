@@ -300,6 +300,13 @@ merge past a gate requires the Pod Lead plus one other human, an exception label
 agenda item. Two exceptions in a month is not bad luck — it means the gate or the specs are wrong.
 Fix that; do not normalize the bypass.
 
+**If the gate fails.** A red rail means the change does not merge; nothing else changes. Fix the
+cause, never the check: a failing test is not flaked into passing, a coverage miss is not
+excluded, a grader verdict is not re-run until it agrees. A correctness override is a named
+label the PR timeline audits, and non-author approval still applies to it. The emergency bypass
+is the one escape hatch, and a second one in the same month is the signal to fix the gate or the
+specs rather than keep excepting.
+
 ---
 
 ## 5. Deploy and promotion

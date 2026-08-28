@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Shape of an Engagement</title>
+<!-- Composition: BIG OBJECT — the engagement drawn as a rail schematic (the standard's own word for its pipeline is "the rails").
+     Design language: blueprint, with the site's palette (hero navy #11314e / #0f5c8c, line #d6e2f0, amber #b07a1e family for human signatures).
+     Where is the reader standing: looking over a drafting table at an engineer's track drawing, sheet 1 of 1. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+img, svg { display: block; max-width: 100%; }
+:root{
+  --canvas-w:1920px; --canvas-h:1080px;
+  --bg:#11314e; --bg-2:#0c2439;
+  --line:#d6e2f0; --line-soft:rgb(214 226 240 / 0.28); --line-faint:rgb(214 226 240 / 0.14);
+  --ink:#f3f7fb; --ink-muted:#9fb8d4;
+  --brass:#d9a24a; --brass-deep:#b07a1e;
+  --steel:#5fa8d8;
+  --font-display:'Saira Condensed',sans-serif; --font-body:'IBM Plex Mono',monospace;
+  --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:56px;
+}
+html, body { background: var(--bg); }
+body { width: var(--canvas-w); font-family: var(--font-body); color: var(--ink); }
+.canvas { position:relative; width:var(--canvas-w); height:var(--canvas-h); overflow:hidden;
+  background:
+    radial-gradient(1200px 700px at 30% 40%, rgb(15 92 140 / .35), transparent 70%),
+    linear-gradient(var(--line-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-faint) 1px, transparent 1px),
+    var(--bg);
+  background-size: auto, 40px 40px, 40px 40px, auto; }
+.frame { position:absolute; inset:12px; border:2px solid var(--line); pointer-events:none; }
+.frame::after { content:""; position:absolute; inset:4px; border:1px solid var(--line-soft); }
+.reg { position:absolute; width:18px; height:18px; }
+.reg::before,.reg::after{ content:""; position:absolute; background:var(--line-soft); }
+.reg::before{ left:8px; top:0; width:1px; height:18px; } .reg::after{ top:8px; left:0; height:1px; width:18px; }
+
+.hdr { position:absolute; left:56px; top:44px; width:760px; }
+.kicker { font:500 13px/1 var(--font-body); letter-spacing:.18em; color:var(--ink-muted); text-transform:uppercase; }
+h1 { font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:.04em; line-height:.95; font-size:66px; margin-top:10px; color:var(--ink); }
+.stand { font:400 15px/1.5 var(--font-body); color:var(--ink-muted); margin-top:14px; max-width:660px; }
+.stand b { color:var(--ink); font-weight:600; }
+
+.legend { position:absolute; left:1440px; top:70px; display:flex; flex-direction:column; gap:10px; font:400 13px/1 var(--font-body); color:var(--ink-muted); }
+.legend span { display:flex; align-items:center; gap:9px; }
+.legend i { width:11px; height:11px; border-radius:50%; display:inline-block; flex:none; }
+.legend i.b { background:var(--brass); } .legend i.s { background:var(--steel); } .legend i.d { width:22px; height:0; border-top:2px dashed var(--brass); border-radius:0; }
+.legend .lt { font:600 12px/1 var(--font-body); letter-spacing:.16em; color:var(--ink-muted); margin-bottom:2px; }
+
+.dwg { position:absolute; left:40px; top:250px; width:1360px; height:760px; }
+.dwg svg { width:1360px; height:760px; }
+
+.ladder { position:absolute; left:1440px; top:290px; width:420px; }
+.ladder h2 { font-family:var(--font-display); font-weight:600; font-size:24px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink); }
+.ladder .sub { font:italic 400 13px/1.45 var(--font-body); color:var(--ink-muted); margin-top:4px; }
+.ladder svg { width:420px; height:340px; margin-top:12px; }
+
+.rev { position:absolute; left:1440px; top:742px; width:400px; padding:14px 16px 12px; border:1.5px solid var(--brass);
+  border-radius:60px 24px 64px 28px / 28px 60px 24px 64px; }
+.rev .tag { position:absolute; top:-12px; right:22px; background:var(--bg); padding:0 8px; font:600 12px/1.6 var(--font-body); color:var(--brass); letter-spacing:.12em; }
+.rev p { font:400 13.5px/1.45 var(--font-body); color:var(--ink); }
+.rev p b { color:var(--brass); font-weight:600; }
+
+.tb { position:absolute; right:32px; bottom:32px; width:520px; border:2px solid var(--line); background:var(--bg-2); }
+.tb::before { content:""; position:absolute; inset:4px; border:1px solid var(--line-soft); pointer-events:none; }
+.tb table { border-collapse:collapse; width:100%; }
+.tb td { font:400 12px/1.35 var(--font-body); color:var(--ink-muted); padding:7px 12px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+.tb td:first-child { width:96px; letter-spacing:.12em; font-weight:500; border-right:1px solid var(--line-soft); }
+.tb td:last-child { color:var(--ink); }
+.tb tr:last-child td { border-bottom:0; }
+.tb .t { font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:.05em; font-size:20px; color:var(--ink); }
+
+.dim-note { position:absolute; left:56px; bottom:36px; width:820px; font:400 12.5px/1.5 var(--font-body); color:var(--ink-muted); }
+.dim-note b { color:var(--ink); font-weight:500; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="frame"></div>
+  <div class="reg" style="left:26px;top:26px"></div>
+  <div class="reg" style="right:26px;top:26px"></div>
+  <div class="reg" style="left:26px;bottom:26px"></div>
+
+  <div class="hdr">
+    <div class="kicker">MCKRUZ · The Delivery Standard · Intent-Driven Development · Sheet 1 of 1</div>
+    <h1>The shape of an engagement</h1>
+    <p class="stand">Eight decisions, each <b>signed by a named person</b>, arranged around one continuous build loop. <b>Gates sit on decisions, not on dates</b> — and any signed decision can be reopened from inside the loop, on the record.</p>
+  </div>
+  <div class="legend">
+    <span class="lt">KEY</span>
+    <span><i class="b"></i> a named human signs</span>
+    <span><i class="s"></i> a machine drafts, checks or reports</span>
+    <span><i class="d"></i> route back — recorded, risk-tiered</span>
+  </div>
+
+  <div class="dwg" data-hero>
+    <svg viewBox="0 0 1360 760" xmlns="http://www.w3.org/2000/svg" aria-label="Rail schematic: four signed gates open the engagement, a loop runs the middle, four signed gates close it, with sidings back from the loop to earlier gates">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9" fill="none" stroke="#d6e2f0" stroke-width="1.2"/></marker>
+        <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9" fill="none" stroke="#d9a24a" stroke-width="1.4"/></marker>
+        <marker id="ars" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9" fill="none" stroke="#5fa8d8" stroke-width="1.4"/></marker>
+        <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.5" height="8" fill="#5fa8d8" opacity=".5"/></pattern>
+        <g id="post">
+          <line x1="0" y1="0" x2="0" y2="-46" stroke="#d6e2f0" stroke-width="2"/>
+          <line x1="0" y1="-40" x2="30" y2="-40" stroke="#d6e2f0" stroke-width="2.5" stroke-linecap="square"/>
+          <circle cx="0" cy="0" r="7" fill="#11314e" stroke="#d6e2f0" stroke-width="2.5"/>
+          <circle cx="0" cy="0" r="3" fill="#d9a24a"/>
+        </g>
+        <path id="ah" d="M-8,-6 L7,0 L-8,6 Z" fill="#d6e2f0"/>
+        <style>
+          .rail{stroke:#d6e2f0;stroke-width:3;fill:none}
+          .lbl{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:19px;letter-spacing:.04em;text-transform:uppercase;fill:#f3f7fb}
+          .sub{font-family:'IBM Plex Mono',monospace;font-size:12.5px;fill:#9fb8d4}
+          .band{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:16px;letter-spacing:.18em;fill:#9fb8d4}
+          .dim{stroke:#d6e2f0;stroke-width:1;fill:none}
+          .dimt{font-family:'IBM Plex Mono',monospace;font-size:13px;fill:#f3f7fb}
+          .ko{fill:#11314e}
+          .re{font-family:'IBM Plex Mono',monospace;font-size:12.5px;fill:#d9a24a}
+          .beat{font-family:'Saira Condensed',sans-serif;font-weight:700;font-size:26px;letter-spacing:.05em;text-transform:uppercase;fill:#f3f7fb}
+          .beatsub{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:#9fb8d4}
+        </style>
+      </defs>
+
+      <!-- ===== OPEN rail (top) ===== -->
+      <text x="60" y="52" class="band">OPEN — FOUR GATES, IN ORDER</text>
+      <g stroke="#d6e2f0" stroke-width="1.2" opacity=".45">
+        <path d="M60 120 v14 M100 120 v14 M140 120 v14 M180 120 v14 M220 120 v14 M260 120 v14 M300 120 v14 M340 120 v14 M380 120 v14 M420 120 v14 M460 120 v14 M500 120 v14 M540 120 v14 M580 120 v14 M620 120 v14 M660 120 v14 M700 120 v14 M740 120 v14 M780 120 v14 M820 120 v14 M860 120 v14 M900 120 v14 M940 120 v14 M980 120 v14 M1020 120 v14 M1060 120 v14 M1100 120 v14 M1140 120 v14 M1180 120 v14 M1220 120 v14 M1260 120 v14"/>
+      </g>
+      <!-- the rail runs right, turns down, and feeds the loop -->
+      <path class="rail" d="M40 127 H1276 Q1290 127 1290 141 V292 Q1290 306 1277 310 L872 378"/>
+
+      <g transform="translate(160,127)"><use href="#post"/></g>
+      <text x="160" y="164" class="lbl" text-anchor="middle">Problem framed</text>
+      <text x="160" y="182" class="sub" text-anchor="middle">one metric · PO named · keys agreed</text>
+
+      <g transform="translate(470,127)"><use href="#post"/></g>
+      <text x="470" y="164" class="lbl" text-anchor="middle">Baseline signed</text>
+      <text x="470" y="182" class="sub" text-anchor="middle">stories · NFRs · decision list</text>
+
+      <g transform="translate(780,127)"><use href="#post"/></g>
+      <text x="780" y="164" class="lbl" text-anchor="middle">Architecture chosen</text>
+      <text x="780" y="182" class="sub" text-anchor="middle">2–3 options · a human picks</text>
+
+      <g transform="translate(1090,127)"><use href="#post"/></g>
+      <text x="1090" y="164" class="lbl" text-anchor="middle">Factory proven</text>
+      <text x="1090" y="182" class="sub" text-anchor="middle">rails live · thin slice in client dev</text>
+
+      <path class="dim" d="M160 66 V82 M1090 66 V82 M160 74 H1090" marker-start="url(#ar)" marker-end="url(#ar)"/>
+      <rect x="520" y="64" width="210" height="20" class="ko"/>
+      <text x="625" y="78" class="dimt" text-anchor="middle">4–6 WEEKS · PHASES OVERLAP</text>
+
+      <!-- ===== THE LOOP ===== -->
+      <circle cx="700" cy="420" r="150" fill="url(#hatch)" opacity=".35"/>
+      <circle cx="700" cy="420" r="150" fill="none" stroke="#d6e2f0" stroke-width="3.5"/>
+      <circle cx="700" cy="420" r="138" fill="none" stroke="#d6e2f0" stroke-width="1" opacity=".45"/>
+      <circle cx="700" cy="420" r="100" fill="#11314e" stroke="#d6e2f0" stroke-width="1" opacity=".92"/>
+      <!-- direction arrowheads on the ring (clockwise) -->
+      <use href="#ah" transform="translate(830,345) rotate(60)"/>
+      <use href="#ah" transform="translate(700,570) rotate(180)"/>
+      <use href="#ah" transform="translate(570,345) rotate(-60)"/>
+
+      <!-- beats -->
+      <g><circle cx="700" cy="270" r="15" fill="#11314e" stroke="#d9a24a" stroke-width="3"/><circle cx="700" cy="270" r="5" fill="#d9a24a"/></g>
+      <text x="700" y="245" class="beat" text-anchor="middle">Intent</text>
+      <text x="700" y="228" class="beatsub" text-anchor="middle">a person writes it</text>
+
+      <g><circle cx="830" cy="495" r="15" fill="#11314e" stroke="#5fa8d8" stroke-width="3"/><circle cx="830" cy="495" r="5" fill="#5fa8d8"/></g>
+      <text x="862" y="503" class="beat">Delegate</text>
+      <text x="862" y="521" class="beatsub">an agent builds, bounded</text>
+
+      <g><circle cx="570" cy="495" r="15" fill="#11314e" stroke="#5fa8d8" stroke-width="3"/><circle cx="570" cy="495" r="5" fill="#d9a24a"/></g>
+      <text x="538" y="503" class="beat" text-anchor="end">Discern</text>
+      <text x="538" y="521" class="beatsub" text-anchor="end">machines report · a human signs</text>
+
+      <!-- hub -->
+      <text x="700" y="398" class="band" text-anchor="middle" style="font-size:18px">THE BUILD LOOP</text>
+      <text x="700" y="424" class="sub" text-anchor="middle" style="fill:#f3f7fb">8–16 weeks · once per change</text>
+      <text x="700" y="442" class="sub" text-anchor="middle">every merge checked by machine</text>
+      <text x="700" y="460" class="sub" text-anchor="middle">and by a non-author</text>
+      <text x="700" y="486" class="sub" text-anchor="middle" style="fill:#f3f7fb">no phases in the middle</text>
+
+      <!-- sidings back (re-entry) -->
+      <path d="M775 290 C 790 250 786 220 782 192" fill="none" stroke="#d9a24a" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arb)"/>
+      <text x="806" y="236" class="re">a spike disproves the design →</text>
+      <text x="806" y="252" class="re">revise the ADR · HIGH risk · superseded, not erased</text>
+
+      <path d="M625 290 C 590 250 520 215 474 192" fill="none" stroke="#d9a24a" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arb)"/>
+      <text x="540" y="236" class="re" text-anchor="end">← a signed requirement changes</text>
+      <text x="540" y="252" class="re" text-anchor="end">revise it · owner · clock · impact</text>
+
+      <!-- new work enters -->
+      <path d="M236 420 H 540" fill="none" stroke="#5fa8d8" stroke-width="2" marker-end="url(#ars)"/>
+      <text x="236" y="404" class="sub">new work enters via weekly triage</text>
+      <text x="236" y="440" class="sub" style="fill:#f3f7fb">never straight from a chat</text>
+
+      <!-- ===== CLOSE rail (bottom) ===== -->
+      <text x="60" y="560" class="band">CLOSE — FOUR GATES, IN ORDER</text>
+      <g stroke="#d6e2f0" stroke-width="1.2" opacity=".45">
+        <path d="M60 620 v14 M100 620 v14 M140 620 v14 M180 620 v14 M220 620 v14 M260 620 v14 M300 620 v14 M340 620 v14 M380 620 v14 M420 620 v14 M460 620 v14 M500 620 v14 M540 620 v14 M580 620 v14 M620 620 v14 M660 620 v14 M700 620 v14 M740 620 v14 M780 620 v14 M820 620 v14 M860 620 v14 M900 620 v14 M940 620 v14 M980 620 v14 M1020 620 v14 M1060 620 v14 M1100 620 v14 M1140 620 v14 M1180 620 v14 M1220 620 v14 M1260 620 v14"/>
+      </g>
+      <!-- exit from the loop, when the backlog is feature-complete -->
+      <path class="rail" d="M625 550 C 605 592 585 627 545 627"/>
+      <path class="rail" d="M40 627 H1300"/>
+      <text x="470" y="590" class="sub" text-anchor="end">feature-complete →</text>
+
+      <g transform="translate(160,627)"><use href="#post"/></g>
+      <text x="160" y="664" class="lbl" text-anchor="middle">Docs proven by use</text>
+      <text x="160" y="682" class="sub" text-anchor="middle">a stranger deploys it from the runbook</text>
+
+      <g transform="translate(470,627)"><use href="#post"/></g>
+      <text x="470" y="664" class="lbl" text-anchor="middle">Go / no-go</text>
+      <text x="470" y="682" class="sub" text-anchor="middle">rollback rehearsed · named approver</text>
+
+      <g transform="translate(780,627)"><use href="#post"/></g>
+      <text x="780" y="664" class="lbl" text-anchor="middle">Healthy in production</text>
+      <text x="780" y="682" class="sub" text-anchor="middle">alerts from real baselines · drill run</text>
+
+      <g transform="translate(1090,627)"><use href="#post"/></g>
+      <text x="1090" y="664" class="lbl" text-anchor="middle">Client runs it alone</text>
+      <text x="1090" y="682" class="sub" text-anchor="middle">one real change end to end, without us</text>
+
+      <path class="dim" d="M160 700 V716 M1090 700 V716 M160 708 H1090" marker-start="url(#ar)" marker-end="url(#ar)"/>
+      <rect x="575" y="698" width="100" height="20" class="ko"/>
+      <text x="625" y="712" class="dimt" text-anchor="middle">2–3 WEEKS</text>
+
+      <!-- end of line -->
+      <path d="M1300 612 v30 M1310 612 v30" stroke="#d6e2f0" stroke-width="3"/>
+    </svg>
+  </div>
+
+  <div class="ladder">
+    <h2>The checking ladder</h2>
+    <p class="sub">Every change climbs as far as its risk tier requires. Each rung catches what the one below cannot.</p>
+    <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" aria-label="A five-rung ladder; rungs from bottom: done-rule, agent self-check, stop hook, separate grader, human and security sign-off">
+      <style>
+        .rl{stroke:#d6e2f0;stroke-width:3;fill:none}
+        .rt{font-family:'Saira Condensed',sans-serif;font-weight:600;font-size:17px;letter-spacing:.04em;text-transform:uppercase;fill:#f3f7fb}
+        .rs{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:#9fb8d4}
+        .rn{font-family:'IBM Plex Mono',monospace;font-size:12px;fill:#9fb8d4}
+      </style>
+      <path class="rl" d="M40 10 V332 M120 10 V332"/>
+      <g>
+        <path class="rl" d="M40 320 H120"/><text x="14" y="325" class="rn">1</text>
+        <text x="140" y="316" class="rt">The done-rule</text><text x="140" y="332" class="rs">sets the bar; enforces nothing</text>
+      </g>
+      <g>
+        <path class="rl" d="M40 265 H120"/><text x="14" y="270" class="rn">2</text>
+        <text x="140" y="261" class="rt">Agent self-check</text><text x="140" y="277" class="rs">its own slips, every turn</text>
+      </g>
+      <g>
+        <path class="rl" d="M40 210 H120" stroke="#5fa8d8"/><text x="14" y="215" class="rn">3</text>
+        <text x="140" y="206" class="rt">The stop hook</text><text x="140" y="222" class="rs">cannot finish on red tests</text>
+      </g>
+      <g>
+        <path class="rl" d="M40 155 H120" stroke="#5fa8d8"/><text x="14" y="160" class="rn">4</text>
+        <text x="140" y="151" class="rt">A separate grader</text><text x="140" y="167" class="rs">did not write the code · advises</text>
+      </g>
+      <g>
+        <path class="rl" d="M40 100 H120" stroke="#d9a24a" stroke-width="4"/><text x="14" y="105" class="rn">5</text>
+        <text x="140" y="96" class="rt">A human, security on HIGH</text><text x="140" y="112" class="rs">a name and a sentence</text>
+      </g>
+      <path d="M408 328 V282" stroke="#9fb8d4" stroke-width="1"/><text x="400" y="305" class="rs" text-anchor="middle" transform="rotate(-90 400 305)">LOW</text>
+      <path d="M408 274 V138" stroke="#9fb8d4" stroke-width="1"/><text x="400" y="206" class="rs" text-anchor="middle" transform="rotate(-90 400 206)">MEDIUM</text>
+      <path d="M408 130 V82" stroke="#d9a24a" stroke-width="1.5"/><text x="400" y="106" class="rs" text-anchor="middle" transform="rotate(-90 400 106)" style="fill:#d9a24a">HIGH</text>
+    </svg>
+  </div>
+
+  <div class="rev">
+    <span class="tag">REV A</span>
+    <p><b>Nothing auto-advances.</b> A gate says whether you <b>may</b> move on; a named person decides whether you <b>do</b>. Every override carries a name, a reason and an expiry.</p>
+  </div>
+
+  <div class="dim-note"><b>Durations are planning figures, not promises</b> — a 4–6 person pod, one medium product; billing milestones map to gates, never to dates. Phases overlap: enablement runs ahead while requirements and design close.</div>
+
+  <div class="tb">
+    <table>
+      <tr><td>TITLE</td><td class="t">The shape of an engagement</td></tr>
+      <tr><td>DWG NO</td><td>IDD-001 · REV A</td></tr>
+      <tr><td>SCALE</td><td>Not to time — gates sit on decisions</td></tr>
+      <tr><td>DATE</td><td>2026-08-28</td></tr>
+      <tr><td>SOURCE</td><td>The Delivery Standard §1, §5, §9 · mckruz.github.io/intent-driven-development</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

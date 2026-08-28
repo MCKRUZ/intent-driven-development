@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>With the claude-code-sdlc plugin, step by step — Delivery Standard</title>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #46556b;
+    --accent: #0f5c8c;
+    --accent-deep: #11314e;
+    --accent-soft: #e8f1f7;
+    --rule: #d8dee8;
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --mono-bg: #0f1722;
+    --mono-ink: #d6e2f0;
+    --high: #b3372f;
+    --med: #b07a1e;
+    --low: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  nav {
+    width: 290px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    height: 100vh; overflow-y: auto; padding: 32px 20px 32px 28px;
+    border-right: 1px solid var(--rule); font-size: 13.5px;
+  }
+  nav .brand { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  nav .brand-sub { color: var(--ink-soft); font-size: 12px; margin-bottom: 14px; }
+  nav .back { display: block; margin-bottom: 16px; color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav a.toc { display: block; color: var(--ink-soft); text-decoration: none; padding: 4px 10px; border-radius: 6px; margin-bottom: 1px; }
+  nav a.toc:hover { background: var(--accent-soft); color: var(--accent); }
+  nav a.toc.sub { padding-left: 24px; font-size: 12.5px; }
+  main { flex: 1; padding: 40px 56px 96px; min-width: 0; }
+  header.doc { background: linear-gradient(135deg, var(--accent-deep), var(--accent)); color: #fff; border-radius: 14px; padding: 36px 40px; margin-bottom: 36px; }
+  header.doc h1 { margin: 0 0 10px; font-size: 30px; letter-spacing: -0.3px; }
+  header.doc p { margin: 0 0 8px; color: #cfe2f1; max-width: 72ch; }
+  header.doc code { background: rgba(255,255,255,.16); color: #fff; }
+  header.doc .meta { font-size: 13px; color: #9fc3dd; margin-top: 14px; }
+  section { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 28px 34px; margin-bottom: 26px; }
+  h2 { font-size: 21px; margin: 0 0 14px; color: var(--accent); letter-spacing: -0.2px; }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; }
+  h3:first-of-type { margin-top: 10px; }
+  h4 { font-size: 14px; margin: 18px 0 6px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.4px; }
+  p { margin: 0 0 12px; max-width: 80ch; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; max-width: 80ch; }
+  li { margin-bottom: 5px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 13.5px; }
+  th { background: var(--accent-soft); color: var(--accent); text-align: left; padding: 9px 12px; border: 1px solid var(--rule); }
+  td { padding: 9px 12px; border: 1px solid var(--rule); vertical-align: top; }
+  tr:nth-child(even) td { background: #fafbfd; }
+  pre { background: var(--mono-bg); color: var(--mono-ink); border-radius: 10px; padding: 18px 22px; overflow-x: auto; font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; line-height: 1.5; }
+  code { font-family: Consolas, "Cascadia Code", monospace; background: #eef1f6; padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
+  pre code { background: none; padding: 0; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; max-width: 80ch; }
+  .stopped { border-left: 4px solid var(--high); background: #faf0ef; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .right { border-left: 4px solid var(--low); background: #eef7f1; padding: 10px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; max-width: 80ch; }
+  .checklist { list-style: none; padding-left: 4px; }
+  .checklist li::before { content: "☐"; margin-right: 10px; color: var(--accent); }
+  footer { color: var(--ink-soft); font-size: 12.5px; text-align: center; padding: 12px 0 32px; }
+  @media (max-width: 900px) { nav { display: none; } main { padding: 24px; } }
+  @media print { nav { display: none; } section { border: none; padding: 0 0 18px; } header.doc { color: #000; background: none; padding: 0; } header.doc p, header.doc .meta { color: #333; } }
+/* shared top bar */
+.topbar { display: flex; align-items: center; gap: 2px; background: #0d2438; padding: 0 14px; font-size: 13.5px; flex-wrap: wrap; }
+.topbar a { color: #cfe2f1; text-decoration: none; padding: 12px 14px; display: inline-block; }
+.topbar a:hover { background: rgba(255,255,255,.09); color: #fff; }
+.topbar a.home { font-weight: 700; color: #fff; }
+.topbar a.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref { position: relative; }
+.topbar .ref summary { list-style: none; cursor: pointer; padding: 12px 14px; color: #cfe2f1; }
+.topbar .ref summary.active { color: #fff; box-shadow: inset 0 -3px 0 #5ea9d6; }
+.topbar .ref summary::-webkit-details-marker { display: none; }
+.topbar .ref[open] summary { background: rgba(255,255,255,.09); color: #fff; }
+.topbar .ref .menu { position: absolute; left: 0; top: 100%; z-index: 60; background: #0d2438; border: 1px solid #07151f; border-radius: 0 0 8px 8px; min-width: 240px; padding: 6px 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.topbar .ref .menu a { display: block; padding: 9px 16px; }
+.topbar .ref .menu .mh{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7a8699;padding:8px 10px 3px;font-weight:700}
+@media print { .topbar { display: none; } }
+/* human / machine colour coding: --med is a person, --accent is a machine */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.dot.h { background: var(--med); } .dot.m { background: var(--accent); }
+.beats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0 16px; }
+.beat { position: relative; border: 1px solid var(--rule); border-top: 4px solid var(--rule); border-radius: 10px; padding: 16px 18px 12px; background: #fafbfd; }
+.beat.h { border-top-color: var(--med); } .beat.m { border-top-color: var(--accent); }
+.beat.hm { border-top-color: var(--accent); }
+.beat.hm::after { content: ""; position: absolute; top: -4px; right: 0; width: 50%; height: 4px; background: var(--med); border-top-right-radius: 10px; }
+.beat .who { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.beat.h .who { color: var(--med); } .beat.m .who { color: var(--accent); } .beat.hm .who { color: var(--ink-soft); }
+.beat h3 { margin: 0 0 6px; font-size: 18px; }
+.beat p { font-size: 13.5px; margin: 0; }
+figure { margin: 14px 0 6px; }
+figure img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 12px 40px rgba(16,32,54,.12); display: block; }
+figcaption { font-size: 13px; color: var(--ink-soft); margin-top: 12px; max-width: 80ch; line-height: 1.5; }
+.scen { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 28px; margin: 10px 0 14px; }
+.sc { border-left: 3px solid var(--med); padding: 2px 0 2px 14px; }
+.sc h3 { margin: 0 0 4px; font-size: 15.5px; }
+.sc p { font-size: 13.5px; margin: 0 0 6px; }
+.sc .tool { display: block; font-family: Consolas, "Cascadia Code", monospace; font-size: 12.5px; color: var(--accent); }
+.dec { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 20px; margin: 12px 0; background: #fafbfd; }
+.dec h3 { margin: 0 0 10px; font-size: 16px; display: flex; gap: 10px; align-items: baseline; }
+.dec h3 .n { font-size: 12px; color: var(--med); font-weight: 700; letter-spacing: .08em; }
+.dec dl { display: grid; grid-template-columns: 150px 1fr; gap: 5px 14px; margin: 0; font-size: 13.5px; }
+.dec dt { color: var(--ink-soft); font-weight: 600; }
+.dec dd { margin: 0; }
+table.kv th { width: 170px; }
+table.kv code { white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 16px; counter-reset: rule; }
+.rule { border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; background: #fafbfd; }
+.rule .rt { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; }
+.rule .rt::before { counter-increment: rule; content: counter(rule); font-size: 12px; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.2em; }
+.rule p { font-size: 13.5px; margin: 0; }
+.halves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 12px 0 16px; }
+.half { border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; background: #fafbfd; }
+.half h3 { margin: 0 0 6px; }
+.half p { font-size: 13.5px; margin: 0 0 8px; }
+.half ul { font-size: 13.5px; margin: 0; }
+table.cmp td.mech { color: var(--low); font-weight: 600; }
+table.cmp td.proc { color: var(--accent); font-weight: 600; }
+table.cmp td.disc { color: var(--med); font-weight: 600; }
+table.cmp th.today { box-shadow: inset 0 -3px 0 var(--accent); }
+.steps { counter-reset: step; }
+.step { display: grid; grid-template-columns: 72px 1fr; gap: 18px; padding: 24px 0; border-top: 1px solid var(--rule); }
+.step:first-of-type { border-top: 0; padding-top: 6px; }
+.step .num { font-size: 30px; font-weight: 700; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.step .num small { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; font-weight: 700; }
+.step-title { font-size: 17px; font-weight: 700; margin: 0 0 6px; }
+.step-title a { color: inherit; text-decoration: none; }
+.step-title a:hover { color: var(--accent); }
+.step .gist { font-size: 14px; }
+.step .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px; }
+.step .cell h4 { margin: 8px 0 4px; }
+.step .cell.h h4 { color: var(--med); } .step .cell.m h4 { color: var(--accent); }
+.step .cell ul { font-size: 13.5px; margin: 0 0 6px; }
+.step pre { margin: 12px 0 0; }
+.reentry { margin-top: 12px; padding: 10px 14px; border: 1px dashed var(--med); border-radius: 8px; font-size: 13.5px; background: #fbf5e8; }
+.reentry b { color: var(--med); }
+@media (max-width: 760px) { .beats, .scen, .rules, .halves, .step .grid { grid-template-columns: 1fr; } .step { grid-template-columns: 1fr; } .dec dl { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="topbar" role="navigation" aria-label="Site">
+  <a class="home" href="../index.html">Home</a>
+  <details class="ref"><summary>Understand &#9662;</summary><div class="menu">
+    <a href="sponsor.html">The three-minute version</a><a href="shape.html">The shape of an engagement</a><a href="journey.html">One engagement, start to finish</a><a href="when-things-change.html">What happens when things change</a><a href="../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+  </div></details>
+  <details class="ref"><summary>Run &#9662;</summary><div class="menu">
+    <span class="mh">Open</span><a href="companion/phase-0.html">Discovery</a><a href="companion/phase-1.html">Requirements</a><a href="companion/phase-2.html">Design</a><a href="companion/phase-3.html">Foundation</a><span class="mh">The middle</span><a href="companion/build-loop.html">The Build Loop</a><a href="companion/the-rails.html">The Rails</a><a href="companion/day-in-the-loop.html">A Day in the Loop</a><span class="mh">Close</span><a href="companion/phase-7.html">Documentation</a><a href="companion/phase-8.html">Deployment</a><a href="companion/phase-9.html">Monitoring</a><a href="companion/phase-c.html">Close &amp; Transfer</a><span class="mh">People</span><a href="team.html">The Team</a>
+  </div></details>
+  <details class="ref"><summary class="active">Install &#9662;</summary><div class="menu">
+    <a href="choose-a-mechanism.html">Choose a mechanism</a><a class="active" href="with-the-plugin.html">With the claude-code-sdlc plugin</a><a href="whats-installed.html">What's installed</a><a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a><a href="harness-kit/RESEARCH.html">Harness research</a><a href="harness-kit/CALL-MAP.html">Call map</a>
+  </div></details>
+  <details class="ref"><summary>Reference &#9662;</summary><div class="menu">
+    <a href="companion/artifact-flow.html">The artifact flow</a><a href="cheatsheet.html">Loop cheat-sheet</a><a href="glossary.html">Glossary</a><a href="faq.html">FAQ</a><a href="anti-patterns.html">Anti-pattern field guide</a>
+  </div></details>
+</div>
+<div class="layout">
+<nav>
+  <div class="brand">With the claude-code-sdlc plugin</div>
+  <div class="brand-sub">Delivery Standard · one engagement, step by step</div>
+  <a class="back" href="../index.html">← Home</a>
+  <a class="back" href="choose-a-mechanism.html">← Choose a mechanism</a>
+  <a class="toc" href="#s0">0 · Install the mechanism</a>
+  <a class="toc" href="#s1">1 · Set up the engagement</a>
+  <a class="toc" href="#s2">2 · Discovery</a>
+  <a class="toc" href="#s3">3 · Requirements</a>
+  <a class="toc" href="#s4">4 · Design</a>
+  <a class="toc" href="#s5">5 · Foundation</a>
+  <a class="toc" href="#s6">6 · Build, once per change</a>
+  <a class="toc" href="#s7">7 · Documentation</a>
+  <a class="toc" href="#s8">8 · Deployment</a>
+  <a class="toc" href="#s9">9 · Monitoring</a>
+  <a class="toc" href="#sc">C · Close</a>
+  <a class="toc" href="#other">The other two options</a>
+  <a class="back" href="whats-installed.html" style="margin-top:16px">Next: What's installed →</a>
+</nav>
+<main>
+
+<header class="doc">
+  <h1>With the claude-code-sdlc plugin, step by step</h1>
+  <p>Harbor Mutual, the fictional regional insurer the standard uses as its worked example,
+  rebuilding property-claims intake. A four-to-six person pod, the client's repo, and
+  <code>claude-code-sdlc</code> 1.5.0 as the mechanism. Numbers are the walkthrough's, not a promise.</p>
+  <div class="meta">Paired source: docs/with-the-plugin.md · part of MCKRUZ/intent-driven-development v1.1</div>
+</header>
+
+<section id="steps">
+<h2>One engagement, every command</h2>
+<p>Every command below is a real command in the plugin as shipped; every file named is one the
+plugin's phase registry requires. The dashed boxes are the routes back.</p>
+<div class="legend">
+  <span><i class="dot h"></i> A person signs</span>
+  <span><i class="dot m"></i> The machine does</span>
+</div>
+<div class="steps">
+
+<div class="step" id="s0">
+  <div class="num">0<small>Day 0</small></div>
+  <div>
+    <div class="step-title">Install the mechanism, check the machine</div>
+    <p class="gist">The Setup Owner installs the plugin once, then runs the day-one environment check in the client's repo so nothing surprises the pod later.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine</h4><ul><li>Installs the orchestration commands and bundles the delivery harness</li><li><code>/sdlc-doctor</code> verifies toolchain, platform CLI, credentials, repo access</li></ul></div>
+      <div class="cell h"><h4>Human</h4><ul><li>Setup Owner names a deputy on day one: the person who reviews every harness change</li></ul></div>
+    </div>
+<pre><code>/plugin marketplace add MCKRUZ/claude-code-sdlc
+/plugin install claude-code-sdlc@mckruz
+/sdlc-doctor</code></pre>
+  </div>
+</div>
+
+<div class="step" id="s1">
+  <div class="num">1<small>Day 1</small></div>
+  <div>
+    <div class="step-title">Set up the engagement and lay down the harness</div>
+    <p class="gist">One wizard: pick a profile (the client's stack, platform and compliance bar), and the plugin initialises the phase state and installs the full harness into the repo.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine writes</h4><ul><li><code>.sdlc/state.yaml</code> (phase state, audit trail) and a frozen <code>.sdlc/profile.yaml</code></li><li>Governance <code>CLAUDE.md</code>, <code>.claude/</code> settings, hooks, agents, skills</li><li>The rails: <code>ci</code>, <code>grader</code>, <code>correctness</code>, <code>security</code>, <code>deploy-dev</code> plus eval and promotion workflows, rubrics, branch-protection ruleset</li></ul></div>
+      <div class="cell h"><h4>Human decides</h4><ul><li>Profile: <code>starter</code> · <code>microsoft-enterprise</code> · <code>ado-enterprise</code> · <code>ado-enterprise-python</code> · <code>creative-tooling</code></li><li>Project type, quality thresholds, compliance gates: confirmed, not defaulted</li></ul></div>
+    </div>
+<pre><code>/sdlc-setup            # profile → .sdlc/ + harness installed
+/sdlc-status           # the dashboard you'll read every week</code></pre>
+  </div>
+</div>
+
+<div class="step" id="s2">
+  <div class="num">2<small>Discovery</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-0.html">Frame the problem · Discovery</a></div>
+    <p class="gist">Karen Voss, VP Claims Ops, owns the problem: 11.4 days median from first notice to a coverage decision; the target is five. The workshop forces the two decisions nobody had made: who the product owner is, and whose AI keys the pod works on.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>/sdlc-brief</code>: the workshop brief from the sponsor's notes</li><li><code>/sdlc-intake</code>: catalogs the client's RFPs, specs and vendor docs</li><li>Drafts <code>constitution.md</code>, <code>problem-statement.md</code>, <code>success-criteria.md</code>, <code>constraints.md</code> and surfaces unmade decisions</li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li>The problem statement is human-authored; the agent never invents the problem</li><li>PO decision: Luis Ortega, six hours a week</li><li>Tooling decision: client-procured Anthropic access, keys in their vault</li><li><code>phase1-handoff.md</code>: the last artifact is named for the phase that consumes it</li></ul></div>
+    </div>
+<pre><code>/sdlc-brief
+/sdlc-intake
+/sdlc-coach            # guided completion of the phase's artifacts
+/sdlc-gate             # the battery runs → HTML report opens
+/sdlc-next             # gate passed → "Does this look correct?" → a named human signs</code></pre>
+  </div>
+</div>
+
+<div class="step" id="s3">
+  <div class="num">3<small>Requirements</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-1.html">Sign the baseline · Requirements</a></div>
+    <p class="gist">Epics and stories drafted by the agent, owned by humans. Every numeric non-functional requirement must say where it will be measured. The big discovery here: the core policy system only exposes a nightly read-only replica, found in requirements, not production.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>requirements.md</code>, <code>non-functional-requirements.md</code>, <code>epics.md</code></li><li><code>/sdlc-review</code> in adversarial mode hunts the gaps; the decision list ("you haven't decided X") is generated, not remembered</li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li>Luis answers every decision-list item on the two-business-day clock</li><li>The Pod Lead enforces Definition of Ready on every story</li><li><code>phase2-handoff.md</code> signed at the gate</li></ul></div>
+    </div>
+<pre><code>/sdlc-review requirements.md --mode adversarial
+/sdlc-gate &amp;&amp; /sdlc-next</code></pre>
+    <div class="reentry"><b>Route back, later:</b> when a signed requirement changes mid-build, <code>/sdlc-revise FR-012</code> routes the edit to its owning discipline, opens a decision-log row with an owner and a clock, re-runs this phase's gate, and lists what the change put at risk.</div>
+  </div>
+</div>
+
+<div class="step" id="s4">
+  <div class="num">4<small>Design</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-2.html">Choose the architecture · Design</a></div>
+    <p class="gist">The agent presents two or three architectures with concrete trade-offs; the Architect picks; every decision record is signed, and Wes Carter, Harbor's own lead engineer, co-signs the decisions he will live with. Unknowns are not guessed: they are spiked.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>design-doc.md</code>, <code>api-contracts.md</code>, <code>adrs/</code> and <code>adr-registry.md</code></li><li><code>threat-model.md</code>, <code>nfr-proving-plan.md</code>, <code>walking-skeleton-definition.md</code></li><li><code>/sdlc-spike</code> runs the bounded experiment on a <code>spike/</code> branch; its code can never merge; its finding is <code>spike-findings.md</code></li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li>Architecture selection: a person picks, the agent does not</li><li>Each ADR, by the Architect; the client engineer co-signs</li><li><code>phase3-handoff.md</code></li></ul></div>
+    </div>
+<pre><code>/sdlc-spike "does the carrier API dedupe on our idempotency key?"
+/sdlc-gate &amp;&amp; /sdlc-next</code></pre>
+    <div class="reentry"><b>Route back, later:</b> a spike during build disproves an assumption → <code>/sdlc-revise ADR-007</code> as a HIGH-risk change with a named signature; the old ADR is marked superseded, never edited away.</div>
+  </div>
+</div>
+
+<div class="step" id="s5">
+  <div class="num">5<small>Foundation</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-3.html">Build the factory and prove it · Foundation</a></div>
+    <p class="gist">The harness is adapted in the open (the client's first look at how we work), branch protection is applied, and the thinnest end-to-end slice, four small specs, rides the whole loop into the client's dev environment. Tom Reilly, Harbor's platform engineer, reviews the pipeline he will operate after we leave.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine does</h4><ul><li><code>/sdlc-harness</code> refreshes the harness; <code>apply-branch-protection</code> makes the five checks required</li><li>Bicep for the dev environment drafted; pipeline YAML drafted</li><li>Specs 0001–0004 built through the loop; <code>foundation-report.md</code>, <code>risk-tier-map.md</code>, <code>cadence-plan.md</code>, <code>data-flow-brief.md</code></li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li>Every pipeline and infrastructure change is HIGH risk: human review, no exceptions</li><li>Exit demo: one real feature running in client dev</li><li>WIP cap and review-wait tripwire set from checking capacity; <code>build-handoff.md</code></li></ul></div>
+    </div>
+<pre><code>/sdlc-harness
+/sdlc-spec "walking skeleton: claim intake form → API → replica verify"
+/sdlc-gate &amp;&amp; /sdlc-next</code></pre>
+  </div>
+</div>
+
+<div class="step" id="s6">
+  <div class="num">6<small>Build · 8–16 wks</small></div>
+  <div>
+    <div class="step-title"><a href="companion/build-loop.html">Run the loop, once per change</a></div>
+    <p class="gist">No phases in the middle, just the loop, one spec at a time, with four short meetings a week. The worked week: spec 0015 (a fast-path work queue, MEDIUM) and spec 0016 (duplicate-claim merge, HIGH), where the grader catches an empty-policy-number bug that eleven green tests missed.</p>
+    <div class="grid">
+      <div class="cell h"><h4>Intent · human</h4><ul><li><code>/sdlc-spec</code> turns a triaged story into <code>specs/0016-duplicate-claim-merge.md</code>: goal, why, scope in/out, testable acceptance checks, risk tier confirmed by the Pod Lead</li></ul></div>
+      <div class="cell m"><h4>Delegate · machine, bounded</h4><ul><li>Plan mode first; the Orchestrator approves the plan</li><li>Permissions auto-allow build/test/lint; ask on installs, network, gated paths (auth, migrations)</li><li>The Stop hook refuses "done" on a red build</li></ul></div>
+      <div class="cell m"><h4>Discern · machines report</h4><ul><li><code>ci</code> blocks on build/tests/lint/coverage and on a newly introduced vulnerable package</li><li><code>grader</code>: a fresh agent grades check-by-check, advisory, required to run</li><li><code>correctness</code> blocks on a high-confidence defect; <code>security</code> blocks on HIGH</li></ul></div>
+      <div class="cell h"><h4>Discern · a human signs</h4><ul><li>A non-author Checker approves; on HIGH, Dan in security signs with a sentence; a bare name fails the <code>risk-signoff</code> check</li><li>Merge deploys to dev automatically</li></ul></div>
+    </div>
+<pre><code>/sdlc-spec "duplicate-claim merge"          # Intent → specs/0016-… (ready or bounced)
+# plan mode → build → Stop hook → PR on spec/0016-duplicate-claim-merge
+/sdlc-status                                 # queue, decision list, gate status — every flow check
+/sdlc-refresh detect --spec specs/0016-duplicate-claim-merge.md   # after merge: did upstream drift?
+/sdlc-retro                                  # Retro+: every escaped bug → "which check should have caught it?"</code></pre>
+    <div class="reentry"><b>Routes back, from inside the loop:</b> unknown → <code>/sdlc-spike</code>; design wrong → <code>/sdlc-revise</code> the ADR (HIGH); requirement changed → <code>/sdlc-revise</code> the requirement; merged work drifted from its requirement → <code>/sdlc-refresh</code> proposes the upstream edit and a person applies it; stale artifacts anywhere → <code>/sdlc-audit-artifacts</code>.</div>
+  </div>
+</div>
+
+<div class="step" id="s7">
+  <div class="num">7<small>Documentation</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-7.html">Prove a stranger can run it · Documentation</a></div>
+    <p class="gist">The agent drafts the README, API docs and runbook from the code and the specs. Verification is by use, not by reading: Ines Roy, hired three weeks earlier, follows the README cold and stalls at step four on a vault permission, fixed the same day.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine drafts</h4><ul><li>README, API docs, RUNBOOK; <code>/sdlc-enhance</code> produces the client-facing narrative companions</li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li><code>readme-verification.md</code>: the cold-walk record, by someone who has never seen the system</li><li><code>phase8-handoff.md</code></li></ul></div>
+    </div>
+<pre><code>/sdlc-enhance
+/sdlc-gate &amp;&amp; /sdlc-next</code></pre>
+  </div>
+</div>
+
+<div class="step" id="s8">
+  <div class="num">8<small>Deployment</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-8.html">Rehearse, then go live · Deployment</a></div>
+    <p class="gist">Tuesday's rehearsal fails (configuration keys moved ahead of the release artifact) and becomes spec 0046. Wednesday's re-rehearsal is clean. Thursday's go-live is boring, which is the point. Promotion ships the exact bytes a named CI run produced; it cannot run without a configured approver.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine does</h4><ul><li><code>deploy-promote</code>: manual trigger only, refuses an environment with no approver</li><li><code>release-notes.md</code> drafted from merged specs; <code>smoke-test-results.md</code>; <code>deployment-checklist.md</code></li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li><code>rollback-rehearsal.md</code>: the client's own operators rehearse deploy → roll back → redeploy</li><li><code>go-no-go-record.md</code>: seven named roles; Dan holds until <code>secrets-rotation-record.md</code> is attached</li><li><code>phase9-handoff.md</code></li></ul></div>
+    </div>
+  </div>
+</div>
+
+<div class="step" id="s9">
+  <div class="num">9<small>Monitoring</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-9.html">Alerts from real baselines · Monitoring</a></div>
+    <p class="gist">Six alerts ship, each modelled from measured baselines rather than guesses. A drill catches a routing typo before it ever mattered. The retrospective is honest: 84% accepted-as-is, four escaped bugs, the security queue running slow at 2.1 days, which becomes a standing twice-weekly security slot.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>monitoring-config.md</code>, <code>alert-definitions.md</code>, <code>incident-response.md</code></li><li><code>/sdlc-retro</code> rolls up every ledger (gate outcomes, overrides, escaped bugs) into <code>project-retrospective.md</code></li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li>Thresholds confirmed against real baseline data by the Pod Lead and client ops</li><li><code>drill-record.md</code>; <code>close-handoff.md</code></li></ul></div>
+    </div>
+  </div>
+</div>
+
+<div class="step" id="sc">
+  <div class="num">C<small>Close</small></div>
+  <div>
+    <div class="step-title"><a href="companion/phase-c.html">The client runs it without us · Close &amp; Transfer</a></div>
+    <p class="gist">Harbor's engineers run specs as Orchestrators with our Checkers; Wes becomes Harbor's Setup Owner with Tom as deputy. The close gate is spec 0049, decommissioning the legacy fallback, HIGH risk, driven end to end by Ines, with the hook correctly blocking a gated-path edit, Dan signing, and Harbor's own go/no-go promoting it. Our access is revoked. Final read: 4.2 days median, under the five-day target.</p>
+    <div class="grid">
+      <div class="cell m"><h4>Machine assembles</h4><ul><li><code>final-handoff-report.md</code> from the engagement's own records (phase index, sign-offs, metrics history, spec backlog) with judgment sections left for humans</li><li><code>harness-audit.md</code>: anything undocumented, any skill or hook only we understand</li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li><code>close-gate-evidence.md</code>: the real change the client shipped alone</li><li><code>access-revocation-checklist.md</code>; the harvest retro PR back to the standard</li></ul></div>
+    </div>
+<pre><code>/sdlc-gate &amp;&amp; /sdlc-next        # the close gate
+/sdlc-retro                     # the harvest: what this engagement teaches the standard</code></pre>
+  </div>
+</div>
+
+</div>
+</section>
+
+<section id="other">
+<h2>The other two options</h2>
+<p>This is the default mechanism, and the one the rest of the site assumes. It is one option, not
+the definition: the standard is eight rules, and <a href="choose-a-mechanism.html">choose a
+mechanism</a> lays out the other two shapes (the same rails with any coding agent, and templates
+only) with the rules each one enforces mechanically versus by discipline. What this option leaves
+in the repo, file by file, is on <a href="whats-installed.html">what's installed</a>.</p>
+</section>
+
+<footer>With the claude-code-sdlc plugin · Delivery Standard · MCKRUZ/intent-driven-development · Paired source: docs/with-the-plugin.md</footer>
+</main>
+</div>
+</body>
+</html>

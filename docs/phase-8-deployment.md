@@ -265,6 +265,12 @@ Phase 8 closes when all of these are true:
       contacts
 - [ ] A named human on each side approved the advance — gates report, humans decide
 
+**If the gate fails.** A no-go is a no-go: nothing is promoted, and the go/no-go record says
+what is missing and who said so. A failed rollback rehearsal becomes a spec (at Harbor, spec
+0046, the configuration the release left behind), rides the loop through the same gates as any
+other change, and the rehearsal is run again by the client's own operators before the vote is
+retaken. Hypercare does not start on an unpassed gate.
+
 ---
 
 ## 6. What goes wrong in Phase 8

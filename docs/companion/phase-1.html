@@ -17,20 +17,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a class="active" href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -47,9 +73,30 @@
 
 <div style="background:#eef2f7;border-bottom:1px solid #d8dee8;font-size:13.5px;">
   <div style="max-width:1280px;margin:0 auto;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;">
-    <a href="phase-0.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Phase 0</a>
-    <span style="font-weight:700;color:#1a2332;">Phase 1 · Requirements</span>
-    <a href="phase-2.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Phase 2 →</a>
+    <a href="phase-0.html" style="color:#0f5c8c;text-decoration:none;font-weight:600;">&larr; Discovery</a>
+    <span style="font-weight:700;color:#1a2332;">Requirements</span>
+    <a href="phase-2.html" style="margin-left:auto;color:#0f5c8c;text-decoration:none;font-weight:600;">Next: Design &rarr;</a>
+  </div>
+</div>
+
+<div class="phase-strip" aria-label="Where you are">
+  <div class="wrap">
+    <div class="row">
+      <a class="ph gate" href="phase-0.html">Discovery<small>problem framed</small></a>
+      <a class="ph gate here" href="phase-1.html">Requirements<small>baseline signed</small></a>
+      <a class="ph gate" href="phase-2.html">Design<small>architecture chosen</small></a>
+      <a class="ph gate" href="phase-3.html">Foundation<small>factory proven</small></a>
+      <a class="ph loop" href="build-loop.html">The Build Loop<small>Intent &rarr; Delegate &rarr; Discern, once per change &middot; 8&ndash;16 weeks &middot; the Rails underneath</small></a>
+      <a class="ph gate" href="phase-7.html">Documentation<small>proven by use</small></a>
+      <a class="ph gate" href="phase-8.html">Deployment<small>go / no-go</small></a>
+      <a class="ph gate" href="phase-9.html">Monitoring<small>healthy in prod</small></a>
+      <a class="ph gate" href="phase-c.html">Close<small>client runs it alone</small></a>
+    </div>
+    <div class="back">
+      <span><b>From the loop, back to here:</b> A requirement proved wrong in the build (a spike finding, a grader verdict against a criterion that cannot be met) is revised in place with a named owner, a reason and a two-business-day clock; the ADRs and specs that depend on it are listed as at risk, and the Phase 1 gate is re-run on the changed set.</span>
+      <span><b>If this gate fails:</b> Nothing advances. The report says which requirement lacks a testable criterion, a trace or a measurement basis; the fix is a rewrite that rides the loop, and the gate runs again.</span>
+      <span><a href="../when-things-change.html">All the routes back &rarr;</a></span>
+    </div>
   </div>
 </div>
 
@@ -57,7 +104,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Phase 1 · Requirements</p>
+    <p class="crumbs"><a href="../../index.html">Home</a> &rsaquo; Requirements</p>
     <p class="eyebrow">Phase 1 · Requirements</p>
     <h1>Requirements, explained
       <span class="sub">How a signed problem turns into a buildable list of exactly what the system must do &mdash; the idea beside the real example (expand any section for the full method), the complete worked example, and a quick reference.</span>
@@ -72,8 +119,9 @@
       <button data-view="example" role="tab" aria-selected="false">Example</button>
       <button data-view="steps" role="tab" aria-selected="false">Steps</button>
       <button data-view="reference" role="tab" aria-selected="false">Reference</button>
+      <button data-view="reopening" role="tab" aria-selected="false">Reopening</button>
     </div>
-    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics</span>
+    <span class="hint"><strong>How it works</strong> the idea beside the real example — expand any section for the full method · <strong>Example</strong> the complete Harbor artifacts · <strong>Steps</strong> the same procedure, no company, just the plugin · <strong>Reference</strong> the quick mechanics &middot; <strong>Reopening</strong> what brings you back to this phase later, what it costs, what gets recorded</span>
   </div>
 </div>
 
@@ -1920,11 +1968,108 @@
   </section>
 </main>
 
+<!-- ======================================================================= -->
+<!-- REOPENING TRACK                                                          -->
+<!-- ======================================================================= -->
+<main id="track-reopening" class="track">
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">Reopening &middot; Requirements</p>
+      <h2>What brings you back here</h2>
+      <p class="lead">A signed requirement is a baseline, not a vow. The loop is allowed to prove one wrong; what
+        it is not allowed to do is build something else and leave the requirement standing.</p>
+      <ul>
+        <li><strong>A spike finding contradicts a requirement.</strong> An integration answers differently from
+          what the requirement assumed; the acceptance criterion as written can no longer be met by any
+          honest implementation.</li>
+        <li><strong>The grader keeps failing a criterion nobody can satisfy.</strong> The criterion passed the
+          vague-line test and is still wrong: it measures something the system cannot observe, or two
+          criteria contradict each other under a real case.</li>
+        <li><strong>The product owner changes a priority.</strong> Top-tier budget is finite. Promoting one
+          requirement demotes another, and the demotion is a change to the signed set, not a scheduling note.</li>
+        <li><strong>A scope-out item comes back in.</strong> Something the sponsor saw written down as out of
+          scope is now wanted. That is the scope-out record working as designed: it becomes a visible
+          decision rather than a quiet addition.</li>
+      </ul>
+      <div class="aha warn">
+        <div class="lbl">What is not a reopening</div>
+        <p>A new feature idea in a chat. New work enters the loop only through intent triage, where the Pod
+          Lead decides whether it is a new requirement, a revision to an existing one, or a spike to find out.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What it costs</p>
+      <h2>Revised in place, owned, clocked, re-gated</h2>
+      <p class="lead">A changed requirement is revised where it lives, under its original ID, so every trace
+        that pointed at it still resolves. The cost is in what those traces now put at risk.</p>
+      <ul>
+        <li><strong>Risk tier.</strong> Set by the blast radius: a wording fix to one criterion is LOW; a change
+          that alters an ADR's premise or a merged spec's behavior is HIGH, and rides the HIGH path with a
+          security pass and a named sign-off if the change touches identity, money or data.</li>
+        <li><strong>What gets re-run.</strong> The Phase 1 gate battery on the changed set: testable criteria,
+          source and outcome traces, measurement basis, error behavior, the top-tier budget. Any merged spec
+          that traced to the old wording is re-graded against the new one, and a spec that no longer passes
+          is a defect spec in the loop.</li>
+        <li><strong>The decision clock.</strong> The product owner (or the proxy, logged) answers inside two
+          business days. Until then the dependent specs are blocked, and the block is visible at triage.</li>
+        <li><strong>The commercial consequence.</strong> A revision that changes a top-tier requirement changes
+          the acceptance artifact the Phase 1 milestone was billed against. It is recorded, not renegotiated,
+          unless it also moves the outcome, which sends it back to Discovery.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">What gets recorded</p>
+      <h2>The row, the revision, the list of what it touched</h2>
+      <p>Every reopening produces a decision-log row: who owns it, why it was opened, the date, the clock, and
+        the date it was decided. The requirement's previous text is kept in the history with the revision
+        noted against it; the ID never changes, so the traceability structure the Quality Engineer built in
+        Phase 1 keeps working.</p>
+      <p>In our toolchain, <code>/sdlc-revise</code> does this in one motion: it changes the one artifact, opens
+        the decision-log row with a named owner and the two-day clock, re-runs the phase gate on the changed set,
+        and lists the ADRs and specs the change put at risk. After the fixing spec merges,
+        <code>/sdlc-refresh</code> proposes the upstream edits it implies (the handoff, the epic map, a
+        neighbouring criterion) and a human confirms each one.</p>
+      <ul>
+        <li>Decision log: owner, reason, date, clock, decision, what was superseded.</li>
+        <li>The requirement under its original ID, revised, with the old text in history.</li>
+        <li>The at-risk list: every ADR and spec tracing to it, each with a re-gate result.</li>
+        <li>In proxy mode, the same row is ratified at the next steering, not just made.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap ref-doc reveal">
+      <p class="kicker">If this gate fails</p>
+      <h2>The gap stays here, where it is cheap</h2>
+      <p class="lead">A requirement waved through with a known gap is not a passed gate. It is the gap moved
+        into the build, where it becomes a feature thrown away instead of a sentence rewritten.</p>
+      <ul>
+        <li>Nothing advances. The report names the requirement missing a testable criterion, a trace or a
+          measurement basis, and the decision-list survivor with no owner and due date.</li>
+        <li>The fix is a rewrite, owned and dated like any other change; it rides the loop as a document
+          change, and the gate runs again on the result.</li>
+        <li>The emergency bypass (two named people, an exception label, a Retro+ item) exists for merge gates
+          only. There is no emergency version of "the requirement is vague".</li>
+        <li>Two gate failures on the same requirement mean the phase does not understand the requirement yet:
+          open a spike, not a third rewrite.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+
 <footer class="foot">
   <div class="wrap">
     Phase 1 · Requirements &mdash; how it works, worked, and referenced · a companion to the
     <a href="phase-1.html">Requirements phase</a> ·
-    Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Examples use the fictional Harbor Mutual engagement; names and numbers are invented but internally consistent.
   </div>
 </footer>

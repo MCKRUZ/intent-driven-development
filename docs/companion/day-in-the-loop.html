@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Day in the Loop — the build loop, on film</title>
-<meta name="description" content="The IDD build loop dramatized in four short narrated clips — Orient, Delegate, Verify, Discern — plus the full stitched module. Watch a single change go from spec to production through the loop.">
+<meta name="description" content="The IDD build loop (Intent, Delegate, Discern) on film, cut into four short narrated clips — Orient, Delegate, Verify, Discern — plus the full stitched module. Watch a single change go from spec to production through the loop.">
 <link rel="stylesheet" href="styles.css">
 <style>
   /* page-scoped video layout — v- prefix so nothing collides with styles.css */
@@ -38,21 +38,46 @@
 
 <div class="topbar" role="navigation" aria-label="Site">
   <a class="home" href="../../index.html">Home</a>
-  <a href="../../GOLD-STANDARD.html">The Standard</a>
   <details class="ref">
-    <summary class="active">Phases &#9662;</summary>
+    <summary>Understand &#9662;</summary>
     <div class="menu">
-      <a href="phase-0.html">0 · Discovery</a>
-      <a href="phase-1.html">1 · Requirements</a>
-      <a href="phase-2.html">2 · Design</a>
-      <a href="phase-3.html">3 · Foundation</a>
+      <a href="../sponsor.html">The three-minute version</a>
+      <a href="../shape.html">The shape of an engagement</a>
+      <a href="../journey.html">One engagement, start to finish</a>
+      <a href="../when-things-change.html">What happens when things change</a>
+      <a href="../../GOLD-STANDARD.html">The Delivery Standard (full text)</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary class="active">Run &#9662;</summary>
+    <div class="menu">
+      <span class="mh">Open</span>
+      <a href="phase-0.html">Discovery</a>
+      <a href="phase-1.html">Requirements</a>
+      <a href="phase-2.html">Design</a>
+      <a href="phase-3.html">Foundation</a>
+      <span class="mh">The middle</span>
       <a href="build-loop.html">The Build Loop</a>
-      <a href="day-in-the-loop.html">A Day in the Loop (film)</a>
       <a href="the-rails.html">The Rails</a>
-      <a href="phase-7.html">7 · Documentation</a>
-      <a href="phase-8.html">8 · Deployment</a>
-      <a href="phase-9.html">9 · Monitoring</a>
-      <a href="phase-c.html">C · Close &amp; Transfer</a>
+      <a class="active" href="day-in-the-loop.html">A Day in the Loop</a>
+      <span class="mh">Close</span>
+      <a href="phase-7.html">Documentation</a>
+      <a href="phase-8.html">Deployment</a>
+      <a href="phase-9.html">Monitoring</a>
+      <a href="phase-c.html">Close &amp; Transfer</a>
+      <span class="mh">People</span>
+      <a href="../team.html">The Team</a>
+    </div>
+  </details>
+  <details class="ref">
+    <summary>Install &#9662;</summary>
+    <div class="menu">
+      <a href="../choose-a-mechanism.html">Choose a mechanism</a>
+      <a href="../with-the-plugin.html">With the claude-code-sdlc plugin</a>
+      <a href="../whats-installed.html">What's installed</a>
+      <a href="https://github.com/MCKRUZ/intent-driven-development/tree/main/kit">The kit (GitHub)</a>
+      <a href="../harness-kit/RESEARCH.html">Harness research</a>
+      <a href="../harness-kit/CALL-MAP.html">Call map</a>
     </div>
   </details>
   <details class="ref">
@@ -88,11 +113,16 @@
     <div class="wrap-wide reveal">
       <span class="modnum">01</span>
       <p class="kicker">The loop, not the slide about the loop</p>
-      <h2>Watch a single change ride the four beats</h2>
+      <h2>Watch a single change ride the loop</h2>
       <p class="lead">Every page in this standard describes the loop. This one shows it. A real spec on a
         real repo &mdash; Harbor Claims &mdash; goes from a written intent to a deployed change, and you
-        watch the four beats happen in order: <strong>Orient, Delegate, Verify, Discern</strong>. Nothing is
-        re-enacted; the pull request, the gates, and the sign-off are the real ones.</p>
+        watch the three beats of the loop, <strong>Intent, Delegate, Discern</strong>, happen in order.
+        Nothing is re-enacted; the pull request, the gates, and the sign-off are the real ones.</p>
+      <p>The film is cut into four clips rather than three, because two of the beats have a visible seam in
+        them. <strong>Orient</strong> is the first half of Intent: reading the spec and the repo before a line
+        is written. <strong>Delegate</strong> is Delegate. <strong>Verify</strong> is the mechanical rungs of
+        Discern, the gates the machine runs when the pull request opens. <strong>Discern</strong> is the
+        human judgment at the top of the same ladder. Same loop, four camera positions.</p>
       <p>If you are new here, watch them in order &mdash; each clip picks up where the last one ends. If you
         just want the whole thing, the full module is at the bottom.</p>
     </div>
@@ -191,7 +221,7 @@
       <span class="modnum">03</span>
       <p class="kicker">All four, stitched</p>
       <h2>The full loop, end to end</h2>
-      <p class="lead">The same four beats as one continuous film, with title cards between them &mdash; the
+      <p class="lead">The same four clips as one continuous film, with title cards between them &mdash; the
         version to put on a screen when you are showing someone the method for the first time.</p>
 
       <div class="v-full">
@@ -203,12 +233,13 @@
         <div class="v-cap">
           <div class="n">The build loop · complete</div>
           <h3>A Day in the Loop</h3>
-          <p>Orient → Delegate → Verify → Discern, uncut. Roughly ten minutes.</p>
+          <p>Orient → Delegate → Verify → Discern, uncut: Intent, Delegate and Discern with the camera on
+            both halves of the first and last beat. Roughly ten minutes.</p>
         </div>
       </div>
 
       <div class="next" style="margin-top:30px;">
-        <a href="build-loop.html#example"><span class="t">Now read the loop in full &rarr;</span><span class="d">The Build Loop companion page &mdash; the same four beats written out step by step, with the worked Harbor Claims example.</span></a>
+        <a href="build-loop.html#example"><span class="t">Now read the loop in full &rarr;</span><span class="d">The Build Loop companion page &mdash; Intent, Delegate and Discern written out step by step, with the worked Harbor Claims example.</span></a>
       </div>
     </div>
   </section>
@@ -217,7 +248,7 @@
 
 <footer class="foot">
   <div class="wrap">
-    A Day in the Loop — Intent-Driven Development · MCKRUZ/intent-driven-development v1.0 · Owner: Matt Kruczek.<br>
+    A Day in the Loop — Intent-Driven Development · MCKRUZ/intent-driven-development v1.1 · Owner: Matt Kruczek.<br>
     Filmed on the real Harbor Claims reference repository. Narration is the course author&rsquo;s voice. Clips
     are served as GitHub release assets, not committed to the repo.
   </div>
