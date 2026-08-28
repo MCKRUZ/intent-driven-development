@@ -32,6 +32,8 @@ signed decisions, and what has to be true before anyone provisions an environmen
 | **Risk tier** | HIGH / MEDIUM / LOW, assigned per spec. Sets how tightly an agent is bounded and how much review a change gets. |
 | **The constitution** | The short Phase 0 document fixing what must always be true (and what must never happen) for this engagement; later phases may not silently contradict it. |
 | **Threat model** | A structured walk of the design's data flows asking "where could this be attacked or leak," producing mitigations and build-time security gates. |
+| **Data contract** | Every field a feature reads or writes — source, type, and an explicit PII column. The column is the part a named human confirms, because personal data drives the risk tier: a spec touching it is HIGH. |
+| **Interaction contract / channel** | A channel is the customer surface a capability is delivered through — a screen, a voice line, a chat thread — not the logic behind it. Each channel carries its own acceptance dimensions. The interaction contract is how that surface and the system talk; for a screen it is the event contract, co-authored with Engineering. |
 
 Phase 2 answers four questions, and nothing else:
 
@@ -100,9 +102,18 @@ presents options; humans choose.** Concretely:
   accidental scope is born).
 - **Threat-model preparation.** Claude drafts the data-flow diagrams and candidate threat list
   the security session works from.
+- **The two discipline seats that sit in Design.** When the feature reads or writes customer
+  or personal data, Claude drafts as the Data seat: the data contract (every field, with an
+  explicit PII column), the readiness assessment, and the lineage. When the feature has a
+  customer surface, Claude drafts as the Design seat — routed to a visual designer for a
+  screen, a conversation designer for a voice line or chat thread: the user journey, the
+  surface layout, and the interaction contract. Both seats are interview-driven; both propose
+  and stop at a human. A named human confirms every PII classification, because personal data
+  is a risk-tier driver, and signs the journey and the contract. When neither trigger applies,
+  the phase report says so.
 
-What Claude never does: choose an architecture, sign an ADR, accept a risk, or soften a
-trade-off to make an option look better.
+What Claude never does: choose an architecture, sign an ADR, accept a risk, confirm a PII
+classification, or soften a trade-off to make an option look better.
 
 ---
 
@@ -152,11 +163,25 @@ can start immediately after.
   again at every design review. (The Setup Owner walks each constitution-protected future
   against the draft model and records the verdict — and what made it true — alongside the
   model.)
+- Where the feature has a customer surface, the Design seat starts now — not earlier, because
+  the surface layout depends on the architecture just chosen. Claude drafts the user journey
+  (including the abandon and failure paths: what the customer does when the answer is "not
+  yet"), the surface layout (screens for a screen, a turn-script for voice, a message flow for
+  chat), and the interaction contract for that channel. For a screen the contract is the event
+  contract, co-authored with Engineering so the UI and the API are one design, not two.
 
 **Day 4 — contracts, threat review, and the proving plan.**
 - API contracts completed: every operation with its request/response shapes, error semantics
   carried down from the Phase 1 error-behavior specs, degradation behavior under each
   dependency failure. A contract that only describes success is half a contract.
+- Alongside the API contracts, where the feature reads or writes customer or personal data,
+  the Data seat's three artifacts: the data contract (every field, with an explicit PII
+  column), the readiness assessment (is the data actually there, complete, and trustworthy —
+  advisory, and every gap becomes a decision-list item, never a block), and the lineage audit
+  (source → transform → sink, with retention and audit points). A named human confirms the
+  PII column, because personal data is a risk-tier driver: a spec that touches it is HIGH, and
+  the tier is set here, not discovered at build. The interaction contract from day 3 is
+  co-signed by Engineering where it is an API.
 - The threat review session with client security: data-flow diagrams on the table, the
   candidate threat list worked through, mitigations assigned — some become design changes,
   some become build-time security gates on specific areas (these feed the risk-tier map the
@@ -179,7 +204,9 @@ can start immediately after.
   contracts, the walking-skeleton definition, the build risks, the recommended first specs.
 - Steering: the sponsor gets the design *narrative* — what was decided, what it costs, what
   it protects — not the component diagrams. The PO confirms the product-facing trade-offs.
-  Sign-offs recorded; the engagement advances to Foundation.
+  Sign-offs recorded — the phase's own, and beside them the discipline sign-offs by name (who
+  confirmed the PII column, who signed the journey and the contract); the engagement advances
+  to Foundation.
 
 ### When the week stretches
 
@@ -206,6 +233,12 @@ can start immediately after.
 | Architecture decision records | Claude (after the choice) | Setup Owner + client counterpart (both sign) | Each ADR: the context, 2-3 options genuinely considered, the choice, the consequences including unpleasant ones, two signatures |
 | Data model | Claude (drafts) | Setup Owner | Serves every top-tier requirement; passes the forward-compatibility check; the convergence constraints (audit, merge rules) are structural, not bolted on |
 | API contracts | Claude (drafts), Orchestrators (refine) | Setup Owner | Every operation: shapes, error semantics from the Phase 1 specs, degradation behavior per dependency failure |
+| `data-contract.md` *(conditional — the feature reads or writes customer or personal data)* | Claude, as the Data seat (interview-driven) | Setup Owner; the PII column confirmed by a named human | Every field the feature reads or writes, with source, type, and an explicit PII column — complete, and confirmed field by field by a named human, because a spec touching personal data is HIGH |
+| `data-readiness.md` *(same trigger)* | Claude, as the Data seat | Setup Owner | Availability, completeness, and quality of each source assessed; advisory — every gap is on the decision list with an owner and a clock, and none of them blocks |
+| `lineage-audit.md` *(same trigger)* | Claude, as the Data seat | Setup Owner + client security | Source → transform → sink for every flow, with retention and the audit points the event log must record |
+| `user-journey.md` *(conditional — the feature has a customer surface)* | Claude, as the Design seat (a visual designer for a screen; a conversation designer for voice or chat) | Setup Owner; a named human signs | The journey through the surface including the abandon, failure, and dead-end paths — what the customer sees when the answer is "not yet" |
+| `surface-layout.md` *(same trigger)* | Claude, as the Design seat | Setup Owner | Channel-shaped: screens for a screen, a turn-by-turn script for voice, a message flow for chat; drafted after the architecture is chosen, because it depends on it |
+| `channel-interaction-spec.md` *(same trigger)* | Claude, as the Design seat, with Engineering | Setup Owner + client counterpart (co-signs where the contract is an API) | Each of the channel's acceptance dimensions traced to a concrete contract and the acceptance check it becomes; for a screen, the event contract — co-signed by Engineering, so the API and the UI cannot disagree at integration |
 | Integration design | Orchestrators (spiked), Setup Owner | Setup Owner | Every external touchpoint verified by a spike against the live system, not the documentation |
 | Spike findings | Orchestrators | Setup Owner | Each risky assumption: confirmed or falsified, with evidence; spike code deleted |
 | Threat model + mitigation map | Claude (drafts), security session (decides) | Setup Owner + client security | Data flows reviewed; each threat mitigated in design or assigned as a build-time security gate |
@@ -215,8 +248,8 @@ can start immediately after.
 | Phase 3 handoff | Claude | Pod Lead | Decisions, contracts, skeleton definition, build risks, recommended first specs, open questions under their original IDs |
 
 What is deliberately **not** produced: production code, the spec backlog (Phase 3 and triage
-own that), provisioned environments (Phase 3), UI visual design beyond what product trade-offs
-required, and estimates beyond the SOW's phase figures.
+own that), provisioned environments (Phase 3), pixel-level UI design beyond the surface layout
+the Design seat owns, and estimates beyond the SOW's phase figures.
 
 ---
 
@@ -248,6 +281,10 @@ Phase 2 closes when all of these are true:
       as a build-time security gate
 - [ ] Every NFR has a proving method and a named place its number will be read
 - [ ] The walking-skeleton definition exists and is sufficient to prove the architecture
+- [ ] Where the feature touches personal data, the data contract's PII classification is
+      confirmed by a named human and every dependent spec's tier reflects it
+- [ ] Where the feature has a customer surface, the journey and the interaction contract are
+      signed; the discipline sign-offs are recorded at the advance beside the phase signature
 - [ ] A named human on each side approved the advance — gates report, humans decide
 
 **If the gate fails.** Nothing advances. The report names the orphan (a requirement with no
@@ -282,6 +319,17 @@ edited.
 - **Happy-path contracts.** Contracts that specify success and leave failure to the
   implementer's imagination. The Phase 1 error-behavior specs exist precisely to flow into
   contract error semantics — if they don't, that work evaporates here.
+- **PII discovered at build.** A field nobody classified turns up in a MEDIUM spec — a
+  claimant's name in a queue row, an address in a log line — and the agent has been building
+  on it under MEDIUM permissions with a MEDIUM review. The tier was wrong from the start,
+  because the data contract's PII column was empty or never confirmed. The column is confirmed
+  here, field by field, by a named human, so the tier is set before the first spec is written.
+- **The surface designed after the contract.** The API contract closes on day 4, the screens
+  get drawn in Build without an interaction contract, and the two meet for the first time at
+  integration — where the UI needs an event the API never exposes, or the API returns a state
+  the screen has no way to show. The interaction contract is one artifact, co-authored by
+  Design and Engineering after the architecture is chosen, so the surface and the API are one
+  design before either side builds against it.
 - **Foreclosing the protected future — or gold-plating for an unfunded one.** The
   forward-compatibility check cuts both ways: don't preclude what the constitution protects,
   and don't build abstractions for futures nobody paid for. "Must not preclude" means the

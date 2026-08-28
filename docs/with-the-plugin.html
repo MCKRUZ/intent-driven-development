@@ -249,10 +249,12 @@ plugin's phase registry requires. The dashed boxes are the routes back.</p>
     <div class="step-title"><a href="companion/phase-1.html">Sign the baseline · Requirements</a></div>
     <p class="gist">Epics and stories drafted by the agent, owned by humans. Every numeric non-functional requirement must say where it will be measured. The big discovery here: the core policy system only exposes a nightly read-only replica, found in requirements, not production.</p>
     <div class="grid">
-      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>requirements.md</code>, <code>non-functional-requirements.md</code>, <code>epics.md</code></li><li><code>/sdlc-review</code> in adversarial mode hunts the gaps; the decision list ("you haven't decided X") is generated, not remembered</li></ul></div>
-      <div class="cell h"><h4>Human signs</h4><ul><li>Luis answers every decision-list item on the two-business-day clock</li><li>The Pod Lead enforces Definition of Ready on every story</li><li><code>phase2-handoff.md</code> signed at the gate</li></ul></div>
+      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>requirements.md</code>, <code>non-functional-requirements.md</code>, <code>epics.md</code></li><li><code>/sdlc-review</code> in adversarial mode hunts the gaps; the decision list ("you haven't decided X") is generated, not remembered</li><li><code>/sdlc-feature</code> decomposes the claims-intake epic into channel-aware features and specs → <code>feature-brief.md</code>: the intake console is a screen channel, the shared merge logic a channel-agnostic spec of its own, one channel per spec</li><li><code>/sdlc-rules</code> drafts the coverage-decision rules as <code>BR-NN</code> rows, each with a named approver, and the golden scenarios <code>SCEN-NN</code> → <code>business-rules.md</code>, <code>golden-scenarios.md</code></li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li>Luis answers every decision-list item on the two-business-day clock</li><li>Each rule's outcome is confirmed by its named approver; undecided outcomes go on the decision list</li><li>The Pod Lead enforces Definition of Ready on every story</li><li><code>phase2-handoff.md</code> signed at the gate</li></ul></div>
     </div>
-<pre><code>/sdlc-review requirements.md --mode adversarial
+<pre><code>/sdlc-feature                                # epic → features → specs, channel and persona per row
+/sdlc-rules                                  # BR-NN with an approver + SCEN-NN → business-rules.md, golden-scenarios.md
+/sdlc-review requirements.md --mode adversarial
 /sdlc-gate &amp;&amp; /sdlc-next</code></pre>
     <div class="reentry"><b>Route back, later:</b> when a signed requirement changes mid-build, <code>/sdlc-revise FR-012</code> routes the edit to its owning discipline, opens a decision-log row with an owner and a clock, re-runs this phase's gate, and lists what the change put at risk.</div>
   </div>
@@ -264,10 +266,12 @@ plugin's phase registry requires. The dashed boxes are the routes back.</p>
     <div class="step-title"><a href="companion/phase-2.html">Choose the architecture · Design</a></div>
     <p class="gist">The agent presents two or three architectures with concrete trade-offs; the Architect picks; every decision record is signed, and Wes Carter, Harbor's own lead engineer, co-signs the decisions he will live with. Unknowns are not guessed: they are spiked.</p>
     <div class="grid">
-      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>design-doc.md</code>, <code>api-contracts.md</code>, <code>adrs/</code> and <code>adr-registry.md</code></li><li><code>threat-model.md</code>, <code>nfr-proving-plan.md</code>, <code>walking-skeleton-definition.md</code></li><li><code>/sdlc-spike</code> runs the bounded experiment on a <code>spike/</code> branch; its code can never merge; its finding is <code>spike-findings.md</code></li></ul></div>
-      <div class="cell h"><h4>Human signs</h4><ul><li>Architecture selection: a person picks, the agent does not</li><li>Each ADR, by the Architect; the client engineer co-signs</li><li><code>phase3-handoff.md</code></li></ul></div>
+      <div class="cell m"><h4>Machine drafts</h4><ul><li><code>design-doc.md</code>, <code>api-contracts.md</code>, <code>adrs/</code> and <code>adr-registry.md</code></li><li><code>threat-model.md</code>, <code>nfr-proving-plan.md</code>, <code>walking-skeleton-definition.md</code></li><li><code>/sdlc-spike</code> runs the bounded experiment on a <code>spike/</code> branch; its code can never merge; its finding is <code>spike-findings.md</code></li><li><code>/sdlc-data</code> → <code>data-contract.md</code> with a PII column (claim records carry PII, which is what makes the specs that touch them HIGH), <code>data-readiness.md</code>, <code>lineage-audit.md</code></li><li><code>/sdlc-experience</code> routes to the visual designer for the claims-intake screen, or to the conversation designer for a voice or chat surface → <code>user-journey.md</code>, <code>surface-layout.md</code>, <code>channel-interaction-spec.md</code></li></ul></div>
+      <div class="cell h"><h4>Human signs</h4><ul><li>Architecture selection: a person picks, the agent does not</li><li>Each ADR, by the Architect; the client engineer co-signs</li><li>PII classification confirmed by a person, because it drives the risk tier; discipline sign-offs recorded at the advance</li><li><code>phase3-handoff.md</code></li></ul></div>
     </div>
-<pre><code>/sdlc-spike "does the carrier API dedupe on our idempotency key?"
+<pre><code>/sdlc-data                                   # data-contract.md (PII column), data-readiness.md, lineage-audit.md
+/sdlc-experience                             # screen → visual designer; voice/chat → conversation designer
+/sdlc-spike "does the carrier API dedupe on our idempotency key?"
 /sdlc-gate &amp;&amp; /sdlc-next</code></pre>
     <div class="reentry"><b>Route back, later:</b> a spike during build disproves an assumption → <code>/sdlc-revise ADR-007</code> as a HIGH-risk change with a named signature; the old ADR is marked superseded, never edited away.</div>
   </div>
@@ -294,17 +298,18 @@ plugin's phase registry requires. The dashed boxes are the routes back.</p>
     <div class="step-title"><a href="companion/build-loop.html">Run the loop, once per change</a></div>
     <p class="gist">No phases in the middle, just the loop, one spec at a time, with four short meetings a week. The worked week: spec 0015 (a fast-path work queue, MEDIUM) and spec 0016 (duplicate-claim merge, HIGH), where the grader catches an empty-policy-number bug that eleven green tests missed.</p>
     <div class="grid">
-      <div class="cell h"><h4>Intent · human</h4><ul><li><code>/sdlc-spec</code> turns a triaged story into <code>specs/0016-duplicate-claim-merge.md</code>: goal, why, scope in/out, testable acceptance checks, risk tier confirmed by the Pod Lead</li></ul></div>
+      <div class="cell h"><h4>Intent · human</h4><ul><li><code>/sdlc-spec</code> turns a triaged story into <code>specs/0016-duplicate-claim-merge.md</code>: goal, why, scope in/out, testable acceptance checks, risk tier confirmed by the Pod Lead</li><li><code>/sdlc-channel</code> binds a spec with a customer surface to its one channel (the claims-intake console is a screen) and injects that channel's acceptance dimensions as concrete checks</li></ul></div>
       <div class="cell m"><h4>Delegate · machine, bounded</h4><ul><li>Plan mode first; the Orchestrator approves the plan</li><li>Permissions auto-allow build/test/lint; ask on installs, network, gated paths (auth, migrations)</li><li>The Stop hook refuses "done" on a red build</li></ul></div>
       <div class="cell m"><h4>Discern · machines report</h4><ul><li><code>ci</code> blocks on build/tests/lint/coverage and on a newly introduced vulnerable package</li><li><code>grader</code>: a fresh agent grades check-by-check, advisory, required to run</li><li><code>correctness</code> blocks on a high-confidence defect; <code>security</code> blocks on HIGH</li></ul></div>
       <div class="cell h"><h4>Discern · a human signs</h4><ul><li>A non-author Checker approves; on HIGH, Dan in security signs with a sentence; a bare name fails the <code>risk-signoff</code> check</li><li>Merge deploys to dev automatically</li></ul></div>
     </div>
 <pre><code>/sdlc-spec "duplicate-claim merge"          # Intent → specs/0016-… (ready or bounced)
+/sdlc-channel --spec specs/0016-duplicate-claim-merge.md   # bind to its one channel; its acceptance dimensions become checks
 # plan mode → build → Stop hook → PR on spec/0016-duplicate-claim-merge
 /sdlc-status                                 # queue, decision list, gate status — every flow check
 /sdlc-refresh detect --spec specs/0016-duplicate-claim-merge.md   # after merge: did upstream drift?
 /sdlc-retro                                  # Retro+: every escaped bug → "which check should have caught it?"</code></pre>
-    <div class="reentry"><b>Routes back, from inside the loop:</b> unknown → <code>/sdlc-spike</code>; design wrong → <code>/sdlc-revise</code> the ADR (HIGH); requirement changed → <code>/sdlc-revise</code> the requirement; merged work drifted from its requirement → <code>/sdlc-refresh</code> proposes the upstream edit and a person applies it; stale artifacts anywhere → <code>/sdlc-audit-artifacts</code>.</div>
+    <div class="reentry"><b>Routes back, from inside the loop:</b> unknown → <code>/sdlc-spike</code>; design wrong → <code>/sdlc-revise</code> the ADR (HIGH); requirement changed → <code>/sdlc-revise</code> the requirement; merged work drifted from its requirement → <code>/sdlc-refresh</code> proposes the upstream edit and a person applies it; stale artifacts anywhere → <code>/sdlc-audit-artifacts</code>; what an artifact used to say → <code>/sdlc-version</code> (content history: list, diff, roll back).</div>
   </div>
 </div>
 

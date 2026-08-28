@@ -432,6 +432,12 @@
             request/response shapes, the error semantics carried down from the Phase 1 error-behavior specs,
             and the degradation behavior under each dependency failure. A contract that only describes
             success is half a contract.</p>
+          <p>Two more contracts join the API contracts when their triggers apply. The <strong>data
+            contract</strong> &mdash; every field the feature reads or writes, with an explicit PII column a
+            named human confirms, because a spec touching personal data is HIGH; its readiness gaps go on the
+            decision list, never a block. And the <strong>interaction contract</strong> for the feature's
+            customer surface &mdash; for a screen, the event contract, co-authored with Engineering and
+            co-signed where it is an API, so the UI and the API cannot disagree at integration.</p>
           <p class="dim">Happy-path contracts &mdash; success specified, failure left to the implementer's
             imagination &mdash; are a named failure mode. The Phase 1 error-behavior specs exist precisely to
             flow into contract error semantics; if they don't, that work evaporates here. The error spec
@@ -599,7 +605,9 @@
           <p>Claude drafts the records from yesterday's choices; the design owner edits and signs, the
             client's engineer co-signs. An unsigned record is just a conversation. The claim data model gets
             drafted &mdash; starting where the most constraints converge &mdash; and the forward-compatibility check
-            forces its one structural change.</p>
+            forces its one structural change. Where the feature has a customer surface, the Design seat
+            starts now &mdash; journey, surface layout, interaction contract &mdash; because the layout depends
+            on the architecture just chosen.</p>
         </div>
 
         <div class="tl-step" data-day="Day 4">
@@ -608,7 +616,9 @@
           <p>The API contracts get completed &mdash; every operation, every failure path, every degradation
             behavior. The security session walks the data flows and assigns each threat: mitigate it in the
             design now, or guard it with a build-time gate later. The quality engineer writes how every
-            quality target will be proven, and defines the thin end-to-end slice Phase&nbsp;3 must make real.</p>
+            quality target will be proven, and defines the thin end-to-end slice Phase&nbsp;3 must make real.
+            Alongside the contracts, where the feature touches personal data, the Data seat's contract &mdash;
+            every field with a PII column a named human confirms &mdash; its readiness gaps, and its lineage.</p>
         </div>
 
         <div class="tl-step" data-day="Day 5">
@@ -649,16 +659,24 @@
             <li><strong>Day 3 &mdash; decisions become records; the model takes shape.</strong> Claude drafts
               the ADRs from the day-2 choices; the Setup Owner edits and signs; the client counterpart
               co-signs. The data model and component design get drafted, and the forward-compatibility check
-              runs against the draft model.</li>
+              runs against the draft model. Where the feature has a customer surface, the Design seat drafts
+              the user journey (with its abandon and failure paths), the surface layout, and the interaction
+              contract &mdash; now, because the layout depends on the architecture just chosen; for a screen
+              the contract is the event contract, co-authored with Engineering.</li>
             <li><strong>Day 4 &mdash; contracts, threat review, and the proving plan.</strong> API contracts
               completed with error semantics and degradation behavior. The threat review session with client
               security assigns mitigations &mdash; some design changes, some build-time security gates feeding
               the risk-tier map. The Quality Engineer completes the proving plan and the walking-skeleton
-              definition.</li>
+              definition. Alongside the contracts, where the feature reads or writes personal data, the Data
+              seat drafts the data contract (every field, with an explicit PII column a named human confirms
+              &mdash; a spec touching personal data is HIGH), the readiness assessment (advisory; every gap a
+              decision-list item, never a block), and the lineage audit (source &rarr; transform &rarr; sink,
+              with retention and audit points).</li>
             <li><strong>Day 5 &mdash; review, gate, and the handoff.</strong> The design review: fresh eyes
               challenge it from four angles. The consistency check runs both directions; orphans resolved.
               The automated gate check runs; the Phase 3 handoff is drafted. Steering: the sponsor gets the
-              design narrative, not the diagrams. Sign-offs recorded; the engagement advances to Foundation.</li>
+              design narrative, not the diagrams. Sign-offs recorded &mdash; the phase's own, and beside them
+              the discipline sign-offs by name; the engagement advances to Foundation.</li>
           </ul>
           <p class="dim">When the week stretches: a formal architecture review board gets scheduled for day
             4&ndash;5 from day 1, and if its cadence can't fit, the phase stretches and gate-based billing
@@ -686,6 +704,8 @@
           <tr><td><strong>Designing around the constraint</strong></td><td>"We'll add the real-time feed later" wishes the batch window away</td><td>Honor the fixed limit, or re-open it out loud &mdash; never silently.</td><td>The nightly replica <em>is</em> the design</td></tr>
           <tr><td><strong>Faith-based integration</strong></td><td>The design bets on an interface nobody actually called</td><td>Spike it against the live system before you depend on it.</td><td><strong>Caught</strong> &mdash; the spike found the refresh window</td></tr>
           <tr><td><strong>Happy-path contracts</strong></td><td>Success is specified; failure is left to imagination</td><td>Carry the error specs down; failure behavior is half the contract.</td><td>Every contract row is a failure case</td></tr>
+          <tr><td><strong>PII discovered at build</strong></td><td>A field nobody classified turns up in a MEDIUM spec &mdash; the tier was wrong from the start</td><td>The data contract's PII column, confirmed by a named human in Design, before the first spec is written.</td><td>Dan confirmed the column; the queue row carries no PII by design</td></tr>
+          <tr><td><strong>The surface designed after the contract</strong></td><td>Screens drawn without an interaction contract; the UI and the API disagree at integration</td><td>One interaction contract, co-authored by Design and Engineering after the architecture is chosen.</td><td>Wes co-signed the console's event contract</td></tr>
           <tr><td><strong>The orphan service</strong></td><td>A component creeps in that no requirement asked for</td><td>Trace the design both directions; cut what nothing needs.</td><td><strong>Caught</strong> &mdash; a service cut on day 5</td></tr>
         </tbody>
       </table>
@@ -713,6 +733,17 @@
             <li><strong>Happy-path contracts.</strong> Contracts that specify success and leave failure to
               the implementer's imagination. The Phase 1 error-behavior specs exist precisely to flow into
               contract error semantics &mdash; if they don't, that work evaporates here.</li>
+            <li><strong>PII discovered at build.</strong> A field nobody classified turns up in a MEDIUM spec
+              &mdash; a claimant's name in a queue row, an address in a log line &mdash; and the agent has been
+              building on it under MEDIUM permissions with a MEDIUM review. The tier was wrong from the start,
+              because the data contract's PII column was empty or never confirmed. The column is confirmed
+              here, field by field, by a named human, so the tier is set before the first spec is written.</li>
+            <li><strong>The surface designed after the contract.</strong> The API contract closes on day 4,
+              the screens get drawn in Build without an interaction contract, and the two meet for the first
+              time at integration &mdash; where the UI needs an event the API never exposes, or the API returns
+              a state the screen has no way to show. The interaction contract is one artifact, co-authored by
+              Design and Engineering after the architecture is chosen, so the surface and the API are one
+              design before either side builds against it.</li>
             <li><strong>Foreclosing the protected future &mdash; or gold-plating for an unfunded one.</strong>
               The forward-compatibility check cuts both ways: don't preclude what the constitution protects,
               and don't build abstractions for futures nobody paid for. "Must not preclude" means the door
@@ -955,6 +986,7 @@
             <span class="cmd">/deep-plan <span class="arrow">&rarr;</span> planning/claude-plan.md</span>
             <span class="cmd"><span class="script">map_deep_plan_artifacts.py</span></span>
             <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> ADRs</span>
+            <span class="cmd">/sdlc-experience <span class="arrow">&rarr;</span> experience/ &mdash; journey, layout, interaction contract</span>
           </div>
           <div class="artifacts">
             <span class="lbl">Out &mdash; all under <code>.sdlc/artifacts/02-design/</code></span>
@@ -966,6 +998,9 @@
             <span class="tag">research-notes.md</span>
             <span class="tag">integration-notes.md</span>
             <span class="tag">deep-plan-checkpoint.yaml</span>
+            <span class="tag">experience/user-journey.md</span>
+            <span class="tag">experience/surface-layout.md</span>
+            <span class="tag">experience/channel-interaction-spec.md</span>
           </div>
           <p><strong>An unsigned record is just a conversation.</strong> Claude drafts each ADR against the
             template; the Setup Owner edits; the Setup Owner <em>and</em> the client's counterpart both sign.
@@ -977,6 +1012,22 @@
               C-03 (auto-proof) forces exactly one structural change: claim type moves from a code-level enum
               to a <strong>reference table</strong> with an extensible coverage schema. Adding the auto book
               later becomes a data change, not a schema migration. Door open; room unfurnished.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor &mdash; the Design seat</div>
+            <p>The adjuster console is a customer surface, so it gets the Design seat, and it gets it
+              <em>today</em>, after ADR-001 and ADR-002 &mdash; the layout of a queue depends on what the store
+              and the verification service can answer. <code>/sdlc-experience</code> reads the feature's
+              channel &mdash; a screen &mdash; routes to the visual designer, and interviews Rob and Luis. The
+              <strong>user journey</strong> carries the path nobody draws unprompted: the abandon path when the
+              replica is stale. An adjuster opens a claim whose coverage reads <code>pending-verification</code>
+              and cannot decide it; the journey says what happens instead of a dead end &mdash; the as-of
+              timestamp and the state shown in words, the claim parked back to the queue with a reason, no
+              one-click confirm on last night's data. The <strong>surface layout</strong> is the queue and the
+              claim detail, as screens. The <strong>interaction contract</strong> is the console's event
+              contract, co-authored with Engineering &mdash; Jonah and Wes at the same table &mdash; because
+              for a screen the interaction contract <em>is</em> the API the screen speaks. Wes co-signs it.
+              Luis signs the journey.</p>
           </div>
         </div>
 
@@ -991,11 +1042,15 @@
           <div class="tooling">
             <span class="label">Tooling</span>
             <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> contracts</span>
+            <span class="cmd">/sdlc-data <span class="arrow">&rarr;</span> data/ &mdash; contract, readiness, lineage</span>
             <span class="cmd">/visual-explainer <span class="arrow">&rarr;</span> .sdlc/reports/architecture-diagrams.html</span>
             <span class="none">threat review &mdash; a human session; Claude drafts the data flows and the candidate list</span>
           </div>
           <div class="artifacts">
             <span class="lbl">Out</span>
+            <span class="tag">data/data-contract.md</span>
+            <span class="tag">data/data-readiness.md</span>
+            <span class="tag">data/lineage-audit.md</span>
             <span class="tag">architecture-diagrams.html</span>
             <span class="tag amber">threat-model.md + mitigation map</span>
             <span class="tag amber">nfr-proving-plan.md</span>
@@ -1011,6 +1066,24 @@
               template-review gate on acknowledgment letters, because that data leaves the system on paper.
               Nadia writes how each NFR will be proven and where its number will be read. Steering with Karen
               surfaces document retention, which becomes D-12.</p>
+          </div>
+          <div class="aha">
+            <div class="lbl">At Harbor &mdash; the Data seat</div>
+            <p>A claim is personal data from its first field, so alongside the contracts the Data seat runs.
+              <code>/sdlc-data</code> interviews Priti and Wes and drafts the <strong>claims data
+              contract</strong>: claimant name, policy number, property address, loss description, photos,
+              loss date, claim type, channel, the as-of timestamp &mdash; each with its source and type, and
+              each with a <strong>PII column</strong>. Claude proposes the classification; <strong>Dan confirms
+              it</strong>, field by field, because PII is a risk-tier driver: any spec that touches a
+              classified field is HIGH before it is written. The <strong>readiness assessment</strong> flags
+              the gap everybody already half-knew: the nightly snapshot replica is absent during its refresh
+              window and only ever as fresh as last night, so a coverage answer is not always <em>there</em>
+              to read. Flagged, not blocked &mdash; it goes on the decision list under Priti's name on the
+              2-business-day clock, where steering can see it. The <strong>lineage audit</strong> follows a
+              claim from the intake form (portal, phone, email &mdash; each through its adapter) &rarr; the
+              intake API &rarr; the replica verification read &rarr; the adjuster queue, with D-12's seven-year
+              retention on the record and two audit points: the append-only event log (NFR-07) and the
+              audited replica read (the Q-15 controls).</p>
           </div>
         </div>
 
@@ -1038,7 +1111,7 @@
           <div class="aha warn">
             <div class="lbl">What the gate actually checks</div>
             <p><code>check_gates.py</code> verifies that five files exist, are non-empty, and contain no
-              placeholder text. It never reads the ten-bullet exit-gate checklist this standard specifies
+              placeholder text. It never reads the twelve-bullet exit-gate checklist this standard specifies
               &mdash; that list lives in <code>phase-registry.yaml</code>, and no code opens it. The human is
               stopped at the gate and asked to sign; the checklist they should be signing against is never put
               in front of them. <em>The human gate is real. What it asks is not.</em></p>
@@ -1051,7 +1124,9 @@
               traced to REQ-019. <strong>MEDIUM:</strong> a notification-preferences service that no
               requirement asked for had crept into the component diagram &mdash; <strong>cut</strong>.
               Accidental scope dies in design, not in build. Consistency check clean after the cut. Rob and Wes
-              walk the ADRs, Luis confirms the product trade-offs, Karen approves.</p>
+              walk the ADRs, Luis confirms the product trade-offs, Karen approves &mdash; and the advance
+              records, beside her signature, the discipline sign-offs by name: Dan on the PII column, Wes on
+              the interaction contract, Luis on the journey.</p>
           </div>
         </div>
 
@@ -1083,6 +1158,12 @@
           <tr><td><span class="tag">adrs/ADR-NNN.md</span></td><td>One decision each: context, 2&ndash;3 options genuinely considered, the choice, the consequences including the unpleasant ones</td><td>Claude drafts from the Step 0 human decisions</td><td><strong>Setup Owner + client counterpart &mdash; both</strong></td><td><code>.sdlc/artifacts/02-design/adrs/</code></td><td>Phase 3 build; every later argument</td></tr>
           <tr><td><span class="tag">adr-registry.md</span></td><td>The index of every ADR with its status &mdash; active, superseded, proposed</td><td><code>/sdlc-coach</code></td><td>Setup Owner</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Close &mdash; the decision history Harbor inherits</td></tr>
           <tr><td><span class="tag">api-contracts.md</span></td><td>Every operation: request and response shapes, auth, error semantics, degradation behavior per dependency failure. A contract that only describes success is half a contract</td><td><code>/deep-plan</code> drafts; Setup Owner completes</td><td>Setup Owner</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Phase 3 specs</td></tr>
+          <tr><td><span class="tag">data/data-contract.md</span><br><span class="dim">conditional &mdash; the feature touches personal data</span></td><td>Every field the feature reads or writes, with source, type, and an explicit PII column. The column is what a named human confirms, because PII drives the risk tier</td><td><code>/sdlc-data</code> &mdash; the Data seat, interview-driven</td><td><strong>Dan Kowalski</strong> (the PII column), recorded at the advance</td><td><code>.sdlc/artifacts/02-design/data/</code></td><td>Every dependent spec's tier; Build triage</td></tr>
+          <tr><td><span class="tag">data/data-readiness.md</span><br><span class="dim">conditional</span></td><td>Is the data actually there, complete, and trustworthy &mdash; advisory; each gap becomes a decision-list item with an owner and a clock, never a block</td><td><code>/sdlc-data</code></td><td>Setup Owner</td><td><code>.sdlc/artifacts/02-design/data/</code></td><td>The decision list; steering</td></tr>
+          <tr><td><span class="tag">data/lineage-audit.md</span><br><span class="dim">conditional</span></td><td>Source &rarr; transform &rarr; sink, with retention and the audit points</td><td><code>/sdlc-data</code></td><td>Setup Owner + client security</td><td><code>.sdlc/artifacts/02-design/data/</code></td><td>The threat review; Phase 9's compliance sample</td></tr>
+          <tr><td><span class="tag">experience/user-journey.md</span><br><span class="dim">conditional &mdash; the feature has a customer surface</span></td><td>The adjuster's path through the console, including the abandon path when the replica is stale</td><td><code>/sdlc-experience</code> &mdash; the Design seat, via the visual designer</td><td><strong>Luis Ortega</strong></td><td><code>.sdlc/artifacts/02-design/experience/</code></td><td>The console specs' acceptance checks</td></tr>
+          <tr><td><span class="tag">experience/surface-layout.md</span><br><span class="dim">conditional</span></td><td>The queue and the claim detail as screens &mdash; drafted after ADR-001 and ADR-002, because the layout depends on them</td><td><code>/sdlc-experience</code></td><td>Setup Owner</td><td><code>.sdlc/artifacts/02-design/experience/</code></td><td>Build specs for the console</td></tr>
+          <tr><td><span class="tag">experience/channel-interaction-spec.md</span><br><span class="dim">conditional</span></td><td>The console's event contract: each screen-channel dimension &rarr; a concrete contract &rarr; the acceptance check it becomes</td><td><code>/sdlc-experience</code>, co-authored with Engineering</td><td><strong>Wes Carter</strong> co-signs &mdash; it is an API</td><td><code>.sdlc/artifacts/02-design/experience/</code></td><td><code>/sdlc-channel</code> at Intent &mdash; spec 0015's checks</td></tr>
           <tr><td><span class="tag">phase3-handoff.md</span></td><td>Decisions, contracts, section breakdown, implementation order, build risks, open questions under their original IDs</td><td><code>map_deep_plan_artifacts.py</code> drafts; Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Phase 3, directly</td></tr>
           <tr><td><span class="tag">architecture-diagrams.html</span></td><td>Five rendered diagrams &mdash; layers, request flow, data flow, section dependencies, and the trust boundary</td><td><code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>Stakeholder review; the threat session</td></tr>
           <tr><td><span class="tag">research-notes.md</span><br><span class="tag">integration-notes.md</span><br><span class="tag">deep-plan-checkpoint.yaml</span></td><td>The planner's working memory: what it researched, what it learned about the client's systems, and enough session state for Phase 3 to resume</td><td><code>/deep-plan</code></td><td>&mdash;</td><td><code>.sdlc/artifacts/02-design/</code></td><td>Phase 3 resumption</td></tr>
@@ -1099,7 +1180,7 @@
 
       <div class="aha warn" style="margin-top:22px;">
         <div class="lbl">Read the amber rows again</div>
-        <p>Six of the fourteen things Phase 2 is supposed to produce have nowhere to live. The threat review
+        <p>Six of the twenty things Phase 2 is supposed to produce have nowhere to live. The threat review
           happens, and its output survives as a memory and a couple of GitHub labels. The spike that found
           Harbor's 02:00&ndash;04:30 refresh window leaves no artifact at all &mdash; the finding reaches the ADR
           only because Jonah was in the room on Wednesday. <strong>Human work is not the problem. Human work
@@ -1107,8 +1188,8 @@
       </div>
 
       <p style="margin-top:22px;">Deliberately <strong>not</strong> produced in Phase 2: production code, the
-        spec backlog (Phase 3 and triage own that), provisioned environments (Phase 3), UI visual design
-        beyond what the product trade-offs required, and estimates beyond the SOW's phase figures.</p>
+        spec backlog (Phase 3 and triage own that), provisioned environments (Phase 3), pixel-level UI
+        design beyond the surface layout the Design seat owns, and estimates beyond the SOW's phase figures.</p>
     </div>
   </section>
 
@@ -1198,11 +1279,79 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 06 — THE DATA MODEL, AS SHIPPED                                        -->
+  <!-- 06 — THE DISCIPLINE SEATS, AS SHIPPED                                  -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">06</span>
+      <p class="kicker">Two exhibits &mdash; <code>data/data-contract.md</code> and <code>experience/channel-interaction-spec.md</code></p>
+      <h2>Every field, and whether it is a person &mdash; then the console that respects it</h2>
+      <p class="lead">Harbor's feature touches personal data and has a customer surface, so both of Design's
+        discipline seats ran: the Data seat on day 4, alongside the API contracts; the Design seat on day 3,
+        after the architecture was chosen and before the contracts closed. Claude proposed every row below;
+        named humans confirmed and signed.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>Field</th><th>Source</th><th>PII?</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>Claimant name</td><td>Intake form (any channel)</td><td><strong>Yes</strong></td><td>Names a person; shown on the claim detail, never in a queue row</td></tr>
+          <tr><td>Policy number</td><td>Intake form &rarr; replica lookup</td><td><strong>Yes</strong> &mdash; customer-linked</td><td>Resolves to a household; the key the audited replica read is made on</td></tr>
+          <tr><td>Property address</td><td>Intake form; verified against the replica</td><td><strong>Yes</strong></td><td>A home; the acknowledgment letter carries it &mdash; the PII template-review gate exists for this</td></tr>
+          <tr><td>Loss description</td><td>Intake form; email extraction (ADR-004)</td><td><strong>Yes</strong> &mdash; treat as such</td><td>Free text; policyholders write names, phone numbers, and neighbours into it</td></tr>
+          <tr><td>Photos</td><td>Portal upload</td><td><strong>Yes</strong></td><td>Faces, plates, interiors; the document-upload path is already a HIGH area with a malware gate</td></tr>
+          <tr><td>Loss date, claim type, channel</td><td>Intake form; reference table</td><td>No</td><td>Operational; safe in a queue row</td></tr>
+          <tr><td>Coverage status + as-of timestamp</td><td>Replica verification read</td><td>No</td><td>Derived; the staleness contract rides on the timestamp</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:16px;"><strong>What the column changed.</strong> Two things, both before a single
+        spec existed. Every spec that shows or stores a Yes-row is HIGH &mdash; the claim detail, the
+        acknowledgment dispatch, the duplicate merge (when 0016 reaches triage in the Build week, Maya's HIGH
+        is the contract's HIGH, not a judgement call). And the adjuster <strong>queue row</strong> was designed
+        to carry only No-rows &mdash; claim number, loss type, channel, extraction confidence, as-of &mdash; so
+        the fast-path work queue could be a MEDIUM spec. The PII column did not just label the data; it drew
+        the line between two screens.</p>
+      <div class="aha">
+        <div class="lbl">The readiness gap, and the lineage</div>
+        <p><code>data-readiness.md</code> is advisory and says so in its header. It flags one gap: coverage
+          data is only as fresh as last night's snapshot and is absent altogether during the refresh window,
+          so a coverage answer is not always there to read. Nothing blocks on it. It goes on the decision list
+          under Priti's name on the 2-business-day clock, and it goes to steering, where Karen sees it as a
+          line item now rather than as an incident in month four. <code>lineage-audit.md</code> follows a
+          claim from the intake form (portal, phone, email, each through its own adapter) &rarr; intake API
+          &rarr; replica verification read &rarr; adjuster queue; retention seven years (D-12); audit points at
+          every state change in the append-only event log (NFR-07) and at every replica read, under the Q-15
+          controls. Dan read it on day 4 as an input to the threat review &mdash; the two are the same
+          afternoon.</p>
+      </div>
+      <p style="margin-top:22px;"><strong>The console.</strong> <code>user-journey.md</code>'s happy path is
+        short: open the queue, take the top claim, see coverage verified and the extraction confidence,
+        one-click confirm (D-09). The journey exists for the other paths &mdash; above all the <strong>abandon
+        path when the replica is stale</strong>: coverage reads <code>pending-verification</code> or carries
+        the staleness warning, the console shows the as-of timestamp and the state in words, the one-click
+        confirm is not offered, the adjuster parks the claim back to the queue with a reason, and it
+        re-surfaces when the verification read succeeds. No dead end, and no fast-path decision on last
+        night's data. <code>surface-layout.md</code> is the queue (No-rows only) and the claim detail (the
+        Yes-rows, HIGH), as screens. And <code>channel-interaction-spec.md</code> &mdash; for a screen, the
+        event contract the console speaks, co-authored with Engineering and co-signed by Wes &mdash; traces
+        each of the screen channel's acceptance dimensions to a contract and the check it becomes:</p>
+      <table class="ref-doc" style="margin-top:14px;">
+        <thead><tr><th>Dimension</th><th>Contract</th><th>Becomes the check</th></tr></thead>
+        <tbody>
+          <tr><td>Confidence display</td><td>Every extracted field carries its confidence; the console renders it beside the value, never hides it</td><td>A below-threshold field shows its confidence and routes to triage (REQ-009), not to one-click confirm</td></tr>
+          <tr><td>Approval</td><td>A decision is a human event with an actor; the console never emits a decision on the adjuster's behalf</td><td>The confirm event carries the adjuster's identity and the as-of timestamp it was made on</td></tr>
+        </tbody>
+      </table>
+      <p class="note">This is the file <code>/sdlc-channel</code> reads at Intent: when spec 0015 (the
+        fast-path work queue) is bound to the screen channel in the Build week, these rows become its
+        acceptance checks, and nothing downstream knows they came from a channel.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 07 — THE DATA MODEL, AS SHIPPED                                        -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
       <p class="kicker">An exhibit from <code>design-doc.md</code> &mdash; where the constraints converge</p>
       <h2>Ship only what's funded, but leave the right seams</h2>
       <p class="lead">The model was drafted starting exactly where Phase 1's handoff pointed: the claim, its
@@ -1256,9 +1405,9 @@
   <!-- ===================================================================== -->
   <!-- 07 — WHAT PHASE 3 RECEIVES                                             -->
   <!-- ===================================================================== -->
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
+      <span class="modnum">08</span>
       <p class="kicker">The handoff &mdash; and the two questions that travel with it</p>
       <h2>What Phase 3 receives</h2>
       <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses
@@ -1272,6 +1421,8 @@
         <span class="tag">design-doc.md</span>
         <span class="tag">api-contracts.md</span>
         <span class="tag">adrs/ + adr-registry.md</span>
+        <span class="tag">data/ &mdash; contract (PII column), readiness, lineage</span>
+        <span class="tag">experience/ &mdash; journey, layout, interaction contract</span>
         <span class="tag">deep-plan-checkpoint.yaml</span>
         <span class="tag amber">walking-skeleton definition</span>
         <span class="tag amber">threat mitigation map &rarr; risk-tier map</span>
@@ -1578,6 +1729,43 @@
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">07</span>
+      <p class="kicker">Only when the feature has a customer surface &mdash; and only after step 6</p>
+      <h2>Author the experience for the surface</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-experience</span>
+      </div>
+      <p><strong>What happens:</strong> the command takes the channel from the feature-brief row or the spec's
+        <code>channel:</code> field (it asks if none is set), loads that channel's descriptor, and routes to
+        the right designer: a screen goes to the <code>visual-designer</code> agent, a voice line or chat
+        thread to the <code>conversation-designer</code>. The designer interviews you the way
+        <code>/sdlc-coach</code> does and drafts three files as answers arrive: <code>user-journey.md</code>
+        (including the abandon, failure, and dead-end paths), <code>surface-layout.md</code> (screens for a
+        screen, a turn-script for voice, a message flow for chat), and
+        <code>channel-interaction-spec.md</code> &mdash; the table that traces each of the channel's
+        acceptance dimensions to a concrete contract and the acceptance check it becomes.</p>
+      <p><strong>What you do:</strong> run it <em>after</em> the decision records exist, because the layout
+        depends on the architecture just chosen &mdash; and <em>before</em> the API contracts close, so the
+        two can close together. For a screen, the interaction spec <strong>is</strong> the event contract the
+        screen speaks: bring Engineering to the interview and have the client's engineer co-sign it. The
+        journey needs a named human's signature too. Design proposes; it never signs its own work.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have &mdash; under <code>.sdlc/artifacts/02-design/experience/</code></span>
+        <span class="tag">user-journey.md</span>
+        <span class="tag">surface-layout.md</span>
+        <span class="tag">channel-interaction-spec.md</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> the journey has its failure paths written down
+        and the interaction contract carries Engineering's co-signature. If no descriptor exists for the
+        channel, the command tells you to add one to the channel library first &mdash; the layout has nothing
+        to trace to without it. If the feature has no customer surface, skip this step and say so in the
+        phase report.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">08</span>
       <p class="kicker">Nothing to type &mdash; you're finishing what step 4 sketched</p>
       <h2>Complete the design document, the contracts, and the model</h2>
       <p class="lead">The two skeletons are starting points, not drafts. Fill every
@@ -1606,9 +1794,45 @@
     </div>
   </section>
 
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Only when the feature reads or writes customer or personal data, or depends on data nobody has checked</p>
+      <h2>Write the data contract</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-data</span>
+      </div>
+      <p><strong>What happens:</strong> the <code>data-analyst</code> agent reads the feature brief's data
+        touchpoints and whatever data artifacts already exist, then interviews you: which fields the feature
+        reads or writes, their sources and types, which are PII or customer-linked, whether the data is
+        actually there and complete, and how it flows end to end. It drafts three files as you answer:
+        <code>data-contract.md</code> (the field table with an explicit <strong>PII?</strong> column),
+        <code>data-readiness.md</code> (availability, completeness, quality &mdash; advisory), and
+        <code>lineage-audit.md</code> (source &rarr; transform &rarr; sink, with retention and audit points).
+        Then it stops at a human gate with two questions.</p>
+      <p><strong>What you do:</strong> answer them as the person who is accountable. First, confirm the
+        <strong>PII classification</strong> on every field &mdash; PII is a risk-tier driver, and a spec
+        that touches a classified field is HIGH; the analyst proposes, a named human confirms. Second, route
+        each <strong>readiness gap</strong> to the decision log with an owner and the 2-business-day clock.
+        Readiness never blocks; it makes the gap visible where steering will see it.</p>
+      <div class="artifacts">
+        <span class="lbl">You now have &mdash; under <code>.sdlc/artifacts/02-design/data/</code></span>
+        <span class="tag">data-contract.md &mdash; PII column confirmed by name</span>
+        <span class="tag">data-readiness.md &mdash; advisory</span>
+        <span class="tag">lineage-audit.md</span>
+        <span class="tag">decision-log entries &mdash; one per readiness gap, with owner and clock</span>
+      </div>
+      <p class="note"><strong>Don't move on until:</strong> no field's PII column is blank, and the name of
+        the human who confirmed it is recorded &mdash; that signature is what the phase advance records beside
+        the phase's own. An unclassified field is a tier nobody set, and it surfaces in Build as a MEDIUM spec
+        handling personal data.</p>
+    </div>
+  </section>
+
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
+      <span class="modnum">10</span>
       <p class="kicker">Nothing to type &mdash; a real meeting, with security in it</p>
       <h2>Run the threat review</h2>
       <p class="lead">This happens in Phase 2, not Phase 3, for one reason: Phase 3 wires its build-time
@@ -1639,7 +1863,7 @@
 
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
+      <span class="modnum">11</span>
       <p class="kicker">Nothing to type &mdash; two files, both written by hand</p>
       <h2>Say how the design gets proved</h2>
       <p class="lead">Two required artifacts, no template for either, no command that produces either.
@@ -1667,7 +1891,7 @@
 
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
+      <span class="modnum">12</span>
       <p class="kicker">Type this &mdash; or hand-roll it; either is allowed</p>
       <h2>Render the diagrams</h2>
       <div class="tooling">
@@ -1692,7 +1916,7 @@
 
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">11</span>
+      <span class="modnum">13</span>
       <p class="kicker">Type this &mdash; before the gate, not after</p>
       <h2>Get the design reviewed by fresh eyes</h2>
       <div class="tooling">
@@ -1715,7 +1939,7 @@
 
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">12</span>
+      <span class="modnum">14</span>
       <p class="kicker">Type this &mdash; the machine checks your work</p>
       <h2>Run the gate</h2>
       <div class="tooling">
@@ -1750,7 +1974,7 @@
 
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">13</span>
+      <span class="modnum">15</span>
       <p class="kicker">Type this &mdash; last thing in the phase</p>
       <h2>Get the signatures and advance</h2>
       <div class="tooling">
@@ -1789,6 +2013,8 @@
           <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Shows what phase you're in and which required artifacts are still missing.</td></tr>
           <tr><td><code>/sdlc</code></td><td>Start of every work session. Tells you what to do next in this phase.</td></tr>
           <tr><td><code>/sdlc-review</code></td><td>Any time the design has changed materially. Cheap, advisory, and it reads what you'd rather not re-read.</td></tr>
+          <tr><td><code>/sdlc-experience</code></td><td>The feature has a customer surface. After the decision records, before the contracts close &mdash; the journey, the surface layout, the interaction contract.</td></tr>
+          <tr><td><code>/sdlc-data</code></td><td>The feature touches customer or personal data. Alongside the contracts &mdash; the data contract with its PII column, readiness, lineage.</td></tr>
           <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
         </tbody>
       </table>
@@ -1832,7 +2058,7 @@
       <table>
         <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
         <tbody>
-          <tr><td>Setup Owner drives the option evaluation, owns the design document, signs every ADR. Client counterpart co-signs each ADR. PO owns product-facing trade-offs.</td><td>Researches and frames 2&ndash;3 genuine options per decision; drafts ADRs after the human picks; drafts contracts and the data model carrying Phase 1 error specs down; checks consistency both directions; drafts the data-flow diagrams and candidate threat list.</td><td>Choosing an architecture, signing an ADR, accepting a risk &mdash; all human. Claude never softens a trade-off to make an option look better. Phase advance.</td></tr>
+          <tr><td>Setup Owner drives the option evaluation, owns the design document, signs every ADR. Client counterpart co-signs each ADR. PO owns product-facing trade-offs.</td><td>Researches and frames 2&ndash;3 genuine options per decision; drafts ADRs after the human picks; drafts contracts and the data model carrying Phase 1 error specs down; checks consistency both directions; drafts the data-flow diagrams and candidate threat list; as the Data seat, drafts the data contract (PII column), readiness, and lineage; as the Design seat, drafts the journey, surface layout, and interaction contract.</td><td>Choosing an architecture, signing an ADR, accepting a risk, confirming a PII classification, signing the journey and the interaction contract &mdash; all human. Claude never softens a trade-off to make an option look better. Phase advance, with the discipline sign-offs recorded beside it.</td></tr>
         </tbody>
       </table>
 
@@ -1867,8 +2093,8 @@
         <tbody>
           <tr><td>1</td><td>Drivers &amp; options</td><td>Extract the 5&ndash;8 design drivers from the handoff; the carried open questions come due; Claude presents option sets; strawmen killed, option session booked; spikes assigned</td><td><code>/deep-plan</code></td></tr>
           <tr><td>2</td><td>Spikes &amp; option session</td><td>Throwaway, hours-boxed spikes run against the live systems; the 90&ndash;120 min option session &mdash; humans choose; product trade-offs split to the PO. Architecture direction set, ADR list known</td><td>&mdash; (spikes are exploratory Claude coding on throwaway branches; the session is humans choosing)</td></tr>
-          <tr><td>3</td><td>Records &amp; model</td><td>ADRs drafted from the day-2 choices, edited, signed (Setup Owner + counterpart); data model and component design drafted; forward-compatibility check run against the model</td><td><code>/sdlc-coach</code> &rarr; drafts ADRs (ADR template) &amp; data model</td></tr>
-          <tr><td>4</td><td>Contracts, threats, proving</td><td>API contracts completed with error &amp; degradation semantics; threat review with security; QE completes the proving plan and the walking-skeleton definition; first steering</td><td><code>/sdlc-coach</code> &rarr; contracts; <code>/visual-explainer</code> &rarr; steering narrative; threat review is a human session</td></tr>
+          <tr><td>3</td><td>Records &amp; model</td><td>ADRs drafted from the day-2 choices, edited, signed (Setup Owner + counterpart); data model and component design drafted; forward-compatibility check run against the model; where the feature has a customer surface, the Design seat drafts the journey, surface layout, and interaction contract (the layout depends on the architecture just chosen)</td><td><code>/sdlc-coach</code> &rarr; drafts ADRs (ADR template) &amp; data model; <code>/sdlc-experience</code> &rarr; experience/</td></tr>
+          <tr><td>4</td><td>Contracts, threats, proving</td><td>API contracts completed with error &amp; degradation semantics; threat review with security; where the feature touches personal data, the Data seat's contract (PII column confirmed by a named human), readiness, and lineage alongside the API contracts; QE completes the proving plan and the walking-skeleton definition; first steering</td><td><code>/sdlc-coach</code> &rarr; contracts; <code>/sdlc-data</code> &rarr; data/; <code>/visual-explainer</code> &rarr; steering narrative; threat review is a human session</td></tr>
           <tr><td>5</td><td>Review, gate, handoff</td><td>Multi-mode design review; consistency check both directions, orphans resolved; gate check; Phase 3 handoff drafted; steering; sign-offs &mdash; billing milestone 3</td><td><code>/sdlc-review --all</code> &rarr; <code>multi-reviewer</code>; <code>/sdlc-gate</code> &rarr; <code>check_gates.py</code>; <code>/sdlc-phase-report</code> &rarr; <code>generate_phase_report.py</code>; <code>/sdlc-next</code> &rarr; <code>advance_phase.py</code></td></tr>
         </tbody>
       </table>
@@ -1882,6 +2108,12 @@
           <tr><td>Architecture decision records</td><td>Setup Owner + client counterpart (both sign)</td><td>Each: context, 2&ndash;3 options genuinely considered, the choice, the consequences including the unpleasant ones, two signatures</td></tr>
           <tr><td>Data model</td><td>Setup Owner</td><td>Serves every top-tier requirement; passes the forward-compatibility check; convergence constraints (audit, merge rules) are structural, not bolted on</td></tr>
           <tr><td>API contracts</td><td>Setup Owner</td><td>Every operation: shapes, error semantics from the Phase 1 specs, degradation behavior per dependency failure</td></tr>
+          <tr><td><code>data-contract.md</code> <span class="dim">(conditional &mdash; the feature reads or writes customer or personal data)</span></td><td>Setup Owner; the PII column confirmed by a named human</td><td>Every field the feature reads or writes, with source, type, and an explicit PII column &mdash; complete, and confirmed field by field by a named human, because a spec touching personal data is HIGH</td></tr>
+          <tr><td><code>data-readiness.md</code> <span class="dim">(same trigger)</span></td><td>Setup Owner</td><td>Availability, completeness, and quality of each source assessed; advisory &mdash; every gap is on the decision list with an owner and a clock, and none of them blocks</td></tr>
+          <tr><td><code>lineage-audit.md</code> <span class="dim">(same trigger)</span></td><td>Setup Owner + client security</td><td>Source &rarr; transform &rarr; sink for every flow, with retention and the audit points the event log must record</td></tr>
+          <tr><td><code>user-journey.md</code> <span class="dim">(conditional &mdash; the feature has a customer surface)</span></td><td>Setup Owner; a named human signs</td><td>The journey through the surface including the abandon, failure, and dead-end paths &mdash; what the customer sees when the answer is "not yet"</td></tr>
+          <tr><td><code>surface-layout.md</code> <span class="dim">(same trigger)</span></td><td>Setup Owner</td><td>Channel-shaped: screens for a screen, a turn-by-turn script for voice, a message flow for chat; drafted after the architecture is chosen, because it depends on it</td></tr>
+          <tr><td><code>channel-interaction-spec.md</code> <span class="dim">(same trigger)</span></td><td>Setup Owner + client counterpart (co-signs where the contract is an API)</td><td>Each of the channel's acceptance dimensions traced to a concrete contract and the acceptance check it becomes; for a screen, the event contract &mdash; co-signed by Engineering, so the API and the UI cannot disagree at integration</td></tr>
           <tr><td>Integration design</td><td>Setup Owner</td><td>Every external touchpoint verified by a spike against the live system, not the documentation</td></tr>
           <tr><td>Spike findings</td><td>Setup Owner</td><td>Each risky assumption confirmed or falsified, with evidence; spike code deleted</td></tr>
           <tr><td>Threat model + mitigation map</td><td>Setup Owner + client security</td><td>Data flows reviewed; each threat mitigated in design or assigned as a build-time security gate</td></tr>
@@ -1891,7 +2123,7 @@
           <tr><td>Phase 3 handoff</td><td>Pod Lead</td><td>Decisions, contracts, skeleton definition, build risks, recommended first specs, open questions under their original IDs</td></tr>
         </tbody>
       </table>
-      <p>Deliberately <strong>not</strong> produced: production code, the spec backlog (Phase 3 and triage own that), provisioned environments (Phase 3), UI visual design beyond what product trade-offs required, and estimates beyond the SOW's phase figures.</p>
+      <p>Deliberately <strong>not</strong> produced: production code, the spec backlog (Phase 3 and triage own that), provisioned environments (Phase 3), pixel-level UI design beyond the surface layout the Design seat owns, and estimates beyond the SOW's phase figures.</p>
 
       <h2>The cadences</h2>
       <table>
@@ -1917,6 +2149,8 @@
         <li>The threat review happened; every identified threat is mitigated in design or assigned as a build-time security gate</li>
         <li>Every NFR has a proving method and a named place its number will be read</li>
         <li>The walking-skeleton definition exists and is sufficient to prove the architecture</li>
+        <li>Where the feature touches personal data, the data contract's PII classification is confirmed by a named human and every dependent spec's tier reflects it</li>
+        <li>Where the feature has a customer surface, the journey and the interaction contract are signed; the discipline sign-offs are recorded at the advance beside the phase signature</li>
         <li>A named human on each side approved the advance &mdash; gates report, humans decide</li>
       </ul>
 
@@ -1928,6 +2162,8 @@
         <li><strong>Faith-based integration.</strong> The design bets on an interface nobody called. Spike-before-you-depend is cheap insurance; the alternative is discovering the truth in Build week 3.</li>
         <li><strong>The hundred-page design document.</strong> Nobody loads it, so nobody follows it. The design document is navigation &mdash; decisions live in ADRs, details in contracts, all three short enough to stay true.</li>
         <li><strong>Happy-path contracts.</strong> Success specified, failure left to imagination. The Phase 1 error-behavior specs exist precisely to flow into contract error semantics.</li>
+        <li><strong>PII discovered at build.</strong> A field nobody classified turns up in a MEDIUM spec &mdash; the tier was wrong from the start. The data contract's PII column is confirmed here, field by field, by a named human, before the first spec is written.</li>
+        <li><strong>The surface designed after the contract.</strong> Screens drawn without the interaction contract, so the API and the UI disagree at integration. One interaction contract, co-authored by Design and Engineering after the architecture is chosen.</li>
         <li><strong>Foreclosing the protected future &mdash; or gold-plating for an unfunded one.</strong> "Must not preclude" means the door stays open, not that the room gets furnished.</li>
         <li><strong>The absent counterpart.</strong> ADRs signed by one side are an engagement artifact, not a client decision. Surface it at steering while it costs days, not at close when it costs the handoff.</li>
       </ul>

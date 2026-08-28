@@ -627,11 +627,59 @@
     </div>
   </section>
 
-  <!-- 09 seeing it happen — the timeline -->
+  <!-- 09 the discipline seats -->
   <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">09</span>
+      <p class="kicker">Two more seats at the table, when the work needs them</p>
+      <h2>The discipline seats: Product, and Business requirements</h2>
+      <p class="lead">Some epics need a product decision the requirements alone can't carry: which
+        customer surface each piece ships through, and for whom. Some features encode policy &mdash;
+        coverage, eligibility, pricing &mdash; and "correct" is written in a rule book somebody has to
+        sign. Two further seats draft those artifacts. They are <strong>conditional, not
+        optional</strong>: when the trigger applies, the artifact exists before the gate closes and a
+        named human has signed it; when it doesn't, the phase report says so.</p>
+      <table class="ref-doc" style="margin-top:18px;">
+        <thead><tr><th>Seat</th><th>Triggered when</th><th>The AI drafts &mdash; and proposes</th><th>A named human signs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Product</strong></td><td>An epic spans more than one customer surface or persona, or needs carving into buildable specs</td><td>The <strong>feature brief</strong>: one epic decomposed into features and specs, each row carrying its channel and its persona; the shared "brains" split out as channel-agnostic specs. One channel per spec.</td><td>The decomposition and the proposed risk tiers &mdash; the PO</td></tr>
+          <tr><td><strong>Business requirements</strong></td><td>The feature encodes policy &mdash; eligibility, pricing, coverage, entitlement, anything with a rule book</td><td>The <strong>business rules</strong> as a decision table (condition &rarr; outcome &rarr; source &rarr; approver) and the <strong>golden scenarios</strong> (input &rarr; expected behaviour). Each rule becomes an acceptance check on the spec; each scenario seeds the golden set.</td><td>Each rule's outcome, by its named approver. A rule whose outcome nobody decided is a decision-list item, never a guess.</td></tr>
+        </tbody>
+      </table>
+      <div class="pair" style="margin-top:22px;">
+        <div class="idea">
+          <div class="plabel">The idea</div>
+          <p>Both seats are interview-driven, and both stop at a human. The Product seat asks which
+            epic, who the customer is and how they reach it, and whether there is shared logic several
+            surfaces reuse; then it proposes rows and tiers. The Business-requirements seat asks, for
+            every decision point, the condition, the outcome, the policy it cites, and who will sign it;
+            then it proposes the table. Neither ever answers a product question the client hasn't
+            answered &mdash; the open ones go on the decision list with an owner and the clock.</p>
+        </div>
+        <div class="eg">
+          <div class="plabel">At Harbor Mutual</div>
+          <p>The coverage session doubled as the rules interview. Out of it came the coverage-decision
+            table &mdash; <strong>BR-01</strong>, <em>policy inactive at the date of loss &rarr; decline</em>,
+            source the underwriting manual &sect;4.2, approver Karen Voss &mdash; and one row the manual
+            is silent on: a second FNOL for the same policy inside 24 hours with a different loss date.
+            The agent left <strong>BR-04 pending</strong> and opened D-08 for Luis instead of guessing.
+            The next day the feature brief carved the intake epic into the adjuster console, the
+            channel-agnostic intake brains, and the notification flow; Luis confirmed the rows and the
+            tiers.</p>
+        </div>
+      </div>
+      <p class="note">Discipline sign-offs are recorded at the phase advance beside the phase's own
+        signature &mdash; who signed which section, by name. In the plugin the seats are
+        <code>/sdlc-feature</code> and <code>/sdlc-rules</code>; the concept is the seat, the artifact and
+        the signature, not the command.</p>
+    </div>
+  </section>
+
+  <!-- 10 seeing it happen — the timeline -->
+  <section class="s paper">
     <div class="wrap-wide">
       <div class="reveal">
-        <span class="modnum">09</span>
+        <span class="modnum">10</span>
         <p class="kicker">Now watch the whole thing happen</p>
         <h2>The week, end to end</h2>
         <p class="dim">You've got the ideas; here's the actual rhythm at Harbor. The week is
@@ -660,7 +708,9 @@
           <p>Five working sessions, the right person in each room. Crucially, not just the managers:
             the intake clerks reveal a duplicate-claim workaround nobody had documented &mdash; the same
             loss reported by phone and portal gets two claim numbers today. By evening, the AI has
-            structured the notes into 31 candidate requirements, each traced to its source.</p>
+            structured the notes into 31 candidate requirements, each traced to its source. The
+            coverage session doubles as the rules interview: a decision table with a named approver on
+            every row, and one row left honestly blank for Luis to decide.</p>
         </div>
 
         <div class="tl-step" data-day="Day 3">
@@ -669,8 +719,9 @@
           <p>The AI produces all 31 requirements plus 7 quality targets, each with a real way to
             measure it. One target exposes the storm-surge gap nobody had named. The decision list
             regenerates &mdash; nine open product calls for Luis &mdash; and the testability conscience
-            sends five vague lines back to be sharpened. A 30-minute sponsor checkpoint keeps the
-            day-5 review from holding surprises.</p>
+            sends five vague lines back to be sharpened. The intake epic gets its feature brief &mdash;
+            three specs, each bound to one channel, tiers proposed and confirmed by Luis. A 30-minute
+            sponsor checkpoint keeps the day-5 review from holding surprises.</p>
         </div>
 
         <div class="tl-step" data-day="Day 4">
@@ -689,8 +740,9 @@
             and find two real holes. The automated gate check runs clean. The AI drafts the handoff to
             the design phase &mdash; decisions, open questions, risks, a recommended starting point. The
             product owner confirms the requirements say what he meant; the sponsor sees the
-            not-in-v1 list with her own eyes. Sign-off. The engagement advances &mdash; billing
-            milestone.</p>
+            not-in-v1 list with her own eyes. The rule approvers and the feature-brief confirmation
+            go down beside the phase signature, by name. Sign-off. The engagement advances &mdash;
+            billing milestone.</p>
         </div>
 
         <div class="tl-nav">
@@ -719,12 +771,20 @@
               PO, one per epic area, 60&ndash;90 minutes each, run by the Pod Lead. The people interviewed
               are the ones who live the work &mdash; the intake clerk knows the duplicate workaround; the
               manager knows the org chart. By end of day, Claude has structured the notes into draft
-              functional requirements with stable IDs and source traces.</li>
+              functional requirements with stable IDs and source traces. Where an epic encodes policy,
+              its session doubles as the <strong>rules interview</strong>: for each decision point the
+              condition, the outcome, the policy it cites and the named approver; Claude drafts the
+              decision table (BR-NN) and the golden scenarios (SCEN-NN), and marks any row the policy is
+              silent on <em>pending</em> &mdash; a decision-list item, never a guess.</li>
             <li><strong>Day 3 &mdash; the full draft and the decision list.</strong> Claude produces the
               complete draft: functional requirements with acceptance criteria, plus NFRs each carrying a
               measurement basis. The decision list regenerates and the PO starts working it on the
               2-business-day clock (now the phase's critical path). The Quality Engineer runs the
-              testability pass. A 30-minute sponsor checkpoint reads the draft epic map and emerging
+              testability pass. Where an epic spans more than one surface or persona, Claude drafts the
+              <strong>feature brief</strong> from the corrected map and the session notes &mdash; specs
+              with a channel, a persona and a proposed risk tier each &mdash; and the PO confirms the
+              rows and the tiers; the day-2 rules get their confirmation pass and the pending ones land
+              on the decision list. A 30-minute sponsor checkpoint reads the draft epic map and emerging
               scope-out, so nothing at the day-5 review is a surprise.</li>
             <li><strong>Day 4 &mdash; priorities and stories.</strong> The 90-minute priority session,
               PO driving, ranking within the announced top-tier budget. Epics get sequenced by which
@@ -735,8 +795,10 @@
               a structured adversarial review; the automated gate check (placeholders fixed today); Claude
               drafts the Phase 2 handoff (summary, decisions with rationale, numbered open questions with
               owners, design risks, recommended starting point). At the phase review the PO confirms the
-              requirements say what they meant and the sponsor sees the scope-out list. Sign-off recorded;
-              the engagement advances; the first biweekly steering is scheduled.</li>
+              requirements say what they meant and the sponsor sees the scope-out list. Discipline
+              sign-offs &mdash; the PO on the feature brief, each rule's named approver on its outcome
+              &mdash; are recorded beside the phase signature. Sign-off recorded; the engagement advances;
+              the first biweekly steering is scheduled.</li>
           </ul>
           <div class="aha warn">
             <div class="lbl">When the week stretches</div>
@@ -750,10 +812,10 @@
     </div>
   </section>
 
-  <!-- 10 how it goes wrong -->
-  <section class="s paper">
+  <!-- 11 how it goes wrong -->
+  <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">10</span>
+      <span class="modnum">11</span>
       <p class="kicker">How it goes wrong</p>
       <h2>The failure modes, and the defense against each</h2>
       <p class="lead">Every one of these has happened to someone. Knowing them by name is half the
@@ -804,7 +866,7 @@
   </section>
 
   <!-- close -->
-  <section class="s">
+  <section class="s paper">
     <div class="wrap-wide reveal">
       <p class="kicker">When Phase 1 is done</p>
       <h2>You have a list precise enough to build from &mdash; and a list of what you won't</h2>
@@ -986,19 +1048,27 @@
         </div>
 
         <div class="tl-step" data-day="Day 2">
-          <div class="day">Day 2 &mdash; Tue 3/17 <span class="date">· elicitation · no command runs</span></div>
+          <div class="day">Day 2 &mdash; Tue 3/17 <span class="date">· elicitation · one command runs, after the rooms empty</span></div>
           <h3>Draw the requirements out of the people who do the work</h3>
           <p>The requirements come from humans in rooms, not from the tool. Five working sessions, 60 to 90
             minutes each, one per epic area, the right person in every room &mdash; and crucially not just the
             managers. By evening Claude has structured the notes into candidate functional requirements, each
-            carrying a source trace back to the document or session it came from.</p>
+            carrying a source trace back to the document or session it came from. One epic encodes policy
+            &mdash; coverage &mdash; so its session doubles as the rules interview: the
+            <code>bizreq-analyst</code> agent takes the Business-requirements seat, asks for each decision
+            point the condition, the outcome, the policy it cites and the approver who will sign it, and
+            drafts the decision table and the scenarios that prove it. It proposes; where the policy is
+            silent it marks the row <em>pending</em> and stops.</p>
           <div class="tooling">
             <span class="label">Tooling</span>
-            <span class="none">none &mdash; human elicitation sessions; Claude preps question lists and structures the notes after</span>
+            <span class="none">none in the sessions &mdash; human elicitation; Claude preps question lists and structures the notes after</span>
+            <span class="cmd">/sdlc-rules <span class="arrow">&rarr;</span> <span class="script">bizreq-analyst</span></span>
           </div>
           <div class="artifacts">
             <span class="lbl">Out</span>
             <span class="tag green">31 candidate requirements, each source-traced (draft)</span>
+            <span class="tag">business-rules.md &mdash; one row pending</span>
+            <span class="tag">golden-scenarios.md</span>
           </div>
           <div class="aha">
             <div class="lbl">At Harbor</div>
@@ -1007,6 +1077,16 @@
               clerks &mdash; not their supervisor &mdash; reveal the <strong>duplicate-FNOL workaround</strong>:
               the same loss reported by phone and portal gets two claim numbers today. That one finding becomes
               REQ-004 and D-07. Talk only to managers and it never surfaces.</p>
+            <p>After the coverage session, Maya keeps Luis and Gail in the room and runs
+              <code>/sdlc-rules</code>. The interview produces the <strong>coverage-decision table</strong>
+              &mdash; <strong>BR-01</strong> <em>policy inactive at the date of loss &rarr; decline</em>, source
+              the underwriting manual &sect;4.2, approver <strong>Karen Voss</strong>; BR-02 the fast-path
+              eligibility rule, approver Luis; BR-03 the stale-snapshot rule, approver Luis. Then the agent
+              asks what happens when a second FNOL for the same policy arrives inside 24 hours <em>with a
+              different loss date</em> &mdash; not the D-07 case, which is the same loss twice. Gail: "That's
+              rare." Luis: "It's not written anywhere." The manual is silent, so <strong>BR-04 is drafted
+              <em>pending</em></strong> and becomes <strong>D-08</strong> on the decision list. The agent does
+              not guess. Four scenarios land beside the rules, SCEN-04 being that one.</p>
           </div>
         </div>
 
@@ -1017,15 +1097,22 @@
             shall&hellip;", each with a priority, a source trace, and (for the top tiers) an explicit error
             specification: what it accepts, what it returns, what it does on each failure. Step&nbsp;2 writes the
             non-functional requirements, every number carrying a measurement basis. The decision list
-            regenerates and the testability pass runs.</p>
+            regenerates and the testability pass runs. The epics exist and the sessions have said who
+            reaches each one and how, so the Product seat runs today: <code>/sdlc-feature</code> spawns the
+            <code>feature-architect</code> agent, which interviews the Pod Lead and the PO over one epic and
+            drafts the <strong>feature brief</strong> &mdash; the epic decomposed into specs, each row with
+            its channel and its persona, the shared logic split out as a channel-agnostic "brains" spec, a
+            proposed risk tier per row. One channel per spec. The agent proposes; the PO confirms.</p>
           <div class="tooling">
             <span class="label">Tooling</span>
             <span class="cmd">/sdlc-coach <span class="arrow">&rarr;</span> <span class="script">requirements-analyst</span></span>
+            <span class="cmd">/sdlc-feature <span class="arrow">&rarr;</span> <span class="script">feature-architect</span></span>
           </div>
           <div class="artifacts">
             <span class="lbl">Out &mdash; under <code>.sdlc/artifacts/01-requirements/</code></span>
             <span class="tag">requirements.md</span>
             <span class="tag">non-functional-requirements.md</span>
+            <span class="tag">feature-brief.md</span>
             <span class="tag amber">the decision list &mdash; regenerated in the session; no file holds it</span>
           </div>
           <div class="aha warn">
@@ -1040,9 +1127,18 @@
             <div class="lbl">At Harbor</div>
             <p>31 functional requirements and 7 NFRs land. <strong>NFR-02 exposes the storm-surge gap</strong>
               nobody had named &mdash; Phase&nbsp;0 sized annual volume only. The decision list regenerates to
-              nine open items for Luis; D-07 is answered same day, D-09 takes the full two days. Nadia's
-              testability pass sends <strong>5 of 31</strong> acceptance criteria back for being untestable. A
-              30-minute sponsor checkpoint keeps the day-5 review free of surprises.</p>
+              nine open items for Luis; D-07 is answered same day, D-08 and D-09 take the full two days.
+              Nadia's testability pass sends <strong>5 of 31</strong> acceptance criteria back for being
+              untestable. A 30-minute sponsor checkpoint keeps the day-5 review free of surprises.</p>
+            <p>The feature brief is for <strong>E-01, the claims-intake epic</strong> &mdash; the one that spans
+              three surfaces. The <code>feature-architect</code> agent decomposes it into the <strong>adjuster
+              console</strong> (channel: screen; persona: Gail's and Marcus's adjusters), the <strong>intake
+              API</strong> (channel: &mdash;; the channel-agnostic brains &mdash; duplicate detection, coverage
+              lookup, fast-path tagging &mdash; that every E-02 adapter and the console call), and the
+              <strong>notification flow</strong> (channel: email and letter; persona: the policyholder; the
+              hook E-05 hangs from). Proposed tiers: the brains HIGH, the console MEDIUM, the notification
+              flow HIGH because the regulatory clock rides on it. Luis confirms all three rows and the tiers
+              &mdash; the confirmation is what makes the brief decided rather than generated.</p>
           </div>
         </div>
 
@@ -1104,12 +1200,13 @@
             <span class="tag amber">the traceability check</span>
             <span class="tag amber">the scope-out record</span>
             <span class="tag green">the PO's + sponsor's sign-off &mdash; billing milestone 2</span>
+            <span class="tag green">the discipline sign-offs, recorded beside it</span>
           </div>
           <div class="aha warn">
             <div class="lbl">What the gate actually checks</div>
             <p><code>check_gates.py</code> verifies that four files exist, are non-empty, and contain no
               placeholder text: <code>requirements.md</code>, <code>non-functional-requirements.md</code>,
-              <code>epics.md</code>, <code>phase2-handoff.md</code>. It never reads the nine-bullet exit
+              <code>epics.md</code>, <code>phase2-handoff.md</code>. It never reads the exit
               checklist this standard specifies &mdash; priorities assigned by the PO, the scope-out seen by the
               sponsor, error specs for every top-tier operation, traceability traced both ways. That list lives
               in <code>phase-registry.yaml</code>, and no code opens it. <em>The human gate is real. What it asks
@@ -1121,8 +1218,11 @@
               <code>multi-reviewer</code> pass plus Nadia produce two catches: <strong>REQ-022</strong>
               (bounce-to-postal fallback for a bounced acknowledgment) and the fast-path/regulatory-clock
               conflict. The gate passes clean; Claude drafts the Phase&nbsp;2 handoff. Luis confirms the
-              requirements say what he meant; Karen sees the scope-out list. Sign-off; the engagement advances.
-              First biweekly steering booked for Thursday 3/26.</p>
+              requirements say what he meant; Karen sees the scope-out list. The discipline sign-offs go down
+              beside the phase signature, by name and by section: Luis on the feature brief; <strong>Karen on
+              BR-01</strong>, Luis on BR-02 through BR-04 &mdash; BR-04 no longer pending, D-08 having closed
+              on Thursday. Sign-off; the engagement advances. First biweekly steering booked for Thursday
+              3/26.</p>
           </div>
         </div>
 
@@ -1154,6 +1254,9 @@
           <tr><td><span class="tag">requirements.md</span></td><td>The functional requirements: each a "shall", with a priority, a source trace, testable acceptance criteria, the error spec for the top tiers, and the traceability matrix &mdash; all in one file</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code></td><td>Pod Lead; PO accepts</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 2 spec synthesis</td></tr>
           <tr><td><span class="tag">non-functional-requirements.md</span></td><td>The quality targets &mdash; speed, capacity, uptime &mdash; each with a number, a test method, and a measurement basis naming where the number is read</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code></td><td>Pod Lead + QE</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 2 design drivers (the AQ-NN)</td></tr>
           <tr><td><span class="tag">epics.md</span></td><td>Epics <em>and</em> the user stories under them &mdash; "as a / I want / so that" with Given/When/Then acceptance criteria, each linked to a requirement ID</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code></td><td>PO</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 3 spec backlog</td></tr>
+          <tr><td><span class="tag">feature-brief.md</span></td><td>One epic (E-01) decomposed into specs &mdash; each row with its channel, its persona and a proposed risk tier; the channel-agnostic brains split out from the surfaces. Conditional: drafted because the epic spans more than one surface</td><td><code>/sdlc-feature</code> &rarr; <code>feature-architect</code></td><td>PO confirms rows and tiers</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 3 spec carving; the channel binding at Intent</td></tr>
+          <tr><td><span class="tag">business-rules.md</span></td><td>The coverage-decision table, BR-01..04 &mdash; condition &rarr; outcome &rarr; source &rarr; approver; a <em>pending</em> marker on any rule the policy is silent on until its decision closes. Conditional: drafted because the feature encodes policy</td><td><code>/sdlc-rules</code> &rarr; <code>bizreq-analyst</code></td><td>Each rule's named approver (Karen on BR-01; Luis on the rest)</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>An acceptance check on each spec; the decision list (D-08)</td></tr>
+          <tr><td><span class="tag">golden-scenarios.md</span></td><td>SCEN-01..04 &mdash; input &rarr; expected behaviour, including the case the policy was silent on</td><td><code>/sdlc-rules</code> &rarr; <code>bizreq-analyst</code></td><td>PO + the domain experts in the room</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>The golden set the evaluations run against</td></tr>
           <tr><td><span class="tag">phase2-handoff.md</span></td><td>Requirements summary, the architectural implications the NFRs raise (the AQ-NN), decisions with rationale, open questions under their original IDs, risks, recommended starting point</td><td><code>/sdlc-coach</code> drafts; Pod Lead completes</td><td>Pod Lead</td><td><code>.sdlc/artifacts/01-requirements/</code></td><td>Phase 2 Step 0, directly</td></tr>
           <tr><td><span class="tag">phase01-visual.html</span></td><td>The requirements retold as a stakeholder-facing visual &mdash; the standard's "narrative companion", rendered</td><td><code>/visual-explainer</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The stakeholder review</td></tr>
           <tr><td><span class="tag">phase01-report.html</span></td><td>The gate result and artifact inventory, self-contained. This is the document a sponsor actually reads before signing</td><td><code>generate_phase_report.py</code></td><td>&mdash;</td><td><code>.sdlc/reports/</code></td><td>The manual sign-off gate</td></tr>
@@ -1170,7 +1273,7 @@
 
       <div class="aha warn" style="margin-top:22px;">
         <div class="lbl">Read the amber rows again</div>
-        <p>Seven of the thirteen things Phase&nbsp;1 is supposed to produce have no home of their own. Three are
+        <p>Seven of the sixteen things Phase&nbsp;1 is supposed to produce have no home of their own. Three are
           <em>folded</em> into a bigger file &mdash; error specs and traceability into
           <code>requirements.md</code>, stories into <code>epics.md</code> &mdash; so they exist but can't be
           checked or cited on their own. Four leave <strong>no receipt at all</strong>: the decision list the
@@ -1281,11 +1384,57 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 06 — NFRs / MEASUREMENT BASIS                                          -->
+  <!-- 06 — BUSINESS RULES / GOLDEN SCENARIOS                                 -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">06</span>
+      <p class="kicker">An exhibit from <code>business-rules.md</code> and <code>golden-scenarios.md</code> &mdash; the coverage-decision table, and the scenarios that prove it</p>
+      <h2>What "correct" means, before anyone builds it</h2>
+      <p class="lead">Coverage is policy with a rule book behind it, so on day&nbsp;2 the coverage session
+        doubled as the rules interview. The <code>bizreq-analyst</code> agent asked, for every decision
+        point, four things: the condition, the outcome, the document the outcome cites, and the person who
+        will sign it. It drafted the table; it decided nothing. Where the underwriting manual was silent, it
+        wrote <em>pending</em> and opened a decision-list item instead of a plausible answer.</p>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>ID</th><th>Condition</th><th>Outcome</th><th>Source</th><th>Approver</th></tr></thead>
+        <tbody>
+          <tr><td>BR-01</td><td>Policy inactive at the date of loss</td><td>Decline &mdash; status "not-covered" with reason code; routed to an adjuster, never auto-closed</td><td>Underwriting manual &sect;4.2</td><td>Karen Voss</td></tr>
+          <tr><td>BR-02</td><td>Single-dwelling, no injury, estimate under $25k</td><td>Fast-path eligible &mdash; tagged at intake with a recommendation the adjuster confirms or overrides</td><td>Q-14; D-09</td><td>Luis Ortega</td></tr>
+          <tr><td>BR-03</td><td>Nightly snapshot older than 36 hours</td><td>Coverage status carries a staleness warning; a claim in the written-acknowledgment state escalates rather than auto-proceeds</td><td>CON-01; REQ-014 error behavior</td><td>Luis Ortega</td></tr>
+          <tr><td>BR-04</td><td>Second FNOL for the same policy inside 24 hours, different loss date</td><td><em>Pending &mdash; D-08</em> until Thursday; then: a separate claim, flagged "possible duplicate" for the adjuster; never merged automatically, never auto-declined</td><td>Manual silent &rarr; decision log D-08</td><td>Luis Ortega</td></tr>
+        </tbody>
+      </table>
+      <div class="aha warn">
+        <div class="lbl">The row the agent refused to fill</div>
+        <p>BR-04 is the one the underwriting manual does not cover. Same policy, same loss date is D-07
+          &mdash; merge. Same policy, a <em>different</em> loss date, a day apart, is either a second loss (a
+          storm week produces exactly this) or the same loss misdated by a nervous policyholder. The agent
+          had a plausible answer available and did not use it: the row shipped <em>pending</em>, D-08 went to
+          Luis with the two-business-day clock, and the outcome that stands is Luis's, dated Thursday. Filled
+          in on Tuesday it would have read like every other row.</p>
+      </div>
+      <p class="dim" style="margin-top:22px;">The scenarios sit beside the rules &mdash; each one an input and
+        the behaviour a named human says is correct, and each one a seed for the golden set the evaluations
+        run against later:</p>
+      <table class="ref-doc" style="margin-top:12px;">
+        <thead><tr><th>ID</th><th>Input</th><th>Expected behaviour</th><th>Rule</th></tr></thead>
+        <tbody>
+          <tr><td>SCEN-01</td><td>Portal FNOL; policy active at the date of loss; single-dwelling, no injury, under $25k</td><td>Coverage "verified" by 17:00 the same business day; tagged fast-path with a recommendation the adjuster confirms in one action</td><td>BR-02; REQ-014; REQ-019</td></tr>
+          <tr><td>SCEN-02</td><td>Phone FNOL for a policy that lapsed before the date of loss</td><td>Status "not-covered" with reason code; routed to an adjuster; never fast-pathed</td><td>BR-01</td></tr>
+          <tr><td>SCEN-03</td><td>FNOL received while the snapshot is older than 36 hours, in the written-acknowledgment state</td><td>Coverage status shows the staleness warning; the claim escalates to an adjuster and the regulatory clock stays visible</td><td>BR-03; REQ-021</td></tr>
+          <tr><td>SCEN-04</td><td>Second FNOL for the same policy the next morning, with a different loss date</td><td>A separate claim, flagged "possible duplicate" for the adjuster; the first claim untouched; no automatic merge, no automatic decline</td><td>BR-04 (per D-08)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 07 — NFRs / MEASUREMENT BASIS                                          -->
+  <!-- ===================================================================== -->
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">07</span>
       <p class="kicker">An exhibit from <code>non-functional-requirements.md</code> &mdash; seven targets, each with a measurement basis</p>
       <h2>"Fast" is an opinion &mdash; until you say where the number is read</h2>
       <p class="lead">Writing the quality targets surfaced a gap nobody had named: <strong>storm
@@ -1325,11 +1474,11 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 07 — THE PRIORITY CUT, THE DECISIONS, THE SCOPE-OUT                    -->
+  <!-- 08 — THE PRIORITY CUT, THE DECISIONS, THE SCOPE-OUT                    -->
   <!-- ===================================================================== -->
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
+      <span class="modnum">08</span>
       <p class="kicker">Day 4 &mdash; the priority session · Day 5 &mdash; the decisions and the scope-out</p>
       <h2>If everything is top priority, nothing is</h2>
       <p class="lead">The priority session, Luis driving, 90 minutes. The P0 budget &mdash; a hard cap on how
@@ -1352,12 +1501,13 @@
           </div>
         </div>
         <div class="eg">
-          <div class="plabel">The decision log &mdash; nine surfaced, the two that mattered</div>
-          <p>All nine decisions surfaced this phase were answered inside it. The two with teeth:</p>
+          <div class="plabel">The decision log &mdash; nine surfaced, the three that mattered</div>
+          <p>All nine decisions surfaced this phase were answered inside it. The three with teeth:</p>
           <table class="ref-doc" style="margin-top:12px;">
             <thead><tr><th>ID</th><th>Decision</th><th>Answer</th><th>Who</th><th>Days</th></tr></thead>
             <tbody>
               <tr><td>D-07</td><td>Duplicate FNOL (same policy + loss date): reject, queue separately, or merge?</td><td>Flag and merge; never reject; submitter gets the existing claim number</td><td>Luis</td><td>0</td></tr>
+              <tr><td>D-08</td><td>Second FNOL for the same policy inside 24h with a <em>different</em> loss date &mdash; the case the underwriting manual is silent on (BR-04)</td><td>A separate claim, flagged "possible duplicate" for the adjuster; never merged or declined automatically</td><td>Luis</td><td>2</td></tr>
               <tr><td>D-09</td><td>Does the fast-path decide, or recommend?</td><td>v1 recommends; an adjuster confirms with one click; revisit after a year of override data</td><td>Luis</td><td>2</td></tr>
             </tbody>
           </table>
@@ -1386,11 +1536,11 @@
   </section>
 
   <!-- ===================================================================== -->
-  <!-- 08 — WHAT PHASE 2 RECEIVES                                             -->
+  <!-- 09 — WHAT PHASE 2 RECEIVES                                             -->
   <!-- ===================================================================== -->
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
+      <span class="modnum">09</span>
       <p class="kicker">The handoff &mdash; and the architectural questions that travel with it</p>
       <h2>What Phase 2 receives</h2>
       <p class="lead">A phase ends by handing the next one a package, not a feeling. Everything below crosses the
@@ -1404,6 +1554,9 @@
         <span class="tag">requirements.md</span>
         <span class="tag">non-functional-requirements.md</span>
         <span class="tag">epics.md</span>
+        <span class="tag">feature-brief.md</span>
+        <span class="tag">business-rules.md</span>
+        <span class="tag">golden-scenarios.md</span>
         <span class="tag amber">the decision log &rarr; open questions Q-15, Q-16</span>
         <span class="tag amber">the scope-out record</span>
       </div>
@@ -1569,6 +1722,86 @@
   <section class="s paper">
     <div class="wrap-wide reveal">
       <span class="modnum">03</span>
+      <p class="kicker">Type this &mdash; only where the feature encodes policy, and while the domain experts are still in the room</p>
+      <h2>Author the business rules and golden scenarios</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-rules</span>
+      </div>
+      <p><strong>What happens:</strong> it reads the requirements, any feature brief, and the intake
+        corpus for the policy source, then spawns the <code>bizreq-analyst</code> agent &mdash; the
+        Business-requirements seat. The agent runs a coach-style interview: for each decision point the
+        feature must get right, the condition, the outcome, the policy document it cites, and the
+        <strong>approver</strong> who will sign it; then the representative scenarios, including the
+        tricky and ambiguous ones. It drafts two files from the phase templates:
+        <code>business-rules.md</code> (the <code>BR-NN</code> decision table &mdash; condition &rarr;
+        outcome &rarr; source &rarr; approver) and <code>golden-scenarios.md</code> (the
+        <code>SCEN-NN</code> table &mdash; input &rarr; expected behaviour). Then it stops for you
+        through a real prompt: confirm each rule's outcome and approver; name any rule whose outcome is
+        <em>not yet decided</em>; confirm the scenario set is representative enough to seed the golden
+        set. Each undecided rule becomes a decision-log entry with an owner and a two-business-day
+        clock, and the rule carries a <em>pending</em> marker until that decision closes.</p>
+      <p><strong>What you do:</strong> run it straight after the elicitation session for the epic
+        that encodes policy, with the PO and the domain expert still present &mdash; the answers come
+        from them, not from you and not from the agent. Name a real approver on every row. Where the
+        policy is silent or contradicts itself, say so; the agent is built to write
+        <em>pending</em>, and you should let it.</p>
+      <div class="aha warn">
+        <div class="lbl">The guessed rule</div>
+        <p>A rule the analyst filled with a plausible outcome reads exactly like a decided one: it has a
+          condition, an outcome, even a source. It ships, and the client finds out what their system
+          decides in production. The honest move is a pending row and a decision-log item. A rule nobody
+          decided is not a rule.</p>
+      </div>
+      <p class="dim">Each <code>BR-NN</code> becomes an acceptance check on the spec that implements it;
+        each <code>SCEN-NN</code> seeds the golden set the evaluations run against later. The command
+        also works standalone against any repo (<code>--repo &lt;path&gt;</code>) with provisional
+        context, noted in the artifact headers.</p>
+      <p class="note"><strong>Don't move on until:</strong> every <code>BR-NN</code> has a named
+        approver and either a confirmed outcome or a decision-log item with an owner and a clock; and
+        the scenarios cover the cases someone could get wrong, not just the happy path.</p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="wrap-wide reveal">
+      <span class="modnum">04</span>
+      <p class="kicker">Type this &mdash; once the epics exist, for any epic that spans more than one surface or persona</p>
+      <h2>Decompose the epic into channel-aware specs</h2>
+      <div class="tooling">
+        <span class="label">You type</span>
+        <span class="cmd">/sdlc-feature</span>
+      </div>
+      <p><strong>What happens:</strong> it reads the epic from <code>epics.md</code>, the requirements,
+        and any stories, then spawns the <code>feature-architect</code> agent &mdash; the Product seat.
+        The agent interviews you: which epic; the single coherent slice of value; who the customer is
+        and how they reach it (that is where the <strong>channel</strong> is sensed); whether there is
+        shared "brains" logic several surfaces reuse; and any product choice not yet made that it must
+        not guess. It drafts <code>feature-brief.md</code> from the phase template: a channels-by-personas
+        narrative and a decomposition table whose rows carry a channel and a persona each.
+        Channel-agnostic rows are first-class &mdash; the shared brains the surfaces build on.
+        <strong>One channel per spec.</strong> Then it stops for you through a real prompt: confirm or
+        edit each row; confirm the <strong>proposed risk tier</strong> on each (HIGH / MEDIUM / LOW with
+        a reason &mdash; brains tend HIGH, an in-pattern read-only screen can be MEDIUM; the tier is
+        yours, and it moves up, never down); and say which unmade product choices go to the decision
+        log.</p>
+      <p><strong>What you do:</strong> bring the PO. The rows and the tiers are product decisions; the
+        agent proposes them and a named human owns them. Split the shared logic out from the surfaces
+        even when it feels like one feature &mdash; the same logic on a different channel is a different
+        product, with different acceptance dimensions.</p>
+      <p class="dim">The brief sits <em>below</em> the epic and does not replace <code>epics.md</code>
+        or the stories. The tier on each row is re-confirmed per spec when the spec is written in the
+        build loop, and a spec that ships through an LLM-powered channel floors at HIGH.</p>
+      <p class="note"><strong>Don't move on until:</strong> every row names exactly one channel and a
+        persona (or is explicitly channel-agnostic), every tier was confirmed by a human, and every
+        product choice the brief exposed but nobody made is on the decision list, not answered in the
+        draft.</p>
+    </div>
+  </section>
+
+  <section class="s paper">
+    <div class="wrap-wide reveal">
+      <span class="modnum">05</span>
       <p class="kicker">Back at the keyboard &mdash; and there is no one command for this</p>
       <h2>Draft the three requirement documents</h2>
       <p class="lead">Paste your session notes into Claude and work through the phase's drafting steps.
@@ -1609,7 +1842,7 @@
 
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">04</span>
+      <span class="modnum">06</span>
       <p class="kicker">Nothing to type &mdash; and nothing in the plugin enforces the outcome</p>
       <h2>Run the priority session</h2>
       <div class="tooling">
@@ -1639,7 +1872,7 @@
 
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">05</span>
+      <span class="modnum">07</span>
       <p class="kicker">Type nothing &mdash; but this file will block your gate</p>
       <h2>Write the decision list by hand</h2>
       <div class="tooling">
@@ -1675,7 +1908,7 @@
 
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">06</span>
+      <span class="modnum">08</span>
       <p class="kicker">Type this &mdash; fresh eyes before the gate, not after</p>
       <h2>Attack your own requirements</h2>
       <div class="tooling">
@@ -1707,7 +1940,7 @@
 
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">07</span>
+      <span class="modnum">09</span>
       <p class="kicker">Type nothing &mdash; but get this section right or Phase 2 improvises</p>
       <h2>Write the handoff, and the AQ list inside it</h2>
       <p class="lead"><code>phase2-handoff.md</code> carries the requirements summary, what the NFRs
@@ -1739,7 +1972,7 @@
 
   <section class="s">
     <div class="wrap-wide reveal">
-      <span class="modnum">08</span>
+      <span class="modnum">10</span>
       <p class="kicker">Type this &mdash; the machine checks your work</p>
       <h2>Run the gate</h2>
       <div class="tooling">
@@ -1781,7 +2014,7 @@
 
   <section class="s paper">
     <div class="wrap-wide reveal">
-      <span class="modnum">09</span>
+      <span class="modnum">11</span>
       <p class="kicker">Type this &mdash; last thing in the phase</p>
       <h2>Get the sign-off and advance</h2>
       <div class="tooling">
@@ -1822,6 +2055,8 @@
           <tr><td><code>/sdlc-status</code></td><td>Any time you're lost. Also surfaces open decisions and flags any that have blown their clock.</td></tr>
           <tr><td><code>/sdlc-review</code></td><td>Before the gate. <code>--adversarial</code> here; <code>--council</code> if you want all four viewpoints at once.</td></tr>
           <tr><td><code>/sdlc-coach</code></td><td>You're stuck and want to be walked through it conversationally instead of following a list.</td></tr>
+          <tr><td><code>/sdlc-rules</code></td><td>The feature encodes policy. Straight after that epic's elicitation session, with the domain expert still in the room.</td></tr>
+          <tr><td><code>/sdlc-feature</code></td><td>An epic spans more than one surface or persona. Once the epic map is corrected, with the PO present to confirm rows and tiers.</td></tr>
         </tbody>
       </table>
       <p class="note" style="margin-top:20px;">Rule of thumb for the whole phase: <strong>Claude
@@ -1858,7 +2093,7 @@
       <table>
         <thead><tr><th>Human drives</th><th>Claude does</th><th>Mandatory human stops</th></tr></thead>
         <tbody>
-          <tr><td>PO sets priorities and accepts requirements; Pod Lead runs elicitation, owns requirement quality and the decision list.</td><td>Drafts the candidate epic map and requirements from the Phase 0 artifacts and corpus (every one carrying a source trace); regenerates the decision list continuously; cross-checks against the constitution and constraints; flags requirements that trace to nothing; drafts acceptance criteria and error behavior.</td><td>Claude never sets a priority, accepts a criterion, or makes a scope call. In proxy mode those are logged, not just made. Phase advance.</td></tr>
+          <tr><td>PO sets priorities and accepts requirements; Pod Lead runs elicitation, owns requirement quality and the decision list.</td><td>Drafts the candidate epic map and requirements from the Phase 0 artifacts and corpus (every one carrying a source trace); regenerates the decision list continuously; cross-checks against the constitution and constraints; flags requirements that trace to nothing; drafts acceptance criteria and error behavior. When the trigger applies, takes the Product seat (drafts the feature brief) and the Business-requirements seat (drafts the business rules and golden scenarios) &mdash; proposing, never deciding.</td><td>Claude never sets a priority, accepts a criterion, makes a scope call, or decides a business rule's outcome. In proxy mode those are logged, not just made. The PO confirms the feature brief; each rule's named approver signs its outcome. Phase advance.</td></tr>
         </tbody>
       </table>
 
@@ -1894,8 +2129,8 @@
         <thead><tr><th>Day</th><th>Focus</th><th>What happens</th><th>Tooling</th></tr></thead>
         <tbody>
           <tr><td>1</td><td>Handoff intake &amp; elicitation plan</td><td>Work the open questions Phase 0 carried; draft the candidate epic map (4&ndash;8 epics, each traced to an outcome); plan one session per epic area; orchestrators start read-only feasibility spikes</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code> agent</td></tr>
-          <tr><td>2</td><td>Elicitation</td><td>Working sessions with domain experts and the PO, one per epic area, 60&ndash;90 min; Claude preps question lists and structures notes into draft functional requirements with stable IDs and source traces</td><td>No plugin command (human sessions)</td></tr>
-          <tr><td>3</td><td>Full draft &amp; decision list</td><td>Complete draft &mdash; functional requirements with acceptance criteria, NFRs with measurement bases; decision list regenerates and the PO starts working it; QE runs the testability pass; 30-min sponsor checkpoint</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code> agent</td></tr>
+          <tr><td>2</td><td>Elicitation</td><td>Working sessions with domain experts and the PO, one per epic area, 60&ndash;90 min; Claude preps question lists and structures notes into draft functional requirements with stable IDs and source traces; where an epic encodes policy, its session doubles as the rules interview and the pending rows go to the decision list</td><td>No plugin command for the sessions; <code>/sdlc-rules</code> &rarr; <code>bizreq-analyst</code> afterwards, where a feature encodes policy</td></tr>
+          <tr><td>3</td><td>Full draft &amp; decision list</td><td>Complete draft &mdash; functional requirements with acceptance criteria, NFRs with measurement bases; decision list regenerates and the PO starts working it; QE runs the testability pass; where an epic spans surfaces or personas, the feature brief is drafted and the PO confirms rows and tiers; 30-min sponsor checkpoint</td><td><code>/sdlc-coach</code> &rarr; <code>requirements-analyst</code> agent; <code>/sdlc-feature</code> &rarr; <code>feature-architect</code> where an epic spans surfaces</td></tr>
           <tr><td>4</td><td>Priorities &amp; stories</td><td>The 90-min priority session (PO ranks within the top-tier budget); epics sequenced against the outcome; user stories drafted with real stakeholders; error behavior spelled out for the top two tiers; spike results reconciled</td><td><code>/sdlc-coach</code> (stories + error specs); priority session has no plugin command</td></tr>
           <tr><td>5</td><td>Verification, review &amp; gate</td><td>Traceability check; structured adversarial review; automated gate check; Phase 2 handoff drafted; phase review &amp; sign-off; first biweekly steering scheduled</td><td><code>/sdlc-review --adversarial</code> &rarr; <code>multi-reviewer</code>; <code>/sdlc-gate</code> &rarr; <code>check_gates.py</code>; <code>/sdlc-phase-report</code> &rarr; <code>generate_phase_report.py</code>; <code>/sdlc-next</code> &rarr; <code>advance_phase.py</code></td></tr>
         </tbody>
@@ -1912,6 +2147,9 @@
           <tr><td>Non-functional requirements (NFRs)</td><td>Claude / Pod Lead + QE</td><td>Every NFR has a number, a measurement method, and a named place it will be read from &mdash; no "the system shall be fast"</td></tr>
           <tr><td>Epic map</td><td>Claude (candidates) / PO</td><td>4&ndash;8 epics, each traced to an outcome, sequenced by which moves the metric first; instrumentation epic included if the metric needs it</td></tr>
           <tr><td>User stories</td><td>Claude (drafts) / PO</td><td>Stories under epics with real stakeholder justifications &mdash; no invented personas</td></tr>
+          <tr><td>Feature brief (when an epic spans surfaces or personas)</td><td>Claude (the Product seat, interview-driven) / PO (confirms)</td><td>Rows confirmed &mdash; every spec names one channel and a persona, channel-agnostic brains split out from the surfaces &mdash; and a risk tier proposed per row with its reason</td></tr>
+          <tr><td>Business rules (when a feature encodes policy)</td><td>Claude (the Business-requirements seat, from the rules interview) / Each rule's named approver</td><td>Every BR-NN has a condition, a source, a named approver, and either a signed outcome or a decision-list item with an owner and a clock &mdash; no unmarked guesses</td></tr>
+          <tr><td>Golden scenarios (when a feature encodes policy)</td><td>Claude (with the domain experts) / PO + domain experts</td><td>SCEN-NN cover the tricky cases &mdash; the ambiguous ones, the ones the policy is silent on &mdash; not just the happy path; each seeds the golden set</td></tr>
           <tr><td>Error behavior specs (top tiers)</td><td>Claude (drafts) / Pod Lead + QE</td><td>For every top-priority operation: what it accepts, what it returns, what it does on each failure</td></tr>
           <tr><td>Decision list / decision log</td><td>Claude (generated) / PO (answers) or Pod Lead (proxy, ratified)</td><td>Empty, or every survivor is a numbered open question with an owner</td></tr>
           <tr><td>Traceability matrix</td><td>Claude / QE</td><td>Requirement &rarr; source and requirement &rarr; outcome both populated for the top tiers</td></tr>
@@ -1921,6 +2159,11 @@
           <tr><td>Narrative companion (optional)</td><td>Claude / Pod Lead (edits)</td><td>The requirements retold for stakeholders, human-edited before any client sees it</td></tr>
         </tbody>
       </table>
+      <p class="note">The three discipline artifacts are conditional, not optional: when the trigger
+        applies, the artifact exists before the gate closes and its owner has signed it; when it does
+        not, the phase report says so. In the plugin they are <code>feature-brief.md</code>,
+        <code>business-rules.md</code> and <code>golden-scenarios.md</code>, drafted by
+        <code>/sdlc-feature</code> and <code>/sdlc-rules</code>.</p>
       <p>Deliberately <strong>not</strong> produced: architecture diagrams, technology choices, data
         models, API designs, story-level estimates, UI mockups. A requirement that names a technology
         ("the system shall use a message queue") is design leaking upstream &mdash; rewrite it as the
@@ -1947,6 +2190,7 @@
         <li>Every top-tier operation has its error behavior spelled out</li>
         <li><strong>Priorities were assigned by the PO</strong> (or logged and ratified in proxy mode) &mdash; and the top tier respected its budget</li>
         <li>The decision list is empty, or every survivor is a numbered open question with an owner and a due date</li>
+        <li>Where the feature encodes policy, every business rule's outcome is signed by its named approver, or sits on the decision list with an owner and a clock; discipline sign-offs (the feature brief, the rules) are recorded at the advance beside the phase signature</li>
         <li>The scope-out record exists and the sponsor has seen it</li>
         <li>The Phase 2 handoff carries the open questions under their original IDs</li>
         <li>A named human (PO + sponsor side) approved the advance &mdash; gates report, humans decide</li>
@@ -1962,6 +2206,7 @@
         <li><strong>Silent proxy drift.</strong> In proxy mode, the pod starts making product calls without logging them &mdash; each one a liability that surfaces at the worst time. The decision log is cheap; the month-six dispute is not.</li>
         <li><strong>Elicitation that only hears managers.</strong> The people who live the process know where the bodies are buried. If every attendee has "manager" in their title, the requirements describe the org chart's beliefs, not the work.</li>
         <li><strong>The decision-list stall.</strong> The PO's clock slips, the pod fills the silence with guesses, and Phase 1 quietly becomes proxy mode without the rider. Escalate the clock breach instead &mdash; it's in the SOW precisely so this moment has teeth.</li>
+        <li><strong>The guessed rule.</strong> The policy manual is silent on a case, and the analyst &mdash; human or agent &mdash; fills the gap with a plausible outcome. In the decision table it reads exactly like a decided rule. It ships, and the client finds out what their system decides in production. The honest move is a <em>pending</em> row and a decision-list item with an owner and a clock; a rule nobody decided is not a rule.</li>
       </ul>
 
     </div>

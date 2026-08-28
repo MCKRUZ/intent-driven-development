@@ -139,10 +139,12 @@ This closes the plugin's Step 0 gate.
 ### Day 3 — Wed 3/25 · plugin Steps 1–6 — The machine runs; decisions become signed records
 
 **Tooling —** `synthesize_spec.py` → `planning/spec.md` · `/deep-plan` → `planning/claude-plan.md`
-· `map_deep_plan_artifacts.py` · `/sdlc-coach` → ADRs.
+· `map_deep_plan_artifacts.py` · `/sdlc-coach` → ADRs · `/sdlc-experience` → the Design seat's
+three artifacts, once the architecture is chosen.
 **Artifacts out —** all under `.sdlc/artifacts/02-design/`: `design-doc.md`, `api-contracts.md`,
 `adrs/ADR-001…004.md`, `adr-registry.md`, `phase3-handoff.md`, `research-notes.md`,
-`integration-notes.md`, `deep-plan-checkpoint.yaml`.
+`integration-notes.md`, `deep-plan-checkpoint.yaml`; and under `experience/`: `user-journey.md`,
+`surface-layout.md`, `channel-interaction-spec.md`.
 
 With every architectural question answered, the tool is finally allowed to write. Six steps fire
 in sequence: synthesize the design brief, run the planner, map its output into the engagement's
@@ -157,13 +159,27 @@ client's counterpart both sign. Two names, or it isn't a decision.
 > code-level enum to a **reference table** with an extensible coverage schema. Adding the auto
 > book later becomes a data change, not a schema migration. Door open; room unfurnished.
 
+> **At Harbor — the Design seat.** The adjuster console is a customer surface, so it gets the
+> Design seat, and it gets it *today*, after ADR-001 and ADR-002 — the layout of a queue depends
+> on what the store and the verification service can answer. `/sdlc-experience` reads the
+> feature's channel — a screen — routes to the visual designer, and interviews Rob and Luis. The
+> **user journey** carries the path nobody draws unprompted: the abandon path when the replica
+> is stale. An adjuster opens a claim whose coverage reads `pending-verification` and cannot
+> decide it; the journey says what happens instead of a dead end — the as-of timestamp and the
+> state shown in words, the claim parked back to the queue with a reason, no one-click confirm
+> on last night's data. The **surface layout** is the queue and the claim detail, as screens.
+> The **interaction contract** is the console's event contract, co-authored with Engineering —
+> Jonah and Wes at the same table — because for a screen the interaction contract *is* the API
+> the screen speaks. Wes co-signs it. Luis signs the journey.
+
 ### Day 4 — Thu 3/26 · plugin Step 7 · plus the threat review — Pin the edges, walk the attack surface, plan the proof
 
-**Tooling —** `/sdlc-coach` → contracts · `/visual-explainer` →
-`.sdlc/reports/architecture-diagrams.html` · threat review — a human session; Claude drafts the
-data flows and the candidate list.
-**Artifacts out —** `architecture-diagrams.html`; `threat-model.md` + mitigation map;
-`nfr-proving-plan.md`; `walking-skeleton.md`.
+**Tooling —** `/sdlc-coach` → contracts · `/sdlc-data` → the Data seat's three artifacts,
+alongside the contracts · `/visual-explainer` → `.sdlc/reports/architecture-diagrams.html` ·
+threat review — a human session; Claude drafts the data flows and the candidate list.
+**Artifacts out —** `data/data-contract.md`, `data/data-readiness.md`, `data/lineage-audit.md`;
+`architecture-diagrams.html`; `threat-model.md` + mitigation map; `nfr-proving-plan.md`;
+`walking-skeleton.md`.
 
 The API contracts get completed — not just what success looks like, but every failure path and
 every degradation behavior, flowed down from the Phase 1 error specs. The tool renders the
@@ -180,6 +196,21 @@ design now, or guard it with a build-time gate later.
 > where its number will be read. Steering with Karen surfaces document retention, which becomes
 > D-12.
 
+> **At Harbor — the Data seat.** A claim is personal data from its first field, so alongside the
+> contracts the Data seat runs. `/sdlc-data` interviews Priti and Wes and drafts the **claims
+> data contract**: claimant name, policy number, property address, loss description, photos,
+> loss date, claim type, channel, the as-of timestamp — each with its source and type, and each
+> with a **PII column**. Claude proposes the classification; **Dan confirms it**, field by
+> field, because PII is a risk-tier driver: any spec that touches a classified field is HIGH
+> before it is written. The **readiness assessment** flags the gap everybody already half-knew:
+> the nightly snapshot replica is absent during its refresh window and only ever as fresh as
+> last night, so a coverage answer is not always *there* to read. Flagged, not blocked — it goes
+> on the decision list under Priti's name on the 2-business-day clock, where steering sees it.
+> The **lineage audit** follows a claim from the intake form (portal, phone, email — each
+> through its adapter) → the intake API → the replica verification read → the adjuster queue,
+> with D-12's seven-year retention on the record and two audit points: the append-only event
+> log (NFR-07) and the audited replica read (the Q-15 controls).
+
 ### Day 5 — Fri 3/27 · plugin Steps 8–9 · the gate — Fresh eyes attack it, the gate reports, a human decides
 
 **Tooling —** `/sdlc-review --all` · `/sdlc-gate` → `check_gates.py` · `/sdlc-phase-report` →
@@ -194,7 +225,7 @@ stakeholders, and stops. `advance_phase.py` will not move the engagement forward
 `--confirmed`: a named human's sign-off.
 
 > ⚠ **The gap:** `check_gates.py` verifies that five files exist, are non-empty, and contain no
-> placeholder text. It never reads the ten-bullet exit-gate checklist this standard specifies —
+> placeholder text. It never reads the twelve-bullet exit-gate checklist the standard names —
 > that list lives in `phase-registry.yaml`, and no code opens it. The human is stopped at the
 > gate and asked to sign; the checklist they should be signing against is never put in front of
 > them. *The human gate is real. What it asks is not.*
@@ -204,7 +235,9 @@ stakeholders, and stops. `advance_phase.py` will not move the engagement forward
 > staleness flag isn't wired to fast-path escalation — fixed, traced to REQ-019. **MEDIUM:** a
 > notification-preferences service that no requirement asked for had crept into the component
 > diagram — **cut**. Accidental scope dies in design, not in build. Consistency check clean
-> after the cut. Rob and Wes walk the ADRs, Luis confirms the product trade-offs, Karen approves.
+> after the cut. Rob and Wes walk the ADRs, Luis confirms the product trade-offs, Karen approves
+> — and the advance records, beside her signature, the discipline sign-offs by name: Dan on the
+> PII column, Wes on the interaction contract, Luis on the journey.
 
 ## What Phase 2 produced
 
@@ -224,6 +257,12 @@ State marker key:
 | ▪ `adrs/ADR-NNN.md` | One decision each: context, 2–3 options genuinely considered, the choice, the consequences including the unpleasant ones | Claude drafts from the Step 0 human decisions | **Setup Owner + client counterpart — both** | `.sdlc/artifacts/02-design/adrs/` | Phase 3 build; every later argument |
 | ▪ `adr-registry.md` | The index of every ADR with its status — active, superseded, proposed | `/sdlc-coach` | Setup Owner | `.sdlc/artifacts/02-design/` | Close — the decision history Harbor inherits |
 | ▪ `api-contracts.md` | Every operation: request and response shapes, auth, error semantics, degradation behavior per dependency failure. A contract that only describes success is half a contract | `/deep-plan` drafts; Setup Owner completes | Setup Owner | `.sdlc/artifacts/02-design/` | Phase 3 specs |
+| ▪ `data/data-contract.md` *(conditional — the feature touches personal data)* | Every field the feature reads or writes, with source, type, and an explicit PII column. The column is what a named human confirms, because PII drives the risk tier | `/sdlc-data` — the Data seat, interview-driven | **Dan Kowalski** (the PII column), recorded at the advance | `.sdlc/artifacts/02-design/data/` | Every dependent spec's tier; Build triage |
+| ▪ `data/data-readiness.md` *(conditional)* | Is the data actually there, complete, and trustworthy — advisory; each gap becomes a decision-list item with an owner and a clock, never a block | `/sdlc-data` | Setup Owner | `.sdlc/artifacts/02-design/data/` | The decision list; steering |
+| ▪ `data/lineage-audit.md` *(conditional)* | Source → transform → sink, with retention and the audit points | `/sdlc-data` | Setup Owner + client security | `.sdlc/artifacts/02-design/data/` | The threat review; Phase 9's compliance sample |
+| ▪ `experience/user-journey.md` *(conditional — the feature has a customer surface)* | The adjuster's path through the console, including the abandon path when the replica is stale | `/sdlc-experience` — the Design seat, via the visual designer | **Luis Ortega** | `.sdlc/artifacts/02-design/experience/` | The console specs' acceptance checks |
+| ▪ `experience/surface-layout.md` *(conditional)* | The queue and the claim detail as screens — drafted after ADR-001 and ADR-002, because the layout depends on them | `/sdlc-experience` | Setup Owner | `.sdlc/artifacts/02-design/experience/` | Build specs for the console |
+| ▪ `experience/channel-interaction-spec.md` *(conditional)* | The console's event contract: each screen-channel dimension → a concrete contract → the acceptance check it becomes | `/sdlc-experience`, co-authored with Engineering | **Wes Carter** co-signs — it is an API | `.sdlc/artifacts/02-design/experience/` | `/sdlc-channel` at Intent — spec 0015's checks |
 | ▪ `phase3-handoff.md` | Decisions, contracts, section breakdown, implementation order, build risks, open questions under their original IDs | `map_deep_plan_artifacts.py` drafts; Pod Lead completes | Pod Lead | `.sdlc/artifacts/02-design/` | Phase 3, directly |
 | ▪ `architecture-diagrams.html` | Five rendered diagrams — layers, request flow, data flow, section dependencies, and the trust boundary | `/visual-explainer` | — | `.sdlc/reports/` | Stakeholder review; the threat session |
 | ▪ `research-notes.md` / `integration-notes.md` / `deep-plan-checkpoint.yaml` | The planner's working memory: what it researched, what it learned about the client's systems, and enough session state for Phase 3 to resume | `/deep-plan` | — | `.sdlc/artifacts/02-design/` | Phase 3 resumption |
@@ -235,7 +274,7 @@ State marker key:
 | ⚠ consistency check record | Requirements traced against design in both directions; orphans resolved or removed | **Pod Lead** | Pod Lead | no path — nothing writes it | The exit gate |
 | ⚠ data model | Serves every top-tier requirement; passes the forward-compatibility check; convergence constraints are structural, not bolted on | Plugin Step 6 — but into `design-doc.md`, not its own file | Setup Owner | folded into `design-doc.md` | Phase 3 schema |
 
-> ⚠ **The gap:** Six of the fourteen things Phase 2 is supposed to produce have nowhere to live.
+> ⚠ **The gap:** Six of the twenty things Phase 2 is supposed to produce have nowhere to live.
 > The threat review happens, and its output survives as a memory and a couple of GitHub labels.
 > The spike that found Harbor's 02:00–04:30 refresh window leaves no artifact at all — the
 > finding reaches the ADR only because Jonah was in the room on Wednesday. **Human work is not
@@ -314,6 +353,78 @@ case — the part the next person cannot guess and will otherwise invent.
 The surge back-pressure row was a day-5 review finding (HIGH): no back-pressure behavior was
 defined for surge, so the contract gained an explicit degraded-acceptance mode.
 
+## Every field, and whether it is a person
+
+An exhibit from `data/data-contract.md` — the claims data contract, drafted by the Data seat on
+day 4 alongside the API contracts. The column that matters is the third one. Claude proposed
+every row; Dan confirmed the PII column field by field, and that confirmation — not the drafting
+— is what sets the tier of every spec that later touches these fields.
+
+| Field | Source | PII? | Why it matters |
+|-------|--------|------|----------------|
+| Claimant name | Intake form (any channel) | **Yes** | Names a person; shown on the claim detail, never in a queue row |
+| Policy number | Intake form → replica lookup | **Yes** — customer-linked | Resolves to a household; the key the audited replica read is made on |
+| Property address | Intake form; verified against the replica | **Yes** | A home; the acknowledgment letter carries it — the PII template-review gate exists for this |
+| Loss description | Intake form; email extraction (ADR-004) | **Yes** — treat as such | Free text; policyholders write names, phone numbers, and neighbours into it |
+| Photos | Portal upload | **Yes** | Faces, plates, interiors; the document-upload path is already a HIGH area with a malware gate |
+| Loss date, claim type, channel | Intake form; reference table | No | Operational; safe in a queue row |
+| Coverage status + as-of timestamp | Replica verification read | No | Derived; the staleness contract rides on the timestamp |
+
+**What the column changed.** Two things, both before a single spec existed. First, every spec
+that shows or stores a Yes-row is HIGH — the claim detail, the acknowledgment dispatch, the
+duplicate merge (when 0016 reaches triage in the Build week, Maya's HIGH is the contract's HIGH,
+not a judgement call). Second, the adjuster **queue row** was designed to carry only No-rows —
+claim number, loss type, channel, extraction confidence, as-of — so the fast-path work queue
+could be a MEDIUM spec. The PII column did not just label the data; it drew the line between
+two screens.
+
+**The readiness gap.** `data-readiness.md` is advisory and says so in its header. It flags one
+gap: coverage data is only as fresh as last night's snapshot and is absent altogether during the
+refresh window, so a coverage answer is not always there to read. Nothing blocks on it. It goes
+on the decision list under Priti's name on the 2-business-day clock, and it goes to steering,
+where Karen sees it as a line item now rather than as an incident in month four.
+
+**The lineage** (`lineage-audit.md`): intake form — portal, phone, email, each through its own
+adapter → intake API → replica verification read → adjuster queue. Retention: the claim record
+and its event log for seven years (D-12). Audit points: every state change in the append-only
+event log (NFR-07), and every replica read, under the Q-15 controls. Dan reads this on day 4 as
+an input to the threat review; the two are the same afternoon.
+
+## The console designed after the architecture, not after the contract
+
+An exhibit from `experience/` — the adjuster console, the feature's one customer surface, so it
+gets the Design seat. `/sdlc-experience` read the channel (a screen), routed to the visual
+designer, and drafted three files on day 3 — *after* ADR-001 and ADR-002, because the shape of a
+queue depends on what the store and the verification service can answer, and *before* the API
+contracts closed, so the two could close together.
+
+**`user-journey.md`.** The happy path is short: open the queue, take the top claim, see coverage
+verified and the extraction confidence, one-click confirm (D-09). The journey exists for the
+other paths. The one that earned its place: the **abandon path when the replica is stale.** The
+adjuster opens a claim whose coverage reads `pending-verification` (refresh window) or carries
+the staleness warning (snapshot older than 36h). The console shows the as-of timestamp and the
+state in words; the one-click confirm is not offered; the adjuster parks the claim back to the
+queue with a reason, and it re-surfaces when the verification read succeeds. No dead end, and no
+fast-path decision on last night's data — the day-5 finding that wired the staleness flag to
+fast-path escalation (REQ-019) landed in this file too.
+
+**`surface-layout.md`.** The queue (No-rows only, per the data contract) and the claim detail
+(the Yes-rows, HIGH), as screens. Markdown in the repo; the hi-fi mock is linked, not pasted.
+
+**`channel-interaction-spec.md`.** For a screen, the interaction contract *is* the event
+contract the console speaks, so it was co-authored with Engineering — Jonah and Wes — and Wes
+co-signed it. Each of the screen channel's acceptance dimensions traces to a concrete contract
+and the acceptance check it becomes:
+
+| Dimension | Contract | Becomes the check |
+|-----------|----------|-------------------|
+| Confidence display | Every extracted field carries its confidence; the console renders it beside the value, never hides it | A below-threshold field shows its confidence and routes to triage (REQ-009), not to one-click confirm |
+| Approval | A decision is a human event with an actor; the console never emits a decision on the adjuster's behalf | The confirm event carries the adjuster's identity and the as-of timestamp it was made on |
+
+This is the file `/sdlc-channel` reads at Intent: when spec 0015 (the fast-path work queue) is
+bound to the screen channel in the Build week, these rows become its acceptance checks, and
+nothing downstream knows they came from a channel.
+
 ## Ship only what's funded, but leave the right seams
 
 An exhibit from `design-doc.md` — where the constraints converge. The model was drafted starting
@@ -358,8 +469,10 @@ wire, and the questions that are still open — carried forward under their orig
 silently dropped.
 
 **Crosses into Phase 3:** `phase3-handoff.md`, `design-doc.md`, `api-contracts.md`, `adrs/` +
-`adr-registry.md`, `deep-plan-checkpoint.yaml`, the walking-skeleton definition, the threat
-mitigation map → risk-tier map, the NFR proving plan.
+`adr-registry.md`, `data/` (the contract with its PII column, readiness, lineage), `experience/`
+(the journey, the surface layout, the interaction contract `/sdlc-channel` reads at Intent),
+`deep-plan-checkpoint.yaml`, the walking-skeleton definition, the threat mitigation map →
+risk-tier map, the NFR proving plan.
 
 ### Threat review outcomes
 
@@ -419,6 +532,8 @@ The abstract Phase 2 page describes this work generically. What actually ran, on
 | Design document + steering visuals | Drafted in-session against `templates/phases/02-design/`; diagrams and the steering narrative rendered with the `visual-explainer` skill |
 | Spike findings (replica window, extraction accuracy) | Orchestrator-driven Claude sessions on throwaway branches; findings recorded as spike notes; code deleted |
 | Data model + API contracts | Claude drafts carrying the Phase 1 error specs down into contract behavior; Rob shapes; Wes reviews |
+| Data contract, readiness, lineage (`data/`) | `/sdlc-data` — the `data-analyst` agent, interview-driven; the PII column confirmed by Dan at its human gate; each readiness gap written to the decision log with an owner and a clock |
+| User journey, surface layout, interaction contract (`experience/`) | `/sdlc-experience` — routed by channel to the `visual-designer` agent (a screen); the interaction contract co-authored with Engineering and co-signed by Wes; read later by `/sdlc-channel` at Intent |
 | Threat model + mitigation map | Claude drafts the data-flow diagrams and candidate threat list; the day-4 session with Dan decides; outputs feed the Build risk-tier map |
 | Design review (day 5) | `/sdlc-review --all` — the `multi-reviewer` agent in council, adversarial, and edge-cases modes; report written as a phase artifact |
 | Consistency check | Cross-artifact reference checks inside `/sdlc-gate`; locked-metric consistency via the **frozen-layer validation** (the plugin's check that values locked in earlier phases — the success metric, the constraints — haven't been silently altered by later artifacts) |

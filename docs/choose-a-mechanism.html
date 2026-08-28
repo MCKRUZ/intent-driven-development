@@ -201,7 +201,7 @@ conforms; if it cannot, it does not, whatever it is called.</p>
 choose: one half does not care which coding agent is in use, the other is specific to it.</p>
 <div class="halves">
   <div class="half"><h3>The rails</h3><p>Live in the repo and the pipeline. They do not care which local tool wrote the code.</p><ul><li>CI workflows: build, tests, lint, coverage</li><li>The AI grader and reviewers running in the pipeline</li><li>Branch protection and the required checks</li><li>The deploy and promotion gates, with a named approver</li></ul></div>
-  <div class="half"><h3>The harness</h3><p>Lives with the coding agent, and is specific to the one in use.</p><ul><li>The agent's permissions: what it may run, what it must ask about</li><li>The stop-on-red hook that refuses "done" with a failing build</li><li>The plan-first rule</li><li>The phase state and the gates</li></ul></div>
+  <div class="half"><h3>The harness</h3><p>Lives with the coding agent, and is specific to the one in use.</p><ul><li>The agent's permissions: what it may run, what it must ask about</li><li>The stop-on-red hook that refuses "done" with a failing build</li><li>The plan-first rule</li><li>The phase state and the gates</li><li>The discipline seats — Product, Business requirements, Data, Design — interview-driven drafts that stop at a human confirmation</li></ul></div>
 </div>
 <p>That split is why the checking side of the method already works with any coding agent, and why
 the intent and delegation side is where the options differ.</p>
@@ -228,6 +228,8 @@ or <span style="color:var(--med);font-weight:600">by discipline</span> (people r
     <tr><td><strong>Best when</strong></td><td>You want all eight rules enforced by a check, not a habit.</td><td>The client has already standardised on another agent.</td><td>A locked-down environment allows nothing else. An honest fallback; not where we want to be for long.</td></tr>
   </tbody>
 </table>
+<p>The discipline seats are part of the harness half: the full plugin provides them; the other two
+options cover them with the templates and a human interview.</p>
 <p>The walkthrough of the default option, one engagement step by step with every command, is
 <a href="with-the-plugin.html">with the claude-code-sdlc plugin</a>. The files any option lays down
 in the repo are listed on <a href="whats-installed.html">what's installed</a>.</p>

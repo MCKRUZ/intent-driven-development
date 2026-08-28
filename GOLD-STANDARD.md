@@ -129,6 +129,35 @@ does, and where the mandatory stops are.
 | 9 Monitoring       | Pod Lead + client ops define what "healthy" means.                                                                 | Drafts alert definitions, monitoring config, incident runbooks.                                                                                            | Alert thresholds confirmed against real baseline data.                                                           |
 | C Close & Transfer | Pod Lead runs the transfer. Client team runs the loop solo, observed.                                              | Generates the final handoff report, audits the harness for anything undocumented.                                                                          | Close gate: client completed a real spec end-to-end without us driving.                                          |
 
+### The discipline seats
+
+The table above names the pod's roles. Four further seats exist for the disciplines a feature draws
+on, and each one drafts a specific artifact that a named human signs. They are **conditional, not
+optional**: when the trigger applies, the artifact exists before the gate closes and its owner has
+signed it; when it does not apply, the phase report says so.
+
+| Seat | Trigger | Drafts (the agent proposes) | A named human signs | Phase |
+| ---- | ------- | --------------------------- | ------------------- | ----- |
+| **Product** | An epic spans more than one customer surface or persona, or needs carving into buildable specs | The **feature brief**: one epic decomposed into features and specs, each row carrying its channel and persona; shared logic split out as channel-agnostic specs. **One channel per spec.** | The decomposition and the proposed risk tiers | 1 Requirements |
+| **Business requirements** | The feature encodes policy — eligibility, pricing, coverage, entitlement, anything with a rule book | **Business rules** as a decision table (condition → outcome → source → approver) and **golden scenarios** (input → expected behaviour). Each rule becomes an acceptance check on the spec; each scenario seeds the golden set (section 11). | Each rule's outcome, by its named approver. A rule whose outcome nobody has decided is a decision-list item, never a guess. | 1 Requirements |
+| **Data** | The feature reads or writes customer or personal data, or depends on data nobody has checked is there | The **data contract** (every field, with a PII column), the **readiness** assessment (advisory), and the **lineage** (source → transform → sink, with retention and audit points) | The PII classification — a risk-tier driver: a spec touching personal data is HIGH (section 5.1). Readiness gaps become decision-list items. | 2 Design |
+| **Design** | The feature has a customer surface — a screen, a voice line, a chat thread | The **user journey** (including abandon and failure paths), the **surface layout** (screens, or a turn-script, or a message flow), and the **interaction contract** for that channel | The journey and the contract, co-signed by Engineering where the contract is an API | 2 Design |
+
+**Channels.** A channel is the customer surface a capability is delivered through, not the logic
+behind it. The same business logic on a different channel is a different product, because each
+surface has its own acceptance dimensions: a voice line needs barge-in and readback, a screen needs
+confidence display and approval, a chat thread needs threading and safe handling of quoted content.
+So the toolchain carries a small library of channel descriptors, each listing its acceptance
+dimensions and a risk floor (which may raise a spec's tier, never lower it). At Intent, a surface
+spec is bound to exactly one channel and inherits that channel's dimensions as concrete acceptance
+checks.
+
+Discipline sign-offs are recorded at the phase advance beside the phase's own signature — who signed
+which section, by name. In our toolchain the seats are `/sdlc-feature`, `/sdlc-rules`, `/sdlc-data`
+and `/sdlc-experience`, and the binding is `/sdlc-channel`; each is interview-driven, proposes, and
+stops at a human confirmation. The concept is the seat, the artifact and the signature, not the
+command.
+
 ---
 
 ## 3. The team
@@ -251,6 +280,10 @@ A story enters the loop only through **Definition of Ready**, enforced at weekly
 - Silent decisions answered (no open decision-list items for this story)
 - Risk tier assigned by the Pod Lead (taxonomy below), recorded in the spec
 - References the harness context the agent will have
+- Carries its discipline inputs (section 2, the discipline seats): a story with a customer surface
+  is bound to one channel and inherits that channel's acceptance dimensions as checks; a story that
+  encodes policy traces its checks to signed business rules; a story touching personal data takes
+  its tier from the data contract's PII classification
 
 The Orchestrator translates the ready story into `specs/NNNN-name.md` using the kit's spec
 template: Goal, Why, Scope in/out, Acceptance checks, Risk tier, Delegation plan (what the agent
@@ -344,9 +377,13 @@ Reopening a Phase 0 decision — the problem, the metric, the PO mode, the tooli
 expensive kind, and it is a SOW conversation rather than a triage item: billing milestones map to
 gates (section 12), so moving the frame moves the money.
 
+Every pre-Build artifact keeps a content history: what it said at each version, who changed it and
+when, and the ability to diff two versions or roll one back when a revision went wrong. That history
+is what makes "superseded, not erased" a fact rather than a habit.
+
 In our toolchain this is `/sdlc-revise` (one artifact, owner and clock, re-gate, blast radius
-shown) and `/sdlc-refresh` (back-propagation after a merge); the concept is the recorded
-reopening, not the command.
+shown), `/sdlc-refresh` (back-propagation after a merge) and `/sdlc-version` (the content history:
+list, diff, roll back); the concept is the recorded reopening, not the command.
 
 What is never allowed is the quiet drift — code that no longer matches a decision nobody updated.
 
@@ -697,6 +734,7 @@ pass" is not sufficient verification for probabilistic behavior.
 
 - **Evals are acceptance criteria.** An agentic spec includes a golden set (input scenarios with
   graded expected behavior) and a threshold ("correct on >= 95% of the golden set"). The golden
+  scenarios signed with the business rules (section 2, the discipline seats) are its seed. The golden
   set is versioned in the repo next to the spec. CI runs the eval suite like it runs tests.
 - **Prompts, model selections, and tool definitions are HIGH risk.** Changing any of them is a
   spec with an eval-regression gate: the full golden set runs, and degradation blocks the same

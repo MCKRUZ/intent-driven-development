@@ -49,6 +49,7 @@ choose: one half does not care which coding agent is in use, the other is specif
 - The stop-on-red hook that refuses "done" with a failing build
 - The plan-first rule
 - The phase state and the gates
+- The discipline seats — Product, Business requirements, Data, Design — interview-driven drafts that stop at a human confirmation
 
 That split is why the checking side of the method already works with any coding agent, and why
 the intent and delegation side is where the options differ.
@@ -71,6 +72,9 @@ Pick one per engagement. For each rule: enforced **mechanically** (a check block
 | **What it is** | Full mechanism: the phase state machine and gates, the harness install, the rails, the spec / spike / revise / refresh commands, HTML gate reports. Claude Code only. | Cursor, Copilot, Codex or any agent writes; the same CI rails, grader and branch protection check. Phase gates run as reviewed checklists and signed records in the repo. | Spec, spike, rollback, alert and handoff templates plus the cadences and roles, with no orchestration tooling. Gates are meetings with signed artifacts. |
 | **Requires** | Claude Code and the plugin marketplace. One install, one source of truth for the kit. | A "ready" check and a plan-approval step the tool may not give you. | Nothing beyond the repo. |
 | **Best when** | You want all eight rules enforced by a check, not a habit. | The client has already standardised on another agent. | A locked-down environment allows nothing else. An honest fallback; not where we want to be for long. |
+
+The discipline seats are part of the harness half: the full plugin provides them; the other two
+options cover them with the templates and a human interview.
 
 The walkthrough of the default option, one engagement step by step with every command, is
 [with the claude-code-sdlc plugin](with-the-plugin.md). The files any option lays down in the repo
